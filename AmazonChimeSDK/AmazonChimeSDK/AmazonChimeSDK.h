@@ -15,4 +15,3 @@ FOUNDATION_EXPORT double AmazonChimeSDKVersionNumber;
 FOUNDATION_EXPORT const unsigned char AmazonChimeSDKVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <AmazonChimeSDK/PublicHeader.h>
-#import "tincan.h"
