@@ -6,11 +6,10 @@
 //  Copyright © 2020 Amazon Chime. All rights reserved.
 //
 
-import XCTest
 @testable import AmazonChimeSDK
+import XCTest
 
 class AmazonChimeSDKTests: XCTestCase {
-
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -31,4 +30,39 @@ class AmazonChimeSDKTests: XCTestCase {
         }
     }
 
+    func testCreatingMeetingSessionConfiguration() {
+        let meetingResponse = CreateMeetingResponse(meeting:
+            Meeting(meetingId: "meetingId", mediaPlacement: MediaPlacement(audioHostUrl: "audioHostUrl")))
+        let attendeeResponse = CreateAttendeeResponse(attendee:
+            Attendee(attendeeId: "attendeeId", joinToken: "joinToken"))
+        let config = MeetingSessionConfiguration(createMeetingResponse:
+            meetingResponse, createAttendeeResponse: attendeeResponse)
+        XCTAssertEqual("meetingId", config.meetingId)
+        XCTAssertEqual("audioHostUrl", config.urls.audioHostURL)
+        XCTAssertEqual("attendeeId", config.credentials.attendeeId)
+        XCTAssertEqual("joinToken", config.credentials.joinToken)
+    }
+
+    func testLogger() {
+        var logger = ConsoleLogger(name: "test log default")
+        XCTAssertEqual(LogLevel.DEFAULT, logger.getLogLevel())
+
+        logger = ConsoleLogger(name: "test log debug", level: LogLevel.DEBUG)
+        XCTAssertEqual(LogLevel.DEBUG, logger.getLogLevel())
+
+        logger = ConsoleLogger(name: "test log info", level: LogLevel.INFO)
+        XCTAssertEqual(LogLevel.INFO, logger.getLogLevel())
+
+        logger = ConsoleLogger(name: "test log fault", level: LogLevel.FAULT)
+        XCTAssertEqual(LogLevel.FAULT, logger.getLogLevel())
+
+        logger = ConsoleLogger(name: "test log error", level: LogLevel.ERROR)
+        XCTAssertEqual(LogLevel.ERROR, logger.getLogLevel())
+
+        logger = ConsoleLogger(name: "test log off", level: LogLevel.OFF)
+        XCTAssertEqual(LogLevel.OFF, logger.getLogLevel())
+
+        logger.setLogLevel(level: LogLevel.FAULT)
+        XCTAssertEqual(LogLevel.FAULT, logger.getLogLevel())
+    }
 }
