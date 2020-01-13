@@ -9,7 +9,7 @@
 import Foundation
 
 public struct MeetingSessionURLs {
-    var audioHostURL: String
+    let audioHostURL: String
 
     public init(audioHostURL: String) {
         self.audioHostURL = audioHostURL

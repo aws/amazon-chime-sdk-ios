@@ -9,6 +9,6 @@
 import Foundation
 
 public protocol MeetingSession {
-    var configuration: MeetingSessionConfiguration {get}
-    var logger: Logger {get}
+    var configuration: MeetingSessionConfiguration { get }
+    var logger: Logger { get }
 }

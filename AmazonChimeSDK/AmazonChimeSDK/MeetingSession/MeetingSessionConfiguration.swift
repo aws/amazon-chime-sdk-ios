@@ -9,14 +9,14 @@
 import Foundation
 
 public class MeetingSessionConfiguration {
-    var meetingId: String
-    var credentials: MeetingSessionCredentials
-    var urls: MeetingSessionURLs
+    let meetingId: String
+    let credentials: MeetingSessionCredentials
+    let urls: MeetingSessionURLs
 
     public init(createMeetingResponse: CreateMeetingResponse, createAttendeeResponse: CreateAttendeeResponse) {
         self.meetingId = createMeetingResponse.meeting.meetingId
         self.credentials = MeetingSessionCredentials(attendeeId: createAttendeeResponse.attendee.attendeeId,
                                                      joinToken: createAttendeeResponse.attendee.joinToken)
-        self.urls = MeetingSessionURLs(audioHostURL: createMeetingResponse.meeting.mediaPlacement.audioHostUrl)
+        self.urls = MeetingSessionURLs(audioHostURL: createMeetingResponse.meeting.mediaPlacement.audioHostURL)
     }
 }

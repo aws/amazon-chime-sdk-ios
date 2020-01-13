@@ -9,7 +9,7 @@
 import Foundation
 
 public struct CreateAttendeeResponse {
-    var attendee: Attendee
+    let attendee: Attendee
 
     public init(attendee: Attendee) {
         self.attendee = attendee
@@ -17,8 +17,8 @@ public struct CreateAttendeeResponse {
 }
 
 public struct Attendee {
-    var attendeeId: String
-    var joinToken: String
+    let attendeeId: String
+    let joinToken: String
 
     public init(attendeeId: String, joinToken: String) {
         self.attendeeId = attendeeId

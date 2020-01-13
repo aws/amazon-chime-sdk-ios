@@ -9,7 +9,7 @@
 import Foundation
 
 public struct CreateMeetingResponse {
-    var meeting: Meeting
+    let meeting: Meeting
 
     public init(meeting: Meeting) {
         self.meeting = meeting
@@ -17,8 +17,8 @@ public struct CreateMeetingResponse {
 }
 
 public struct Meeting {
-    var meetingId: String
-    var mediaPlacement: MediaPlacement
+    let meetingId: String
+    let mediaPlacement: MediaPlacement
 
     public init(meetingId: String, mediaPlacement: MediaPlacement) {
         self.meetingId = meetingId
@@ -27,9 +27,9 @@ public struct Meeting {
 }
 
 public struct MediaPlacement {
-    var audioHostUrl: String
+    let audioHostURL: String
 
-    public init(audioHostUrl: String) {
-        self.audioHostUrl = audioHostUrl
+    public init(audioHostURL: String) {
+        self.audioHostURL = audioHostURL
     }
 }

@@ -9,8 +9,8 @@
 import Foundation
 
 public class DefaultMeetingSession: MeetingSession {
-    public var configuration: MeetingSessionConfiguration
-    public var logger: Logger
+    public let configuration: MeetingSessionConfiguration
+    public let logger: Logger
 
     public init(configuration: MeetingSessionConfiguration, logger: Logger) {
         self.configuration = configuration

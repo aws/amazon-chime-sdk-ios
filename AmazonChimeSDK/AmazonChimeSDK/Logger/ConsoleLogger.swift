@@ -10,7 +10,7 @@ import Foundation
 import os
 
 public class ConsoleLogger: Logger {
-    var name: String
+    let name: String
     var level: LogLevel
 
     public init(name: String, level: LogLevel = .DEFAULT) {
