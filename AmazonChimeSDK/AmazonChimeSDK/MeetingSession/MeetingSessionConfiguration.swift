@@ -9,9 +9,9 @@
 import Foundation
 
 public class MeetingSessionConfiguration {
-    let meetingId: String
-    let credentials: MeetingSessionCredentials
-    let urls: MeetingSessionURLs
+    public let meetingId: String
+    public let credentials: MeetingSessionCredentials
+    public let urls: MeetingSessionURLs
 
     public init(createMeetingResponse: CreateMeetingResponse, createAttendeeResponse: CreateAttendeeResponse) {
         self.meetingId = createMeetingResponse.meeting.meetingId

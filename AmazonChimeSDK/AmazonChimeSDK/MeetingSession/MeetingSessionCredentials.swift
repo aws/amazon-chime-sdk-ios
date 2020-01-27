@@ -9,8 +9,8 @@
 import Foundation
 
 public struct MeetingSessionCredentials {
-    let attendeeId: String
-    let joinToken: String
+    public let attendeeId: String
+    public let joinToken: String
 
     public init(attendeeId: String, joinToken: String) {
         self.attendeeId = attendeeId

@@ -8,30 +8,34 @@
 
 import AmazonChimeSDK
 import Foundation
+import UIKit
 
 public class CreateDefaultMeetingSession {
     let url = "https://thk0xqeobd.execute-api.us-east-1.amazonaws.com/Prod/"
     let region = "us-east-1"
     var meetingID = ""
     var name = ""
+    let currentViewController: UIViewController
 
-    public init(meetingID: String, name: String) {
+    public init(meetingID: String, name: String, currentViewController: UIViewController) {
+        self.currentViewController = currentViewController
+        
         self.meetingID = formatInput(text: meetingID)
         self.name = formatInput(text: name)
         let logger = ConsoleLogger(name: "Demo")
-
         postRequest(logger: logger, completion: { json in
-            print(json) // TODO: Remove print method once have alerts implemented [Chime-23711]
-
-            let result = self.processJson(json: json)
-            let meetingSessionConfig = MeetingSessionConfiguration(createMeetingResponse: result.0,
-                                                                   createAttendeeResponse: result.1)
-            _ = DefaultMeetingSession(configuration: meetingSessionConfig, logger: logger)
+            showAlert(controller: self.currentViewController, message: "We are able to join!")
+            let (meetingResp, attendeeResp) = self.processJson(json: json)
+            let meetingSessionConfig = MeetingSessionConfiguration(createMeetingResponse: meetingResp,
+                                                                   createAttendeeResponse: attendeeResp)
+            let defaultMeetingSession = DefaultMeetingSession(configuration: meetingSessionConfig, logger: logger)
+            defaultMeetingSession.audioVideo.start();
         })
     }
 
     private func postRequest(logger: ConsoleLogger, completion: @escaping (([String: AnyObject]) -> Void)) {
         if meetingID == "" || name == "" {
+            showAlert(controller: self.currentViewController, message: "Given empty meetingID or name please provide those values")
             return
         }
 
@@ -42,6 +46,7 @@ public class CreateDefaultMeetingSession {
 
         URLSession.shared.dataTask(with: request) { data, _, error in
             if let error = error {
+                showAlert(controller: self.currentViewController, message: "Unable to join the meeting")
                 logger.error(msg: error as? String ?? "Error")
                 return
             }

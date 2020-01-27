@@ -11,9 +11,15 @@ import Foundation
 public class DefaultMeetingSession: MeetingSession {
     public let configuration: MeetingSessionConfiguration
     public let logger: Logger
+    public let audioVideo: AudioVideoFacade
 
-    public init(configuration: MeetingSessionConfiguration, logger: Logger) {
+    public init(configuration: MeetingSessionConfiguration, logger: Logger
+    ) {
         self.configuration = configuration
         self.logger = logger
+        self.audioVideo = DefaultAudioVideoFacade(
+            audioVideoController: DefaultAudioVideoController(configuration: configuration, logger: logger),
+            realTimeController: DefaultRealtimeControllerFacade()
+        )
     }
 }
