@@ -11,7 +11,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="AmazonChimeSDKDemo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="main" id="BYZ-38-t0r" customClass="ViewController" customModule="AmazonChimeSDKDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -23,10 +23,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gda-Op-d5h">
-                                <rect key="frame" x="163" y="497" width="89" height="30"/>
+                                <rect key="frame" x="162.5" y="497" width="89" height="30"/>
                                 <state key="normal" title="Join Meeting"/>
                                 <connections>
-                                    <action selector="joinClickedWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zMq-Qo-iE7"/>
+                                    <action selector="joinMeetingWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zMq-Qo-iE7"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Your Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="osX-FD-I0Z">

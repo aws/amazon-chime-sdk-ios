@@ -19,7 +19,7 @@ public class DefaultMeetingSession: MeetingSession {
         self.logger = logger
         self.audioVideo = DefaultAudioVideoFacade(
             audioVideoController: DefaultAudioVideoController(configuration: configuration, logger: logger),
-            realTimeController: DefaultRealtimeControllerFacade()
+            realTimeController: DefaultRealtimeController()
         )
     }
 }
