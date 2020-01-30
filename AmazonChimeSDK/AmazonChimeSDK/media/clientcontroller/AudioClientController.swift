@@ -65,7 +65,6 @@ class AudioClientController: NSObject, AudioClientDelegate {
         return strIntDict
     }
 
-
     func subscribeToVolumeIndicator(callback: @escaping ([String: Int]) -> Void) {
         volumeIndicatorCallbacks.append(callback)
     }

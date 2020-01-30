@@ -22,8 +22,8 @@ public class DefaultAudioVideoFacade: AudioVideoFacade {
         logger = ConsoleLogger(name: "DefaultAudioVideoFacade")
     }
 
-    public func start() {
-        self.audioVideoController.start()
+    public func start() throws {
+        try self.audioVideoController.start()
         trace(name: "start")
     }
 

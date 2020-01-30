@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import AudioClient
+import AVFoundation
 
 public class DefaultAudioVideoController: AudioVideoControllerFacade {
     public let configuration: MeetingSessionConfiguration
@@ -20,7 +20,12 @@ public class DefaultAudioVideoController: AudioVideoControllerFacade {
         self.logger = logger
     }
 
-    public func start() {
+    public func start() throws {
+        let audioPermissionStatus = AVAudioSession.sharedInstance().recordPermission
+        if audioPermissionStatus == .denied || audioPermissionStatus == .undetermined {
+            throw PermissionError.audioPermissionError
+        }
+
         audioClient.start(audioHostUrl: configuration.urls.audioHostURL,
                           meetingId: configuration.meetingId,
                           attendeeId: configuration.credentials.attendeeId,

@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import AudioClient
 
 public protocol RealtimeControllerFacade {
     func realtimeLocalMute() -> Bool

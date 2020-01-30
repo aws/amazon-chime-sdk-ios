@@ -11,6 +11,6 @@ import Foundation
 public protocol AudioVideoControllerFacade {
     var configuration: MeetingSessionConfiguration { get }
     var logger: Logger { get }
-    func start()
+    func start() throws
     func stop()
 }
