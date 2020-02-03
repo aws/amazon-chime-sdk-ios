@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 class RosterAttendee {
     public let name: String
     public let volume: Int

@@ -54,4 +54,12 @@ public class DefaultAudioVideoFacade: AudioVideoFacade {
     public func realtimeRemoveObserver(observer: RealtimeObserver) {
         self.realtimeController.realtimeRemoveObserver(observer: observer)
     }
+
+    public func addObserver(observer: AudioVideoObserver) {
+        self.audioVideoController.addObserver(observer: observer)
+    }
+
+    public func removeObserver(observer: AudioVideoObserver) {
+        self.audioVideoController.removeObserver(observer: observer)
+    }
 }

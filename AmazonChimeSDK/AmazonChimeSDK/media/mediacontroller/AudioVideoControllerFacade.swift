@@ -13,4 +13,6 @@ public protocol AudioVideoControllerFacade {
     var logger: Logger { get }
     func start() throws
     func stop()
+    func addObserver(observer: AudioVideoObserver)
+    func removeObserver(observer: AudioVideoObserver)
 }

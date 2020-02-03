@@ -14,13 +14,24 @@ class AudioClientController: NSObject, AudioClientDelegate {
     private let defaultMicAndSpeaker = false
     private let defaultPresenter = true
 
-    let audioClient: AudioClient = AudioClient.sharedInstance()
+    private var currentAudioState: SessionStateControllerAction
+    private var currentAudioStatus: MeetingSessionStatusCode
 
+    let audioClient: AudioClient = AudioClient.sharedInstance()
     var realtimeObservers: NSMutableSet = NSMutableSet()
+
+    // TODO: This is workaround currently for having error
+    // using Swift Set, which does not allow protocol to be typed in the Set
+    // Other options is create a class/struct that implements protocol and
+    // user will extends class/struct instead of protocol
+    var audioClientStateObservers: NSMutableSet = NSMutableSet()
 
     static let sharedInstance = AudioClientController()
 
     override init() {
+        currentAudioState = SessionStateControllerAction.initialize
+        currentAudioStatus = MeetingSessionStatusCode.ok
+
         super.init()
         self.audioClient.delegate = self
     }
@@ -87,20 +98,20 @@ class AudioClientController: NSObject, AudioClientDelegate {
 
         audioClient.setSpeakerOn(true)
         audioClient.startSession(AUDIO_CLIENT_TRANSPORT_DTLS,
-                                              host: host,
-                                              basePort: port,
-                                              proxyCallback: nil,
-                                              callId: meetingId,
-                                              profileId: attendeeId,
-                                              microphoneCodec: kCodecOpusLow,
-                                              speakerCodec: kCodecOpusLow,
-                                              microphoneMute: defaultMicAndSpeaker,
-                                              speakerMute: defaultMicAndSpeaker,
-                                              isPresenter: defaultPresenter,
-                                              features: nil,
-                                              sessionToken: joinToken,
-                                              audioWsUrl: "",
-                                              callKitEnabled: true)
+                                 host: host,
+                                 basePort: port,
+                                 proxyCallback: nil,
+                                 callId: meetingId,
+                                 profileId: attendeeId,
+                                 microphoneCodec: kCodecOpusLow,
+                                 speakerCodec: kCodecOpusLow,
+                                 microphoneMute: defaultMicAndSpeaker,
+                                 speakerMute: defaultMicAndSpeaker,
+                                 isPresenter: defaultPresenter,
+                                 features: nil,
+                                 sessionToken: joinToken,
+                                 audioWsUrl: "",
+                                 callKitEnabled: true)
     }
 
     public func stop() {
@@ -110,5 +121,150 @@ class AudioClientController: NSObject, AudioClientDelegate {
     // TODO: Sigleton might not be always a good idea. Examine dependency injection
     public class func shared() -> AudioClientController {
         return sharedInstance
+    }
+
+    private func toAudioStatus(status: audio_client_status_t) -> MeetingSessionStatusCode {
+        return MeetingSessionStatusCode(rawValue: status.rawValue) ?? .unknown
+    }
+
+    private func toAudioState(state: audio_client_state_t) -> SessionStateControllerAction {
+        switch state {
+        case AUDIO_CLIENT_STATE_UNKNOWN:
+            return .unknown
+        case AUDIO_CLIENT_STATE_INIT:
+            return .initialize
+        case AUDIO_CLIENT_STATE_CONNECTING:
+            return .connecting
+        case AUDIO_CLIENT_STATE_CONNECTED:
+            return .finishConnecting
+        case AUDIO_CLIENT_STATE_RECONNECTING:
+            return .reconnecting
+        case AUDIO_CLIENT_STATE_DISCONNECTING:
+            return .disconnecting
+        case AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL:
+            return .finishDisconnecting
+        case AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
+             AUDIO_CLIENT_STATE_SERVER_HUNGUP,
+             AUDIO_CLIENT_STATE_FAILED_TO_CONNECT:
+            return .fail
+        default:
+            return .unknown
+        }
+    }
+
+    public func audioClientStateChanged(_ audioClientState: audio_client_state_t, status: audio_client_status_t) {
+
+        let newAudioState = toAudioState(state: audioClientState)
+        let newAudioStatus = toAudioStatus(status: status)
+
+        if newAudioState == .unknown
+            || (newAudioState == self.currentAudioState
+                && newAudioStatus == self.currentAudioStatus) {
+            return
+        }
+
+        switch newAudioState {
+        case .finishConnecting:
+            self.handleStateChangeToConnected(newAudioStatus: newAudioStatus)
+        case .reconnecting:
+            self.handleStateChangeToReconnected()
+        case .finishDisconnecting:
+            self.handleStateChangeToDisconnected()
+        case .fail:
+            self.handleStateChangeToFail(newAudioStatus: newAudioStatus)
+        default:
+            // NOP
+            break
+        }
+
+        currentAudioState =  newAudioState
+        currentAudioStatus = newAudioStatus
+    }
+
+    private func forEachObserver(observerFunction: (_ observer: AudioVideoObserver) -> Void) {
+        for observer in self.audioClientStateObservers {
+            if let cObserver = (observer as? AudioVideoObserver) {
+                observerFunction(cObserver)
+            }
+        }
+    }
+
+    private func handleStateChangeToConnected(newAudioStatus: MeetingSessionStatusCode) {
+        switch currentAudioState {
+        case .connecting:
+            forEachObserver { (observer: AudioVideoObserver) in
+                observer.onAudioVideoStart(reconnecting: false)
+            }
+        case .reconnecting:
+            forEachObserver { (observer: AudioVideoObserver) in
+                observer.onAudioVideoStart(reconnecting: true)
+            }
+        case .finishConnecting:
+            switch (newAudioStatus, currentAudioStatus) {
+            case (.ok, .networkBecomePoor):
+                forEachObserver { (observer: AudioVideoObserver) in
+                    observer.onConnectionRecovered()
+                }
+            case (.networkBecomePoor, .ok):
+                forEachObserver { (observer: AudioVideoObserver) in
+                    observer.onConnectionBecamePoor()
+                }
+            default:
+                // NOP
+                break
+            }
+        default:
+            // NOP
+            break
+        }
+
+    }
+
+    private func handleStateChangeToDisconnected() {
+        switch currentAudioState {
+        case .connecting,
+             .finishConnecting:
+            forEachObserver { (observer: AudioVideoObserver) in
+                observer.onAudioVideoStop(session: MeetingSessionStatus(statusCode: MeetingSessionStatusCode.ok))
+            }
+        case .reconnecting:
+            forEachObserver { (observer: AudioVideoObserver) in
+                observer.onAudioReconnectionCancel()
+            }
+        default:
+            break
+        }
+    }
+
+    private func handleStateChangeToReconnected() {
+        if currentAudioState == .finishConnecting {
+            forEachObserver { (observer: AudioVideoObserver) in
+                observer.onAudioVideoStart(reconnecting: true)
+            }
+        }
+    }
+
+    private func handleStateChangeToFail(newAudioStatus: MeetingSessionStatusCode) {
+        switch currentAudioState {
+        case .connecting, .finishConnecting:
+            forEachObserver { (observer: AudioVideoObserver) in
+                observer.onAudioVideoStop(session: MeetingSessionStatus(statusCode: newAudioStatus))
+            }
+        case .reconnecting:
+            forEachObserver { (observer: AudioVideoObserver) in
+                observer.onAudioReconnectionCancel()
+                observer.onAudioVideoStop(session: MeetingSessionStatus(statusCode: newAudioStatus))
+            }
+        default:
+            break
+        }
+    }
+
+    public func addObserver(observer: AudioVideoObserver) {
+        audioClientStateObservers.add(observer)
+    }
+
+    public func removeObserver(observer: AudioVideoObserver) {
+        audioClientStateObservers.remove(observer)
     }
 }

@@ -36,4 +36,12 @@ public class DefaultAudioVideoController: AudioVideoControllerFacade {
     public func stop() {
         audioClient.stop()
     }
+
+    public func addObserver(observer: AudioVideoObserver) {
+        audioClient.addObserver(observer: observer)
+    }
+
+    public func removeObserver(observer: AudioVideoObserver) {
+        audioClient.removeObserver(observer: observer)
+    }
 }
