@@ -9,15 +9,16 @@
 import Foundation
 
 public class DefaultAudioVideoFacade: AudioVideoFacade {
+
     public let configuration: MeetingSessionConfiguration
     public let logger: Logger
 
     let audioVideoController: AudioVideoControllerFacade
-    let realTimeController: RealtimeControllerFacade
+    let realtimeController: RealtimeControllerFacade
 
-    init(audioVideoController: AudioVideoControllerFacade, realTimeController: RealtimeControllerFacade) {
+    init(audioVideoController: AudioVideoControllerFacade, realtimeController: RealtimeControllerFacade) {
         self.audioVideoController = audioVideoController
-        self.realTimeController = realTimeController
+        self.realtimeController = realtimeController
         configuration = audioVideoController.configuration
         logger = ConsoleLogger(name: "DefaultAudioVideoFacade")
     }
@@ -39,26 +40,18 @@ public class DefaultAudioVideoFacade: AudioVideoFacade {
 
     // MARK: RealtimeControllerFacade
     public func realtimeLocalMute() -> Bool {
-        return self.realTimeController.realtimeLocalMute()
+        return self.realtimeController.realtimeLocalMute()
     }
 
     public func realtimeLocalUnmute() -> Bool {
-        return self.realTimeController.realtimeLocalUnmute()
+        return self.realtimeController.realtimeLocalUnmute()
     }
 
-    public func realtimeSubscribeToVolumeIndicator(callback: @escaping ([String: Int]) -> Void) {
-        self.realTimeController.realtimeSubscribeToVolumeIndicator(callback: callback)
+    public func realtimeAddObserver(observer: RealtimeObserver) {
+        self.realtimeController.realtimeAddObserver(observer: observer)
     }
 
-    public func realtimeUnsubscribeFromVolumeIndicator(callback: @escaping ([String: Int]) -> Void) {
-        self.realTimeController.realtimeUnsubscribeFromVolumeIndicator(callback: callback)
-    }
-
-    public func realtimeSubscribeToSignalStrengthChange(callback: @escaping ([String: Int]) -> Void) {
-        self.realTimeController.realtimeSubscribeToSignalStrengthChange(callback: callback)
-    }
-
-    public func realtimeUnsubscribeFromSignalStrengthChange(callback: @escaping ([String: Int]) -> Void) {
-        self.realTimeController.realtimeSubscribeToSignalStrengthChange(callback: callback)
+    public func realtimeRemoveObserver(observer: RealtimeObserver) {
+        self.realtimeController.realtimeRemoveObserver(observer: observer)
     }
 }

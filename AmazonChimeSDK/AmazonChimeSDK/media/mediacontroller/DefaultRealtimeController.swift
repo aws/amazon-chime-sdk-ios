@@ -23,19 +23,11 @@ public class DefaultRealtimeController: RealtimeControllerFacade {
         return audioClient.setMicMute(mute: false)
     }
 
-    public func realtimeSubscribeToVolumeIndicator(callback: @escaping ([String: Int]) -> Void) {
-        audioClient.subscribeToVolumeIndicator(callback: callback)
+    public func realtimeAddObserver(observer: RealtimeObserver) {
+        audioClient.addRealtimeObserver(observer: observer)
     }
 
-    public func realtimeSubscribeToSignalStrengthChange(callback: @escaping ([String: Int]) -> Void) {
-         audioClient.subscribeToSignalStrengthChange(callback: callback)
-    }
-
-    public func realtimeUnsubscribeFromVolumeIndicator(callback: @escaping ([String: Int]) -> Void) {
-        audioClient.unsubscribeFromVolumeIndicator(callback: callback)
-    }
-
-    public func realtimeUnsubscribeFromSignalStrengthChange(callback: @escaping ([String: Int]) -> Void) {
-        audioClient.unsubscribeFromSignalStrengthChange(callback: callback)
+    public func realtimeRemoveObserver(observer: RealtimeObserver) {
+        audioClient.removeRealtimeObserver(observer: observer)
     }
 }

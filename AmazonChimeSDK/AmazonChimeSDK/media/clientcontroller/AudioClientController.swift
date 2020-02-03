@@ -14,20 +14,14 @@ class AudioClientController: NSObject, AudioClientDelegate {
     private let defaultMicAndSpeaker = false
     private let defaultPresenter = true
 
-    let audioClient: AudioClient
+    let audioClient: AudioClient = AudioClient.sharedInstance()
 
-    var volumeIndicatorCallbacks: [([String: Int]) -> Void]
-    var signalStrengthChangeCallbacks: [([String: Int]) -> Void]
+    var realtimeObservers: NSMutableSet = NSMutableSet()
 
     static let sharedInstance = AudioClientController()
 
     override init() {
-        self.audioClient = AudioClient.sharedInstance()
-        self.volumeIndicatorCallbacks = [([String: Int]) -> Void]()
-        self.signalStrengthChangeCallbacks = [([String: Int]) -> Void]()
-
         super.init()
-
         self.audioClient.delegate = self
     }
 
@@ -37,8 +31,10 @@ class AudioClientController: NSObject, AudioClientDelegate {
         }
 
         let attendeeVolumeMap = processAnyDictToStringIntDict(anyDict: volumes)
-        volumeIndicatorCallbacks.forEach { (changeFn) in
-            changeFn(attendeeVolumeMap)
+        realtimeObservers.forEach { (element) in
+            if let realtimeObserver = element as? RealtimeObserver {
+                realtimeObserver.onVolumeChange(attendeeVolumeMap: attendeeVolumeMap)
+            }
         }
     }
 
@@ -48,8 +44,10 @@ class AudioClientController: NSObject, AudioClientDelegate {
         }
 
         let attendeeSignalMap = processAnyDictToStringIntDict(anyDict: signalStrengths)
-        signalStrengthChangeCallbacks.forEach { (changeFn) in
-            changeFn(attendeeSignalMap)
+        realtimeObservers.forEach { (element) in
+            if let realtimeObserver = element as? RealtimeObserver {
+                realtimeObserver.onSignalStrengthChange(attendeeSignalMap: attendeeSignalMap)
+            }
         }
     }
 
@@ -65,26 +63,12 @@ class AudioClientController: NSObject, AudioClientDelegate {
         return strIntDict
     }
 
-    func subscribeToVolumeIndicator(callback: @escaping ([String: Int]) -> Void) {
-        volumeIndicatorCallbacks.append(callback)
+    func addRealtimeObserver(observer: RealtimeObserver) {
+        realtimeObservers.add(observer)
     }
 
-    func unsubscribeFromVolumeIndicator(callback: @escaping ([String: Int]) -> Void) {
-        // TODO: the issue in Swift is that IOS does not have easy comparsion of functions
-        // TODO: implement this by comparing address
-        // https://stackoverflow.com/questions/24111984/how-do-you-test-functions-and-closures-for-equality
-        // https://stackoverflow.com/questions/45270371/in-swift-3-what-is-a-way-to-compare-two-closures
-    }
-
-    func subscribeToSignalStrengthChange(callback: @escaping ([String: Int]) -> Void) {
-        signalStrengthChangeCallbacks.append(callback)
-    }
-
-    func unsubscribeFromSignalStrengthChange(callback: @escaping ([String: Int]) -> Void) {
-        // TODO: the issue in Swift is that IOS does not have easy comparsion of functions
-        // TODO: implement this
-        // https://stackoverflow.com/questions/24111984/how-do-you-test-functions-and-closures-for-equality
-        // https://stackoverflow.com/questions/45270371/in-swift-3-what-is-a-way-to-compare-two-closures
+    func removeRealtimeObserver(observer: RealtimeObserver) {
+        realtimeObservers.remove(observer)
     }
 
     public func setMicMute(mute: Bool) -> Bool {
@@ -92,7 +76,6 @@ class AudioClientController: NSObject, AudioClientDelegate {
     }
 
     public func start(audioHostUrl: String, meetingId: String, attendeeId: String, joinToken: String) {
-
         // TODO
         let url = audioHostUrl.components(separatedBy: ":")
         let host = url[0]
