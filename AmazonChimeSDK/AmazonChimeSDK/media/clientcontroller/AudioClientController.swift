@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import AudioClient
 
 class AudioClientController: NSObject, AudioClientDelegate {
     private let audioPortOffset = 200
