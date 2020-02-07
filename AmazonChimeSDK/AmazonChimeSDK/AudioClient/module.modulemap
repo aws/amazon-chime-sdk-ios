@@ -1,6 +1,0 @@
-module AudioClient {
-    
-    header "../../../../tincan/audio_client/ios/AudioClient/AudioClient/AudioClient/AudioClient.h"
-    
-    export *
-}
