@@ -8,4 +8,4 @@
 
 import Foundation
 
-public protocol AudioVideoFacade: AudioVideoControllerFacade, RealtimeControllerFacade {}
+public protocol AudioVideoFacade: AudioVideoControllerFacade, RealtimeControllerFacade, DeviceController {}

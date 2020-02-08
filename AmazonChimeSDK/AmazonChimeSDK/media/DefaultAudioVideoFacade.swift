@@ -15,10 +15,16 @@ public class DefaultAudioVideoFacade: AudioVideoFacade {
 
     let audioVideoController: AudioVideoControllerFacade
     let realtimeController: RealtimeControllerFacade
+    let deviceController: DeviceController
 
-    init(audioVideoController: AudioVideoControllerFacade, realtimeController: RealtimeControllerFacade) {
+    init(
+        audioVideoController: AudioVideoControllerFacade,
+        realtimeController: RealtimeControllerFacade,
+        deviceController: DeviceController) {
         self.audioVideoController = audioVideoController
         self.realtimeController = realtimeController
+        self.deviceController = deviceController
+
         configuration = audioVideoController.configuration
         logger = ConsoleLogger(name: "DefaultAudioVideoFacade")
     }
@@ -61,5 +67,22 @@ public class DefaultAudioVideoFacade: AudioVideoFacade {
 
     public func removeObserver(observer: AudioVideoObserver) {
         self.audioVideoController.removeObserver(observer: observer)
+    }
+
+    // MARK: DeviceController
+    public func listAudioInputDevices() -> [MediaDevice] {
+        return self.deviceController.listAudioInputDevices()
+    }
+
+    public func listAudioOutputDevices() -> [MediaDevice] {
+        return self.deviceController.listAudioOutputDevices()
+    }
+
+    public func chooseAudioInputDevice(device: MediaDevice) {
+        self.deviceController.chooseAudioInputDevice(device: device)
+    }
+
+    public func chooseAudioOutputDevice(device: MediaDevice) {
+        self.deviceController.chooseAudioOutputDevice(device: device)
     }
 }
