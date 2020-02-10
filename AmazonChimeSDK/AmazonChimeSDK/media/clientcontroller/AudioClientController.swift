@@ -202,11 +202,11 @@ class AudioClientController: NSObject, AudioClientDelegate {
             switch (newAudioStatus, currentAudioStatus) {
             case (.ok, .networkBecomePoor):
                 forEachObserver { (observer: AudioVideoObserver) in
-                    observer.onConnectionRecovered()
+                    observer.onConnectionRecover()
                 }
             case (.networkBecomePoor, .ok):
                 forEachObserver { (observer: AudioVideoObserver) in
-                    observer.onConnectionBecamePoor()
+                    observer.onConnectionBecomePoor()
                 }
             default:
                 // NOP
@@ -224,7 +224,7 @@ class AudioClientController: NSObject, AudioClientDelegate {
         case .connecting,
              .finishConnecting:
             forEachObserver { (observer: AudioVideoObserver) in
-                observer.onAudioVideoStop(session: MeetingSessionStatus(statusCode: MeetingSessionStatusCode.ok))
+                observer.onAudioVideoStop(sessionStatus: MeetingSessionStatus(statusCode: MeetingSessionStatusCode.ok))
             }
         case .reconnecting:
             forEachObserver { (observer: AudioVideoObserver) in
@@ -247,12 +247,12 @@ class AudioClientController: NSObject, AudioClientDelegate {
         switch currentAudioState {
         case .connecting, .finishConnecting:
             forEachObserver { (observer: AudioVideoObserver) in
-                observer.onAudioVideoStop(session: MeetingSessionStatus(statusCode: newAudioStatus))
+                observer.onAudioVideoStop(sessionStatus: MeetingSessionStatus(statusCode: newAudioStatus))
             }
         case .reconnecting:
             forEachObserver { (observer: AudioVideoObserver) in
                 observer.onAudioReconnectionCancel()
-                observer.onAudioVideoStop(session: MeetingSessionStatus(statusCode: newAudioStatus))
+                observer.onAudioVideoStop(sessionStatus: MeetingSessionStatus(statusCode: newAudioStatus))
             }
         default:
             break

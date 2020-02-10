@@ -9,7 +9,15 @@
 import Foundation
 
 public protocol RealtimeControllerFacade {
+
+    /// Mutes the audio input.
+    ///
+    /// - Returns: Whether mute was successful
     func realtimeLocalMute() -> Bool
+
+    /// Unmutes the audio input if currently allowed
+    ///
+    /// - Returns: Whether unmute was successful
     func realtimeLocalUnmute() -> Bool
 
     /// Subscribes to real time events with an observer
