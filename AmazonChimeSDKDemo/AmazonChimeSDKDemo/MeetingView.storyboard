@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Meeting View Controller-->
+        <scene sceneID="Fuc-SB-35Y">
+            <objects>
+                <viewController storyboardIdentifier="meeting" id="q1h-6N-b9X" customClass="MeetingViewController" customModule="AmazonChimeSDKDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="oeG-Fc-nZv">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" alpha="0.5" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZQk-Ol-1aR">
+                                <rect key="frame" x="15" y="59" width="190" height="59"/>
+                                <color key="backgroundColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="59" id="H8S-bP-UMP"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <state key="normal" title="Leave Meeting"/>
+                                <connections>
+                                    <action selector="endMeetingClicked:" destination="q1h-6N-b9X" eventType="touchUpInside" id="xig-aH-8RP"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" alpha="0.5" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4bi-J1-Kul">
+                                <rect key="frame" x="15" y="126" width="190" height="59"/>
+                                <color key="backgroundColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="59" id="51B-AD-bwF"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <state key="normal" title="UnMute Mic"/>
+                                <connections>
+                                    <action selector="unmuteMicClicked:" destination="q1h-6N-b9X" eventType="touchUpInside" id="8Eo-Dh-8et"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" alpha="0.5" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v9F-5d-YNg">
+                                <rect key="frame" x="213" y="126" width="88" height="59"/>
+                                <color key="backgroundColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="59" id="9nk-QC-gzm"/>
+                                    <constraint firstAttribute="height" constant="59" id="rPF-7P-um8"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Input"/>
+                                <connections>
+                                    <action selector="inputClicked:" destination="q1h-6N-b9X" eventType="touchUpInside" id="nSK-vo-geo"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8TP-py-GwN">
+                                <rect key="frame" x="20" y="193" width="374" height="620"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="q1h-6N-b9X" id="yPk-kQ-6Eg"/>
+                                    <outlet property="delegate" destination="q1h-6N-b9X" id="Wmu-3Q-MB0"/>
+                                </connections>
+                            </tableView>
+                            <button opaque="NO" alpha="0.5" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y9f-QT-L78">
+                                <rect key="frame" x="213" y="59" width="179" height="59"/>
+                                <color key="backgroundColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <state key="normal" title="Mute Mic"/>
+                                <connections>
+                                    <action selector="muteMicClicked:" destination="q1h-6N-b9X" eventType="touchUpInside" id="GrE-X3-OTp"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" alpha="0.5" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IgI-uo-8cb">
+                                <rect key="frame" x="304" y="126" width="88" height="59"/>
+                                <color key="backgroundColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="59" id="1rT-c9-WdJ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Output"/>
+                                <connections>
+                                    <action selector="outputClicked:" destination="q1h-6N-b9X" eventType="touchUpInside" id="5he-Mn-Mc5"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="8TP-py-GwN" firstAttribute="trailing" secondItem="oeG-Fc-nZv" secondAttribute="trailingMargin" id="5ZA-Yv-AeY"/>
+                            <constraint firstItem="v9F-5d-YNg" firstAttribute="leading" secondItem="4bi-J1-Kul" secondAttribute="trailing" constant="8" id="AiE-XF-KQj"/>
+                            <constraint firstItem="0JI-Gp-Gee" firstAttribute="trailing" secondItem="Y9f-QT-L78" secondAttribute="trailing" constant="22" id="AjH-WY-EH6"/>
+                            <constraint firstItem="0JI-Gp-Gee" firstAttribute="trailing" secondItem="IgI-uo-8cb" secondAttribute="trailing" constant="22" id="CCL-b7-h42"/>
+                            <constraint firstItem="ZQk-Ol-1aR" firstAttribute="trailing" secondItem="4bi-J1-Kul" secondAttribute="trailing" id="Dti-xR-2K3"/>
+                            <constraint firstItem="ZQk-Ol-1aR" firstAttribute="top" secondItem="Y9f-QT-L78" secondAttribute="top" id="H2b-VQ-K96"/>
+                            <constraint firstItem="8TP-py-GwN" firstAttribute="top" secondItem="4bi-J1-Kul" secondAttribute="bottom" constant="8" id="LMa-Mq-Amt"/>
+                            <constraint firstItem="ZQk-Ol-1aR" firstAttribute="leading" secondItem="4bi-J1-Kul" secondAttribute="leading" id="PHM-ih-Fle"/>
+                            <constraint firstItem="ZQk-Ol-1aR" firstAttribute="top" secondItem="0JI-Gp-Gee" secondAttribute="top" constant="15" id="REa-By-t7e"/>
+                            <constraint firstItem="ZQk-Ol-1aR" firstAttribute="leading" secondItem="0JI-Gp-Gee" secondAttribute="leading" constant="15" id="VaQ-kp-jbV"/>
+                            <constraint firstItem="IgI-uo-8cb" firstAttribute="leading" secondItem="v9F-5d-YNg" secondAttribute="trailing" constant="3" id="XTS-Qj-opr"/>
+                            <constraint firstItem="8TP-py-GwN" firstAttribute="bottom" secondItem="0JI-Gp-Gee" secondAttribute="bottom" id="Y3h-Qa-FFo"/>
+                            <constraint firstItem="v9F-5d-YNg" firstAttribute="top" secondItem="Y9f-QT-L78" secondAttribute="bottom" constant="8" id="YJm-3y-gYF"/>
+                            <constraint firstItem="IgI-uo-8cb" firstAttribute="width" secondItem="v9F-5d-YNg" secondAttribute="width" id="dh4-rs-10P"/>
+                            <constraint firstItem="8TP-py-GwN" firstAttribute="leading" secondItem="oeG-Fc-nZv" secondAttribute="leadingMargin" id="hhI-y5-J9v"/>
+                            <constraint firstItem="IgI-uo-8cb" firstAttribute="top" secondItem="Y9f-QT-L78" secondAttribute="bottom" constant="8" id="jBQ-AW-aJo"/>
+                            <constraint firstItem="4bi-J1-Kul" firstAttribute="top" secondItem="ZQk-Ol-1aR" secondAttribute="bottom" constant="8" id="mYf-Y4-1xc"/>
+                            <constraint firstItem="ZQk-Ol-1aR" firstAttribute="baseline" secondItem="Y9f-QT-L78" secondAttribute="firstBaseline" id="tH7-Hk-WLg"/>
+                            <constraint firstItem="Y9f-QT-L78" firstAttribute="leading" secondItem="ZQk-Ol-1aR" secondAttribute="trailing" constant="8" id="w3a-Ps-iMr"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="0JI-Gp-Gee"/>
+                    </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="attendeeList" destination="8TP-py-GwN" id="Gtv-a0-K60"/>
+                        <outlet property="endMeeting" destination="ZQk-Ol-1aR" id="2tM-jr-bti"/>
+                        <outlet property="muteMic" destination="Y9f-QT-L78" id="u4f-My-z38"/>
+                        <outlet property="unmuteMic" destination="4bi-J1-Kul" id="9jz-4S-dkb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="alJ-Pt-Idk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="131.8840579710145" y="-125.22321428571428"/>
+        </scene>
+    </scenes>
+</document>
