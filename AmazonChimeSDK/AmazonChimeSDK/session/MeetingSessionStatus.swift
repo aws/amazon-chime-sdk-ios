@@ -9,9 +9,9 @@
 import Foundation
 
 public class MeetingSessionStatus {
-    public let statusCode: MeetingSessionStatusCode?
+    let statusCode: MeetingSessionStatusCode
 
-    init(statusCode: MeetingSessionStatusCode?) {
+    public init(statusCode: MeetingSessionStatusCode) {
         self.statusCode = statusCode
     }
 }

@@ -64,7 +64,7 @@ public class ConsoleLogger: Logger {
             os_log("%@", type: .fault, logMessage)
         case .ERROR:
             os_log("%@", type: .error, logMessage)
-        case .OFF:
+        default:
             return
         }
     }

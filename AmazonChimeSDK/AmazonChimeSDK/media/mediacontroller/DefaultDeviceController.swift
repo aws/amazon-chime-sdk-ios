@@ -8,7 +8,6 @@
 
 import Foundation
 import AVFoundation
-import AudioClient
 
 public class DefaultDeviceController: DeviceController {
     let audioClient: AudioClientController
