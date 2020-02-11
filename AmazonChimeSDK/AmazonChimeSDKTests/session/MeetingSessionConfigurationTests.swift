@@ -31,7 +31,7 @@ class MeetingSessionConfigurationTests: XCTestCase {
         XCTAssertEqual(meeting.meetingId, meetingResponse.meeting.meetingId)
         XCTAssertEqual(meeting.mediaPlacement.audioHostURL, meetingResponse.meeting.mediaPlacement.audioHostURL)
     }
-    
+
     func testAttendeeShouldBeInitialized() {
         let attendee = Attendee(attendeeId: "attendeeId", joinToken: "joinToken")
         XCTAssertEqual("attendeeId", attendee.attendeeId)

@@ -6,7 +6,7 @@
 //  Copyright © 2020 Amazon Chime. All rights reserved.
 //
 
-// TODO Temporary alert replace with Proper Alert
+// TODO: Temporary alert replace with Proper Alert
 import Foundation
 import UIKit
 
@@ -22,5 +22,4 @@ func showAlert(controller: UIViewController, message: String, seconds: Double = 
             alert.dismiss(animated: true)
         }
     }
-
 }
