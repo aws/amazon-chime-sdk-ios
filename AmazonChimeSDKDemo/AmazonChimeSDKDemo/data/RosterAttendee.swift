@@ -7,9 +7,9 @@
 
 import Foundation
 
-class RosterAttendee {
-    public let name: String
-    public let volume: Int
+public class RosterAttendee {
+    let name: String
+    var volume: Int
 
     init(name: String, volume: Int) {
         self.name = name
