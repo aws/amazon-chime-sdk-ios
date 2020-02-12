@@ -2,8 +2,7 @@
 //  MeetingSessionCredentialsTest.swift
 //  AmazonChimeSDKTests
 //
-//  Created by Wang, Haoran on 2/4/20.
-//  Copyright © 2020 Amazon Chime. All rights reserved.
+//  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
 @testable import AmazonChimeSDK

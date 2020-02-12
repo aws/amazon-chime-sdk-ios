@@ -2,8 +2,7 @@
 //  HttpUtils.swift
 //  AmazonChimeSDKDemo
 //
-//  Created by Hwang, Hokyung on 1/29/20.
-//  Copyright © 2020 Amazon Chime. All rights reserved.
+//  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
 import AmazonChimeSDK
