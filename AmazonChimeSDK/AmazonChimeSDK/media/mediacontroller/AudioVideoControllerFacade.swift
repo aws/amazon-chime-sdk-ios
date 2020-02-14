@@ -10,7 +10,7 @@ import Foundation
 public protocol AudioVideoControllerFacade {
     var configuration: MeetingSessionConfiguration { get }
     var logger: Logger { get }
-    
+
     /// Start AudioVideo Controller
     ///
     /// - Throws: `PermissionError.audioPermissionError` if `RecordPermission` is not given

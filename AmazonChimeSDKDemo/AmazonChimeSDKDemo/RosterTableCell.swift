@@ -8,6 +8,6 @@
 import UIKit
 
 class RosterTableCell: UITableViewCell {
-    @IBOutlet weak var attendeeName: UILabel!
-    @IBOutlet weak var speakerLevel: UILabel!
+    @IBOutlet var attendeeName: UILabel!
+    @IBOutlet var speakerLevel: UILabel!
 }

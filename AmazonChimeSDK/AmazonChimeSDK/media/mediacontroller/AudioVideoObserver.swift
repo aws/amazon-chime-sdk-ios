@@ -8,7 +8,6 @@
 import Foundation
 
 public protocol AudioVideoObserver {
-
     /// Called when the session is connecting or reconnecting.
     ///
     /// - Parameter reconnecting: Whether the session is reconnecting or not.

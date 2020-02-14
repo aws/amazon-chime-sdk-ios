@@ -5,8 +5,8 @@
 //  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
-import Foundation
 import AVFoundation
+import Foundation
 
 public class DefaultDeviceController: DeviceController {
     let audioClient: AudioClientController
@@ -39,7 +39,7 @@ public class DefaultDeviceController: DeviceController {
         let audioSession = AVAudioSession.sharedInstance()
         do {
             try audioSession.setPreferredInput(device.port)
-        } catch let error {
+        } catch {
             self.logger.error(msg: "Error on setting audio input device: \(error.localizedDescription)")
         }
     }

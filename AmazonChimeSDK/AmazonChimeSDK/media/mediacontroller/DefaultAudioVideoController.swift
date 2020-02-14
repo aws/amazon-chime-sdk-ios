@@ -5,8 +5,8 @@
 //  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
-import Foundation
 import AVFoundation
+import Foundation
 
 public class DefaultAudioVideoController: AudioVideoControllerFacade {
     public let configuration: MeetingSessionConfiguration
@@ -29,7 +29,6 @@ public class DefaultAudioVideoController: AudioVideoControllerFacade {
                           meetingId: configuration.meetingId,
                           attendeeId: configuration.credentials.attendeeId,
                           joinToken: configuration.credentials.joinToken)
-
     }
 
     public func stop() {

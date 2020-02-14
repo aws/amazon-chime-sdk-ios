@@ -5,8 +5,8 @@
 //  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
-import Foundation
 import AVFoundation
+import Foundation
 
 public struct MediaDevice: CustomStringConvertible {
     public let label: String
@@ -24,5 +24,4 @@ public struct MediaDevice: CustomStringConvertible {
     public var description: String {
         return "\(self.label) - \(self.port)"
     }
-
 }

@@ -8,7 +8,6 @@
 import Foundation
 
 public class DefaultAudioVideoFacade: AudioVideoFacade {
-
     public let configuration: MeetingSessionConfiguration
     public let logger: Logger
 
@@ -24,18 +23,18 @@ public class DefaultAudioVideoFacade: AudioVideoFacade {
         self.realtimeController = realtimeController
         self.deviceController = deviceController
 
-        configuration = audioVideoController.configuration
-        logger = ConsoleLogger(name: "DefaultAudioVideoFacade")
+        self.configuration = audioVideoController.configuration
+        self.logger = ConsoleLogger(name: "DefaultAudioVideoFacade")
     }
 
     public func start() throws {
         try self.audioVideoController.start()
-        trace(name: "start")
+        self.trace(name: "start")
     }
 
     public func stop() {
         self.audioVideoController.stop()
-        trace(name: "stop")
+        self.trace(name: "stop")
     }
 
     private func trace(name: String) {
@@ -44,6 +43,7 @@ public class DefaultAudioVideoFacade: AudioVideoFacade {
     }
 
     // MARK: RealtimeControllerFacade
+
     public func realtimeLocalMute() -> Bool {
         return self.realtimeController.realtimeLocalMute()
     }
@@ -69,6 +69,7 @@ public class DefaultAudioVideoFacade: AudioVideoFacade {
     }
 
     // MARK: DeviceController
+
     public func listAudioInputDevices() -> [MediaDevice] {
         return self.deviceController.listAudioInputDevices()
     }

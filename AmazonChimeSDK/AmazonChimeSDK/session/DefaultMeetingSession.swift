@@ -12,8 +12,7 @@ public class DefaultMeetingSession: MeetingSession {
     public let logger: Logger
     public let audioVideo: AudioVideoFacade
 
-    public init(configuration: MeetingSessionConfiguration, logger: Logger
-    ) {
+    public init(configuration: MeetingSessionConfiguration, logger: Logger) {
         self.configuration = configuration
         self.logger = logger
         self.audioVideo = DefaultAudioVideoFacade(

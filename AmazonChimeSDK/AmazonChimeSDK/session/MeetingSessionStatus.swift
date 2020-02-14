@@ -8,7 +8,7 @@
 import Foundation
 
 public class MeetingSessionStatus {
-    let statusCode: MeetingSessionStatusCode
+    public let statusCode: MeetingSessionStatusCode
 
     public init(statusCode: MeetingSessionStatusCode) {
         self.statusCode = statusCode

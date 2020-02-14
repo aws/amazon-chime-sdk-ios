@@ -8,7 +8,6 @@
 import Foundation
 
 public protocol RealtimeControllerFacade {
-
     /// Mutes the audio input.
     ///
     /// - Returns: Whether mute was successful
