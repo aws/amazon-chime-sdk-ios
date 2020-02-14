@@ -69,20 +69,19 @@ public class DefaultAudioVideoFacade: AudioVideoFacade {
     }
 
     // MARK: DeviceController
-
-    public func listAudioInputDevices() -> [MediaDevice] {
-        return self.deviceController.listAudioInputDevices()
+    public func listAudioDevices() -> [MediaDevice] {
+        return self.deviceController.listAudioDevices()
     }
 
-    public func listAudioOutputDevices() -> [MediaDevice] {
-        return self.deviceController.listAudioOutputDevices()
+    public func chooseAudioDevice(mediaDevice: MediaDevice) {
+        self.deviceController.chooseAudioDevice(mediaDevice: mediaDevice)
     }
 
-    public func chooseAudioInputDevice(device: MediaDevice) {
-        self.deviceController.chooseAudioInputDevice(device: device)
+    public func addDeviceChangeObserver(observer: DeviceChangeObserver) {
+        self.deviceController.addDeviceChangeObserver(observer: observer)
     }
 
-    public func chooseAudioOutputDevice(device: MediaDevice) {
-        self.deviceController.chooseAudioOutputDevice(device: device)
+    public func removeDeviceChangeObserver(observer: DeviceChangeObserver) {
+        self.deviceController.removeDeviceChangeObserver(observer: observer)
     }
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -117,11 +117,11 @@
                                     <constraint firstAttribute="height" constant="48" id="Flx-RH-h7x"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Input">
+                                <state key="normal" title="Audio">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="inputClicked:" destination="Sfo-A7-USF" eventType="touchUpInside" id="C0O-Wu-M8G"/>
+                                    <action selector="audioClicked:" destination="Sfo-A7-USF" eventType="touchUpInside" id="e9X-gb-ZS4"/>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ELJ-Ld-nMt" userLabel="RosterTableView">
@@ -186,26 +186,10 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CDj-Xh-W4t">
-                                <rect key="frame" x="319" y="102" width="64" height="48"/>
-                                <color key="backgroundColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="64" id="Sc6-J8-ooJ"/>
-                                    <constraint firstAttribute="height" constant="48" id="aFU-zP-rhn"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Output">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="outputClicked:" destination="Sfo-A7-USF" eventType="touchUpInside" id="VzO-3I-VfI"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="wwR-Kt-AOS" firstAttribute="top" secondItem="eGg-Lr-MVg" secondAttribute="bottom" constant="8" id="9gy-2G-7kT"/>
-                            <constraint firstItem="CDj-Xh-W4t" firstAttribute="top" secondItem="eGg-Lr-MVg" secondAttribute="bottom" constant="8" id="DoF-j2-6wd"/>
                             <constraint firstItem="NMj-an-6IT" firstAttribute="leading" secondItem="fzH-S4-QOP" secondAttribute="trailing" constant="8" id="Fj8-zk-Ika"/>
                             <constraint firstItem="NMj-an-6IT" firstAttribute="centerX" secondItem="qB1-9y-yO7" secondAttribute="centerX" id="HCZ-S9-2s3"/>
                             <constraint firstItem="ELJ-Ld-nMt" firstAttribute="bottom" secondItem="wAb-yP-Xtg" secondAttribute="bottom" constant="64" id="Hc3-gY-4qu"/>
@@ -217,7 +201,6 @@
                             <constraint firstItem="eGg-Lr-MVg" firstAttribute="centerX" secondItem="qB1-9y-yO7" secondAttribute="centerX" id="ZDa-w3-ptL"/>
                             <constraint firstItem="wAb-yP-Xtg" firstAttribute="trailing" secondItem="ELJ-Ld-nMt" secondAttribute="trailing" constant="16" id="a5V-eP-ZIz"/>
                             <constraint firstItem="eGg-Lr-MVg" firstAttribute="leading" secondItem="wAb-yP-Xtg" secondAttribute="leading" constant="16" id="aaf-pD-STv"/>
-                            <constraint firstItem="CDj-Xh-W4t" firstAttribute="leading" secondItem="1AR-gN-PDB" secondAttribute="trailing" constant="8" id="jKT-tg-lm0"/>
                             <constraint firstItem="ELJ-Ld-nMt" firstAttribute="top" secondItem="wwR-Kt-AOS" secondAttribute="bottom" constant="32" id="kAJ-Pa-dVV"/>
                             <constraint firstItem="eGg-Lr-MVg" firstAttribute="top" secondItem="wAb-yP-Xtg" secondAttribute="top" constant="16" id="tAc-Ek-U7Z"/>
                             <constraint firstItem="ELJ-Ld-nMt" firstAttribute="leading" secondItem="wAb-yP-Xtg" secondAttribute="leading" constant="16" id="vqh-Uc-LBN"/>
