@@ -11,4 +11,5 @@ import Foundation
 // TODO if we want properties like message, we should use struct
 public enum PermissionError: Error {
     case audioPermissionError
+    case videoPermissionError
 }

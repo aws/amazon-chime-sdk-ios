@@ -32,7 +32,10 @@ class AmazonChimeSDKTests: XCTestCase {
 
     func testCreatingMeetingSessionConfiguration() {
         let meetingResponse = CreateMeetingResponse(meeting:
-            Meeting(meetingId: "meetingId", mediaPlacement: MediaPlacement(audioHostUrl: "audioHostUrl")))
+            Meeting(meetingId: "meetingId",
+                    mediaPlacement: MediaPlacement(audioHostUrl: "audioHostUrl",
+                                                   turnControlUrl: "turnControlUrl",
+                                                   signalingUrl: "signalingUrl")))
         let attendeeResponse = CreateAttendeeResponse(attendee:
             Attendee(attendeeId: "attendeeId", joinToken: "joinToken"))
         let config = MeetingSessionConfiguration(createMeetingResponse:

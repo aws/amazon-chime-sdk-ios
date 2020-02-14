@@ -7,41 +7,46 @@
 //
 
 import Foundation
-import AVFoundation
 
 public class DefaultAudioVideoController: AudioVideoControllerFacade {
     public let configuration: MeetingSessionConfiguration
     public let logger: Logger
-    var audioClient: AudioClientController
+    var audioClientController: AudioClientController
+    var videoClientController: VideoClientController
 
     public init(configuration: MeetingSessionConfiguration, logger: Logger) {
-        self.audioClient = AudioClientController.shared()
+        let videoClientControllerParams = VideoClientController.InstanceParams.init(
+            logger: logger,
+            isUsing16by9AspectRatio: false) // TODO: Read from config
+        VideoClientController.setup(params: videoClientControllerParams)
+        self.videoClientController = VideoClientController.shared()
+        self.audioClientController = AudioClientController.shared()
         self.configuration = configuration
         self.logger = logger
     }
 
     public func start() throws {
-        let audioPermissionStatus = AVAudioSession.sharedInstance().recordPermission
-        if audioPermissionStatus == .denied || audioPermissionStatus == .undetermined {
-            throw PermissionError.audioPermissionError
-        }
-
-        audioClient.start(audioHostUrl: configuration.urls.audioHostURL,
-                          meetingId: configuration.meetingId,
-                          attendeeId: configuration.credentials.attendeeId,
-                          joinToken: configuration.credentials.joinToken)
-
+        try audioClientController.start(audioHostUrl: configuration.urls.audioHostURL,
+                                        meetingId: configuration.meetingId,
+                                        attendeeId: configuration.credentials.attendeeId,
+                                        joinToken: configuration.credentials.joinToken)
+        try videoClientController.start(turnControlUrl: configuration.urls.turnControlURL,
+                                        signalingUrl: configuration.urls.signalingURL,
+                                        meetingId: configuration.meetingId,
+                                        joinToken: configuration.credentials.joinToken,
+                                        sending: false)
     }
 
     public func stop() {
-        audioClient.stop()
+        audioClientController.stop()
+        videoClientController.stopAndDestroy()
     }
 
     public func addObserver(observer: AudioVideoObserver) {
-        audioClient.addObserver(observer: observer)
+        audioClientController.addObserver(observer: observer)
     }
 
     public func removeObserver(observer: AudioVideoObserver) {
-        audioClient.removeObserver(observer: observer)
+        audioClientController.removeObserver(observer: observer)
     }
 }

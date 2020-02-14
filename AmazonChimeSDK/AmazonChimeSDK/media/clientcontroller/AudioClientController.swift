@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AVFoundation
 
 class AudioClientController: NSObject, AudioClientDelegate {
     private let audioPortOffset = 200
@@ -85,8 +86,11 @@ class AudioClientController: NSObject, AudioClientDelegate {
         return self.audioClient.setMicrophoneMuted(mute) == Int(AUDIO_CLIENT_OK.rawValue)
     }
 
-    public func start(audioHostUrl: String, meetingId: String, attendeeId: String, joinToken: String) {
-        // TODO
+    public func start(audioHostUrl: String, meetingId: String, attendeeId: String, joinToken: String) throws {
+        guard AVAudioSession.sharedInstance().recordPermission == .granted else {
+            throw PermissionError.audioPermissionError
+        }
+
         let url = audioHostUrl.components(separatedBy: ":")
         let host = url[0]
         var port = 0
