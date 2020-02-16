@@ -60,6 +60,14 @@ class AudioClientController: NSObject, AudioClientDelegate {
         }
     }
 
+    public func audioMetricsChanged(_ metrics: [AnyHashable: Any]!) {
+        if metrics == nil {
+            return
+        }
+
+        ClientMetricsCollector.shared().processAudioClientMetrics(metrics: metrics)
+    }
+
     private func processAnyDictToStringIntDict(anyDict: [AnyHashable: Any]) -> [String: Int] {
         var strIntDict = [String: Int]()
         for (key, value) in anyDict {
@@ -112,6 +120,7 @@ class AudioClientController: NSObject, AudioClientDelegate {
                                  features: nil,
                                  sessionToken: joinToken,
                                  audioWsUrl: "",
+                                 khiEnabled: true,
                                  callKitEnabled: true)
     }
 
