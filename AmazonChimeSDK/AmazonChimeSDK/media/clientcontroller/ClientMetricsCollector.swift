@@ -1,5 +1,5 @@
 //
-//  StatsCollector.swift
+//  ClientMetricsCollector.swift
 //  AmazonChimeSDK
 //
 //  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
@@ -27,17 +27,14 @@ private enum AudioClientMetric: Int {
     case clientPostJbSpk5sPacketsLostPercent = 8
 }
 
-class ClientMetricsCollector: NSObject {
+class ClientMetricsCollector {
     private var observers: NSMutableSet = NSMutableSet()
     private var cachedObservableMetrics: [ObservableMetric: Any] = [:]
     private var lastEmittedMetricsTime = DispatchTime.now()
     private let metricsEmissionIntervalMs = 1000
+    private let nanosecondsPerMillisecond: UInt64 = 1000000
 
     static let sharedInstance = ClientMetricsCollector()
-
-    override init() {
-        super.init()
-    }
 
     public class func shared() -> ClientMetricsCollector {
         return sharedInstance
@@ -45,7 +42,8 @@ class ClientMetricsCollector: NSObject {
 
     public func processAudioClientMetrics(metrics: [AnyHashable: Any]) {
         for (nativeMetricName, value) in metrics {
-            if let metric = AudioClientMetric(rawValue: (nativeMetricName as? Int)!) {
+            if let nativeMetricValue = nativeMetricName as? Int,
+                let metric = AudioClientMetric(rawValue: nativeMetricValue) {
                 switch metric {
                 case AudioClientMetric.serverPostJbMic1sPacketsLostPercent:
                     cachedObservableMetrics[ObservableMetric.audioPacketsSentFractionLoss] = value
@@ -62,10 +60,10 @@ class ClientMetricsCollector: NSObject {
     private func maybeEmitMetrics() {
         let now = DispatchTime.now()
         let timeSinceLastMetricsEmmisionMs =
-            (now.uptimeNanoseconds - lastEmittedMetricsTime.uptimeNanoseconds) / 1000000
-        if  timeSinceLastMetricsEmmisionMs > metricsEmissionIntervalMs {
+            (now.uptimeNanoseconds - lastEmittedMetricsTime.uptimeNanoseconds) / nanosecondsPerMillisecond
+        if timeSinceLastMetricsEmmisionMs > metricsEmissionIntervalMs {
             lastEmittedMetricsTime = now
-            for observer in self.observers {
+            for observer in observers {
                 if let audioVideoObserver = (observer as? AudioVideoObserver) {
                     audioVideoObserver.onMetricsReceive(metrics: cachedObservableMetrics)
                 }
