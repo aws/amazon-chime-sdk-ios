@@ -2,17 +2,15 @@
 //  HttpUtils.swift
 //  AmazonChimeSDKDemo
 //
-//  Created by Hwang, Hokyung on 1/29/20.
-//  Copyright © 2020 Amazon Chime. All rights reserved.
+//  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
-import Foundation
 import AmazonChimeSDK
+import Foundation
 
 typealias CompletionFunc = (Data?, Error?) -> Void
 
 class HttpUtils {
-
     public static func postRequest(url: String,
                                    completion: @escaping CompletionFunc,
                                    jsonData: Data? = nil,
@@ -24,7 +22,8 @@ class HttpUtils {
         makeHttpRequest(url: url, method: "get", completion: completion, jsonData: nil, logger: logger)
     }
 
-    private static func makeHttpRequest(url: String, method: String, completion: @escaping CompletionFunc, jsonData: Data?, logger: Logger?) {
+    private static func makeHttpRequest(url: String, method: String,
+                                        completion: @escaping CompletionFunc, jsonData: Data?, logger: Logger?) {
         guard let serverUrl = URL(string: url) else {
             logger?.error(msg: "Unable to parse Url please make sure check Url")
             return
@@ -54,5 +53,4 @@ class HttpUtils {
             completion(data, nil)
         }.resume()
     }
-
 }

@@ -2,16 +2,15 @@
 //  MeetingSessionStatus.swift
 //  AmazonChimeSDK
 //
-//  Created by Hwang, Hokyung on 1/29/20.
-//  Copyright © 2020 Amazon Chime. All rights reserved.
+//  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
 import Foundation
 
 public class MeetingSessionStatus {
-    public let statusCode: MeetingSessionStatusCode?
+    public let statusCode: MeetingSessionStatusCode
 
-    init(statusCode: MeetingSessionStatusCode?) {
+    public init(statusCode: MeetingSessionStatusCode) {
         self.statusCode = statusCode
     }
 }

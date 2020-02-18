@@ -2,31 +2,26 @@
 //  DeviceControllerFacade.swift
 //  AmazonChimeSDK
 //
-//  Created by Huang, Weicheng on 2/2/20.
-//  Copyright © 2020 Amazon Chime. All rights reserved.
+//  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
 import Foundation
 
-/// <#Description#>
 public protocol DeviceController {
 
-    /// List available audio input devices
+    /// List available audio devices
     /// - Returns: List of Media Devices
-    func listAudioInputDevices() -> [MediaDevice]
+    func listAudioDevices() -> [MediaDevice]
 
-    
-    /// List available audio output devices
-    /// - Returns: List of Media Devices
-     
-    func listAudioOutputDevices() -> [MediaDevice]
+    /// Choose audio devices
+    /// - Parameter mediaDevice: the device used as audio route
+    func chooseAudioDevice(mediaDevice: MediaDevice)
 
-    /// Choose audio input devices
-    /// - Parameter device: the device used as audio output
-    func chooseAudioInputDevice(device: MediaDevice)
+    /// Add device change observer
+    /// - Parameter observer: the object that will receive notification
+    func addDeviceChangeObserver(observer: DeviceChangeObserver)
 
-    
-    /// Choose audio output devices [pending implemtation]
-    /// - Parameter device: the device used as audio output
-    func chooseAudioOutputDevice(device: MediaDevice)
+    /// Remove device change observer
+    /// - Parameter observer: the object that will be removed
+    func removeDeviceChangeObserver(observer: DeviceChangeObserver)
 }

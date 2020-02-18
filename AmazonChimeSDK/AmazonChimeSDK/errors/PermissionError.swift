@@ -2,13 +2,12 @@
 //  PermissionError.swift
 //  AmazonChimeSDK
 //
-//  Created by Hwang, Hokyung on 1/29/20.
-//  Copyright © 2020 Amazon Chime. All rights reserved.
+//  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
 import Foundation
 
-// TODO if we want properties like message, we should use struct
+// TODO: if we want properties like message, we should use struct
 public enum PermissionError: Error {
     case audioPermissionError
     case videoPermissionError

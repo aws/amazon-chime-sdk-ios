@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5A15821C23C4020D0099F8FA"
-               BuildableName = "AmazonChimeSDK.framework"
-               BlueprintName = "AmazonChimeSDK"
-               ReferencedContainer = "container:AmazonChimeSDK.xcodeproj">
+               BlueprintIdentifier = "5A1582B523C40C9B0099F8FA"
+               BuildableName = "AmazonChimeSDKDemo.app"
+               BlueprintName = "AmazonChimeSDKDemo"
+               ReferencedContainer = "container:AmazonChimeSDKDemo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -26,19 +26,8 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      codeCoverageEnabled = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5A15822523C4020D0099F8FA"
-               BuildableName = "AmazonChimeSDKTests.xctest"
-               BlueprintName = "AmazonChimeSDKTests"
-               ReferencedContainer = "container:AmazonChimeSDK.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -51,6 +40,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "5A1582B523C40C9B0099F8FA"
+            BuildableName = "AmazonChimeSDKDemo.app"
+            BlueprintName = "AmazonChimeSDKDemo"
+            ReferencedContainer = "container:AmazonChimeSDKDemo.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -58,15 +57,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5A15821C23C4020D0099F8FA"
-            BuildableName = "AmazonChimeSDK.framework"
-            BlueprintName = "AmazonChimeSDK"
-            ReferencedContainer = "container:AmazonChimeSDK.xcodeproj">
+            BlueprintIdentifier = "5A1582B523C40C9B0099F8FA"
+            BuildableName = "AmazonChimeSDKDemo.app"
+            BlueprintName = "AmazonChimeSDKDemo"
+            ReferencedContainer = "container:AmazonChimeSDKDemo.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

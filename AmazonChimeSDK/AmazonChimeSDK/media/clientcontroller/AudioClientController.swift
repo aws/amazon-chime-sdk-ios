@@ -2,8 +2,7 @@
 //  AudioClientController.swift
 //  AmazonChimeSDK
 //
-//  Created by Hwang, Hokyung on 1/28/20.
-//  Copyright © 2020 Amazon Chime. All rights reserved.
+//  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
 import Foundation
@@ -33,7 +32,7 @@ class AudioClientController: NSObject, AudioClientDelegate {
         currentAudioStatus = MeetingSessionStatusCode.ok
 
         super.init()
-        self.audioClient.delegate = self
+        audioClient.delegate = self
     }
 
     public func volumeStateChanged(_ volumes: [AnyHashable: Any]!) {
@@ -42,7 +41,7 @@ class AudioClientController: NSObject, AudioClientDelegate {
         }
 
         let attendeeVolumeMap = processAnyDictToStringIntDict(anyDict: volumes)
-        realtimeObservers.forEach { (element) in
+        realtimeObservers.forEach { element in
             if let realtimeObserver = element as? RealtimeObserver {
                 realtimeObserver.onVolumeChange(attendeeVolumeMap: attendeeVolumeMap)
             }
@@ -55,7 +54,7 @@ class AudioClientController: NSObject, AudioClientDelegate {
         }
 
         let attendeeSignalMap = processAnyDictToStringIntDict(anyDict: signalStrengths)
-        realtimeObservers.forEach { (element) in
+        realtimeObservers.forEach { element in
             if let realtimeObserver = element as? RealtimeObserver {
                 realtimeObserver.onSignalStrengthChange(attendeeSignalMap: attendeeSignalMap)
             }
@@ -67,7 +66,7 @@ class AudioClientController: NSObject, AudioClientDelegate {
         for (key, value) in anyDict {
             let keyString: String? = key as? String
             let valueInt: Int? = value as? Int
-            if keyString != nil && valueInt != nil {
+            if keyString != nil, valueInt != nil {
                 strIntDict[keyString!] = valueInt
             }
         }
@@ -83,7 +82,7 @@ class AudioClientController: NSObject, AudioClientDelegate {
     }
 
     public func setMicMute(mute: Bool) -> Bool {
-        return self.audioClient.setMicrophoneMuted(mute) == Int(AUDIO_CLIENT_OK.rawValue)
+        return audioClient.setMicrophoneMuted(mute) == Int(AUDIO_CLIENT_OK.rawValue)
     }
 
     public func start(audioHostUrl: String, meetingId: String, attendeeId: String, joinToken: String) throws {
@@ -97,6 +96,10 @@ class AudioClientController: NSObject, AudioClientDelegate {
 
         if url.count >= 2 {
             port = (url[1] as NSString).integerValue - audioPortOffset
+        }
+
+        forEachObserver { (observer: AudioVideoObserver) in
+            observer.onAudioVideoStartConnecting(reconnecting: false)
         }
 
         audioClient.setSpeakerOn(true)
@@ -156,36 +159,35 @@ class AudioClientController: NSObject, AudioClientDelegate {
     }
 
     public func audioClientStateChanged(_ audioClientState: audio_client_state_t, status: audio_client_status_t) {
-
         let newAudioState = toAudioState(state: audioClientState)
         let newAudioStatus = toAudioStatus(status: status)
 
         if newAudioState == .unknown
-            || (newAudioState == self.currentAudioState
-                && newAudioStatus == self.currentAudioStatus) {
+            || (newAudioState == currentAudioState
+                && newAudioStatus == currentAudioStatus) {
             return
         }
 
         switch newAudioState {
         case .finishConnecting:
-            self.handleStateChangeToConnected(newAudioStatus: newAudioStatus)
+            handleStateChangeToConnected(newAudioStatus: newAudioStatus)
         case .reconnecting:
-            self.handleStateChangeToReconnected()
+            handleStateChangeToReconnected()
         case .finishDisconnecting:
-            self.handleStateChangeToDisconnected()
+            handleStateChangeToDisconnected()
         case .fail:
-            self.handleStateChangeToFail(newAudioStatus: newAudioStatus)
+            handleStateChangeToFail(newAudioStatus: newAudioStatus)
         default:
             // NOP
             break
         }
 
-        currentAudioState =  newAudioState
+        currentAudioState = newAudioState
         currentAudioStatus = newAudioStatus
     }
 
     private func forEachObserver(observerFunction: (_ observer: AudioVideoObserver) -> Void) {
-        for observer in self.audioClientStateObservers {
+        for observer in audioClientStateObservers {
             if let cObserver = (observer as? AudioVideoObserver) {
                 observerFunction(cObserver)
             }
@@ -220,7 +222,6 @@ class AudioClientController: NSObject, AudioClientDelegate {
             // NOP
             break
         }
-
     }
 
     private func handleStateChangeToDisconnected() {

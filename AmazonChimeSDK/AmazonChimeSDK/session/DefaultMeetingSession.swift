@@ -2,8 +2,7 @@
 //  DefaultMeetingSession.swift
 //  AmazonChimeSDK
 //
-//  Created by Wang, Haoran on 1/10/20.
-//  Copyright © 2020 Amazon Chime. All rights reserved.
+//  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
 import Foundation
@@ -13,8 +12,7 @@ public class DefaultMeetingSession: MeetingSession {
     public let logger: Logger
     public let audioVideo: AudioVideoFacade
 
-    public init(configuration: MeetingSessionConfiguration, logger: Logger
-    ) {
+    public init(configuration: MeetingSessionConfiguration, logger: Logger) {
         self.configuration = configuration
         self.logger = logger
         self.audioVideo = DefaultAudioVideoFacade(

@@ -2,14 +2,12 @@
 //  DefaultAudioVideoFacade.swift
 //  SwiftTest
 //
-//  Created by Xu, Tianyu on 1/10/20.
-//  Copyright © 2020 Amazon Chime. All rights reserved.
+//  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
 import Foundation
 
 public class DefaultAudioVideoFacade: AudioVideoFacade {
-
     public let configuration: MeetingSessionConfiguration
     public let logger: Logger
 
@@ -25,18 +23,18 @@ public class DefaultAudioVideoFacade: AudioVideoFacade {
         self.realtimeController = realtimeController
         self.deviceController = deviceController
 
-        configuration = audioVideoController.configuration
-        logger = ConsoleLogger(name: "DefaultAudioVideoFacade")
+        self.configuration = audioVideoController.configuration
+        self.logger = ConsoleLogger(name: "DefaultAudioVideoFacade")
     }
 
     public func start() throws {
         try self.audioVideoController.start()
-        trace(name: "start")
+        self.trace(name: "start")
     }
 
     public func stop() {
         self.audioVideoController.stop()
-        trace(name: "stop")
+        self.trace(name: "stop")
     }
 
     private func trace(name: String) {
@@ -45,6 +43,7 @@ public class DefaultAudioVideoFacade: AudioVideoFacade {
     }
 
     // MARK: RealtimeControllerFacade
+
     public func realtimeLocalMute() -> Bool {
         return self.realtimeController.realtimeLocalMute()
     }
@@ -70,19 +69,19 @@ public class DefaultAudioVideoFacade: AudioVideoFacade {
     }
 
     // MARK: DeviceController
-    public func listAudioInputDevices() -> [MediaDevice] {
-        return self.deviceController.listAudioInputDevices()
+    public func listAudioDevices() -> [MediaDevice] {
+        return self.deviceController.listAudioDevices()
     }
 
-    public func listAudioOutputDevices() -> [MediaDevice] {
-        return self.deviceController.listAudioOutputDevices()
+    public func chooseAudioDevice(mediaDevice: MediaDevice) {
+        self.deviceController.chooseAudioDevice(mediaDevice: mediaDevice)
     }
 
-    public func chooseAudioInputDevice(device: MediaDevice) {
-        self.deviceController.chooseAudioInputDevice(device: device)
+    public func addDeviceChangeObserver(observer: DeviceChangeObserver) {
+        self.deviceController.addDeviceChangeObserver(observer: observer)
     }
 
-    public func chooseAudioOutputDevice(device: MediaDevice) {
-        self.deviceController.chooseAudioOutputDevice(device: device)
+    public func removeDeviceChangeObserver(observer: DeviceChangeObserver) {
+        self.deviceController.removeDeviceChangeObserver(observer: observer)
     }
 }

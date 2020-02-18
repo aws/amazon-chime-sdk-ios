@@ -2,18 +2,19 @@
 //  RosterAttendee.swift
 //  AmazonChimeSDKDemo
 //
-//  Created by Hwang, Hokyung on 1/23/20.
-//  Copyright © 2020 Amazon Chime. All rights reserved.
+//  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
 import Foundation
 
-class RosterAttendee {
-    public let name: String
-    public let volume: Int
+public class RosterAttendee {
+    let name: String
+    var volume: Int
+    var signal: Int
 
-    init(name: String, volume: Int) {
+    init(name: String, volume: Int, signal: Int) {
         self.name = name
         self.volume = volume
+        self.signal = signal
     }
 }

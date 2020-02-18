@@ -2,8 +2,7 @@
 //  CreateAttendeeResponse.swift
 //  AmazonChimeSDK
 //
-//  Created by Wang, Haoran on 1/11/20.
-//  Copyright © 2020 Amazon Chime. All rights reserved.
+//  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
 import Foundation
