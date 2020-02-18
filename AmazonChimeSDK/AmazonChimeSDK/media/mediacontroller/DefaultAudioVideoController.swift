@@ -12,9 +12,11 @@ public class DefaultAudioVideoController: AudioVideoControllerFacade {
     public let configuration: MeetingSessionConfiguration
     public let logger: Logger
     var audioClient: AudioClientController
+    var clientMetricsCollector: ClientMetricsCollector
 
     public init(configuration: MeetingSessionConfiguration, logger: Logger) {
         self.audioClient = AudioClientController.shared()
+        self.clientMetricsCollector = ClientMetricsCollector.shared()
         self.configuration = configuration
         self.logger = logger
     }
@@ -37,9 +39,11 @@ public class DefaultAudioVideoController: AudioVideoControllerFacade {
 
     public func addObserver(observer: AudioVideoObserver) {
         audioClient.addObserver(observer: observer)
+        clientMetricsCollector.addObserver(observer: observer)
     }
 
     public func removeObserver(observer: AudioVideoObserver) {
         audioClient.removeObserver(observer: observer)
+        clientMetricsCollector.removeObserver(observer: observer)
     }
 }
