@@ -31,8 +31,7 @@ class ClientMetricsCollector {
     private var observers: NSMutableSet = NSMutableSet()
     private var cachedObservableMetrics: [ObservableMetric: Any] = [:]
     private var lastEmittedMetricsTime = DispatchTime.now()
-    private let metricsEmissionIntervalMs = 1000
-    private let nanosecondsPerMillisecond: UInt64 = 1000000
+    private let metricsEmissionInterval = DispatchTimeInterval.seconds(1)
 
     static let sharedInstance = ClientMetricsCollector()
 
@@ -59,9 +58,8 @@ class ClientMetricsCollector {
 
     private func maybeEmitMetrics() {
         let now = DispatchTime.now()
-        let timeSinceLastMetricsEmmisionMs =
-            (now.uptimeNanoseconds - lastEmittedMetricsTime.uptimeNanoseconds) / nanosecondsPerMillisecond
-        if timeSinceLastMetricsEmmisionMs > metricsEmissionIntervalMs {
+        let expectedMetricsEmmisionTime = lastEmittedMetricsTime + metricsEmissionInterval
+        if now > expectedMetricsEmmisionTime {
             lastEmittedMetricsTime = now
             for observer in observers {
                 if let audioVideoObserver = (observer as? AudioVideoObserver) {
