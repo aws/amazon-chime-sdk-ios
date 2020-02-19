@@ -5,8 +5,8 @@
 //  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
-import Foundation
 import AVFoundation
+import Foundation
 
 class AudioClientController: NSObject, AudioClientDelegate {
     private let audioPortOffset = 200
@@ -99,7 +99,7 @@ class AudioClientController: NSObject, AudioClientDelegate {
         }
 
         forEachObserver { (observer: AudioVideoObserver) in
-            observer.onAudioVideoStartConnecting(reconnecting: false)
+            observer.onAudioClientConnecting(reconnecting: false)
         }
 
         audioClient.setSpeakerOn(true)
@@ -198,11 +198,11 @@ class AudioClientController: NSObject, AudioClientDelegate {
         switch currentAudioState {
         case .connecting:
             forEachObserver { (observer: AudioVideoObserver) in
-                observer.onAudioVideoStart(reconnecting: false)
+                observer.onAudioClientStart(reconnecting: false)
             }
         case .reconnecting:
             forEachObserver { (observer: AudioVideoObserver) in
-                observer.onAudioVideoStart(reconnecting: true)
+                observer.onAudioClientStart(reconnecting: true)
             }
         case .finishConnecting:
             switch (newAudioStatus, currentAudioStatus) {
@@ -229,11 +229,11 @@ class AudioClientController: NSObject, AudioClientDelegate {
         case .connecting,
              .finishConnecting:
             forEachObserver { (observer: AudioVideoObserver) in
-                observer.onAudioVideoStop(sessionStatus: MeetingSessionStatus(statusCode: MeetingSessionStatusCode.ok))
+                observer.onAudioClientStop(sessionStatus: MeetingSessionStatus(statusCode: MeetingSessionStatusCode.ok))
             }
         case .reconnecting:
             forEachObserver { (observer: AudioVideoObserver) in
-                observer.onAudioReconnectionCancel()
+                observer.onAudioClientReconnectionCancel()
             }
         default:
             break
@@ -243,7 +243,7 @@ class AudioClientController: NSObject, AudioClientDelegate {
     private func handleStateChangeToReconnected() {
         if currentAudioState == .finishConnecting {
             forEachObserver { (observer: AudioVideoObserver) in
-                observer.onAudioVideoStart(reconnecting: true)
+                observer.onAudioClientStart(reconnecting: true)
             }
         }
     }
@@ -252,12 +252,12 @@ class AudioClientController: NSObject, AudioClientDelegate {
         switch currentAudioState {
         case .connecting, .finishConnecting:
             forEachObserver { (observer: AudioVideoObserver) in
-                observer.onAudioVideoStop(sessionStatus: MeetingSessionStatus(statusCode: newAudioStatus))
+                observer.onAudioClientStop(sessionStatus: MeetingSessionStatus(statusCode: newAudioStatus))
             }
         case .reconnecting:
             forEachObserver { (observer: AudioVideoObserver) in
-                observer.onAudioReconnectionCancel()
-                observer.onAudioVideoStop(sessionStatus: MeetingSessionStatus(statusCode: newAudioStatus))
+                observer.onAudioClientReconnectionCancel()
+                observer.onAudioClientStop(sessionStatus: MeetingSessionStatus(statusCode: newAudioStatus))
             }
         default:
             break

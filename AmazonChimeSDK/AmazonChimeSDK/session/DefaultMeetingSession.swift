@@ -15,10 +15,14 @@ public class DefaultMeetingSession: MeetingSession {
     public init(configuration: MeetingSessionConfiguration, logger: Logger) {
         self.configuration = configuration
         self.logger = logger
+        let videoTileController = DefaultVideoTileController(logger: logger)
         self.audioVideo = DefaultAudioVideoFacade(
-            audioVideoController: DefaultAudioVideoController(configuration: configuration, logger: logger),
+            audioVideoController: DefaultAudioVideoController(configuration: configuration,
+                                                              logger: logger,
+                                                              videoTileController: videoTileController),
             realtimeController: DefaultRealtimeController(),
-            deviceController: DefaultDeviceController(logger: logger)
+            deviceController: DefaultDeviceController(logger: logger),
+            videoTileController: videoTileController
         )
     }
 }

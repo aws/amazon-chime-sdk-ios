@@ -8,24 +8,24 @@
 import Foundation
 
 public protocol AudioVideoObserver {
-    /// Called when the session is connecting or reconnecting.
+    /// Called when the audio session is connecting or reconnecting.
     ///
     /// - Parameter reconnecting: Whether the session is reconnecting or not.
-    func onAudioVideoStartConnecting(reconnecting: Bool)
+    func onAudioClientConnecting(reconnecting: Bool)
 
-    /// Called when the session has started.
+    /// Called when the audio session has started.
     ///
     /// - Parameter reconnecting: Whether the session is reconnecting or not.
-    func onAudioVideoStart(reconnecting: Bool)
+    func onAudioClientStart(reconnecting: Bool)
 
-    /// Called when the session has stopped from a started state with the reason
+    /// Called when the audio session has stopped from a started state with the reason
     /// provided in the status.
     ///
     /// - Parameter sessionStatus: The reason why the session has stopped.
-    func onAudioVideoStop(sessionStatus: MeetingSessionStatus)
+    func onAudioClientStop(sessionStatus: MeetingSessionStatus)
 
-    /// Called when reconnection is canceled.
-    func onAudioReconnectionCancel()
+    /// Called when the audio reconnection is canceled.
+    func onAudioClientReconnectionCancel()
 
     /// Called when the connection health is recovered.
     func onConnectionRecover()
@@ -35,4 +35,16 @@ public protocol AudioVideoObserver {
 
     /// Called when metric is received
     func onMetricsReceive()
+
+    /// Called when the video session is connecting or reconnecting.
+    func onVideoClientConnecting()
+
+    /// Called when the video session has started.
+    func onVideoClientStart()
+
+    /// Called when the video session has stopped from a started state with the reason
+    /// provided in the status.
+    ///
+    /// - Parameter sessionStatus: The reason why the session has stopped.
+    func onVideoClientStop(sessionStatus: MeetingSessionStatus)
 }

@@ -14,17 +14,21 @@ public class DefaultAudioVideoFacade: AudioVideoFacade {
     let audioVideoController: AudioVideoControllerFacade
     let realtimeController: RealtimeControllerFacade
     let deviceController: DeviceController
+    let videoTileController: VideoTileController
 
     init(
         audioVideoController: AudioVideoControllerFacade,
         realtimeController: RealtimeControllerFacade,
-        deviceController: DeviceController) {
+        deviceController: DeviceController,
+        videoTileController: VideoTileController
+    ) {
         self.audioVideoController = audioVideoController
         self.realtimeController = realtimeController
         self.deviceController = deviceController
+        self.videoTileController = videoTileController
 
         self.configuration = audioVideoController.configuration
-        self.logger = ConsoleLogger(name: "DefaultAudioVideoFacade")
+        self.logger = audioVideoController.logger
     }
 
     public func start() throws {
@@ -35,6 +39,14 @@ public class DefaultAudioVideoFacade: AudioVideoFacade {
     public func stop() {
         self.audioVideoController.stop()
         self.trace(name: "stop")
+    }
+
+    public func startLocalVideo() throws {
+        try self.audioVideoController.startLocalVideo()
+    }
+
+    public func stopLocalVideo() {
+        self.audioVideoController.stopLocalVideo()
     }
 
     private func trace(name: String) {
@@ -69,6 +81,7 @@ public class DefaultAudioVideoFacade: AudioVideoFacade {
     }
 
     // MARK: DeviceController
+
     public func listAudioDevices() -> [MediaDevice] {
         return self.deviceController.listAudioDevices()
     }
@@ -83,5 +96,31 @@ public class DefaultAudioVideoFacade: AudioVideoFacade {
 
     public func removeDeviceChangeObserver(observer: DeviceChangeObserver) {
         self.deviceController.removeDeviceChangeObserver(observer: observer)
+    }
+
+    public func switchCamera() {
+        self.deviceController.switchCamera()
+    }
+
+    public func getActiveCamera() -> MediaDevice? {
+        return self.deviceController.getActiveCamera()
+    }
+
+    // MARK: VideoTileController
+
+    public func bindVideoView(videoView: VideoRenderView, tileId: Int) {
+        self.videoTileController.bindVideoView(videoView: videoView, tileId: tileId)
+    }
+
+    public func unbindVideoView(tileId: Int) {
+        self.videoTileController.unbindVideoView(tileId: tileId)
+    }
+
+    public func addVideoTileObserver(observer: VideoTileObserver) {
+        self.videoTileController.addVideoTileObserver(observer: observer)
+    }
+
+    public func removeVideoTileObserver(observer: VideoTileObserver) {
+        self.videoTileController.removeVideoTileObserver(observer: observer)
     }
 }

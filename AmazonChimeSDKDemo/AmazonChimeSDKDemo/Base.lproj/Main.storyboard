@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -78,55 +78,99 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wwR-Kt-AOS" userLabel="leave">
-                                <rect key="frame" x="31" y="102" width="64" height="48"/>
-                                <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="64" id="23c-D7-NEM"/>
-                                    <constraint firstAttribute="height" constant="48" id="hoD-nT-tE2"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <state key="normal" title="Leave">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="endMeetingClicked:" destination="Sfo-A7-USF" eventType="touchUpInside" id="d26-M1-koe"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fzH-S4-QOP" userLabel="Mic">
-                                <rect key="frame" x="103" y="102" width="64" height="48"/>
-                                <color key="backgroundColor" red="0.0" green="0.97680455450000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="nFv-7I-SFH"/>
-                                    <constraint firstAttribute="width" constant="64" id="rjg-Pb-5KX"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="hxg-2p-ahJ">
+                                <rect key="frame" x="16" y="103.5" width="382" height="36"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wwR-Kt-AOS" userLabel="leave">
+                                        <rect key="frame" x="0.0" y="0.0" width="89.5" height="36"/>
+                                        <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                        <state key="normal" title="Leave">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="endMeetingClicked:" destination="Sfo-A7-USF" eventType="touchUpInside" id="d26-M1-koe"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fzH-S4-QOP" userLabel="Mic">
+                                        <rect key="frame" x="97.5" y="0.0" width="89.5" height="36"/>
+                                        <color key="backgroundColor" red="0.0" green="0.97680455450000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Mic">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="toggleMic:" destination="Sfo-A7-USF" eventType="touchUpInside" id="gfe-x5-baM"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NMj-an-6IT" userLabel="Speaker">
+                                        <rect key="frame" x="195" y="0.0" width="89.5" height="36"/>
+                                        <color key="backgroundColor" systemColor="systemPurpleColor" red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Camera">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="cameraClicked:" destination="Sfo-A7-USF" eventType="touchUpInside" id="sg1-n5-cmc"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1AR-gN-PDB">
+                                        <rect key="frame" x="292.5" y="0.0" width="89.5" height="36"/>
+                                        <color key="backgroundColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Audio">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="audioClicked:" destination="Sfo-A7-USF" eventType="touchUpInside" id="mwb-vJ-INh"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Meeting#" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eGg-Lr-MVg">
+                                <rect key="frame" x="16" y="60" width="382" height="33.5"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Mic">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="toggleMic:" destination="Sfo-A7-USF" eventType="touchUpInside" id="gfe-x5-baM"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1AR-gN-PDB">
-                                <rect key="frame" x="247" y="102" width="64" height="48"/>
-                                <color key="backgroundColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="27" translatesAutoresizingMaskIntoConstraints="NO" id="d6u-zG-yni">
+                                <rect key="frame" x="16" y="149.5" width="382" height="130"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NTj-mH-sPE" customClass="DefaultVideoRenderView" customModule="AmazonChimeSDK">
+                                        <rect key="frame" x="0.0" y="0.0" width="177.5" height="130"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iXx-Jg-mZD">
+                                                <rect key="frame" x="65.5" y="50" width="47" height="30"/>
+                                                <state key="normal" title="Switch"/>
+                                                <connections>
+                                                    <action selector="switchCameraClicked:" destination="Sfo-A7-USF" eventType="touchUpInside" id="UTs-mM-bdp"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstItem="iXx-Jg-mZD" firstAttribute="centerX" secondItem="NTj-mH-sPE" secondAttribute="centerX" id="Ffv-Xd-Dy1"/>
+                                            <constraint firstItem="iXx-Jg-mZD" firstAttribute="centerY" secondItem="NTj-mH-sPE" secondAttribute="centerY" id="Qby-Vd-zBN"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sdG-mp-rcO" customClass="DefaultVideoRenderView" customModule="AmazonChimeSDK">
+                                        <rect key="frame" x="204.5" y="0.0" width="177.5" height="130"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                    </view>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="64" id="6v1-AN-PN4"/>
-                                    <constraint firstAttribute="height" constant="48" id="Flx-RH-h7x"/>
+                                    <constraint firstAttribute="height" constant="130" id="dvX-Nx-hFk"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Audio">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="audioClicked:" destination="Sfo-A7-USF" eventType="touchUpInside" id="e9X-gb-ZS4"/>
-                                </connections>
-                            </button>
+                            </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ELJ-Ld-nMt" userLabel="RosterTableView">
-                                <rect key="frame" x="16" y="182" width="382" height="695"/>
+                                <rect key="frame" x="16" y="295.5" width="382" height="582"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="582" id="rnl-4p-9wn"/>
+                                </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="rosterCell" rowHeight="87" id="lBc-aa-WXj" customClass="RosterTableCell" customModule="AmazonChimeSDKDemo" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="382" height="87"/>
@@ -136,13 +180,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lJB-bO-0qq">
-                                                    <rect key="frame" x="16" y="33" width="42" height="21"/>
+                                                    <rect key="frame" x="16" y="33.5" width="42" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ilA-Bo-2TX">
-                                                    <rect key="frame" x="324" y="33" width="42" height="21"/>
+                                                    <rect key="frame" x="324" y="33.5" width="42" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -166,55 +210,34 @@
                                     <outlet property="delegate" destination="Sfo-A7-USF" id="BwG-yB-K7I"/>
                                 </connections>
                             </tableView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NMj-an-6IT" userLabel="Speaker">
-                                <rect key="frame" x="175" y="102" width="64" height="48"/>
-                                <color key="backgroundColor" red="0.0" green="0.97680455450000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="4zt-tE-5kU"/>
-                                    <constraint firstAttribute="width" constant="64" id="GZe-v5-3a2"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Speaker">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Meeting#" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eGg-Lr-MVg">
-                                <rect key="frame" x="16" y="60" width="382" height="34"/>
-                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="wwR-Kt-AOS" firstAttribute="top" secondItem="eGg-Lr-MVg" secondAttribute="bottom" constant="8" id="9gy-2G-7kT"/>
-                            <constraint firstItem="NMj-an-6IT" firstAttribute="leading" secondItem="fzH-S4-QOP" secondAttribute="trailing" constant="8" id="Fj8-zk-Ika"/>
-                            <constraint firstItem="NMj-an-6IT" firstAttribute="centerX" secondItem="qB1-9y-yO7" secondAttribute="centerX" id="HCZ-S9-2s3"/>
-                            <constraint firstItem="ELJ-Ld-nMt" firstAttribute="bottom" secondItem="wAb-yP-Xtg" secondAttribute="bottom" constant="64" id="Hc3-gY-4qu"/>
-                            <constraint firstItem="1AR-gN-PDB" firstAttribute="leading" secondItem="NMj-an-6IT" secondAttribute="trailing" constant="8" id="Lh6-yW-Sh5"/>
-                            <constraint firstItem="NMj-an-6IT" firstAttribute="top" secondItem="eGg-Lr-MVg" secondAttribute="bottom" constant="8" id="NTZ-jQ-ek4"/>
-                            <constraint firstItem="fzH-S4-QOP" firstAttribute="top" secondItem="eGg-Lr-MVg" secondAttribute="bottom" constant="8" id="Sik-sW-NqM"/>
-                            <constraint firstItem="fzH-S4-QOP" firstAttribute="leading" secondItem="wwR-Kt-AOS" secondAttribute="trailing" constant="8" id="Wys-fQ-jPZ"/>
-                            <constraint firstItem="1AR-gN-PDB" firstAttribute="top" secondItem="eGg-Lr-MVg" secondAttribute="bottom" constant="8" id="XgG-iA-B5H"/>
+                            <constraint firstItem="d6u-zG-yni" firstAttribute="leading" secondItem="wAb-yP-Xtg" secondAttribute="leading" constant="16" id="1ee-iI-yVe"/>
+                            <constraint firstItem="hxg-2p-ahJ" firstAttribute="centerX" secondItem="qB1-9y-yO7" secondAttribute="centerX" id="3CH-WS-ATk"/>
+                            <constraint firstItem="d6u-zG-yni" firstAttribute="top" secondItem="hxg-2p-ahJ" secondAttribute="bottom" constant="10" id="G0N-Lv-2fC"/>
+                            <constraint firstItem="hxg-2p-ahJ" firstAttribute="top" secondItem="eGg-Lr-MVg" secondAttribute="bottom" constant="10" id="RUs-Qk-V4o"/>
+                            <constraint firstItem="wAb-yP-Xtg" firstAttribute="trailing" secondItem="hxg-2p-ahJ" secondAttribute="trailing" constant="16" id="SUd-1p-wv1"/>
                             <constraint firstItem="eGg-Lr-MVg" firstAttribute="centerX" secondItem="qB1-9y-yO7" secondAttribute="centerX" id="ZDa-w3-ptL"/>
-                            <constraint firstItem="wAb-yP-Xtg" firstAttribute="trailing" secondItem="ELJ-Ld-nMt" secondAttribute="trailing" constant="16" id="a5V-eP-ZIz"/>
                             <constraint firstItem="eGg-Lr-MVg" firstAttribute="leading" secondItem="wAb-yP-Xtg" secondAttribute="leading" constant="16" id="aaf-pD-STv"/>
-                            <constraint firstItem="ELJ-Ld-nMt" firstAttribute="top" secondItem="wwR-Kt-AOS" secondAttribute="bottom" constant="32" id="kAJ-Pa-dVV"/>
+                            <constraint firstItem="wAb-yP-Xtg" firstAttribute="trailing" secondItem="d6u-zG-yni" secondAttribute="trailing" constant="16" id="fUD-ZL-F3k"/>
+                            <constraint firstItem="ELJ-Ld-nMt" firstAttribute="leading" secondItem="wAb-yP-Xtg" secondAttribute="leading" constant="16" id="gGW-P7-XHB"/>
+                            <constraint firstItem="ELJ-Ld-nMt" firstAttribute="top" secondItem="d6u-zG-yni" secondAttribute="bottom" constant="16" id="hNh-ky-wPF"/>
+                            <constraint firstItem="hxg-2p-ahJ" firstAttribute="leading" secondItem="wAb-yP-Xtg" secondAttribute="leading" constant="16" id="ifD-wY-cZI"/>
+                            <constraint firstItem="wAb-yP-Xtg" firstAttribute="trailing" secondItem="ELJ-Ld-nMt" secondAttribute="trailing" constant="16" id="nEc-Tz-nL2"/>
                             <constraint firstItem="eGg-Lr-MVg" firstAttribute="top" secondItem="wAb-yP-Xtg" secondAttribute="top" constant="16" id="tAc-Ek-U7Z"/>
-                            <constraint firstItem="ELJ-Ld-nMt" firstAttribute="leading" secondItem="wAb-yP-Xtg" secondAttribute="leading" constant="16" id="vqh-Uc-LBN"/>
-                            <constraint firstItem="ELJ-Ld-nMt" firstAttribute="centerX" secondItem="qB1-9y-yO7" secondAttribute="centerX" id="w8y-Ob-Mtg"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="wAb-yP-Xtg"/>
                     </view>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="camera" destination="NMj-an-6IT" id="lfU-Uy-9Sc"/>
                         <outlet property="meetingName" destination="eGg-Lr-MVg" id="OEy-vp-WMf"/>
                         <outlet property="mic" destination="fzH-S4-QOP" id="99W-pu-wE9"/>
+                        <outlet property="otherVideoView" destination="sdG-mp-rcO" id="ZXJ-h0-Jld"/>
                         <outlet property="rosterTable" destination="ELJ-Ld-nMt" id="R2u-1L-jEP"/>
-                        <outlet property="speaker" destination="NMj-an-6IT" id="KoQ-3h-o31"/>
+                        <outlet property="selfVideoView" destination="NTj-mH-sPE" id="34Z-MW-Ueh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gja-bz-aQW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

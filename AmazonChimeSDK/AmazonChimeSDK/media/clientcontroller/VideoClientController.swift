@@ -5,10 +5,10 @@
 //  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
-import Foundation
 import AVFoundation
+import Foundation
 
-class VideoClientController: NSObject, VideoClientDelegate {
+class VideoClientController: NSObject {
     enum VideoClientState: Int32 {
         case uninitialized = -1
         case initialized = 0
@@ -19,9 +19,9 @@ class VideoClientController: NSObject, VideoClientDelegate {
     struct InstanceParams {
         let logger: Logger
         let isUsing16by9AspectRatio: Bool
+        let videoTileController: VideoTileController
     }
 
-    private let frontCameraKeyword = "front"
     private let turnRequestHttpMethod = "POST"
     private let contentTypeHeader = "Content-Type"
     private let contentType = "application/json"
@@ -41,17 +41,21 @@ class VideoClientController: NSObject, VideoClientDelegate {
     var meetingId: String?
     var joinToken: String?
 
+    var videoTileController: VideoTileController?
+    var videoObservers: NSMutableSet = NSMutableSet()
+
     public class func setup(params: InstanceParams) {
         sharedInstance.logger = params.logger
         sharedInstance.isUsing16by9AspectRatio = params.isUsing16by9AspectRatio
+        sharedInstance.videoTileController = params.videoTileController
     }
 
-    override private init() {
+    private override init() {
         super.init()
     }
 
     public class func shared() -> VideoClientController {
-        guard sharedInstance.logger != nil else {
+        guard sharedInstance.logger != nil, sharedInstance.videoTileController != nil else {
             fatalError("You must call setup(logger:) before accessing VideoClientController.shared")
         }
         return sharedInstance
@@ -59,14 +63,18 @@ class VideoClientController: NSObject, VideoClientDelegate {
 
     // MARK: - Lifecycle: start and initialize
 
+    private func checkVideoPermission(sending: Bool) throws {
+        if sending, AVCaptureDevice.authorizationStatus(for: .video) != .authorized {
+            throw PermissionError.videoPermissionError
+        }
+    }
+
     public func start(turnControlUrl: String,
                       signalingUrl: String,
                       meetingId: String,
                       joinToken: String,
                       sending: Bool) throws {
-        if sending && AVCaptureDevice.authorizationStatus(for: .video) != .authorized {
-            throw PermissionError.videoPermissionError
-        }
+        try checkVideoPermission(sending: sending)
 
         self.turnControlUrl = turnControlUrl
         self.signalingUrl = signalingUrl
@@ -76,11 +84,11 @@ class VideoClientController: NSObject, VideoClientDelegate {
         switch videoClientState {
         case .uninitialized:
             initialize()
-            startInitializedVideoClient(sending: sending)
+            try startInitializedVideoClient(sending: sending)
         case .started:
             logger?.info(msg: "VideoClientState is already STARTED")
         case .initialized, .stopped:
-            startInitializedVideoClient(sending: sending)
+            try startInitializedVideoClient(sending: sending)
         }
     }
 
@@ -92,21 +100,21 @@ class VideoClientController: NSObject, VideoClientDelegate {
         logger?.info(msg: "Initializing VideoClient")
 
         VideoClient.globalInitialize(nil)
-        videoClient = VideoClient.init()
+        videoClient = VideoClient()
         videoClient?.delegate = self
 
         videoClientState = .initialized
     }
 
-    func startInitializedVideoClient(sending: Bool) {
+    func startInitializedVideoClient(sending: Bool) throws {
         guard videoClient != nil else {
             logger?.error(msg: "VideoClient is not initialized properly")
             return
         }
         logger?.info(msg: "Starting VideoClient with sending=\(sending)")
-        enableSelfVideo(isEnabled: sending)
+        try enableSelfVideo(isEnabled: sending)
 
-        let videoConfig: VideoConfiguration = VideoConfiguration.init()
+        let videoConfig: VideoConfiguration = VideoConfiguration()
         videoConfig.isUsing16by9AspectRatio = isUsing16by9AspectRatio ?? false
 
         videoClient!.start(nil,
@@ -150,7 +158,7 @@ class VideoClientController: NSObject, VideoClientDelegate {
 
     // MARK: - Video selection
 
-    func enableSelfVideo(isEnabled: Bool) {
+    func enableSelfVideo(isEnabled: Bool) throws {
         guard videoClientState != .uninitialized else {
             logger?.info(msg: "VideoClient is not initialized so returning without doing anything")
             return
@@ -158,7 +166,9 @@ class VideoClientController: NSObject, VideoClientDelegate {
         logger?.info(msg: "Enable Self Video with isEnabled=\(isEnabled)")
 
         isSelfVideoSending = isEnabled
-        if isSelfVideoSending && VideoClient.currentDevice() == nil {
+        try checkVideoPermission(sending: isSelfVideoSending)
+
+        if isSelfVideoSending, VideoClient.currentDevice() == nil {
             setFrontCameraAsCurrentDevice()
         }
 
@@ -170,6 +180,7 @@ class VideoClientController: NSObject, VideoClientDelegate {
             logger?.error(msg: "Cannot set front camera as current device because videoClientState=\(videoClientState)")
             return
         }
+
         logger?.info(msg: "Setting front camera as current device")
 
         let currentDevice: VideoDevice? = VideoClient.currentDevice()
@@ -187,6 +198,7 @@ class VideoClientController: NSObject, VideoClientDelegate {
             logger?.error(msg: "Cannot switch camera because videoClientState=\(videoClientState)")
             return
         }
+
         logger?.info(msg: "Swiching between cameras")
 
         if let devices = (VideoClient.devices() as? [VideoDevice]) {
@@ -197,9 +209,15 @@ class VideoClientController: NSObject, VideoClientDelegate {
     }
 
     func isDeviceFrontFacing(videoDevice: VideoDevice) -> Bool {
-        return videoDevice.name.lowercased().contains(frontCameraKeyword)
+        return MediaDevice.fromVideoDevice(device: videoDevice).type == .videoFrontCamera
     }
 
+    func getCurrentDevice() -> VideoDevice {
+        return VideoClient.currentDevice()
+    }
+}
+
+extension VideoClientController: VideoClientDelegate {
     // MARK: - VideoClientDelegate
 
     // swiftlint:disable function_parameter_count
@@ -209,24 +227,47 @@ class VideoClientController: NSObject, VideoClientDelegate {
                             profileId: String!,
                             pause pauseType: video_client_pause_type_t,
                             videoId: UInt32) {
-        logger?.info(msg: "videoClientDidReceiveFrame")
+        videoTileController?.onReceiveFrame(frame: image,
+                                            profileId: profileId, displayId: Int(displayId),
+                                            pauseType: Int(pauseType.rawValue),
+                                            videoId: Int(videoId))
     }
+
     // swiftlint:enable function_parameter_count
+    private func forEachObserver(observerFunction: (_ observer: AudioVideoObserver) -> Void) {
+        for observer in videoObservers {
+            if let observer = observer as? AudioVideoObserver {
+                observerFunction(observer)
+            }
+        }
+    }
 
     public func videoClientIsConnecting(_ client: VideoClient!) {
         logger?.info(msg: "videoClientIsConnecting")
+        forEachObserver { observer in
+            observer.onVideoClientConnecting()
+        }
     }
 
     public func videoClientDidConnect(_ client: VideoClient!, controlStatus: Int32) {
         logger?.info(msg: "videoClientDidConnect")
+        forEachObserver { observer in
+            observer.onVideoClientStart()
+        }
     }
 
     public func videoClientDidFail(_ client: VideoClient!, status: video_client_status_t, controlStatus: Int32) {
         logger?.info(msg: "videoClientDidFail")
+        forEachObserver { observer in
+            observer.onVideoClientStop(sessionStatus: MeetingSessionStatus(statusCode: .videoServiceUnavailable))
+        }
     }
 
     public func videoClientDidStop(_ client: VideoClient!) {
         logger?.info(msg: "videoClientDidStop")
+        forEachObserver { observer in
+            observer.onVideoClientStop(sessionStatus: MeetingSessionStatus(statusCode: .ok))
+        }
     }
 
     public func videoClient(_ client: VideoClient!, cameraSendIsAvailable available: Bool) {

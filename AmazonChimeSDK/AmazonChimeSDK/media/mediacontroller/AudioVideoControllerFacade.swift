@@ -10,7 +10,6 @@ import Foundation
 public protocol AudioVideoControllerFacade {
     var configuration: MeetingSessionConfiguration { get }
     var logger: Logger { get }
-
     /// Start AudioVideo Controller
     ///
     /// - Throws: `PermissionError.audioPermissionError` if `RecordPermission` is not given
@@ -29,4 +28,12 @@ public protocol AudioVideoControllerFacade {
     ///
     /// - Parameter observer: The observer to unsubscribe from events with
     func removeObserver(observer: AudioVideoObserver)
+
+    /// Enable self video to start streaming
+    ///
+    /// - Throws: `PermissionError.videoPermissionError` if video permission of `AVCaptureDevice` is not granted
+    func startLocalVideo() throws
+
+    /// Disable self video streaming
+    func stopLocalVideo()
 }

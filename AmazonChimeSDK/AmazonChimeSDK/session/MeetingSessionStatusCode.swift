@@ -75,6 +75,11 @@ public enum MeetingSessionStatusCode: UInt32 {
     case audioCallEnded = 75
 
     /**
+     * video service is unavailable
+     */
+    case videoServiceUnavailable = 12
+    
+    /**
      * If State cannot be parsed, then use this state
      */
     case unknown = 78

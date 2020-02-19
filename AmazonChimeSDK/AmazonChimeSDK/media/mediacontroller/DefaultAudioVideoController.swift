@@ -8,15 +8,20 @@
 import Foundation
 
 public class DefaultAudioVideoController: AudioVideoControllerFacade {
+
     public let configuration: MeetingSessionConfiguration
     public let logger: Logger
-    var audioClientController: AudioClientController
-    var videoClientController: VideoClientController
 
-    public init(configuration: MeetingSessionConfiguration, logger: Logger) {
-        let videoClientControllerParams = VideoClientController.InstanceParams.init(
+    private var audioClientController: AudioClientController
+    private var videoClientController: VideoClientController
+    private var videoTileController: VideoTileController
+
+    public init(configuration: MeetingSessionConfiguration, logger: Logger, videoTileController: VideoTileController) {
+        self.videoTileController = videoTileController
+        let videoClientControllerParams = VideoClientController.InstanceParams(
             logger: logger,
-            isUsing16by9AspectRatio: false) // TODO: Read from config
+            isUsing16by9AspectRatio: false,
+            videoTileController: videoTileController) // TODO: Read from config
         VideoClientController.setup(params: videoClientControllerParams)
         self.videoClientController = VideoClientController.shared()
         self.audioClientController = AudioClientController.shared()
@@ -47,5 +52,18 @@ public class DefaultAudioVideoController: AudioVideoControllerFacade {
 
     public func removeObserver(observer: AudioVideoObserver) {
         audioClientController.removeObserver(observer: observer)
+    }
+
+    public func startLocalVideo() throws {
+        try videoClientController.enableSelfVideo(isEnabled: true)
+    }
+
+    public func stopLocalVideo() {
+        // TODO: it only throws error when isEnabled is true, so either refactor VideoClientController or change the signature to throws
+        do {
+            try videoClientController.enableSelfVideo(isEnabled: false)
+        } catch {
+            // NOP
+        }
     }
 }

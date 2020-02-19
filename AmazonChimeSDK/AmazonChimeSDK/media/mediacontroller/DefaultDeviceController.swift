@@ -9,12 +9,17 @@ import AVFoundation
 
 public class DefaultDeviceController: DeviceController {
     let audioClient: AudioClientController
+    let videoClientController: VideoClientController
     let logger: Logger
     let audioSession: AVAudioSession
 
     var deviceChangeObservers: NSMutableSet = NSMutableSet()
 
+    // TODO: pass videoClientController
     public init(logger: Logger) {
+        // TODO: Assuming that this will be called after setup in AudioVideoFacade
+        // This should get removed once we change to pass paramter
+        self.videoClientController = VideoClientController.shared()
         self.audioClient = AudioClientController.shared()
         self.logger = logger
         self.audioSession = AVAudioSession.sharedInstance()
@@ -28,7 +33,7 @@ public class DefaultDeviceController: DeviceController {
     public func listAudioDevices() -> [MediaDevice] {
         var inputDevices: [MediaDevice] = []
         let loudSpeaker = MediaDevice(label: "Build-in Speaker")
-        if let availablePort = self.audioSession.availableInputs {
+        if let availablePort = audioSession.availableInputs {
             inputDevices = availablePort.map { port in MediaDevice.fromAVSessionPort(port: port) }
         }
         // Putting loudSpeaker devices as second element is to align with
@@ -43,12 +48,12 @@ public class DefaultDeviceController: DeviceController {
     public func chooseAudioDevice(mediaDevice: MediaDevice) {
         do {
             if mediaDevice.port == nil {
-                try self.audioSession.overrideOutputAudioPort(.speaker)
+                try audioSession.overrideOutputAudioPort(.speaker)
             } else {
-                try self.audioSession.setPreferredInput(mediaDevice.port)
+                try audioSession.setPreferredInput(mediaDevice.port)
             }
-        } catch let error {
-            self.logger.error(msg: "Error on setting audio input device: \(error.localizedDescription)")
+        } catch {
+            logger.error(msg: "Error on setting audio input device: \(error.localizedDescription)")
         }
     }
 
@@ -56,7 +61,7 @@ public class DefaultDeviceController: DeviceController {
         guard let userInfo = notification.userInfo,
             let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
             let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue) else {
-                return
+            return
         }
 
         // Switch over the route change reason.
@@ -82,11 +87,11 @@ public class DefaultDeviceController: DeviceController {
                         mediaDevice.port?.uid == oldDevice?.inputs[0].uid
                     })
                 }
-                self.deviceChangeObservers.forEach({ element in
+                self.deviceChangeObservers.forEach { element in
                     if let observer = element as? DeviceChangeObserver {
                         observer.onAudioDeviceChange(freshAudioDeviceList: availableDevices)
                     }
-                })
+                }
             }
         default: ()
         }
@@ -98,5 +103,14 @@ public class DefaultDeviceController: DeviceController {
 
     public func removeDeviceChangeObserver(observer: DeviceChangeObserver) {
         deviceChangeObservers.remove(observer)
+    }
+
+    public func switchCamera() {
+        videoClientController.switchCamera()
+    }
+
+    public func getActiveCamera() -> MediaDevice? {
+        let activeCamera = MediaDevice.fromVideoDevice(device: videoClientController.getCurrentDevice())
+        return activeCamera.type == .other ? nil : activeCamera
     }
 }
