@@ -9,17 +9,15 @@ import AVFoundation
 import Foundation
 
 public class DefaultDeviceController: DeviceController {
-    let audioClient: AudioClientController
     let logger: Logger
     let audioSession: AVAudioSession
+    var deviceChangeObservers: NSMutableSet
 
-    var deviceChangeObservers: NSMutableSet = NSMutableSet()
-
-    public init(logger: Logger) {
-        self.audioClient = AudioClientController.shared()
+    public init(audioSession: AVAudioSession,
+                logger: Logger) {
+        deviceChangeObservers = NSMutableSet()
         self.logger = logger
-        self.audioSession = AVAudioSession.sharedInstance()
-
+        self.audioSession = audioSession
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(handleSystemAudioChange),
                                                name: AVAudioSession.routeChangeNotification,
@@ -29,7 +27,7 @@ public class DefaultDeviceController: DeviceController {
     public func listAudioDevices() -> [MediaDevice] {
         var inputDevices: [MediaDevice] = []
         let loudSpeaker = MediaDevice(label: "Build-in Speaker")
-        if let availablePort = self.audioSession.availableInputs {
+        if let availablePort = audioSession.availableInputs {
             inputDevices = availablePort.map { port in MediaDevice.fromAVSessionPort(port: port) }
         }
         // Putting loudSpeaker devices as second element is to align with
@@ -44,12 +42,12 @@ public class DefaultDeviceController: DeviceController {
     public func chooseAudioDevice(mediaDevice: MediaDevice) {
         do {
             if mediaDevice.port == nil {
-                try self.audioSession.overrideOutputAudioPort(.speaker)
+                try audioSession.overrideOutputAudioPort(.speaker)
             } else {
-                try self.audioSession.setPreferredInput(mediaDevice.port)
+                try audioSession.setPreferredInput(mediaDevice.port)
             }
-        } catch let error {
-            self.logger.error(msg: "Error on setting audio input device: \(error.localizedDescription)")
+        } catch {
+            logger.error(msg: "Error on setting audio input device: \(error.localizedDescription)")
         }
     }
 
@@ -57,7 +55,7 @@ public class DefaultDeviceController: DeviceController {
         guard let userInfo = notification.userInfo,
             let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
             let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue) else {
-                return
+            return
         }
 
         // Switch over the route change reason.
@@ -83,11 +81,11 @@ public class DefaultDeviceController: DeviceController {
                         mediaDevice.port?.uid == oldDevice?.inputs[0].uid
                     })
                 }
-                self.deviceChangeObservers.forEach({ element in
+                self.deviceChangeObservers.forEach { element in
                     if let observer = element as? DeviceChangeObserver {
                         observer.onAudioDeviceChange(freshAudioDeviceList: availableDevices)
                     }
-                })
+                }
             }
         default: ()
         }

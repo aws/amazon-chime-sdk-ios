@@ -8,25 +8,28 @@
 import Foundation
 
 public class DefaultRealtimeController: RealtimeControllerFacade {
-    let audioClient: AudioClientController
+    private let audioClientController: AudioClientController
+    private let audioClientObserver: AudioClientObserver
 
-    public init() {
-        self.audioClient = AudioClientController.shared()
+    public init(audioClientController: AudioClientController,
+                audioClientObserver: AudioClientObserver) {
+        self.audioClientController = audioClientController
+        self.audioClientObserver = audioClientObserver
     }
 
     public func realtimeLocalMute() -> Bool {
-        return audioClient.setMicMute(mute: true)
+        return audioClientController.setMute(mute: true)
     }
 
     public func realtimeLocalUnmute() -> Bool {
-        return audioClient.setMicMute(mute: false)
+        return audioClientController.setMute(mute: false)
     }
 
     public func realtimeAddObserver(observer: RealtimeObserver) {
-        audioClient.addRealtimeObserver(observer: observer)
+        audioClientObserver.subscribeToRealTimeEvents(observer: observer)
     }
 
     public func realtimeRemoveObserver(observer: RealtimeObserver) {
-        audioClient.removeRealtimeObserver(observer: observer)
+        audioClientObserver.unsubscribeFromRealTimeEvents(observer: observer)
     }
 }

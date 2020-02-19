@@ -11,12 +11,19 @@ import Foundation
 public class DefaultAudioVideoController: AudioVideoControllerFacade {
     public let configuration: MeetingSessionConfiguration
     public let logger: Logger
-    var audioClient: AudioClientController
-    var clientMetricsCollector: ClientMetricsCollector
 
-    public init(configuration: MeetingSessionConfiguration, logger: Logger) {
-        self.audioClient = AudioClientController.shared()
-        self.clientMetricsCollector = ClientMetricsCollector.shared()
+    private let audioClientController: AudioClientController
+    private let audioClientObserver: AudioClientObserver
+    private let clientMetricsCollector: ClientMetricsCollector
+
+    public init(audioClientController: AudioClientController,
+                audioClientObserver: AudioClientObserver,
+                clientMetricsCollector: ClientMetricsCollector,
+                configuration: MeetingSessionConfiguration,
+                logger: Logger) {
+        self.audioClientController = audioClientController
+        self.audioClientObserver = audioClientObserver
+        self.clientMetricsCollector = clientMetricsCollector
         self.configuration = configuration
         self.logger = logger
     }
@@ -27,23 +34,23 @@ public class DefaultAudioVideoController: AudioVideoControllerFacade {
             throw PermissionError.audioPermissionError
         }
 
-        audioClient.start(audioHostUrl: configuration.urls.audioHostURL,
-                          meetingId: configuration.meetingId,
-                          attendeeId: configuration.credentials.attendeeId,
-                          joinToken: configuration.credentials.joinToken)
+        audioClientController.start(audioHostUrl: configuration.urls.audioHostURL,
+                                    meetingId: configuration.meetingId,
+                                    attendeeId: configuration.credentials.attendeeId,
+                                    joinToken: configuration.credentials.joinToken)
     }
 
     public func stop() {
-        audioClient.stop()
+        audioClientController.stop()
     }
 
     public func addObserver(observer: AudioVideoObserver) {
-        audioClient.addObserver(observer: observer)
-        clientMetricsCollector.addObserver(observer: observer)
+        audioClientObserver.subscribeToAudioClientStateChange(observer: observer)
+        clientMetricsCollector.subscribeToClientStateChange(observer: observer)
     }
 
     public func removeObserver(observer: AudioVideoObserver) {
-        audioClient.removeObserver(observer: observer)
-        clientMetricsCollector.removeObserver(observer: observer)
+        audioClientObserver.unsubscribeFromAudioClientStateChange(observer: observer)
+        clientMetricsCollector.unsubscribeFromClientStateChange(observer: observer)
     }
 }

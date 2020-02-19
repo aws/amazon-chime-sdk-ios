@@ -15,10 +15,9 @@ public class DefaultAudioVideoFacade: AudioVideoFacade {
     let realtimeController: RealtimeControllerFacade
     let deviceController: DeviceController
 
-    init(
-        audioVideoController: AudioVideoControllerFacade,
-        realtimeController: RealtimeControllerFacade,
-        deviceController: DeviceController) {
+    init(audioVideoController: AudioVideoControllerFacade,
+         realtimeController: RealtimeControllerFacade,
+         deviceController: DeviceController) {
         self.audioVideoController = audioVideoController
         self.realtimeController = realtimeController
         self.deviceController = deviceController
@@ -69,6 +68,7 @@ public class DefaultAudioVideoFacade: AudioVideoFacade {
     }
 
     // MARK: DeviceController
+
     public func listAudioDevices() -> [MediaDevice] {
         return self.deviceController.listAudioDevices()
     }

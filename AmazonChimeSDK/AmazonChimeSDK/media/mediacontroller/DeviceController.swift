@@ -8,7 +8,6 @@
 import Foundation
 
 public protocol DeviceController {
-
     /// List available audio devices
     /// - Returns: List of Media Devices
     func listAudioDevices() -> [MediaDevice]
