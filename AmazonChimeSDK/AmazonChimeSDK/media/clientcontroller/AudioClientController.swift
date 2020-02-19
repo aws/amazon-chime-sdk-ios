@@ -39,7 +39,7 @@ class AudioClientController: NSObject, AudioClientDelegate {
             return
         }
 
-        let attendeeVolumeMap = processAnyDictToStringIntDict(anyDict: volumes)
+        let attendeeVolumeMap: [String: VolumeLevel] = processAnyDictToStringEnumDict(anyDict: volumes)
         realtimeObservers.forEach { element in
             if let realtimeObserver = element as? RealtimeObserver {
                 realtimeObserver.onVolumeChange(attendeeVolumeMap: attendeeVolumeMap)
@@ -52,7 +52,7 @@ class AudioClientController: NSObject, AudioClientDelegate {
             return
         }
 
-        let attendeeSignalMap = processAnyDictToStringIntDict(anyDict: signalStrengths)
+        let attendeeSignalMap: [String: SignalStrength] = processAnyDictToStringEnumDict(anyDict: signalStrengths)
         realtimeObservers.forEach { element in
             if let realtimeObserver = element as? RealtimeObserver {
                 realtimeObserver.onSignalStrengthChange(attendeeSignalMap: attendeeSignalMap)
@@ -68,16 +68,16 @@ class AudioClientController: NSObject, AudioClientDelegate {
         ClientMetricsCollector.shared().processAudioClientMetrics(metrics: metrics)
     }
 
-    private func processAnyDictToStringIntDict(anyDict: [AnyHashable: Any]) -> [String: Int] {
-        var strIntDict = [String: Int]()
-        for (key, value) in anyDict {
-            let keyString: String? = key as? String
-            let valueInt: Int? = value as? Int
-            if keyString != nil, valueInt != nil {
-                strIntDict[keyString!] = valueInt
+    private func processAnyDictToStringEnumDict<T: RawRepresentable>(anyDict: [AnyHashable: Any]) -> [String: T] {
+        var strEnumDict = [String: T]()
+        for (key, rawValue) in anyDict {
+            if let keyString = key as? String, let rawValue = rawValue as? T.RawValue {
+                if let value = T.init(rawValue: rawValue) {
+                    strEnumDict[keyString] = value
+                }
             }
         }
-        return strIntDict
+        return strEnumDict
     }
 
     func addRealtimeObserver(observer: RealtimeObserver) {
