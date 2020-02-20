@@ -26,9 +26,12 @@ public struct Meeting {
 }
 
 public struct MediaPlacement {
-    let audioHostURL: String
+    let audioFallbackUrl: String
+    let audioHostUrl: String
 
-    public init(audioHostURL: String) {
-        self.audioHostURL = audioHostURL
+    public init(audioFallbackUrl: String,
+                audioHostUrl: String) {
+        self.audioFallbackUrl = audioFallbackUrl
+        self.audioHostUrl = audioHostUrl
     }
 }

@@ -12,17 +12,19 @@ class DefaultAudioClientController: NSObject {
     private let audioClientObserver: AudioClientObserver
     private let audioPortOffset: Int
     private let defaultMicAndSpeaker: Bool
+    private let defaultPort: Int
     private let defaultPresenter: Bool
 
     init(audioClient: AudioClient,
          audioClientObserver: AudioClientObserver) {
         audioPortOffset = 200
         defaultMicAndSpeaker = false
+        defaultPort = 0
         defaultPresenter = true
-    
+
         self.audioClient = audioClient
         self.audioClientObserver = audioClientObserver
-    
+
         super.init()
     }
 }
@@ -32,14 +34,14 @@ extension DefaultAudioClientController: AudioClientController {
         return audioClient.setMicrophoneMuted(mute) == Int(AUDIO_CLIENT_OK.rawValue)
     }
 
-    public func start(audioHostUrl: String, meetingId: String, attendeeId: String, joinToken: String) {
+    public func start(audioFallbackUrl: String,
+                      audioHostUrl: String,
+                      meetingId: String,
+                      attendeeId: String,
+                      joinToken: String) {
         let url = audioHostUrl.components(separatedBy: ":")
         let host = url[0]
-        var port = 0
-
-        if url.count >= 2 {
-            port = (url[1] as NSString).integerValue - audioPortOffset
-        }
+        let port = url.count >= 2 ? (url[1] as NSString).integerValue - audioPortOffset : defaultPort
 
         audioClientObserver.notifyAudioClientObserver { (observer: AudioVideoObserver) in
             observer.onAudioVideoStartConnecting(reconnecting: false)
@@ -59,7 +61,7 @@ extension DefaultAudioClientController: AudioClientController {
                                  isPresenter: defaultPresenter,
                                  features: nil,
                                  sessionToken: joinToken,
-                                 audioWsUrl: "",
+                                 audioWsUrl: audioFallbackUrl,
                                  khiEnabled: true,
                                  callKitEnabled: true)
     }

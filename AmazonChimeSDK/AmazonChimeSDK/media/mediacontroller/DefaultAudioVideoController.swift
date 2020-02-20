@@ -34,7 +34,8 @@ public class DefaultAudioVideoController: AudioVideoControllerFacade {
             throw PermissionError.audioPermissionError
         }
 
-        audioClientController.start(audioHostUrl: configuration.urls.audioHostURL,
+        audioClientController.start(audioFallbackUrl: configuration.urls.audioFallbackUrl,
+                                    audioHostUrl: configuration.urls.audioHostUrl,
                                     meetingId: configuration.meetingId,
                                     attendeeId: configuration.credentials.attendeeId,
                                     joinToken: configuration.credentials.joinToken)

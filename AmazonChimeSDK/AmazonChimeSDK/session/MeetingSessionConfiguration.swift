@@ -16,6 +16,7 @@ public class MeetingSessionConfiguration {
         self.meetingId = createMeetingResponse.meeting.meetingId
         self.credentials = MeetingSessionCredentials(attendeeId: createAttendeeResponse.attendee.attendeeId,
                                                      joinToken: createAttendeeResponse.attendee.joinToken)
-        self.urls = MeetingSessionURLs(audioHostURL: createMeetingResponse.meeting.mediaPlacement.audioHostURL)
+        self.urls = MeetingSessionURLs(audioFallbackUrl: createMeetingResponse.meeting.mediaPlacement.audioFallbackUrl,
+                                       audioHostUrl: createMeetingResponse.meeting.mediaPlacement.audioHostUrl)
     }
 }

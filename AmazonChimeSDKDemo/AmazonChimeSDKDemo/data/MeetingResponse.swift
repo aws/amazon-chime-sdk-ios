@@ -8,9 +8,11 @@
 import Foundation
 
 struct MediaPlacementInfo: Codable {
+    var audioFallbackUrl: String
     var audioHostUrl: String
 
     enum CodingKeys: String, CodingKey {
+        case audioFallbackUrl = "AudioFallbackUrl"
         case audioHostUrl = "AudioHostUrl"
     }
 }

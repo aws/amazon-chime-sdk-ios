@@ -8,9 +8,12 @@
 import Foundation
 
 public struct MeetingSessionURLs {
-    public let audioHostURL: String
+    public let audioFallbackUrl: String
+    public let audioHostUrl: String
 
-    public init(audioHostURL: String) {
-        self.audioHostURL = audioHostURL
+    public init(audioFallbackUrl: String,
+                audioHostUrl: String) {
+        self.audioFallbackUrl = audioFallbackUrl
+        self.audioHostUrl = audioHostUrl
     }
 }

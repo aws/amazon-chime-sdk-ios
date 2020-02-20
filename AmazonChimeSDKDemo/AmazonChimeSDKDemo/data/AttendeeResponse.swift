@@ -17,7 +17,7 @@ struct AttendeeIdName: Codable {
     }
 }
 
-struct AttendeeInfoResponse: Codable {
+struct AttendeeResponse: Codable {
     var attendeeInfo: AttendeeIdName
 
     enum CodingKeys: String, CodingKey {
