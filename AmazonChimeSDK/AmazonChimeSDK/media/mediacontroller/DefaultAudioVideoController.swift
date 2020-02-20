@@ -8,15 +8,24 @@
 import Foundation
 
 public class DefaultAudioVideoController: AudioVideoControllerFacade {
-
     public let configuration: MeetingSessionConfiguration
     public let logger: Logger
 
-    private var audioClientController: AudioClientController
+    private let audioClientController: AudioClientController
+    private let audioClientObserver: AudioClientObserver
+    private let clientMetricsCollector: ClientMetricsCollector
     private var videoClientController: VideoClientController
     private var videoTileController: VideoTileController
 
-    public init(configuration: MeetingSessionConfiguration, logger: Logger, videoTileController: VideoTileController) {
+    public init(audioClientController: AudioClientController,
+                audioClientObserver: AudioClientObserver,
+                clientMetricsCollector: ClientMetricsCollector,
+                configuration: MeetingSessionConfiguration,
+                logger: Logger,
+                videoTileController: VideoTileController) {
+        self.audioClientController = audioClientController
+        self.audioClientObserver = audioClientObserver
+        self.clientMetricsCollector = clientMetricsCollector
         self.videoTileController = videoTileController
         let videoClientControllerParams = VideoClientController.InstanceParams(
             logger: logger,
@@ -24,7 +33,6 @@ public class DefaultAudioVideoController: AudioVideoControllerFacade {
             videoTileController: videoTileController) // TODO: Read from config
         VideoClientController.setup(params: videoClientControllerParams)
         self.videoClientController = VideoClientController.shared()
-        self.audioClientController = AudioClientController.shared()
         self.configuration = configuration
         self.logger = logger
     }
@@ -47,11 +55,13 @@ public class DefaultAudioVideoController: AudioVideoControllerFacade {
     }
 
     public func addObserver(observer: AudioVideoObserver) {
-        audioClientController.addObserver(observer: observer)
+        audioClientObserver.subscribeToAudioClientStateChange(observer: observer)
+        clientMetricsCollector.subscribeToClientStateChange(observer: observer)
     }
 
     public func removeObserver(observer: AudioVideoObserver) {
-        audioClientController.removeObserver(observer: observer)
+        audioClientObserver.unsubscribeFromAudioClientStateChange(observer: observer)
+        clientMetricsCollector.unsubscribeFromClientStateChange(observer: observer)
     }
 
     public func startLocalVideo() throws {

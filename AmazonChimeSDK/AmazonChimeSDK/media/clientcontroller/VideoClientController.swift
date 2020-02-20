@@ -212,7 +212,7 @@ class VideoClientController: NSObject {
         return MediaDevice.fromVideoDevice(device: videoDevice).type == .videoFrontCamera
     }
 
-    func getCurrentDevice() -> VideoDevice {
+    func getCurrentDevice() -> VideoDevice? {
         return VideoClient.currentDevice()
     }
 }

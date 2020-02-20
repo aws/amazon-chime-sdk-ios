@@ -8,22 +8,17 @@
 import AVFoundation
 
 public class DefaultDeviceController: DeviceController {
-    let audioClient: AudioClientController
     let videoClientController: VideoClientController
     let logger: Logger
     let audioSession: AVAudioSession
+    var deviceChangeObservers: NSMutableSet
 
-    var deviceChangeObservers: NSMutableSet = NSMutableSet()
-
-    // TODO: pass videoClientController
-    public init(logger: Logger) {
-        // TODO: Assuming that this will be called after setup in AudioVideoFacade
-        // This should get removed once we change to pass paramter
+    public init(audioSession: AVAudioSession,
+                logger: Logger) {
+        deviceChangeObservers = NSMutableSet()
         self.videoClientController = VideoClientController.shared()
-        self.audioClient = AudioClientController.shared()
         self.logger = logger
-        self.audioSession = AVAudioSession.sharedInstance()
-
+        self.audioSession = audioSession
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(handleSystemAudioChange),
                                                name: AVAudioSession.routeChangeNotification,

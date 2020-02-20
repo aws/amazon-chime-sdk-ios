@@ -17,8 +17,8 @@ public struct MediaDevice: CustomStringConvertible {
         return MediaDevice(label: port.portName, port: port)
     }
 
-    static func fromVideoDevice(device: VideoDevice) -> MediaDevice {
-        return MediaDevice(label: device.name, videoDevice: device)
+    static func fromVideoDevice(device: VideoDevice?) -> MediaDevice {
+        return MediaDevice(label: device?.name ?? "unknown", videoDevice: device)
     }
 
     public init(label: String, port: AVAudioSessionPortDescription? = nil, videoDevice: VideoDevice? = nil) {

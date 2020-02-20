@@ -33,8 +33,10 @@ public protocol AudioVideoObserver {
     /// Called when connection is becoming poor.
     func onConnectionBecomePoor()
 
-    /// Called when metric is received
-    func onMetricsReceive()
+    /// Called when metrics are collected and ready
+    ///
+    /// - Parameter metrics: A dictionary of ObservableMetric case to value
+    func onMetricsReceive(metrics: [ObservableMetric: Any])
 
     /// Called when the video session is connecting or reconnecting.
     func onVideoClientConnecting()
