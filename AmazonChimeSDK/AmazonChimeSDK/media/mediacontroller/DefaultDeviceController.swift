@@ -14,9 +14,10 @@ public class DefaultDeviceController: DeviceController {
     var deviceChangeObservers: NSMutableSet
 
     public init(audioSession: AVAudioSession,
+                videoClientController: VideoClientController,
                 logger: Logger) {
         deviceChangeObservers = NSMutableSet()
-        self.videoClientController = VideoClientController.shared()
+        self.videoClientController = videoClientController
         self.logger = logger
         self.audioSession = audioSession
         NotificationCenter.default.addObserver(self,

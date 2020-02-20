@@ -15,24 +15,17 @@ public class DefaultAudioVideoController: AudioVideoControllerFacade {
     private let audioClientObserver: AudioClientObserver
     private let clientMetricsCollector: ClientMetricsCollector
     private var videoClientController: VideoClientController
-    private var videoTileController: VideoTileController
 
     public init(audioClientController: AudioClientController,
                 audioClientObserver: AudioClientObserver,
                 clientMetricsCollector: ClientMetricsCollector,
+                videoClientController: VideoClientController,
                 configuration: MeetingSessionConfiguration,
-                logger: Logger,
-                videoTileController: VideoTileController) {
+                logger: Logger) {
         self.audioClientController = audioClientController
         self.audioClientObserver = audioClientObserver
         self.clientMetricsCollector = clientMetricsCollector
-        self.videoTileController = videoTileController
-        let videoClientControllerParams = VideoClientController.InstanceParams(
-            logger: logger,
-            isUsing16by9AspectRatio: false,
-            videoTileController: videoTileController) // TODO: Read from config
-        VideoClientController.setup(params: videoClientControllerParams)
-        self.videoClientController = VideoClientController.shared()
+        self.videoClientController = videoClientController
         self.configuration = configuration
         self.logger = logger
     }
@@ -56,11 +49,13 @@ public class DefaultAudioVideoController: AudioVideoControllerFacade {
 
     public func addObserver(observer: AudioVideoObserver) {
         audioClientObserver.subscribeToAudioClientStateChange(observer: observer)
+        videoClientController.subscribeToVideoClientStateChange(observer: observer)
         clientMetricsCollector.subscribeToClientStateChange(observer: observer)
     }
 
     public func removeObserver(observer: AudioVideoObserver) {
         audioClientObserver.unsubscribeFromAudioClientStateChange(observer: observer)
+        videoClientController.unsubscribeToVideoClientStateChange(observer: observer)
         clientMetricsCollector.unsubscribeFromClientStateChange(observer: observer)
     }
 
@@ -69,11 +64,6 @@ public class DefaultAudioVideoController: AudioVideoControllerFacade {
     }
 
     public func stopLocalVideo() {
-        // TODO: it only throws error when isEnabled is true, so either refactor VideoClientController or change the signature to throws
-        do {
-            try videoClientController.enableSelfVideo(isEnabled: false)
-        } catch {
-            // NOP
-        }
+        try? videoClientController.enableSelfVideo(isEnabled: false)
     }
 }
