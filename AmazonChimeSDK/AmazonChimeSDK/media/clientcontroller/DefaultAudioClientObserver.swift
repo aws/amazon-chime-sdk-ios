@@ -14,12 +14,14 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     private var currentAudioState: SessionStateControllerAction
     private var currentAudioStatus: MeetingSessionStatusCode
     private var realtimeObservers: NSMutableSet
+    private var currentAttendeeSet: Set<String>
 
     init(audioClient: AudioClient, clientMetricsCollector: ClientMetricsCollector) {
         audioClientStateObservers = NSMutableSet()
         currentAudioState = SessionStateControllerAction.initialize
         currentAudioStatus = MeetingSessionStatusCode.ok
         realtimeObservers = NSMutableSet()
+        currentAttendeeSet = Set()
 
         self.audioClient = audioClient
         self.clientMetricsCollector = clientMetricsCollector
@@ -71,9 +73,16 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         }
 
         let attendeeSignalMap: [String: SignalStrength] = processAnyDictToStringEnumDict(anyDict: signalStrengths!)
-        realtimeObservers.forEach { element in
-            if let realtimeObserver = element as? RealtimeObserver {
-                realtimeObserver.onSignalStrengthChange(attendeeSignalMap: attendeeSignalMap)
+
+        forEachObserver { observer in
+            observer.onSignalStrengthChange(attendeeSignalMap: attendeeSignalMap)
+        }
+    }
+
+    private func forEachObserver(observerFunction: (_ observer: RealtimeObserver) -> Void) {
+        for observer in realtimeObservers {
+            if let observer = observer as? RealtimeObserver {
+                observerFunction(observer)
             }
         }
     }
@@ -84,10 +93,26 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         }
 
         let attendeeVolumeMap: [String: VolumeLevel] = processAnyDictToStringEnumDict(anyDict: volumes!)
-        realtimeObservers.forEach { element in
-            if let realtimeObserver = element as? RealtimeObserver {
-                realtimeObserver.onVolumeChange(attendeeVolumeMap: attendeeVolumeMap)
+        let newAttendees = Set(attendeeVolumeMap.keys)
+
+        let attendeesAdded = newAttendees.subtracting(currentAttendeeSet)
+        let attendeesRemoved = currentAttendeeSet.subtracting(newAttendees)
+
+        if !attendeesAdded.isEmpty {
+            forEachObserver { observer in
+                observer.onAttendeesJoin(attendeeIds: [String](attendeesAdded))
             }
+        }
+        if !attendeesRemoved.isEmpty {
+            forEachObserver { observer in
+                observer.onAttendeesLeave(attendeeIds: [String](attendeesRemoved))
+            }
+        }
+
+        currentAttendeeSet = newAttendees
+
+        forEachObserver { observer in
+            observer.onVolumeChange(attendeeVolumeMap: attendeeVolumeMap)
         }
     }
 
