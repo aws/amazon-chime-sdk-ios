@@ -13,14 +13,13 @@ public class DefaultMeetingSession: MeetingSession {
     public let logger: Logger
     public let audioVideo: AudioVideoFacade
 
-    private let audioClient: AudioClient
-    private let audioSession: AVAudioSession
+    private let audioClient: AudioClient = AudioClient.sharedInstance()
+    private let audioSession = AVAudioSession.sharedInstance()
 
     public init(configuration: MeetingSessionConfiguration, logger: Logger) {
         self.configuration = configuration
         self.logger = logger
-        self.audioClient = AudioClient.sharedInstance()
-        self.audioSession = AVAudioSession.sharedInstance()
+
         let clientMetricsCollector = DefaultClientMetricsCollector()
         let audioClientObserver = DefaultAudioClientObserver(audioClient: audioClient,
                                                              clientMetricsCollector: clientMetricsCollector)

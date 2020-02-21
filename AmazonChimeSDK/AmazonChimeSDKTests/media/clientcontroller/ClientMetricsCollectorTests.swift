@@ -20,8 +20,8 @@ class ClientMetricsCollectorTests: XCTestCase, AudioVideoObserver {
 
     func testOnMetricsReceiveShouldNotBeCalledBeforeInterval() {
         // Interval timer should start now
-        let clientMetricsCollector = ClientMetricsCollector()
-        clientMetricsCollector.addObserver(observer: self)
+        let clientMetricsCollector = DefaultClientMetricsCollector()
+        clientMetricsCollector.subscribeToClientStateChange(observer: self)
 
         let audioClientMetrics = [
             serverPostJbMic1sPacketsLostPercent: 1,
@@ -34,8 +34,8 @@ class ClientMetricsCollectorTests: XCTestCase, AudioVideoObserver {
     }
 
     func testOnMetricsReceiveShouldBeCalledAfterInterval() {
-        let clientMetricsCollector = ClientMetricsCollector()
-        clientMetricsCollector.addObserver(observer: self)
+        let clientMetricsCollector = DefaultClientMetricsCollector()
+        clientMetricsCollector.subscribeToClientStateChange(observer: self)
 
         let audioClientMetrics = [
             serverPostJbMic1sPacketsLostPercent: 1,
@@ -52,8 +52,8 @@ class ClientMetricsCollectorTests: XCTestCase, AudioVideoObserver {
     }
 
     func testNonObservableMetricShouldNotBeEmitted() {
-        let clientMetricsCollector = ClientMetricsCollector()
-        clientMetricsCollector.addObserver(observer: self)
+        let clientMetricsCollector = DefaultClientMetricsCollector()
+        clientMetricsCollector.subscribeToClientStateChange(observer: self)
 
         let audioClientMetrics = [
             clientMicDeviceFramesLostPercent: 1
@@ -67,8 +67,8 @@ class ClientMetricsCollectorTests: XCTestCase, AudioVideoObserver {
     }
 
     func testInvalidMetricShouldNotBeEmitted() {
-        let clientMetricsCollector = ClientMetricsCollector()
-        clientMetricsCollector.addObserver(observer: self)
+        let clientMetricsCollector = DefaultClientMetricsCollector()
+        clientMetricsCollector.subscribeToClientStateChange(observer: self)
 
         let audioClientMetrics = [
             999: 1

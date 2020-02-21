@@ -26,7 +26,6 @@ public class DefaultAudioVideoFacade: AudioVideoFacade {
         self.realtimeController = realtimeController
         self.deviceController = deviceController
         self.videoTileController = videoTileController
-
         self.configuration = audioVideoController.configuration
         self.logger = audioVideoController.logger
     }

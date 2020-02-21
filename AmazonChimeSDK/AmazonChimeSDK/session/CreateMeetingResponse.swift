@@ -26,13 +26,15 @@ public struct Meeting {
 }
 
 public struct MediaPlacement {
-    let audioHostURL: String
-    let turnControlURL: String
-    let signalingURL: String
+    let audioFallbackUrl: String
+    let audioHostUrl: String
+    let turnControlUrl: String
+    let signalingUrl: String
 
-    public init(audioHostURL: String, turnControlURL: String, signalingURL: String) {
-        self.audioHostURL = audioHostURL
-        self.turnControlURL = turnControlURL
-        self.signalingURL = signalingURL
+    public init(audioFallbackUrl: String, audioHostUrl: String, turnControlUrl: String, signalingUrl: String) {
+        self.audioFallbackUrl = audioFallbackUrl
+        self.audioHostUrl = audioHostUrl
+        self.turnControlUrl = turnControlUrl
+        self.signalingUrl = signalingUrl
     }
 }

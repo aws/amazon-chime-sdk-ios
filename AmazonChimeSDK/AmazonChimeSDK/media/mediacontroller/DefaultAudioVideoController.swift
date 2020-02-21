@@ -5,6 +5,7 @@
 //  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
+import AVFoundation
 import Foundation
 
 public class DefaultAudioVideoController: AudioVideoControllerFacade {
@@ -31,12 +32,18 @@ public class DefaultAudioVideoController: AudioVideoControllerFacade {
     }
 
     public func start() throws {
-        try audioClientController.start(audioHostUrl: configuration.urls.audioHostURL,
-                                        meetingId: configuration.meetingId,
-                                        attendeeId: configuration.credentials.attendeeId,
-                                        joinToken: configuration.credentials.joinToken)
-        try videoClientController.start(turnControlUrl: configuration.urls.turnControlURL,
-                                        signalingUrl: configuration.urls.signalingURL,
+        let audioPermissionStatus = AVAudioSession.sharedInstance().recordPermission
+        if audioPermissionStatus == .denied || audioPermissionStatus == .undetermined {
+            throw PermissionError.audioPermissionError
+        }
+
+        try audioClientController.start(audioFallbackUrl: configuration.urls.audioFallbackUrl,
+                                    audioHostUrl: configuration.urls.audioHostUrl,
+                                    meetingId: configuration.meetingId,
+                                    attendeeId: configuration.credentials.attendeeId,
+                                    joinToken: configuration.credentials.joinToken)
+        try videoClientController.start(turnControlUrl: configuration.urls.turnControlUrl,
+                                        signalingUrl: configuration.urls.signalingUrl,
                                         meetingId: configuration.meetingId,
                                         joinToken: configuration.credentials.joinToken,
                                         sending: false)

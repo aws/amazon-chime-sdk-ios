@@ -17,4 +17,14 @@ public protocol RealtimeObserver {
     ///
     /// - Parameter attendeeSignalMap: A dictionary of attendee Ids to signal strength
     func onSignalStrengthChange(attendeeSignalMap: [String: SignalStrength])
+
+    /// List attendees that are newly added to the meeting
+    ///
+    /// - Parameter attendeeIds: ids of attendees added
+    func onAttendeesJoin(attendeeIds: [String])
+
+    /// List attendees that left the meeting
+    ///
+    /// - Parameter attendeeIds: ids of attendees removed
+    func onAttendeesLeave(attendeeIds: [String])
 }

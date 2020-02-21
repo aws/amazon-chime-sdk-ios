@@ -8,17 +8,10 @@
 import Foundation
 
 class DefaultClientMetricsCollector {
-    private var cachedObservableMetrics: [ObservableMetric: Any]
-    private var clientStateObservers: NSMutableSet
-    private var lastEmittedMetricsTime: DispatchTime
-    private let metricsEmissionInterval: DispatchTimeInterval
-
-    init() {
-        clientStateObservers = NSMutableSet()
-        cachedObservableMetrics = [:]
-        lastEmittedMetricsTime = DispatchTime.now()
-        metricsEmissionInterval = DispatchTimeInterval.seconds(1)
-    }
+    private var cachedObservableMetrics: [ObservableMetric: Any] = [:]
+    private var clientStateObservers = NSMutableSet()
+    private var lastEmittedMetricsTime = DispatchTime.now()
+    private let metricsEmissionInterval = DispatchTimeInterval.seconds(1)
 
     private func maybeEmitMetrics() {
         let now = DispatchTime.now()

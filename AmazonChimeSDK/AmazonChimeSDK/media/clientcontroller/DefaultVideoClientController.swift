@@ -13,14 +13,13 @@ class DefaultVideoClientController: NSObject {
     var isUsing16by9AspectRatio: Bool
     var videoClient: VideoClient?
     var videoClientState: VideoClientState = .uninitialized
+    var videoTileControllerObservers: NSMutableSet = NSMutableSet()
+    var videoObservers: NSMutableSet = NSMutableSet()
     var isSelfVideoSending: Bool = false
     var turnControlUrl: String?
     var signalingUrl: String?
     var meetingId: String?
     var joinToken: String?
-
-    var videoTileControllerObservers: NSMutableSet = NSMutableSet()
-    var videoObservers: NSMutableSet = NSMutableSet()
 
     private let turnRequestHttpMethod = "POST"
     private let contentTypeHeader = "Content-Type"
@@ -108,7 +107,6 @@ class DefaultVideoClientController: NSObject {
 
     private func destroyVideoClient() {
         logger.info(msg: "VideoClient is being destroyed")
-        videoClient?.setCurrentDevice(nil)
         videoClient = nil
         videoClientState = .uninitialized
     }

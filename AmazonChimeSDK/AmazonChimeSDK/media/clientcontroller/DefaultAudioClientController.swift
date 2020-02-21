@@ -12,17 +12,14 @@ class DefaultAudioClientController: NSObject {
     private let audioClient: AudioClient
     private let audioClientObserver: AudioClientObserver
     private let audioSession: AVAudioSession
-    private let audioPortOffset: Int
-    private let defaultMicAndSpeaker: Bool
-    private let defaultPresenter: Bool
+    private let audioPortOffset = 200
+    private let defaultMicAndSpeaker = false
+    private let defaultPort = 0
+    private let defaultPresenter = true
 
     init(audioClient: AudioClient,
          audioClientObserver: AudioClientObserver,
          audioSession: AVAudioSession) {
-        audioPortOffset = 200
-        defaultMicAndSpeaker = false
-        defaultPresenter = true
-
         self.audioClient = audioClient
         self.audioClientObserver = audioClientObserver
         self.audioSession = audioSession
@@ -36,7 +33,8 @@ extension DefaultAudioClientController: AudioClientController {
         return audioClient.setMicrophoneMuted(mute) == Int(AUDIO_CLIENT_OK.rawValue)
     }
 
-    public func start(audioHostUrl: String,
+    public func start(audioFallbackUrl: String,
+                      audioHostUrl: String,
                       meetingId: String,
                       attendeeId: String,
                       joinToken: String) throws {
@@ -46,11 +44,7 @@ extension DefaultAudioClientController: AudioClientController {
 
         let url = audioHostUrl.components(separatedBy: ":")
         let host = url[0]
-        var port = 0
-
-        if url.count >= 2 {
-            port = (url[1] as NSString).integerValue - audioPortOffset
-        }
+        let port = url.count >= 2 ? (url[1] as NSString).integerValue - audioPortOffset : defaultPort
 
         audioClientObserver.notifyAudioClientObserver { (observer: AudioVideoObserver) in
             observer.onAudioClientConnecting(reconnecting: false)
@@ -70,7 +64,7 @@ extension DefaultAudioClientController: AudioClientController {
                                  isPresenter: defaultPresenter,
                                  features: nil,
                                  sessionToken: joinToken,
-                                 audioWsUrl: "",
+                                 audioWsUrl: audioFallbackUrl,
                                  khiEnabled: true,
                                  callKitEnabled: true)
     }

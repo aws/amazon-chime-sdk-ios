@@ -13,13 +13,12 @@ public class DefaultVideoTile: VideoTile {
     public let tileId: Int
     public let attendeeId: String?
     public var videoRenderView: VideoRenderView?
-    public var paused: Bool
+    public var paused = false
 
     init(logger: Logger, tileId: Int, attendeeId: String?) {
         self.tileId = tileId
         self.attendeeId = attendeeId
         self.logger = logger
-        self.paused = false
     }
 
     public func bind(videoRenderView: VideoRenderView?) {

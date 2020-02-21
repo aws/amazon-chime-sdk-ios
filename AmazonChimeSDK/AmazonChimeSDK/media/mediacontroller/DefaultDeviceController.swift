@@ -11,12 +11,11 @@ public class DefaultDeviceController: DeviceController {
     let videoClientController: VideoClientController
     let logger: Logger
     let audioSession: AVAudioSession
-    var deviceChangeObservers: NSMutableSet
+    var deviceChangeObservers = NSMutableSet()
 
     public init(audioSession: AVAudioSession,
                 videoClientController: VideoClientController,
                 logger: Logger) {
-        deviceChangeObservers = NSMutableSet()
         self.videoClientController = videoClientController
         self.logger = logger
         self.audioSession = audioSession

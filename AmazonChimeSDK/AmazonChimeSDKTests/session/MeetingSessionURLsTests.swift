@@ -9,10 +9,10 @@
 import XCTest
 
 class MeetingSessionURLsTests: XCTestCase {
-
     func testMeetingSessionURLsShouldBeInitialized() {
-        let url = MeetingSessionURLs(audioHostURL: "audioHostURL")
-        XCTAssertEqual("audioHostURL", url.audioHostURL)
+        let url = MeetingSessionURLs(audioFallbackUrl: "audioFallbackUrl",
+                                     audioHostUrl: "audioHostUrl")
+        XCTAssertEqual("audioFallbackUrl", url.audioFallbackUrl)
+        XCTAssertEqual("audioHostUrl", url.audioHostUrl)
     }
-
 }
