@@ -19,4 +19,5 @@ public protocol VideoClientController {
     func unsubscribeToVideoClientStateChange(observer: AudioVideoObserver)
     func subscribeToVideoTileControllerObservers(observer: VideoTileController)
     func unsubscribeToVideoTileControllerObservers(observer: VideoTileController)
+    func pauseResumeRemoteVideo(_ videoId: UInt32, pause: Bool)
 }

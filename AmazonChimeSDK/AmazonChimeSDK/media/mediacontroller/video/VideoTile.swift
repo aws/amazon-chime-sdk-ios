@@ -17,6 +17,9 @@ public protocol VideoTile {
     /// View which will be used to render the Video Frame
     var videoRenderView: VideoRenderView? { get set }
 
+    /// If this tile is paused
+    var paused: Bool { get }
+
     /// Binds the view to the tile. The view needs to be create by the application.
     /// Once the binding is done, the view will start displaying the video frame automatically
     ///
@@ -31,4 +34,12 @@ public protocol VideoTile {
 
     /// Unbinds the `videoRenderView` from tile.
     func unbind()
+
+    /// Pauses the tile. When paused, the tile moves to an inactive state and will not receive
+    /// frame update callback
+    func pause()
+
+    /// Unpauses the tile if it was paused. When unpaused,
+    /// the tile moves to the active state.
+    func unpause()
 }

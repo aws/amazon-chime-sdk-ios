@@ -27,9 +27,13 @@ public class DefaultMeetingSession: MeetingSession {
         let audioClientController = DefaultAudioClientController(audioClient: audioClient,
                                                                  audioClientObserver: audioClientObserver,
                                                                  audioSession: audioSession)
-        let videoTileController = DefaultVideoTileController(logger: logger)
+
         let videoClientController = DefaultVideoClientController(logger: logger, isUsing16by9AspectRatio: false)
+        let videoTileController =
+            DefaultVideoTileController(logger: logger,
+                                       videoClientController: videoClientController)
         videoClientController.subscribeToVideoTileControllerObservers(observer: videoTileController)
+
         self.audioVideo = DefaultAudioVideoFacade(
             audioVideoController: DefaultAudioVideoController(audioClientController: audioClientController,
                                                               audioClientObserver: audioClientObserver,

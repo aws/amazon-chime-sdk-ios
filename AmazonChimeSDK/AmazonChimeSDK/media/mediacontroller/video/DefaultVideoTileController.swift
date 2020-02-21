@@ -12,9 +12,11 @@ public class DefaultVideoTileController: VideoTileController {
     private let logger: Logger
     private var videoTileMap = [Int: VideoTile]()
     private let videoTileObservers = NSMutableSet()
+    private let videoClientController: VideoClientController
 
-    public init(logger: Logger) {
+    init(logger: Logger, videoClientController: VideoClientController) {
         self.logger = logger
+        self.videoClientController = videoClientController
     }
 
     public func onReceiveFrame(frame: CGImage?, profileId: String?, displayId: Int, pauseType: Int, videoId: Int) {
@@ -45,7 +47,9 @@ public class DefaultVideoTileController: VideoTileController {
     }
 
     private func onAddTrack(videoId: Int, profileId: String?) {
-        let tile = DefaultVideoTile(logger: logger, tileId: videoId, attendeeId: profileId)
+        let tile = DefaultVideoTile(logger: logger,
+                                    tileId: videoId,
+                                    attendeeId: profileId)
         videoTileMap[videoId] = tile
         forEachObserver { videoTileObserver in
             videoTileObserver.onAddVideoTrack(tile: tile)
@@ -64,6 +68,22 @@ public class DefaultVideoTileController: VideoTileController {
 
     public func removeVideoTileObserver(observer: VideoTileObserver) {
         videoTileObservers.remove(observer)
+    }
+
+    public func pauseVideoTile(tileId: Int) {
+        if let videoTile = videoTileMap[tileId] {
+            logger.info(msg: "pauseVideoTile id=\(tileId)")
+            self.videoClientController.pauseResumeRemoteVideo(UInt32(tileId), pause: true)
+            videoTile.pause()
+        }
+    }
+
+    public func unpauseVideoTile(tileId: Int) {
+        if let videoTile = videoTileMap[tileId] {
+            logger.info(msg: "unpauseVideoTile id=\(tileId)")
+            self.videoClientController.pauseResumeRemoteVideo(UInt32(tileId), pause: false)
+            videoTile.unpause()
+        }
     }
 
     private func forEachObserver(observerFunction: (_ observer: VideoTileObserver) -> Void) {

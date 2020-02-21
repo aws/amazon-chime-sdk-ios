@@ -31,4 +31,14 @@ public protocol VideoTileControllerFacade {
     ///
     /// - Parameter observer: The observer to unsubscribe from events with
     func removeVideoTileObserver(observer: VideoTileObserver)
+
+    /// Pauses the video tile, if it exists.
+    ///
+    /// - Parameter tileId: The tile id to pause
+    func pauseVideoTile(tileId: Int)
+
+    /// Unpause the video tile, if it exists.
+    ///
+    /// - Parameter tileId: The tile id to unpause
+    func unpauseVideoTile(tileId: Int)
 }

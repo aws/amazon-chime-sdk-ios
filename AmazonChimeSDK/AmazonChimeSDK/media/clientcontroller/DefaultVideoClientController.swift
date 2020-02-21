@@ -249,10 +249,6 @@ extension DefaultVideoClientController: VideoClientDelegate {
 
         makeTurnRequest(request: request)
     }
-
-    public func pauseResumeRemoteVideo(_ displayId: Int32, pause: Bool) {
-        logger.info(msg: "pauseResumeRemoteVideo")
-    }
 }
 
 extension DefaultVideoClientController: VideoClientController {
@@ -347,5 +343,10 @@ extension DefaultVideoClientController: VideoClientController {
 
     public func unsubscribeToVideoTileControllerObservers(observer: VideoTileController) {
         videoTileControllerObservers.remove(observer)
+    }
+
+    public func pauseResumeRemoteVideo(_ videoId: UInt32, pause: Bool) {
+        logger.info(msg: "pauseResumeRemoteVideo")
+        self.videoClient?.setRemotePause(videoId, pause: pause)
     }
 }
