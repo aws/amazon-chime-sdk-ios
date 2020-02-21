@@ -8,6 +8,6 @@
 #ifndef AmazonChimeSDK_Bridging_Header_h
 #define AmazonChimeSDK_Bridging_Header_h
 
-#import <AudioClient.h>
+#import "AudioClient_sdk.h"
 
 #endif /* AmazonChimeSDK_Bridging_Header_h */
