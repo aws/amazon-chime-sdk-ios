@@ -12,6 +12,7 @@ class DefaultVideoClientController: NSObject {
     var logger: Logger
     var isUsing16by9AspectRatio: Bool
     var videoClient: VideoClient?
+    var clientMetricsCollector: ClientMetricsCollector
     var videoClientState: VideoClientState = .uninitialized
     var videoTileControllerObservers: NSMutableSet = NSMutableSet()
     var videoObservers: NSMutableSet = NSMutableSet()
@@ -28,8 +29,9 @@ class DefaultVideoClientController: NSObject {
     private let tokenKey = "_aws_wt_session"
     private let meetingIdKey = "meetingId"
 
-    init(logger: Logger, isUsing16by9AspectRatio: Bool) {
+    init(logger: Logger, clientMetricsCollector: ClientMetricsCollector, isUsing16by9AspectRatio: Bool) {
         self.logger = logger
+        self.clientMetricsCollector = clientMetricsCollector
         self.isUsing16by9AspectRatio = isUsing16by9AspectRatio
 
         super.init()
@@ -246,6 +248,10 @@ extension DefaultVideoClientController: VideoClientDelegate {
         }
 
         makeTurnRequest(request: request)
+    }
+
+    public func videoClientMetricsReceived(_ metrics: [AnyHashable: Any]!) {
+        clientMetricsCollector.processVideoClientMetrics(metrics: metrics)
     }
 }
 

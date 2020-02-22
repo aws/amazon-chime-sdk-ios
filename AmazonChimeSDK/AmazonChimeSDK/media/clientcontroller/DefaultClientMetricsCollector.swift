@@ -29,28 +29,36 @@ class DefaultClientMetricsCollector {
 
 extension DefaultClientMetricsCollector: ClientMetricsCollector {
     public func processAudioClientMetrics(metrics: [AnyHashable: Any]) {
-        for (nativeMetricName, value) in metrics {
-            if let nativeMetricValue = nativeMetricName as? Int,
-                let metric = AudioClientMetric(rawValue: nativeMetricValue) {
-                switch metric {
-                case AudioClientMetric.serverPostJbMic1sPacketsLostPercent:
-                    cachedObservableMetrics[ObservableMetric.audioPacketsSentFractionLoss] = value
-                case AudioClientMetric.clientPostJbSpk1sPacketsLostPercent:
-                    cachedObservableMetrics[ObservableMetric.audioPacketsReceivedFractionLoss] = value
-                default:
-                    break
-                }
-            }
-        }
-
+        cachedObservableMetrics[ObservableMetric.audioPacketsSentFractionLoss]
+            = metrics[AudioClientMetric.clientPostJbSpk1sPacketsLostPercent.rawValue]
+        cachedObservableMetrics[ObservableMetric.audioPacketsReceivedFractionLoss]
+            = metrics[AudioClientMetric.clientPostJbSpk1sPacketsLostPercent.rawValue]
         maybeEmitMetrics()
     }
 
-    public func subscribeToClientStateChange(observer: AudioVideoObserver) {
+    func processVideoClientMetrics(metrics: [AnyHashable: Any]) {
+        cachedObservableMetrics[ObservableMetric.videoAvailableSendBandwidth]
+            = metrics[VideoClientMetric.videoAvailableSendBandwidth.rawValue]
+        cachedObservableMetrics[ObservableMetric.videoAvailableReceiveBandwidth]
+            = metrics[VideoClientMetric.videoAvailableReceiveBandwidth.rawValue]
+        cachedObservableMetrics[ObservableMetric.videoSendBitrate]
+            = metrics[VideoClientMetric.videoSendBitrate.rawValue]
+        cachedObservableMetrics[ObservableMetric.videoSendPacketLostPercent]
+            = metrics[VideoClientMetric.videoSendPacketLostPercent.rawValue]
+        cachedObservableMetrics[ObservableMetric.videoSendFps]
+            = metrics[VideoClientMetric.videoSendFps.rawValue]
+        cachedObservableMetrics[ObservableMetric.videoReceiveBitrate]
+            = metrics[VideoClientMetric.videoReceiveBitrate.rawValue]
+        cachedObservableMetrics[ObservableMetric.videoReceivePacketLostPercent]
+            = metrics[VideoClientMetric.videoReceivePacketLostPercent.rawValue]
+        maybeEmitMetrics()
+    }
+
+    public func subscribeToMetrics(observer: AudioVideoObserver) {
         clientStateObservers.add(observer)
     }
 
-    public func unsubscribeFromClientStateChange(observer: AudioVideoObserver) {
+    public func unsubscribeFromMetrics(observer: AudioVideoObserver) {
         clientStateObservers.remove(observer)
     }
 }
