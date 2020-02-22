@@ -11,6 +11,7 @@ import UIKit
 public class DefaultVideoTileController: VideoTileController {
     private let logger: Logger
     private var videoTileMap = [Int: VideoTile]()
+    private var videoViewToTileMap = [NSValue: Int]()
     private let videoTileObservers = NSMutableSet()
     private let videoClientController: VideoClientController
 
@@ -36,14 +37,28 @@ public class DefaultVideoTileController: VideoTileController {
 
     public func bindVideoView(videoView: VideoRenderView, tileId: Int) {
         logger.info(msg: "Binding VideoView to Tile with tileId = \(tileId)")
+        let videoRenderKey = NSValue(nonretainedObject: videoView)
+
+        // Previously there was another video tile that registered with different tileId
+        if let matchedTileId = videoViewToTileMap[videoRenderKey] {
+            unbindVideoView(tileId: matchedTileId, removeTile: false)
+        }
+
         let videoTile = videoTileMap[tileId]
         videoTile?.bind(videoRenderView: videoView)
+        videoViewToTileMap[videoRenderKey] = tileId
+    }
+
+    private func unbindVideoView(tileId: Int, removeTile: Bool) {
+        let videoTile = removeTile ? videoTileMap.removeValue(forKey: tileId) : videoTileMap[tileId]
+        let videoRenderKey = NSValue(nonretainedObject: videoTile?.videoRenderView)
+        videoViewToTileMap.removeValue(forKey: videoRenderKey)
+        videoTile?.unbind()
     }
 
     public func unbindVideoView(tileId: Int) {
         logger.info(msg: "Unbinding VideoView to Tile with tileId = \(tileId)")
-        let videoTile = videoTileMap.removeValue(forKey: tileId)
-        videoTile?.unbind()
+        unbindVideoView(tileId: tileId, removeTile: true)
     }
 
     private func onAddTrack(videoId: Int, profileId: String?) {

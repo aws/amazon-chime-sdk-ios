@@ -21,6 +21,7 @@ public class DefaultVideoTile: VideoTile {
         self.logger = logger
     }
 
+    // TODO: figure out what todo with this bind if builder decide to call this directly
     public func bind(videoRenderView: VideoRenderView?) {
         logger.info(msg: "Binding the view to tile: tileId: \(tileId), attendeeId: \(attendeeId ?? "self")")
         self.videoRenderView = videoRenderView
