@@ -33,7 +33,7 @@ public protocol VideoTile {
     /// frame update callback
     func pause()
 
-    /// Unpauses the tile if it was paused. When unpaused,
+    /// Resume the tile if it was paused. When resumed,
     /// the tile moves to the active state.
-    func unpause()
+    func resume()
 }

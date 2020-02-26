@@ -38,7 +38,7 @@ public class DefaultVideoTile: VideoTile {
         state.paused = true
     }
 
-    public func unpause() {
+    public func resume() {
         state.paused = false
     }
 }

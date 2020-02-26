@@ -83,19 +83,29 @@ public class DefaultVideoTileController: VideoTileController {
         videoTileObservers.remove(observer)
     }
 
-    public func pauseVideoTile(tileId: Int) {
+    public func pauseRemoteVideoTile(tileId: Int) {
         if let videoTile = videoTileMap[tileId] {
-            logger.info(msg: "pauseVideoTile id=\(tileId)")
+            if videoTile.state.isLocalTile {
+                logger.fault(msg: "You cannot pauseRemoteVideoTile on local VideoTile")
+                return
+            }
+
+            logger.info(msg: "pauseRemoteVideoTile id=\(tileId)")
             videoClientController.pauseResumeRemoteVideo(UInt32(tileId), pause: true)
             videoTile.pause()
         }
     }
 
-    public func unpauseVideoTile(tileId: Int) {
+    public func resumeRemoteVideoTile(tileId: Int) {
         if let videoTile = videoTileMap[tileId] {
-            logger.info(msg: "unpauseVideoTile id=\(tileId)")
+            if videoTile.state.isLocalTile {
+                logger.fault(msg: "You cannot resumeRemoteVideoTile on local VideoTile")
+                return
+            }
+
+            logger.info(msg: "resumeRemoteVideoTile id=\(tileId)")
             videoClientController.pauseResumeRemoteVideo(UInt32(tileId), pause: false)
-            videoTile.unpause()
+            videoTile.resume()
         }
     }
 

@@ -123,11 +123,11 @@ public class DefaultAudioVideoFacade: AudioVideoFacade {
         self.videoTileController.removeVideoTileObserver(observer: observer)
     }
 
-    public func pauseVideoTile(tileId: Int) {
-        self.videoTileController.pauseVideoTile(tileId: tileId)
+    public func pauseRemoteVideoTile(tileId: Int) {
+        self.videoTileController.pauseRemoteVideoTile(tileId: tileId)
     }
 
-    public func unpauseVideoTile(tileId: Int) {
-        self.videoTileController.unpauseVideoTile(tileId: tileId)
+    public func resumeRemoteVideoTile(tileId: Int) {
+        self.videoTileController.resumeRemoteVideoTile(tileId: tileId)
     }
 }
