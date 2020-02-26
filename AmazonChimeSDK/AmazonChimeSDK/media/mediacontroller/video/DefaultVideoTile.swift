@@ -8,22 +8,20 @@
 import Foundation
 
 public class DefaultVideoTile: VideoTile {
+    public var state: VideoTileState
+
     private let logger: Logger
 
-    public let tileId: Int
-    public let attendeeId: String?
     public var videoRenderView: VideoRenderView?
-    public var paused = false
 
     init(logger: Logger, tileId: Int, attendeeId: String?) {
-        self.tileId = tileId
-        self.attendeeId = attendeeId
         self.logger = logger
+        self.state = VideoTileState(tileId: tileId, attendeeId: attendeeId, paused: false)
     }
 
     // TODO: figure out what todo with this bind if builder decide to call this directly
     public func bind(videoRenderView: VideoRenderView?) {
-        logger.info(msg: "Binding the view to tile: tileId: \(tileId), attendeeId: \(attendeeId ?? "self")")
+        logger.info(msg: "Binding the view to tile: tileId: \(state.tileId), attendeeId: \(state.attendeeId ?? "self")")
         self.videoRenderView = videoRenderView
     }
 
@@ -32,15 +30,15 @@ public class DefaultVideoTile: VideoTile {
     }
 
     public func unbind() {
-        logger.info(msg: "Unbinding the view from tile: tileId:  \(tileId), attendeeId: \(attendeeId ?? "self")")
+        logger.info(msg: "Unbinding the view from tile: tileId:  \(state.tileId), attendeeId: \(state.attendeeId ?? "self")")
         videoRenderView = nil
     }
 
     public func pause() {
-        self.paused = true
+        state.paused = true
     }
 
     public func unpause() {
-        self.paused = false
+        state.paused = false
     }
 }

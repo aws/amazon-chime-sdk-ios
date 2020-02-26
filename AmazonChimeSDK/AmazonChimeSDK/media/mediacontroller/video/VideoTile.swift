@@ -8,17 +8,11 @@
 import Foundation
 
 public protocol VideoTile {
-    /// Unique Id associated with this tile
-    var tileId: Int { get }
-
-    /// Id of the user associated with this tile
-    var attendeeId: String? { get }
+    /// State of VideoTile
+    var state: VideoTileState { get }
 
     /// View which will be used to render the Video Frame
     var videoRenderView: VideoRenderView? { get set }
-
-    /// If this tile is paused
-    var paused: Bool { get }
 
     /// Binds the view to the tile. The view needs to be create by the application.
     /// Once the binding is done, the view will start displaying the video frame automatically

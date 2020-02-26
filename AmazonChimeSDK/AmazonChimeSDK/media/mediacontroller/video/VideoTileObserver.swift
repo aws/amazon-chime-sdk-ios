@@ -10,11 +10,11 @@ import Foundation
 public protocol VideoTileObserver {
     /// Called whenever a new attendee starts sharing the video
     /// - Parameters:
-    ///   - tile: video tile associated with this attendee
-    func onAddVideoTrack(tile: VideoTile)
+    ///   - tileState: video tile state associated with this attendee
+    func onAddVideoTrack(tileState: VideoTileState)
 
     /// Called whenever any attendee stops sharing the video
     /// - Parameters:
-    ///   - tile: video tile associated with this attendee
-    func onRemoveVideoTrack(tile: VideoTile)
+    ///   - tileState: video tile state associated with this attendee
+    func onRemoveVideoTrack(tileState: VideoTileState)
 }

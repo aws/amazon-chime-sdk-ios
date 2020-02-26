@@ -26,9 +26,7 @@ public class DefaultVideoTileController: VideoTileController {
                 videoTile.renderFrame(frame: UIImage(cgImage: frame!))
             } else {
                 videoTile.renderFrame(frame: nil)
-                DispatchQueue.global(qos: .background).async {
-                    self.onRemoveTrack(tile: videoTile)
-                }
+                onRemoveTrack(tileState: videoTile.state)
             }
         } else if frame != nil {
             onAddTrack(videoId: videoId, profileId: profileId)
@@ -67,13 +65,13 @@ public class DefaultVideoTileController: VideoTileController {
                                     attendeeId: profileId)
         videoTileMap[videoId] = tile
         forEachObserver { videoTileObserver in
-            videoTileObserver.onAddVideoTrack(tile: tile)
+            videoTileObserver.onAddVideoTrack(tileState: tile.state)
         }
     }
 
-    private func onRemoveTrack(tile: VideoTile) {
+    private func onRemoveTrack(tileState: VideoTileState) {
         forEachObserver { videoTileObserver in
-            videoTileObserver.onRemoveVideoTrack(tile: tile)
+            videoTileObserver.onRemoveVideoTrack(tileState: tileState)
         }
     }
 
@@ -88,7 +86,7 @@ public class DefaultVideoTileController: VideoTileController {
     public func pauseVideoTile(tileId: Int) {
         if let videoTile = videoTileMap[tileId] {
             logger.info(msg: "pauseVideoTile id=\(tileId)")
-            self.videoClientController.pauseResumeRemoteVideo(UInt32(tileId), pause: true)
+            videoClientController.pauseResumeRemoteVideo(UInt32(tileId), pause: true)
             videoTile.pause()
         }
     }
@@ -96,7 +94,7 @@ public class DefaultVideoTileController: VideoTileController {
     public func unpauseVideoTile(tileId: Int) {
         if let videoTile = videoTileMap[tileId] {
             logger.info(msg: "unpauseVideoTile id=\(tileId)")
-            self.videoClientController.pauseResumeRemoteVideo(UInt32(tileId), pause: false)
+            videoClientController.pauseResumeRemoteVideo(UInt32(tileId), pause: false)
             videoTile.unpause()
         }
     }
