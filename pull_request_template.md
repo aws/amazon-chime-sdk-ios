@@ -13,6 +13,11 @@
 * [ ] Unmute self
 * [ ] See local mute indicator when muted
 * [ ] See remote mute indicator when other is muted
+* [ ] Enable and disable local video
+* [ ] Receive remote video
+* [ ] Send local video
+* [ ] Pause and resume remote video
+* [ ] Switch local camera
 
 ### Screenshots, if available:
 

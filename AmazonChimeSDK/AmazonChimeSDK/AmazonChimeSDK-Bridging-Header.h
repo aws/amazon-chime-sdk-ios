@@ -9,6 +9,6 @@
 #define AmazonChimeSDK_Bridging_Header_h
 
 #import "AudioClient_sdk.h"
-#import <VideoClient.h>
+#import "VideoClient.h"
 
 #endif /* AmazonChimeSDK_Bridging_Header_h */
