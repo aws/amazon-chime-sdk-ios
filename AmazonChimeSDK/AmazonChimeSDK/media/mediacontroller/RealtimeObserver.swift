@@ -27,4 +27,14 @@ public protocol RealtimeObserver {
     ///
     /// - Parameter attendeeIds: ids of attendees removed
     func onAttendeesLeave(attendeeIds: [String])
+
+    /// List attendees that are newly muted in the meeting
+    ///
+    /// - Parameter attendeeIds: ids of attendees newly muted
+    func onAttendeesMute(attendeeIds: [String])
+
+    /// List attendees that newly unmuted from the meeting
+    ///
+    /// - Parameter attendeeIds: ids of attendees newly unmuted
+    func onAttendeesUnmute(attendeeIds: [String])
 }

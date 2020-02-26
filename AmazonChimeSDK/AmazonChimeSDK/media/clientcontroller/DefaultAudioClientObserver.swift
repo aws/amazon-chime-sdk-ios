@@ -9,25 +9,19 @@ import Foundation
 
 class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     private var audioClient: AudioClient
-    private var audioClientStateObservers: NSMutableSet
+    private var audioClientStateObservers = NSMutableSet()
     private var clientMetricsCollector: ClientMetricsCollector
-    private var currentAudioState: SessionStateControllerAction
-    private var currentAudioStatus: MeetingSessionStatusCode
-    private var realtimeObservers: NSMutableSet
-    private var currentAttendeeSet: Set<String>
+    private var currentAttendeeSet: Set<String> = Set()
+    private var currentAttendeeSignalMap = [String: SignalStrength]()
+    private var currentAttendeeVolumeMap = [String: VolumeLevel]()
+    private var currentAudioState = SessionStateControllerAction.initialize
+    private var currentAudioStatus = MeetingSessionStatusCode.ok
+    private var realtimeObservers = NSMutableSet()
 
     init(audioClient: AudioClient, clientMetricsCollector: ClientMetricsCollector) {
-        audioClientStateObservers = NSMutableSet()
-        currentAudioState = SessionStateControllerAction.initialize
-        currentAudioStatus = MeetingSessionStatusCode.ok
-        realtimeObservers = NSMutableSet()
-        currentAttendeeSet = Set()
-
         self.audioClient = audioClient
         self.clientMetricsCollector = clientMetricsCollector
-
         super.init()
-
         audioClient.delegate = self
     }
 
@@ -51,7 +45,6 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         case .fail:
             handleStateChangeToFail(newAudioStatus: newAudioStatus)
         default:
-            // NOP
             break
         }
 
@@ -72,17 +65,13 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
             return
         }
 
-        let attendeeSignalMap: [String: SignalStrength] = processAnyDictToStringEnumDict(anyDict: signalStrengths!)
+        let newAttendeeSignalMap: [String: SignalStrength] = processAnyDictToStringEnumDict(anyDict: signalStrengths!)
+        let attendeeSignalDelta = newAttendeeSignalMap.subtracting(dict: currentAttendeeSignalMap)
+        currentAttendeeSignalMap = newAttendeeSignalMap
 
-        forEachObserver { observer in
-            observer.onSignalStrengthChange(attendeeSignalMap: attendeeSignalMap)
-        }
-    }
-
-    private func forEachObserver(observerFunction: (_ observer: RealtimeObserver) -> Void) {
-        for observer in realtimeObservers {
-            if let observer = observer as? RealtimeObserver {
-                observerFunction(observer)
+        if !attendeeSignalDelta.isEmpty {
+            forEachObserver { observer in
+                observer.onSignalStrengthChange(attendeeSignalMap: attendeeSignalDelta)
             }
         }
     }
@@ -92,9 +81,40 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
             return
         }
 
-        let attendeeVolumeMap: [String: VolumeLevel] = processAnyDictToStringEnumDict(anyDict: volumes!)
-        let newAttendees = Set(attendeeVolumeMap.keys)
+        let newAttendeeVolumeMap: [String: VolumeLevel] = processAnyDictToStringEnumDict(anyDict: volumes!)
+        attendeePresenceStateChange(newAttendeeVolumeMap)
+        let attendeeVolumeDelta = newAttendeeVolumeMap.subtracting(dict: currentAttendeeVolumeMap)
+        attendeeMuteStateChange(attendeeVolumeDelta)
+        currentAttendeeVolumeMap = newAttendeeVolumeMap
+        if !attendeeVolumeDelta.isEmpty {
+            forEachObserver { observer in
+                observer.onVolumeChange(attendeeVolumeMap: attendeeVolumeDelta)
+            }
+        }
+    }
 
+    private func attendeeMuteStateChange(_ map: [String: VolumeLevel]) {
+        let attendeesMuted = map.filter { (_, value) -> Bool in
+            value == .muted
+        }
+        if !attendeesMuted.isEmpty {
+            forEachObserver { observer in
+                observer.onAttendeesMute(attendeeIds: [String](attendeesMuted.keys))
+            }
+        }
+
+        let attendeesUnmuted = map.filter { (key, _) -> Bool in
+            currentAttendeeVolumeMap[key] == .muted
+        }
+        if !attendeesUnmuted.isEmpty {
+            forEachObserver { observer in
+                observer.onAttendeesUnmute(attendeeIds: [String](attendeesUnmuted.keys))
+            }
+        }
+    }
+
+    private func attendeePresenceStateChange(_ map: [String: Any]) {
+        let newAttendees = Set(map.keys)
         let attendeesAdded = newAttendees.subtracting(currentAttendeeSet)
         let attendeesRemoved = currentAttendeeSet.subtracting(newAttendees)
 
@@ -108,11 +128,14 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
                 observer.onAttendeesLeave(attendeeIds: [String](attendeesRemoved))
             }
         }
-
         currentAttendeeSet = newAttendees
+    }
 
-        forEachObserver { observer in
-            observer.onVolumeChange(attendeeVolumeMap: attendeeVolumeMap)
+    private func forEachObserver(observerFunction: (_ observer: RealtimeObserver) -> Void) {
+        for observer in realtimeObservers {
+            if let observer = observer as? RealtimeObserver {
+                observerFunction(observer)
+            }
         }
     }
 
