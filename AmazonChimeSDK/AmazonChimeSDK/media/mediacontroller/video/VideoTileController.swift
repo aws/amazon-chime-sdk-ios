@@ -5,6 +5,7 @@
 //  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
+import CoreGraphics.CGImage
 import Foundation
 
 public protocol VideoTileController: VideoTileControllerFacade {
