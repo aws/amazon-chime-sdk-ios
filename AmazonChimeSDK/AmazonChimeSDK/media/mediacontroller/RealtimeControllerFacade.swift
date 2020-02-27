@@ -21,10 +21,10 @@ public protocol RealtimeControllerFacade {
     /// Subscribes to real time events with an observer
     ///
     /// - Parameter observer: Observer that handles real time events
-    func realtimeAddObserver(observer: RealtimeObserver)
+    func addRealtimeObserver(observer: RealtimeObserver)
 
     /// Unsubscribes from real time events by removing the specified observer
     ///
     /// - Parameter observer: Observer that handles real time events
-    func realtimeRemoveObserver(observer: RealtimeObserver)
+    func removeRealtimeObserver(observer: RealtimeObserver)
 }

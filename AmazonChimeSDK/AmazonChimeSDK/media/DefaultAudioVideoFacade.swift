@@ -63,20 +63,28 @@ public class DefaultAudioVideoFacade: AudioVideoFacade {
         return self.realtimeController.realtimeLocalUnmute()
     }
 
-    public func realtimeAddObserver(observer: RealtimeObserver) {
-        self.realtimeController.realtimeAddObserver(observer: observer)
+    public func addRealtimeObserver(observer: RealtimeObserver) {
+        self.realtimeController.addRealtimeObserver(observer: observer)
     }
 
-    public func realtimeRemoveObserver(observer: RealtimeObserver) {
-        self.realtimeController.realtimeRemoveObserver(observer: observer)
+    public func removeRealtimeObserver(observer: RealtimeObserver) {
+        self.realtimeController.removeRealtimeObserver(observer: observer)
     }
 
-    public func addObserver(observer: AudioVideoObserver) {
-        self.audioVideoController.addObserver(observer: observer)
+    public func addAudioVideoObserver(observer: AudioVideoObserver) {
+        self.audioVideoController.addAudioVideoObserver(observer: observer)
     }
 
-    public func removeObserver(observer: AudioVideoObserver) {
-        self.audioVideoController.removeObserver(observer: observer)
+    public func removeAudioVideoObserver(observer: AudioVideoObserver) {
+        self.audioVideoController.removeAudioVideoObserver(observer: observer)
+    }
+    
+    public func addMetricsObserver(observer: MetricsObserver) {
+        self.audioVideoController.addMetricsObserver(observer: observer)
+    }
+
+    public func removeMetricsObserver(observer: MetricsObserver) {
+        self.audioVideoController.removeMetricsObserver(observer: observer)
     }
 
     // MARK: DeviceController

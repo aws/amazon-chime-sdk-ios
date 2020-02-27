@@ -18,8 +18,8 @@ class DefaultClientMetricsCollector {
         if now > expectedMetricsEmmisionTime {
             lastEmittedMetricsTime = now
             for observer in clientStateObservers {
-                if let audioVideoObserver = (observer as? AudioVideoObserver) {
-                    audioVideoObserver.onMetricsReceive(metrics: cachedObservableMetrics)
+                if let metricsObserver = (observer as? MetricsObserver) {
+                    metricsObserver.onMetricsReceive(metrics: cachedObservableMetrics)
                 }
             }
         }
@@ -53,11 +53,11 @@ extension DefaultClientMetricsCollector: ClientMetricsCollector {
         maybeEmitMetrics()
     }
 
-    public func subscribeToMetrics(observer: AudioVideoObserver) {
+    public func subscribeToMetrics(observer: MetricsObserver) {
         clientStateObservers.add(observer)
     }
 
-    public func unsubscribeFromMetrics(observer: AudioVideoObserver) {
+    public func unsubscribeFromMetrics(observer: MetricsObserver) {
         clientStateObservers.remove(observer)
     }
 }

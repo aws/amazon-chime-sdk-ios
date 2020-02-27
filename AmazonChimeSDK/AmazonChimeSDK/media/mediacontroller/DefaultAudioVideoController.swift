@@ -54,15 +54,21 @@ public class DefaultAudioVideoController: AudioVideoControllerFacade {
         videoClientController.stopAndDestroy()
     }
 
-    public func addObserver(observer: AudioVideoObserver) {
+    public func addAudioVideoObserver(observer: AudioVideoObserver) {
         audioClientObserver.subscribeToAudioClientStateChange(observer: observer)
         videoClientController.subscribeToVideoClientStateChange(observer: observer)
+    }
+
+    public func removeAudioVideoObserver(observer: AudioVideoObserver) {
+        audioClientObserver.unsubscribeFromAudioClientStateChange(observer: observer)
+        videoClientController.unsubscribeToVideoClientStateChange(observer: observer)
+    }
+
+    public func addMetricsObserver(observer: MetricsObserver) {
         clientMetricsCollector.subscribeToMetrics(observer: observer)
     }
 
-    public func removeObserver(observer: AudioVideoObserver) {
-        audioClientObserver.unsubscribeFromAudioClientStateChange(observer: observer)
-        videoClientController.unsubscribeToVideoClientStateChange(observer: observer)
+    public func removeMetricsObserver(observer: MetricsObserver) {
         clientMetricsCollector.unsubscribeFromMetrics(observer: observer)
     }
 

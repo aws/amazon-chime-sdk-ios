@@ -17,6 +17,6 @@ public protocol ClientMetricsCollector {
     func processAudioClientMetrics(metrics: [AnyHashable: Any])
     func processVideoClientMetrics(metrics: [AnyHashable: Any])
 
-    func subscribeToMetrics(observer: AudioVideoObserver)
-    func unsubscribeFromMetrics(observer: AudioVideoObserver)
+    func subscribeToMetrics(observer: MetricsObserver)
+    func unsubscribeFromMetrics(observer: MetricsObserver)
 }

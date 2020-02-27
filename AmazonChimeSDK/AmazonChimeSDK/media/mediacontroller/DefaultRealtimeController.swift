@@ -25,11 +25,11 @@ public class DefaultRealtimeController: RealtimeControllerFacade {
         return audioClientController.setMute(mute: false)
     }
 
-    public func realtimeAddObserver(observer: RealtimeObserver) {
+    public func addRealtimeObserver(observer: RealtimeObserver) {
         audioClientObserver.subscribeToRealTimeEvents(observer: observer)
     }
 
-    public func realtimeRemoveObserver(observer: RealtimeObserver) {
+    public func removeRealtimeObserver(observer: RealtimeObserver) {
         audioClientObserver.unsubscribeFromRealTimeEvents(observer: observer)
     }
 }
