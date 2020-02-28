@@ -11,7 +11,9 @@ import XCTest
 class MeetingSessionURLsTests: XCTestCase {
     func testMeetingSessionURLsShouldBeInitialized() {
         let url = MeetingSessionURLs(audioFallbackUrl: "audioFallbackUrl",
-                                     audioHostUrl: "audioHostUrl")
+                                     audioHostUrl: "audioHostUrl",
+                                     turnControlUrl: "turnControlUrl",
+                                     signalingUrl: "signalingUrl")
         XCTAssertEqual("audioFallbackUrl", url.audioFallbackUrl)
         XCTAssertEqual("audioHostUrl", url.audioHostUrl)
     }

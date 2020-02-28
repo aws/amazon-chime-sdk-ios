@@ -9,7 +9,7 @@ import Foundation
 
 public protocol DeviceController {
     /// List available audio devices
-    /// - Returns: List of Media Devices
+    /// - Returns: list of Media Devices
     func listAudioDevices() -> [MediaDevice]
 
     /// Choose audio devices
@@ -23,4 +23,11 @@ public protocol DeviceController {
     /// Remove device change observer
     /// - Parameter observer: the object that will be removed
     func removeDeviceChangeObserver(observer: DeviceChangeObserver)
+
+    /// Switch between front/back camera
+    func switchCamera()
+
+    /// Get currently used video device
+    /// - Returns: a media device or nil if no device is present
+    func getActiveCamera() -> MediaDevice?
 }

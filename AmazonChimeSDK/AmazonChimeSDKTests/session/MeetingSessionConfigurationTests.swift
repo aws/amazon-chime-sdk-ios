@@ -12,19 +12,25 @@ class MeetingSessionConfigurationTests: XCTestCase {
     private let audioFallbackStr = "audioFallbackUrl"
     private let audioHostStr = "audioHostUrl"
     private let attendeeIdStr = "attendeeId"
-    private let meetingIdStr = "meetingId"
     private let joinTokenStr = "joinToken"
+    private let meetingIdStr = "meetingId"
+    private let turnControlUrl = "turnControlUrl"
+    private let signalingUrl = "signalingUrl"
 
     func testMediaPlacementShouldBeInitialized() {
         let mediaPlacement = MediaPlacement(audioFallbackUrl: audioFallbackStr,
-                                            audioHostUrl: audioHostStr)
+                                            audioHostUrl: audioHostStr,
+                                            turnControlUrl: turnControlUrl,
+                                            signalingUrl: signalingUrl)
         XCTAssertEqual(audioFallbackStr, mediaPlacement.audioFallbackUrl)
         XCTAssertEqual(audioHostStr, mediaPlacement.audioHostUrl)
     }
 
     func testMeetingShouldBeInitialized() {
         let mediaPlacement = MediaPlacement(audioFallbackUrl: audioFallbackStr,
-                                            audioHostUrl: audioHostStr)
+                                            audioHostUrl: audioHostStr,
+                                            turnControlUrl: turnControlUrl,
+                                            signalingUrl: signalingUrl)
         let meeting = Meeting(meetingId: meetingIdStr, mediaPlacement: mediaPlacement)
         XCTAssertEqual(meetingIdStr, meeting.meetingId)
         XCTAssertEqual(mediaPlacement.audioFallbackUrl, meeting.mediaPlacement.audioFallbackUrl)
@@ -33,7 +39,9 @@ class MeetingSessionConfigurationTests: XCTestCase {
 
     func testCreateMeetingResponseShouldBeInitialized() {
         let mediaPlacement = MediaPlacement(audioFallbackUrl: audioFallbackStr,
-                                            audioHostUrl: audioHostStr)
+                                            audioHostUrl: audioHostStr,
+                                            turnControlUrl: turnControlUrl,
+                                            signalingUrl: signalingUrl)
         let meeting = Meeting(meetingId: meetingIdStr, mediaPlacement: mediaPlacement)
 
         let meetingResponse = CreateMeetingResponse(meeting: meeting)
@@ -58,7 +66,9 @@ class MeetingSessionConfigurationTests: XCTestCase {
 
     func testMeetingSessionConfigurationShouldBeInitialized() {
         let mediaPlacement = MediaPlacement(audioFallbackUrl: audioFallbackStr,
-                                            audioHostUrl: audioHostStr)
+                                            audioHostUrl: audioHostStr,
+                                            turnControlUrl: turnControlUrl,
+                                            signalingUrl: signalingUrl)
         let meeting = Meeting(meetingId: meetingIdStr, mediaPlacement: mediaPlacement)
         let meetingResponse = CreateMeetingResponse(meeting: meeting)
         let attendee = Attendee(attendeeId: attendeeIdStr, joinToken: joinTokenStr)

@@ -8,24 +8,24 @@
 import Foundation
 
 public protocol AudioVideoObserver {
-    /// Called when the session is connecting or reconnecting.
+    /// Called when the audio session is connecting or reconnecting.
     ///
     /// - Parameter reconnecting: Whether the session is reconnecting or not.
-    func onAudioVideoStartConnecting(reconnecting: Bool)
+    func onAudioClientConnecting(reconnecting: Bool)
 
-    /// Called when the session has started.
+    /// Called when the audio session has started.
     ///
     /// - Parameter reconnecting: Whether the session is reconnecting or not.
-    func onAudioVideoStart(reconnecting: Bool)
+    func onAudioClientStart(reconnecting: Bool)
 
-    /// Called when the session has stopped from a started state with the reason
+    /// Called when the audio session has stopped from a started state with the reason
     /// provided in the status.
     ///
     /// - Parameter sessionStatus: The reason why the session has stopped.
-    func onAudioVideoStop(sessionStatus: MeetingSessionStatus)
+    func onAudioClientStop(sessionStatus: MeetingSessionStatus)
 
-    /// Called when reconnection is canceled.
-    func onAudioReconnectionCancel()
+    /// Called when the audio reconnection is canceled.
+    func onAudioClientReconnectionCancel()
 
     /// Called when the connection health is recovered.
     func onConnectionRecover()
@@ -33,8 +33,15 @@ public protocol AudioVideoObserver {
     /// Called when connection is becoming poor.
     func onConnectionBecomePoor()
 
-    /// Called when metrics are collected and ready
+    /// Called when the video session is connecting or reconnecting.
+    func onVideoClientConnecting()
+
+    /// Called when the video session has started.
+    func onVideoClientStart()
+
+    /// Called when the video session has stopped from a started state with the reason
+    /// provided in the status.
     ///
-    /// - Parameter metrics: A dictionary of ObservableMetric case to value
-    func onMetricsReceive(metrics: [ObservableMetric: Any])
+    /// - Parameter sessionStatus: The reason why the session has stopped.
+    func onVideoClientStop(sessionStatus: MeetingSessionStatus)
 }

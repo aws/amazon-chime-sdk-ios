@@ -15,15 +15,18 @@ public class DefaultAudioVideoController: AudioVideoControllerFacade {
     private let audioClientController: AudioClientController
     private let audioClientObserver: AudioClientObserver
     private let clientMetricsCollector: ClientMetricsCollector
+    private var videoClientController: VideoClientController
 
     public init(audioClientController: AudioClientController,
                 audioClientObserver: AudioClientObserver,
                 clientMetricsCollector: ClientMetricsCollector,
+                videoClientController: VideoClientController,
                 configuration: MeetingSessionConfiguration,
                 logger: Logger) {
         self.audioClientController = audioClientController
         self.audioClientObserver = audioClientObserver
         self.clientMetricsCollector = clientMetricsCollector
+        self.videoClientController = videoClientController
         self.configuration = configuration
         self.logger = logger
     }
@@ -34,24 +37,46 @@ public class DefaultAudioVideoController: AudioVideoControllerFacade {
             throw PermissionError.audioPermissionError
         }
 
-        audioClientController.start(audioFallbackUrl: configuration.urls.audioFallbackUrl,
+        try audioClientController.start(audioFallbackUrl: configuration.urls.audioFallbackUrl,
                                     audioHostUrl: configuration.urls.audioHostUrl,
                                     meetingId: configuration.meetingId,
                                     attendeeId: configuration.credentials.attendeeId,
                                     joinToken: configuration.credentials.joinToken)
+        try videoClientController.start(turnControlUrl: configuration.urls.turnControlUrl,
+                                        signalingUrl: configuration.urls.signalingUrl,
+                                        meetingId: configuration.meetingId,
+                                        joinToken: configuration.credentials.joinToken,
+                                        sending: false)
     }
 
     public func stop() {
         audioClientController.stop()
+        videoClientController.stopAndDestroy()
     }
 
-    public func addObserver(observer: AudioVideoObserver) {
+    public func addAudioVideoObserver(observer: AudioVideoObserver) {
         audioClientObserver.subscribeToAudioClientStateChange(observer: observer)
-        clientMetricsCollector.subscribeToClientStateChange(observer: observer)
+        videoClientController.subscribeToVideoClientStateChange(observer: observer)
     }
 
-    public func removeObserver(observer: AudioVideoObserver) {
+    public func removeAudioVideoObserver(observer: AudioVideoObserver) {
         audioClientObserver.unsubscribeFromAudioClientStateChange(observer: observer)
-        clientMetricsCollector.unsubscribeFromClientStateChange(observer: observer)
+        videoClientController.unsubscribeToVideoClientStateChange(observer: observer)
+    }
+
+    public func addMetricsObserver(observer: MetricsObserver) {
+        clientMetricsCollector.subscribeToMetrics(observer: observer)
+    }
+
+    public func removeMetricsObserver(observer: MetricsObserver) {
+        clientMetricsCollector.unsubscribeFromMetrics(observer: observer)
+    }
+
+    public func startLocalVideo() throws {
+        try videoClientController.enableSelfVideo(isEnabled: true)
+    }
+
+    public func stopLocalVideo() {
+        try? videoClientController.enableSelfVideo(isEnabled: false)
     }
 }

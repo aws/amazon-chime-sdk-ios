@@ -9,6 +9,10 @@ import Foundation
 
 public protocol AudioClientController {
     func setMute(mute: Bool) -> Bool
-    func start(audioFallbackUrl: String, audioHostUrl: String, meetingId: String, attendeeId: String, joinToken: String)
+    func start(audioFallbackUrl: String,
+               audioHostUrl: String,
+               meetingId: String,
+               attendeeId: String,
+               joinToken: String) throws
     func stop()
 }

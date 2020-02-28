@@ -6,16 +6,17 @@
 //
 
 import AVFoundation
-import Foundation
 
 public class DefaultDeviceController: DeviceController {
+    let videoClientController: VideoClientController
     let logger: Logger
     let audioSession: AVAudioSession
-    var deviceChangeObservers: NSMutableSet
+    var deviceChangeObservers = NSMutableSet()
 
     public init(audioSession: AVAudioSession,
+                videoClientController: VideoClientController,
                 logger: Logger) {
-        deviceChangeObservers = NSMutableSet()
+        self.videoClientController = videoClientController
         self.logger = logger
         self.audioSession = audioSession
         NotificationCenter.default.addObserver(self,
@@ -97,5 +98,14 @@ public class DefaultDeviceController: DeviceController {
 
     public func removeDeviceChangeObserver(observer: DeviceChangeObserver) {
         deviceChangeObservers.remove(observer)
+    }
+
+    public func switchCamera() {
+        videoClientController.switchCamera()
+    }
+
+    public func getActiveCamera() -> MediaDevice? {
+        let activeCamera = MediaDevice.fromVideoDevice(device: videoClientController.getCurrentDevice())
+        return activeCamera.type == .other ? nil : activeCamera
     }
 }

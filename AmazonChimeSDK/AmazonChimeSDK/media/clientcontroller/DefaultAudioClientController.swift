@@ -5,25 +5,24 @@
 //  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
+import AVFoundation
 import Foundation
 
 class DefaultAudioClientController: NSObject {
     private let audioClient: AudioClient
     private let audioClientObserver: AudioClientObserver
-    private let audioPortOffset: Int
-    private let defaultMicAndSpeaker: Bool
-    private let defaultPort: Int
-    private let defaultPresenter: Bool
+    private let audioSession: AVAudioSession
+    private let audioPortOffset = 200
+    private let defaultMicAndSpeaker = false
+    private let defaultPort = 0
+    private let defaultPresenter = true
 
     init(audioClient: AudioClient,
-         audioClientObserver: AudioClientObserver) {
-        audioPortOffset = 200
-        defaultMicAndSpeaker = false
-        defaultPort = 0
-        defaultPresenter = true
-
+         audioClientObserver: AudioClientObserver,
+         audioSession: AVAudioSession) {
         self.audioClient = audioClient
         self.audioClientObserver = audioClientObserver
+        self.audioSession = audioSession
 
         super.init()
     }
@@ -38,13 +37,17 @@ extension DefaultAudioClientController: AudioClientController {
                       audioHostUrl: String,
                       meetingId: String,
                       attendeeId: String,
-                      joinToken: String) {
+                      joinToken: String) throws {
+        guard audioSession.recordPermission == .granted else {
+            throw PermissionError.audioPermissionError
+        }
+
         let url = audioHostUrl.components(separatedBy: ":")
         let host = url[0]
         let port = url.count >= 2 ? (url[1] as NSString).integerValue - audioPortOffset : defaultPort
 
         audioClientObserver.notifyAudioClientObserver { (observer: AudioVideoObserver) in
-            observer.onAudioVideoStartConnecting(reconnecting: false)
+            observer.onAudioClientConnecting(reconnecting: false)
         }
 
         audioClient.setSpeakerOn(true)

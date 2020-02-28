@@ -143,11 +143,11 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         switch currentAudioState {
         case .connecting:
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
-                observer.onAudioVideoStart(reconnecting: false)
+                observer.onAudioClientStart(reconnecting: false)
             }
         case .reconnecting:
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
-                observer.onAudioVideoStart(reconnecting: true)
+                observer.onAudioClientStart(reconnecting: true)
             }
         case .finishConnecting:
             switch (newAudioStatus, currentAudioStatus) {
@@ -172,11 +172,11 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         case .connecting,
              .finishConnecting:
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
-                observer.onAudioVideoStop(sessionStatus: MeetingSessionStatus(statusCode: MeetingSessionStatusCode.ok))
+                observer.onAudioClientStop(sessionStatus: MeetingSessionStatus(statusCode: MeetingSessionStatusCode.ok))
             }
         case .reconnecting:
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
-                observer.onAudioReconnectionCancel()
+                observer.onAudioClientReconnectionCancel()
             }
         default:
             break
@@ -187,12 +187,12 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         switch currentAudioState {
         case .connecting, .finishConnecting:
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
-                observer.onAudioVideoStop(sessionStatus: MeetingSessionStatus(statusCode: newAudioStatus))
+                observer.onAudioClientStop(sessionStatus: MeetingSessionStatus(statusCode: newAudioStatus))
             }
         case .reconnecting:
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
-                observer.onAudioReconnectionCancel()
-                observer.onAudioVideoStop(sessionStatus: MeetingSessionStatus(statusCode: newAudioStatus))
+                observer.onAudioClientReconnectionCancel()
+                observer.onAudioClientStop(sessionStatus: MeetingSessionStatus(statusCode: newAudioStatus))
             }
         default:
             break
@@ -202,7 +202,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     private func handleStateChangeToReconnected() {
         if currentAudioState == .finishConnecting {
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
-                observer.onAudioVideoStart(reconnecting: true)
+                observer.onAudioClientStart(reconnecting: true)
             }
         }
     }

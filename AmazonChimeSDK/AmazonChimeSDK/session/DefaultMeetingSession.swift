@@ -13,32 +13,40 @@ public class DefaultMeetingSession: MeetingSession {
     public let logger: Logger
     public let audioVideo: AudioVideoFacade
 
-    private let audioSession: AVAudioSession
-    private let audioClient: AudioClient
-    private let audioClientController: AudioClientController
-    private let audioClientObserver: AudioClientObserver
-    private let clientMetricsCollector: ClientMetricsCollector
+    private let audioClient: AudioClient = AudioClient.sharedInstance()
+    private let audioSession = AVAudioSession.sharedInstance()
 
     public init(configuration: MeetingSessionConfiguration, logger: Logger) {
         self.configuration = configuration
         self.logger = logger
-        self.audioSession = AVAudioSession.sharedInstance()
-        self.audioClient = AudioClient.sharedInstance()
-        self.clientMetricsCollector = DefaultClientMetricsCollector()
-        self.audioClientObserver = DefaultAudioClientObserver(audioClient: audioClient,
-                                                              clientMetricsCollector: clientMetricsCollector)
-        self.audioClientController = DefaultAudioClientController(audioClient: audioClient,
-                                                                  audioClientObserver: audioClientObserver)
+
+        let clientMetricsCollector = DefaultClientMetricsCollector()
+        let audioClientObserver = DefaultAudioClientObserver(audioClient: audioClient,
+                                                             clientMetricsCollector: clientMetricsCollector)
+        let audioClientController = DefaultAudioClientController(audioClient: audioClient,
+                                                                 audioClientObserver: audioClientObserver,
+                                                                 audioSession: audioSession)
+
+        let videoClientController = DefaultVideoClientController(logger: logger,
+                                                                 clientMetricsCollector: clientMetricsCollector,
+                                                                 isUsing16by9AspectRatio: false)
+        let videoTileController =
+            DefaultVideoTileController(logger: logger,
+                                       videoClientController: videoClientController)
+        videoClientController.subscribeToVideoTileControllerObservers(observer: videoTileController)
+
         self.audioVideo = DefaultAudioVideoFacade(
             audioVideoController: DefaultAudioVideoController(audioClientController: audioClientController,
                                                               audioClientObserver: audioClientObserver,
                                                               clientMetricsCollector: clientMetricsCollector,
+                                                              videoClientController: videoClientController,
                                                               configuration: configuration,
                                                               logger: logger),
             realtimeController: DefaultRealtimeController(audioClientController: audioClientController,
                                                           audioClientObserver: audioClientObserver),
             deviceController: DefaultDeviceController(audioSession: audioSession,
-                                                      logger: logger)
-        )
+                                                      videoClientController: videoClientController,
+                                                      logger: logger),
+            videoTileController: videoTileController)
     }
 }
