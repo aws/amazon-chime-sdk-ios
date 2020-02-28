@@ -78,7 +78,7 @@ public enum MeetingSessionStatusCode: UInt32 {
      * video service is unavailable
      */
     case videoServiceUnavailable = 12
-    
+
     /**
      * If State cannot be parsed, then use this state
      */

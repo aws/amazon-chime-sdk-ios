@@ -27,27 +27,26 @@ public struct MediaDevice: CustomStringConvertible {
         if let videoDevice = videoDevice {
             let nameLowercased = videoDevice.name.lowercased()
             if nameLowercased.contains("front") {
-                type = .videoFrontCamera
+                self.type = .videoFrontCamera
             } else if nameLowercased.contains("back") {
-                type = .videoBackCamera
+                self.type = .videoBackCamera
             } else {
-                type = .other
+                self.type = .other
             }
         } else if let port = port {
             switch port.portType {
             case .bluetoothLE, .bluetoothHFP, .bluetoothA2DP:
-                type = .audioBluetooth
+                self.type = .audioBluetooth
             case .builtInReceiver, .builtInMic:
-                type = .audioHandset
+                self.type = .audioHandset
             case .headphones, .headsetMic:
-                type = .audioWiredHeadset
+                self.type = .audioWiredHeadset
             default:
-                type = .other
+                self.type = .other
             }
         } else {
-            type = .other
+            self.type = .other
         }
-
     }
 
     public var description: String {

@@ -78,7 +78,7 @@ public class DefaultAudioVideoFacade: AudioVideoFacade {
     public func removeAudioVideoObserver(observer: AudioVideoObserver) {
         self.audioVideoController.removeAudioVideoObserver(observer: observer)
     }
-    
+
     public func addMetricsObserver(observer: MetricsObserver) {
         self.audioVideoController.addMetricsObserver(observer: observer)
     }

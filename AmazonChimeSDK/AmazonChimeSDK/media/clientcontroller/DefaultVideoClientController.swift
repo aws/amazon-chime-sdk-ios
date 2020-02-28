@@ -351,6 +351,6 @@ extension DefaultVideoClientController: VideoClientController {
 
     public func pauseResumeRemoteVideo(_ videoId: UInt32, pause: Bool) {
         logger.info(msg: "pauseResumeRemoteVideo")
-        self.videoClient?.setRemotePause(videoId, pause: pause)
+        videoClient?.setRemotePause(videoId, pause: pause)
     }
 }
