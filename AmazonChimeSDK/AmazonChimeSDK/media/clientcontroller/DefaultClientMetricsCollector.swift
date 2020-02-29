@@ -8,7 +8,7 @@ import Foundation
 
 class DefaultClientMetricsCollector {
     private var cachedObservableMetrics: [ObservableMetric: Any] = [:]
-    private var clientStateObservers = NSMutableSet()
+    private var metricsObservers = NSMutableSet()
     private var lastEmittedMetricsTime = DispatchTime.now()
     private let metricsEmissionInterval = DispatchTimeInterval.seconds(1)
 
@@ -17,7 +17,7 @@ class DefaultClientMetricsCollector {
         let expectedMetricsEmmisionTime = lastEmittedMetricsTime + metricsEmissionInterval
         if now > expectedMetricsEmmisionTime {
             lastEmittedMetricsTime = now
-            for observer in clientStateObservers {
+            for observer in metricsObservers {
                 if let metricsObserver = (observer as? MetricsObserver) {
                     metricsObserver.onMetricsReceive(metrics: cachedObservableMetrics)
                 }
@@ -28,9 +28,9 @@ class DefaultClientMetricsCollector {
 
 extension DefaultClientMetricsCollector: ClientMetricsCollector {
     public func processAudioClientMetrics(metrics: [AnyHashable: Any]) {
-        cachedObservableMetrics[ObservableMetric.audioPacketsSentFractionLoss]
-            = metrics[AudioClientMetric.clientPostJbSpk1sPacketsLostPercent.rawValue]
-        cachedObservableMetrics[ObservableMetric.audioPacketsReceivedFractionLoss]
+        cachedObservableMetrics[ObservableMetric.audioPacketsSentFractionLossPercent]
+            = metrics[AudioClientMetric.serverPostJbMic1sPacketsLostPercent.rawValue]
+        cachedObservableMetrics[ObservableMetric.audioPacketsReceivedFractionLossPercent]
             = metrics[AudioClientMetric.clientPostJbSpk1sPacketsLostPercent.rawValue]
         maybeEmitMetrics()
     }
@@ -54,10 +54,10 @@ extension DefaultClientMetricsCollector: ClientMetricsCollector {
     }
 
     public func subscribeToMetrics(observer: MetricsObserver) {
-        clientStateObservers.add(observer)
+        metricsObservers.add(observer)
     }
 
     public func unsubscribeFromMetrics(observer: MetricsObserver) {
-        clientStateObservers.remove(observer)
+        metricsObservers.remove(observer)
     }
 }

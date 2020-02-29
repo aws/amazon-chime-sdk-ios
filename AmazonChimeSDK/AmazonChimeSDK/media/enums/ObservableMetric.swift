@@ -7,19 +7,19 @@
 
 import Foundation
 
-/// ObservableMetric types are filtered from the various
-/// metrics emitted by the underlying native clients
+/// ObservableMetric types represents filtered metrics that are intended to propagate to the
+/// top level observers. All metrics are measured over the past second.
 ///
 /// Send video metrics are only reported when sending
 /// Receive video metrics are only reported when receiving
 public enum ObservableMetric {
-    case audioPacketsReceivedFractionLoss
-    case audioPacketsSentFractionLoss
-    /// Estimated uplink bandwidth (may not all be used)
-    /// from perspective of video client
+    /// Percentage of audio packets lost from server to client
+    case audioPacketsReceivedFractionLossPercent
+    /// Percentage of audio packets lost from client to server
+    case audioPacketsSentFractionLossPercent
+    /// Estimated uplink bandwidth (may not all be used) from perspective of video client
     case videoAvailableSendBandwidth
-    /// Estimated downlink bandwidth (may not all be used)
-    /// from perspective of video client
+    /// Estimated downlink bandwidth (may not all be used) from perspective of video client
     case videoAvailableReceiveBandwidth
     /// Total bitrate summed accross all send streams
     case videoSendBitrate
