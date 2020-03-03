@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol VideoTileControllerFacade {
+@objc public protocol VideoTileControllerFacade {
     /// Binds the video rendering view to Video Tile. The view will start displaying the video frame
     /// after the completion of this API
     ///

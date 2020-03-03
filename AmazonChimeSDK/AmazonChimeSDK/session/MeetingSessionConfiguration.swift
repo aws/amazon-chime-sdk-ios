@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class MeetingSessionConfiguration {
+@objcMembers public class MeetingSessionConfiguration: NSObject {
     public let meetingId: String
     public let credentials: MeetingSessionCredentials
     public let urls: MeetingSessionURLs

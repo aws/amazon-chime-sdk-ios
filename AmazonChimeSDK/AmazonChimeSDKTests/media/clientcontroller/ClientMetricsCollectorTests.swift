@@ -16,7 +16,7 @@ class ClientMetricsCollectorTests: XCTestCase, MetricsObserver {
     private let serverPostJbMic1sPacketsLostPercent = 3
     private let clientPostJbSpk1sPacketsLostPercent = 7
 
-    private var receivedMetrics: [ObservableMetric: Any] = [:]
+    private var receivedMetrics: [AnyHashable: Any] = [:]
 
     func testOnMetricsReceiveShouldNotBeCalledBeforeInterval() {
         // Interval timer should start now
@@ -47,9 +47,8 @@ class ClientMetricsCollectorTests: XCTestCase, MetricsObserver {
         clientMetricsCollector.processAudioClientMetrics(metrics: audioClientMetrics)
 
         XCTAssertEqual(receivedMetrics.count, 2)
-        // TODO: this fails, so revisit this
-//        XCTAssertEqual(receivedMetrics[ObservableMetric.audioPacketsSentFractionLoss] as? Int, 1)
-        XCTAssertEqual(receivedMetrics[ObservableMetric.audioPacketsReceivedFractionLoss] as? Int, 2)
+        XCTAssertEqual(receivedMetrics[ObservableMetric.audioPacketsSentFractionLossPercent] as? Int, 1)
+        XCTAssertEqual(receivedMetrics[ObservableMetric.audioPacketsReceivedFractionLossPercent] as? Int, 2)
     }
 
     func testNonObservableMetricShouldNotBeEmitted() {
@@ -89,7 +88,7 @@ class ClientMetricsCollectorTests: XCTestCase, MetricsObserver {
     func onConnectionRecover() {}
     func onConnectionBecomePoor() {}
 
-    func onMetricsReceive(metrics: [ObservableMetric: Any]) {
+    func onMetricsReceive(metrics: [AnyHashable: Any]) {
         receivedMetrics = metrics
     }
 }

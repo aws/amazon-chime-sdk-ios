@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol MeetingSession {
+@objc public protocol MeetingSession {
     var configuration: MeetingSessionConfiguration { get }
     var logger: Logger { get }
     var audioVideo: AudioVideoFacade { get }

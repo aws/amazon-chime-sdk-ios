@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol AudioClientController {
+@objc public protocol AudioClientController {
     func setMute(mute: Bool) -> Bool
     func start(audioFallbackUrl: String,
                audioHostUrl: String,

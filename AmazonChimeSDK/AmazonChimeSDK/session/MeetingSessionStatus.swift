@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class MeetingSessionStatus {
+@objcMembers public class MeetingSessionStatus: NSObject {
     public let statusCode: MeetingSessionStatusCode
 
     public init(statusCode: MeetingSessionStatusCode) {

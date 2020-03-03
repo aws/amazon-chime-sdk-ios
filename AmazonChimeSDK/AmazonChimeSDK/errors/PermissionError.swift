@@ -7,8 +7,16 @@
 
 import Foundation
 
-// TODO: if we want properties like message, we should use struct
-public enum PermissionError: Error {
+@objc public enum PermissionError: Int, Error, CustomStringConvertible {
     case audioPermissionError
     case videoPermissionError
+
+    public var description: String {
+        switch self {
+        case .audioPermissionError:
+            return "audioPermissionError"
+        case .videoPermissionError:
+            return "videoPermissionError"
+        }
+    }
 }

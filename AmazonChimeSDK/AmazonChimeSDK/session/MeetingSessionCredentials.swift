@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct MeetingSessionCredentials {
+@objcMembers public class MeetingSessionCredentials: NSObject {
     public let attendeeId: String
     public let joinToken: String
 

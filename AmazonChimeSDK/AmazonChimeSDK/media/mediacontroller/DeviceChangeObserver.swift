@@ -8,7 +8,7 @@
 import Foundation
 
 /// DeviceChangeObserver listen to the change of Audio Device
-public protocol DeviceChangeObserver {
+@objc public protocol DeviceChangeObserver {
     /// Called when listAudioDevices() output changed
     /// In another word, when a new media device become available
     /// or old media device become unavailable

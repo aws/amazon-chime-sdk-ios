@@ -8,7 +8,7 @@
 import AVFoundation
 import Foundation
 
-public class DefaultAudioVideoController: AudioVideoControllerFacade {
+@objcMembers public class DefaultAudioVideoController: AudioVideoControllerFacade {
     public let configuration: MeetingSessionConfiguration
     public let logger: Logger
 

@@ -8,7 +8,7 @@
 import AVFoundation
 import Foundation
 
-public class DefaultMeetingSession: MeetingSession {
+@objcMembers public class DefaultMeetingSession: NSObject, MeetingSession {
     public let configuration: MeetingSessionConfiguration
     public let logger: Logger
     public let audioVideo: AudioVideoFacade

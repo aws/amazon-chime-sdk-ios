@@ -7,7 +7,7 @@
 
 import AVFoundation
 
-public class DefaultDeviceController: DeviceController {
+@objcMembers public class DefaultDeviceController: DeviceController {
     let videoClientController: VideoClientController
     let logger: Logger
     let audioSession: AVAudioSession

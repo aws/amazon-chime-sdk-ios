@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol VideoTile {
+@objc public protocol VideoTile {
     /// State of VideoTile
     var state: VideoTileState { get }
 

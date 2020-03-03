@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct CreateAttendeeResponse {
+@objcMembers public class CreateAttendeeResponse: NSObject {
     let attendee: Attendee
 
     public init(attendee: Attendee) {
@@ -15,7 +15,7 @@ public struct CreateAttendeeResponse {
     }
 }
 
-public struct Attendee {
+@objcMembers public class Attendee: NSObject {
     let attendeeId: String
     let joinToken: String
 

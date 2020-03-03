@@ -5,7 +5,9 @@
 //  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
-public protocol VideoClientController {
+import Foundation
+
+@objc public protocol VideoClientController {
     func start(turnControlUrl: String,
                signalingUrl: String,
                meetingId: String,

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class DefaultRealtimeController: RealtimeControllerFacade {
+@objcMembers public class DefaultRealtimeController: RealtimeControllerFacade {
     private let audioClientController: AudioClientController
     private let audioClientObserver: AudioClientObserver
 

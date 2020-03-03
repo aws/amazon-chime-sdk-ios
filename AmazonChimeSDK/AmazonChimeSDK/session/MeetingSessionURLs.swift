@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct MeetingSessionURLs {
+@objcMembers public class MeetingSessionURLs: NSObject {
     public let audioFallbackUrl: String
     public let audioHostUrl: String
     public let turnControlUrl: String

@@ -8,7 +8,7 @@
 import AVFoundation
 import Foundation
 
-public struct MediaDevice: CustomStringConvertible {
+@objcMembers public class MediaDevice: NSObject {
     public let label: String
     public let type: MediaDeviceType
     public let port: AVAudioSessionPortDescription?
@@ -49,12 +49,12 @@ public struct MediaDevice: CustomStringConvertible {
         }
     }
 
-    public var description: String {
+    override public var description: String {
         return "\(self.label) - \(self.type)"
     }
 }
 
-public enum MediaDeviceType {
+@objc public enum MediaDeviceType: Int, CustomStringConvertible {
     case audioBluetooth
     case audioWiredHeadset
     case audioBuiltInSpeaker
@@ -62,4 +62,23 @@ public enum MediaDeviceType {
     case videoFrontCamera
     case videoBackCamera
     case other
+
+    public var description: String {
+        switch self {
+        case .audioBluetooth:
+            return "audioBluetooth"
+        case .audioWiredHeadset:
+            return "audioWiredHeadset"
+        case .audioBuiltInSpeaker:
+            return "audioBuiltInSpeaker"
+        case .audioHandset:
+            return "audioHandset"
+        case .videoFrontCamera:
+            return "videoFrontCamera"
+        case .videoBackCamera:
+            return "videoBackCamera"
+        case .other:
+            return "other"
+        }
+    }
 }

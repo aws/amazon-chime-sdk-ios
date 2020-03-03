@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol Logger {
+@objc public protocol Logger {
     func `default`(msg: String)
     func debug(debugFunction: () -> String)
     func info(msg: String)

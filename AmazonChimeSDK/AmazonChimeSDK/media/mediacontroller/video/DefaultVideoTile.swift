@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class DefaultVideoTile: VideoTile {
+@objcMembers public class DefaultVideoTile: VideoTile {
     public var state: VideoTileState
 
     private let logger: Logger

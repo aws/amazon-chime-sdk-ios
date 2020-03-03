@@ -8,7 +8,7 @@
 import Foundation
 
 /// VolumeLevel describes the volume level of an attendee for audio
-public enum VolumeLevel: Int, CaseIterable {
+@objc public enum VolumeLevel: Int, CaseIterable, CustomStringConvertible {
     /// The attendee is muted
     case muted = -1
 
@@ -23,4 +23,19 @@ public enum VolumeLevel: Int, CaseIterable {
 
     /// The attendee is speaking at high volume
     case high = 3
+
+    public var description: String {
+        switch self {
+        case .muted:
+            return "muted"
+        case .notSpeaking:
+            return "notSpeaking"
+        case .low:
+            return "low"
+        case .medium:
+            return "medium"
+        case .high:
+            return "high"
+        }
+    }
 }

@@ -7,9 +7,9 @@
 
 import Foundation
 
-public protocol MetricsObserver {
+@objc public protocol MetricsObserver {
     /// Called when metrics are collected and ready
     ///
     /// - Parameter metrics: A dictionary of ObservableMetric case to value
-    func onMetricsReceive(metrics: [ObservableMetric: Any])
+    func onMetricsReceive(metrics: [AnyHashable: Any])
 }

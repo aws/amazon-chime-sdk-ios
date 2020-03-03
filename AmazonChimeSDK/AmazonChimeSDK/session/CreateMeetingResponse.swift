@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct CreateMeetingResponse {
+@objcMembers public class CreateMeetingResponse: NSObject {
     let meeting: Meeting
 
     public init(meeting: Meeting) {
@@ -15,7 +15,7 @@ public struct CreateMeetingResponse {
     }
 }
 
-public struct Meeting {
+@objcMembers public class Meeting: NSObject {
     let meetingId: String
     let mediaPlacement: MediaPlacement
 
@@ -25,7 +25,7 @@ public struct Meeting {
     }
 }
 
-public struct MediaPlacement {
+@objcMembers public class MediaPlacement: NSObject {
     let audioFallbackUrl: String
     let audioHostUrl: String
     let turnControlUrl: String

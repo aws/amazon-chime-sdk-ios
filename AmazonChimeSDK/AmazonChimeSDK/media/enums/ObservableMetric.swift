@@ -12,7 +12,7 @@ import Foundation
 ///
 /// Send video metrics are only reported when sending
 /// Receive video metrics are only reported when receiving
-public enum ObservableMetric {
+@objc public enum ObservableMetric: Int, CustomStringConvertible {
     /// Percentage of audio packets lost from server to client
     case audioPacketsReceivedFractionLossPercent
     /// Percentage of audio packets lost from client to server
@@ -31,4 +31,27 @@ public enum ObservableMetric {
     case videoReceiveBitrate
     /// Total packet lost calculated across all receive streams
     case videoReceivePacketLostPercent
+
+    public var description: String {
+        switch self {
+        case .audioPacketsReceivedFractionLossPercent:
+            return "audioPacketsReceivedFractionLossPercent"
+        case .audioPacketsSentFractionLossPercent:
+            return "audioPacketsSentFractionLossPercent"
+        case .videoAvailableSendBandwidth:
+            return "videoAvailableSendBandwidth"
+        case .videoAvailableReceiveBandwidth:
+            return "videoAvailableReceiveBandwidth"
+        case .videoSendBitrate:
+            return "videoSendBitrate"
+        case .videoSendPacketLostPercent:
+            return "videoSendPacketLostPercent"
+        case .videoSendFps:
+            return "videoSendFps"
+        case .videoReceiveBitrate:
+            return "videoReceiveBitrate"
+        case .videoReceivePacketLostPercent:
+            return "videoReceivePacketLostPercent"
+        }
+    }
 }

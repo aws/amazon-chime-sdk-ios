@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol DeviceController {
+@objc public protocol DeviceController {
     /// List available audio devices
     /// - Returns: list of Media Devices
     func listAudioDevices() -> [MediaDevice]

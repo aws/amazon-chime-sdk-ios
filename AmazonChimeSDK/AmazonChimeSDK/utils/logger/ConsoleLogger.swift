@@ -8,7 +8,7 @@
 import Foundation
 import os
 
-public class ConsoleLogger: Logger {
+@objcMembers public class ConsoleLogger: NSObject, Logger {
     let name: String
     var level: LogLevel
 

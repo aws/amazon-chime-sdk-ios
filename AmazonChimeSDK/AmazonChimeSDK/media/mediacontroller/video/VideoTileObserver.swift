@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol VideoTileObserver {
+@objc public protocol VideoTileObserver {
     /// Called whenever a new attendee starts sharing the video
     /// - Parameters:
     ///   - tileState: video tile state associated with this attendee

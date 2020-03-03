@@ -8,7 +8,7 @@
 import CoreGraphics.CGImage
 import Foundation
 
-public protocol VideoTileController: VideoTileControllerFacade {
+@objc public protocol VideoTileController: VideoTileControllerFacade {
     /// Called whenever there is anew Video frame received for any of the attendee in the meeting
     /// - Parameters:
     ///   - frame: a frame of video

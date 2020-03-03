@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol AudioVideoControllerFacade {
+@objc public protocol AudioVideoControllerFacade {
     var configuration: MeetingSessionConfiguration { get }
     var logger: Logger { get }
     /// Start AudioVideo Controller

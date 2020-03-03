@@ -7,16 +7,16 @@
 
 import Foundation
 
-public protocol RealtimeObserver {
+@objc public protocol RealtimeObserver {
     /// Handles volume changes for attendees
     ///
     /// - Parameter attendeeVolumeMap: A dictionary of attendee Ids to volume
-    func onVolumeChange(attendeeVolumeMap: [String: VolumeLevel])
+    func onVolumeChange(attendeeVolumeMap: [String: Any])
 
     /// Handles signal strength changes for attendees
     ///
     /// - Parameter attendeeSignalMap: A dictionary of attendee Ids to signal strength
-    func onSignalStrengthChange(attendeeSignalMap: [String: SignalStrength])
+    func onSignalStrengthChange(attendeeSignalMap: [String: Any])
 
     /// List attendees that are newly added to the meeting
     ///

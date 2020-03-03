@@ -7,7 +7,7 @@
 
 import UIKit
 
-public class DefaultVideoRenderView: UIImageView, VideoRenderView {
+@objcMembers public class DefaultVideoRenderView: UIImageView, VideoRenderView {
     public func renderFrame(frame: Any?) {
         if let image = frame as? UIImage {
             self.isHidden = false

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class DefaultAudioVideoFacade: AudioVideoFacade {
+@objcMembers public class DefaultAudioVideoFacade: AudioVideoFacade {
     public let configuration: MeetingSessionConfiguration
     public let logger: Logger
 
