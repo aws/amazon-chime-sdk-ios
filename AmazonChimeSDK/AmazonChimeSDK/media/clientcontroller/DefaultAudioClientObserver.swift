@@ -11,9 +11,9 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     private var audioClient: AudioClient
     private var audioClientStateObservers = NSMutableSet()
     private var clientMetricsCollector: ClientMetricsCollector
-    private var currentAttendeeSet: Set<String> = Set()
-    private var currentAttendeeSignalMap = [String: SignalStrength]()
-    private var currentAttendeeVolumeMap = [String: VolumeLevel]()
+    private var currentAttendeeSet: Set<AttendeeInfo> = Set()
+    private var currentAttendeeSignalMap = [AttendeeInfo: SignalStrength]()
+    private var currentAttendeeVolumeMap = [AttendeeInfo: VolumeLevel]()
     private var currentAudioState = SessionStateControllerAction.initialize
     private var currentAudioStatus = MeetingSessionStatusCode.ok
     private var realtimeObservers = NSMutableSet()
@@ -60,46 +60,62 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         clientMetricsCollector.processAudioClientMetrics(metrics: metrics!)
     }
 
-    public func signalStrengthChanged(_ signalStrengths: [AnyHashable: Any]?) {
-        if signalStrengths == nil {
+    public func signalStrengthChanged(_ signalStrengths: [Any]?) {
+        guard let signalUpdate = signalStrengths as? [AttendeeUpdate] else {
             return
         }
 
-        let newAttendeeSignalMap: [String: SignalStrength] = processAnyDictToStringEnumDict(anyDict: signalStrengths!)
+        let newAttendeeSignalMap = signalUpdate.reduce(into: [AttendeeInfo: SignalStrength]()) {
+            let attendeeInfo = AttendeeInfo(attendeeId: $1.profileId, externalUserId: $1.externalUserId)
+            $0[attendeeInfo] = SignalStrength(rawValue: Int(truncating: $1.data))
+        }
+
         let attendeeSignalDelta = newAttendeeSignalMap.subtracting(dict: currentAttendeeSignalMap)
         currentAttendeeSignalMap = newAttendeeSignalMap
 
         if !attendeeSignalDelta.isEmpty {
+            let signalUpdates = attendeeSignalDelta.reduce(into: [SignalUpdate]()) {
+                let signalUpdate = SignalUpdate(attendeeInfo: $1.key, signalStrength: $1.value)
+                $0.append(signalUpdate)
+            }
             forEachObserver { observer in
-                observer.onSignalStrengthChange(attendeeSignalMap: attendeeSignalDelta)
+                observer.onSignalStrengthChange(signalUpdates: signalUpdates)
             }
         }
     }
 
-    public func volumeStateChanged(_ volumes: [AnyHashable: Any]?) {
-        if volumes == nil {
+    public func volumeStateChanged(_ volumes: [Any]?) {
+        guard let volumesUpdate = volumes as? [AttendeeUpdate] else {
             return
         }
 
-        let newAttendeeVolumeMap: [String: VolumeLevel] = processAnyDictToStringEnumDict(anyDict: volumes!)
+        let newAttendeeVolumeMap = volumesUpdate.reduce(into: [AttendeeInfo: VolumeLevel]()) {
+            let attendeeInfo = AttendeeInfo(attendeeId: $1.profileId, externalUserId: $1.externalUserId)
+            $0[attendeeInfo] = VolumeLevel(rawValue: Int(truncating: $1.data))
+        }
+
         attendeePresenceStateChange(newAttendeeVolumeMap)
         let attendeeVolumeDelta = newAttendeeVolumeMap.subtracting(dict: currentAttendeeVolumeMap)
         attendeeMuteStateChange(attendeeVolumeDelta)
         currentAttendeeVolumeMap = newAttendeeVolumeMap
         if !attendeeVolumeDelta.isEmpty {
+            let volumeUpdates = attendeeVolumeDelta.reduce(into: [VolumeUpdate]()) {
+                let volumeUpdate = VolumeUpdate(attendeeInfo: $1.key, volumeLevel: $1.value)
+                $0.append(volumeUpdate)
+            }
             forEachObserver { observer in
-                observer.onVolumeChange(attendeeVolumeMap: attendeeVolumeDelta)
+                observer.onVolumeChange(volumeUpdates: volumeUpdates)
             }
         }
     }
 
-    private func attendeeMuteStateChange(_ map: [String: VolumeLevel]) {
+    private func attendeeMuteStateChange(_ map: [AttendeeInfo: VolumeLevel]) {
         let attendeesMuted = map.filter { (_, value) -> Bool in
             value == .muted
         }
         if !attendeesMuted.isEmpty {
             forEachObserver { observer in
-                observer.onAttendeesMute(attendeeIds: [String](attendeesMuted.keys))
+                observer.onAttendeesMute(attendeeInfo: [AttendeeInfo](attendeesMuted.keys))
             }
         }
 
@@ -108,24 +124,25 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         }
         if !attendeesUnmuted.isEmpty {
             forEachObserver { observer in
-                observer.onAttendeesUnmute(attendeeIds: [String](attendeesUnmuted.keys))
+                observer.onAttendeesUnmute(attendeeInfo: [AttendeeInfo](attendeesUnmuted.keys))
             }
         }
     }
 
-    private func attendeePresenceStateChange(_ map: [String: Any]) {
+    private func attendeePresenceStateChange(_ map: [AttendeeInfo: Any]) {
         let newAttendees = Set(map.keys)
         let attendeesAdded = newAttendees.subtracting(currentAttendeeSet)
         let attendeesRemoved = currentAttendeeSet.subtracting(newAttendees)
 
         if !attendeesAdded.isEmpty {
             forEachObserver { observer in
-                observer.onAttendeesJoin(attendeeIds: [String](attendeesAdded))
+                observer.onAttendeesJoin(attendeeInfo: [AttendeeInfo](attendeesAdded))
             }
         }
+
         if !attendeesRemoved.isEmpty {
             forEachObserver { observer in
-                observer.onAttendeesLeave(attendeeIds: [String](attendeesRemoved))
+                observer.onAttendeesLeave(attendeeInfo: [AttendeeInfo](attendeesRemoved))
             }
         }
         currentAttendeeSet = newAttendees

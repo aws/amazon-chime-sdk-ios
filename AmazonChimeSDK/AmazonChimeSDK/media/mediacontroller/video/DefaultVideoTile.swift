@@ -21,7 +21,9 @@ import Foundation
 
     // TODO: figure out what todo with this bind if builder decide to call this directly
     public func bind(videoRenderView: VideoRenderView?) {
-        logger.info(msg: "Binding the view to tile: tileId: \(state.tileId), attendeeId: \(state.attendeeId ?? "self")")
+        logger.info(
+            msg: "Binding the view to tile: tileId: \(state.tileId), attendeeId: \(state.attendeeId ?? "self")"
+        )
         self.videoRenderView = videoRenderView
     }
 
@@ -30,7 +32,9 @@ import Foundation
     }
 
     public func unbind() {
-        logger.info(msg: "Unbinding the view from tile: tileId:  \(state.tileId), attendeeId: \(state.attendeeId ?? "self")")
+        logger.info(
+            msg: "Unbinding the view from tile: tileId:  \(state.tileId), attendeeId: \(state.attendeeId ?? "self")"
+        )
         videoRenderView = nil
     }
 

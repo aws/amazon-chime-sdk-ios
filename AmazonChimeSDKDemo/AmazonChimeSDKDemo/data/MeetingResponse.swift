@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MediaPlacementInfo: Codable {
+struct CreateMediaPlacementInfo: Codable {
     var audioFallbackUrl: String
     var audioHostUrl: String
     var turnControlUrl: String
@@ -21,9 +21,9 @@ struct MediaPlacementInfo: Codable {
     }
 }
 
-struct MeetingInfo: Codable {
+struct CreateMeetingInfo: Codable {
     var meetingId: String
-    var mediaPlacement: MediaPlacementInfo
+    var mediaPlacement: CreateMediaPlacementInfo
 
     enum CodingKeys: String, CodingKey {
         case meetingId = "MeetingId"
@@ -31,7 +31,7 @@ struct MeetingInfo: Codable {
     }
 }
 
-struct AttendeeInfo: Codable {
+struct CreateAttendeeInfo: Codable {
     var attendeeId: String
     var joinToken: String
 
@@ -41,10 +41,10 @@ struct AttendeeInfo: Codable {
     }
 }
 
-struct JoinInfo: Codable {
+struct CreateJoinInfo: Codable {
     var title: String
-    var meeting: MeetingInfo
-    var attendee: AttendeeInfo
+    var meeting: CreateMeetingInfo
+    var attendee: CreateAttendeeInfo
 
     enum CodingKeys: String, CodingKey {
         case title = "Title"
@@ -54,7 +54,7 @@ struct JoinInfo: Codable {
 }
 
 struct MeetingResponse: Codable {
-    var joinInfo: JoinInfo
+    var joinInfo: CreateJoinInfo
 
     enum CodingKeys: String, CodingKey {
         case joinInfo = "JoinInfo"

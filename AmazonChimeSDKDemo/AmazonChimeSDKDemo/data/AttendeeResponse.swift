@@ -18,9 +18,9 @@ struct AttendeeIdName: Codable {
 }
 
 struct AttendeeResponse: Codable {
-    var attendeeInfo: AttendeeIdName
+    var attendeeIdName: AttendeeIdName
 
     enum CodingKeys: String, CodingKey {
-        case attendeeInfo = "AttendeeInfo"
+        case attendeeIdName = "AttendeeInfo"
     }
 }

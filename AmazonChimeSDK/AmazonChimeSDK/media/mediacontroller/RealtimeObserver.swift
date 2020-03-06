@@ -10,31 +10,31 @@ import Foundation
 @objc public protocol RealtimeObserver {
     /// Handles volume changes for attendees
     ///
-    /// - Parameter attendeeVolumeMap: A dictionary of attendee Ids to volume
-    func onVolumeChange(attendeeVolumeMap: [String: Any])
+    /// - Parameter volumeUpdates: An array of VolumeUpdates
+    func onVolumeChange(volumeUpdates: [VolumeUpdate])
 
     /// Handles signal strength changes for attendees
     ///
-    /// - Parameter attendeeSignalMap: A dictionary of attendee Ids to signal strength
-    func onSignalStrengthChange(attendeeSignalMap: [String: Any])
+    /// - Parameter signalUpdates: An array of SignalUpdates
+    func onSignalStrengthChange(signalUpdates: [SignalUpdate])
 
     /// List attendees that are newly added to the meeting
     ///
-    /// - Parameter attendeeIds: ids of attendees added
-    func onAttendeesJoin(attendeeIds: [String])
+    /// - Parameter attendeeInfo: an array of AttendeeInfo added
+    func onAttendeesJoin(attendeeInfo: [AttendeeInfo])
 
     /// List attendees that left the meeting
     ///
-    /// - Parameter attendeeIds: ids of attendees removed
-    func onAttendeesLeave(attendeeIds: [String])
+    /// - Parameter attendeeInfo: an array of AttendeeInfo removed
+    func onAttendeesLeave(attendeeInfo: [AttendeeInfo])
 
     /// List attendees that are newly muted in the meeting
     ///
-    /// - Parameter attendeeIds: ids of attendees newly muted
-    func onAttendeesMute(attendeeIds: [String])
+    /// - Parameter attendeeInfo: an array of AttendeeInfo newly muted
+    func onAttendeesMute(attendeeInfo: [AttendeeInfo])
 
     /// List attendees that newly unmuted from the meeting
     ///
-    /// - Parameter attendeeIds: ids of attendees newly unmuted
-    func onAttendeesUnmute(attendeeIds: [String])
+    /// - Parameter attendeeInfo: an array of AttendeeInfo newly unmuted
+    func onAttendeesUnmute(attendeeInfo: [AttendeeInfo])
 }
