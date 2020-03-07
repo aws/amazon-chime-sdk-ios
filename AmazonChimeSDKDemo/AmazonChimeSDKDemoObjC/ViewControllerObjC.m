@@ -192,39 +192,39 @@
     [task resume];
 }
 
-- (void)onAttendeesJoinWithAttendeeIds:(NSArray<NSString *> * _Nonnull)attendeeIds {
-    for (id attendeeId in attendeeIds) {
-        [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ joined", attendeeId]];
+- (void)onAttendeesJoinWithAttendeeInfo:(NSArray<AttendeeInfo *> * _Nonnull)attendeeInfo {
+    for (id currentAttendeeInfo in attendeeInfo) {
+        [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ joined", [currentAttendeeInfo attendeeId]]];
     }
 }
 
-- (void)onAttendeesLeaveWithAttendeeIds:(NSArray<NSString *> * _Nonnull)attendeeIds {
-    for (id attendeeId in attendeeIds) {
-        [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ left", attendeeId]];
+- (void)onAttendeesLeaveWithAttendeeInfo:(NSArray<AttendeeInfo *> * _Nonnull)attendeeInfo {
+    for (id currentAttendeeInfo in attendeeInfo) {
+        [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ left", [currentAttendeeInfo attendeeId]]];
     }
 }
 
-- (void)onAttendeesMuteWithAttendeeIds:(NSArray<NSString *> * _Nonnull)attendeeIds {
-    for (id attendeeId in attendeeIds) {
-        [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ muted", attendeeId]];
+- (void)onAttendeesMuteWithAttendeeInfo:(NSArray<AttendeeInfo *> * _Nonnull)attendeeInfo {
+    for (id currentAttendeeInfo in attendeeInfo) {
+        [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ muted", [currentAttendeeInfo attendeeId]]];
     }
 }
 
-- (void)onAttendeesUnmuteWithAttendeeIds:(NSArray<NSString *> * _Nonnull)attendeeIds {
-    for (id attendeeId in attendeeIds) {
-        [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ unmuted", attendeeId]];
+- (void)onAttendeesUnmuteWithAttendeeInfo:(NSArray<AttendeeInfo *> * _Nonnull)attendeeInfo {
+    for (id currentAttendeeInfo in attendeeInfo) {
+        [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ unmuted", [currentAttendeeInfo attendeeId]]];
     }
 }
 
-- (void)onSignalStrengthChangeWithAttendeeSignalMap:(NSDictionary<NSString *,id> * _Nonnull)attendeeSignalMap {
-    for (id attendee in attendeeSignalMap) {
-        [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ signalStrength changed to %@", attendee, [attendeeSignalMap objectForKey:attendee]]];
+- (void)onSignalStrengthChangeWithSignalUpdates:(NSArray<SignalUpdate *> * _Nonnull)signalUpdates {
+    for (id currentSignalUpdate in signalUpdates) {
+        [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ signalStrength changed to %lu", [[currentSignalUpdate attendeeInfo] attendeeId], [currentSignalUpdate signalStrength]]];
     }
 }
 
-- (void)onVolumeChangeWithAttendeeVolumeMap:(NSDictionary<NSString *,id> * _Nonnull)attendeeVolumeMap {
-    for (id attendee in attendeeVolumeMap) {
-        [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ volumeLevel changed to %@", attendee, [attendeeVolumeMap objectForKey:attendee]]];
+- (void)onVolumeChangeWithVolumeUpdates:(NSArray<VolumeUpdate *> * _Nonnull)volumeUpdates {
+    for (id currentVolumeUpdate in volumeUpdates) {
+        [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ volumeLevel changed to %lu", [[currentVolumeUpdate attendeeInfo] attendeeId], [currentVolumeUpdate volumeLevel]]];
     }
 }
 
