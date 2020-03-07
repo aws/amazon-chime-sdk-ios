@@ -20,16 +20,16 @@ import UIKit
         self.videoClientController = videoClientController
     }
 
-    public func onReceiveFrame(frame: CGImage?, profileId: String?, displayId: Int, pauseType: Int, videoId: Int) {
+    public func onReceiveFrame(frame: Any?, attendeeId: String?, videoId: Int) {
         if let videoTile = videoTileMap[videoId] {
             if frame != nil {
-                videoTile.renderFrame(frame: UIImage(cgImage: frame!))
+                videoTile.renderFrame(frame: frame)
             } else {
                 videoTile.renderFrame(frame: nil)
                 onRemoveTrack(tileState: videoTile.state)
             }
         } else if frame != nil {
-            onAddTrack(videoId: videoId, profileId: profileId)
+            onAddTrack(videoId: videoId, attendeeId: attendeeId)
         }
     }
 
@@ -59,10 +59,10 @@ import UIKit
         unbindVideoView(tileId: tileId, removeTile: true)
     }
 
-    private func onAddTrack(videoId: Int, profileId: String?) {
+    private func onAddTrack(videoId: Int, attendeeId: String?) {
         let tile = DefaultVideoTile(logger: logger,
                                     tileId: videoId,
-                                    attendeeId: profileId)
+                                    attendeeId: attendeeId)
         videoTileMap[videoId] = tile
         forEachObserver { videoTileObserver in
             videoTileObserver.onAddVideoTrack(tileState: tile.state)

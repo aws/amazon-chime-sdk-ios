@@ -9,18 +9,14 @@ import CoreGraphics.CGImage
 import Foundation
 
 @objc public protocol VideoTileController: VideoTileControllerFacade {
-    /// Called whenever there is anew Video frame received for any of the attendee in the meeting
+    /// Called whenever there is a new Video frame received for any of the attendee in the meeting
     /// - Parameters:
     ///   - frame: a frame of video
-    ///   - profileId: a id of user who is transmitting current frame
-    ///   - displayId: a id of tile
-    ///   - pauseType: pauseType
+    ///   - attendeeId: a id of user who is transmitting current frame
     ///   - videoId: unique id that belongs to video being transmitted
     func onReceiveFrame(
-        frame: CGImage?,
-        profileId: String?,
-        displayId: Int,
-        pauseType: Int,
+        frame: Any?,
+        attendeeId: String?,
         videoId: Int
     )
 }

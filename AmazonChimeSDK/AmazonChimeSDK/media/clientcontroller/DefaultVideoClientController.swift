@@ -156,6 +156,7 @@ class DefaultVideoClientController: NSObject {
 
         let videoConfig: VideoConfiguration = VideoConfiguration()
         videoConfig.isUsing16by9AspectRatio = isUsing16by9AspectRatio
+        videoConfig.isUsingPixelBufferRenderer = true
 
         videoClient!.start(nil,
                            proxyCallback: nil,
@@ -172,18 +173,15 @@ class DefaultVideoClientController: NSObject {
 // MARK: - VideoClientDelegate
 
 extension DefaultVideoClientController: VideoClientDelegate {
-    // swiftlint:disable function_parameter_count
-    public func videoClient(_ client: VideoClient!,
-                            didReceiveFrame image: CGImage!,
-                            displayId: Int32,
-                            profileId: String!,
-                            pause pauseType: video_client_pause_type_t,
-                            videoId: UInt32) {
+    func didReceive(_ buffer: CVPixelBuffer!, profileId: String!, pauseType: PauseType, videoId: UInt32) {
+        // Ignore pauses for now since we don't yet have a way of propagating that information
+        if pauseType != PauseType.NoPause && buffer != nil {
+            return
+        }
+
         forEachObserver(observers: videoTileControllerObservers) { (observer: VideoTileController) in
-            observer.onReceiveFrame(frame: image,
-                                    profileId: profileId,
-                                    displayId: Int(displayId),
-                                    pauseType: Int(pauseType.rawValue),
+            observer.onReceiveFrame(frame: buffer,
+                                    attendeeId: profileId,
                                     videoId: Int(videoId))
         }
     }

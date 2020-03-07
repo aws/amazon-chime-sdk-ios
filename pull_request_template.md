@@ -18,7 +18,7 @@
 - [ ] See local mute indicator when muted
 - [ ] See remote mute indicator when other is muted
 - [ ] Enable and disable local video
-- [ ] Receive remote video
+- [ ] Enable and disable remote video from remote side
 - [ ] Send local video
 - [ ] Pause and resume remote video
 - [ ] Switch local camera
