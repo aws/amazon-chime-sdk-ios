@@ -65,13 +65,13 @@ import UIKit
                                     attendeeId: attendeeId)
         videoTileMap[videoId] = tile
         forEachObserver { videoTileObserver in
-            videoTileObserver.onAddVideoTrack(tileState: tile.state)
+            videoTileObserver.onAddVideoTile(tileState: tile.state)
         }
     }
 
     private func onRemoveTrack(tileState: VideoTileState) {
         forEachObserver { videoTileObserver in
-            videoTileObserver.onRemoveVideoTrack(tileState: tileState)
+            videoTileObserver.onRemoveVideoTile(tileState: tileState)
         }
     }
 

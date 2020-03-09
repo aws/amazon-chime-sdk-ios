@@ -10,4 +10,5 @@ import Foundation
 enum SegmentedControlIndex: Int {
     case roster = 0
     case videos = 1
+    case screen = 2
 }

@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Join a meeting" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UUz-34-lb9">
-                                <rect key="frame" x="83" y="315" width="248.5" height="48"/>
+                                <rect key="frame" x="82.5" y="315" width="249" height="48"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -126,6 +126,77 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view clipsSubviews="YES" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="6y9-zR-zeP" userLabel="ScreenContainer">
+                                <rect key="frame" x="16" y="157.5" width="382" height="639.5"/>
+                                <subviews>
+                                    <view hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gJX-ez-OMF" userLabel="ScreenView" customClass="DefaultVideoRenderView" customModule="AmazonChimeSDK">
+                                        <rect key="frame" x="6" y="215.5" width="370" height="208.5"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="gJX-ez-OMF" secondAttribute="height" multiplier="16:9" id="Nw6-Jz-bpf"/>
+                                            <constraint firstAttribute="height" secondItem="gJX-ez-OMF" secondAttribute="width" multiplier="9:16" id="o69-e4-2gc"/>
+                                        </constraints>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="Nw6-Jz-bpf"/>
+                                                <exclude reference="o69-e4-2gc"/>
+                                            </mask>
+                                        </variation>
+                                        <variation key="heightClass=compact-widthClass=regular">
+                                            <mask key="constraints">
+                                                <include reference="Nw6-Jz-bpf"/>
+                                            </mask>
+                                        </variation>
+                                        <variation key="heightClass=regular-widthClass=compact">
+                                            <mask key="constraints">
+                                                <include reference="o69-e4-2gc"/>
+                                            </mask>
+                                        </variation>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstItem="gJX-ez-OMF" firstAttribute="leading" secondItem="6y9-zR-zeP" secondAttribute="leading" constant="6" id="88O-pH-Yc6"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="gJX-ez-OMF" secondAttribute="bottom" constant="6" id="CVO-MD-TrB"/>
+                                    <constraint firstItem="gJX-ez-OMF" firstAttribute="top" secondItem="6y9-zR-zeP" secondAttribute="topMargin" constant="6" id="Xai-fB-ktL"/>
+                                    <constraint firstAttribute="trailing" secondItem="gJX-ez-OMF" secondAttribute="trailing" constant="6" id="gc6-kS-0cn"/>
+                                    <constraint firstItem="gJX-ez-OMF" firstAttribute="centerY" secondItem="6y9-zR-zeP" secondAttribute="centerY" id="hkB-pb-8ym"/>
+                                    <constraint firstItem="gJX-ez-OMF" firstAttribute="centerX" secondItem="6y9-zR-zeP" secondAttribute="centerX" id="rpf-vA-oVt"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="subviews">
+                                        <exclude reference="gJX-ez-OMF"/>
+                                    </mask>
+                                    <mask key="constraints">
+                                        <exclude reference="88O-pH-Yc6"/>
+                                        <exclude reference="CVO-MD-TrB"/>
+                                        <exclude reference="Xai-fB-ktL"/>
+                                        <exclude reference="gc6-kS-0cn"/>
+                                        <exclude reference="hkB-pb-8ym"/>
+                                        <exclude reference="rpf-vA-oVt"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact-widthClass=regular">
+                                    <mask key="subviews">
+                                        <include reference="gJX-ez-OMF"/>
+                                    </mask>
+                                    <mask key="constraints">
+                                        <include reference="CVO-MD-TrB"/>
+                                        <include reference="Xai-fB-ktL"/>
+                                        <include reference="rpf-vA-oVt"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="subviews">
+                                        <include reference="gJX-ez-OMF"/>
+                                    </mask>
+                                    <mask key="constraints">
+                                        <include reference="88O-pH-Yc6"/>
+                                        <include reference="gc6-kS-0cn"/>
+                                        <include reference="hkB-pb-8ym"/>
+                                    </mask>
+                                </variation>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ELJ-Ld-nMt" userLabel="RosterTableView">
                                 <rect key="frame" x="16" y="157.5" width="382" height="639.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -214,13 +285,14 @@
                                 </connections>
                             </collectionView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="fbX-8E-rPP">
-                                <rect key="frame" x="145.5" y="765" width="123" height="33"/>
+                                <rect key="frame" x="113" y="765" width="188" height="33"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="Rq3-ge-Cke"/>
                                 </constraints>
                                 <segments>
                                     <segment title="Roster"/>
                                     <segment title="Videos"/>
+                                    <segment title="Screen"/>
                                 </segments>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
@@ -232,16 +304,20 @@
                         <constraints>
                             <constraint firstItem="wAb-yP-Xtg" firstAttribute="trailing" secondItem="Qja-lL-6xQ" secondAttribute="trailing" constant="16" id="0Ro-Ln-syz"/>
                             <constraint firstItem="hxg-2p-ahJ" firstAttribute="centerX" secondItem="qB1-9y-yO7" secondAttribute="centerX" id="3CH-WS-ATk"/>
+                            <constraint firstItem="6y9-zR-zeP" firstAttribute="centerX" secondItem="qB1-9y-yO7" secondAttribute="centerX" id="4aR-fX-cLR"/>
                             <constraint firstItem="fbX-8E-rPP" firstAttribute="centerX" secondItem="qB1-9y-yO7" secondAttribute="centerX" id="8WG-2P-UsI"/>
                             <constraint firstItem="Qja-lL-6xQ" firstAttribute="top" secondItem="hxg-2p-ahJ" secondAttribute="bottom" constant="16" id="99X-lq-0KV"/>
                             <constraint firstItem="Qja-lL-6xQ" firstAttribute="centerX" secondItem="qB1-9y-yO7" secondAttribute="centerX" id="HeV-Xq-r6C"/>
+                            <constraint firstItem="6y9-zR-zeP" firstAttribute="top" secondItem="hxg-2p-ahJ" secondAttribute="bottom" constant="16" id="Np1-0V-zpi"/>
                             <constraint firstItem="wAb-yP-Xtg" firstAttribute="bottom" secondItem="Qja-lL-6xQ" secondAttribute="bottom" constant="16" id="OCQ-OC-YkW"/>
                             <constraint firstItem="hxg-2p-ahJ" firstAttribute="leading" secondItem="qB1-9y-yO7" secondAttribute="leading" constant="16" id="OSx-SJ-2Ya"/>
                             <constraint firstItem="hxg-2p-ahJ" firstAttribute="top" secondItem="eGg-Lr-MVg" secondAttribute="bottom" constant="16" id="RUs-Qk-V4o"/>
                             <constraint firstAttribute="trailing" secondItem="hxg-2p-ahJ" secondAttribute="trailing" constant="16" id="Wjf-vf-tnr"/>
                             <constraint firstItem="Qja-lL-6xQ" firstAttribute="leading" secondItem="wAb-yP-Xtg" secondAttribute="leading" constant="16" id="YHF-zO-CDF"/>
                             <constraint firstItem="eGg-Lr-MVg" firstAttribute="centerX" secondItem="qB1-9y-yO7" secondAttribute="centerX" id="ZDa-w3-ptL"/>
+                            <constraint firstItem="6y9-zR-zeP" firstAttribute="leading" secondItem="wAb-yP-Xtg" secondAttribute="leading" constant="16" id="Zrs-Y4-wQb"/>
                             <constraint firstItem="eGg-Lr-MVg" firstAttribute="leading" secondItem="wAb-yP-Xtg" secondAttribute="leading" constant="16" id="aaf-pD-STv"/>
+                            <constraint firstItem="wAb-yP-Xtg" firstAttribute="trailing" secondItem="6y9-zR-zeP" secondAttribute="trailing" constant="16" id="dbt-S5-isd"/>
                             <constraint firstItem="ELJ-Ld-nMt" firstAttribute="leading" secondItem="wAb-yP-Xtg" secondAttribute="leading" constant="16" id="gGW-P7-XHB"/>
                             <constraint firstItem="ELJ-Ld-nMt" firstAttribute="top" secondItem="hxg-2p-ahJ" secondAttribute="bottom" constant="16" id="hNh-ky-wPF"/>
                             <constraint firstItem="ELJ-Ld-nMt" firstAttribute="centerX" secondItem="qB1-9y-yO7" secondAttribute="centerX" id="i3v-bH-0JJ"/>
@@ -249,6 +325,7 @@
                             <constraint firstItem="wAb-yP-Xtg" firstAttribute="trailing" secondItem="ELJ-Ld-nMt" secondAttribute="trailing" constant="16" id="nEc-Tz-nL2"/>
                             <constraint firstItem="eGg-Lr-MVg" firstAttribute="top" secondItem="wAb-yP-Xtg" secondAttribute="top" constant="16" id="tAc-Ek-U7Z"/>
                             <constraint firstItem="wAb-yP-Xtg" firstAttribute="bottom" secondItem="fbX-8E-rPP" secondAttribute="bottom" constant="16" id="w0s-KZ-g7Z"/>
+                            <constraint firstItem="wAb-yP-Xtg" firstAttribute="bottom" secondItem="6y9-zR-zeP" secondAttribute="bottom" constant="16" id="z1C-oQ-FGg"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="wAb-yP-Xtg"/>
                     </view>
@@ -261,13 +338,14 @@
                         <outlet property="meetingNameLabel" destination="eGg-Lr-MVg" id="GHP-SY-nSu"/>
                         <outlet property="muteButton" destination="fzH-S4-QOP" id="vmO-mV-2jv"/>
                         <outlet property="rosterTable" destination="ELJ-Ld-nMt" id="R2u-1L-jEP"/>
+                        <outlet property="screenView" destination="gJX-ez-OMF" id="8GC-op-Mfg"/>
                         <outlet property="segmentedControl" destination="fbX-8E-rPP" id="Q2V-pa-6Rw"/>
                         <outlet property="videoCollection" destination="Qja-lL-6xQ" id="dIx-E3-6pz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gja-bz-aQW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1008.6956521739131" y="112.5"/>
+            <point key="canvasLocation" x="1003.7946428571428" y="107.24637681159422"/>
         </scene>
     </scenes>
     <resources>

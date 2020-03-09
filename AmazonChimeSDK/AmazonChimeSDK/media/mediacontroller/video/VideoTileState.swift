@@ -17,6 +17,9 @@ import Foundation
     /// Id of the user associated with this tile
     public let attendeeId: String?
 
+    // Whether this is screen share
+    public let isContent: Bool
+
     /// If this tile is paused
     public var paused: Bool
 
@@ -25,5 +28,6 @@ import Foundation
         self.attendeeId = attendeeId
         self.paused = paused
         self.isLocalTile = attendeeId == nil
+        self.isContent = attendeeId?.hasSuffix(Constants.modality) ?? false
     }
 }

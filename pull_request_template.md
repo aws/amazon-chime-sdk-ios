@@ -22,6 +22,7 @@
 - [ ] Send local video
 - [ ] Pause and resume remote video
 - [ ] Switch local camera
+- [ ] Receive remote screen share
 
 #### Integration validation (required before release)
 

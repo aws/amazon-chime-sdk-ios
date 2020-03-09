@@ -11,10 +11,10 @@ import Foundation
     /// Called whenever a new attendee starts sharing the video
     /// - Parameters:
     ///   - tileState: video tile state associated with this attendee
-    func onAddVideoTrack(tileState: VideoTileState)
+    func onAddVideoTile(tileState: VideoTileState)
 
     /// Called whenever any attendee stops sharing the video
     /// - Parameters:
     ///   - tileState: video tile state associated with this attendee
-    func onRemoveVideoTrack(tileState: VideoTileState)
+    func onRemoveVideoTile(tileState: VideoTileState)
 }
