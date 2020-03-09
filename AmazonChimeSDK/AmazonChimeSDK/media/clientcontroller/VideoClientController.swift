@@ -11,10 +11,12 @@ import Foundation
     func start(turnControlUrl: String,
                signalingUrl: String,
                meetingId: String,
-               joinToken: String,
-               sending: Bool) throws
+               joinToken: String)
     func stopAndDestroy()
-    func enableSelfVideo(isEnabled: Bool) throws
+    func startLocalVideo() throws
+    func stopLocalVideo()
+    func startRemoteVideo()
+    func stopRemoteVideo()
     func switchCamera()
     func getCurrentDevice() -> VideoDevice?
     func subscribeToVideoClientStateChange(observer: AudioVideoObserver)

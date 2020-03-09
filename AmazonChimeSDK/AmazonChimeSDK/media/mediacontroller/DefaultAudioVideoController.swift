@@ -42,11 +42,10 @@ import Foundation
                                     meetingId: configuration.meetingId,
                                     attendeeId: configuration.credentials.attendeeId,
                                     joinToken: configuration.credentials.joinToken)
-        try videoClientController.start(turnControlUrl: configuration.urls.turnControlUrl,
+        videoClientController.start(turnControlUrl: configuration.urls.turnControlUrl,
                                         signalingUrl: configuration.urls.signalingUrl,
                                         meetingId: configuration.meetingId,
-                                        joinToken: configuration.credentials.joinToken,
-                                        sending: false)
+                                        joinToken: configuration.credentials.joinToken)
     }
 
     public func stop() {
@@ -73,10 +72,18 @@ import Foundation
     }
 
     public func startLocalVideo() throws {
-        try videoClientController.enableSelfVideo(isEnabled: true)
+        try videoClientController.startLocalVideo()
     }
 
     public func stopLocalVideo() {
-        try? videoClientController.enableSelfVideo(isEnabled: false)
+        videoClientController.stopLocalVideo()
+    }
+
+    public func startRemoteVideo() {
+        videoClientController.startRemoteVideo()
+    }
+
+    public func stopRemoteVideo() {
+        videoClientController.stopRemoteVideo()
     }
 }

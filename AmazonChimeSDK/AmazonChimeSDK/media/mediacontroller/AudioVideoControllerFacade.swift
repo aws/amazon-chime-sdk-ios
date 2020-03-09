@@ -13,7 +13,6 @@ import Foundation
     /// Start AudioVideo Controller
     ///
     /// - Throws: `PermissionError.audioPermissionError` if `RecordPermission` is not given
-    /// - Throws: `PermissionError.videoPermissionError` if video permission of `AVCaptureDevice` is not granted
     func start() throws
 
     /// Stop AudioVideo Controller. This will exit the meeting
@@ -26,6 +25,12 @@ import Foundation
 
     /// Disable self video streaming
     func stopLocalVideo()
+
+    /// Enable remote video to start receiving streams
+    func startRemoteVideo()
+
+    /// Disable remote video to stop receiving streams
+    func stopRemoteVideo()
 
     /// Subscribe to audio, video, and connection events with an `AudioVideoObserver`.
     ///

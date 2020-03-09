@@ -48,6 +48,14 @@ import Foundation
         self.audioVideoController.stopLocalVideo()
     }
 
+    public func startRemoteVideo() {
+        self.audioVideoController.startRemoteVideo()
+    }
+
+    public func stopRemoteVideo() {
+        self.audioVideoController.stopRemoteVideo()
+    }
+
     private func trace(name: String) {
         let message = "API/DefaultAudioVideoFacade/\(name)"
         self.audioVideoController.logger.info(msg: message)

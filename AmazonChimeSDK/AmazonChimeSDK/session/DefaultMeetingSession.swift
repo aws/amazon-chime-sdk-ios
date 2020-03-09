@@ -28,8 +28,7 @@ import Foundation
                                                                  audioSession: audioSession)
 
         let videoClientController = DefaultVideoClientController(logger: logger,
-                                                                 clientMetricsCollector: clientMetricsCollector,
-                                                                 isUsing16by9AspectRatio: false)
+                                                                 clientMetricsCollector: clientMetricsCollector)
         let videoTileController =
             DefaultVideoTileController(logger: logger,
                                        videoClientController: videoClientController)

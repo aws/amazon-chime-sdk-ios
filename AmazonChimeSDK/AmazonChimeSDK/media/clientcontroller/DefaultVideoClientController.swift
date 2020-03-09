@@ -10,13 +10,11 @@ import Foundation
 
 class DefaultVideoClientController: NSObject {
     var logger: Logger
-    var isUsing16by9AspectRatio: Bool
     var videoClient: VideoClient?
     var clientMetricsCollector: ClientMetricsCollector
     var videoClientState: VideoClientState = .uninitialized
     var videoTileControllerObservers: NSMutableSet = NSMutableSet()
     var videoObservers: NSMutableSet = NSMutableSet()
-    var isSelfVideoSending: Bool = false
     var turnControlUrl: String?
     var signalingUrl: String?
     var meetingId: String?
@@ -29,10 +27,9 @@ class DefaultVideoClientController: NSObject {
     private let tokenKey = "_aws_wt_session"
     private let meetingIdKey = "meetingId"
 
-    init(logger: Logger, clientMetricsCollector: ClientMetricsCollector, isUsing16by9AspectRatio: Bool) {
+    init(logger: Logger, clientMetricsCollector: ClientMetricsCollector) {
         self.logger = logger
         self.clientMetricsCollector = clientMetricsCollector
-        self.isUsing16by9AspectRatio = isUsing16by9AspectRatio
 
         super.init()
     }
@@ -90,8 +87,8 @@ class DefaultVideoClientController: NSObject {
 
     // MARK: VideoClientController
 
-    private func checkVideoPermission(sending: Bool) throws {
-        if sending, AVCaptureDevice.authorizationStatus(for: .video) != .authorized {
+    private func checkVideoPermission() throws {
+        if AVCaptureDevice.authorizationStatus(for: .video) != .authorized {
             throw PermissionError.videoPermissionError
         }
     }
@@ -103,7 +100,6 @@ class DefaultVideoClientController: NSObject {
     private func stopVideoClient() {
         logger.info(msg: "Stopping VideoClient")
         videoClient?.stop()
-        isSelfVideoSending = false
         videoClientState = .stopped
     }
 
@@ -146,24 +142,26 @@ class DefaultVideoClientController: NSObject {
         videoClientState = .initialized
     }
 
-    func startInitializedVideoClient(sending: Bool) throws {
+    func startInitializedVideoClient() {
         guard videoClient != nil else {
             logger.error(msg: "VideoClient is not initialized properly")
             return
         }
-        logger.info(msg: "Starting VideoClient with sending=\(sending)")
-        try enableSelfVideo(isEnabled: sending)
+        logger.info(msg: "Starting VideoClient")
 
         let videoConfig: VideoConfiguration = VideoConfiguration()
-        videoConfig.isUsing16by9AspectRatio = isUsing16by9AspectRatio
+        videoConfig.isUsing16by9AspectRatio = true
         videoConfig.isUsingPixelBufferRenderer = true
 
+        // Default to idle mode, no video but signaling connection is
+        // established for messaging
+        videoClient?.setReceiving(false)
         videoClient!.start(nil,
                            proxyCallback: nil,
                            stunServerUrl: nil,
                            callId: meetingId,
                            token: joinToken,
-                           sending: sending,
+                           sending: false,
                            config: videoConfig,
                            appInfo: app_detailed_info_t.init())
         videoClientState = .started
@@ -259,10 +257,7 @@ extension DefaultVideoClientController: VideoClientController {
     public func start(turnControlUrl: String,
                       signalingUrl: String,
                       meetingId: String,
-                      joinToken: String,
-                      sending: Bool) throws {
-        try checkVideoPermission(sending: sending)
-
+                      joinToken: String) {
         self.turnControlUrl = turnControlUrl
         self.signalingUrl = signalingUrl
         self.meetingId = meetingId
@@ -271,11 +266,11 @@ extension DefaultVideoClientController: VideoClientController {
         switch videoClientState {
         case .uninitialized:
             initialize()
-            try startInitializedVideoClient(sending: sending)
+            startInitializedVideoClient()
         case .started:
             logger.info(msg: "VideoClientState is already STARTED")
         case .initialized, .stopped:
-            try startInitializedVideoClient(sending: sending)
+            startInitializedVideoClient()
         }
     }
 
@@ -295,21 +290,45 @@ extension DefaultVideoClientController: VideoClientController {
 
     // MARK: - Video selection
 
-    public func enableSelfVideo(isEnabled: Bool) throws {
+    public func startLocalVideo() throws {
         guard videoClientState != .uninitialized else {
-            logger.info(msg: "VideoClient is not initialized so returning without doing anything")
+            logger.fault(msg: "VideoClient is not initialized so returning without doing anything")
             return
         }
-        logger.info(msg: "Enable Self Video with isEnabled=\(isEnabled)")
+        try checkVideoPermission()
 
-        isSelfVideoSending = isEnabled
-        try checkVideoPermission(sending: isSelfVideoSending)
-
-        if isSelfVideoSending, VideoClient.currentDevice() == nil {
+        logger.info(msg: "Starting local video")
+        if VideoClient.currentDevice() == nil {
             setFrontCameraAsCurrentDevice()
         }
+        videoClient?.setSending(true)
+    }
 
-        videoClient?.setSending(isSelfVideoSending)
+    public func stopLocalVideo() {
+        guard videoClientState != .uninitialized else {
+            logger.fault(msg: "VideoClient is not initialized so returning without doing anything")
+            return
+        }
+        logger.info(msg: "Stopping local video")
+        videoClient?.setSending(false)
+    }
+
+    public func startRemoteVideo() {
+        guard videoClientState != .uninitialized else {
+            logger.fault(msg: "VideoClient is not initialized so returning without doing anything")
+            return
+        }
+        logger.info(msg: "Starting remote video")
+        videoClient?.setReceiving(true)
+    }
+
+    public func stopRemoteVideo() {
+        guard videoClientState != .uninitialized else {
+            logger.fault(msg: "VideoClient is not initialized so returning without doing anything")
+            return
+        }
+        logger.info(msg: "Stopping remote video")
+        videoClient?.setReceiving(false)
     }
 
     public func switchCamera() {
