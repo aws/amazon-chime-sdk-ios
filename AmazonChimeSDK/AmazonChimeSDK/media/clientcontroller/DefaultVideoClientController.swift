@@ -171,9 +171,9 @@ class DefaultVideoClientController: NSObject {
 // MARK: - VideoClientDelegate
 
 extension DefaultVideoClientController: VideoClientDelegate {
-    func didReceive(_ buffer: CVPixelBuffer!, profileId: String!, pauseType: PauseType, videoId: UInt32) {
+    func didReceive(_ buffer: CVPixelBuffer!, profileId: String!, pauseState: PauseState, videoId: UInt32) {
         // Ignore pauses for now since we don't yet have a way of propagating that information
-        if pauseType != PauseType.NoPause && buffer != nil {
+        if pauseState != PauseState.Unpaused {
             return
         }
 
