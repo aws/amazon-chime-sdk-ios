@@ -9,5 +9,5 @@ import UIKit
 
 class RosterTableCell: UITableViewCell {
     @IBOutlet var attendeeName: UILabel!
-    @IBOutlet var speakerLevel: UILabel!
+    @IBOutlet var speakLevel: UIImageView!
 }

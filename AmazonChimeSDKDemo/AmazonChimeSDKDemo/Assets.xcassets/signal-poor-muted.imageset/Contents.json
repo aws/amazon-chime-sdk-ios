@@ -2,15 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "icons-microphone-poor-connectivity-disabled.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "icons-microphone-poor-connectivity-disabled@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "switch-camera-pressed.pdf",
+      "filename" : "icons-microphone-poor-connectivity-disabled@3x.png",
       "scale" : "3x"
     }
   ],

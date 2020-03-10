@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Join a meeting" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UUz-34-lb9">
-                                <rect key="frame" x="82.5" y="315" width="249" height="48"/>
+                                <rect key="frame" x="83" y="317" width="248.5" height="48"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -53,7 +53,7 @@
                             <constraint firstItem="Gda-Op-d5h" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="BKP-z8-99b"/>
                             <constraint firstItem="Gda-Op-d5h" firstAttribute="top" secondItem="osX-FD-I0Z" secondAttribute="bottom" constant="16" id="BOT-IF-kOG"/>
                             <constraint firstItem="UUz-34-lb9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="FdE-dz-ali"/>
-                            <constraint firstItem="s6f-Ei-sAf" firstAttribute="top" secondItem="UUz-34-lb9" secondAttribute="bottom" constant="34" id="ICg-MR-DeZ"/>
+                            <constraint firstItem="s6f-Ei-sAf" firstAttribute="top" secondItem="UUz-34-lb9" secondAttribute="bottom" constant="32" id="ICg-MR-DeZ"/>
                             <constraint firstItem="Gda-Op-d5h" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="64" id="MrR-dT-nk9"/>
                             <constraint firstItem="s6f-Ei-sAf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="O7I-Dv-H8c"/>
                             <constraint firstItem="osX-FD-I0Z" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="bfI-1B-dC2"/>
@@ -85,8 +85,8 @@
                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fzH-S4-QOP" userLabel="Mic">
                                         <rect key="frame" x="0.0" y="0.0" width="89.5" height="32"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Mute" image="meeting-mute"/>
-                                        <state key="selected" title="Muted" image="meeting-mute-on"/>
+                                        <state key="normal" image="volume-0"/>
+                                        <state key="selected" image="volume-muted"/>
                                         <connections>
                                             <action selector="muteButtonClicked:" destination="Sfo-A7-USF" eventType="touchUpInside" id="nKN-jU-CeH"/>
                                         </connections>
@@ -94,22 +94,22 @@
                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NMj-an-6IT">
                                         <rect key="frame" x="97.5" y="0.0" width="89.5" height="32"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Camera" image="meeting-video"/>
-                                        <state key="selected" title="Camera" image="meeting-video-on"/>
+                                        <state key="normal" image="meeting-video"/>
+                                        <state key="selected" image="meeting-video-on"/>
                                         <connections>
                                             <action selector="cameraButtonClicked:" destination="Sfo-A7-USF" eventType="touchUpInside" id="0Zi-3J-oyb"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1AR-gN-PDB">
                                         <rect key="frame" x="195" y="0.0" width="89.5" height="32"/>
-                                        <state key="normal" title="Device" image="meeting-speaker"/>
+                                        <state key="normal" image="meeting-speaker"/>
                                         <connections>
                                             <action selector="deviceButtonClicked:" destination="Sfo-A7-USF" eventType="touchUpInside" id="9zS-vO-7Jo"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wwR-Kt-AOS" userLabel="End">
                                         <rect key="frame" x="292.5" y="0.0" width="89.5" height="32"/>
-                                        <state key="normal" title="Leave" image="meeting-end"/>
+                                        <state key="normal" image="meeting-end"/>
                                         <connections>
                                             <action selector="leaveButtonClicked:" destination="Sfo-A7-USF" eventType="touchUpInside" id="lEO-1P-3FI"/>
                                         </connections>
@@ -214,23 +214,24 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ilA-Bo-2TX">
-                                                    <rect key="frame" x="324" y="33.5" width="42" height="20.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="volume-muted" translatesAutoresizingMaskIntoConstraints="NO" id="4TK-1h-zWd">
+                                                    <rect key="frame" x="334" y="27.5" width="32" height="32"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="4TK-1h-zWd" secondAttribute="height" multiplier="1:1" id="JnC-uj-zvh"/>
+                                                        <constraint firstAttribute="height" constant="32" id="cgx-NI-GeX"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="lJB-bO-0qq" firstAttribute="centerY" secondItem="XxA-aI-f6e" secondAttribute="centerY" id="HuZ-KT-WNp"/>
-                                                <constraint firstAttribute="trailing" secondItem="ilA-Bo-2TX" secondAttribute="trailing" constant="16" id="MFw-Hi-HAJ"/>
-                                                <constraint firstItem="ilA-Bo-2TX" firstAttribute="centerY" secondItem="XxA-aI-f6e" secondAttribute="centerY" id="f2Y-qm-YeA"/>
+                                                <constraint firstAttribute="trailing" secondItem="4TK-1h-zWd" secondAttribute="trailing" constant="16" id="hOI-1V-ODD"/>
+                                                <constraint firstItem="4TK-1h-zWd" firstAttribute="centerY" secondItem="XxA-aI-f6e" secondAttribute="centerY" id="s7N-md-m2N"/>
                                                 <constraint firstItem="lJB-bO-0qq" firstAttribute="leading" secondItem="XxA-aI-f6e" secondAttribute="leading" constant="16" id="wpm-W9-ODL"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="attendeeName" destination="lJB-bO-0qq" id="44C-MZ-Tzi"/>
-                                            <outlet property="speakerLevel" destination="ilA-Bo-2TX" id="pSQ-hQ-dIh"/>
+                                            <outlet property="speakLevel" destination="4TK-1h-zWd" id="8OT-yH-SIC"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -264,8 +265,6 @@
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <state key="normal" title="PAUSE"/>
-                                                    <state key="highlighted" image="switch-camera-pressed"/>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -285,7 +284,7 @@
                                 </connections>
                             </collectionView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="fbX-8E-rPP">
-                                <rect key="frame" x="113" y="765" width="188" height="33"/>
+                                <rect key="frame" x="131.5" y="765" width="151" height="33"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="Rq3-ge-Cke"/>
                                 </constraints>
@@ -349,12 +348,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="meeting-end" width="374" height="374"/>
-        <image name="meeting-mute" width="480" height="480"/>
-        <image name="meeting-mute-on" width="448" height="448"/>
-        <image name="meeting-speaker" width="384" height="384"/>
-        <image name="meeting-video" width="480" height="480"/>
-        <image name="meeting-video-on" width="448" height="448"/>
-        <image name="switch-camera-pressed" width="1065" height="1065"/>
+        <image name="meeting-end" width="24" height="24"/>
+        <image name="meeting-speaker" width="24" height="24"/>
+        <image name="meeting-video" width="24" height="24"/>
+        <image name="meeting-video-on" width="24" height="24"/>
+        <image name="volume-0" width="24" height="24"/>
+        <image name="volume-muted" width="24" height="24"/>
     </resources>
 </document>
