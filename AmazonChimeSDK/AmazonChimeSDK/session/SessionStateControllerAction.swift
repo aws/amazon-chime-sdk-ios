@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// `SessionStateControllerAction` is a state-changing action to perform.
 enum SessionStateControllerAction: Int32 {
     case unknown = -1
     case initialize = 0

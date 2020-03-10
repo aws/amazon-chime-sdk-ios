@@ -7,6 +7,9 @@
 
 import Foundation
 
+/// `VideoTileControllerFacade` allows one to control `VideoTile`. The caller is responsible for laying
+/// out video render views as desired and binding tile ids received from the observer
+/// in the `onAddVideoTile` and `onRemoveVideoTile` callbacks.
 @objc public protocol VideoTileControllerFacade {
     /// Binds the video rendering view to Video Tile. The view will start displaying the video frame
     /// after the completion of this API

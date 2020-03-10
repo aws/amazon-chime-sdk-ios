@@ -134,7 +134,6 @@ class DefaultVideoClientController: NSObject {
         }
         logger.info(msg: "Initializing VideoClient")
 
-        // TODO: will this be possible to pass from init?
         VideoClient.globalInitialize(nil)
         videoClient = VideoClient()
         videoClient?.delegate = self

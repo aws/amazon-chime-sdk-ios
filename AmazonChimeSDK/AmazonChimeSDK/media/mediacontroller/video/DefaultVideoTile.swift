@@ -19,7 +19,6 @@ import Foundation
         self.state = VideoTileState(tileId: tileId, attendeeId: attendeeId, paused: false)
     }
 
-    // TODO: figure out what todo with this bind if builder decide to call this directly
     public func bind(videoRenderView: VideoRenderView?) {
         logger.info(
             msg: "Binding the view to tile: tileId: \(state.tileId), attendeeId: \(state.attendeeId ?? "self")"

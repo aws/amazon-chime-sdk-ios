@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// `AudioVideoObserver` handles audio/video client events.
 @objc public protocol AudioVideoObserver {
     /// Called when the audio session is connecting or reconnecting.
     ///

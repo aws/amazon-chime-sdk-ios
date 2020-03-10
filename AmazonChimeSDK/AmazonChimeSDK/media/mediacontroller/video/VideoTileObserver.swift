@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// `VideoTileObserver` handles events related to `VideoTile`.
 @objc public protocol VideoTileObserver {
     /// Called whenever a new attendee starts sharing the video
     /// - Parameters:

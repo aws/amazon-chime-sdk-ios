@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// `VideoTile` is a tile that binds video render view to diplay the frame into the view.
 @objc public protocol VideoTile {
     /// State of VideoTile
     var state: VideoTileState { get }

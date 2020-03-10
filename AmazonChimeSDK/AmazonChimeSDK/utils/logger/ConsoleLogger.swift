@@ -8,6 +8,22 @@
 import Foundation
 import os
 
+/// ConsoleLogger writes logs with console.
+///
+/// ```
+/// // working with the ConsoleLogger
+/// let logger = new ConsoleLogger("demo"); //default level is LogLevel.DEFAULT prints everything
+/// logger.info("info");
+/// logger.debug("debug");
+/// logger.fault("fault");
+/// logger.error("error");
+///
+/// // setting logging levels
+/// let logger = new ConsoleLogger("demo", .INFO);
+/// logger.debug("debug"); // does not print
+/// logger.setLogLevel(LogLevel.DEBUG)
+/// logger.debug("debug"); // print
+/// ```
 @objcMembers public class ConsoleLogger: NSObject, Logger {
     let name: String
     var level: LogLevel

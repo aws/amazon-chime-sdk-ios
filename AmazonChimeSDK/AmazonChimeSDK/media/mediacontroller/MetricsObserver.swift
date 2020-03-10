@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// `MetricsObserver` handles events related to audio/video metrics.
 @objc public protocol MetricsObserver {
     /// Called when metrics are collected and ready
     ///

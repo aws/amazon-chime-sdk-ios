@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// `VideoRenderView` renders frame that comes from `VideoTile`.
 @objc public protocol VideoRenderView {
     /// Render given frame to UI
     /// - Parameter frame: a frame of video

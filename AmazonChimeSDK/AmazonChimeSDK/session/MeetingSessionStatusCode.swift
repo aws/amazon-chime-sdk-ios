@@ -11,10 +11,6 @@ import Foundation
     /// Everything is OK so far.
     case ok = 0
 
-    /// The attendee left the meeting normally.
-    /// TODO: find associate value from tincan
-    case left = 1
-
     /// The audio leg failed.
     case audioDisconnected = 9
 
@@ -58,8 +54,6 @@ import Foundation
         switch self {
         case .ok:
             return "ok"
-        case .left:
-            return "left"
         case .audioDisconnected:
             return "audioDisconnected"
         case .connectionHealthReconnect:

@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// VolumeLevel describes the volume level of an attendee for audio
+/// `VolumeLevel` describes the volume level of an attendee for audio.
 @objc public enum VolumeLevel: Int, CaseIterable, CustomStringConvertible {
     /// The attendee is muted
     case muted = -1

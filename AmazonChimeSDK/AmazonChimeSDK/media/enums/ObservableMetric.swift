@@ -7,11 +7,11 @@
 
 import Foundation
 
-/// ObservableMetric types represents filtered metrics that are intended to propagate to the
+/// `ObservableMetric` types represents filtered metrics that are intended to propagate to the
 /// top level observers. All metrics are measured over the past second.
 ///
-/// Send video metrics are only reported when sending
-/// Receive video metrics are only reported when receiving
+/// Send video metrics are only reported when sending.
+/// Receive video metrics are only reported when receiving.
 @objc public enum ObservableMetric: Int, CustomStringConvertible {
     /// Percentage of audio packets lost from server to client
     case audioPacketsReceivedFractionLossPercent
