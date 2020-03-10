@@ -1,0 +1,6 @@
+framework module TincanSDK {
+  umbrella header "TincanSDK.h"
+
+  export *
+  module * { export * }
+}
