@@ -9,4 +9,5 @@ import Foundation
 
 @objcMembers class Constants: NSObject {
     static let modality = "#content"
+    static let videoClientStatusCallAtCapacityViewOnly = 206
 }

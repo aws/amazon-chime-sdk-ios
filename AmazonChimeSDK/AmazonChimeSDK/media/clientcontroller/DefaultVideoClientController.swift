@@ -192,9 +192,15 @@ extension DefaultVideoClientController: VideoClientDelegate {
     }
 
     public func videoClientDidConnect(_ client: VideoClient!, controlStatus: Int32) {
-        logger.info(msg: "videoClientDidConnect")
+        logger.info(msg: "videoClientDidConnect, \(controlStatus)")
         forEachObserver(observers: videoObservers) { (observer: AudioVideoObserver) in
-            observer.onVideoClientStart()
+            switch Int(controlStatus) {
+            case Constants.videoClientStatusCallAtCapacityViewOnly:
+                observer.onVideoClientError(status: MeetingSessionStatus(statusCode: MeetingSessionStatusCode.videoAtCapacityViewOnly))
+            default:
+                observer.onVideoClientStart()
+            }
+            
         }
     }
 

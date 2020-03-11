@@ -40,6 +40,11 @@ import Foundation
     /// Called when the video session has started.
     func onVideoClientStart()
 
+    /// Called when video client has error.
+    ///
+    /// - Parameter status: The status of meeting session
+    func onVideoClientError(status: MeetingSessionStatus)
+
     /// Called when the video session has stopped from a started state with the reason
     /// provided in the status.
     ///
