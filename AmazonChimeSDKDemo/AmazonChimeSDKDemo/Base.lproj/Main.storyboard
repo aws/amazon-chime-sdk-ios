@@ -231,6 +231,12 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l66-CN-a9S">
+                                                    <rect key="frame" x="277" y="33.5" width="42" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="volume-muted" translatesAutoresizingMaskIntoConstraints="NO" id="4TK-1h-zWd">
                                                     <rect key="frame" x="334" y="27.5" width="32" height="32"/>
                                                     <constraints>
@@ -241,12 +247,15 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="lJB-bO-0qq" firstAttribute="centerY" secondItem="XxA-aI-f6e" secondAttribute="centerY" id="HuZ-KT-WNp"/>
+                                                <constraint firstItem="l66-CN-a9S" firstAttribute="centerY" secondItem="XxA-aI-f6e" secondAttribute="centerY" id="cvu-S8-btf"/>
                                                 <constraint firstAttribute="trailing" secondItem="4TK-1h-zWd" secondAttribute="trailing" constant="16" id="hOI-1V-ODD"/>
+                                                <constraint firstItem="4TK-1h-zWd" firstAttribute="leading" secondItem="l66-CN-a9S" secondAttribute="trailing" constant="15" id="rBh-tv-HTM"/>
                                                 <constraint firstItem="4TK-1h-zWd" firstAttribute="centerY" secondItem="XxA-aI-f6e" secondAttribute="centerY" id="s7N-md-m2N"/>
                                                 <constraint firstItem="lJB-bO-0qq" firstAttribute="leading" secondItem="XxA-aI-f6e" secondAttribute="leading" constant="16" id="wpm-W9-ODL"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="activeSpeaker" destination="l66-CN-a9S" id="0NT-d5-HEc"/>
                                             <outlet property="attendeeName" destination="lJB-bO-0qq" id="44C-MZ-Tzi"/>
                                             <outlet property="speakLevel" destination="4TK-1h-zWd" id="8OT-yH-SIC"/>
                                         </connections>
@@ -361,7 +370,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gja-bz-aQW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1003.7946428571428" y="107.24637681159422"/>
+            <point key="canvasLocation" x="1002.8985507246377" y="107.14285714285714"/>
         </scene>
     </scenes>
     <resources>

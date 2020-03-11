@@ -15,12 +15,14 @@ import Foundation
     let realtimeController: RealtimeControllerFacade
     let deviceController: DeviceController
     let videoTileController: VideoTileController
+    let activeSpeakerDetector: ActiveSpeakerDetectorFacade
 
     init(
         audioVideoController: AudioVideoControllerFacade,
         realtimeController: RealtimeControllerFacade,
         deviceController: DeviceController,
-        videoTileController: VideoTileController
+        videoTileController: VideoTileController,
+        activeSpeakerDetector: ActiveSpeakerDetectorFacade
     ) {
         self.audioVideoController = audioVideoController
         self.realtimeController = realtimeController
@@ -28,6 +30,7 @@ import Foundation
         self.videoTileController = videoTileController
         self.configuration = audioVideoController.configuration
         self.logger = audioVideoController.logger
+        self.activeSpeakerDetector = activeSpeakerDetector
     }
 
     public func start() throws {
@@ -146,4 +149,17 @@ import Foundation
     public func resumeRemoteVideoTile(tileId: Int) {
         self.videoTileController.resumeRemoteVideoTile(tileId: tileId)
     }
+    
+    // MARK: ActiveSpeakerDetector
+    
+    public func addActiveSpeakerObserver(policy: ActiveSpeakerPolicy, observer: ActiveSpeakerObserver) {
+        self.activeSpeakerDetector.addActiveSpeakerObserver(policy: policy, observer: observer)
+    }
+    
+    public func removeActiveSpeakerObserver(observer: ActiveSpeakerObserver) {
+        self.activeSpeakerDetector.removeActiveSpeakerObserver(observer: observer)
+    }
+    
+    public func hasBandwidthPriorityCallback(hasBandwidthPriority: Bool) {}
+    
 }
