@@ -1,0 +1,15 @@
+//
+//  AmazonChimeSDK.modulemap
+//  AmazonChimeSDK
+//
+//  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+//
+
+framework module AmazonChimeSDK {
+  umbrella header "Tincan.h"
+}
+
+module AmazonChimeSDK.Swift {
+    header "AmazonChimeSDK-Swift.h"
+    requires objc
+}
