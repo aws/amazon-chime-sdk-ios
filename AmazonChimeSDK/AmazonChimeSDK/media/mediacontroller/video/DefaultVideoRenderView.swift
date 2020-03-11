@@ -28,6 +28,7 @@ import VideoToolbox
         sendSubviewToBack(imageView)
         imageView.frame = bounds
         imageView.contentMode = contentMode
+        imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
 
     // Expects CVPixelBuffer as frame type
