@@ -171,14 +171,22 @@ class DefaultVideoClientController: NSObject {
 
 extension DefaultVideoClientController: VideoClientDelegate {
     func didReceive(_ buffer: CVPixelBuffer!, profileId: String!, pauseState: PauseState, videoId: UInt32) {
-        // Ignore pauses for now since we don't yet have a way of propagating that information
-        if pauseState != PauseState.Unpaused {
-            return
+        var translatedPauseState: VideoPauseState
+        switch pauseState {
+        case PauseState.Unpaused:
+            translatedPauseState = VideoPauseState.unpaused
+        case PauseState.PausedByUserRequest:
+            translatedPauseState = VideoPauseState.pausedByUserRequest
+        case PauseState.PausedForPoorConnection:
+            translatedPauseState = VideoPauseState.pausedForPoorConnection
+        default:
+            translatedPauseState = VideoPauseState.unpaused
         }
 
         forEachObserver(observers: videoTileControllerObservers) { (observer: VideoTileController) in
             observer.onReceiveFrame(frame: buffer,
                                     attendeeId: profileId,
+                                    pauseState: translatedPauseState,
                                     videoId: Int(videoId))
         }
     }
@@ -200,7 +208,6 @@ extension DefaultVideoClientController: VideoClientDelegate {
             default:
                 observer.onVideoClientStart()
             }
-            
         }
     }
 

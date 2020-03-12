@@ -14,10 +14,12 @@ import Foundation
     /// - Parameters:
     ///   - frame: a frame of video
     ///   - attendeeId: a id of user who is transmitting current frame
+    ///   - pauseState: current pause state of the video being received
     ///   - videoId: unique id that belongs to video being transmitted
     func onReceiveFrame(
         frame: Any?,
         attendeeId: String?,
+        pauseState: VideoPauseState,
         videoId: Int
     )
 }

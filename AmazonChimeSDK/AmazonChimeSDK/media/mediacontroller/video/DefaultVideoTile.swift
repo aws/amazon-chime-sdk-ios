@@ -16,7 +16,7 @@ import Foundation
 
     init(logger: Logger, tileId: Int, attendeeId: String?) {
         self.logger = logger
-        self.state = VideoTileState(tileId: tileId, attendeeId: attendeeId, paused: false)
+        self.state = VideoTileState(tileId: tileId, attendeeId: attendeeId, pauseState: .unpaused)
     }
 
     public func bind(videoRenderView: VideoRenderView?) {
@@ -37,11 +37,7 @@ import Foundation
         videoRenderView = nil
     }
 
-    public func pause() {
-        state.paused = true
-    }
-
-    public func resume() {
-        state.paused = false
+    public func setPauseState(pauseState: VideoPauseState) {
+        state.pauseState = pauseState
     }
 }

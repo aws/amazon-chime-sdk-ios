@@ -30,11 +30,6 @@ import Foundation
     /// Unbinds the `videoRenderView` from tile.
     func unbind()
 
-    /// Pauses the tile. When paused, the tile moves to an inactive state and will not receive
-    /// frame update callback
-    func pause()
-
-    /// Resume the tile if it was paused. When resumed,
-    /// the tile moves to the active state.
-    func resume()
+    /// Update the pause state of the tile.
+    func setPauseState(pauseState: VideoPauseState)
 }
