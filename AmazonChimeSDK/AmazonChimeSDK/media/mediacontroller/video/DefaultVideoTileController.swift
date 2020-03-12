@@ -111,9 +111,12 @@ import UIKit
 
             logger.info(msg: "pauseRemoteVideoTile id=\(tileId)")
             videoClientController.pauseResumeRemoteVideo(UInt32(tileId), pause: true)
-            videoTile.setPauseState(pauseState: .pausedByUserRequest)
-            forEachObserver { videoTileObserver in
-                videoTileObserver.onPauseVideoTile(tileState: videoTile.state)
+            // Don't update state/observers if we haven't changed anything
+            if videoTile.state.pauseState != .pausedByUserRequest {
+                videoTile.setPauseState(pauseState: .pausedByUserRequest)
+                forEachObserver { videoTileObserver in
+                    videoTileObserver.onPauseVideoTile(tileState: videoTile.state)
+                }
             }
         }
     }
@@ -127,9 +130,12 @@ import UIKit
 
             logger.info(msg: "resumeRemoteVideoTile id=\(tileId)")
             videoClientController.pauseResumeRemoteVideo(UInt32(tileId), pause: false)
-            videoTile.setPauseState(pauseState: .unpaused)
-            forEachObserver { videoTileObserver in
-                videoTileObserver.onResumeVideoTile(tileState: videoTile.state)
+            // Only update state if we are unpausing a tile which was previously paused by the user
+            if videoTile.state.pauseState == .pausedByUserRequest {
+                videoTile.setPauseState(pauseState: .unpaused)
+                forEachObserver { videoTileObserver in
+                    videoTileObserver.onResumeVideoTile(tileState: videoTile.state)
+                }
             }
         }
     }
