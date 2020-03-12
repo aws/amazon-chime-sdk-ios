@@ -25,7 +25,7 @@ import UIKit
             // Account for any internally changed pause states, but ignore if the tile is paused by
             // user since the pause might not have propagated yet
             if pauseState != videoTile.state.pauseState && videoTile.state.pauseState != .pausedByUserRequest {
-                videoTile.state.pauseState = pauseState
+                videoTile.setPauseState(pauseState: pauseState)
                 if pauseState == .unpaused {
                     forEachObserver { videoTileObserver in
                         videoTileObserver.onResumeVideoTile(tileState: videoTile.state)
