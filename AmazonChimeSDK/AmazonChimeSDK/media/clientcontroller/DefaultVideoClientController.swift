@@ -171,18 +171,17 @@ class DefaultVideoClientController: NSObject {
 
 extension DefaultVideoClientController: VideoClientDelegate {
     func didReceive(_ buffer: CVPixelBuffer!, profileId: String!, pauseState: PauseState, videoId: UInt32) {
+        // Translate the Obj-C enum to the public Swift enum
         var translatedPauseState: VideoPauseState
-        // Use the full enum prefixes for the translation since they are nearly
-        // the same and don't want to mix them up (the swift cases starts with lowercase)
         switch pauseState {
-        case PauseState.Unpaused:
-            translatedPauseState = VideoPauseState.unpaused
-        case PauseState.PausedByUserRequest:
-            translatedPauseState = VideoPauseState.pausedByUserRequest
-        case PauseState.PausedForPoorConnection:
-            translatedPauseState = VideoPauseState.pausedForPoorConnection
+        case .Unpaused:
+            translatedPauseState = .unpaused
+        case .PausedByUserRequest:
+            translatedPauseState = .pausedByUserRequest
+        case .PausedForPoorConnection:
+            translatedPauseState = .pausedForPoorConnection
         default:
-            translatedPauseState = VideoPauseState.unpaused
+            translatedPauseState = .unpaused
         }
 
         forEachObserver(observers: videoTileControllerObservers) { (observer: VideoTileController) in
