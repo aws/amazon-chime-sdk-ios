@@ -172,6 +172,8 @@ class DefaultVideoClientController: NSObject {
 extension DefaultVideoClientController: VideoClientDelegate {
     func didReceive(_ buffer: CVPixelBuffer!, profileId: String!, pauseState: PauseState, videoId: UInt32) {
         var translatedPauseState: VideoPauseState
+        // Use the full enum prefixes for the translation since they are nearly
+        // the same and don't want to mix them up (the swift cases starts with lowercase)
         switch pauseState {
         case PauseState.Unpaused:
             translatedPauseState = VideoPauseState.unpaused
