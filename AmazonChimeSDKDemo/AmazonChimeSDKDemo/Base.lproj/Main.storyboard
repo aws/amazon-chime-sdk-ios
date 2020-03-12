@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Join a meeting" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UUz-34-lb9">
-                                <rect key="frame" x="83" y="317" width="248.5" height="48"/>
+                                <rect key="frame" x="83" y="317" width="248" height="48"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -140,13 +140,17 @@
                                     <constraint firstItem="gJX-ez-OMF" firstAttribute="leading" secondItem="6y9-zR-zeP" secondAttribute="leading" constant="6" id="88O-pH-Yc6"/>
                                     <constraint firstItem="gJX-ez-OMF" firstAttribute="leading" secondItem="6y9-zR-zeP" secondAttribute="leadingMargin" id="9Er-h8-o4e"/>
                                     <constraint firstAttribute="bottomMargin" secondItem="gJX-ez-OMF" secondAttribute="bottom" id="CVO-MD-TrB"/>
+                                    <constraint firstItem="gJX-ez-OMF" firstAttribute="top" secondItem="6y9-zR-zeP" secondAttribute="topMargin" id="Dam-O4-AxC"/>
                                     <constraint firstAttribute="trailingMargin" secondItem="gJX-ez-OMF" secondAttribute="trailing" id="IWA-7d-gTx"/>
                                     <constraint firstItem="gJX-ez-OMF" firstAttribute="top" secondItem="6y9-zR-zeP" secondAttribute="topMargin" id="Xai-fB-ktL"/>
                                     <constraint firstItem="gJX-ez-OMF" firstAttribute="top" secondItem="6y9-zR-zeP" secondAttribute="topMargin" constant="6" id="aly-Ka-wPP"/>
                                     <constraint firstItem="gJX-ez-OMF" firstAttribute="centerY" secondItem="6y9-zR-zeP" secondAttribute="centerY" id="ftB-zk-JSD"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="gJX-ez-OMF" secondAttribute="bottom" id="g9F-xM-Bej"/>
                                     <constraint firstAttribute="trailing" secondItem="gJX-ez-OMF" secondAttribute="trailing" constant="6" id="gc6-kS-0cn"/>
                                     <constraint firstItem="gJX-ez-OMF" firstAttribute="centerY" secondItem="6y9-zR-zeP" secondAttribute="centerY" id="hkB-pb-8ym"/>
                                     <constraint firstItem="gJX-ez-OMF" firstAttribute="centerX" secondItem="6y9-zR-zeP" secondAttribute="centerX" id="kSS-fJ-NAR"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="gJX-ez-OMF" secondAttribute="trailing" id="nHP-ZB-dry"/>
+                                    <constraint firstItem="gJX-ez-OMF" firstAttribute="leading" secondItem="6y9-zR-zeP" secondAttribute="leadingMargin" id="px3-Lb-gHV"/>
                                     <constraint firstItem="gJX-ez-OMF" firstAttribute="centerX" secondItem="6y9-zR-zeP" secondAttribute="centerX" id="rpf-vA-oVt"/>
                                 </constraints>
                                 <variation key="default">
@@ -158,12 +162,27 @@
                                         <exclude reference="88O-pH-Yc6"/>
                                         <exclude reference="9Er-h8-o4e"/>
                                         <exclude reference="CVO-MD-TrB"/>
+                                        <exclude reference="Dam-O4-AxC"/>
                                         <exclude reference="IWA-7d-gTx"/>
                                         <exclude reference="Xai-fB-ktL"/>
                                         <exclude reference="aly-Ka-wPP"/>
+                                        <exclude reference="g9F-xM-Bej"/>
                                         <exclude reference="gc6-kS-0cn"/>
                                         <exclude reference="hkB-pb-8ym"/>
+                                        <exclude reference="nHP-ZB-dry"/>
+                                        <exclude reference="px3-Lb-gHV"/>
                                         <exclude reference="rpf-vA-oVt"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=compact-widthClass=compact">
+                                    <mask key="subviews">
+                                        <include reference="gJX-ez-OMF"/>
+                                    </mask>
+                                    <mask key="constraints">
+                                        <include reference="Dam-O4-AxC"/>
+                                        <include reference="g9F-xM-Bej"/>
+                                        <include reference="nHP-ZB-dry"/>
+                                        <include reference="px3-Lb-gHV"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=compact-widthClass=regular">
@@ -237,7 +256,7 @@
                             <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Qja-lL-6xQ">
                                 <rect key="frame" x="16" y="157.5" width="382" height="639.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="F0D-d0-6d0">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="F0D-d0-6d0">
                                     <size key="itemSize" width="382" height="202"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -278,7 +297,7 @@
                                 </connections>
                             </collectionView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="fbX-8E-rPP">
-                                <rect key="frame" x="131.5" y="765" width="151" height="33"/>
+                                <rect key="frame" x="113" y="765" width="188" height="33"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="Rq3-ge-Cke"/>
                                 </constraints>
