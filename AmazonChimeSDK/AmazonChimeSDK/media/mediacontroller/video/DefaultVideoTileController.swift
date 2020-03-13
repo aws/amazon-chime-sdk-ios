@@ -25,6 +25,9 @@ import UIKit
             // Account for any internally changed pause states, but ignore if the tile is paused by
             // user since the pause might not have propagated yet
             if pauseState != videoTile.state.pauseState && videoTile.state.pauseState != .pausedByUserRequest {
+                // Note that currently, since we preemptively mark tiles as .pausedByUserRequest when requested by user
+                // this path will only be hit when we are either transitioning from .unpaused to .pausedForPoorConnection
+                // or .pausedForPoorConnection to .unpaused
                 videoTile.setPauseState(pauseState: pauseState)
                 if pauseState == .unpaused {
                     forEachObserver { videoTileObserver in
@@ -112,6 +115,7 @@ import UIKit
             logger.info(msg: "pauseRemoteVideoTile id=\(tileId)")
             videoClientController.pauseResumeRemoteVideo(UInt32(tileId), pause: true)
             // Don't update state/observers if we haven't changed anything
+            // Note that this will overwrite .pausedForPoorConnection if that is the current state
             if videoTile.state.pauseState != .pausedByUserRequest {
                 videoTile.setPauseState(pauseState: .pausedByUserRequest)
                 forEachObserver { videoTileObserver in
@@ -131,6 +135,7 @@ import UIKit
             logger.info(msg: "resumeRemoteVideoTile id=\(tileId)")
             videoClientController.pauseResumeRemoteVideo(UInt32(tileId), pause: false)
             // Only update state if we are unpausing a tile which was previously paused by the user
+            // Note that this means resuming a tile with state .pausedForPoorConnection will no-op
             if videoTile.state.pauseState == .pausedByUserRequest {
                 videoTile.setPauseState(pauseState: .unpaused)
                 forEachObserver { videoTileObserver in
