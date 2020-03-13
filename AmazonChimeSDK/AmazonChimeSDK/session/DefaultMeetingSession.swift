@@ -13,13 +13,12 @@ import Foundation
     public let logger: Logger
     public let audioVideo: AudioVideoFacade
 
-    private let audioClient: AudioClient = AudioClient.sharedInstance()
     private let audioSession = AVAudioSession.sharedInstance()
 
     public init(configuration: MeetingSessionConfiguration, logger: Logger) {
         self.configuration = configuration
         self.logger = logger
-
+        let audioClient: AudioClient = DefaultAudioClient(logger: logger)
         let clientMetricsCollector = DefaultClientMetricsCollector()
         let audioClientObserver = DefaultAudioClientObserver(audioClient: audioClient,
                                                              clientMetricsCollector: clientMetricsCollector)

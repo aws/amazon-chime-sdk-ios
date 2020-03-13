@@ -135,7 +135,7 @@ class DefaultVideoClientController: NSObject {
         logger.info(msg: "Initializing VideoClient")
 
         VideoClient.globalInitialize(nil)
-        videoClient = VideoClient()
+        videoClient = DefaultVideoClient(logger: self.logger)
         videoClient?.delegate = self
 
         videoClientState = .initialized
