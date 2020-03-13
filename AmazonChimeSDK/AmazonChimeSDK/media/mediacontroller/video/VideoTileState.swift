@@ -18,16 +18,16 @@ import Foundation
     /// Id of the user associated with this tile
     public let attendeeId: String?
 
-    // Whether this is screen share
+    /// Whether this is screen share
     public let isContent: Bool
 
-    /// If this tile is paused
-    public var paused: Bool
+    /// Current pause state of this tile
+    public var pauseState: VideoPauseState
 
-    init(tileId: Int, attendeeId: String?, paused: Bool) {
+    init(tileId: Int, attendeeId: String?, pauseState: VideoPauseState) {
         self.tileId = tileId
         self.attendeeId = attendeeId
-        self.paused = paused
+        self.pauseState = pauseState
         self.isLocalTile = attendeeId == nil
         self.isContent = attendeeId?.hasSuffix(Constants.modality) ?? false
     }

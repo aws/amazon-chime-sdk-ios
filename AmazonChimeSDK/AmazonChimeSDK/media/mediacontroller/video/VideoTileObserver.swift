@@ -18,4 +18,14 @@ import Foundation
     /// - Parameters:
     ///   - tileState: video tile state associated with this attendee
     func onRemoveVideoTile(tileState: VideoTileState)
+
+    /// Called whenever an attendee tile pauseState changes from .unpaused
+    /// - Parameters:
+    ///   - tileState: video tile state associated with this attendee
+    func onPauseVideoTile(tileState: VideoTileState)
+
+    /// Called whenever an attendee tile pauseState changes to .unpaused
+    /// - Parameters:
+    ///   - tileState: video tile state associated with this attendee
+    func onResumeVideoTile(tileState: VideoTileState)
 }

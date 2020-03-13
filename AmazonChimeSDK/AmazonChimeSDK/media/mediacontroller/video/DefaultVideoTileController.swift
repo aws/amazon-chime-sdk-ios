@@ -20,13 +20,35 @@ import UIKit
         self.videoClientController = videoClientController
     }
 
-    public func onReceiveFrame(frame: Any?, attendeeId: String?, videoId: Int) {
+    public func onReceiveFrame(frame: Any?, attendeeId: String?, pauseState: VideoPauseState, videoId: Int) {
         if let videoTile = videoTileMap[videoId] {
-            if frame != nil {
-                videoTile.renderFrame(frame: frame)
-            } else {
-                videoTile.renderFrame(frame: nil)
-                onRemoveTrack(tileState: videoTile.state)
+            // Account for any internally changed pause states, but ignore if the tile is paused by
+            // user since the pause might not have propagated yet
+            if pauseState != videoTile.state.pauseState && videoTile.state.pauseState != .pausedByUserRequest {
+                // Note that currently, since we preemptively mark tiles as .pausedByUserRequest when requested by user
+                // this path will only be hit when we are either transitioning from .unpaused to .pausedForPoorConnection
+                // or .pausedForPoorConnection to .unpaused
+                videoTile.setPauseState(pauseState: pauseState)
+                if pauseState == .unpaused {
+                    forEachObserver { videoTileObserver in
+                        videoTileObserver.onResumeVideoTile(tileState: videoTile.state)
+                    }
+                } else {
+                    forEachObserver { videoTileObserver in
+                        videoTileObserver.onPauseVideoTile(tileState: videoTile.state)
+                    }
+                }
+            }
+
+            // Ignore any frames which come to an already paused tile
+            if videoTile.state.pauseState == .unpaused {
+                if frame != nil {
+                    videoTile.renderFrame(frame: frame)
+                } else {
+                    // Nil frames in unpaused state indicate to remove the tile
+                    videoTile.renderFrame(frame: nil)
+                    onRemoveTrack(tileState: videoTile.state)
+                }
             }
         } else if frame != nil {
             onAddTrack(videoId: videoId, attendeeId: attendeeId)
@@ -92,7 +114,14 @@ import UIKit
 
             logger.info(msg: "pauseRemoteVideoTile id=\(tileId)")
             videoClientController.pauseResumeRemoteVideo(UInt32(tileId), pause: true)
-            videoTile.pause()
+            // Don't update state/observers if we haven't changed anything
+            // Note that this will overwrite .pausedForPoorConnection if that is the current state
+            if videoTile.state.pauseState != .pausedByUserRequest {
+                videoTile.setPauseState(pauseState: .pausedByUserRequest)
+                forEachObserver { videoTileObserver in
+                    videoTileObserver.onPauseVideoTile(tileState: videoTile.state)
+                }
+            }
         }
     }
 
@@ -105,7 +134,14 @@ import UIKit
 
             logger.info(msg: "resumeRemoteVideoTile id=\(tileId)")
             videoClientController.pauseResumeRemoteVideo(UInt32(tileId), pause: false)
-            videoTile.resume()
+            // Only update state if we are unpausing a tile which was previously paused by the user
+            // Note that this means resuming a tile with state .pausedForPoorConnection will no-op
+            if videoTile.state.pauseState == .pausedByUserRequest {
+                videoTile.setPauseState(pauseState: .unpaused)
+                forEachObserver { videoTileObserver in
+                    videoTileObserver.onResumeVideoTile(tileState: videoTile.state)
+                }
+            }
         }
     }
 
