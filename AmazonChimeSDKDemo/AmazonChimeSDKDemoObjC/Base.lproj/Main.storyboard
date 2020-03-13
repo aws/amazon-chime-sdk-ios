@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Meeting ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ajE-1W-swG">
-                                <rect key="frame" x="117" y="397" width="180" height="34"/>
+                                <rect key="frame" x="117" y="400" width="180" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="180" id="yea-s4-Q1M"/>
                                 </constraints>
@@ -25,7 +25,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Your Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GYb-qN-kDH">
-                                <rect key="frame" x="117" y="447" width="180" height="34"/>
+                                <rect key="frame" x="117" y="450" width="180" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="180" id="G50-Ai-0VW"/>
                                 </constraints>
@@ -33,21 +33,29 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Join a Meeting" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uia-Yo-wKO">
-                                <rect key="frame" x="82.5" y="317" width="249.5" height="48"/>
+                                <rect key="frame" x="82.5" y="320" width="249.5" height="48"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WLF-PZ-6RX">
-                                <rect key="frame" x="192" y="497" width="30" height="30"/>
-                                <state key="normal" title="Join"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WLF-PZ-6RX">
+                                <rect key="frame" x="195" y="500" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="24" id="H3a-gB-JqH"/>
+                                    <constraint firstAttribute="height" constant="24" id="oQD-n5-vM8"/>
+                                </constraints>
+                                <state key="normal" image="join"/>
                                 <connections>
                                     <action selector="joinMeeting:" destination="BYZ-38-t0r" eventType="touchUpInside" id="h3b-1e-S7J"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yRo-PN-JIQ">
-                                <rect key="frame" x="187" y="497" width="40" height="30"/>
-                                <state key="normal" title="Leave"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yRo-PN-JIQ">
+                                <rect key="frame" x="195" y="500" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="Qzt-mZ-sft"/>
+                                    <constraint firstAttribute="width" constant="24" id="eRz-fA-C6b"/>
+                                </constraints>
+                                <state key="normal" image="meeting-end"/>
                                 <connections>
                                     <action selector="leaveMeeting:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jcW-aZ-ITV"/>
                                 </connections>
@@ -81,4 +89,8 @@
             <point key="canvasLocation" x="136.875" y="137.5"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="join" width="24" height="24"/>
+        <image name="meeting-end" width="24" height="24"/>
+    </resources>
 </document>

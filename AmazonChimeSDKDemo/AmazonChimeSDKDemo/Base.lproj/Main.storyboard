@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -18,20 +18,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Join a meeting" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UUz-34-lb9">
-                                <rect key="frame" x="83" y="317" width="248" height="48"/>
+                                <rect key="frame" x="83" y="320" width="248" height="48"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gda-Op-d5h">
-                                <rect key="frame" x="192" y="497" width="30" height="30"/>
-                                <state key="normal" title="Join"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gda-Op-d5h">
+                                <rect key="frame" x="195" y="500" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="24" id="dSe-Bl-XHD"/>
+                                    <constraint firstAttribute="height" constant="24" id="rpk-7G-ebA"/>
+                                </constraints>
+                                <state key="normal" image="join"/>
                                 <connections>
                                     <action selector="joinMeetingWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zMq-Qo-iE7"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Your Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="osX-FD-I0Z">
-                                <rect key="frame" x="127" y="447" width="160" height="34"/>
+                                <rect key="frame" x="127" y="450" width="160" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="160" id="2Um-eD-gwo"/>
                                 </constraints>
@@ -39,7 +43,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Meeting ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s6f-Ei-sAf">
-                                <rect key="frame" x="127" y="397" width="160" height="34"/>
+                                <rect key="frame" x="127" y="400" width="160" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="160" id="AT3-Na-N2O"/>
                                 </constraints>
@@ -271,17 +275,17 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dw9-pe-OC6">
-                                                    <rect key="frame" x="0.0" y="154" width="64" height="48"/>
+                                                    <rect key="frame" x="16" y="178" width="24" height="24"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="64" id="PY5-h3-czH"/>
-                                                        <constraint firstAttribute="height" constant="48" id="muP-Eu-q2Z"/>
+                                                        <constraint firstAttribute="width" constant="24" id="PY5-h3-czH"/>
+                                                        <constraint firstAttribute="height" constant="24" id="muP-Eu-q2Z"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="leading" secondItem="dw9-pe-OC6" secondAttribute="leading" id="8Ic-xr-wvC"/>
+                                                <constraint firstItem="dw9-pe-OC6" firstAttribute="leading" secondItem="RhS-IZ-Qv1" secondAttribute="leading" constant="16" id="qNX-dn-i08"/>
                                                 <constraint firstItem="dw9-pe-OC6" firstAttribute="bottom" secondItem="RhS-IZ-Qv1" secondAttribute="bottom" id="xKx-3J-KNu"/>
                                             </constraints>
                                         </collectionViewCellContentView>
@@ -361,6 +365,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="join" width="24" height="24"/>
         <image name="meeting-end" width="24" height="24"/>
         <image name="meeting-speaker" width="24" height="24"/>
         <image name="meeting-video" width="24" height="24"/>
