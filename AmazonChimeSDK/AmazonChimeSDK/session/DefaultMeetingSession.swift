@@ -32,6 +32,11 @@ import Foundation
             DefaultVideoTileController(logger: logger,
                                        videoClientController: videoClientController)
         videoClientController.subscribeToVideoTileControllerObservers(observer: videoTileController)
+        
+        let realtimeController = DefaultRealtimeController(audioClientController: audioClientController,
+        audioClientObserver: audioClientObserver)
+        
+        let activeSpeakerDetector = DefaultActiveSpeakerDetector(audioClientObserver: audioClientObserver, selfAttendeeId: self.configuration.credentials.attendeeId)
 
         self.audioVideo = DefaultAudioVideoFacade(
             audioVideoController: DefaultAudioVideoController(audioClientController: audioClientController,
@@ -40,11 +45,10 @@ import Foundation
                                                               videoClientController: videoClientController,
                                                               configuration: configuration,
                                                               logger: logger),
-            realtimeController: DefaultRealtimeController(audioClientController: audioClientController,
-                                                          audioClientObserver: audioClientObserver),
+            realtimeController: realtimeController,
             deviceController: DefaultDeviceController(audioSession: audioSession,
                                                       videoClientController: videoClientController,
                                                       logger: logger),
-            videoTileController: videoTileController)
+            videoTileController: videoTileController, activeSpeakerDetector: activeSpeakerDetector)
     }
 }
