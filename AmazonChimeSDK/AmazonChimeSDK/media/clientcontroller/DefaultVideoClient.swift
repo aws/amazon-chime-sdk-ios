@@ -12,10 +12,10 @@ class DefaultVideoClient: VideoClient {
 
     init(logger: Logger) {
         self.logger = logger
-        
+
         super.init()
     }
-    
+
     override func videoLogCallBack(_ logLevel: video_client_loglevel_t, msg: String!) {
         switch logLevel.rawValue {
         case Constants.errorLevel, Constants.fatalLevel:

@@ -9,7 +9,7 @@ import Foundation
 
 @objc public protocol ActiveSpeakerObserver {
     /// Uniquely identifies this observer
-    @objc var ObserverId: String { get }
+    @objc var observerId: String { get }
     /// Frequency of onActiveSpeakerScoreChange
     @objc optional var scoresCallbackIntervalMs: Int { get }
     /// Observes the active speaker scores at frequency scoresCallbackIntervalMs

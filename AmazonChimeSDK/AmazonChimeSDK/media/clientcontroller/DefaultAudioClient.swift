@@ -12,7 +12,7 @@ class DefaultAudioClient: AudioClient {
 
     init(logger: Logger) {
         self.logger = logger
-        
+
         super.init()
     }
     override func audioLogCallBack(_ logLevel: loglevel_t, msg: String!) {

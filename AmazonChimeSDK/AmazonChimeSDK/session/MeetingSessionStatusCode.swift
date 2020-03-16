@@ -49,7 +49,7 @@ import Foundation
 
     /// If State cannot be parsed, then use this state.
     case unknown = 78
-    
+
     /// When maximum concurrent video channel reached
     case videoAtCapacityViewOnly = 206
 

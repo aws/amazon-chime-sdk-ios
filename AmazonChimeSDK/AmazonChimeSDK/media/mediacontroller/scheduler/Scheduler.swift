@@ -14,10 +14,10 @@ import Foundation
     /**
      * Schedules the callback according to the implementation.
      */
-    func start() -> Void
+    func start()
 
     /**
      * Unschedules the callback and prevents it from being called anymore.
      */
-    func stop() -> Void
+    func stop()
 }

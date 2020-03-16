@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 /// `DeviceController` keeps track of the devices being used for audio device
 /// (e.g. built-in speaker), video input (e.g. camera)).
 /// The list functions return `MediaDevice` objects.

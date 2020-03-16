@@ -17,14 +17,14 @@ import Foundation
     func addActiveSpeakerObserver(
         policy: ActiveSpeakerPolicy,
         observer: ActiveSpeakerObserver
-    ) -> Void
+    )
 
     /// Stops the active speaker detector callback from being called.
     ///
     /// - Parameter observer: Observer that handles Active Speaker Events
     func removeActiveSpeakerObserver(observer: ActiveSpeakerObserver)
-    
-    /// Handles bandwidth 
+
+    /// Handles bandwidth
     ///
     /// - Parameter hasBandwidthPriority: Tells the active speaker detector
     ///     whether or not to prioritize video bandwidth for active speakers

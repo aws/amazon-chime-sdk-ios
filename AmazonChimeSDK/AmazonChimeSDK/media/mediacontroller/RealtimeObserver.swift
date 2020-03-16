@@ -7,7 +7,8 @@
 
 import Foundation
 
-/// `RealtimeObserver` handles event that happens in realtime, such as delta in attendees join or leave, volume/signal status.
+/// `RealtimeObserver` handles event that happens in realtime,
+///  such as delta in attendees join or leave, volume/signal status.
 @objc public protocol RealtimeObserver {
     /// Handles volume changes for attendees
     ///

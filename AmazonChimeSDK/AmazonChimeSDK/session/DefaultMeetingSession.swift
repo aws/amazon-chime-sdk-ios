@@ -32,23 +32,27 @@ import Foundation
             DefaultVideoTileController(logger: logger,
                                        videoClientController: videoClientController)
         videoClientController.subscribeToVideoTileControllerObservers(observer: videoTileController)
-        
-        let realtimeController = DefaultRealtimeController(audioClientController: audioClientController,
-        audioClientObserver: audioClientObserver)
-        
-        let activeSpeakerDetector = DefaultActiveSpeakerDetector(audioClientObserver: audioClientObserver, selfAttendeeId: self.configuration.credentials.attendeeId)
 
-        self.audioVideo = DefaultAudioVideoFacade(
-            audioVideoController: DefaultAudioVideoController(audioClientController: audioClientController,
-                                                              audioClientObserver: audioClientObserver,
-                                                              clientMetricsCollector: clientMetricsCollector,
-                                                              videoClientController: videoClientController,
-                                                              configuration: configuration,
-                                                              logger: logger),
-            realtimeController: realtimeController,
-            deviceController: DefaultDeviceController(audioSession: audioSession,
-                                                      videoClientController: videoClientController,
-                                                      logger: logger),
-            videoTileController: videoTileController, activeSpeakerDetector: activeSpeakerDetector)
+        let realtimeController = DefaultRealtimeController(audioClientController: audioClientController,
+                                                           audioClientObserver: audioClientObserver)
+
+        let activeSpeakerDetector =
+            DefaultActiveSpeakerDetector(audioClientObserver: audioClientObserver,
+                                         selfAttendeeId: self.configuration.credentials.attendeeId)
+
+        self.audioVideo =
+            DefaultAudioVideoFacade(audioVideoController:
+                    DefaultAudioVideoController(audioClientController: audioClientController,
+                                                audioClientObserver: audioClientObserver,
+                                                clientMetricsCollector: clientMetricsCollector,
+                                                videoClientController: videoClientController,
+                                                configuration: configuration,
+                                                logger: logger),
+                                    realtimeController: realtimeController,
+                                    deviceController: DefaultDeviceController(audioSession: audioSession,
+                                                                              videoClientController: videoClientController,
+                                                                              logger: logger),
+                                    videoTileController: videoTileController,
+                                    activeSpeakerDetector: activeSpeakerDetector)
     }
 }

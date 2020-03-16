@@ -149,17 +149,16 @@ import Foundation
     public func resumeRemoteVideoTile(tileId: Int) {
         self.videoTileController.resumeRemoteVideoTile(tileId: tileId)
     }
-    
+
     // MARK: ActiveSpeakerDetector
-    
+
     public func addActiveSpeakerObserver(policy: ActiveSpeakerPolicy, observer: ActiveSpeakerObserver) {
         self.activeSpeakerDetector.addActiveSpeakerObserver(policy: policy, observer: observer)
     }
-    
+
     public func removeActiveSpeakerObserver(observer: ActiveSpeakerObserver) {
         self.activeSpeakerDetector.removeActiveSpeakerObserver(observer: observer)
     }
-    
+
     public func hasBandwidthPriorityCallback(hasBandwidthPriority: Bool) {}
-    
 }
