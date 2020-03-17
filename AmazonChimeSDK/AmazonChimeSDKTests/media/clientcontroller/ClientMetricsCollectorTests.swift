@@ -13,9 +13,8 @@ import XCTest
 class ClientMetricsCollectorTests: XCTestCase, MetricsObserver {
     // Replicated here as to confirm values don't change and to avoid exposing in actual code
     private let clientMicDeviceFramesLostPercent = 0
-    private let serverPostJbMic1sPacketsLostPercent = 3
     private let clientPostJbSpk1sPacketsLostPercent = 7
-
+    private let serverPostJbMic1sPacketsLostPercent = 3
     private var receivedMetrics: [AnyHashable: Any] = [:]
 
     func testOnMetricsReceiveShouldNotBeCalledBeforeInterval() {

@@ -9,7 +9,6 @@
 import XCTest
 
 class ConsoleLoggerTests: XCTestCase {
-
     func testConsoleLoggerShouldBeInitialized() {
         let logger = ConsoleLogger(name: "logger")
         XCTAssertEqual(LogLevel.DEFAULT, logger.getLogLevel())
@@ -25,5 +24,4 @@ class ConsoleLoggerTests: XCTestCase {
         logger.setLogLevel(level: LogLevel.FAULT)
         XCTAssertEqual(LogLevel.FAULT, logger.getLogLevel())
     }
-
 }

@@ -9,10 +9,8 @@
 import XCTest
 
 class MeetingSessionStatusTests: XCTestCase {
-
     func testMeetingSessionStatusShouldBeInitialized() {
         XCTAssertEqual(MeetingSessionStatusCode.ok,
                        MeetingSessionStatus(statusCode: MeetingSessionStatusCode.ok).statusCode)
     }
-
 }
