@@ -55,6 +55,9 @@ extension DefaultAudioClientController: AudioClientController {
                                  basePort: port,
                                  callId: meetingId,
                                  profileId: attendeeId,
+                                 microphoneMute: defaultMicAndSpeaker,
+                                 speakerMute: defaultMicAndSpeaker,
+                                 isPresenter: defaultPresenter,
                                  sessionToken: joinToken,
                                  audioWsUrl: audioFallbackUrl)
     }
