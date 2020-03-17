@@ -9,6 +9,6 @@
 #define Tincan_h
 
 #import "AudioClient_sdk.h"
-#import "VideoClient.h"
+#import "VideoClient_sdk.h"
 
 #endif /* Tincan_h */

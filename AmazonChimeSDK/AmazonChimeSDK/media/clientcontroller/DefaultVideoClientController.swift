@@ -155,10 +155,7 @@ class DefaultVideoClientController: NSObject {
         // Default to idle mode, no video but signaling connection is
         // established for messaging
         videoClient?.setReceiving(false)
-        videoClient!.start(nil,
-                           proxyCallback: nil,
-                           stunServerUrl: nil,
-                           callId: meetingId,
+        videoClient!.start(meetingId,
                            token: joinToken,
                            sending: false,
                            config: videoConfig,

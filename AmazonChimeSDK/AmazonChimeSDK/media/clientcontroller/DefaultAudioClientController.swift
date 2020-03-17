@@ -51,22 +51,15 @@ extension DefaultAudioClientController: AudioClientController {
         }
 
         audioClient.setSpeakerOn(true)
-        audioClient.startSession(AUDIO_CLIENT_TRANSPORT_DTLS,
-                                 host: host,
+        audioClient.startSession(host,
                                  basePort: port,
-                                 proxyCallback: nil,
                                  callId: meetingId,
                                  profileId: attendeeId,
-                                 microphoneCodec: kCodecOpusLow,
-                                 speakerCodec: kCodecOpusLow,
                                  microphoneMute: defaultMicAndSpeaker,
                                  speakerMute: defaultMicAndSpeaker,
                                  isPresenter: defaultPresenter,
-                                 features: nil,
                                  sessionToken: joinToken,
-                                 audioWsUrl: audioFallbackUrl,
-                                 khiEnabled: true,
-                                 callKitEnabled: true)
+                                 audioWsUrl: audioFallbackUrl)
     }
 
     public func stop() {
