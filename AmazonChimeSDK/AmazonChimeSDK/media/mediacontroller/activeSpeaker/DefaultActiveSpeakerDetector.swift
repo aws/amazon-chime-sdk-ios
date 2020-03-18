@@ -68,8 +68,9 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
         if self.activeSpeakers.isEmpty {
             return true
         }
+        let notActive = self.speakerScores[attendeeInfo] == nil || self.speakerScores[attendeeInfo] == 0.0
         return (
-            (self.speakerScores[attendeeInfo] == 0.0 && self.activeSpeakers.contains(attendeeInfo)) ||
+            (notActive && self.activeSpeakers.contains(attendeeInfo)) ||
                 (self.speakerScores[attendeeInfo]! > 0.0 && !self.activeSpeakers.contains(attendeeInfo))
         )
     }
@@ -82,9 +83,10 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
         if !self.needUpdateActiveSpeakers(attendeeInfo: attendeeInfo) {
             return
         }
+        /// Sort speaker scores and discard zeros
         self.activeSpeakers = self.speakerScores.sorted(by: { $0.value > $1.value })
-                                                .filter { $0.value > 0.0 }
-                                                .map { $0.0 }
+            .filter { $0.value > 0.0 }
+            .map { $0.0 }
         callback(self.activeSpeakers)
         let selfIsActive =
             !self.activeSpeakers.isEmpty && self.activeSpeakers[0].attendeeId == self.selfAttendeeId
@@ -122,10 +124,12 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
         for volumeUpdate in attendeeVolumeMap {
             self.mostRecentUpdateTimestamp[volumeUpdate.attendeeInfo] = Int(Date.timeIntervalSinceReferenceDate * 1000.0)
             self.policiesAndCallbacks.forEach {
-                self.updateScore(policy: $0.value.0,
-                                 callback: $0.value.1,
-                                 attendeeInfo: volumeUpdate.attendeeInfo,
-                                 volume: volumeUpdate.volumeLevel)
+                self.updateScore(
+                    policy: $0.value.0,
+                    callback: $0.value.1,
+                    attendeeInfo: volumeUpdate.attendeeInfo,
+                    volume: volumeUpdate.volumeLevel
+                )
             }
         }
     }
@@ -143,7 +147,6 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
         for attendeeInfo in attendeeInfos {
             self.speakerScores[attendeeInfo] = nil
             self.mostRecentUpdateTimestamp[attendeeInfo] = nil
-            self.activeSpeakers.removeAll { $0 == attendeeInfo }
             self.policiesAndCallbacks.forEach {
                 self.updateActiveSpeakers(policy: $0.value.0, callback: $0.value.1, attendeeInfo: attendeeInfo)
             }
