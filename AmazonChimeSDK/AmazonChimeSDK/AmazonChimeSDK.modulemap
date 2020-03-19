@@ -6,5 +6,5 @@
 //
 
 framework module AmazonChimeSDK {
-  umbrella header "Tincan.h"
+  umbrella header "AmazonChimeSDK.h"
 }

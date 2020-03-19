@@ -1,14 +1,14 @@
 //
-//  Tincan.h
+//  AmazonChimeSDK.h
 //  AmazonChimeSDK
 //
 //  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
-#ifndef Tincan_h
-#define Tincan_h
+#ifndef AmazonChimeSDK_h
+#define AmazonChimeSDK_h
 
 #import "AudioClient_sdk.h"
 #import "VideoClient_sdk.h"
 
-#endif /* Tincan_h */
+#endif /* AmazonChimeSDK_h */
