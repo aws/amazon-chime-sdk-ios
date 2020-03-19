@@ -28,9 +28,9 @@ class DefaultClientMetricsCollector {
 
 extension DefaultClientMetricsCollector: ClientMetricsCollector {
     public func processAudioClientMetrics(metrics: [AnyHashable: Any]) {
-        cachedObservableMetrics[ObservableMetric.audioPacketsSentFractionLossPercent]
+        cachedObservableMetrics[ObservableMetric.audioSendPacketLossPercent]
             = metrics[AudioClientMetric.serverPostJbMic1sPacketsLostPercent.rawValue]
-        cachedObservableMetrics[ObservableMetric.audioPacketsReceivedFractionLossPercent]
+        cachedObservableMetrics[ObservableMetric.audioReceivePacketLossPercent]
             = metrics[AudioClientMetric.clientPostJbSpk1sPacketsLostPercent.rawValue]
         maybeEmitMetrics()
     }
@@ -42,14 +42,16 @@ extension DefaultClientMetricsCollector: ClientMetricsCollector {
             = metrics[VideoClientMetric.videoAvailableReceiveBandwidth.rawValue]
         cachedObservableMetrics[ObservableMetric.videoSendBitrate]
             = metrics[VideoClientMetric.videoSendBitrate.rawValue]
-        cachedObservableMetrics[ObservableMetric.videoSendPacketLostPercent]
-            = metrics[VideoClientMetric.videoSendPacketLostPercent.rawValue]
+        cachedObservableMetrics[ObservableMetric.videoSendPacketLossPercent]
+            = metrics[VideoClientMetric.videoSendPacketLossPercent.rawValue]
         cachedObservableMetrics[ObservableMetric.videoSendFps]
             = metrics[VideoClientMetric.videoSendFps.rawValue]
+        cachedObservableMetrics[ObservableMetric.videoSendRttMs]
+            = metrics[VideoClientMetric.videoSendRttMs.rawValue]
         cachedObservableMetrics[ObservableMetric.videoReceiveBitrate]
             = metrics[VideoClientMetric.videoReceiveBitrate.rawValue]
-        cachedObservableMetrics[ObservableMetric.videoReceivePacketLostPercent]
-            = metrics[VideoClientMetric.videoReceivePacketLostPercent.rawValue]
+        cachedObservableMetrics[ObservableMetric.videoReceivePacketLossPercent]
+            = metrics[VideoClientMetric.videoReceivePacketLossPercent.rawValue]
         maybeEmitMetrics()
     }
 
