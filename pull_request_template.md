@@ -26,10 +26,11 @@
 
 #### Integration validation (required before release)
 
-- [ ] Test SDK against simulator with release options
-- [ ] Test SDK against device with release options
-- [ ] Test SDK against simulator with debug options
-- [ ] Test SDK against device with debug options
+- [ ] Unit tests pass
+- [ ] Build SDK against simulator with release options
+- [ ] Build SDK against device with release options
+- [ ] Build SDK against simulator with debug options
+- [ ] Build SDK against device with debug options
 - [ ] Test Demo against simulator with SDK (debug build) in workspace
 - [ ] Test Demo against device with SDK (debug build) in workspace
 - [ ] Test DemoObjC against simulator with SDK (debug build) in workspace
