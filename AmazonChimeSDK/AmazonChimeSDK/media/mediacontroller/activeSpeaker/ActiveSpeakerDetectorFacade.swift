@@ -7,8 +7,8 @@
 
 import Foundation
 
-/// [[ActiveSpeakerDetectorFacade]] listens to the volume indicator updates from the [[RealtimeController]].
-///     It consults the [[ActiveSpeakerPolicy]] to determine if the speaker is active or not.
+/// `ActiveSpeakerDetectorFacade` listens to the volume indicator updates from the `RealtimeControllerFacade`.
+/// It consults the `ActiveSpeakerPolicy` to determine if the speaker is active or not.
 @objc public protocol ActiveSpeakerDetectorFacade {
     /// Starts the active speaker detector on the callback for the given policy.
     ///

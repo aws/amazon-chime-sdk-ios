@@ -8,7 +8,7 @@
 import Foundation
 
 /**
- * [[IntervalScheduler]] calls the callback every intervalMs milliseconds.
+ * `IntervalScheduler` calls the callback every intervalMs milliseconds.
  */
 @objcMembers public class IntervalScheduler: Scheduler {
     var timer: Timer?

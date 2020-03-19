@@ -8,7 +8,7 @@
 import Foundation
 
 /**
- * [[Scheduler]] calls a callback on the schedule determined by the implementation.
+ * `Scheduler` calls a callback on the schedule determined by the implementation.
  */
 @objc public protocol Scheduler {
     /**

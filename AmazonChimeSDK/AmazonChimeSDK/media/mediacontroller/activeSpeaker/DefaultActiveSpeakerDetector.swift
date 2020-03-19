@@ -8,7 +8,7 @@
 import Foundation
 
 /**
- * Implements the DefaultActiveSpeakerDetector with the [[ActiveSpeakerPolicy]]
+ * Implements the DefaultActiveSpeakerDetector with the `ActiveSpeakerPolicy`
  */
 typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
 
