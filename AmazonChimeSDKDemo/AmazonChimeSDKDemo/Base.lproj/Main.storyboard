@@ -279,7 +279,7 @@
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="VideoTileCell" id="95H-jr-NgT" customClass="VideoTileCell" customModule="AmazonChimeSDKDemo" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="382" height="202"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="RhS-IZ-Qv1" customClass="DefaultVideoRenderView" customModule="AmazonChimeSDK">
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" insetsLayoutMarginsFromSafeArea="NO" id="RhS-IZ-Qv1" customClass="DefaultVideoRenderView" customModule="AmazonChimeSDK">
                                             <rect key="frame" x="0.0" y="0.0" width="382" height="202"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>

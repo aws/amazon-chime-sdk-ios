@@ -7,13 +7,25 @@
 
 import UIKit
 import VideoToolbox
+import os
 
 @objcMembers public class DefaultVideoRenderView: UIImageView, VideoRenderView {
+    private let scalingContentModes: [UIView.ContentMode] = [.scaleAspectFill, .scaleToFill, .scaleAspectFit]
+
     public var mirror: Bool = false {
         didSet {
             transformNeedsUpdate = true
         }
     }
+
+    public override var contentMode: UIView.ContentMode {
+        willSet(newContentMode) {
+            if !scalingContentModes.contains(newContentMode) {
+                os_log("Recommend to use a scaling ContentMode on the VideoRenderView, as video resolution may change during the session.", type: .info)
+            }
+        }
+    }
+
     // Delay the transform until the next frame
     private var transformNeedsUpdate: Bool = false
     // We use an internal UIImageView so we can mirror
