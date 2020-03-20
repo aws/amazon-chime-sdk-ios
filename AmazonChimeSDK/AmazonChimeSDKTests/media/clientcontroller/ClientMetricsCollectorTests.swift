@@ -46,8 +46,8 @@ class ClientMetricsCollectorTests: XCTestCase, MetricsObserver {
         clientMetricsCollector.processAudioClientMetrics(metrics: audioClientMetrics)
 
         XCTAssertEqual(receivedMetrics.count, 2)
-        XCTAssertEqual(receivedMetrics[ObservableMetric.audioPacketsSentFractionLossPercent] as? Int, 1)
-        XCTAssertEqual(receivedMetrics[ObservableMetric.audioPacketsReceivedFractionLossPercent] as? Int, 2)
+        XCTAssertEqual(receivedMetrics[ObservableMetric.audioSendPacketLossPercent] as? Int, 1)
+        XCTAssertEqual(receivedMetrics[ObservableMetric.audioReceivePacketLossPercent] as? Int, 2)
     }
 
     func testNonObservableMetricShouldNotBeEmitted() {
