@@ -26,8 +26,8 @@ import UIKit
             // user since the pause might not have propagated yet
             if pauseState != videoTile.state.pauseState && videoTile.state.pauseState != .pausedByUserRequest {
                 // Note that currently, since we preemptively mark tiles as .pausedByUserRequest when requested by user
-                // this path will only be hit when we are either transitioning from .unpaused to .pausedForPoorConnection
-                // or .pausedForPoorConnection to .unpaused
+                // this path will only be hit when we are either transitioning from .unpaused
+                // to .pausedForPoorConnection or .pausedForPoorConnection to .unpaused
                 videoTile.setPauseState(pauseState: pauseState)
                 if pauseState == .unpaused {
                     forEachObserver { videoTileObserver in

@@ -21,7 +21,10 @@ import os
     public override var contentMode: UIView.ContentMode {
         willSet(newContentMode) {
             if !scalingContentModes.contains(newContentMode) {
-                os_log("Recommend to use a scaling ContentMode on the VideoRenderView, as video resolution may change during the session.", type: .info)
+                os_log("""
+                       Recommend to use a scaling ContentMode on the VideoRenderView,
+                       as video resolution may change during the session.
+                       """, type: .info)
             }
         }
     }

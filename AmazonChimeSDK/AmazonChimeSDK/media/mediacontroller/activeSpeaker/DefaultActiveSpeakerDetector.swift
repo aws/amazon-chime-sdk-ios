@@ -17,14 +17,11 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
     private static var activityUpdateIntervalMs = 200
 
     private var speakerScores: [AttendeeInfo: Double] = [:]
-
     private var activeSpeakers: [AttendeeInfo] = []
     private var scoresTimers: [String: Scheduler] = [:]
     private var detectTimers: [String: Scheduler] = [:]
     private var hasBandwidthPriority = false
-
     private var mostRecentUpdateTimestamp: [AttendeeInfo: Int] = [:]
-
     private var audioClientObserver: AudioClientObserver
     private var selfAttendeeId: String
     private var policiesAndCallbacks: [String: (ActiveSpeakerPolicy, DetectorCallback)] = [:]
@@ -44,7 +41,9 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
                 self.policiesAndCallbacks.forEach {
                     for attendeeInfo in self.speakerScores.keys {
                         let lastTimestamp = self.mostRecentUpdateTimestamp[attendeeInfo] ?? 0
-                        if Int(Date.timeIntervalSinceReferenceDate * 1000) - lastTimestamp > DefaultActiveSpeakerDetector.activityWaitIntervalMs {
+                        if Int(Double(DefaultActiveSpeakerDetector.activityWaitIntervalMs) *
+                            Date.timeIntervalSinceReferenceDate) - lastTimestamp
+                            > DefaultActiveSpeakerDetector.activityWaitIntervalMs {
                             self.updateScore(
                                 policy: $0.value.0,
                                 callback: $0.value.1,
@@ -68,11 +67,8 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
         if self.activeSpeakers.isEmpty {
             return true
         }
-        let notActive = self.speakerScores[attendeeInfo] == nil || self.speakerScores[attendeeInfo] == 0.0
-        return (
-            (notActive && self.activeSpeakers.contains(attendeeInfo)) ||
-                (self.speakerScores[attendeeInfo]! > 0.0 && !self.activeSpeakers.contains(attendeeInfo))
-        )
+        return self.activeSpeakers.contains(attendeeInfo) != (self.speakerScores[attendeeInfo] != nil
+            && self.speakerScores[attendeeInfo]! > 0.0)
     }
 
     private func updateActiveSpeakers(
@@ -122,7 +118,8 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
 
     public func onVolumeChange(volumeUpdates attendeeVolumeMap: [VolumeUpdate]) {
         for volumeUpdate in attendeeVolumeMap {
-            self.mostRecentUpdateTimestamp[volumeUpdate.attendeeInfo] = Int(Date.timeIntervalSinceReferenceDate * 1000.0)
+            self.mostRecentUpdateTimestamp[volumeUpdate.attendeeInfo]
+                = Int(Date.timeIntervalSinceReferenceDate * Double(DefaultActiveSpeakerDetector.activityWaitIntervalMs))
             self.policiesAndCallbacks.forEach {
                 self.updateScore(
                     policy: $0.value.0,

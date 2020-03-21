@@ -16,6 +16,7 @@ class DefaultAudioClient: AudioClient {
 
         super.init()
     }
+
     override func audioLogCallBack(_ logLevel: loglevel_t, msg: String!) {
         switch logLevel.rawValue {
         case Constants.errorLevel, Constants.fatalLevel:

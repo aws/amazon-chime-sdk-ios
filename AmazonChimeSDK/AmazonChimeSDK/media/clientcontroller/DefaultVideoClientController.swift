@@ -10,25 +10,28 @@ import Foundation
 import AmazonChimeSDKMedia
 
 class DefaultVideoClientController: NSObject {
-    var logger: Logger
-    var videoClient: VideoClient?
+
     var clientMetricsCollector: ClientMetricsCollector
+    var joinToken: String?
+    var logger: Logger
+    var meetingId: String?
+    var signalingUrl: String?
+    var videoClient: VideoClient?
     var videoClientState: VideoClientState = .uninitialized
     var videoTileControllerObservers: NSMutableSet = NSMutableSet()
     var videoObservers: NSMutableSet = NSMutableSet()
     var turnControlUrl: String?
-    var signalingUrl: String?
-    var meetingId: String?
-    var joinToken: String?
 
-    private let turnRequestHttpMethod = "POST"
     private let contentTypeHeader = "Content-Type"
     private let contentType = "application/json"
+    private let defaultVideoClient: VideoClient
+    private let meetingIdKey = "meetingId"
     private let tokenHeader = "X-Chime-Auth-Token"
     private let tokenKey = "_aws_wt_session"
-    private let meetingIdKey = "meetingId"
+    private let turnRequestHttpMethod = "POST"
 
-    init(logger: Logger, clientMetricsCollector: ClientMetricsCollector) {
+    init(videoClient: VideoClient, logger: Logger, clientMetricsCollector: ClientMetricsCollector) {
+        self.defaultVideoClient = videoClient
         self.logger = logger
         self.clientMetricsCollector = clientMetricsCollector
 
@@ -134,11 +137,8 @@ class DefaultVideoClientController: NSObject {
             return
         }
         logger.info(msg: "Initializing VideoClient")
-
-        VideoClient.globalInitialize()
-        videoClient = DefaultVideoClient(logger: self.logger)
+        videoClient = defaultVideoClient
         videoClient?.delegate = self
-
         videoClientState = .initialized
     }
 
@@ -203,7 +203,9 @@ extension DefaultVideoClientController: VideoClientDelegate {
         forEachObserver(observers: videoObservers) { (observer: AudioVideoObserver) in
             switch Int(controlStatus) {
             case Constants.videoClientStatusCallAtCapacityViewOnly:
-                observer.onVideoClientError(status: MeetingSessionStatus(statusCode: MeetingSessionStatusCode.videoAtCapacityViewOnly))
+                observer.onVideoClientError(
+                    status: MeetingSessionStatus(statusCode: MeetingSessionStatusCode.videoAtCapacityViewOnly)
+                )
             default:
                 observer.onVideoClientStart()
             }
