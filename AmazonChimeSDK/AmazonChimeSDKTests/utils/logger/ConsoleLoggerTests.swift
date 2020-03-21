@@ -1,6 +1,6 @@
 //
-//  ConsoleLoggerTest.swift
-//  AmazonChimeSDKTests
+//  ConsoleLoggerTests.swift
+//  AmazonChimeSDK
 //
 //  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
