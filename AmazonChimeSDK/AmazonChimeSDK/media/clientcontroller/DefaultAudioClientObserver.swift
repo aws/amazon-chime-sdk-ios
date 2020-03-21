@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AmazonChimeSDKMedia
 
 class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     private var audioClient: AudioClient

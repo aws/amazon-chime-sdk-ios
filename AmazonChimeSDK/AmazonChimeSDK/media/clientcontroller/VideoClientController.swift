@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AmazonChimeSDKMedia
 
 @objc public protocol VideoClientController {
     func start(turnControlUrl: String,

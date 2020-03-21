@@ -7,6 +7,7 @@
 
 import AVFoundation
 import Foundation
+import AmazonChimeSDKMedia
 
 /// `MediaDevice` represents an IOS audio/video device.
 @objcMembers public class MediaDevice: NSObject {

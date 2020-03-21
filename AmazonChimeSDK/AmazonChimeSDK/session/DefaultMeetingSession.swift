@@ -7,6 +7,7 @@
 
 import AVFoundation
 import Foundation
+import AmazonChimeSDKMedia
 
 @objcMembers public class DefaultMeetingSession: NSObject, MeetingSession {
     public let configuration: MeetingSessionConfiguration

@@ -7,6 +7,7 @@
 
 import AVFoundation
 import Foundation
+import AmazonChimeSDKMedia
 
 class DefaultVideoClientController: NSObject {
     var logger: Logger
@@ -134,7 +135,7 @@ class DefaultVideoClientController: NSObject {
         }
         logger.info(msg: "Initializing VideoClient")
 
-        VideoClient.globalInitialize(nil)
+        VideoClient.globalInitialize()
         videoClient = DefaultVideoClient(logger: self.logger)
         videoClient?.delegate = self
 

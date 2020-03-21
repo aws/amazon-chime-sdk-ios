@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AmazonChimeSDKMedia
 
 @objcMembers class Constants: NSObject {
     static let modality = "#content"

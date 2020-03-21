@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AmazonChimeSDKMedia
 
 class DefaultAudioClient: AudioClient {
     private let logger: Logger

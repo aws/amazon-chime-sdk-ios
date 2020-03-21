@@ -7,6 +7,7 @@
 
 import AVFoundation
 import Foundation
+import AmazonChimeSDKMedia
 
 class DefaultAudioClientController: NSObject {
     private let audioClient: AudioClient
