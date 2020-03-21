@@ -5,9 +5,10 @@
 //  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
+import AmazonChimeSDKMedia
 import AVFoundation
 import Foundation
-import AmazonChimeSDKMedia
+import UIKit
 
 class DefaultVideoClientController: NSObject {
 
@@ -24,6 +25,7 @@ class DefaultVideoClientController: NSObject {
 
     private let contentTypeHeader = "Content-Type"
     private let contentType = "application/json"
+    private let userAgentTypeHeader = "User-Agent"
     private let defaultVideoClient: VideoClient
     private let meetingIdKey = "meetingId"
     private let tokenHeader = "X-Chime-Auth-Token"
@@ -36,6 +38,30 @@ class DefaultVideoClientController: NSObject {
         self.clientMetricsCollector = clientMetricsCollector
 
         super.init()
+    }
+
+    private func getUserAgent() -> String {
+        let model = UIDevice.current.model
+        let systemVersion = UIDevice.current.systemVersion
+        let scaleFactor = UIScreen.main.scale
+        let defaultAgent = "(\(model); iOS \(systemVersion); Scale/\(String(format: "%.2f", scaleFactor)))"
+        if let dict = Bundle.main.infoDictionary {
+            if let identifier = dict[kCFBundleExecutableKey as String] ?? dict[kCFBundleIdentifierKey as String],
+                let version = dict[kCFBundleVersionKey as String] {
+                return "\(identifier)/\(version) \(defaultAgent)"
+            }
+        }
+        return defaultAgent
+    }
+
+    private func getModelInfo() -> String {
+        var systemInfo = utsname()
+        uname(&systemInfo)
+        let machineMirror = Mirror(reflecting: systemInfo.machine)
+        return machineMirror.children.reduce("") { identifier, element in
+            guard let value = element.value as? Int8, value != 0 else { return identifier }
+            return identifier + String(UnicodeScalar(UInt8(value)))
+        }
     }
 
     private func forEachObserver<T>(observers: NSMutableSet, observerFunction: (_ observer: T) -> Void) {
@@ -156,11 +182,22 @@ class DefaultVideoClientController: NSObject {
         // Default to idle mode, no video but signaling connection is
         // established for messaging
         videoClient?.setReceiving(false)
+        var appInfo = app_detailed_info_t.init()
+
+        appInfo.platform_version = UnsafePointer<Int8>((UIDevice.current.systemVersion as NSString).utf8String)
+        if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] {
+            appInfo.app_version_name = UnsafePointer<Int8>(("iOS \(appVersion)" as NSString).utf8String)
+            appInfo.app_version_code = UnsafePointer<Int8>(("\(appVersion)" as NSString).utf8String)
+        }
+        appInfo.device_model = UnsafePointer<Int8>((getModelInfo() as NSString).utf8String)
+        appInfo.platform_name = UnsafePointer<Int8>(("iOS" as NSString).utf8String)
+        appInfo.device_make = UnsafePointer<Int8>(("apple" as NSString).utf8String)
+
         videoClient!.start(meetingId,
                            token: joinToken,
                            sending: false,
                            config: videoConfig,
-                           appInfo: app_detailed_info_t.init())
+                           appInfo: appInfo)
         videoClientState = .started
     }
 }
@@ -246,6 +283,7 @@ extension DefaultVideoClientController: VideoClientDelegate {
         request.httpMethod = turnRequestHttpMethod
         request.addValue("\(tokenKey)=\(joinToken)", forHTTPHeaderField: tokenHeader)
         request.addValue(contentType, forHTTPHeaderField: contentTypeHeader)
+        request.addValue(getUserAgent(), forHTTPHeaderField: userAgentTypeHeader)
 
         // Write meetingId into HTTP request body
         let meetingIdDict = [meetingIdKey: meetingId]
