@@ -4,7 +4,6 @@
 //
 //  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
-
 import Foundation
 
 /// ClientMetricsCollector takes the raw metrics from the native client,

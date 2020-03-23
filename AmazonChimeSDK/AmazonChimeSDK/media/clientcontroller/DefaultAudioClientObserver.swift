@@ -5,8 +5,8 @@
 //  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
-import Foundation
 import AmazonChimeSDKMedia
+import Foundation
 
 class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     private var audioClient: AudioClient

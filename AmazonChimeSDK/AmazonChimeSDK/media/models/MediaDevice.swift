@@ -5,9 +5,9 @@
 //  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
+import AmazonChimeSDKMedia
 import AVFoundation
 import Foundation
-import AmazonChimeSDKMedia
 
 /// `MediaDevice` represents an IOS audio/video device.
 @objcMembers public class MediaDevice: NSObject {

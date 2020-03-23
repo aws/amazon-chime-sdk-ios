@@ -5,8 +5,8 @@
 //  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
 
-import Foundation
 import AmazonChimeSDKMedia
+import Foundation
 
 class DefaultAudioClient: AudioClient {
     private let logger: Logger

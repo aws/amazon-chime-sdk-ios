@@ -4,8 +4,9 @@
 //
 //  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //
-import Foundation
+
 import AmazonChimeSDKMedia
+import Foundation
 
 class DefaultClientMetricsCollector {
     private var cachedObservableMetrics: [ObservableMetric: Any] = [:]
