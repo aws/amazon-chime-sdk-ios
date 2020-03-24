@@ -1,10 +1,12 @@
-### Getting Started
+# Amazon Chime SDK for iOS
+
+## Getting Started
 
 This guide contains a quick explanation of initializing the meeting session and using that to 
-access audio and video features. For more information, please refer to the API documentation at 
-TODO - Add link to API docs or refer to the demo app.
+access audio and video features. For more information, please refer to the [SDK Documentation](https://aws.github.io/amazon-chime-sdk-ios/)
+or refer to the demo app.
 
-#### Permissions
+## Permissions
 Before calling the APIs to start audio and video, the app will need microphone and camera 
 permissions from the user.
 
@@ -20,7 +22,7 @@ AVCaptureDevice.requestAccess(for: .video)
 
 Calling the APIs without having the above permissions granted will result in a `PermissionError`.
 
-#### Getting Meeting Info
+## Getting Meeting Info
 
 The first step is to get various parameters about the meeting. The client application will receive 
 this information from the server application. It is up to the builder to decide on how the client
@@ -37,9 +39,9 @@ To get the meeting info make a POST request to:
 These are the parameters to include in the request:
 * title: Meeting ID for the meeting to join
 * name: Attendee name to join the meeting with
-* region: For now you can use "us-east-1"
+* region: "One of the 14 regions supported by the AWS SDK, for example "us-east-1""
 
-#### Create MeetingSessionConfiguration
+## Create MeetingSessionConfiguration
 
 Parse the JSON response obtained from your server application to create the `MeetingSessionConfiguration` object. 
 
@@ -65,19 +67,20 @@ let meetingSessionConfig = MeetingSessionConfiguration(
 )
 ```
 
-#### Create MeetingSession
+## Create MeetingSession
 
 Create the `DefaultMeetingSession` using the `MeetingSessionConfiguration` object.
 
 ```
 self.currentMeetingSession = DefaultMeetingSession(
-    configuration: meetingSessionConfig!,
+    configuration: meetingSessionConfig,
     logger: logger
 )
 ```
 
-#### Access AudioVideoFacade
-##### Audio
+## Access AudioVideoFacade
+
+### Audio
 
 To start audio:
 ```
@@ -121,12 +124,12 @@ videoSessionDidStartWithStatus(sessionStatus: MeetingSessionStatus)
 videoSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus)
 ```
 
-To Mute:
+To Mute the Microphone:
 ```
 self.currentMeetingSession?.audioVideo.realtimeLocalMute()
 ```
 
-To UnMute:
+To Unmute the Microphone:
 ```
 self.currentMeetingSession?.audioVideo.realtimeLocalUnmute()
 ```
@@ -153,9 +156,6 @@ attendeesDidMute(attendeeInfo: [AttendeeInfo])
 
 attendeesDidUnmute(attendeeInfo: [AttendeeInfo])
 ```
-
-VolumeLevel is an enum with the following values: `Muted`, `NotSpeaking`, `Low`, `Medium`, `High`
-SignalStrength is an enum with the following values: `None`, `Low`, `High`
 
 To detect active speaker:
 ```
@@ -192,7 +192,7 @@ prioritizeVideoSendBandwidthForActiveSpeaker() -> Bool
 
 Note that the default implementations of other components currently do not do anything with the result of `prioritizeVideoSendBandwidthForActiveSpeaker`
 
-##### Devices
+### Devices
 
 To list audio devices:
 ```
@@ -217,7 +217,7 @@ A class implementing `DeviceChangeObserver` would need to implement the followin
 audioDeviceDidChange(freshAudioDeviceList: [MediaDevice])
 ```
 
-##### Metrics
+### Metrics
 
 To listen to metrics:
 ```
@@ -231,7 +231,7 @@ A class implementing `MetricsObserver` would need to implement the following:
 metricsDidReceive(metrics: [AnyHashable: Any])
 ```
 
-##### Video
+### Video
 
 To start self video (local video):
 ```
@@ -243,12 +243,12 @@ To stop self video (local video):
 self.currentMeetingSession?.audioVideo.stopLocalVideo()
 ```
 
-To start remove video:
+To start remote video:
 ```
 self.currentMeetingSession?.audioVideo.startRemoteVideo()
 ```
 
-To stop remove video:
+To stop remote video:
 ```
 self.currentMeetingSession?.audioVideo.stopRemoteVideo()
 ```
@@ -263,7 +263,7 @@ To get active camera:
 self.currentMeetingSession?.audioVideo.getActiveCamera()
 ```
 
-##### Working with video view
+### Working with video view
 In order to bind a video source to the UI, implement `VideoTileObserver`, which has the following:
 
 ```
@@ -306,7 +306,7 @@ To resume remote video:
 self.currentMeetingSession?.audioVideo.resumeRemoteVideoTile(tileId)
 ```
 
-##### VideoRenderView
+### VideoRenderView
 In order to render frames from the video client, the UIView needs to implement the `VideoRenderView` protocol:
 
 ```
