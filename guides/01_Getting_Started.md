@@ -102,25 +102,23 @@ self.currentMeetingSession?.audioVideo.removeAudioVideoObserver(AudioVideoObserv
 A class implementing `AudioVideoObserver` would need to implement the following:
 
 ```
-onAudioClientConnecting(reconnecting: Bool)
+audioSessionDidStartConnecting(reconnecting: Bool)
 
-onAudioClientStart(reconnecting: Bool)
+audioSessionDidStart(reconnecting: Bool)
 
-onAudioClientStop(sessionStatus: MeetingSessionStatus)
+audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus)
 
-onAudioClientReconnectionCancel()
+audioSessionDidCancelReconnect()
 
-onConnectionRecover()
+connectionDidRecover()
 
-onConnectionBecomePoor()
+connectionDidBecomePoor()
 
-onVideoClientConnecting()
+videoSessionDidStartConnecting()
 
-onVideoClientStart()
+videoSessionDidStartWithStatus(sessionStatus: MeetingSessionStatus)
 
-onVideoClientStop(sessionStatus: MeetingSessionStatus)
-
-onVideoClientError(sessionStatus: MeetingSessionStatus)
+videoSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus)
 ```
 
 To Mute:
@@ -143,17 +141,17 @@ self.currentMeetingSession?.audioVideo.removeRealtimeObserver(RealtimeObserver)
 A class implementing `RealtimeObserver` would need to implement the following:
 
 ```
-onVolumeChange(attendeeVolumeMap: [String: VolumeLevel])
+volumeDidChange(volumeUpdates: [VolumeUpdate])
 
-onSignalStrengthChange(attendeeSignalMap: [String: SignalStrength])
+signalStrengthDidChange(signalUpdates: [SignalUpdate])
 
-onAttendeesJoin(attendeeIds: [String])
+attendeesDidJoin(attendeeInfo: [AttendeeInfo])
 
-onAttendeesLeave(attendeeIds: [String])
+attendeesDidLeave(attendeeInfo: [AttendeeInfo])
 
-onAttendeesMute(attendeeIds: [String])
+attendeesDidMute(attendeeInfo: [AttendeeInfo])
 
-onAttendeesUnmute(attendeeIds: [String])
+attendeesDidUnmute(attendeeInfo: [AttendeeInfo])
 ```
 
 VolumeLevel is an enum with the following values: `Muted`, `NotSpeaking`, `Low`, `Medium`, `High`
@@ -169,9 +167,9 @@ A class implementing `ActiveSpeakerObserver` would need to implement the followi
 ```
 scoresCallbackIntervalMs: Int
 
-onActiveSpeakerDetect(attendeeInfo: [AttendeeInfo])
+activeSpeakerDidDetect(attendeeInfo: [AttendeeInfo])
 
-onActiveSpeakerScoreChange(scores: [AttendeeInfo: Double])
+activeSpeakerScoreDidChange(scores: [AttendeeInfo: Double])
 ```
 
 That class will also need to provide an `observerId`:
@@ -216,7 +214,7 @@ self.currentMeetingSession?.audioVideo.removeDeviceChangeObserver(DeviceChangeOb
 A class implementing `DeviceChangeObserver` would need to implement the following:
 
 ```
-onAudioDeviceChange(freshAudioDeviceList: [MediaDevice])
+audioDeviceDidChange(freshAudioDeviceList: [MediaDevice])
 ```
 
 ##### Metrics
@@ -230,7 +228,7 @@ self.currentMeetingSession?.audioVideo.removeMetricsObserver(MetricsObserver)
 
 A class implementing `MetricsObserver` would need to implement the following:
 ```
-onMetricsReceive(metrics: [ObservableMetric: Any])
+metricsDidReceive(metrics: [AnyHashable: Any])
 ```
 
 ##### Video
@@ -269,13 +267,13 @@ self.currentMeetingSession?.audioVideo.getActiveCamera()
 In order to bind a video source to the UI, implement `VideoTileObserver`, which has the following:
 
 ```
-onAddVideoTile(tileState: VideoTileState)
+videoTileDidAdd(tileState: VideoTileState)
 
-onRemoveVideoTile(tileState: VideoTileState)
+videoTileDidRemove(tileState: VideoTileState)
 
-onPauseVideoTile(tileState: VideoTileState)
+videoTileDidPause(tileState: VideoTileState)
 
-onResumeVideoTile(tileState: VideoTileState)
+videoTileDidResume(tileState: VideoTileState)
 ```
 
 To add `VideoTileObserver`:
