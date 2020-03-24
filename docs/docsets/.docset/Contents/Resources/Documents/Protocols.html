@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Protocols  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Section/Protocols" class="dashAnchor"></a>
+    <a title="Protocols  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html"> Docs</a> (75% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html"> Reference</a>
+        <img id="carat" src="img/carat.png" />
+        Protocols  Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Classes/Attendee.html">Attendee</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/AttendeeInfo.html">AttendeeInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/ConsoleLogger.html">ConsoleLogger</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/CreateAttendeeResponse.html">CreateAttendeeResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/CreateMeetingResponse.html">CreateMeetingResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/DefaultActiveSpeakerDetector.html">DefaultActiveSpeakerDetector</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/DefaultActiveSpeakerPolicy.html">DefaultActiveSpeakerPolicy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/DefaultAudioVideoController.html">DefaultAudioVideoController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/DefaultAudioVideoFacade.html">DefaultAudioVideoFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/DefaultDeviceController.html">DefaultDeviceController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/DefaultMeetingSession.html">DefaultMeetingSession</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/DefaultRealtimeController.html">DefaultRealtimeController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/DefaultVideoRenderView.html">DefaultVideoRenderView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/DefaultVideoTile.html">DefaultVideoTile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/DefaultVideoTileController.html">DefaultVideoTileController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/IntervalScheduler.html">IntervalScheduler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MediaDevice.html">MediaDevice</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MediaPlacement.html">MediaPlacement</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Meeting.html">Meeting</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MeetingSessionConfiguration.html">MeetingSessionConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MeetingSessionCredentials.html">MeetingSessionCredentials</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MeetingSessionStatus.html">MeetingSessionStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MeetingSessionURLs.html">MeetingSessionURLs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/SignalUpdate.html">SignalUpdate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/VideoTileState.html">VideoTileState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/VolumeUpdate.html">VolumeUpdate</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Enums/LogLevel.html">LogLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/MediaDeviceType.html">MediaDeviceType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/MeetingSessionStatusCode.html">MeetingSessionStatusCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/ObservableMetric.html">ObservableMetric</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/PermissionError.html">PermissionError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/SignalStrength.html">SignalStrength</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/VideoPauseState.html">VideoPauseState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/VolumeLevel.html">VolumeLevel</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Protocols/ActiveSpeakerDetectorFacade.html">ActiveSpeakerDetectorFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/ActiveSpeakerObserver.html">ActiveSpeakerObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/ActiveSpeakerPolicy.html">ActiveSpeakerPolicy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/AudioVideoControllerFacade.html">AudioVideoControllerFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoFacade">AudioVideoFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/AudioVideoObserver.html">AudioVideoObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/DeviceChangeObserver.html">DeviceChangeObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/DeviceController.html">DeviceController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/Logger.html">Logger</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/MeetingSession.html">MeetingSession</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/MetricsObserver.html">MetricsObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/RealtimeControllerFacade.html">RealtimeControllerFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/RealtimeObserver.html">RealtimeObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/Scheduler.html">Scheduler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/VideoRenderView.html">VideoRenderView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/VideoTile.html">VideoTile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/VideoTileController.html">VideoTileController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/VideoTileControllerFacade.html">VideoTileControllerFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/VideoTileObserver.html">VideoTileObserver</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>Protocols</h1>
+            <p>The following protocols are available globally.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade"></a>
+                    <a name="//apple_ref/swift/Protocol/AudioVideoControllerFacade" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade">AudioVideoControllerFacade</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>AudioVideoControllerFacade</code> manages the signaling and peer connections.</p>
+
+                        <a href="Protocols/AudioVideoControllerFacade.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">AudioVideoControllerFacade</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoFacade"></a>
+                    <a name="//apple_ref/swift/Protocol/AudioVideoFacade" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoFacade">AudioVideoFacade</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">AudioVideoFacade</span><span class="p">:</span> <span class="kt"><a href="Protocols/AudioVideoControllerFacade.html">AudioVideoControllerFacade</a></span><span class="p">,</span> <span class="kt"><a href="Protocols/RealtimeControllerFacade.html">RealtimeControllerFacade</a></span><span class="p">,</span>
+    <span class="kt"><a href="Protocols/DeviceController.html">DeviceController</a></span><span class="p">,</span> <span class="kt"><a href="Protocols/VideoTileControllerFacade.html">VideoTileControllerFacade</a></span><span class="p">,</span> <span class="kt"><a href="Protocols/ActiveSpeakerDetectorFacade.html">ActiveSpeakerDetectorFacade</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver"></a>
+                    <a name="//apple_ref/swift/Protocol/AudioVideoObserver" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver">AudioVideoObserver</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>AudioVideoObserver</code> handles audio/video session events.</p>
+
+                        <a href="Protocols/AudioVideoObserver.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">AudioVideoObserver</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)ActiveSpeakerDetectorFacade"></a>
+                    <a name="//apple_ref/swift/Protocol/ActiveSpeakerDetectorFacade" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)ActiveSpeakerDetectorFacade">ActiveSpeakerDetectorFacade</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>ActiveSpeakerDetectorFacade</code> listens to the volume indicator updates from the <code><a href="Protocols/RealtimeControllerFacade.html">RealtimeControllerFacade</a></code>.
+It consults the <code><a href="Protocols/ActiveSpeakerPolicy.html">ActiveSpeakerPolicy</a></code> to determine if the speaker is active or not.</p>
+
+                        <a href="Protocols/ActiveSpeakerDetectorFacade.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ActiveSpeakerDetectorFacade</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)ActiveSpeakerObserver"></a>
+                    <a name="//apple_ref/swift/Protocol/ActiveSpeakerObserver" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)ActiveSpeakerObserver">ActiveSpeakerObserver</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>ActiveSpeakerObserver</code> handles event related to finding active speaker and corresponding scores</p>
+
+                        <a href="Protocols/ActiveSpeakerObserver.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ActiveSpeakerObserver</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)ActiveSpeakerPolicy"></a>
+                    <a name="//apple_ref/swift/Protocol/ActiveSpeakerPolicy" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)ActiveSpeakerPolicy">ActiveSpeakerPolicy</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Protocols/ActiveSpeakerPolicy.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ActiveSpeakerPolicy</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)Scheduler"></a>
+                    <a name="//apple_ref/swift/Protocol/Scheduler" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)Scheduler">Scheduler</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>Scheduler</code> calls a callback on the schedule determined by the implementation.</p>
+
+                        <a href="Protocols/Scheduler.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Scheduler</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)MetricsObserver"></a>
+                    <a name="//apple_ref/swift/Protocol/MetricsObserver" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)MetricsObserver">MetricsObserver</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>MetricsObserver</code> handles events related to audio/video metrics.</p>
+
+                        <a href="Protocols/MetricsObserver.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">MetricsObserver</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)VideoRenderView"></a>
+                    <a name="//apple_ref/swift/Protocol/VideoRenderView" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoRenderView">VideoRenderView</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>VideoRenderView</code> renders frame that comes from <code><a href="Protocols/VideoTile.html">VideoTile</a></code>.</p>
+
+                        <a href="Protocols/VideoRenderView.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">VideoRenderView</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)VideoTile"></a>
+                    <a name="//apple_ref/swift/Protocol/VideoTile" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoTile">VideoTile</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>VideoTile</code> is a tile that binds video render view to diplay the frame into the view.</p>
+
+                        <a href="Protocols/VideoTile.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">VideoTile</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)VideoTileController"></a>
+                    <a name="//apple_ref/swift/Protocol/VideoTileController" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoTileController">VideoTileController</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>VideoTileController</code> handles rendering/creating of new <code><a href="Protocols/VideoTile.html">VideoTile</a></code>.</p>
+
+                        <a href="Protocols/VideoTileController.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">VideoTileController</span> <span class="p">:</span> <span class="kt"><a href="Protocols/VideoTileControllerFacade.html">VideoTileControllerFacade</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade"></a>
+                    <a name="//apple_ref/swift/Protocol/VideoTileControllerFacade" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade">VideoTileControllerFacade</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>VideoTileControllerFacade</code> allows one to control <code><a href="Protocols/VideoTile.html">VideoTile</a></code>. The caller is responsible for laying
+out video render views as desired and binding tile ids received from the observer
+in the <code>videoTileDidAdd</code> and <code>videoTileDidRemove</code> callbacks.</p>
+
+                        <a href="Protocols/VideoTileControllerFacade.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">VideoTileControllerFacade</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)VideoTileObserver"></a>
+                    <a name="//apple_ref/swift/Protocol/VideoTileObserver" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoTileObserver">VideoTileObserver</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>VideoTileObserver</code> handles events related to <code><a href="Protocols/VideoTile.html">VideoTile</a></code>.</p>
+
+                        <a href="Protocols/VideoTileObserver.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">VideoTileObserver</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)DeviceChangeObserver"></a>
+                    <a name="//apple_ref/swift/Protocol/DeviceChangeObserver" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)DeviceChangeObserver">DeviceChangeObserver</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>DeviceChangeObserver</code> listens to the change of Audio Device.</p>
+
+                        <a href="Protocols/DeviceChangeObserver.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">DeviceChangeObserver</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)DeviceController"></a>
+                    <a name="//apple_ref/swift/Protocol/DeviceController" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)DeviceController">DeviceController</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>DeviceController</code> keeps track of the devices being used for audio device
+(e.g. built-in speaker), video input (e.g. camera)).
+The list functions return <code><a href="Classes/MediaDevice.html">MediaDevice</a></code> objects.
+Changes in device availability are broadcast to any registered
+<code><a href="Protocols/DeviceChangeObserver.html">DeviceChangeObserver</a></code>.</p>
+
+                        <a href="Protocols/DeviceController.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">DeviceController</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade"></a>
+                    <a name="//apple_ref/swift/Protocol/RealtimeControllerFacade" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade">RealtimeControllerFacade</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>RealtimeControllerFacade</code> controls aspects meetings concerning realtime UX
+that for performance, privacy, or other reasons should be implemented using
+the most direct path. Callbacks generated by this interface should be
+consumed synchronously and without business logic dependent on the UI state
+where possible.</p>
+
+<p>Events will be passed through <code><a href="Protocols/RealtimeObserver.html">RealtimeObserver</a></code>, which in turn provides consumers the
+volume/mute/signal/attendee callbacks that can be used to render in the UI.</p>
+
+                        <a href="Protocols/RealtimeControllerFacade.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">RealtimeControllerFacade</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver"></a>
+                    <a name="//apple_ref/swift/Protocol/RealtimeObserver" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver">RealtimeObserver</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>RealtimeObserver</code> handles event that happens in realtime,
+ such as delta in attendees join or leave, volume/signal status.</p>
+
+                        <a href="Protocols/RealtimeObserver.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">RealtimeObserver</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)MeetingSession"></a>
+                    <a name="//apple_ref/swift/Protocol/MeetingSession" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)MeetingSession">MeetingSession</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Protocols/MeetingSession.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">MeetingSession</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)Logger"></a>
+                    <a name="//apple_ref/swift/Protocol/Logger" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)Logger">Logger</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>Logger</code> defines how to write logs for different logging level.</p>
+
+                        <a href="Protocols/Logger.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Logger</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-03-23)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

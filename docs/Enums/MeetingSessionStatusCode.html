@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>MeetingSessionStatusCode Enumeration Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Enum/MeetingSessionStatusCode" class="dashAnchor"></a>
+    <a title="MeetingSessionStatusCode Enumeration Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html"> Docs</a> (75% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html"> Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        MeetingSessionStatusCode Enumeration Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/Attendee.html">Attendee</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/AttendeeInfo.html">AttendeeInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ConsoleLogger.html">ConsoleLogger</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CreateAttendeeResponse.html">CreateAttendeeResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CreateMeetingResponse.html">CreateMeetingResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultActiveSpeakerDetector.html">DefaultActiveSpeakerDetector</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultActiveSpeakerPolicy.html">DefaultActiveSpeakerPolicy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultAudioVideoController.html">DefaultAudioVideoController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultAudioVideoFacade.html">DefaultAudioVideoFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultDeviceController.html">DefaultDeviceController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultMeetingSession.html">DefaultMeetingSession</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultRealtimeController.html">DefaultRealtimeController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultVideoRenderView.html">DefaultVideoRenderView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultVideoTile.html">DefaultVideoTile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultVideoTileController.html">DefaultVideoTileController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/IntervalScheduler.html">IntervalScheduler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MediaDevice.html">MediaDevice</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MediaPlacement.html">MediaPlacement</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Meeting.html">Meeting</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MeetingSessionConfiguration.html">MeetingSessionConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MeetingSessionCredentials.html">MeetingSessionCredentials</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MeetingSessionStatus.html">MeetingSessionStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MeetingSessionURLs.html">MeetingSessionURLs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/SignalUpdate.html">SignalUpdate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VideoTileState.html">VideoTileState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VolumeUpdate.html">VolumeUpdate</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/LogLevel.html">LogLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MediaDeviceType.html">MediaDeviceType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MeetingSessionStatusCode.html">MeetingSessionStatusCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ObservableMetric.html">ObservableMetric</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/PermissionError.html">PermissionError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SignalStrength.html">SignalStrength</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/VideoPauseState.html">VideoPauseState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/VolumeLevel.html">VolumeLevel</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/ActiveSpeakerDetectorFacade.html">ActiveSpeakerDetectorFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ActiveSpeakerObserver.html">ActiveSpeakerObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ActiveSpeakerPolicy.html">ActiveSpeakerPolicy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AudioVideoControllerFacade.html">AudioVideoControllerFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoFacade">AudioVideoFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AudioVideoObserver.html">AudioVideoObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DeviceChangeObserver.html">DeviceChangeObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DeviceController.html">DeviceController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Logger.html">Logger</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/MeetingSession.html">MeetingSession</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/MetricsObserver.html">MetricsObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/RealtimeControllerFacade.html">RealtimeControllerFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/RealtimeObserver.html">RealtimeObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Scheduler.html">Scheduler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoRenderView.html">VideoRenderView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoTile.html">VideoTile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoTileController.html">VideoTileController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoTileControllerFacade.html">VideoTileControllerFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoTileObserver.html">VideoTileObserver</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>MeetingSessionStatusCode</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">enum</span> <span class="kt">MeetingSessionStatusCode</span> <span class="p">:</span> <span class="kt">UInt32</span><span class="p">,</span> <span class="kt">CustomStringConvertible</span></code></pre>
+
+                </div>
+              </div>
+            
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeOk"></a>
+                    <a name="//apple_ref/swift/Element/ok" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeOk">ok</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Everything is OK so far.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">ok</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeAudioDisconnected"></a>
+                    <a name="//apple_ref/swift/Element/audioDisconnected" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeAudioDisconnected">audioDisconnected</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The audio leg failed.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">audioDisconnected</span> <span class="o">=</span> <span class="mi">9</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeConnectionHealthReconnect"></a>
+                    <a name="//apple_ref/swift/Element/connectionHealthReconnect" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeConnectionHealthReconnect">connectionHealthReconnect</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Due to connection health a reconnect has been triggered.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">connectionHealthReconnect</span> <span class="o">=</span> <span class="mi">10</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeNetworkBecomePoor"></a>
+                    <a name="//apple_ref/swift/Element/networkBecomePoor" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeNetworkBecomePoor">networkBecomePoor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Network is not good enough for VoIP.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">networkBecomePoor</span> <span class="o">=</span> <span class="mi">59</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeAudioServerHungup"></a>
+                    <a name="//apple_ref/swift/Element/audioServerHungup" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeAudioServerHungup">audioServerHungup</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Server hung up.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">audioServerHungup</span> <span class="o">=</span> <span class="mi">60</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeAudioJoinedFromAnotherDevice"></a>
+                    <a name="//apple_ref/swift/Element/audioJoinedFromAnotherDevice" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeAudioJoinedFromAnotherDevice">audioJoinedFromAnotherDevice</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The attendee joined from another device.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">audioJoinedFromAnotherDevice</span> <span class="o">=</span> <span class="mi">61</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeAudioInternalServerError"></a>
+                    <a name="//apple_ref/swift/Element/audioInternalServerError" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeAudioInternalServerError">audioInternalServerError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>There was an internal server error with the audio leg.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">audioInternalServerError</span> <span class="o">=</span> <span class="mi">62</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeAudioAuthenticationRejected"></a>
+                    <a name="//apple_ref/swift/Element/audioAuthenticationRejected" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeAudioAuthenticationRejected">audioAuthenticationRejected</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Authentication was rejected. The client is not allowed on this call.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">audioAuthenticationRejected</span> <span class="o">=</span> <span class="mi">63</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeAudioCallAtCapacity"></a>
+                    <a name="//apple_ref/swift/Element/audioCallAtCapacity" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeAudioCallAtCapacity">audioCallAtCapacity</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The client can not join because the call is at capacity.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">audioCallAtCapacity</span> <span class="o">=</span> <span class="mi">64</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeAudioServiceUnavailable"></a>
+                    <a name="//apple_ref/swift/Element/audioServiceUnavailable" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeAudioServiceUnavailable">audioServiceUnavailable</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Could not connect the audio leg due to the service being unavailable.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">audioServiceUnavailable</span> <span class="o">=</span> <span class="mi">65</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeAudioDisconnectAudio"></a>
+                    <a name="//apple_ref/swift/Element/audioDisconnectAudio" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeAudioDisconnectAudio">audioDisconnectAudio</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The attendee should explicitly switch itself from joined with audio to checked-in.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">audioDisconnectAudio</span> <span class="o">=</span> <span class="mi">69</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeAudioCallEnded"></a>
+                    <a name="//apple_ref/swift/Element/audioCallEnded" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeAudioCallEnded">audioCallEnded</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The call was ended.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">audioCallEnded</span> <span class="o">=</span> <span class="mi">75</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeVideoServiceUnavailable"></a>
+                    <a name="//apple_ref/swift/Element/videoServiceUnavailable" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeVideoServiceUnavailable">videoServiceUnavailable</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>video service is unavailable.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">videoServiceUnavailable</span> <span class="o">=</span> <span class="mi">12</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeUnknown"></a>
+                    <a name="//apple_ref/swift/Element/unknown" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeUnknown">unknown</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>If State cannot be parsed, then use this state.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">unknown</span> <span class="o">=</span> <span class="mi">78</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeVideoAtCapacityViewOnly"></a>
+                    <a name="//apple_ref/swift/Element/videoAtCapacityViewOnly" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeVideoAtCapacityViewOnly">videoAtCapacityViewOnly</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>When maximum concurrent video channel reached</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">videoAtCapacityViewOnly</span> <span class="o">=</span> <span class="mi">206</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:s23CustomStringConvertibleP11descriptionSSvp"></a>
+                    <a name="//apple_ref/swift/Property/description" class="dashAnchor"></a>
+                    <a class="token" href="#/s:s23CustomStringConvertibleP11descriptionSSvp">description</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-03-23)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

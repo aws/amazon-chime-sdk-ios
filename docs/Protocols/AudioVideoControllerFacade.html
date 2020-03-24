@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>AudioVideoControllerFacade Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Protocol/AudioVideoControllerFacade" class="dashAnchor"></a>
+    <a title="AudioVideoControllerFacade Protocol Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html"> Docs</a> (75% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html"> Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        AudioVideoControllerFacade Protocol Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/Attendee.html">Attendee</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/AttendeeInfo.html">AttendeeInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ConsoleLogger.html">ConsoleLogger</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CreateAttendeeResponse.html">CreateAttendeeResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CreateMeetingResponse.html">CreateMeetingResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultActiveSpeakerDetector.html">DefaultActiveSpeakerDetector</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultActiveSpeakerPolicy.html">DefaultActiveSpeakerPolicy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultAudioVideoController.html">DefaultAudioVideoController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultAudioVideoFacade.html">DefaultAudioVideoFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultDeviceController.html">DefaultDeviceController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultMeetingSession.html">DefaultMeetingSession</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultRealtimeController.html">DefaultRealtimeController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultVideoRenderView.html">DefaultVideoRenderView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultVideoTile.html">DefaultVideoTile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultVideoTileController.html">DefaultVideoTileController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/IntervalScheduler.html">IntervalScheduler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MediaDevice.html">MediaDevice</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MediaPlacement.html">MediaPlacement</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Meeting.html">Meeting</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MeetingSessionConfiguration.html">MeetingSessionConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MeetingSessionCredentials.html">MeetingSessionCredentials</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MeetingSessionStatus.html">MeetingSessionStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MeetingSessionURLs.html">MeetingSessionURLs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/SignalUpdate.html">SignalUpdate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VideoTileState.html">VideoTileState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VolumeUpdate.html">VolumeUpdate</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/LogLevel.html">LogLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MediaDeviceType.html">MediaDeviceType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MeetingSessionStatusCode.html">MeetingSessionStatusCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ObservableMetric.html">ObservableMetric</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/PermissionError.html">PermissionError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SignalStrength.html">SignalStrength</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/VideoPauseState.html">VideoPauseState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/VolumeLevel.html">VolumeLevel</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/ActiveSpeakerDetectorFacade.html">ActiveSpeakerDetectorFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ActiveSpeakerObserver.html">ActiveSpeakerObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ActiveSpeakerPolicy.html">ActiveSpeakerPolicy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AudioVideoControllerFacade.html">AudioVideoControllerFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoFacade">AudioVideoFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AudioVideoObserver.html">AudioVideoObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DeviceChangeObserver.html">DeviceChangeObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DeviceController.html">DeviceController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Logger.html">Logger</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/MeetingSession.html">MeetingSession</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/MetricsObserver.html">MetricsObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/RealtimeControllerFacade.html">RealtimeControllerFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/RealtimeObserver.html">RealtimeObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Scheduler.html">Scheduler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoRenderView.html">VideoRenderView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoTile.html">VideoTile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoTileController.html">VideoTileController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoTileControllerFacade.html">VideoTileControllerFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoTileObserver.html">VideoTileObserver</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>AudioVideoControllerFacade</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">AudioVideoControllerFacade</span></code></pre>
+
+                </div>
+              </div>
+            <p><code>AudioVideoControllerFacade</code> manages the signaling and peer connections.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(py)configuration"></a>
+                    <a name="//apple_ref/swift/Property/configuration" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(py)configuration">configuration</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt"><a href="../Classes/MeetingSessionConfiguration.html">MeetingSessionConfiguration</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(py)logger"></a>
+                    <a name="//apple_ref/swift/Property/logger" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(py)logger">logger</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">logger</span><span class="p">:</span> <span class="kt"><a href="../Protocols/Logger.html">Logger</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startAndReturnError:"></a>
+                    <a name="//apple_ref/swift/Method/start()" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startAndReturnError:">start()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Start AudioVideo Controller</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    <code><a href="../Enums/PermissionError.html#/c:@M@AmazonChimeSDK@E@PermissionError@PermissionErrorAudioPermissionError">PermissionError.audioPermissionError</a></code> if <code>RecordPermission</code> is not given
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">start</span><span class="p">()</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)stop"></a>
+                    <a name="//apple_ref/swift/Method/stop()" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)stop">stop()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Stop AudioVideo Controller. This will exit the meeting</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">stop</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startLocalVideoAndReturnError:"></a>
+                    <a name="//apple_ref/swift/Method/startLocalVideo()" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startLocalVideoAndReturnError:">startLocalVideo()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Enable self video to start streaming</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    <code><a href="../Enums/PermissionError.html#/c:@M@AmazonChimeSDK@E@PermissionError@PermissionErrorVideoPermissionError">PermissionError.videoPermissionError</a></code> if video permission of <code>AVCaptureDevice</code> is not granted
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">startLocalVideo</span><span class="p">()</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)stopLocalVideo"></a>
+                    <a name="//apple_ref/swift/Method/stopLocalVideo()" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)stopLocalVideo">stopLocalVideo()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Disable self video streaming</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">stopLocalVideo</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startRemoteVideo"></a>
+                    <a name="//apple_ref/swift/Method/startRemoteVideo()" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startRemoteVideo">startRemoteVideo()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Enable remote video to start receiving streams</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">startRemoteVideo</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)stopRemoteVideo"></a>
+                    <a name="//apple_ref/swift/Method/stopRemoteVideo()" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)stopRemoteVideo">stopRemoteVideo()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Disable remote video to stop receiving streams</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">stopRemoteVideo</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)addAudioVideoObserverWithObserver:"></a>
+                    <a name="//apple_ref/swift/Method/addAudioVideoObserver(observer:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)addAudioVideoObserverWithObserver:">addAudioVideoObserver(observer:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Subscribe to audio, video, and connection events with an <code><a href="../Protocols/AudioVideoObserver.html">AudioVideoObserver</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">addAudioVideoObserver</span><span class="p">(</span><span class="nv">observer</span><span class="p">:</span> <span class="kt"><a href="../Protocols/AudioVideoObserver.html">AudioVideoObserver</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>observer</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The observer to subscribe to events with</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)removeAudioVideoObserverWithObserver:"></a>
+                    <a name="//apple_ref/swift/Method/removeAudioVideoObserver(observer:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)removeAudioVideoObserverWithObserver:">removeAudioVideoObserver(observer:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Unsubscribes from audio, video, and connection events by removing specified <code><a href="../Protocols/AudioVideoObserver.html">AudioVideoObserver</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">removeAudioVideoObserver</span><span class="p">(</span><span class="nv">observer</span><span class="p">:</span> <span class="kt"><a href="../Protocols/AudioVideoObserver.html">AudioVideoObserver</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>observer</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The observer to unsubscribe from events with</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)addMetricsObserverWithObserver:"></a>
+                    <a name="//apple_ref/swift/Method/addMetricsObserver(observer:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)addMetricsObserverWithObserver:">addMetricsObserver(observer:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Subscribe to metrics events with an <code><a href="../Protocols/MetricsObserver.html">MetricsObserver</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">addMetricsObserver</span><span class="p">(</span><span class="nv">observer</span><span class="p">:</span> <span class="kt"><a href="../Protocols/MetricsObserver.html">MetricsObserver</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>observer</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The observer to subscribe to events with</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)removeMetricsObserverWithObserver:"></a>
+                    <a name="//apple_ref/swift/Method/removeMetricsObserver(observer:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)removeMetricsObserverWithObserver:">removeMetricsObserver(observer:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Unsubscribes from metrics events by removing specified <code><a href="../Protocols/MetricsObserver.html">MetricsObserver</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">removeMetricsObserver</span><span class="p">(</span><span class="nv">observer</span><span class="p">:</span> <span class="kt"><a href="../Protocols/MetricsObserver.html">MetricsObserver</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>observer</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The observer to unsubscribe from events with</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-03-23)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
