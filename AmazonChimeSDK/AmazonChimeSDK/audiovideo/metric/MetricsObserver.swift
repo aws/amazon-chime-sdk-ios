@@ -13,5 +13,5 @@ import Foundation
     /// Called when metrics are collected and ready
     ///
     /// - Parameter metrics: A dictionary of ObservableMetric case to value
-    func onMetricsReceive(metrics: [AnyHashable: Any])
+    func metricsDidReceive(metrics: [AnyHashable: Any])
 }

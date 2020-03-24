@@ -22,7 +22,7 @@ class DefaultClientMetricsCollector {
             lastEmittedMetricsTime = now
             for observer in metricsObservers {
                 if let metricsObserver = (observer as? MetricsObserver) {
-                    metricsObserver.onMetricsReceive(metrics: cachedObservableMetrics)
+                    metricsObserver.metricsDidReceive(metrics: cachedObservableMetrics)
                 }
             }
         }

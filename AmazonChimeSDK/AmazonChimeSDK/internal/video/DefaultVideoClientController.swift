@@ -232,7 +232,7 @@ extension DefaultVideoClientController: VideoClientDelegate {
     public func videoClientIsConnecting(_ client: VideoClient!) {
         logger.info(msg: "videoClientIsConnecting")
         forEachObserver(observers: videoObservers) { (observer: AudioVideoObserver) in
-            observer.onVideoClientConnecting()
+            observer.videoSessionDidStartConnecting()
         }
     }
 
@@ -241,11 +241,12 @@ extension DefaultVideoClientController: VideoClientDelegate {
         forEachObserver(observers: videoObservers) { (observer: AudioVideoObserver) in
             switch Int(controlStatus) {
             case Constants.videoClientStatusCallAtCapacityViewOnly:
-                observer.onVideoClientError(
-                    status: MeetingSessionStatus(statusCode: MeetingSessionStatusCode.videoAtCapacityViewOnly)
+                observer.videoSessionDidStartWithStatus(
+                    sessionStatus: MeetingSessionStatus(statusCode: MeetingSessionStatusCode.videoAtCapacityViewOnly)
                 )
             default:
-                observer.onVideoClientStart()
+                observer.videoSessionDidStartWithStatus(sessionStatus:
+                    MeetingSessionStatus(statusCode: MeetingSessionStatusCode.ok))
             }
         }
     }
@@ -253,14 +254,15 @@ extension DefaultVideoClientController: VideoClientDelegate {
     public func videoClientDidFail(_ client: VideoClient!, status: video_client_status_t, controlStatus: Int32) {
         logger.info(msg: "videoClientDidFail")
         forEachObserver(observers: videoObservers) { (observer: AudioVideoObserver) in
-            observer.onVideoClientStop(sessionStatus: MeetingSessionStatus(statusCode: .videoServiceUnavailable))
+            observer.videoSessionDidStopWithStatus(sessionStatus:
+                MeetingSessionStatus(statusCode: .videoServiceUnavailable))
         }
     }
 
     public func videoClientDidStop(_ client: VideoClient!) {
         logger.info(msg: "videoClientDidStop")
         forEachObserver(observers: videoObservers) { (observer: AudioVideoObserver) in
-            observer.onVideoClientStop(sessionStatus: MeetingSessionStatus(statusCode: .ok))
+            observer.videoSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus(statusCode: .ok))
         }
     }
 

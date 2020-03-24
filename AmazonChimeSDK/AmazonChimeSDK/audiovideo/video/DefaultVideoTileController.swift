@@ -32,11 +32,11 @@ import UIKit
                 videoTile.setPauseState(pauseState: pauseState)
                 if pauseState == .unpaused {
                     forEachObserver { videoTileObserver in
-                        videoTileObserver.onResumeVideoTile(tileState: videoTile.state)
+                        videoTileObserver.videoTileDidResume(tileState: videoTile.state)
                     }
                 } else {
                     forEachObserver { videoTileObserver in
-                        videoTileObserver.onPauseVideoTile(tileState: videoTile.state)
+                        videoTileObserver.videoTileDidPause(tileState: videoTile.state)
                     }
                 }
             }
@@ -88,13 +88,13 @@ import UIKit
                                     attendeeId: attendeeId)
         videoTileMap[videoId] = tile
         forEachObserver { videoTileObserver in
-            videoTileObserver.onAddVideoTile(tileState: tile.state)
+            videoTileObserver.videoTileDidAdd(tileState: tile.state)
         }
     }
 
     private func onRemoveTrack(tileState: VideoTileState) {
         forEachObserver { videoTileObserver in
-            videoTileObserver.onRemoveVideoTile(tileState: tileState)
+            videoTileObserver.videoTileDidRemove(tileState: tileState)
         }
     }
 
@@ -120,7 +120,7 @@ import UIKit
             if videoTile.state.pauseState != .pausedByUserRequest {
                 videoTile.setPauseState(pauseState: .pausedByUserRequest)
                 forEachObserver { videoTileObserver in
-                    videoTileObserver.onPauseVideoTile(tileState: videoTile.state)
+                    videoTileObserver.videoTileDidPause(tileState: videoTile.state)
                 }
             }
         }
@@ -140,7 +140,7 @@ import UIKit
             if videoTile.state.pauseState == .pausedByUserRequest {
                 videoTile.setPauseState(pauseState: .unpaused)
                 forEachObserver { videoTileObserver in
-                    videoTileObserver.onResumeVideoTile(tileState: videoTile.state)
+                    videoTileObserver.videoTileDidResume(tileState: videoTile.state)
                 }
             }
         }

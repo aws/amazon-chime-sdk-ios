@@ -14,30 +14,30 @@ import Foundation
     /// Handles volume changes for attendees
     ///
     /// - Parameter volumeUpdates: An array of VolumeUpdates
-    func onVolumeChange(volumeUpdates: [VolumeUpdate])
+    func volumeDidChange(volumeUpdates: [VolumeUpdate])
 
     /// Handles signal strength changes for attendees
     ///
     /// - Parameter signalUpdates: An array of SignalUpdates
-    func onSignalStrengthChange(signalUpdates: [SignalUpdate])
+    func signalStrengthDidChange(signalUpdates: [SignalUpdate])
 
     /// List attendees that are newly added to the meeting
     ///
     /// - Parameter attendeeInfo: an array of AttendeeInfo added
-    func onAttendeesJoin(attendeeInfo: [AttendeeInfo])
+    func attendeesDidJoin(attendeeInfo: [AttendeeInfo])
 
     /// List attendees that left the meeting
     ///
     /// - Parameter attendeeInfo: an array of AttendeeInfo removed
-    func onAttendeesLeave(attendeeInfo: [AttendeeInfo])
+    func attendeesDidLeave(attendeeInfo: [AttendeeInfo])
 
     /// List attendees that are newly muted in the meeting
     ///
     /// - Parameter attendeeInfo: an array of AttendeeInfo newly muted
-    func onAttendeesMute(attendeeInfo: [AttendeeInfo])
+    func attendeesDidMute(attendeeInfo: [AttendeeInfo])
 
     /// List attendees that newly unmuted from the meeting
     ///
     /// - Parameter attendeeInfo: an array of AttendeeInfo newly unmuted
-    func onAttendeesUnmute(attendeeInfo: [AttendeeInfo])
+    func attendeesDidUnmute(attendeeInfo: [AttendeeInfo])
 }

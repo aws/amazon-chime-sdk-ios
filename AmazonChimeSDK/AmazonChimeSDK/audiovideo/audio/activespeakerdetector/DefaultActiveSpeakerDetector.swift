@@ -111,14 +111,8 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
 
     public func hasBandwidthPriorityCallback(hasBandwidthPriority: Bool) {}
 
-    public func onSignalStrengthChange(signalUpdates: [SignalUpdate]) {}
-
-    public func onAttendeesMute(attendeeInfo attendeeIds: [AttendeeInfo]) {}
-
-    public func onAttendeesUnmute(attendeeInfo attendeeIds: [AttendeeInfo]) {}
-
-    public func onVolumeChange(volumeUpdates attendeeVolumeMap: [VolumeUpdate]) {
-        for volumeUpdate in attendeeVolumeMap {
+    public func volumeDidChange(volumeUpdates: [VolumeUpdate]) {
+        for volumeUpdate in volumeUpdates {
             self.mostRecentUpdateTimestamp[volumeUpdate.attendeeInfo]
                 = Int(Date.timeIntervalSinceReferenceDate * Double(DefaultActiveSpeakerDetector.activityWaitIntervalMs))
             self.policiesAndCallbacks.forEach {
@@ -132,19 +126,25 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
         }
     }
 
-    public func onAttendeesJoin(attendeeInfo attendeeInfos: [AttendeeInfo]) {
+    public func signalStrengthDidChange(signalUpdates: [SignalUpdate]) { }
+
+    public func attendeesDidLeave(attendeeInfo attendeeInfos: [AttendeeInfo]) {
         for attendeeInfo in attendeeInfos {
-            self.speakerScores[attendeeInfo] = 0.0
+            self.speakerScores[attendeeInfo] = nil
+            self.mostRecentUpdateTimestamp[attendeeInfo] = nil
             self.policiesAndCallbacks.forEach {
                 self.updateActiveSpeakers(policy: $0.value.0, callback: $0.value.1, attendeeInfo: attendeeInfo)
             }
         }
     }
 
-    public func onAttendeesLeave(attendeeInfo attendeeInfos: [AttendeeInfo]) {
+    public func attendeesDidMute(attendeeInfo: [AttendeeInfo]) { }
+
+    public func attendeesDidUnmute(attendeeInfo: [AttendeeInfo]) { }
+
+    public func attendeesDidJoin(attendeeInfo attendeeInfos: [AttendeeInfo]) {
         for attendeeInfo in attendeeInfos {
-            self.speakerScores[attendeeInfo] = nil
-            self.mostRecentUpdateTimestamp[attendeeInfo] = nil
+            self.speakerScores[attendeeInfo] = 0.0
             self.policiesAndCallbacks.forEach {
                 self.updateActiveSpeakers(policy: $0.value.0, callback: $0.value.1, attendeeInfo: attendeeInfo)
             }
@@ -155,11 +155,11 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
         policy: ActiveSpeakerPolicy,
         observer: ActiveSpeakerObserver
     ) {
-        self.policiesAndCallbacks[observer.observerId] = (policy, observer.onActiveSpeakerDetect)
+        self.policiesAndCallbacks[observer.observerId] = (policy, observer.activeSpeakerDidDetect)
 
-        if observer.onActiveSpeakerScoreChange(scores:) != nil, observer.scoresCallbackIntervalMs != nil {
+        if observer.activeSpeakerScoreDidChange(scores:) != nil, observer.scoresCallbackIntervalMs != nil {
             let scoresTimer = IntervalScheduler(intervalMs: observer.scoresCallbackIntervalMs!, callback: {
-                observer.onActiveSpeakerScoreChange!(scores: self.speakerScores)
+                observer.activeSpeakerScoreDidChange!(scores: self.speakerScores)
             })
             scoresTimer.start()
             self.scoresTimers[observer.observerId] = scoresTimer

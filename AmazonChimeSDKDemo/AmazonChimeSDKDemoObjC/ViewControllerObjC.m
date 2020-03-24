@@ -193,39 +193,39 @@
     [task resume];
 }
 
-- (void)onAttendeesJoinWithAttendeeInfo:(NSArray<AttendeeInfo *> * _Nonnull)attendeeInfo {
+- (void)attendeesDidJoinWithAttendeeInfo:(NSArray<AttendeeInfo *> * _Nonnull)attendeeInfo {
     for (id currentAttendeeInfo in attendeeInfo) {
         [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ joined", [currentAttendeeInfo attendeeId]]];
     }
 }
 
-- (void)onAttendeesLeaveWithAttendeeInfo:(NSArray<AttendeeInfo *> * _Nonnull)attendeeInfo {
+- (void)attendeesDidLeaveWithAttendeeInfo:(NSArray<AttendeeInfo *> * _Nonnull)attendeeInfo {
     for (id currentAttendeeInfo in attendeeInfo) {
         [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ left", [currentAttendeeInfo attendeeId]]];
     }
 }
 
-- (void)onAttendeesMuteWithAttendeeInfo:(NSArray<AttendeeInfo *> * _Nonnull)attendeeInfo {
+- (void)attendeesDidMuteWithAttendeeInfo:(NSArray<AttendeeInfo *> * _Nonnull)attendeeInfo {
     for (id currentAttendeeInfo in attendeeInfo) {
         [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ muted", [currentAttendeeInfo attendeeId]]];
     }
 }
 
-- (void)onAttendeesUnmuteWithAttendeeInfo:(NSArray<AttendeeInfo *> * _Nonnull)attendeeInfo {
+- (void)attendeesDidUnmuteWithAttendeeInfo:(NSArray<AttendeeInfo *> * _Nonnull)attendeeInfo {
     for (id currentAttendeeInfo in attendeeInfo) {
         [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ unmuted", [currentAttendeeInfo attendeeId]]];
     }
 }
 
-- (void)onSignalStrengthChangeWithSignalUpdates:(NSArray<SignalUpdate *> * _Nonnull)signalUpdates {
+- (void)signalStrengthDidChangeWithSignalUpdates:(NSArray<SignalUpdate *> * _Nonnull)signalUpdates {
     for (id currentSignalUpdate in signalUpdates) {
         [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ signalStrength changed to %lu", [[currentSignalUpdate attendeeInfo] attendeeId], [currentSignalUpdate signalStrength]]];
     }
 }
 
-- (void)onVolumeChangeWithVolumeUpdates:(NSArray<VolumeUpdate *> * _Nonnull)volumeUpdates {
+- (void)volumeDidChangeWithVolumeUpdates:(NSArray<VolumeUpdate *> * _Nonnull)volumeUpdates {
     for (id currentVolumeUpdate in volumeUpdates) {
-        [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ volumeLevel changed to %lu", [[currentVolumeUpdate attendeeInfo] attendeeId], [currentVolumeUpdate volumeLevel]]];
+        [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ volumeLevel changed to %ld", [[currentVolumeUpdate attendeeInfo] attendeeId], [currentVolumeUpdate volumeLevel]]];
     }
 }
 

@@ -81,14 +81,7 @@ class ClientMetricsCollectorTests: XCTestCase, MetricsObserver {
         XCTAssertEqual(receivedMetrics.count, 0)
     }
 
-    func onAudioVideoStartConnecting(reconnecting: Bool) {}
-    func onAudioVideoStart(reconnecting: Bool) {}
-    func onAudioVideoStop(sessionStatus: MeetingSessionStatus) {}
-    func onAudioReconnectionCancel() {}
-    func onConnectionRecover() {}
-    func onConnectionBecomePoor() {}
-
-    func onMetricsReceive(metrics: [AnyHashable: Any]) {
+    func metricsDidReceive(metrics: [AnyHashable: Any]) {
         receivedMetrics = metrics
     }
 }

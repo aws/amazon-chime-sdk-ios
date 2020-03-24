@@ -81,7 +81,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
                 $0.append(signalUpdate)
             }
             forEachObserver { observer in
-                observer.onSignalStrengthChange(signalUpdates: signalUpdates)
+                observer.signalStrengthDidChange(signalUpdates: signalUpdates)
             }
         }
     }
@@ -106,7 +106,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
                 $0.append(volumeUpdate)
             }
             forEachObserver { observer in
-                observer.onVolumeChange(volumeUpdates: volumeUpdates)
+                observer.volumeDidChange(volumeUpdates: volumeUpdates)
             }
         }
     }
@@ -117,7 +117,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         }
         if !attendeesMuted.isEmpty {
             forEachObserver { observer in
-                observer.onAttendeesMute(attendeeInfo: [AttendeeInfo](attendeesMuted.keys))
+                observer.attendeesDidMute(attendeeInfo: [AttendeeInfo](attendeesMuted.keys))
             }
         }
 
@@ -126,7 +126,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         }
         if !attendeesUnmuted.isEmpty {
             forEachObserver { observer in
-                observer.onAttendeesUnmute(attendeeInfo: [AttendeeInfo](attendeesUnmuted.keys))
+                observer.attendeesDidUnmute(attendeeInfo: [AttendeeInfo](attendeesUnmuted.keys))
             }
         }
     }
@@ -138,13 +138,13 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
 
         if !attendeesAdded.isEmpty {
             forEachObserver { observer in
-                observer.onAttendeesJoin(attendeeInfo: [AttendeeInfo](attendeesAdded))
+                observer.attendeesDidJoin(attendeeInfo: [AttendeeInfo](attendeesAdded))
             }
         }
 
         if !attendeesRemoved.isEmpty {
             forEachObserver { observer in
-                observer.onAttendeesLeave(attendeeInfo: [AttendeeInfo](attendeesRemoved))
+                observer.attendeesDidLeave(attendeeInfo: [AttendeeInfo](attendeesRemoved))
             }
         }
         currentAttendeeSet = newAttendees
@@ -162,21 +162,21 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         switch currentAudioState {
         case .connecting:
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
-                observer.onAudioClientStart(reconnecting: false)
+                observer.audioSessionDidStart(reconnecting: false)
             }
         case .reconnecting:
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
-                observer.onAudioClientStart(reconnecting: true)
+                observer.audioSessionDidStart(reconnecting: true)
             }
         case .finishConnecting:
             switch (newAudioStatus, currentAudioStatus) {
             case (.ok, .networkBecomePoor):
                 notifyAudioClientObserver { (observer: AudioVideoObserver) in
-                    observer.onConnectionRecover()
+                    observer.connectionDidRecover()
                 }
             case (.networkBecomePoor, .ok):
                 notifyAudioClientObserver { (observer: AudioVideoObserver) in
-                    observer.onConnectionBecomePoor()
+                    observer.connectionDidBecomePoor()
                 }
             default:
                 break
@@ -191,11 +191,12 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         case .connecting,
              .finishConnecting:
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
-                observer.onAudioClientStop(sessionStatus: MeetingSessionStatus(statusCode: MeetingSessionStatusCode.ok))
+                observer.audioSessionDidStopWithStatus(sessionStatus:
+                    MeetingSessionStatus(statusCode: MeetingSessionStatusCode.ok))
             }
         case .reconnecting:
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
-                observer.onAudioClientReconnectionCancel()
+                observer.audioSessionDidCancelReconnect()
             }
         default:
             break
@@ -206,12 +207,12 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         switch currentAudioState {
         case .connecting, .finishConnecting:
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
-                observer.onAudioClientStop(sessionStatus: MeetingSessionStatus(statusCode: newAudioStatus))
+                observer.audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus(statusCode: newAudioStatus))
             }
         case .reconnecting:
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
-                observer.onAudioClientReconnectionCancel()
-                observer.onAudioClientStop(sessionStatus: MeetingSessionStatus(statusCode: newAudioStatus))
+                observer.audioSessionDidCancelReconnect()
+                observer.audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus(statusCode: newAudioStatus))
             }
         default:
             break
@@ -221,7 +222,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     private func handleStateChangeToReconnected() {
         if currentAudioState == .finishConnecting {
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
-                observer.onAudioClientStart(reconnecting: true)
+                observer.audioSessionDidStart(reconnecting: true)
             }
         }
     }

@@ -85,7 +85,7 @@ import AVFoundation
                 }
                 self.deviceChangeObservers.forEach { element in
                     if let observer = element as? DeviceChangeObserver {
-                        observer.onAudioDeviceChange(freshAudioDeviceList: availableDevices)
+                        observer.audioDeviceDidChange(freshAudioDeviceList: availableDevices)
                     }
                 }
             }

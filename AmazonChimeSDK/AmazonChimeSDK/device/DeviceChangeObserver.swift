@@ -14,5 +14,5 @@ import Foundation
     /// In another word, when a new media device become available
     /// or old media device become unavailable
     /// - Parameter freshAudioDeviceList : updated list of available devices
-    func onAudioDeviceChange(freshAudioDeviceList: [MediaDevice])
+    func audioDeviceDidChange(freshAudioDeviceList: [MediaDevice])
 }

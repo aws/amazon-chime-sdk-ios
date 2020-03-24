@@ -37,10 +37,10 @@ class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeaker
         description: "Is fullfilled when subscribeToRealTimeEvents is called")
     private let unSubscribeFromRealTimeEventsExpectation = XCTestExpectation(
         description: "Is fullfilled when unsubscribeFromRealTimeEvents is called")
-    private let onActiveSpeakerDetectExpectation = XCTestExpectation(
-        description: "Is fullfilled when onActiveSpeakerDetect is called")
-    private let onScoreChangeExpectation = XCTestExpectation(
-        description: "Is fullfilled when onActiveSpeakerScoreChange is called")
+    private let activeSpeakerDidDetectExpectation = XCTestExpectation(
+        description: "Is fullfilled when activeSpeakerDidDetect is called")
+    private let activeSpeakerScoreDidChangeExpectation = XCTestExpectation(
+        description: "Is fullfilled when activeSpeakerScoreDidChange is called")
     private let oneMilliSecondInSeconds = 0.001
     private let twoHundredMilliSecondsInSeconds = 0.2
 
@@ -57,7 +57,7 @@ class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeaker
         unSubscribeFromRealTimeEventsExpectation.assertForOverFulfill = true
         activeSpeakerDetector = DefaultActiveSpeakerDetector(audioClientObserver: self, selfAttendeeId: "attendee0")
         activeSpeakerDetector.addActiveSpeakerObserver(policy: self, observer: self)
-        activeSpeakerDetector.onAttendeesJoin(attendeeInfo: attendees)
+        activeSpeakerDetector.attendeesDidJoin(attendeeInfo: attendees)
     }
 
     override func tearDown() {
@@ -74,41 +74,41 @@ class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeaker
         wait(for: [subscribeToRealTimeEventsExpectation], timeout: oneMilliSecondInSeconds)
         unSubscribeFromRealTimeEventsExpectation.isInverted = true
         wait(for: [unSubscribeFromRealTimeEventsExpectation], timeout: oneMilliSecondInSeconds)
-        wait(for: [onActiveSpeakerDetectExpectation], timeout: oneMilliSecondInSeconds)
+        wait(for: [activeSpeakerDidDetectExpectation], timeout: oneMilliSecondInSeconds)
     }
 
     func testActiveSpeakerDetectorShouldOnVolumeChangeMakeExpectedCallbacks() {
-        activeSpeakerDetector.onVolumeChange(volumeUpdates: volumeUpdates)
+        activeSpeakerDetector.volumeDidChange(volumeUpdates: volumeUpdates)
         calculateScoreExpectation.expectedFulfillmentCount = 2
         wait(for: [calculateScoreExpectation], timeout: twoHundredMilliSecondsInSeconds)
         wait(for: [prioritizeBandwidthExpectation], timeout: oneMilliSecondInSeconds)
         wait(for: [subscribeToRealTimeEventsExpectation], timeout: oneMilliSecondInSeconds)
         unSubscribeFromRealTimeEventsExpectation.isInverted = true
         wait(for: [unSubscribeFromRealTimeEventsExpectation], timeout: oneMilliSecondInSeconds)
-        wait(for: [onActiveSpeakerDetectExpectation], timeout: oneMilliSecondInSeconds)
+        wait(for: [activeSpeakerDidDetectExpectation], timeout: oneMilliSecondInSeconds)
         XCTAssertEqual(attendeesReceived, attendees.reversed())
     }
 
     func testActiveSpeakerDetectorMakesScoresCallback() {
-        activeSpeakerDetector.onVolumeChange(volumeUpdates: volumeUpdates)
-        wait(for: [onScoreChangeExpectation], timeout: TimeInterval(scoresCallbackIntervalMs))
+        activeSpeakerDetector.volumeDidChange(volumeUpdates: volumeUpdates)
+        wait(for: [activeSpeakerScoreDidChangeExpectation], timeout: TimeInterval(scoresCallbackIntervalMs))
         XCTAssertEqual(scoreChangeAttendees.map { $0.key }.sorted(), attendees.sorted())
     }
 
     func testActiveSpeakerDetectorShouldOnAttendeesLeaveReceiveCorrectActiveSpeakers() {
-        activeSpeakerDetector.onVolumeChange(volumeUpdates: volumeUpdates)
+        activeSpeakerDetector.volumeDidChange(volumeUpdates: volumeUpdates)
         XCTAssertEqual(attendeesReceived, attendees.reversed())
-        activeSpeakerDetector.onAttendeesLeave(attendeeInfo: [attendees[0], attendees[1]])
+        activeSpeakerDetector.attendeesDidJoin(attendeeInfo: [attendees[0], attendees[1]])
         let newVolumeUpdates = [volumeUpdates[2], volumeUpdates[3], volumeUpdates[4]]
         scoreIndex = 0
-        activeSpeakerDetector.onVolumeChange(volumeUpdates: newVolumeUpdates)
+        activeSpeakerDetector.volumeDidChange(volumeUpdates: newVolumeUpdates)
         XCTAssertEqual(attendeesReceived, [attendees[4], attendees[3], attendees[2]])
     }
 
     func testActiveSpeakerDetectorShouldRemoveActiveSpeakerObserver() {
         activeSpeakerDetector.removeActiveSpeakerObserver(observer: self)
-        activeSpeakerDetector.onAttendeesJoin(attendeeInfo: attendees)
-        activeSpeakerDetector.onVolumeChange(volumeUpdates: volumeUpdates)
+        activeSpeakerDetector.attendeesDidJoin(attendeeInfo: attendees)
+        activeSpeakerDetector.volumeDidChange(volumeUpdates: volumeUpdates)
         usleep(useconds_t(300000))
         XCTAssertEqual(attendeesReceived, [])
     }
@@ -135,15 +135,15 @@ class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeaker
 
     var observerId: String = "fakeObserverId"
 
-    func onActiveSpeakerDetect(attendeeInfo: [AttendeeInfo]) {
-        onActiveSpeakerDetectExpectation.fulfill()
+    func activeSpeakerDidDetect(attendeeInfo: [AttendeeInfo]) {
+        activeSpeakerDidDetectExpectation.fulfill()
         attendeesReceived = attendeeInfo
     }
 
     var scoresCallbackIntervalMs: Int = 1
 
-    func onActiveSpeakerScoreChange(scores: [AttendeeInfo: Double]) {
-        onScoreChangeExpectation.fulfill()
+    func activeSpeakerScoreDidChange(scores: [AttendeeInfo: Double]) {
+        activeSpeakerScoreDidChangeExpectation.fulfill()
         scoreChangeAttendees = scores
     }
 

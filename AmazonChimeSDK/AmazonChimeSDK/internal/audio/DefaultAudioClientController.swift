@@ -49,7 +49,7 @@ extension DefaultAudioClientController: AudioClientController {
         let port = url.count >= 2 ? (url[1] as NSString).integerValue - audioPortOffset : defaultPort
 
         audioClientObserver.notifyAudioClientObserver { (observer: AudioVideoObserver) in
-            observer.onAudioClientConnecting(reconnecting: false)
+            observer.audioSessionDidStartConnecting(reconnecting: false)
         }
 
         audioClient.setSpeakerOn(true)
