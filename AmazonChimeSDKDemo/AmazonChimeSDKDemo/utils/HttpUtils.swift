@@ -54,4 +54,8 @@ class HttpUtils {
             completion(data, nil)
         }.resume()
     }
+
+    public static func encodeStrForURL(str: String) -> String {
+        return str.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? str
+    }
 }

@@ -25,8 +25,8 @@ class ViewController: UIViewController {
     }
 
     @IBAction func joinMeeting(sender: UIButton) {
-        meetingID = meetingIDText.text?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        name = nameText.text?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        meetingID = meetingIDText.text ?? ""
+        name = nameText.text ?? ""
 
         postRequest(completion: { data, error in
             guard error == nil else {
@@ -66,8 +66,11 @@ class ViewController: UIViewController {
             }
             return
         }
+        let encodedTitle = HttpUtils.encodeStrForURL(str: meetingID)
+        let encodedName = HttpUtils.encodeStrForURL(str: name)
+        let encodedRegion = HttpUtils.encodeStrForURL(str: AppConfiguration.region)
         HttpUtils.postRequest(
-            url: "\(AppConfiguration.url)join?title=\(meetingID)&name=\(name)&region=\(AppConfiguration.region)",
+            url: "\(AppConfiguration.url)join?title=\(encodedTitle)&name=\(encodedName)&region=\(encodedRegion)",
             completion: completion,
             jsonData: nil, logger: logger)
     }
