@@ -25,8 +25,8 @@ class ViewController: UIViewController {
     }
 
     @IBAction func joinMeeting(sender: UIButton) {
-        meetingID = formatInput(text: meetingIDText.text ?? "")
-        name = formatInput(text: nameText.text ?? "")
+        meetingID = meetingIDText.text ?? ""
+        name = nameText.text ?? ""
 
         postRequest(completion: { data, error in
             guard error == nil else {
@@ -66,14 +66,14 @@ class ViewController: UIViewController {
             }
             return
         }
+
+        let encodedURL = HttpUtils.encodeStrForURL(
+            str: "\(AppConfiguration.url)join?title=\(meetingID)&name=\(name)&region=\(AppConfiguration.region)"
+        )
         HttpUtils.postRequest(
-            url: "\(AppConfiguration.url)join?title=\(meetingID)&name=\(name)&region=\(AppConfiguration.region)",
+            url: encodedURL,
             completion: completion,
             jsonData: nil, logger: logger)
-    }
-
-    private func formatInput(text: String) -> String {
-        return text.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: " ", with: "+")
     }
 
     private func processJson(data: Data) -> (CreateMeetingResponse?, CreateAttendeeResponse?) {

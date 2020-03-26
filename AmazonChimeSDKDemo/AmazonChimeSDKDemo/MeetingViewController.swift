@@ -390,8 +390,11 @@ extension MeetingViewController: RealtimeObserver {
                 self.currentRoster[attendeeId] = RosterAttendee(
                     name: nil, attendeeId: attendeeId, volume: .notSpeaking, signal: .high)
                 self.dispatchGroup.enter()
+                let encodedURL = HttpUtils.encodeStrForURL(
+                    str: "\(AppConfiguration.url)attendee?title=\(self.meetingId ?? "")&attendee=\(attendeeId)"
+                )
                 HttpUtils.getRequest(
-                    url: "\(AppConfiguration.url)attendee?title=\(self.meetingId ?? "")&attendee=\(attendeeId)",
+                    url: encodedURL,
                     completion: { (data: Data?, _: Error?) in
                         if let data = data, let name = self.parseAttendee(data: data) {
                             let attendee = self.currentRoster[attendeeId]

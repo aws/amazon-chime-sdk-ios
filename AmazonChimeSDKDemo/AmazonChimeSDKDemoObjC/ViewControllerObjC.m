@@ -30,7 +30,8 @@
         return;
     }
 
-    NSString *url = [NSString stringWithFormat:@"%sjoin?title=%@&name=%@&region=%s", SERVER_URL, meetingId, name, SERVER_REGION];
+    NSCharacterSet *set = [NSCharacterSet URLQueryAllowedCharacterSet];
+    NSString *url = [[NSString stringWithFormat:@"%sjoin?title=%@&name=%@&region=%s", SERVER_URL, meetingId, name, SERVER_REGION] stringByAddingPercentEncodingWithAllowedCharacters:set];
     [self makeHttpRequest:url withMethod:@"POST" withData:nil withCompletionBlock:^(NSData *data, NSError *error) {
         if (error != nil) {
             [self showAlertIn:self
