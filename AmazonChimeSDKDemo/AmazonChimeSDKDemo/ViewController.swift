@@ -66,11 +66,12 @@ class ViewController: UIViewController {
             }
             return
         }
-        let encodedTitle = HttpUtils.encodeStrForURL(str: meetingID)
-        let encodedName = HttpUtils.encodeStrForURL(str: name)
-        let encodedRegion = HttpUtils.encodeStrForURL(str: AppConfiguration.region)
+
+        let encodedURL = HttpUtils.encodeStrForURL(
+            str: "\(AppConfiguration.url)join?title=\(meetingID)&name=\(name)&region=\(AppConfiguration.region)"
+        )
         HttpUtils.postRequest(
-            url: "\(AppConfiguration.url)join?title=\(encodedTitle)&name=\(encodedName)&region=\(encodedRegion)",
+            url: encodedURL,
             completion: completion,
             jsonData: nil, logger: logger)
     }

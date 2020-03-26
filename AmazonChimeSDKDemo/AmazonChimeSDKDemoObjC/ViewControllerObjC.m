@@ -31,10 +31,7 @@
     }
 
     NSCharacterSet *set = [NSCharacterSet URLQueryAllowedCharacterSet];
-    NSString *encodedTitle = [meetingId stringByAddingPercentEncodingWithAllowedCharacters:set];
-    NSString *encodedName = [name stringByAddingPercentEncodingWithAllowedCharacters:set];
-    NSString *encodedRegion = [@(SERVER_REGION) stringByAddingPercentEncodingWithAllowedCharacters:set];
-    NSString *url = [NSString stringWithFormat:@"%sjoin?title=%@&name=%@&region=%@", SERVER_URL, encodedTitle, encodedName, encodedRegion];
+    NSString *url = [[NSString stringWithFormat:@"%sjoin?title=%@&name=%@&region=%s", SERVER_URL, meetingId, name, SERVER_REGION] stringByAddingPercentEncodingWithAllowedCharacters:set];
     [self makeHttpRequest:url withMethod:@"POST" withData:nil withCompletionBlock:^(NSData *data, NSError *error) {
         if (error != nil) {
             [self showAlertIn:self
