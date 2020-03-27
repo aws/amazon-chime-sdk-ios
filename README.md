@@ -36,7 +36,7 @@ For the purpose of setup, your project's root folder (where you can find your `.
 
 Download the following zip:
 
-* [AmazonChimeSDK-0.4.0.tar.gz](https://amazon-chime-sdk.s3.amazonaws.com/ios/amazon-chime-sdk/0.4.0/AmazonChimeSDK-0.4.0.tar.gz)
+* [AmazonChimeSDK-0.5.0.tar.gz](https://amazon-chime-sdk.s3.amazonaws.com/ios/amazon-chime-sdk/0.5.0/AmazonChimeSDK-0.5.0.tar.gz)
 * [AmazonChimeSDKMedia-0.4.0.tar.gz](https://amazon-chime-sdk.s3.amazonaws.com/ios/amazon-chime-sdk-media/0.4.0/AmazonChimeSDKMedia-0.4.0.tar.gz)
 
 Unzip and copy the `.framework`s to `root`
