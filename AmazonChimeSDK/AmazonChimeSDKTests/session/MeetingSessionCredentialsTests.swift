@@ -12,7 +12,8 @@ import XCTest
 class MeetingSessionCredentialsTests: XCTestCase {
     func testMeetingSessionCredentialsShouldBeInitialized() {
         let credentials = MeetingSessionCredentials(attendeeId: "attendeeId", joinToken: "joinToken")
-        XCTAssertEqual("attendeeId", credentials.attendeeId)
-        XCTAssertEqual("joinToken", credentials.joinToken)
+
+        XCTAssertEqual(credentials.attendeeId, "attendeeId")
+        XCTAssertEqual(credentials.joinToken, "joinToken")
     }
 }
