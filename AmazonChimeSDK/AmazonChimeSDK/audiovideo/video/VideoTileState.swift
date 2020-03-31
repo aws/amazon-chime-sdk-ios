@@ -25,7 +25,7 @@ import Foundation
     /// Current pause state of this tile
     public var pauseState: VideoPauseState
 
-    init(tileId: Int, attendeeId: String?, pauseState: VideoPauseState) {
+    public init(tileId: Int, attendeeId: String?, pauseState: VideoPauseState) {
         self.tileId = tileId
         self.attendeeId = attendeeId
         self.pauseState = pauseState

@@ -15,6 +15,7 @@ class AttendeeInfoTests: XCTestCase {
 
     func testAttendeeInfoShouldBeInitialized() {
         let attendeeInfo = AttendeeInfo(attendeeId: attendeeId, externalUserId: externalUserId)
+
         XCTAssertEqual(attendeeId, attendeeInfo.attendeeId)
         XCTAssertEqual(externalUserId, attendeeInfo.externalUserId)
     }
@@ -22,14 +23,21 @@ class AttendeeInfoTests: XCTestCase {
     func testAttendeeInfoShouldBeEqualWhenInitializedWithSameParameters() {
         let attendeeInfo1 = AttendeeInfo(attendeeId: attendeeId, externalUserId: externalUserId)
         let attendeeInfo2 = AttendeeInfo(attendeeId: attendeeId, externalUserId: externalUserId)
-        let attendeeInfo3 = AttendeeInfo(attendeeId: "otherAttendeeId", externalUserId: externalUserId)
+
         XCTAssertEqual(attendeeInfo1, attendeeInfo2)
-        XCTAssertTrue(attendeeInfo1 != attendeeInfo3)
+    }
+
+    func testEqualizationShouldReturnFalseWhenTestAttendeeInfoAgainstOtherType() {
+        let attendeeInfo = AttendeeInfo(attendeeId: attendeeId, externalUserId: externalUserId)
+        let volumeUpdate = VolumeUpdate(attendeeInfo: attendeeInfo, volumeLevel: .muted)
+
+        XCTAssertNotEqual(attendeeInfo, volumeUpdate)
     }
 
     func testAttendeeInfoShouldBeOrderedAlphabetically() {
         let attendeeInfo1 = AttendeeInfo(attendeeId: attendeeId, externalUserId: externalUserId)
         let attendeeInfo2 = AttendeeInfo(attendeeId: "attendeeId2", externalUserId: externalUserId)
+
         XCTAssertTrue(attendeeInfo1 < attendeeInfo2)
     }
 }

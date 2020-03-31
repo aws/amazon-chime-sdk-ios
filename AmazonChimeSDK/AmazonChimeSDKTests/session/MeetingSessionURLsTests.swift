@@ -15,7 +15,8 @@ class MeetingSessionURLsTests: XCTestCase {
                                      audioHostUrl: "audioHostUrl",
                                      turnControlUrl: "turnControlUrl",
                                      signalingUrl: "signalingUrl")
-        XCTAssertEqual("audioFallbackUrl", url.audioFallbackUrl)
-        XCTAssertEqual("audioHostUrl", url.audioHostUrl)
+
+        XCTAssertEqual(url.audioFallbackUrl, "audioFallbackUrl")
+        XCTAssertEqual(url.audioHostUrl, "audioHostUrl")
     }
 }

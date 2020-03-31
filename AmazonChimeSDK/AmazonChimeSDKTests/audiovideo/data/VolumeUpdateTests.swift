@@ -15,6 +15,7 @@ class VolumeUpdateTests: XCTestCase {
 
     func testVolumeUpdateShouldBeInitialized() {
         let volumeUpdate = VolumeUpdate(attendeeInfo: attendeeInfo, volumeLevel: volumeLevel)
+
         XCTAssertEqual(attendeeInfo, volumeUpdate.attendeeInfo)
         XCTAssertEqual(volumeLevel, volumeUpdate.volumeLevel)
     }

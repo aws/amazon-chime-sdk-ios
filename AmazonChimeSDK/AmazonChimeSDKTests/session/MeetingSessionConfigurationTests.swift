@@ -23,6 +23,7 @@ class MeetingSessionConfigurationTests: XCTestCase {
                                             audioHostUrl: audioHostStr,
                                             turnControlUrl: turnControlUrl,
                                             signalingUrl: signalingUrl)
+
         XCTAssertEqual(audioFallbackStr, mediaPlacement.audioFallbackUrl)
         XCTAssertEqual(audioHostStr, mediaPlacement.audioHostUrl)
     }
@@ -33,6 +34,7 @@ class MeetingSessionConfigurationTests: XCTestCase {
                                             turnControlUrl: turnControlUrl,
                                             signalingUrl: signalingUrl)
         let meeting = Meeting(meetingId: meetingIdStr, mediaPlacement: mediaPlacement)
+
         XCTAssertEqual(meetingIdStr, meeting.meetingId)
         XCTAssertEqual(mediaPlacement.audioFallbackUrl, meeting.mediaPlacement.audioFallbackUrl)
         XCTAssertEqual(mediaPlacement.audioHostUrl, meeting.mediaPlacement.audioHostUrl)
@@ -44,8 +46,8 @@ class MeetingSessionConfigurationTests: XCTestCase {
                                             turnControlUrl: turnControlUrl,
                                             signalingUrl: signalingUrl)
         let meeting = Meeting(meetingId: meetingIdStr, mediaPlacement: mediaPlacement)
-
         let meetingResponse = CreateMeetingResponse(meeting: meeting)
+
         XCTAssertEqual(meeting.meetingId, meetingResponse.meeting.meetingId)
         XCTAssertEqual(meeting.mediaPlacement.audioFallbackUrl, meetingResponse.meeting.mediaPlacement.audioFallbackUrl)
         XCTAssertEqual(meeting.mediaPlacement.audioHostUrl, meetingResponse.meeting.mediaPlacement.audioHostUrl)
@@ -53,14 +55,15 @@ class MeetingSessionConfigurationTests: XCTestCase {
 
     func testAttendeeShouldBeInitialized() {
         let attendee = Attendee(attendeeId: attendeeIdStr, joinToken: joinTokenStr)
+
         XCTAssertEqual(attendeeIdStr, attendee.attendeeId)
         XCTAssertEqual(joinTokenStr, attendee.joinToken)
     }
 
     func testCreateAttendeeResponseShouldBeInitialized() {
         let attendee = Attendee(attendeeId: attendeeIdStr, joinToken: joinTokenStr)
-
         let attendeeResponse = CreateAttendeeResponse(attendee: attendee)
+
         XCTAssertEqual(attendee.attendeeId, attendeeResponse.attendee.attendeeId)
         XCTAssertEqual(attendee.joinToken, attendeeResponse.attendee.joinToken)
     }
@@ -74,9 +77,9 @@ class MeetingSessionConfigurationTests: XCTestCase {
         let meetingResponse = CreateMeetingResponse(meeting: meeting)
         let attendee = Attendee(attendeeId: attendeeIdStr, joinToken: joinTokenStr)
         let attendeeResponse = CreateAttendeeResponse(attendee: attendee)
-
         let configuration = MeetingSessionConfiguration(createMeetingResponse: meetingResponse,
                                                         createAttendeeResponse: attendeeResponse)
+
         XCTAssertEqual(meeting.meetingId, configuration.meetingId)
         XCTAssertEqual(mediaPlacement.audioFallbackUrl, configuration.urls.audioFallbackUrl)
         XCTAssertEqual(mediaPlacement.audioHostUrl, configuration.urls.audioHostUrl)

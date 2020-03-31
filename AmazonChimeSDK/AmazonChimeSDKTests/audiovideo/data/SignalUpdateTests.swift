@@ -15,6 +15,7 @@ class SignalUpdateTests: XCTestCase {
 
     func testVolumeUpdateShouldBeInitialized() {
         let signalUpdate = SignalUpdate(attendeeInfo: attendeeInfo, signalStrength: signalStrength)
+
         XCTAssertEqual(attendeeInfo, signalUpdate.attendeeInfo)
         XCTAssertEqual(signalStrength, signalUpdate.signalStrength)
     }

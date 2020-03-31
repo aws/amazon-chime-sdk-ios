@@ -20,9 +20,8 @@ import Foundation
     override public func isEqual(_ object: Any?) -> Bool {
         if let other = object as? AttendeeInfo {
             return self.attendeeId == other.attendeeId
-        } else {
-            return false
         }
+        return false
     }
 
     override public var hash: Int {
