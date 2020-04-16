@@ -68,8 +68,10 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         }
 
         let newAttendeeSignalMap = signalUpdate.reduce(into: [AttendeeInfo: SignalStrength]()) {
-            let attendeeInfo = AttendeeInfo(attendeeId: $1.profileId, externalUserId: $1.externalUserId)
-            $0[attendeeInfo] = SignalStrength(rawValue: Int(truncating: $1.data))
+            if !$1.externalUserId.isEmpty {
+                let attendeeInfo = AttendeeInfo(attendeeId: $1.profileId, externalUserId: $1.externalUserId)
+                $0[attendeeInfo] = SignalStrength(rawValue: Int(truncating: $1.data))
+            }
         }
 
         let attendeeSignalDelta = newAttendeeSignalMap.subtracting(dict: currentAttendeeSignalMap)
@@ -90,10 +92,11 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         guard let volumesUpdate = volumes as? [AttendeeUpdate] else {
             return
         }
-
         let newAttendeeVolumeMap = volumesUpdate.reduce(into: [AttendeeInfo: VolumeLevel]()) {
-            let attendeeInfo = AttendeeInfo(attendeeId: $1.profileId, externalUserId: $1.externalUserId)
-            $0[attendeeInfo] = VolumeLevel(rawValue: Int(truncating: $1.data))
+            if !$1.externalUserId.isEmpty {
+                let attendeeInfo = AttendeeInfo(attendeeId: $1.profileId, externalUserId: $1.externalUserId)
+                $0[attendeeInfo] = VolumeLevel(rawValue: Int(truncating: $1.data))
+            }
         }
 
         attendeePresenceStateChange(newAttendeeVolumeMap)
