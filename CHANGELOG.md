@@ -1,3 +1,8 @@
+## Unreleased
+
+### Added
+- Added full bitcode support in `AmazonChimeSDKMedia.framework` and `AmazonChimeSDK.framework`. Also added corresponding versions without bitcode. Links can be found in the README file.
+
 ## [0.5.0] - 2020-03-27
 
 ### Changed
