@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -25,6 +25,7 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gda-Op-d5h">
                                 <rect key="frame" x="195" y="500" width="24" height="24"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Join"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="24" id="dSe-Bl-XHD"/>
                                     <constraint firstAttribute="height" constant="24" id="rpk-7G-ebA"/>
@@ -36,6 +37,9 @@
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Your Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="osX-FD-I0Z">
                                 <rect key="frame" x="127" y="450" width="160" height="34"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Name Input">
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="160" id="2Um-eD-gwo"/>
                                 </constraints>
@@ -44,6 +48,9 @@
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Meeting ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s6f-Ei-sAf">
                                 <rect key="frame" x="127" y="400" width="160" height="34"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Meeting Id Input">
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="160" id="AT3-Na-N2O"/>
                                 </constraints>
@@ -88,6 +95,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fzH-S4-QOP" userLabel="Mic">
                                         <rect key="frame" x="0.0" y="0.0" width="89.5" height="32"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="Toggle Mute"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" image="volume-0"/>
                                         <state key="selected" image="volume-muted"/>
@@ -97,6 +105,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NMj-an-6IT">
                                         <rect key="frame" x="97.5" y="0.0" width="89.5" height="32"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="Toggle Camera"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" image="meeting-video"/>
                                         <state key="selected" image="meeting-video-on"/>
@@ -106,6 +115,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1AR-gN-PDB">
                                         <rect key="frame" x="195" y="0.0" width="89.5" height="32"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="Toggle Speaker"/>
                                         <state key="normal" image="meeting-speaker"/>
                                         <connections>
                                             <action selector="deviceButtonClicked:" destination="Sfo-A7-USF" eventType="touchUpInside" id="9zS-vO-7Jo"/>
@@ -113,6 +123,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wwR-Kt-AOS" userLabel="End">
                                         <rect key="frame" x="292.5" y="0.0" width="89.5" height="32"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="Leave Meeting"/>
                                         <state key="normal" image="meeting-end"/>
                                         <connections>
                                             <action selector="leaveButtonClicked:" destination="Sfo-A7-USF" eventType="touchUpInside" id="lEO-1P-3FI"/>
@@ -136,6 +147,7 @@
                                     <view hidden="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gJX-ez-OMF" userLabel="ScreenView" customClass="DefaultVideoRenderView" customModule="AmazonChimeSDK">
                                         <rect key="frame" x="6" y="14" width="370" height="611.5"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="Screen Share"/>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>

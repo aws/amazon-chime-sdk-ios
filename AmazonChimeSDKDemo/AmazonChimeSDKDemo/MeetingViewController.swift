@@ -24,6 +24,7 @@ class MeetingViewController: UIViewController {
     @IBOutlet var screenView: DefaultVideoRenderView!
     public var meetingSessionConfig: MeetingSessionConfiguration?
     public var meetingId: String?
+    public var selfName: String?
     private var attendees = [RosterAttendee]()
     private var currentMeetingSession: MeetingSession?
     private let dispatchGroup = DispatchGroup()
@@ -45,6 +46,8 @@ class MeetingViewController: UIViewController {
         }
         self.currentMeetingSession = DefaultMeetingSession(
             configuration: self.meetingSessionConfig!, logger: self.logger)
+        videoCollection.accessibilityIdentifier = "Video Collection"
+        
         self.setupAudioEnv()
     }
 
@@ -456,6 +459,7 @@ extension MeetingViewController: VideoTileObserver {
                         selfVideoTileView.mirror = true
                     }
                     selfVideoTileCell.isHidden = false
+                    selfVideoTileCell.accessibilityIdentifier = "\(self.selfName ?? "") VideoTile"
                     self.currentMeetingSession?.audioVideo.bindVideoView(
                         videoView: selfVideoTileView,
                         tileId: tileState.tileId)
@@ -468,6 +472,7 @@ extension MeetingViewController: VideoTileObserver {
                 at: IndexPath(row: 1, section: 0)) as? VideoTileCell {
                 if let otherVideoTileView = otherVideoTileCell.contentView as? DefaultVideoRenderView {
                     otherVideoTileCell.isHidden = false
+                    otherVideoTileView.accessibilityIdentifier = "\(self.currentRoster[tileState.attendeeId!]?.name ?? "") VideoTile"
                     self.currentMeetingSession?.audioVideo.bindVideoView(
                         videoView: otherVideoTileView,
                         tileId: tileState.tileId)
@@ -518,12 +523,16 @@ extension MeetingViewController: UITableViewDelegate, UITableViewDataSource {
         }
         let currentAttendee = self.attendees[indexPath.item]
         cell.attendeeName.text = currentAttendee.name
+        cell.attendeeName.accessibilityIdentifier = currentAttendee.name
+        cell.accessibilityIdentifier = "\(currentAttendee.name ?? "") Speaking"
 
         switch currentAttendee.volume {
         case .muted:
             cell.speakLevel.image = UIImage(named: "volume-muted")
+            cell.accessibilityIdentifier = "\(currentAttendee.name ?? "") Muted"
         case .notSpeaking:
             cell.speakLevel.image = UIImage(named: "volume-0")
+            cell.accessibilityIdentifier = "\(currentAttendee.name ?? "") Not Speaking"
         case .low:
             cell.speakLevel.image = UIImage(named: "volume-1")
         case .medium:
