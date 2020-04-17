@@ -53,6 +53,7 @@ class ViewController: UIViewController {
                     meetingViewController.modalPresentationStyle = .fullScreen
                     meetingViewController.meetingSessionConfig = meetingSessionConfig
                     meetingViewController.meetingId = self.meetingID
+                    meetingViewController.selfName = self.name
                     self.present(meetingViewController, animated: true, completion: nil)
                 }
             }
