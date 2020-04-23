@@ -1,7 +1,10 @@
-## Unreleased
+## [0.5.1] - 2020-04-23
 
 ### Added
 - Added full bitcode support in `AmazonChimeSDKMedia.framework` and `AmazonChimeSDK.framework`. Also added corresponding versions without bitcode. Links can be found in the README file.
+
+### Fixed
+* Fix bug where external id for self is sometimes empty
 
 ## [0.5.0] - 2020-03-27
 
