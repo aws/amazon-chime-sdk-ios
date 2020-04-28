@@ -1,3 +1,8 @@
+## [0.5.2] - 2020-04-28
+
+### Changed
+* Turn on library evolution and module stability
+
 ## [0.5.1] - 2020-04-23
 
 ### Added
