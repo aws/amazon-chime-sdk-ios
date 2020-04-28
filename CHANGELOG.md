@@ -1,7 +1,7 @@
 ## [0.5.2] - 2020-04-28
 
-### Added
-* Add BUILD_LIBRARY_FOR_DISTRIBUTION Flag so that it can be built in higher version of XCode
+### Changed
+* Turn on library evolution and module stability
 
 ## [0.5.1] - 2020-04-23
 
