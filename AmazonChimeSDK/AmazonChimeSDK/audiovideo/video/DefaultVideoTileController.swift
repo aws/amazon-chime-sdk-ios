@@ -31,11 +31,11 @@ import UIKit
                 // to .pausedForPoorConnection or .pausedForPoorConnection to .unpaused
                 videoTile.setPauseState(pauseState: pauseState)
                 if pauseState == .unpaused {
-                    forEachObserver { videoTileObserver in
+                    ObserverUtils.forEach(observers: videoTileObservers) { (videoTileObserver: VideoTileObserver) in
                         videoTileObserver.videoTileDidResume(tileState: videoTile.state)
                     }
                 } else {
-                    forEachObserver { videoTileObserver in
+                    ObserverUtils.forEach(observers: videoTileObservers) { (videoTileObserver: VideoTileObserver) in
                         videoTileObserver.videoTileDidPause(tileState: videoTile.state)
                     }
                 }
@@ -87,13 +87,13 @@ import UIKit
                                     tileId: videoId,
                                     attendeeId: attendeeId)
         videoTileMap[videoId] = tile
-        forEachObserver { videoTileObserver in
+        ObserverUtils.forEach(observers: videoTileObservers) { (videoTileObserver: VideoTileObserver) in
             videoTileObserver.videoTileDidAdd(tileState: tile.state)
         }
     }
 
     private func onRemoveTrack(tileState: VideoTileState) {
-        forEachObserver { videoTileObserver in
+        ObserverUtils.forEach(observers: videoTileObservers) { (videoTileObserver: VideoTileObserver) in
             videoTileObserver.videoTileDidRemove(tileState: tileState)
         }
     }
@@ -119,7 +119,7 @@ import UIKit
             // Note that this will overwrite .pausedForPoorConnection if that is the current state
             if videoTile.state.pauseState != .pausedByUserRequest {
                 videoTile.setPauseState(pauseState: .pausedByUserRequest)
-                forEachObserver { videoTileObserver in
+                ObserverUtils.forEach(observers: videoTileObservers) { (videoTileObserver: VideoTileObserver) in
                     videoTileObserver.videoTileDidPause(tileState: videoTile.state)
                 }
             }
@@ -139,17 +139,9 @@ import UIKit
             // Note that this means resuming a tile with state .pausedForPoorConnection will no-op
             if videoTile.state.pauseState == .pausedByUserRequest {
                 videoTile.setPauseState(pauseState: .unpaused)
-                forEachObserver { videoTileObserver in
+                ObserverUtils.forEach(observers: videoTileObservers) { (videoTileObserver: VideoTileObserver) in
                     videoTileObserver.videoTileDidResume(tileState: videoTile.state)
                 }
-            }
-        }
-    }
-
-    private func forEachObserver(observerFunction: (_ observer: VideoTileObserver) -> Void) {
-        for observer in videoTileObservers {
-            if let observer = observer as? VideoTileObserver {
-                observerFunction(observer)
             }
         }
     }

@@ -82,7 +82,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
                 let signalUpdate = SignalUpdate(attendeeInfo: $1.key, signalStrength: $1.value)
                 $0.append(signalUpdate)
             }
-            forEachObserver { observer in
+            ObserverUtils.forEach(observers: realtimeObservers) { (observer: RealtimeObserver) in
                 observer.signalStrengthDidChange(signalUpdates: signalUpdates)
             }
         }
@@ -108,7 +108,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
                 let volumeUpdate = VolumeUpdate(attendeeInfo: $1.key, volumeLevel: $1.value)
                 $0.append(volumeUpdate)
             }
-            forEachObserver { observer in
+            ObserverUtils.forEach(observers: realtimeObservers) { (observer: RealtimeObserver) in
                 observer.volumeDidChange(volumeUpdates: volumeUpdates)
             }
         }
@@ -119,7 +119,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
             value == .muted
         }
         if !attendeesMuted.isEmpty {
-            forEachObserver { observer in
+            ObserverUtils.forEach(observers: realtimeObservers) { (observer: RealtimeObserver) in
                 observer.attendeesDidMute(attendeeInfo: [AttendeeInfo](attendeesMuted.keys))
             }
         }
@@ -128,7 +128,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
             currentAttendeeVolumeMap[key] == .muted
         }
         if !attendeesUnmuted.isEmpty {
-            forEachObserver { observer in
+            ObserverUtils.forEach(observers: realtimeObservers) { (observer: RealtimeObserver) in
                 observer.attendeesDidUnmute(attendeeInfo: [AttendeeInfo](attendeesUnmuted.keys))
             }
         }
@@ -140,25 +140,17 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         let attendeesRemoved = currentAttendeeSet.subtracting(newAttendees)
 
         if !attendeesAdded.isEmpty {
-            forEachObserver { observer in
+            ObserverUtils.forEach(observers: realtimeObservers) { (observer: RealtimeObserver) in
                 observer.attendeesDidJoin(attendeeInfo: [AttendeeInfo](attendeesAdded))
             }
         }
 
         if !attendeesRemoved.isEmpty {
-            forEachObserver { observer in
+            ObserverUtils.forEach(observers: realtimeObservers) { (observer: RealtimeObserver) in
                 observer.attendeesDidLeave(attendeeInfo: [AttendeeInfo](attendeesRemoved))
             }
         }
         currentAttendeeSet = newAttendees
-    }
-
-    private func forEachObserver(observerFunction: (_ observer: RealtimeObserver) -> Void) {
-        for observer in realtimeObservers {
-            if let observer = observer as? RealtimeObserver {
-                observerFunction(observer)
-            }
-        }
     }
 
     private func handleStateChangeToConnected(newAudioStatus: MeetingSessionStatusCode) {
@@ -273,11 +265,9 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
 }
 
 extension DefaultAudioClientObserver: AudioClientObserver {
-    func notifyAudioClientObserver(observerFunction: (_ observer: AudioVideoObserver) -> Void) {
-        for observer in audioClientStateObservers {
-            if let cObserver = (observer as? AudioVideoObserver) {
-                observerFunction(cObserver)
-            }
+    func notifyAudioClientObserver(observerFunction: @escaping (_ observer: AudioVideoObserver) -> Void) {
+        ObserverUtils.forEach(observers: self.audioClientStateObservers) { (observer: AudioVideoObserver) in
+            observerFunction(observer)
         }
     }
 

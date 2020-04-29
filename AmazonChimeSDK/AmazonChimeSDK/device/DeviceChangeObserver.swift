@@ -13,6 +13,9 @@ import Foundation
     /// Called when listAudioDevices() output changed
     /// In another word, when a new media device become available
     /// or old media device become unavailable
+    ///
+    /// Note: this callback will be called on main thread.
+    ///
     /// - Parameter freshAudioDeviceList : updated list of available devices
     func audioDeviceDidChange(freshAudioDeviceList: [MediaDevice])
 }

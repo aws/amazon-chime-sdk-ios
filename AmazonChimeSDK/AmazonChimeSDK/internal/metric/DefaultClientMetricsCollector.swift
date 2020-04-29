@@ -20,10 +20,8 @@ class DefaultClientMetricsCollector {
         let expectedMetricsEmmisionTime = lastEmittedMetricsTime + metricsEmissionInterval
         if now > expectedMetricsEmmisionTime {
             lastEmittedMetricsTime = now
-            for observer in metricsObservers {
-                if let metricsObserver = (observer as? MetricsObserver) {
-                    metricsObserver.metricsDidReceive(metrics: cachedObservableMetrics)
-                }
+            ObserverUtils.forEach(observers: metricsObservers) { (metricsObserver: MetricsObserver) in
+                metricsObserver.metricsDidReceive(metrics: self.cachedObservableMetrics)
             }
         }
     }

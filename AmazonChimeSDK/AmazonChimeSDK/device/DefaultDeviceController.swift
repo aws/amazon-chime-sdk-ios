@@ -83,10 +83,8 @@ import AVFoundation
                         mediaDevice.port?.uid == oldDevice?.inputs[0].uid
                     })
                 }
-                self.deviceChangeObservers.forEach { element in
-                    if let observer = element as? DeviceChangeObserver {
-                        observer.audioDeviceDidChange(freshAudioDeviceList: availableDevices)
-                    }
+                ObserverUtils.forEach(observers: self.deviceChangeObservers) { (observer: DeviceChangeObserver) in
+                    observer.audioDeviceDidChange(freshAudioDeviceList: availableDevices)
                 }
             }
         default: ()
