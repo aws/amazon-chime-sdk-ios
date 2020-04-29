@@ -44,11 +44,13 @@ class MeetingViewController: UIViewController {
             self.logger.error(msg: "Unable to get meeting session")
             return
         }
-        self.currentMeetingSession = DefaultMeetingSession(
-            configuration: self.meetingSessionConfig!, logger: self.logger)
-        videoCollection.accessibilityIdentifier = "Video Collection"
-        
-        self.setupAudioEnv()
+        DispatchQueue.global(qos: .background).async {
+            self.currentMeetingSession = DefaultMeetingSession(
+                configuration: self.meetingSessionConfig!, logger: self.logger)
+            self.videoCollection.accessibilityIdentifier = "Video Collection"
+
+            self.setupAudioEnv()
+        }
     }
 
     private func setupAudioEnv() {
@@ -128,9 +130,7 @@ class MeetingViewController: UIViewController {
 
     private func notify(msg: String) {
         self.logger.info(msg: msg)
-        DispatchQueue.main.async {
-            self.view.makeToast(msg, duration: 2.0)
-        }
+        self.view.makeToast(msg, duration: 2.0)
     }
 
     // MARK: UI related
@@ -299,9 +299,7 @@ extension MeetingViewController: AudioVideoObserver, MetricsObserver {
     func audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus) {
         self.notify(msg: "Audio stopped for a reason: \(sessionStatus.statusCode)")
         if sessionStatus.statusCode != .ok {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                self.leaveButtonClicked(nil)
-            }
+            self.leaveButtonClicked(nil)
         }
     }
 
@@ -440,11 +438,8 @@ extension MeetingViewController: RealtimeObserver {
 
 extension MeetingViewController: DeviceChangeObserver {
     func audioDeviceDidChange(freshAudioDeviceList: [MediaDevice]) {
-        DispatchQueue.main.async {
-            [unowned self] in
-            let deviceLabels: [String] = freshAudioDeviceList.map { device in "* \(device.label)" }
-            self.view.makeToast("Device availability changed:\nAvailable Devices:\n\(deviceLabels.joined(separator: "\n"))")
-        }
+        let deviceLabels: [String] = freshAudioDeviceList.map { device in "* \(device.label)" }
+        self.view.makeToast("Device availability changed:\nAvailable Devices:\n\(deviceLabels.joined(separator: "\n"))")
     }
 }
 
@@ -491,24 +486,20 @@ extension MeetingViewController: VideoTileObserver {
     }
 
     func videoTileDidPause(tileState: VideoTileState) {
-        DispatchQueue.main.async {
-            let attendeeId = tileState.attendeeId ?? "unkown"
-            if tileState.pauseState == .pausedForPoorConnection {
-                self.view.makeToast("Video for attendee \(attendeeId) " +
-                    " has been paused for poor network connection," +
-                    " video will automatically resume when connection improves")
-            } else {
-                self.view.makeToast("Video for attendee \(attendeeId) " +
-                    " has been paused")
-            }
+        let attendeeId = tileState.attendeeId ?? "unkown"
+        if tileState.pauseState == .pausedForPoorConnection {
+            self.view.makeToast("Video for attendee \(attendeeId) " +
+                " has been paused for poor network connection," +
+                " video will automatically resume when connection improves")
+        } else {
+            self.view.makeToast("Video for attendee \(attendeeId) " +
+                " has been paused")
         }
     }
 
     func videoTileDidResume(tileState: VideoTileState) {
         let attendeeId = tileState.attendeeId ?? "unkown"
-        DispatchQueue.main.async {
-            self.view.makeToast("Video for attendee \(attendeeId) has been unpaused")
-        }
+        self.view.makeToast("Video for attendee \(attendeeId) has been unpaused")
     }
 }
 

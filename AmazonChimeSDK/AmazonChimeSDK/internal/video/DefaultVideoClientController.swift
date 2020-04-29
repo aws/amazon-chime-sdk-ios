@@ -65,14 +65,6 @@ class DefaultVideoClientController: NSObject {
         }
     }
 
-    private func forEachObserver<T>(observers: NSMutableSet, observerFunction: (_ observer: T) -> Void) {
-        for observer in observers {
-            if let observer = observer as? T {
-                observerFunction(observer)
-            }
-        }
-    }
-
     private func makeTurnRequest(request: URLRequest) {
         URLSession.shared.dataTask(with: request) { data, resp, error in
             if let error = error {
@@ -220,7 +212,7 @@ extension DefaultVideoClientController: VideoClientDelegate {
             translatedPauseState = .unpaused
         }
 
-        forEachObserver(observers: videoTileControllerObservers) { (observer: VideoTileController) in
+        ObserverUtils.forEach(observers: videoTileControllerObservers) { (observer: VideoTileController) in
             observer.onReceiveFrame(frame: buffer,
                                     attendeeId: profileId,
                                     pauseState: translatedPauseState,
@@ -231,14 +223,14 @@ extension DefaultVideoClientController: VideoClientDelegate {
     // swiftlint:enable function_parameter_count
     public func videoClientIsConnecting(_ client: VideoClient!) {
         logger.info(msg: "videoClientIsConnecting")
-        forEachObserver(observers: videoObservers) { (observer: AudioVideoObserver) in
+        ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
             observer.videoSessionDidStartConnecting()
         }
     }
 
     public func videoClientDidConnect(_ client: VideoClient!, controlStatus: Int32) {
         logger.info(msg: "videoClientDidConnect, \(controlStatus)")
-        forEachObserver(observers: videoObservers) { (observer: AudioVideoObserver) in
+        ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
             switch Int(controlStatus) {
             case Constants.videoClientStatusCallAtCapacityViewOnly:
                 observer.videoSessionDidStartWithStatus(
@@ -253,7 +245,7 @@ extension DefaultVideoClientController: VideoClientDelegate {
 
     public func videoClientDidFail(_ client: VideoClient!, status: video_client_status_t, controlStatus: Int32) {
         logger.info(msg: "videoClientDidFail")
-        forEachObserver(observers: videoObservers) { (observer: AudioVideoObserver) in
+        ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
             observer.videoSessionDidStopWithStatus(sessionStatus:
                 MeetingSessionStatus(statusCode: .videoServiceUnavailable))
         }
@@ -261,7 +253,7 @@ extension DefaultVideoClientController: VideoClientDelegate {
 
     public func videoClientDidStop(_ client: VideoClient!) {
         logger.info(msg: "videoClientDidStop")
-        forEachObserver(observers: videoObservers) { (observer: AudioVideoObserver) in
+        ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
             observer.videoSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus(statusCode: .ok))
         }
     }

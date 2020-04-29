@@ -20,7 +20,6 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
     private var speakerScores: [AttendeeInfo: Double] = [:]
     private var activeSpeakers: [AttendeeInfo] = []
     private var scoresTimers: [String: Scheduler] = [:]
-    private var detectTimers: [String: Scheduler] = [:]
     private var hasBandwidthPriority = false
     private var mostRecentUpdateTimestamp: [AttendeeInfo: Int] = [:]
     private var audioClientObserver: AudioClientObserver
@@ -74,7 +73,7 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
 
     private func updateActiveSpeakers(
         policy: ActiveSpeakerPolicy,
-        callback: DetectorCallback,
+        callback: @escaping DetectorCallback,
         attendeeInfo: AttendeeInfo
     ) {
         if !self.needUpdateActiveSpeakers(attendeeInfo: attendeeInfo) {
@@ -84,7 +83,9 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
         self.activeSpeakers = self.speakerScores.sorted(by: { $0.value > $1.value })
             .filter { $0.value > 0.0 }
             .map { $0.0 }
-        callback(self.activeSpeakers)
+        DispatchQueue.main.async {
+            callback(self.activeSpeakers)
+        }
         let selfIsActive =
             !self.activeSpeakers.isEmpty && self.activeSpeakers[0].attendeeId == self.selfAttendeeId
         let hasBandwidthPriority =
@@ -98,7 +99,7 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
 
     private func updateScore(
         policy: ActiveSpeakerPolicy,
-        callback: DetectorCallback,
+        callback: @escaping DetectorCallback,
         attendeeInfo: AttendeeInfo,
         volume: VolumeLevel
     ) {
@@ -159,7 +160,10 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
 
         if observer.activeSpeakerScoreDidChange(scores:) != nil, observer.scoresCallbackIntervalMs != nil {
             let scoresTimer = IntervalScheduler(intervalMs: observer.scoresCallbackIntervalMs!, callback: {
-                observer.activeSpeakerScoreDidChange!(scores: self.speakerScores)
+                DispatchQueue.main.async { [weak self] in
+                    guard let strongSelf = self else { return }
+                    observer.activeSpeakerScoreDidChange!(scores: strongSelf.speakerScores)
+                }
             })
             scoresTimer.start()
             self.scoresTimers[observer.observerId] = scoresTimer

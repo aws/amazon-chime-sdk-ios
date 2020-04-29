@@ -18,6 +18,10 @@ class ClientMetricsCollectorTests: XCTestCase, MetricsObserver {
     private let serverPostJbMic1sPacketsLostPercent = 3
     private var receivedMetrics: [AnyHashable: Any] = [:]
 
+    private let metricsReceivedExpectation = XCTestExpectation(
+        description: "Is fulfilled after metrics were received")
+    private let metricsReceivedTimeoutMs = 10.0
+
     func testOnMetricsReceiveShouldNotBeCalledBeforeInterval() {
         // Interval timer should start now
         let clientMetricsCollector = DefaultClientMetricsCollector()
@@ -45,6 +49,7 @@ class ClientMetricsCollectorTests: XCTestCase, MetricsObserver {
         // Wait at least a second and next time we process metrics we should receive the callback
         Thread.sleep(forTimeInterval: 1)
         clientMetricsCollector.processAudioClientMetrics(metrics: audioClientMetrics)
+        wait(for: [metricsReceivedExpectation], timeout: metricsReceivedTimeoutMs)
 
         XCTAssertEqual(receivedMetrics.count, 2)
         XCTAssertEqual(receivedMetrics[ObservableMetric.audioSendPacketLossPercent] as? Int, 1)
@@ -82,6 +87,7 @@ class ClientMetricsCollectorTests: XCTestCase, MetricsObserver {
     }
 
     func metricsDidReceive(metrics: [AnyHashable: Any]) {
+        metricsReceivedExpectation.fulfill()
         receivedMetrics = metrics
     }
 }

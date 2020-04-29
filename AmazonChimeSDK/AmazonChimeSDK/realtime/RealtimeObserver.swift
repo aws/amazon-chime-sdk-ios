@@ -13,30 +13,42 @@ import Foundation
 @objc public protocol RealtimeObserver {
     /// Handles volume changes for attendees
     ///
+    /// Note: this callback will be called on main thread.
+    ///
     /// - Parameter volumeUpdates: An array of VolumeUpdates
     func volumeDidChange(volumeUpdates: [VolumeUpdate])
 
     /// Handles signal strength changes for attendees
+    ///
+    /// Note: this callback will be called on main thread.
     ///
     /// - Parameter signalUpdates: An array of SignalUpdates
     func signalStrengthDidChange(signalUpdates: [SignalUpdate])
 
     /// List attendees that are newly added to the meeting
     ///
+    /// Note: this callback will be called on main thread.
+    ///
     /// - Parameter attendeeInfo: an array of AttendeeInfo added
     func attendeesDidJoin(attendeeInfo: [AttendeeInfo])
 
     /// List attendees that left the meeting
+    ///
+    /// Note: this callback will be called on main thread.
     ///
     /// - Parameter attendeeInfo: an array of AttendeeInfo removed
     func attendeesDidLeave(attendeeInfo: [AttendeeInfo])
 
     /// List attendees that are newly muted in the meeting
     ///
+    /// Note: this callback will be called on main thread.
+    ///
     /// - Parameter attendeeInfo: an array of AttendeeInfo newly muted
     func attendeesDidMute(attendeeInfo: [AttendeeInfo])
 
     /// List attendees that newly unmuted from the meeting
+    ///
+    /// Note: this callback will be called on main thread.
     ///
     /// - Parameter attendeeInfo: an array of AttendeeInfo newly unmuted
     func attendeesDidUnmute(attendeeInfo: [AttendeeInfo])

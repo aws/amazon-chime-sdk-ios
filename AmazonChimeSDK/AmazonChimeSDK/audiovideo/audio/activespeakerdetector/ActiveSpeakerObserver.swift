@@ -16,9 +16,13 @@ import Foundation
     @objc optional var scoresCallbackIntervalMs: Int { get }
     /// Observes the active speaker scores at frequency scoresCallbackIntervalMs
     ///
+    /// Note: this callback will be called on main thread.
+    ///
     /// - Parameter scores: Active speaker scores for each attendee
     @objc optional func activeSpeakerScoreDidChange(scores: [AttendeeInfo: Double])
     /// Observes changes in list of active speakers
+    ///
+    /// Note: this callback will be called on main thread.
     ///
     /// - Parameter attendeeInfo: List of active speakers in decreasing order of score
     func activeSpeakerDidDetect(attendeeInfo: [AttendeeInfo])
