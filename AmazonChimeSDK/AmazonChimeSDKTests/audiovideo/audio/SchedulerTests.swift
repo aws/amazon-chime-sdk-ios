@@ -14,8 +14,12 @@ import XCTest
 class SchedulerTests: XCTestCase {
     private var timer: IntervalScheduler = IntervalScheduler(intervalMs: 1, callback: {})
     private var callback = {}
-    private let fiveMilliSecondsInSeconds = 0.005
-    private let fiveMilliSecondsInNanoSeconds: UInt64 = 5000000
+
+    private let intervalMs = 1
+    private let testTimeoutSecs = 0.01
+    private let expectedCount = 5
+    private let expectedTestDurationNanos: UInt64 = 5000000
+
     private let expectation = XCTestExpectation(
         description: "Callback is called once every millisecond for 5 milliseconds")
 
@@ -24,7 +28,7 @@ class SchedulerTests: XCTestCase {
         callback = {
             self.expectation.fulfill()
         }
-        timer = IntervalScheduler(intervalMs: 1, callback: callback)
+        timer = IntervalScheduler(intervalMs: intervalMs, callback: callback)
         expectation.expectedFulfillmentCount = 5
         expectation.assertForOverFulfill = true
     }
@@ -32,29 +36,29 @@ class SchedulerTests: XCTestCase {
     func testTimerShouldMakeCallback() {
         timer.start()
         let start = DispatchTime.now()
-        // Must take no longer than 5ms
-        wait(for: [expectation], timeout: fiveMilliSecondsInSeconds)
+        // Must finish all executions before timeout
+        wait(for: [expectation], timeout: testTimeoutSecs)
         let stop = DispatchTime.now()
-        // Must take no less than 5ms
-        XCTAssertGreaterThanOrEqual(stop.uptimeNanoseconds - start.uptimeNanoseconds, fiveMilliSecondsInNanoSeconds)
+        // Must take no less than expected (mininal) tasks duration
+        XCTAssertGreaterThanOrEqual(stop.uptimeNanoseconds - start.uptimeNanoseconds, expectedTestDurationNanos)
     }
 
     func testTimerShouldStopMakingCallback() {
         timer.start()
         timer.stop()
         expectation.isInverted = true
-        wait(for: [expectation], timeout: fiveMilliSecondsInSeconds)
+        wait(for: [expectation], timeout: testTimeoutSecs)
     }
 
     func testStartShouldBeIdempotent() {
         timer.start()
         timer.start()
         let start = DispatchTime.now()
-        // Must take no longer than 5ms
-        wait(for: [expectation], timeout: fiveMilliSecondsInSeconds)
+        // Must finish all executions before timeout
+        wait(for: [expectation], timeout: testTimeoutSecs)
         let stop = DispatchTime.now()
-        // Must take no less than 5ms
-        XCTAssertGreaterThanOrEqual(stop.uptimeNanoseconds - start.uptimeNanoseconds, fiveMilliSecondsInNanoSeconds)
+        // Must take no less than expected (mininal) tasks duration
+        XCTAssertGreaterThanOrEqual(stop.uptimeNanoseconds - start.uptimeNanoseconds, expectedTestDurationNanos)
     }
 
     func testStopShouldBeIdempotent() {
@@ -62,7 +66,7 @@ class SchedulerTests: XCTestCase {
         timer.stop()
         timer.stop()
         expectation.isInverted = true
-        wait(for: [expectation], timeout: fiveMilliSecondsInSeconds)
+        wait(for: [expectation], timeout: testTimeoutSecs)
     }
 
     override func tearDown() {

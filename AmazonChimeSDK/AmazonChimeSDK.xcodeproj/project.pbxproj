@@ -101,6 +101,7 @@
 		F8204ADC23F499410099E3D1 /* MeetingSessionTURNCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8204ADB23F499410099E3D1 /* MeetingSessionTURNCredentials.swift */; };
 		F82D50D723FC752600D8F18C /* SignalStrength.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D50C223FC732300D8F18C /* SignalStrength.swift */; };
 		F82D50D823FC752600D8F18C /* VolumeLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D50C323FC732300D8F18C /* VolumeLevel.swift */; };
+		F83F53702452757700614913 /* ObserverUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83F536F2452757700614913 /* ObserverUtils.swift */; };
 		F86CB7412411B9A6004FD82F /* exported_symbols in Resources */ = {isa = PBXBuildFile; fileRef = F86CB7402411B9A6004FD82F /* exported_symbols */; };
 		F8C0145E23F1D50E0083D478 /* VideoClientController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C0145D23F1D50E0083D478 /* VideoClientController.swift */; };
 /* End PBXBuildFile section */
@@ -211,6 +212,7 @@
 		F8204ADB23F499410099E3D1 /* MeetingSessionTURNCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSessionTURNCredentials.swift; sourceTree = "<group>"; };
 		F82D50C223FC732300D8F18C /* SignalStrength.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalStrength.swift; sourceTree = "<group>"; };
 		F82D50C323FC732300D8F18C /* VolumeLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeLevel.swift; sourceTree = "<group>"; };
+		F83F536F2452757700614913 /* ObserverUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserverUtils.swift; sourceTree = "<group>"; };
 		F86CB7402411B9A6004FD82F /* exported_symbols */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = exported_symbols; sourceTree = "<group>"; };
 		F8C0145D23F1D50E0083D478 /* VideoClientController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoClientController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -260,6 +262,7 @@
 				00825F4A23D90A5F00388D08 /* logger */,
 				0007631C2412E3C2001D598A /* Constants.swift */,
 				00C2509D23E217F700325841 /* PermissionError.swift */,
+				F83F536F2452757700614913 /* ObserverUtils.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -802,6 +805,7 @@
 				5A8B9843240F69C000BA292D /* AttendeeInfo.swift in Sources */,
 				6AB4C7A023F723030038CD4B /* ClientMetricsCollector.swift in Sources */,
 				5A6A209E23CB1164000C9157 /* ConsoleLogger.swift in Sources */,
+				F83F53702452757700614913 /* ObserverUtils.swift in Sources */,
 				0007631D2412E3C2001D598A /* Constants.swift in Sources */,
 				5A6A209B23CB1164000C9157 /* CreateAttendeeResponse.swift in Sources */,
 				5A6A209A23CB1164000C9157 /* CreateMeetingResponse.swift in Sources */,

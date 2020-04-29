@@ -9,7 +9,7 @@
 import Foundation
 
 @objc public protocol AudioClientObserver {
-    func notifyAudioClientObserver(observerFunction: (_ observer: AudioVideoObserver) -> Void)
+    func notifyAudioClientObserver(observerFunction: @escaping (_ observer: AudioVideoObserver) -> Void)
     func subscribeToAudioClientStateChange(observer: AudioVideoObserver)
     func subscribeToRealTimeEvents(observer: RealtimeObserver)
     func unsubscribeFromAudioClientStateChange(observer: AudioVideoObserver)

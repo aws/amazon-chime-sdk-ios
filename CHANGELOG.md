@@ -1,3 +1,8 @@
+## [Unreleased]
+
+### Changed
+- Changed the default observer caller implementation. Now all the observer callbacks are called on main thread. Make sure to dispatch long-running tasks to another thread to avoid blocking the main thread.
+
 ## [0.5.2] - 2020-04-28
 
 ### Changed

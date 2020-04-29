@@ -29,20 +29,23 @@ class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeaker
     var scoreIndex = 0
     var activeSpeakerDetector = DefaultActiveSpeakerDetector(
         audioClientObserver: MockaudioClientObserver(), selfAttendeeId: "")
+    private let emptyAttendeesReceivedExpectation = XCTestExpectation(
+        description: "Is fulfilled when received no attendees in callback")
     private let calculateScoreExpectation = XCTestExpectation(
-        description: "Is fullfilled when calculateScore is called")
+        description: "Is fulfilled when calculateScore is called")
     private let prioritizeBandwidthExpectation = XCTestExpectation(
-        description: "Is fullfilled when prioritizeVideoSendBandwidthForActiveSpeaker is called")
+        description: "Is fulfilled when prioritizeVideoSendBandwidthForActiveSpeaker is called")
     private let subscribeToRealTimeEventsExpectation = XCTestExpectation(
-        description: "Is fullfilled when subscribeToRealTimeEvents is called")
+        description: "Is fulfilled when subscribeToRealTimeEvents is called")
     private let unSubscribeFromRealTimeEventsExpectation = XCTestExpectation(
-        description: "Is fullfilled when unsubscribeFromRealTimeEvents is called")
+        description: "Is fulfilled when unsubscribeFromRealTimeEvents is called")
     private let activeSpeakerDidDetectExpectation = XCTestExpectation(
-        description: "Is fullfilled when activeSpeakerDidDetect is called")
+        description: "Is fulfilled when activeSpeakerDidDetect is called")
     private let activeSpeakerScoreDidChangeExpectation = XCTestExpectation(
-        description: "Is fullfilled when activeSpeakerScoreDidChange is called")
+        description: "Is fulfilled when activeSpeakerScoreDidChange is called")
     private let oneMilliSecondInSeconds = 0.001
     private let twoHundredMilliSecondsInSeconds = 0.2
+    private let halfSeconds = 0.5
 
     override func setUp() {
         for index in 0...4 {
@@ -66,6 +69,7 @@ class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeaker
 
     func testActiveSpeakerDetectorShouldOnAttendeesJoinMakeExpectedCallbacks() {
         // received no attendees in callback because scores are not calculated until volumes are received
+        wait(for: [emptyAttendeesReceivedExpectation], timeout: oneMilliSecondInSeconds)
         XCTAssertEqual(attendeesReceived.isEmpty, true)
         calculateScoreExpectation.isInverted = true
         wait(for: [calculateScoreExpectation], timeout: oneMilliSecondInSeconds)
@@ -97,11 +101,18 @@ class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeaker
 
     func testActiveSpeakerDetectorShouldOnAttendeesLeaveReceiveCorrectActiveSpeakers() {
         activeSpeakerDetector.volumeDidChange(volumeUpdates: volumeUpdates)
+        wait(for: [activeSpeakerScoreDidChangeExpectation], timeout: twoHundredMilliSecondsInSeconds)
         XCTAssertEqual(attendeesReceived, attendees.reversed())
-        activeSpeakerDetector.attendeesDidJoin(attendeeInfo: [attendees[0], attendees[1]])
+
+        activeSpeakerDetector.attendeesDidLeave(attendeeInfo: [attendees[0], attendees[1]])
         let newVolumeUpdates = [volumeUpdates[2], volumeUpdates[3], volumeUpdates[4]]
         scoreIndex = 0
         activeSpeakerDetector.volumeDidChange(volumeUpdates: newVolumeUpdates)
+        let adhocWaitingExpectation = XCTestExpectation(description: "Is fulfilled after adhoc waiting")
+        Timer.scheduledTimer(withTimeInterval: twoHundredMilliSecondsInSeconds, repeats: false, block: { _ in
+            adhocWaitingExpectation.fulfill()
+        })
+        wait(for: [adhocWaitingExpectation], timeout: halfSeconds)
         XCTAssertEqual(attendeesReceived, [attendees[4], attendees[3], attendees[2]])
     }
 
@@ -109,7 +120,7 @@ class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeaker
         activeSpeakerDetector.removeActiveSpeakerObserver(observer: self)
         activeSpeakerDetector.attendeesDidJoin(attendeeInfo: attendees)
         activeSpeakerDetector.volumeDidChange(volumeUpdates: volumeUpdates)
-        usleep(useconds_t(300000))
+        wait(for: [activeSpeakerDidDetectExpectation], timeout: oneMilliSecondInSeconds)
         XCTAssertEqual(attendeesReceived, [])
     }
 
@@ -137,6 +148,9 @@ class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeaker
 
     func activeSpeakerDidDetect(attendeeInfo: [AttendeeInfo]) {
         activeSpeakerDidDetectExpectation.fulfill()
+        if attendeeInfo.isEmpty {
+            emptyAttendeesReceivedExpectation.fulfill()
+        }
         attendeesReceived = attendeeInfo
     }
 

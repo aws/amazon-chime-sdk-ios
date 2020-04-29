@@ -8,36 +8,51 @@
 
 import Foundation
 
+private let millisPerSecond = 1000.0
+
 /**
  * `IntervalScheduler` calls the callback every intervalMs milliseconds.
  */
 @objcMembers public class IntervalScheduler: Scheduler {
-    var timer: Timer?
-    var callback: () -> Void
-    var intervalMs: Int
-    let oneSecond = 1000.0
-
-    init(intervalMs: Int, callback: @escaping () -> Void) {
-        self.callback = callback
-        self.intervalMs = intervalMs
+    private enum IntervalSchedulerState {
+        case started
+        case stopped
     }
 
-    @objc private func runCallback() {
-        self.callback()
+    private let timer: DispatchSourceTimer
+    private var state: IntervalSchedulerState = .stopped
+
+    init(intervalMs: Int, callback: @escaping () -> Void) {
+        let timeInterval = TimeInterval(Double(intervalMs) / millisPerSecond)
+        let timer = DispatchSource.makeTimerSource()
+        timer.schedule(deadline: .now() + timeInterval, repeating: timeInterval)
+        timer.setEventHandler(handler: callback)
+
+        self.timer = timer
+    }
+
+    deinit {
+        timer.setEventHandler {}
+        timer.cancel()
+
+        // Need to resume the canceled timer to avoid crash:
+        // https://forums.developer.apple.com/message/46175
+        start()
     }
 
     public func start() {
-        self.stop()
-        self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(Double(self.intervalMs) / self.oneSecond),
-                                          target: self,
-                                          selector: #selector(self.runCallback),
-                                          userInfo: nil,
-                                          repeats: true)
+        if state == .started {
+            return
+        }
+        state = .started
+        timer.resume()
     }
 
     public func stop() {
-        if self.timer != nil {
-            self.timer?.invalidate()
+        if state == .stopped {
+            return
         }
+        state = .stopped
+        timer.suspend()
     }
 }
