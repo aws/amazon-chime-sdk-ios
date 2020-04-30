@@ -57,6 +57,7 @@
 		5A6A209D23CB1164000C9157 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6A202B23C7E848000C9157 /* Logger.swift */; };
 		5A6A209E23CB1164000C9157 /* ConsoleLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6A202F23C7EB2D000C9157 /* ConsoleLogger.swift */; };
 		5A8B9843240F69C000BA292D /* AttendeeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8B9842240F69C000BA292D /* AttendeeInfo.swift */; };
+		5A9196FE245A4AE000E17CDE /* Versioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9196FD245A4AE000E17CDE /* Versioning.swift */; };
 		5ADEAFA124293B2700801EA5 /* AmazonChimeSDKMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ADEAFA024293B2700801EA5 /* AmazonChimeSDKMedia.framework */; };
 		5ADEAFA424293B5500801EA5 /* AmazonChimeSDKMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ADEAFA024293B2700801EA5 /* AmazonChimeSDKMedia.framework */; };
 		5AE121D3240F6A8E0090A2AD /* VolumeUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE121D2240F6A8E0090A2AD /* VolumeUpdate.swift */; };
@@ -170,6 +171,7 @@
 		5A6A208E23CAFB65000C9157 /* CreateMeetingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMeetingResponse.swift; sourceTree = "<group>"; };
 		5A6A209023CAFB76000C9157 /* CreateAttendeeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAttendeeResponse.swift; sourceTree = "<group>"; };
 		5A8B9842240F69C000BA292D /* AttendeeInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendeeInfo.swift; sourceTree = "<group>"; };
+		5A9196FD245A4AE000E17CDE /* Versioning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Versioning.swift; sourceTree = "<group>"; };
 		5ADEAFA024293B2700801EA5 /* AmazonChimeSDKMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AmazonChimeSDKMedia.framework; sourceTree = "<group>"; };
 		5AE121D2240F6A8E0090A2AD /* VolumeUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeUpdate.swift; sourceTree = "<group>"; };
 		5AE121E8240F6ABF0090A2AD /* SignalUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalUpdate.swift; sourceTree = "<group>"; };
@@ -260,9 +262,8 @@
 			isa = PBXGroup;
 			children = (
 				00825F4A23D90A5F00388D08 /* logger */,
-				0007631C2412E3C2001D598A /* Constants.swift */,
 				00C2509D23E217F700325841 /* PermissionError.swift */,
-				F83F536F2452757700614913 /* ObserverUtils.swift */,
+				5A9196FD245A4AE000E17CDE /* Versioning.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -428,6 +429,7 @@
 			children = (
 				5A631A4624297E0C00C8DAF3 /* audio */,
 				5A631A4424297DA100C8DAF3 /* metric */,
+				5A9196FC245A4AC500E17CDE /* utils */,
 				5A631A4524297DB500C8DAF3 /* video */,
 				5A16BFEE2405E6A500ADAE26 /* Dictionary.swift */,
 				F8204ADB23F499410099E3D1 /* MeetingSessionTURNCredentials.swift */,
@@ -567,6 +569,15 @@
 			children = (
 			);
 			path = realtime;
+			sourceTree = "<group>";
+		};
+		5A9196FC245A4AC500E17CDE /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				0007631C2412E3C2001D598A /* Constants.swift */,
+				F83F536F2452757700614913 /* ObserverUtils.swift */,
+			);
+			path = utils;
 			sourceTree = "<group>";
 		};
 		5AE1323023EA2FBC00BF5997 /* logger */ = {
@@ -846,6 +857,7 @@
 				0083A11423D8CFD40057027A /* RealtimeControllerFacade.swift in Sources */,
 				0024FCE023E50A3100637414 /* RealtimeObserver.swift in Sources */,
 				7C0D1BEC241ACC7B00280031 /* Scheduler.swift in Sources */,
+				5A9196FE245A4AE000E17CDE /* Versioning.swift in Sources */,
 				003B588D23E22CD6002493AB /* SessionStateControllerAction.swift in Sources */,
 				F82D50D723FC752600D8F18C /* SignalStrength.swift in Sources */,
 				5AE121E9240F6ABF0090A2AD /* SignalUpdate.swift in Sources */,
