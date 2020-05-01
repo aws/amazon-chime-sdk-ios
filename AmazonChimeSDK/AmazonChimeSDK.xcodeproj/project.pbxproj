@@ -81,6 +81,7 @@
 		5AE76F32242044A6009C41FD /* PermissionErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE76F31242044A6009C41FD /* PermissionErrorTests.swift */; };
 		5AE76F34242049E0009C41FD /* MediaDeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE76F33242049E0009C41FD /* MediaDeviceType.swift */; };
 		5AE76F3624204A03009C41FD /* MediaDeviceTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE76F3524204A03009C41FD /* MediaDeviceTypeTests.swift */; };
+		5AF7E00E245B6E86006C7C86 /* VersioningTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF7E00D245B6E86006C7C86 /* VersioningTests.swift */; };
 		6346FB7C835A2E4BDA00CA6A /* AmazonChimeSDKMocks.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AF16E309DA4B11FCD4D2C9 /* AmazonChimeSDKMocks.generated.swift */; };
 		6A01CAE523F8FCAF005C5193 /* ClientMetricsCollectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A01CAE423F8FCAF005C5193 /* ClientMetricsCollectorTests.swift */; };
 		6A68E79F24196773004F5A56 /* VideoPauseState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A68E79E24196773004F5A56 /* VideoPauseState.swift */; };
@@ -193,6 +194,7 @@
 		5AE76F31242044A6009C41FD /* PermissionErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionErrorTests.swift; sourceTree = "<group>"; };
 		5AE76F33242049E0009C41FD /* MediaDeviceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDeviceType.swift; sourceTree = "<group>"; };
 		5AE76F3524204A03009C41FD /* MediaDeviceTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDeviceTypeTests.swift; sourceTree = "<group>"; };
+		5AF7E00D245B6E86006C7C86 /* VersioningTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersioningTests.swift; sourceTree = "<group>"; };
 		6A01CAE423F8FCAF005C5193 /* ClientMetricsCollectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientMetricsCollectorTests.swift; sourceTree = "<group>"; };
 		6A68E79E24196773004F5A56 /* VideoPauseState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPauseState.swift; sourceTree = "<group>"; };
 		6AB4C79F23F723030038CD4B /* ClientMetricsCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientMetricsCollector.swift; sourceTree = "<group>"; };
@@ -606,6 +608,7 @@
 			children = (
 				5AE1323023EA2FBC00BF5997 /* logger */,
 				5AE76F31242044A6009C41FD /* PermissionErrorTests.swift */,
+				5AF7E00D245B6E86006C7C86 /* VersioningTests.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -756,15 +759,15 @@
 			files = (
 			);
 			inputPaths = (
-				"/tmp/Mockingbird-6A52B959-1747-4DAF-B7D3-EA1412A3A13A",
+				"/tmp/Mockingbird-208E3DFC-58D5-4BF8-97BC-897C0779773E",
 			);
 			name = "Generate Mockingbird Mocks";
 			outputPaths = (
-				"/Users/wanghaor/workspace/MobileSDK-iOS/amazon-chime-sdk-ios/AmazonChimeSDK/MockingbirdMocks/AmazonChimeSDKMocks.generated.swift",
+				"$(SRCROOT)/MockingbirdMocks/AmazonChimeSDKMocks.generated.swift",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mockingbird generate \\\n  --targets 'AmazonChimeSDK' \\\n  --outputs '/Users/wanghaor/workspace/MobileSDK-iOS/amazon-chime-sdk-ios/AmazonChimeSDK/MockingbirdMocks/AmazonChimeSDKMocks.generated.swift'\n\n# Ensure mocks are generated prior to running Compile Sources\nrm -f '/tmp/Mockingbird-6A52B959-1747-4DAF-B7D3-EA1412A3A13A'\n";
+			shellScript = "mockingbird generate \\\n  --targets 'AmazonChimeSDK' \\\n  --outputs \"${SRCROOT}/MockingbirdMocks/AmazonChimeSDKMocks.generated.swift\"\n\n# Ensure mocks are generated prior to running Compile Sources\nrm -f '/tmp/Mockingbird-208E3DFC-58D5-4BF8-97BC-897C0779773E'\n";
 		};
 		114854BF06996650440AB080 /* Clean Mockingbird Mocks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -775,11 +778,11 @@
 			);
 			name = "Clean Mockingbird Mocks";
 			outputPaths = (
-				"/tmp/Mockingbird-6A52B959-1747-4DAF-B7D3-EA1412A3A13A",
+				"/tmp/Mockingbird-208E3DFC-58D5-4BF8-97BC-897C0779773E",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo $RANDOM > '/tmp/Mockingbird-6A52B959-1747-4DAF-B7D3-EA1412A3A13A'\n";
+			shellScript = "echo $RANDOM > '/tmp/Mockingbird-208E3DFC-58D5-4BF8-97BC-897C0779773E'\n";
 		};
 		5A3CFC6423C52B5D00BB63B7 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -900,6 +903,7 @@
 				5AE76F2524203AA2009C41FD /* SignalStrengthTests.swift in Sources */,
 				5A0E731B242EA39E006636AB /* VideoTileStateTests.swift in Sources */,
 				5AE76F1E24203A63009C41FD /* SignalUpdateTests.swift in Sources */,
+				5AF7E00E245B6E86006C7C86 /* VersioningTests.swift in Sources */,
 				7CE107662421CC7B00E209D1 /* SchedulerTests.swift in Sources */,
 				5AE76F2D24203AEF009C41FD /* VideoPauseStateTests.swift in Sources */,
 				5AE76F2724203AAA009C41FD /* VolumeLevelTests.swift in Sources */,

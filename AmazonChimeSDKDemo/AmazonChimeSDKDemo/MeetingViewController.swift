@@ -25,16 +25,18 @@ class MeetingViewController: UIViewController {
     public var meetingSessionConfig: MeetingSessionConfiguration?
     public var meetingId: String?
     public var selfName: String?
+    private var activeSpeakerIds: [String] = []
     private var attendees = [RosterAttendee]()
+    private let contentDelimiter = "#content"
+    private let contentSuffix = "<<Content>>"
     private var currentMeetingSession: MeetingSession?
-    private let dispatchGroup = DispatchGroup()
     private var currentRoster = [String: RosterAttendee]()
+    private let dispatchGroup = DispatchGroup()
     private let jsonDecoder = JSONDecoder()
     private let logger = ConsoleLogger(name: "MeetingViewController")
     private var otherVideoTileStates = [VideoTileState?](repeating: nil, count: 2)
-    private let videoTileCellReuseIdentifier = "VideoTileCell"
     private let uuid = UUID().uuidString
-    private var activeSpeakerIds: [String] = []
+    private let videoTileCellReuseIdentifier = "VideoTileCell"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -116,16 +118,6 @@ class MeetingViewController: UIViewController {
         self.currentMeetingSession?.audioVideo.addDeviceChangeObserver(observer: self)
         self.currentMeetingSession?.audioVideo.addActiveSpeakerObserver(policy: DefaultActiveSpeakerPolicy(),
                                                                         observer: self)
-    }
-
-    private func parseAttendee(data: Data) -> String? {
-        do {
-            let attendeeResponse = try jsonDecoder.decode(AttendeeResponse.self, from: data)
-            return attendeeResponse.attendeeIdName.name
-        } catch {
-            self.logger.error(msg: error.localizedDescription)
-            return nil
-        }
     }
 
     private func notify(msg: String) {
@@ -265,6 +257,24 @@ class MeetingViewController: UIViewController {
             self.toggleVideo(index: sender.tag, selected: sender.isSelected)
         }
     }
+
+    private func getAttendeeName(_ info: AttendeeInfo) -> String {
+        let externalUserIdArray = info.externalUserId.components(separatedBy: "#")
+        let attendeeName: String = externalUserIdArray[1]
+        return info.attendeeId.hasSuffix(self.contentDelimiter) ? "\(attendeeName) \(self.contentSuffix)" : attendeeName
+    }
+
+    private func logAttendee(attendeeInfo: [AttendeeInfo], action: String) {
+        for currentAttendeeInfo in attendeeInfo {
+            let attendeeId = currentAttendeeInfo.attendeeId
+            guard let attendee = self.currentRoster[attendeeId] else {
+                self.logger.error(msg: "Cannot find attendee with attendee id \(attendeeId)" +
+                    " external user id \(currentAttendeeInfo.externalUserId)")
+                continue
+            }
+            self.logger.info(msg: "\(attendee.attendeeName ?? "nil"): \(action)")
+        }
+    }
 }
 
 extension MeetingViewController: AudioVideoObserver, MetricsObserver {
@@ -328,7 +338,7 @@ extension MeetingViewController: RealtimeObserver {
             self.currentRoster.removeValue(forKey: currentAttendeeInfo.attendeeId)
         }
         self.attendees = self.currentRoster.values.sorted(by: {
-            if let name0 = $0.name, let name1 = $1.name {
+            if let name0 = $0.attendeeName, let name1 = $1.attendeeName {
                 return name0 < name1
             }
             return false
@@ -348,13 +358,14 @@ extension MeetingViewController: RealtimeObserver {
         for currentVolumeUpdate in volumeUpdates {
             let attendeeId = currentVolumeUpdate.attendeeInfo.attendeeId
             guard let attendee = self.currentRoster[attendeeId] else {
-                self.logger.error(msg: "Cannot find attendee with attendee id \(attendeeId) external user id \(currentVolumeUpdate.attendeeInfo.externalUserId)")
+                self.logger.error(msg: "Cannot find attendee with attendee id \(attendeeId)" +
+                    " external user id \(currentVolumeUpdate.attendeeInfo.externalUserId)")
                 continue
             }
             let volume = currentVolumeUpdate.volumeLevel
             if attendee.volume != volume {
                 attendee.volume = volume
-                if let name = attendee.name {
+                if let name = attendee.attendeeName {
                     self.logger.info(msg: "Volume changed for \(name): \(volume)")
                     self.rosterTable.reloadData()
                 }
@@ -366,13 +377,14 @@ extension MeetingViewController: RealtimeObserver {
         for currentSignalUpdate in signalUpdates {
             let attendeeId = currentSignalUpdate.attendeeInfo.attendeeId
             guard let attendee = self.currentRoster[attendeeId] else {
-                self.logger.error(msg: "Cannot find attendee with attendee id \(attendeeId) external user id \(currentSignalUpdate.attendeeInfo.externalUserId)")
+                self.logger.error(msg: "Cannot find attendee with attendee id \(attendeeId)" +
+                    " external user id \(currentSignalUpdate.attendeeInfo.externalUserId)")
                 continue
             }
             let signal = currentSignalUpdate.signalStrength
             if attendee.signal != signal {
                 attendee.signal = signal
-                if let name = attendee.name {
+                if let name = attendee.attendeeName {
                     self.logger.info(msg: "Signal strength changed for \(name): \(signal)")
                     self.rosterTable.reloadData()
                 }
@@ -382,57 +394,28 @@ extension MeetingViewController: RealtimeObserver {
 
     func attendeesDidJoin(attendeeInfo: [AttendeeInfo]) {
         var updateRoster = [String: RosterAttendee]()
-
         for currentAttendeeInfo in attendeeInfo {
             let attendeeId = currentAttendeeInfo.attendeeId
+            let attendeeName = self.getAttendeeName(currentAttendeeInfo)
             if let attendee = self.currentRoster[attendeeId] {
                 updateRoster[attendeeId] = attendee
             } else {
-                self.currentRoster[attendeeId] = RosterAttendee(
-                    name: nil, attendeeId: attendeeId, volume: .notSpeaking, signal: .high)
-                self.dispatchGroup.enter()
-                let encodedURL = HttpUtils.encodeStrForURL(
-                    str: "\(AppConfiguration.url)attendee?title=\(self.meetingId ?? "")&attendee=\(attendeeId)"
-                )
-                HttpUtils.getRequest(
-                    url: encodedURL,
-                    completion: { (data: Data?, _: Error?) in
-                        if let data = data, let name = self.parseAttendee(data: data) {
-                            let attendee = self.currentRoster[attendeeId]
-                            updateRoster[attendeeId] = RosterAttendee(
-                                name: name, attendeeId: attendeeId,
-                                volume: attendee?.volume ?? .muted,
-                                signal: attendee?.signal ?? .high)
-                        }
-                        self.dispatchGroup.leave()
-                }, logger: self.logger)
+                updateRoster[attendeeId] = RosterAttendee(
+                    attendeeId: attendeeId, attendeeName: attendeeName, volume: .notSpeaking, signal: .high)
             }
         }
 
-        self.dispatchGroup.notify(queue: DispatchQueue.main) {
-            for (attendeeId, attendee) in updateRoster {
-                self.currentRoster[attendeeId] = attendee
-                self.attendees.append(attendee)
-            }
-            self.attendees.sort(by: {
-                if let name0 = $0.name, let name1 = $1.name {
-                    return name0 < name1
-                }
-                return false
-            })
-            self.rosterTable.reloadData()
+        for (attendeeId, attendee) in updateRoster {
+            self.currentRoster[attendeeId] = attendee
+            self.attendees.append(attendee)
         }
-    }
-
-    private func logAttendee(attendeeInfo: [AttendeeInfo], action: String) {
-        for currentAttendeeInfo in attendeeInfo {
-            let attendeeId = currentAttendeeInfo.attendeeId
-            guard let attendee = self.currentRoster[attendeeId] else {
-                self.logger.error(msg: "Cannot find attendee with attendee id \(attendeeId) external user id \(currentAttendeeInfo.externalUserId)")
-                continue
+        self.attendees.sort(by: {
+            if let name0 = $0.attendeeName, let name1 = $1.attendeeName {
+                return name0 < name1
             }
-            self.logger.info(msg: "\(attendee.name ?? "nil"): \(action)")
-        }
+            return false
+        })
+        self.rosterTable.reloadData()
     }
 }
 
@@ -445,7 +428,8 @@ extension MeetingViewController: DeviceChangeObserver {
 
 extension MeetingViewController: VideoTileObserver {
     func videoTileDidAdd(tileState: VideoTileState) {
-        self.logger.info(msg: "Adding Video Tile tileId: \(tileState.tileId) attendeeId: \(String(describing: tileState.attendeeId))")
+        self.logger.info(msg: "Adding Video Tile tileId: \(tileState.tileId)" +
+            " attendeeId: \(String(describing: tileState.attendeeId))")
         if tileState.isLocalTile {
             if let selfVideoTileCell = self.videoCollection!.cellForItem(
                 at: IndexPath(row: 0, section: 0)) as? VideoTileCell {
@@ -467,7 +451,8 @@ extension MeetingViewController: VideoTileObserver {
                 at: IndexPath(row: 1, section: 0)) as? VideoTileCell {
                 if let otherVideoTileView = otherVideoTileCell.contentView as? DefaultVideoRenderView {
                     otherVideoTileCell.isHidden = false
-                    otherVideoTileView.accessibilityIdentifier = "\(self.currentRoster[tileState.attendeeId!]?.name ?? "") VideoTile"
+                    otherVideoTileView.accessibilityIdentifier =
+                        "\(self.currentRoster[tileState.attendeeId!]?.attendeeName ?? "") VideoTile"
                     self.currentMeetingSession?.audioVideo.bindVideoView(
                         videoView: otherVideoTileView,
                         tileId: tileState.tileId)
@@ -478,7 +463,8 @@ extension MeetingViewController: VideoTileObserver {
     }
 
     func videoTileDidRemove(tileState: VideoTileState) {
-        self.logger.info(msg: "Removing Video Tile tileId: \(tileState.tileId) attendeeId: \(String(describing: tileState.attendeeId))")
+        self.logger.info(msg: "Removing Video Tile tileId: \(tileState.tileId)" +
+            " attendeeId: \(String(describing: tileState.attendeeId))")
         self.currentMeetingSession?.audioVideo.unbindVideoView(tileId: tileState.tileId)
         if self.otherVideoTileStates[0]?.tileId == tileState.tileId {
             self.otherVideoTileStates[0] = nil
@@ -513,17 +499,17 @@ extension MeetingViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         let currentAttendee = self.attendees[indexPath.item]
-        cell.attendeeName.text = currentAttendee.name
-        cell.attendeeName.accessibilityIdentifier = currentAttendee.name
-        cell.accessibilityIdentifier = "\(currentAttendee.name ?? "") Speaking"
+        cell.attendeeName.text = currentAttendee.attendeeName
+        cell.attendeeName.accessibilityIdentifier = currentAttendee.attendeeName
+        cell.accessibilityIdentifier = "\(currentAttendee.attendeeName ?? "") Speaking"
 
         switch currentAttendee.volume {
         case .muted:
             cell.speakLevel.image = UIImage(named: "volume-muted")
-            cell.accessibilityIdentifier = "\(currentAttendee.name ?? "") Muted"
+            cell.accessibilityIdentifier = "\(currentAttendee.attendeeName ?? "") Muted"
         case .notSpeaking:
             cell.speakLevel.image = UIImage(named: "volume-0")
-            cell.accessibilityIdentifier = "\(currentAttendee.name ?? "") Not Speaking"
+            cell.accessibilityIdentifier = "\(currentAttendee.attendeeName ?? "") Not Speaking"
         case .low:
             cell.speakLevel.image = UIImage(named: "volume-1")
         case .medium:

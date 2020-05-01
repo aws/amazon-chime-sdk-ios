@@ -18,10 +18,12 @@ import Foundation
 
 @objcMembers public class Attendee: NSObject {
     let attendeeId: String
+    let externalUserId: String
     let joinToken: String
 
-    public init(attendeeId: String, joinToken: String) {
+    public init(attendeeId: String, externalUserId: String, joinToken: String) {
         self.attendeeId = attendeeId
+        self.externalUserId = externalUserId
         self.joinToken = joinToken
     }
 }
