@@ -10,15 +10,15 @@ import AmazonChimeSDK
 import Foundation
 
 public class RosterAttendee {
-    let name: String?
     let attendeeId: String
+    let attendeeName: String?
     var volume: VolumeLevel
     var signal: SignalStrength
 
-    init(name: String?, attendeeId: String, volume: VolumeLevel, signal: SignalStrength) {
-        self.name = name
+    init(attendeeId: String, attendeeName: String, volume: VolumeLevel, signal: SignalStrength) {
+        self.attendeeId = attendeeId
+        self.attendeeName = attendeeName
         self.volume = volume
         self.signal = signal
-        self.attendeeId = attendeeId
     }
 }

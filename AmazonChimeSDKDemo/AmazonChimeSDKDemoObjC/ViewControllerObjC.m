@@ -19,6 +19,7 @@
     [self updateUIWithMeetingStarted:NO];
     self.logger = [[ConsoleLogger alloc] initWithName:@"ViewControllerObjC"
                                                 level:LogLevelDEFAULT];
+    self.versionLabel.text = [NSString stringWithFormat:@"amazon-chime-sdk-ios@%@", [Versioning sdkVersion]];
 }
 
 - (IBAction)joinMeeting:(id)sender {
@@ -44,31 +45,40 @@
             // Parse meeting join data from JSON
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
             NSDictionary *joinInfoDict = [json objectForKey:@"JoinInfo"];
-            NSDictionary *meetingInfoDict = [joinInfoDict objectForKey:@"Meeting"];
-            NSDictionary *mediaPlacementDict = [meetingInfoDict objectForKey:@"MediaPlacement"];
-            NSDictionary *attendeeInfoDict = [joinInfoDict objectForKey:@"Attendee"];
-
+            NSDictionary *meetingInfoDict = [[joinInfoDict objectForKey:@"Meeting"] objectForKey:@"Meeting"];
+            NSString *externalMeetingId = [meetingInfoDict objectForKey:@"ExternalMeetingId"];
             NSString *meetingId = [meetingInfoDict objectForKey:@"MeetingId"];
+            NSString *mediaRegion = [meetingInfoDict objectForKey:@"MediaRegion"];
+
+            NSDictionary *mediaPlacementDict = [meetingInfoDict objectForKey:@"MediaPlacement"];
             NSString *audioFallbackUrl = [mediaPlacementDict objectForKey:@"AudioFallbackUrl"];
             NSString *audioHostUrl = [mediaPlacementDict objectForKey:@"AudioHostUrl"];
             NSString *turnControlUrl = [mediaPlacementDict objectForKey:@"TurnControlUrl"];
             NSString *signalingUrl = [mediaPlacementDict objectForKey:@"SignalingUrl"];
+
+            NSDictionary *attendeeInfoDict = [[joinInfoDict objectForKey:@"Attendee"] objectForKey:@"Attendee"];
             NSString *attendeeId = [attendeeInfoDict objectForKey:@"AttendeeId"];
+            NSString *externalUserId = [attendeeInfoDict objectForKey:@"ExternalUserId"];
             NSString *joinToken = [attendeeInfoDict objectForKey:@"JoinToken"];
 
             // Initialize meeting session through AmazonChimeSDK
             MediaPlacement *mediaPlacement = [[MediaPlacement alloc] initWithAudioFallbackUrl:audioFallbackUrl
                                                                                  audioHostUrl:audioHostUrl
-                                                                               turnControlUrl:turnControlUrl
-                                                                                 signalingUrl:signalingUrl];
+                                                                                 signalingUrl:signalingUrl
+                                                                               turnControlUrl:turnControlUrl];
 
-            Meeting *meeting = [[Meeting alloc] initWithMeetingId:meetingId
-                                                   mediaPlacement:mediaPlacement];
+            Meeting *meeting = [[Meeting alloc] initWithExternalMeetingId:externalMeetingId
+                                                           mediaPlacement:mediaPlacement
+                                                              mediaRegion:mediaRegion
+                                                                meetingId:meetingId];
             CreateMeetingResponse *createMeetingResponse = [[CreateMeetingResponse alloc] initWithMeeting:meeting];
-            Attendee *attendee = [[Attendee alloc] initWithAttendeeId:attendeeId joinToken:joinToken];
+            Attendee *attendee = [[Attendee alloc] initWithAttendeeId:attendeeId
+                                                       externalUserId:externalUserId
+                                                            joinToken:joinToken];
             CreateAttendeeResponse *createAttendeeResponse = [[CreateAttendeeResponse alloc] initWithAttendee:attendee];
-            MeetingSessionConfiguration *meetingSessionConfiguration = [[MeetingSessionConfiguration alloc] initWithCreateMeetingResponse:createMeetingResponse
-                                                                                                                   createAttendeeResponse:createAttendeeResponse];
+            MeetingSessionConfiguration *meetingSessionConfiguration = [[MeetingSessionConfiguration alloc]
+                                                                        initWithCreateMeetingResponse:createMeetingResponse
+                                                                               createAttendeeResponse:createAttendeeResponse];
 
             self.meetingSession = [[DefaultMeetingSession alloc] initWithConfiguration:meetingSessionConfiguration
                                                                                 logger:self.logger];

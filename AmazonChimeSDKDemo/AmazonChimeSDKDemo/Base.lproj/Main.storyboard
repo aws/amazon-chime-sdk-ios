@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -57,16 +57,26 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="version" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9bX-Kc-eHT">
+                                <rect key="frame" x="16" y="831.5" width="382" height="14.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="UUz-34-lb9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="2R9-AX-Dow"/>
                             <constraint firstItem="Gda-Op-d5h" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="BKP-z8-99b"/>
                             <constraint firstItem="Gda-Op-d5h" firstAttribute="top" secondItem="osX-FD-I0Z" secondAttribute="bottom" constant="16" id="BOT-IF-kOG"/>
+                            <constraint firstAttribute="trailing" secondItem="9bX-Kc-eHT" secondAttribute="trailing" constant="16" id="CFu-s4-gUV"/>
                             <constraint firstItem="UUz-34-lb9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="FdE-dz-ali"/>
                             <constraint firstItem="s6f-Ei-sAf" firstAttribute="top" secondItem="UUz-34-lb9" secondAttribute="bottom" constant="32" id="ICg-MR-DeZ"/>
+                            <constraint firstItem="9bX-Kc-eHT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="JE3-ga-xUR"/>
                             <constraint firstItem="Gda-Op-d5h" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="64" id="MrR-dT-nk9"/>
                             <constraint firstItem="s6f-Ei-sAf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="O7I-Dv-H8c"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="9bX-Kc-eHT" secondAttribute="bottom" constant="16" id="U5B-ij-2pj"/>
+                            <constraint firstItem="9bX-Kc-eHT" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XMh-wo-ho8"/>
                             <constraint firstItem="osX-FD-I0Z" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="bfI-1B-dC2"/>
                             <constraint firstItem="osX-FD-I0Z" firstAttribute="top" secondItem="s6f-Ei-sAf" secondAttribute="bottom" constant="16" id="zh1-pn-qLH"/>
                         </constraints>
@@ -76,6 +86,7 @@
                         <outlet property="joinButton" destination="Gda-Op-d5h" id="eDt-aC-zYL"/>
                         <outlet property="meetingIDText" destination="s6f-Ei-sAf" id="vmx-Lh-C7I"/>
                         <outlet property="nameText" destination="osX-FD-I0Z" id="lFR-t4-JOi"/>
+                        <outlet property="versionLabel" destination="9bX-Kc-eHT" id="M1d-QC-GNU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
