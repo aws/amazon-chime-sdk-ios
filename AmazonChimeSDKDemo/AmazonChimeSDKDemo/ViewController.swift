@@ -8,8 +8,8 @@
 
 import AmazonChimeSDK
 import AVFoundation
-import UIKit
 import Toast
+import UIKit
 
 class ViewController: UIViewController {
     var meetingID = ""
@@ -19,9 +19,11 @@ class ViewController: UIViewController {
     @IBOutlet var meetingIDText: UITextField!
     @IBOutlet var nameText: UITextField!
     @IBOutlet var joinButton: UIButton!
+    @IBOutlet var versionLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        versionLabel.text = "amazon-chime-sdk-ios@\(Versioning.sdkVersion())"
     }
 
     @IBAction func joinMeeting(sender: UIButton) {
@@ -74,27 +76,31 @@ class ViewController: UIViewController {
         HttpUtils.postRequest(
             url: encodedURL,
             completion: completion,
-            jsonData: nil, logger: logger)
+            jsonData: nil, logger: logger
+        )
     }
 
     private func processJson(data: Data) -> (CreateMeetingResponse?, CreateAttendeeResponse?) {
         let jsonDecoder = JSONDecoder()
         do {
-            let meetingResponse = try jsonDecoder.decode(MeetingResponse.self, from: data)
+            let joinMeetingResponse = try jsonDecoder.decode(JoinMeetingResponse.self, from: data)
             let meetingResp = CreateMeetingResponse(meeting:
                 Meeting(
-                    meetingId: meetingResponse.joinInfo.meeting.meetingId,
+                    externalMeetingId: joinMeetingResponse.joinInfo.meeting.meeting.externalMeetingId,
                     mediaPlacement: MediaPlacement(
-                        audioFallbackUrl: meetingResponse.joinInfo.meeting.mediaPlacement.audioFallbackUrl,
-                        audioHostUrl: meetingResponse.joinInfo.meeting.mediaPlacement.audioHostUrl,
-                        turnControlUrl: meetingResponse.joinInfo.meeting.mediaPlacement.turnControlUrl,
-                        signalingUrl: meetingResponse.joinInfo.meeting.mediaPlacement.signalingUrl
-                    )
+                        audioFallbackUrl: joinMeetingResponse.joinInfo.meeting.meeting.mediaPlacement.audioFallbackUrl,
+                        audioHostUrl: joinMeetingResponse.joinInfo.meeting.meeting.mediaPlacement.audioHostUrl,
+                        signalingUrl: joinMeetingResponse.joinInfo.meeting.meeting.mediaPlacement.signalingUrl,
+                        turnControlUrl: joinMeetingResponse.joinInfo.meeting.meeting.mediaPlacement.turnControlUrl
+                    ),
+                    mediaRegion: joinMeetingResponse.joinInfo.meeting.meeting.mediaRegion,
+                    meetingId: joinMeetingResponse.joinInfo.meeting.meeting.meetingId
                 )
             )
             let attendeeResp = CreateAttendeeResponse(attendee:
-                Attendee(attendeeId: meetingResponse.joinInfo.attendee.attendeeId,
-                         joinToken: meetingResponse.joinInfo.attendee.joinToken))
+                Attendee(attendeeId: joinMeetingResponse.joinInfo.attendee.attendee.attendeeId,
+                         externalUserId: joinMeetingResponse.joinInfo.attendee.attendee.externalUserId,
+                         joinToken: joinMeetingResponse.joinInfo.attendee.attendee.joinToken))
 
             return (meetingResp, attendeeResp)
         } catch {

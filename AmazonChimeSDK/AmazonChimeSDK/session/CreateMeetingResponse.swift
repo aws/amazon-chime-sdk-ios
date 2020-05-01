@@ -17,25 +17,29 @@ import Foundation
 }
 
 @objcMembers public class Meeting: NSObject {
-    let meetingId: String
+    let externalMeetingId: String
     let mediaPlacement: MediaPlacement
+    let mediaRegion: String
+    let meetingId: String
 
-    public init(meetingId: String, mediaPlacement: MediaPlacement) {
-        self.meetingId = meetingId
+    public init(externalMeetingId: String, mediaPlacement: MediaPlacement, mediaRegion: String, meetingId: String) {
+        self.externalMeetingId = externalMeetingId
         self.mediaPlacement = mediaPlacement
+        self.mediaRegion = mediaRegion
+        self.meetingId = meetingId
     }
 }
 
 @objcMembers public class MediaPlacement: NSObject {
     let audioFallbackUrl: String
     let audioHostUrl: String
-    let turnControlUrl: String
     let signalingUrl: String
+    let turnControlUrl: String
 
-    public init(audioFallbackUrl: String, audioHostUrl: String, turnControlUrl: String, signalingUrl: String) {
+    public init(audioFallbackUrl: String, audioHostUrl: String, signalingUrl: String, turnControlUrl: String) {
         self.audioFallbackUrl = audioFallbackUrl
         self.audioHostUrl = audioHostUrl
-        self.turnControlUrl = turnControlUrl
         self.signalingUrl = signalingUrl
+        self.turnControlUrl = turnControlUrl
     }
 }
