@@ -185,6 +185,8 @@ class DefaultVideoClientController: NSObject {
         appInfo.device_model = UnsafePointer<Int8>((getModelInfo() as NSString).utf8String)
         appInfo.platform_name = UnsafePointer<Int8>(("iOS" as NSString).utf8String)
         appInfo.device_make = UnsafePointer<Int8>(("apple" as NSString).utf8String)
+        appInfo.client_source = UnsafePointer<Int8>(("amazon-chime-sdk" as NSString).utf8String)
+        appInfo.chime_sdk_version = UnsafePointer<Int8>((Versioning.sdkVersion() as NSString).utf8String)
 
         videoClient!.start(meetingId,
                            token: joinToken,
