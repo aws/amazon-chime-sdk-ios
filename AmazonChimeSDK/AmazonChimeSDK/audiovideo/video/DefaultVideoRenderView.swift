@@ -40,6 +40,17 @@ import os
         imageView = UIImageView.init()
         super.init(coder: coder)
 
+        initImageView()
+    }
+
+    public override init(frame: CGRect) {
+        imageView = UIImageView.init()
+        super.init(frame: frame)
+
+        initImageView()
+    }
+
+    private func initImageView() {
         addSubview(imageView)
         sendSubviewToBack(imageView)
         imageView.frame = bounds
