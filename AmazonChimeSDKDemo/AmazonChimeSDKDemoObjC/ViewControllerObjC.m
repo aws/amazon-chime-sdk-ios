@@ -82,12 +82,12 @@
 
             self.meetingSession = [[DefaultMeetingSession alloc] initWithConfiguration:meetingSessionConfiguration
                                                                                 logger:self.logger];
-            [self startAudioClient];
+            [self startAudioVideo];
         }
     }];
 }
 
-- (void)startAudioClient {
+- (void)startAudioVideo {
     if (self.meetingSession == nil) {
         [self.logger errorWithMsg:@"meetingSession is not initialized"];
         return;
@@ -97,11 +97,13 @@
     BOOL started = [self.meetingSession.audioVideo startAndReturnError:&error];
     if (started && error == nil) {
         [self.logger infoWithMsg:@"ObjC meeting session was started successfully"];
-        [self showAlertIn:self
-              withMessage:@"Meeting started"
-                withDelay:2];
         [self updateUIWithMeetingStarted:YES];
+
         [self.meetingSession.audioVideo addRealtimeObserverWithObserver:self];
+        [self.meetingSession.audioVideo addMetricsObserverWithObserver:self];
+        [self.meetingSession.audioVideo addVideoTileObserverWithObserver:self];
+
+        [self startVideoClient];
     } else {
         NSString *errorMsg = [NSString stringWithFormat:@"Failed to start meeting, error: %@", error.description];
         [self.logger errorWithMsg:errorMsg];
@@ -114,7 +116,7 @@
                     if (granted) {
                         [self.logger infoWithMsg:@"Audio permission granted"];
                         // Retry after permission is granted
-                        [self startAudioClient];
+                        [self startAudioVideo];
                     }
                     else {
                         [self.logger infoWithMsg:@"Audio permission not granted"];
@@ -138,6 +140,56 @@
     }
 }
 
+- (void)startVideoClient {
+    if (self.meetingSession == nil) {
+        [self.logger errorWithMsg:@"meetingSession is not initialized"];
+        return;
+    }
+    [self.logger infoWithMsg:@"Starting video client and enabling local and remote video..."];
+
+    [self.meetingSession.audioVideo startRemoteVideo];
+    [self.logger infoWithMsg:@"Remote video was started successfully"];
+
+    NSError* error = nil;
+    BOOL started = [self.meetingSession.audioVideo startLocalVideoAndReturnError:&error];
+    if (started && error == nil) {
+        [self.logger infoWithMsg:@"Self video was started successfully"];
+    } else {
+        NSString *errorMsg = [NSString stringWithFormat:@"Failed to start self video, error: %@", error.description];
+        [self.logger errorWithMsg:errorMsg];
+
+        // Handle missing permission error
+        if ([error.domain isEqual:@"AmazonChimeSDK.PermissionError"]) {
+            AVAuthorizationStatus permissionStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+            if (permissionStatus == AVAuthorizationStatusNotDetermined) {
+                [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+                    if (granted) {
+                        [self.logger infoWithMsg:@"Camera permission granted"];
+                        // Retry after permission is granted
+                        [self startVideoClient];
+                    }
+                    else {
+                        [self.logger infoWithMsg:@"Camera permission not granted"];
+                        [self showAlertIn:self
+                              withMessage:@"Please go to Settings and grant camera permission to this app."
+                                withDelay:0];
+                    }
+                }];
+            } else if (permissionStatus == AVAuthorizationStatusDenied) {
+                [self.logger errorWithMsg:@"User did not grant permission, should redirect to Settings"];
+                [self showAlertIn:self
+                      withMessage:@"Please go to Settings and grant camera permission to this app."
+                        withDelay:0];
+            }
+        } else {
+            // Uncaught error
+            [self showAlertIn:self
+                  withMessage:errorMsg
+                    withDelay:0];
+        }
+    }
+}
+
 - (IBAction)leaveMeeting:(id)sender {
     [self.meetingSession.audioVideo stop];
     [self updateUIWithMeetingStarted:NO];
@@ -150,6 +202,9 @@
         [self.nameText setEnabled:!started];
         [self.joinButton setHidden:started];
         [self.leaveButton setHidden:!started];
+        // Currently using setAlpha as a workaround as setHidden is not working properly
+        [self.selfVideoView setAlpha:started ? 1 : 0];
+        [self.remoteVideoView setAlpha:started ? 1 : 0];
     });
 }
 
@@ -238,6 +293,43 @@
     for (id currentVolumeUpdate in volumeUpdates) {
         [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ volumeLevel changed to %ld", [[currentVolumeUpdate attendeeInfo] attendeeId], [currentVolumeUpdate volumeLevel]]];
     }
+}
+
+- (void)metricsDidReceiveWithMetrics:(NSDictionary *)metrics {
+    [self.logger infoWithMsg:[NSString stringWithFormat:@"Media metrics have been received: %@", metrics]];
+}
+
+- (void)videoTileDidAddWithTileState:(VideoTileState *)tileState {
+    [self.logger infoWithMsg:[NSString stringWithFormat:@"Adding Video Tile tileId: %ld, attendeeId: %@", (long)tileState.tileId, tileState.attendeeId]];
+
+    DefaultVideoRenderView *renderView = nil;
+    if (tileState.isLocalTile) {
+        [self.logger infoWithMsg:[NSString stringWithFormat:@"Binding self video"]];
+        renderView = self.selfVideoView;
+
+        // Flip front camera video on rendering
+        if (self.meetingSession.audioVideo.getActiveCamera.type == MediaDeviceTypeVideoFrontCamera) {
+            renderView.mirror = YES;
+        }
+    } else {
+        [self.logger infoWithMsg:[NSString stringWithFormat:@"Binding remote video"]];
+        renderView = self.remoteVideoView;
+    }
+
+    [self.meetingSession.audioVideo bindVideoViewWithVideoView:renderView tileId:tileState.tileId];
+}
+
+- (void)videoTileDidRemoveWithTileState:(VideoTileState *)tileState {
+    [self.logger infoWithMsg:[NSString stringWithFormat:@"Removing Video Tile tileId: %ld, attendeeId: %@", (long)tileState.tileId, tileState.attendeeId]];
+    [self.meetingSession.audioVideo unbindVideoViewWithTileId:tileState.tileId];
+}
+
+- (void)videoTileDidPauseWithTileState:(VideoTileState *)tileState {
+    [self.logger infoWithMsg:[NSString stringWithFormat:@"Video Tile paused: tileId: %ld, attendeeId: %@", (long)tileState.tileId, tileState.attendeeId]];
+}
+
+- (void)videoTileDidResumeWithTileState:(VideoTileState *)tileState {
+    [self.logger infoWithMsg:[NSString stringWithFormat:@"Video Tile resumed: tileId: %ld, attendeeId: %@", (long)tileState.tileId, tileState.attendeeId]];
 }
 
 @end
