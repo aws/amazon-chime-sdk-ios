@@ -15,6 +15,7 @@ class DefaultAudioClientController: NSObject {
     private let audioClientObserver: AudioClientObserver
     private let audioSession: AVAudioSession
     private let audioPortOffset = 200
+    private static var audioClientState = AudioClientState.uninitialized
     private let defaultMicAndSpeaker = false
     private let defaultPort = 0
     private let defaultPresenter = true
@@ -25,6 +26,10 @@ class DefaultAudioClientController: NSObject {
         self.audioClient = audioClient
         self.audioClientObserver = audioClientObserver
         self.audioSession = audioSession
+
+        if Self.audioClientState == .uninitialized {
+            Self.audioClientState = .initialized
+        }
 
         super.init()
     }
@@ -42,6 +47,17 @@ extension DefaultAudioClientController: AudioClientController {
                       joinToken: String) throws {
         guard audioSession.recordPermission == .granted else {
             throw PermissionError.audioPermissionError
+        }
+
+        switch Self.audioClientState {
+        case .uninitialized:
+            throw MediaError.audioUninitializedState
+        case .started:
+            throw MediaError.audioStartedState
+        case .stopping:
+            throw MediaError.audioStoppingState
+        default:
+            Self.audioClientState = .started
         }
 
         let url = audioHostUrl.components(separatedBy: ":")
@@ -65,6 +81,10 @@ extension DefaultAudioClientController: AudioClientController {
     }
 
     public func stop() {
-        audioClient.stopSession()
+        Self.audioClientState = .stopping
+        DispatchQueue.global().async {
+            self.audioClient.stopSession()
+            Self.audioClientState = .stopped
+        }
     }
 }

@@ -26,14 +26,19 @@ class ViewController: UIViewController {
         versionLabel.text = "amazon-chime-sdk-ios@\(Versioning.sdkVersion())"
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        joinButton.isEnabled = true
+    }
+
     @IBAction func joinMeeting(sender: UIButton) {
         meetingID = meetingIDText.text ?? ""
         name = nameText.text ?? ""
-
+        joinButton.isEnabled = false
         postRequest(completion: { data, error in
             guard error == nil else {
                 DispatchQueue.main.async {
                     self.view.makeToast("Unable to join meeting please try different meeting ID", duration: 2.0)
+                    self.joinButton.isEnabled = true
                 }
                 return
             }
