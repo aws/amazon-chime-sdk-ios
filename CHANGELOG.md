@@ -10,6 +10,9 @@
 - Updated demo app to work with updated [amazon-chime-sdk-js serverless demo](https://github.com/aws/amazon-chime-sdk-js/tree/master/demos/serverless). Note that you need to redeploy the serverless demo to work with the updated demo app
 - Changed the default observer caller implementation. Now all the observer callbacks are called on main thread. Make sure to dispatch long-running tasks to another thread to avoid blocking the main thread.
 
+### Fixed
+- Fixed main thread freezing issue caused by calling AudioVideo.stop() when in reconnecting state
+
 ## [0.5.2] - 2020-04-28
 
 ### Changed
