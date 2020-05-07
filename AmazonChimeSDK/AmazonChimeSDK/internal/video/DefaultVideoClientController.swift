@@ -122,8 +122,10 @@ class DefaultVideoClientController: NSObject {
 
     private func stopVideoClient() {
         logger.info(msg: "Stopping VideoClient")
-        videoClient?.stop()
-        videoClientState = .stopped
+        DispatchQueue.global().async {
+            self.videoClient?.stop()
+            self.videoClientState = .stopped
+        }
     }
 
     private func destroyVideoClient() {
