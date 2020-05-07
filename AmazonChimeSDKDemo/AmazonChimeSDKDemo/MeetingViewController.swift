@@ -277,15 +277,7 @@ class MeetingViewController: UIViewController {
     }
 }
 
-extension MeetingViewController: AudioVideoObserver, MetricsObserver {
-    func metricsDidReceive(metrics: [AnyHashable: Any]) {
-        guard let observableMetrics = metrics as? [ObservableMetric: Any] else {
-            self.logger.error(msg: "The received metrics \(metrics) is not of type [ObservableMetric: Any].")
-            return
-        }
-        self.logger.info(msg: "Media metrics have been received: \(observableMetrics)")
-    }
-
+extension MeetingViewController: AudioVideoObserver {
     func connectionDidRecover() {
         self.notify(msg: "Connection quality has recovered")
     }
@@ -419,6 +411,16 @@ extension MeetingViewController: RealtimeObserver {
     }
 }
 
+extension MeetingViewController: MetricsObserver {
+    func metricsDidReceive(metrics: [AnyHashable: Any]) {
+        guard let observableMetrics = metrics as? [ObservableMetric: Any] else {
+            self.logger.error(msg: "The received metrics \(metrics) is not of type [ObservableMetric: Any].")
+            return
+        }
+        self.logger.info(msg: "Media metrics have been received: \(observableMetrics)")
+    }
+}
+
 extension MeetingViewController: DeviceChangeObserver {
     func audioDeviceDidChange(freshAudioDeviceList: [MediaDevice]) {
         let deviceLabels: [String] = freshAudioDeviceList.map { device in "* \(device.label)" }
@@ -486,6 +488,17 @@ extension MeetingViewController: VideoTileObserver {
     func videoTileDidResume(tileState: VideoTileState) {
         let attendeeId = tileState.attendeeId ?? "unkown"
         self.view.makeToast("Video for attendee \(attendeeId) has been unpaused")
+    }
+}
+
+extension MeetingViewController: ActiveSpeakerObserver {
+    var observerId: String {
+        return self.uuid
+    }
+
+    func activeSpeakerDidDetect(attendeeInfo: [AttendeeInfo]) {
+        self.activeSpeakerIds = attendeeInfo.map { $0.attendeeId }
+        self.rosterTable.reloadData()
     }
 }
 
@@ -608,16 +621,5 @@ extension MeetingViewController: UICollectionViewDataSource, UICollectionViewDel
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 8
-    }
-}
-
-extension MeetingViewController: ActiveSpeakerObserver {
-    var observerId: String {
-        return self.uuid
-    }
-
-    func activeSpeakerDidDetect(attendeeInfo: [AttendeeInfo]) {
-        self.activeSpeakerIds = attendeeInfo.map { $0.attendeeId }
-        self.rosterTable.reloadData()
     }
 }
