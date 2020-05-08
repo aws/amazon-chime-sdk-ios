@@ -41,7 +41,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         case .finishConnecting:
             handleStateChangeToConnected(newAudioStatus: newAudioStatus)
         case .reconnecting:
-            handleStateChangeToReconnected()
+            handleStateChangeToReconnecting()
         case .finishDisconnecting:
             handleStateChangeToDisconnected()
         case .fail:
@@ -212,10 +212,10 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         }
     }
 
-    private func handleStateChangeToReconnected() {
+    private func handleStateChangeToReconnecting() {
         if currentAudioState == .finishConnecting {
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
-                observer.audioSessionDidStart(reconnecting: true)
+                observer.audioSessionDidDrop()
             }
         }
     }

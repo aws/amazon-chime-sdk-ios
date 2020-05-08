@@ -301,6 +301,10 @@ extension MeetingViewController: AudioVideoObserver {
     func audioSessionDidStart(reconnecting: Bool) {
         self.notify(msg: "Audio successfully started. Reconnecting: \(reconnecting)")
     }
+    
+    func audioSessionDidDrop() {
+        self.notify(msg: "Audio Session Dropped")
+    }
 
     func audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus) {
         self.logger.info(msg: "Audio stopped for a reason: \(sessionStatus.statusCode)")
