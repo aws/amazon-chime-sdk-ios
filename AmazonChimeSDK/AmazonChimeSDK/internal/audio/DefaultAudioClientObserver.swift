@@ -28,8 +28,8 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     }
 
     public func audioClientStateChanged(_ audioClientState: audio_client_state_t, status: audio_client_status_t) {
-        let newAudioState = toAudioState(state: audioClientState)
-        let newAudioStatus = toAudioStatus(status: status)
+        let newAudioState = Converters.AudioClientState.toSessionStateControllerAction(state: audioClientState)
+        let newAudioStatus = Converters.AudioClientStatus.toMeetingSessionStatusCode(status: status)
 
         if newAudioState == .unknown
             || (newAudioState == currentAudioState
@@ -185,10 +185,8 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         switch currentAudioState {
         case .connecting,
              .finishConnecting:
-            notifyAudioClientObserver { (observer: AudioVideoObserver) in
-                observer.audioSessionDidStopWithStatus(sessionStatus:
-                    MeetingSessionStatus(statusCode: MeetingSessionStatusCode.ok))
-            }
+            // No-op, already handled in DefaultAudioClientController.stop()
+            break
         case .reconnecting:
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
                 observer.audioSessionDidCancelReconnect()
@@ -232,35 +230,6 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
             }
         }
         return strEnumDict
-    }
-
-    private func toAudioState(state: audio_client_state_t) -> SessionStateControllerAction {
-        switch state {
-        case AUDIO_CLIENT_STATE_UNKNOWN:
-            return .unknown
-        case AUDIO_CLIENT_STATE_INIT:
-            return .initialize
-        case AUDIO_CLIENT_STATE_CONNECTING:
-            return .connecting
-        case AUDIO_CLIENT_STATE_CONNECTED:
-            return .finishConnecting
-        case AUDIO_CLIENT_STATE_RECONNECTING:
-            return .reconnecting
-        case AUDIO_CLIENT_STATE_DISCONNECTING:
-            return .disconnecting
-        case AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL:
-            return .finishDisconnecting
-        case AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
-             AUDIO_CLIENT_STATE_SERVER_HUNGUP,
-             AUDIO_CLIENT_STATE_FAILED_TO_CONNECT:
-            return .fail
-        default:
-            return .unknown
-        }
-    }
-
-    private func toAudioStatus(status: audio_client_status_t) -> MeetingSessionStatusCode {
-        return MeetingSessionStatusCode(rawValue: status.rawValue) ?? .unknown
     }
 }
 
