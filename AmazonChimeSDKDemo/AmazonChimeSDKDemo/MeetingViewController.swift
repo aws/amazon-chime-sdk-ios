@@ -82,7 +82,7 @@ class MeetingViewController: UIViewController {
             }
         } catch {
             self.logger.error(msg: "Error starting the Meeting: \(error.localizedDescription)")
-            self.leaveButtonClicked(nil)
+            self.leaveMeeting()
         }
     }
 
@@ -106,7 +106,7 @@ class MeetingViewController: UIViewController {
             }
         } catch {
             self.logger.error(msg: "Error starting the Meeting: \(error.localizedDescription)")
-            self.leaveButtonClicked(nil)
+            self.leaveMeeting()
         }
     }
 
@@ -217,10 +217,7 @@ class MeetingViewController: UIViewController {
     }
 
     @IBAction func leaveButtonClicked(_ sender: UIButton?) {
-        self.currentMeetingSession?.audioVideo.stop()
-        DispatchQueue.main.async {
-            self.dismiss(animated: true, completion: nil)
-        }
+        self.leaveMeeting()
     }
 
     func switchCameraClicked() {
@@ -275,6 +272,13 @@ class MeetingViewController: UIViewController {
             self.logger.info(msg: "\(attendee.attendeeName ?? "nil"): \(action)")
         }
     }
+
+    private func leaveMeeting() {
+        self.currentMeetingSession?.audioVideo.stop()
+        DispatchQueue.main.async {
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
 }
 
 extension MeetingViewController: AudioVideoObserver {
@@ -299,9 +303,9 @@ extension MeetingViewController: AudioVideoObserver {
     }
 
     func audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus) {
-        self.notify(msg: "Audio stopped for a reason: \(sessionStatus.statusCode)")
+        self.logger.info(msg: "Audio stopped for a reason: \(sessionStatus.statusCode)")
         if sessionStatus.statusCode != .ok {
-            self.leaveButtonClicked(nil)
+            self.leaveMeeting()
         }
     }
 
