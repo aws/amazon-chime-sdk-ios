@@ -37,26 +37,35 @@ To get the meeting info make a POST request to:
 ```
 
 These are the parameters to include in the request:
-* title: Meeting ID for the meeting to join
-* name: Attendee name to join the meeting with
-* region: "One of the 14 regions supported by the AWS SDK, for example "us-east-1""
+* meetingId: Meeting ID for the meeting to join
+* attendeeName: Attendee name to join the meeting with
+* meetingRegion: One of the 14 regions supported by the AWS SDK (e.g."us-east-1")
 
 ## Create MeetingSessionConfiguration
 
 Parse the JSON response obtained from your server application to create the `MeetingSessionConfiguration` object. 
 
 ```
-let meetingResponse = try jsonDecoder.decode(MeetingResponse.self, from: data)
+let joinMeetingResponse = try jsonDecoder.decode(MeetingResponse.self, from: data)
 let meetingResp = CreateMeetingResponse(meeting:
-    Meeting(meetingId: meetingResponse.joinInfo.meeting.meetingId,
-        mediaPlacement: MediaPlacement(audioFallbackUrl: meetingResponse.joinInfo.meeting.mediaPlacement.audioFallbackUrl,
-                                       audioHostUrl: meetingResponse.joinInfo.meeting.mediaPlacement.audioHostUrl,
-                                       turnControlUrl: meetingResponse.joinInfo.meeting.mediaPlacement.turnControlUrl,
-                                       signalingUrl: meetingResponse.joinInfo.meeting.mediaPlacement.signalingUrl)))
+    Meeting(
+        externalMeetingId: joinMeetingResponse.joinInfo.meeting.meeting.externalMeetingId,
+        mediaPlacement: MediaPlacement(
+            audioFallbackUrl: joinMeetingResponse.joinInfo.meeting.meeting.mediaPlacement.audioFallbackUrl,
+            audioHostUrl: joinMeetingResponse.joinInfo.meeting.meeting.mediaPlacement.audioHostUrl,
+            signalingUrl: joinMeetingResponse.joinInfo.meeting.meeting.mediaPlacement.signalingUrl,
+            turnControlUrl: joinMeetingResponse.joinInfo.meeting.meeting.mediaPlacement.turnControlUrl
+        ),
+        mediaRegion: joinMeetingResponse.joinInfo.meeting.meeting.mediaRegion,
+        meetingId: joinMeetingResponse.joinInfo.meeting.meeting.meetingId
+    )
+)
 let attendeeResp = CreateAttendeeResponse(attendee:
-    Attendee(attendeeId: meetingResponse.joinInfo.attendee.attendeeId,
-             joinToken: meetingResponse.joinInfo.attendee.joinToken))
-
+    Attendee(attendeeId: joinMeetingResponse.joinInfo.attendee.attendee.attendeeId,
+        externalUserId: joinMeetingResponse.joinInfo.attendee.attendee.externalUserId,
+        joinToken: joinMeetingResponse.joinInfo.attendee.attendee.joinToken
+    )
+)
 return (meetingResp, attendeeResp)
 ```
 
