@@ -56,7 +56,7 @@ import Foundation
     ///
     /// Note: this callback will be called on main thread.
     /// 
-    /// - Parameter status: The status of meeting session
+    /// - Parameter sessionStatus: The status of meeting session
     func videoSessionDidStartWithStatus(sessionStatus: MeetingSessionStatus)
 
     /// Called when the video session has stopped from a started state with the reason
