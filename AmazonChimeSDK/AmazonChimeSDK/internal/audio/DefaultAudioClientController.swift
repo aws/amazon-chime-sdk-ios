@@ -83,8 +83,13 @@ extension DefaultAudioClientController: AudioClientController {
     public func stop() {
         Self.audioClientState = .stopping
         DispatchQueue.global().async {
-            self.audioClient.stopSession()
+            let audioClientStatusCode = self.audioClient.stopSession()
             Self.audioClientState = .stopped
+            let meetingSessionStatusCode = Converters.AudioClientStatus.toMeetingSessionStatusCode(rawValue: UInt32(audioClientStatusCode))
+
+            self.audioClientObserver.notifyAudioClientObserver { (observer: AudioVideoObserver) in
+                observer.audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus(statusCode: meetingSessionStatusCode))
+            }
         }
     }
 }
