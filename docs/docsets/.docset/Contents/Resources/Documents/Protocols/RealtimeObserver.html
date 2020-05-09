@@ -14,7 +14,7 @@
     <a title="RealtimeObserver Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html"> Docs</a> (75% documented)</p>
+        <p><a href="../index.html"> Docs</a></p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -103,6 +103,9 @@
                 <a href="../Classes/SignalUpdate.html">SignalUpdate</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/Versioning.html">Versioning</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/VideoTileState.html">VideoTileState</a>
               </li>
               <li class="nav-group-task">
@@ -118,6 +121,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/MediaDeviceType.html">MediaDeviceType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MediaError.html">MediaError</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/MeetingSessionStatusCode.html">MeetingSessionStatusCode</a>
@@ -152,6 +158,12 @@
                 <a href="../Protocols/ActiveSpeakerPolicy.html">ActiveSpeakerPolicy</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols/AudioClientController.html">AudioClientController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AudioClientObserver.html">AudioClientObserver</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/AudioVideoControllerFacade.html">AudioVideoControllerFacade</a>
               </li>
               <li class="nav-group-task">
@@ -159,6 +171,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/AudioVideoObserver.html">AudioVideoObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ClientMetricsCollector.html">ClientMetricsCollector</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/DeviceChangeObserver.html">DeviceChangeObserver</a>
@@ -183,6 +198,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/Scheduler.html">Scheduler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoClientController.html">VideoClientController</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/VideoRenderView.html">VideoRenderView</a>
@@ -226,7 +244,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)volumeDidChangeWithVolumeUpdates:"></a>
                     <a name="//apple_ref/swift/Method/volumeDidChange(volumeUpdates:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)volumeDidChangeWithVolumeUpdates:">volumeDidChange(volumeUpdates:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)volumeDidChangeWithVolumeUpdates:">volumeDidChange(volumeUpdates:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -235,6 +253,8 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Handles volume changes for attendees</p>
+
+<p>Note: this callback will be called on main thread.</p>
 
                       </div>
                       <div class="declaration">
@@ -272,7 +292,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)signalStrengthDidChangeWithSignalUpdates:"></a>
                     <a name="//apple_ref/swift/Method/signalStrengthDidChange(signalUpdates:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)signalStrengthDidChangeWithSignalUpdates:">signalStrengthDidChange(signalUpdates:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)signalStrengthDidChangeWithSignalUpdates:">signalStrengthDidChange(signalUpdates:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -281,6 +301,8 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Handles signal strength changes for attendees</p>
+
+<p>Note: this callback will be called on main thread.</p>
 
                       </div>
                       <div class="declaration">
@@ -318,7 +340,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidJoinWithAttendeeInfo:"></a>
                     <a name="//apple_ref/swift/Method/attendeesDidJoin(attendeeInfo:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidJoinWithAttendeeInfo:">attendeesDidJoin(attendeeInfo:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidJoinWithAttendeeInfo:">attendeesDidJoin(attendeeInfo:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -327,6 +349,8 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>List attendees that are newly added to the meeting</p>
+
+<p>Note: this callback will be called on main thread.</p>
 
                       </div>
                       <div class="declaration">
@@ -364,7 +388,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidLeaveWithAttendeeInfo:"></a>
                     <a name="//apple_ref/swift/Method/attendeesDidLeave(attendeeInfo:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidLeaveWithAttendeeInfo:">attendeesDidLeave(attendeeInfo:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidLeaveWithAttendeeInfo:">attendeesDidLeave(attendeeInfo:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -373,6 +397,8 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>List attendees that left the meeting</p>
+
+<p>Note: this callback will be called on main thread.</p>
 
                       </div>
                       <div class="declaration">
@@ -410,7 +436,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidMuteWithAttendeeInfo:"></a>
                     <a name="//apple_ref/swift/Method/attendeesDidMute(attendeeInfo:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidMuteWithAttendeeInfo:">attendeesDidMute(attendeeInfo:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidMuteWithAttendeeInfo:">attendeesDidMute(attendeeInfo:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -419,6 +445,8 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>List attendees that are newly muted in the meeting</p>
+
+<p>Note: this callback will be called on main thread.</p>
 
                       </div>
                       <div class="declaration">
@@ -456,7 +484,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidUnmuteWithAttendeeInfo:"></a>
                     <a name="//apple_ref/swift/Method/attendeesDidUnmute(attendeeInfo:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidUnmuteWithAttendeeInfo:">attendeesDidUnmute(attendeeInfo:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidUnmuteWithAttendeeInfo:">attendeesDidUnmute(attendeeInfo:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -465,6 +493,8 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>List attendees that newly unmuted from the meeting</p>
+
+<p>Note: this callback will be called on main thread.</p>
 
                       </div>
                       <div class="declaration">
@@ -502,8 +532,8 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-03-23)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-05-08)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

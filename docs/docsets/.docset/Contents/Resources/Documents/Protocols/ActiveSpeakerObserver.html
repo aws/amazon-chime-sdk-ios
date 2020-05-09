@@ -14,7 +14,7 @@
     <a title="ActiveSpeakerObserver Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html"> Docs</a> (75% documented)</p>
+        <p><a href="../index.html"> Docs</a></p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -103,6 +103,9 @@
                 <a href="../Classes/SignalUpdate.html">SignalUpdate</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/Versioning.html">Versioning</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/VideoTileState.html">VideoTileState</a>
               </li>
               <li class="nav-group-task">
@@ -118,6 +121,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/MediaDeviceType.html">MediaDeviceType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MediaError.html">MediaError</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/MeetingSessionStatusCode.html">MeetingSessionStatusCode</a>
@@ -152,6 +158,12 @@
                 <a href="../Protocols/ActiveSpeakerPolicy.html">ActiveSpeakerPolicy</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols/AudioClientController.html">AudioClientController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AudioClientObserver.html">AudioClientObserver</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/AudioVideoControllerFacade.html">AudioVideoControllerFacade</a>
               </li>
               <li class="nav-group-task">
@@ -159,6 +171,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/AudioVideoObserver.html">AudioVideoObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ClientMetricsCollector.html">ClientMetricsCollector</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/DeviceChangeObserver.html">DeviceChangeObserver</a>
@@ -183,6 +198,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/Scheduler.html">Scheduler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoClientController.html">VideoClientController</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/VideoRenderView.html">VideoRenderView</a>
@@ -281,7 +299,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)ActiveSpeakerObserver(im)activeSpeakerScoreDidChangeWithScores:"></a>
                     <a name="//apple_ref/swift/Method/activeSpeakerScoreDidChange(scores:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)ActiveSpeakerObserver(im)activeSpeakerScoreDidChangeWithScores:">activeSpeakerScoreDidChange(scores:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)ActiveSpeakerObserver(im)activeSpeakerScoreDidChangeWithScores:">activeSpeakerScoreDidChange(scores:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -290,6 +308,8 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Observes the active speaker scores at frequency scoresCallbackIntervalMs</p>
+
+<p>Note: this callback will be called on main thread.</p>
 
                       </div>
                       <div class="declaration">
@@ -328,7 +348,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)ActiveSpeakerObserver(im)activeSpeakerDidDetectWithAttendeeInfo:"></a>
                     <a name="//apple_ref/swift/Method/activeSpeakerDidDetect(attendeeInfo:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)ActiveSpeakerObserver(im)activeSpeakerDidDetectWithAttendeeInfo:">activeSpeakerDidDetect(attendeeInfo:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)ActiveSpeakerObserver(im)activeSpeakerDidDetectWithAttendeeInfo:">activeSpeakerDidDetect(attendeeInfo:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -337,6 +357,8 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Observes changes in list of active speakers</p>
+
+<p>Note: this callback will be called on main thread.</p>
 
                       </div>
                       <div class="declaration">
@@ -374,8 +396,8 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-03-23)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-05-08)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
