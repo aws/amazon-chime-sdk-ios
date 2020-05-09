@@ -11,8 +11,6 @@ import XCTest
 
 class MediaErrorTests: XCTestCase {
     func testDescriptionShouldMatch() {
-        XCTAssertEqual(MediaError.audioUninitializedState.description, "audioUninitializedState")
-        XCTAssertEqual(MediaError.audioStartedState.description, "audioStartedState")
-        XCTAssertEqual(MediaError.audioStoppingState.description, "audioStoppingState")
+        XCTAssertEqual(MediaError.illegalState.description, "illegalState")
     }
 }

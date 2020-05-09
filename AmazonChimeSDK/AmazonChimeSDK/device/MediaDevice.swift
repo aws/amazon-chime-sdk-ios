@@ -40,22 +40,22 @@ import Foundation
         if let videoDevice = videoDevice {
             let nameLowercased = videoDevice.name.lowercased()
             if nameLowercased.contains("front") {
-                self.type = .videoFrontCamera
+                type = .videoFrontCamera
             } else if nameLowercased.contains("back") {
-                self.type = .videoBackCamera
+                type = .videoBackCamera
             } else {
-                self.type = .other
+                type = .other
             }
         } else if let port = port {
             switch port.portType {
             case .bluetoothLE, .bluetoothHFP, .bluetoothA2DP:
-                self.type = .audioBluetooth
+                type = .audioBluetooth
             case .builtInReceiver, .builtInMic:
-                self.type = .audioHandset
+                type = .audioHandset
             case .headphones, .headsetMic:
-                self.type = .audioWiredHeadset
+                type = .audioWiredHeadset
             default:
-                self.type = .other
+                type = .other
             }
         } else {
             self.type = .other
@@ -63,6 +63,6 @@ import Foundation
     }
 
     override public var description: String {
-        return "\(self.label) - \(self.type)"
+        return "\(label) - \(type)"
     }
 }

@@ -11,11 +11,12 @@ import AVFoundation
 import Foundation
 
 class DefaultAudioClientController: NSObject {
+    static var state = AudioClientState.initialized
+
     private let audioClient: AudioClient
     private let audioClientObserver: AudioClientObserver
     private let audioSession: AVAudioSession
     private let audioPortOffset = 200
-    private static var audioClientState = AudioClientState.uninitialized
     private let defaultMicAndSpeaker = false
     private let defaultPort = 0
     private let defaultPresenter = true
@@ -26,10 +27,6 @@ class DefaultAudioClientController: NSObject {
         self.audioClient = audioClient
         self.audioClientObserver = audioClientObserver
         self.audioSession = audioSession
-
-        if Self.audioClientState == .uninitialized {
-            Self.audioClientState = .initialized
-        }
 
         super.init()
     }
@@ -48,16 +45,12 @@ extension DefaultAudioClientController: AudioClientController {
         guard audioSession.recordPermission == .granted else {
             throw PermissionError.audioPermissionError
         }
-
-        switch Self.audioClientState {
-        case .uninitialized:
-            throw MediaError.audioUninitializedState
+        
+        switch Self.state {
         case .started:
-            throw MediaError.audioStartedState
-        case .stopping:
-            throw MediaError.audioStoppingState
+            throw MediaError.illegalState
         default:
-            Self.audioClientState = .started
+            Self.state = .started
         }
 
         let url = audioHostUrl.components(separatedBy: ":")
@@ -81,14 +74,20 @@ extension DefaultAudioClientController: AudioClientController {
     }
 
     public func stop() {
-        Self.audioClientState = .stopping
+        if Self.state != .started {
+            return
+        }
+
         DispatchQueue.global().async {
             let audioClientStatusCode = self.audioClient.stopSession()
-            Self.audioClientState = .stopped
-            let meetingSessionStatusCode = Converters.AudioClientStatus.toMeetingSessionStatusCode(rawValue: UInt32(audioClientStatusCode))
-
+            Self.state = .stopped
+            let meetingSessionStatusCode = Converters.AudioClientStatus.toMeetingSessionStatusCode(
+                rawValue: UInt32(audioClientStatusCode)
+            )
             self.audioClientObserver.notifyAudioClientObserver { (observer: AudioVideoObserver) in
-                observer.audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus(statusCode: meetingSessionStatusCode))
+                observer.audioSessionDidStopWithStatus(
+                    sessionStatus: MeetingSessionStatus(statusCode: meetingSessionStatusCode)
+                )
             }
         }
     }

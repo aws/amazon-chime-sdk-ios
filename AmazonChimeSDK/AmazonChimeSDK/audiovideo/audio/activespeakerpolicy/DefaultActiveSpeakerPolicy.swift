@@ -29,17 +29,17 @@ import Foundation
         if volume == VolumeLevel.muted || volume == VolumeLevel.notSpeaking {
             scalar = 0.0
         }
-        let score = (self.volumes[attendeeInfo.attendeeId] ?? 0.0)
-                     * self.speakerWeight
-                     + scalar * (1 - self.speakerWeight)
-        self.volumes[attendeeInfo.attendeeId] = score
-        for (otherAttendeeId, _) in self.volumes where otherAttendeeId != attendeeInfo.attendeeId {
-            self.volumes[otherAttendeeId] = max(
-                self.volumes[otherAttendeeId]! - self.takeoverRate * scalar,
+        let score = (volumes[attendeeInfo.attendeeId] ?? 0.0)
+                     * speakerWeight
+                     + scalar * (1 - speakerWeight)
+        volumes[attendeeInfo.attendeeId] = score
+        for (otherAttendeeId, _) in volumes where otherAttendeeId != attendeeInfo.attendeeId {
+            volumes[otherAttendeeId] = max(
+                volumes[otherAttendeeId]! - takeoverRate * scalar,
                 0.0
             )
         }
-        if score < self.cutoffThreshold {
+        if score < cutoffThreshold {
             return 0.0
         }
         return score
