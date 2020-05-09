@@ -15,7 +15,6 @@
 - Fixed main thread freezing issue caused by calling AudioVideo.stop() when in reconnecting state
 - Fixed a bug where `audioSessionDidStopWithStatus(sessionStatus:)` not getting called after calling `audioVideo.stop()`
 
-
 ## [0.5.2] - 2020-04-28
 
 ### Changed
