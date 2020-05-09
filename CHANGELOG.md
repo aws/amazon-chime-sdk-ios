@@ -1,4 +1,4 @@
-## [Unreleased]
+## [0.6.0] - 2020-05-08
 
 ### Added
 - **Breaking** Added addtional fields for `CreateAttendeeResponse` and `CreateMeetingResponse`
