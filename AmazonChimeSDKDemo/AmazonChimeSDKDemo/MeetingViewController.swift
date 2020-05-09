@@ -119,6 +119,15 @@ class MeetingViewController: UIViewController {
         self.currentMeetingSession?.audioVideo.addActiveSpeakerObserver(policy: DefaultActiveSpeakerPolicy(),
                                                                         observer: self)
     }
+    
+    func removeSubscriptionToAttendeeChangeHandler () {
+        self.currentMeetingSession?.audioVideo.removeVideoTileObserver(observer: self)
+        self.currentMeetingSession?.audioVideo.removeRealtimeObserver(observer: self)
+        self.currentMeetingSession?.audioVideo.removeAudioVideoObserver(observer: self)
+        self.currentMeetingSession?.audioVideo.removeMetricsObserver(observer: self)
+        self.currentMeetingSession?.audioVideo.removeDeviceChangeObserver(observer: self)
+        self.currentMeetingSession?.audioVideo.removeActiveSpeakerObserver(observer: self)
+    }
 
     private func notify(msg: String) {
         self.logger.info(msg: msg)
@@ -275,6 +284,7 @@ class MeetingViewController: UIViewController {
 
     private func leaveMeeting() {
         self.currentMeetingSession?.audioVideo.stop()
+        removeSubscriptionToAttendeeChangeHandler()
         DispatchQueue.main.async {
             self.dismiss(animated: true, completion: nil)
         }

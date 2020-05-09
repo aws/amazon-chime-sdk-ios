@@ -9,22 +9,16 @@
 import Foundation
 
 @objc enum AudioClientState: Int32 {
-    case uninitialized = -1
     case initialized = 0
     case started = 1
-    case stopping = 2
-    case stopped = 3
+    case stopped = 2
 
     var description: String {
         switch self {
-        case .uninitialized:
-            return "uninitialized"
         case .initialized:
             return "initialized"
         case .started:
             return "started"
-        case .stopping:
-            return "stopping"
         case .stopped:
             return "stopped"
         }

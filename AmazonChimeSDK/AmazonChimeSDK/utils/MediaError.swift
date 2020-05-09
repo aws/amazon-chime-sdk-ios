@@ -9,18 +9,12 @@
 import Foundation
 
 @objc public enum MediaError: Int, Error, CustomStringConvertible {
-    case audioUninitializedState
-    case audioStartedState
-    case audioStoppingState
+    case illegalState
 
     public var description: String {
         switch self {
-        case .audioUninitializedState:
-            return "audioUninitializedState"
-        case .audioStartedState:
-            return "audioStartedState"
-        case .audioStoppingState:
-            return "audioStoppingState"
+        case .illegalState:
+            return "illegalState"
         }
     }
 }
