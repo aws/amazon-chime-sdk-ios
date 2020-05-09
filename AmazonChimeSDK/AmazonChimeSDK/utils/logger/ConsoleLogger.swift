@@ -35,23 +35,23 @@ import os
     }
 
     public func `default`(msg: String) {
-        self.log(type: .DEFAULT, msg: msg)
+        log(type: .DEFAULT, msg: msg)
     }
 
     public func debug(debugFunction: () -> String) {
-        self.log(type: .DEBUG, msg: debugFunction())
+        log(type: .DEBUG, msg: debugFunction())
     }
 
     public func info(msg: String) {
-        self.log(type: .INFO, msg: msg)
+        log(type: .INFO, msg: msg)
     }
 
     public func fault(msg: String) {
-        self.log(type: .FAULT, msg: msg)
+        log(type: .FAULT, msg: msg)
     }
 
     public func error(msg: String) {
-        self.log(type: .ERROR, msg: msg)
+        log(type: .ERROR, msg: msg)
     }
 
     public func setLogLevel(level: LogLevel) {
@@ -59,11 +59,11 @@ import os
     }
 
     public func getLogLevel() -> LogLevel {
-        return self.level
+        return level
     }
 
     private func log(type: LogLevel, msg: String) {
-        if type.rawValue < self.level.rawValue {
+        if type.rawValue < level.rawValue {
             return
         }
 

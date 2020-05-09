@@ -31,9 +31,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         let newAudioState = Converters.AudioClientState.toSessionStateControllerAction(state: audioClientState)
         let newAudioStatus = Converters.AudioClientStatus.toMeetingSessionStatusCode(status: status)
 
-        if newAudioState == .unknown
-            || (newAudioState == currentAudioState
-                && newAudioStatus == currentAudioStatus) {
+        if newAudioState == .unknown || (newAudioState == currentAudioState && newAudioStatus == currentAudioStatus) {
             return
         }
 
@@ -199,14 +197,12 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     private func handleStateChangeToFail(newAudioStatus: MeetingSessionStatusCode) {
         switch currentAudioState {
         case .connecting, .finishConnecting:
-            notifyAudioClientObserver { (observer: AudioVideoObserver) in
-                observer.audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus(statusCode: newAudioStatus))
-            }
+            handleAudioSessionDidFail(newAudioStatus: newAudioStatus)
         case .reconnecting:
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
                 observer.audioSessionDidCancelReconnect()
-                observer.audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus(statusCode: newAudioStatus))
             }
+            handleAudioSessionDidFail(newAudioStatus: newAudioStatus)
         default:
             break
         }
@@ -216,6 +212,20 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         if currentAudioState == .finishConnecting {
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
                 observer.audioSessionDidDrop()
+            }
+        }
+    }
+
+    private func handleAudioSessionDidFail(newAudioStatus: MeetingSessionStatusCode) {
+        if DefaultAudioClientController.state != .started {
+            return
+        }
+
+        DispatchQueue.global().async {
+            self.audioClient.stopSession()
+            DefaultAudioClientController.state = .stopped
+            self.notifyAudioClientObserver { (observer: AudioVideoObserver) in
+                observer.audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus(statusCode: newAudioStatus))
             }
         }
     }

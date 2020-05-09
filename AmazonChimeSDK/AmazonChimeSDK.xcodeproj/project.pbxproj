@@ -500,9 +500,9 @@
 		5A631A4824298CA900C8DAF3 /* internal */ = {
 			isa = PBXGroup;
 			children = (
-				C60D55942465145B00C2A278 /* utils */,
 				5A6F818924637A970031AE97 /* audio */,
 				5A631A4A24298CF700C8DAF3 /* metric */,
+				C60D55942465145B00C2A278 /* utils */,
 				5A6F818A24637A9B0031AE97 /* video */,
 				5A16C0042405E83000ADAE26 /* DictionaryTests.swift */,
 			);
@@ -612,8 +612,8 @@
 			isa = PBXGroup;
 			children = (
 				0007631C2412E3C2001D598A /* Constants.swift */,
-				F83F536F2452757700614913 /* ObserverUtils.swift */,
 				C60D5592246509B900C2A278 /* Converters.swift */,
+				F83F536F2452757700614913 /* ObserverUtils.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
