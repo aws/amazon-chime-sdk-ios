@@ -14,7 +14,7 @@
     <a title="AudioVideoObserver Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html"> Docs</a> (75% documented)</p>
+        <p><a href="../index.html"> Docs</a></p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -103,6 +103,9 @@
                 <a href="../Classes/SignalUpdate.html">SignalUpdate</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/Versioning.html">Versioning</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/VideoTileState.html">VideoTileState</a>
               </li>
               <li class="nav-group-task">
@@ -118,6 +121,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/MediaDeviceType.html">MediaDeviceType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MediaError.html">MediaError</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/MeetingSessionStatusCode.html">MeetingSessionStatusCode</a>
@@ -152,6 +158,12 @@
                 <a href="../Protocols/ActiveSpeakerPolicy.html">ActiveSpeakerPolicy</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols/AudioClientController.html">AudioClientController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AudioClientObserver.html">AudioClientObserver</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/AudioVideoControllerFacade.html">AudioVideoControllerFacade</a>
               </li>
               <li class="nav-group-task">
@@ -159,6 +171,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/AudioVideoObserver.html">AudioVideoObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ClientMetricsCollector.html">ClientMetricsCollector</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/DeviceChangeObserver.html">DeviceChangeObserver</a>
@@ -183,6 +198,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/Scheduler.html">Scheduler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoClientController.html">VideoClientController</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/VideoRenderView.html">VideoRenderView</a>
@@ -225,7 +243,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)audioSessionDidStartConnectingWithReconnecting:"></a>
                     <a name="//apple_ref/swift/Method/audioSessionDidStartConnecting(reconnecting:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)audioSessionDidStartConnectingWithReconnecting:">audioSessionDidStartConnecting(reconnecting:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)audioSessionDidStartConnectingWithReconnecting:">audioSessionDidStartConnecting(reconnecting:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -234,6 +252,8 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Called when the audio session is connecting or reconnecting.</p>
+
+<p>Note: this callback will be called on main thread.</p>
 
                       </div>
                       <div class="declaration">
@@ -271,7 +291,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)audioSessionDidStartWithReconnecting:"></a>
                     <a name="//apple_ref/swift/Method/audioSessionDidStart(reconnecting:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)audioSessionDidStartWithReconnecting:">audioSessionDidStart(reconnecting:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)audioSessionDidStartWithReconnecting:">audioSessionDidStart(reconnecting:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -280,6 +300,8 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Called when the audio session has started.</p>
+
+<p>Note: this callback will be called on main thread.</p>
 
                       </div>
                       <div class="declaration">
@@ -315,9 +337,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)audioSessionDidStopWithStatusWithSessionStatus:"></a>
-                    <a name="//apple_ref/swift/Method/audioSessionDidStopWithStatus(sessionStatus:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)audioSessionDidStopWithStatusWithSessionStatus:">audioSessionDidStopWithStatus(sessionStatus:)</a>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)audioSessionDidDrop"></a>
+                    <a name="//apple_ref/swift/Method/audioSessionDidDrop()" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)audioSessionDidDrop">audioSessionDidDrop()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -325,8 +347,42 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Called when the audio session has stopped from a started state with the reason
-provided in the status.</p>
+                        <p>Called when audio session got dropped due to poor network conditions.
+There will be an automatic attempt of reconnecting it.
+If the reconnection is successful, <code>onAudioSessionStarted</code> will be called with value of reconnecting as true</p>
+
+<p>Note: this callback will be called on main thread.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">audioSessionDidDrop</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)audioSessionDidStopWithStatusWithSessionStatus:"></a>
+                    <a name="//apple_ref/swift/Method/audioSessionDidStopWithStatus(sessionStatus:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)audioSessionDidStopWithStatusWithSessionStatus:">audioSessionDidStopWithStatus(sessionStatus:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Called when the audio session has stopped with the reason
+provided in the status. This callback implies that audio client has stopped permanently for this session and there will be
+no attempt of reconnecting it.</p>
+
+<p>Note: this callback will be called on main thread.</p>
 
                       </div>
                       <div class="declaration">
@@ -374,6 +430,8 @@ provided in the status.</p>
                       <div class="abstract">
                         <p>Called when the audio reconnection is canceled.</p>
 
+<p>Note: this callback will be called on main thread.</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -400,6 +458,8 @@ provided in the status.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Called when the connection health is recovered.</p>
+
+<p>Note: this callback will be called on main thread.</p>
 
                       </div>
                       <div class="declaration">
@@ -428,6 +488,8 @@ provided in the status.</p>
                       <div class="abstract">
                         <p>Called when connection is becoming poor.</p>
 
+<p>Note: this callback will be called on main thread.</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -455,6 +517,8 @@ provided in the status.</p>
                       <div class="abstract">
                         <p>Called when the video session is connecting or reconnecting.</p>
 
+<p>Note: this callback will be called on main thread.</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -472,7 +536,7 @@ provided in the status.</p>
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)videoSessionDidStartWithStatusWithSessionStatus:"></a>
                     <a name="//apple_ref/swift/Method/videoSessionDidStartWithStatus(sessionStatus:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)videoSessionDidStartWithStatusWithSessionStatus:">videoSessionDidStartWithStatus(sessionStatus:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)videoSessionDidStartWithStatusWithSessionStatus:">videoSessionDidStartWithStatus(sessionStatus:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -481,6 +545,8 @@ provided in the status.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Called when the video session has started.</p>
+
+<p>Note: this callback will be called on main thread.</p>
 
                       </div>
                       <div class="declaration">
@@ -498,7 +564,7 @@ provided in the status.</p>
                             <tr>
                               <td>
                                 <code>
-                                <em>status</em>
+                                <em>sessionStatus</em>
                                 </code>
                               </td>
                               <td>
@@ -518,7 +584,7 @@ provided in the status.</p>
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)videoSessionDidStopWithStatusWithSessionStatus:"></a>
                     <a name="//apple_ref/swift/Method/videoSessionDidStopWithStatus(sessionStatus:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)videoSessionDidStopWithStatusWithSessionStatus:">videoSessionDidStopWithStatus(sessionStatus:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)videoSessionDidStopWithStatusWithSessionStatus:">videoSessionDidStopWithStatus(sessionStatus:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -528,6 +594,8 @@ provided in the status.</p>
                       <div class="abstract">
                         <p>Called when the video session has stopped from a started state with the reason
 provided in the status.</p>
+
+<p>Note: this callback will be called on main thread.</p>
 
                       </div>
                       <div class="declaration">
@@ -565,8 +633,8 @@ provided in the status.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-03-23)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-05-08)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
