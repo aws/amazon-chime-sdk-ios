@@ -12,7 +12,6 @@ import Foundation
 import UIKit
 
 class DefaultVideoClientController: NSObject {
-
     var clientMetricsCollector: ClientMetricsCollector
     var joinToken: String?
     var logger: Logger
@@ -122,10 +121,8 @@ class DefaultVideoClientController: NSObject {
 
     private func stopVideoClient() {
         logger.info(msg: "Stopping VideoClient")
-        DispatchQueue.global().async {
-            self.videoClient?.stop()
-            self.videoClientState = .stopped
-        }
+        videoClient?.stop()
+        videoClientState = .stopped
     }
 
     private func destroyVideoClient() {
@@ -327,14 +324,16 @@ extension DefaultVideoClientController: VideoClientController {
     // MARK: - Lifecycle: stop and destroy
 
     public func stopAndDestroy() {
-        switch videoClientState {
-        case .uninitialized:
-            logger.info(msg: "VideoClient is uninitialized so cannot be stopped and destroyed")
-        case .started:
-            stopVideoClient()
-            destroyVideoClient()
-        case .initialized, .stopped:
-            destroyVideoClient()
+        DispatchQueue.global().async {
+            switch self.videoClientState {
+            case .uninitialized:
+                self.logger.info(msg: "VideoClient is uninitialized so cannot be stopped and destroyed")
+            case .started:
+                self.stopVideoClient()
+                self.destroyVideoClient()
+            case .initialized, .stopped:
+                self.destroyVideoClient()
+            }
         }
     }
 
