@@ -31,12 +31,15 @@ class DefaultVideoClientController: NSObject {
     private let tokenHeader = "X-Chime-Auth-Token"
     private let tokenKey = "_aws_wt_session"
     private let turnRequestHttpMethod = "POST"
+    private let urlRewriter: URLRewriter
 
-    init(videoClient: VideoClient, logger: Logger, clientMetricsCollector: ClientMetricsCollector) {
+    init(videoClient: VideoClient, logger: Logger,
+         clientMetricsCollector: ClientMetricsCollector,
+         urlRewriter: @escaping URLRewriter) {
         self.defaultVideoClient = videoClient
         self.logger = logger
         self.clientMetricsCollector = clientMetricsCollector
-
+        self.urlRewriter = urlRewriter
         super.init()
     }
 
@@ -87,7 +90,7 @@ class DefaultVideoClientController: NSObject {
                 let uriSize = turnCredentials.uris.count
                 let uris = UnsafeMutablePointer<UnsafePointer<Int8>?>.allocate(capacity: uriSize)
                 for index in 0..<uriSize {
-                    let uri = turnCredentials.uris[index]
+                    let uri = self.urlRewriter(turnCredentials.uris[index])
                     uris.advanced(by: index).pointee = (uri as NSString).utf8String
                 }
 

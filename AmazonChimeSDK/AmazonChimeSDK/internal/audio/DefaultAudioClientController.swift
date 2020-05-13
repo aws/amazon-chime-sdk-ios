@@ -45,7 +45,7 @@ extension DefaultAudioClientController: AudioClientController {
         guard audioSession.recordPermission == .granted else {
             throw PermissionError.audioPermissionError
         }
-        
+
         switch Self.state {
         case .started:
             throw MediaError.illegalState

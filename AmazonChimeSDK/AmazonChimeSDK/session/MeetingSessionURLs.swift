@@ -25,10 +25,11 @@ import Foundation
     public init(audioFallbackUrl: String,
                 audioHostUrl: String,
                 turnControlUrl: String,
-                signalingUrl: String) {
-        self.audioFallbackUrl = audioFallbackUrl
-        self.audioHostUrl = audioHostUrl
-        self.turnControlUrl = turnControlUrl
-        self.signalingUrl = signalingUrl
+                signalingUrl: String,
+                urlRewriter: URLRewriter) {
+        self.audioFallbackUrl = urlRewriter(audioFallbackUrl)
+        self.audioHostUrl = urlRewriter(audioHostUrl)
+        self.turnControlUrl = urlRewriter(turnControlUrl)
+        self.signalingUrl = urlRewriter(signalingUrl)
     }
 }

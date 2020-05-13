@@ -31,7 +31,8 @@ import Foundation
                                                                  audioSession: audioSession)
         let videoClientController = DefaultVideoClientController(videoClient: videoClient,
                                                                  logger: logger,
-                                                                 clientMetricsCollector: clientMetricsCollector)
+                                                                 clientMetricsCollector: clientMetricsCollector,
+                                                                 urlRewriter: configuration.urlRewriter)
         let videoTileController =
             DefaultVideoTileController(logger: logger,
                                        videoClientController: videoClientController)

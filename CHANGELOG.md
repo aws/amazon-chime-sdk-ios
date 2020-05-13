@@ -1,3 +1,7 @@
+## Unreleased
+### Added
+- Added new parameter `urlRewriter` in `MeetingSessionConfiguration` which allows you to customize url
+
 ## [0.6.0] - 2020-05-08
 
 ### Added
