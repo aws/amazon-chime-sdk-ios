@@ -30,6 +30,12 @@ class ViewController: UIViewController {
         joinButton.isEnabled = true
     }
 
+    private func urlRewriter(url: String) -> String {
+        // changing url
+        // return url.replacingOccurrences(of: "example.com", with: "my.example.com")
+        return url
+    }
+
     @IBAction func joinMeeting(sender: UIButton) {
         meetingID = meetingIDText.text ?? ""
         name = nameText.text ?? ""
@@ -48,8 +54,10 @@ class ViewController: UIViewController {
                 guard let currentMeetingResponse = meetingResp, let currentAttendeeResponse = attendeeResp else {
                     return
                 }
+
                 let meetingSessionConfig = MeetingSessionConfiguration(createMeetingResponse: currentMeetingResponse,
-                                                                       createAttendeeResponse: currentAttendeeResponse)
+                                                                       createAttendeeResponse: currentAttendeeResponse,
+                                                                       urlRewriter: self.urlRewriter)
                 DispatchQueue.main.async {
                     let meetingView = UIStoryboard(name: "Main", bundle: nil)
                     guard let meetingViewController = meetingView.instantiateViewController(withIdentifier: "meeting")

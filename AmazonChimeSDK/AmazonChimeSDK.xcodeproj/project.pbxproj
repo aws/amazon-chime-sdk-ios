@@ -18,10 +18,12 @@
 		0083A11423D8CFD40057027A /* RealtimeControllerFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0083A11323D8CFD40057027A /* RealtimeControllerFacade.swift */; };
 		0083A11623D8CFFD0057027A /* DefaultRealtimeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0083A11523D8CFFD0057027A /* DefaultRealtimeController.swift */; };
 		0095013423FF372E003260E3 /* VideoClientState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0095013323FF372E003260E3 /* VideoClientState.swift */; };
+		00B45843246C745E0007D425 /* AmazonChimeSDKMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ADEAFA024293B2700801EA5 /* AmazonChimeSDKMedia.framework */; };
 		00B9D9CB23FE1ED8001308E4 /* DefaultVideoClientController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B9D9CA23FE1ED8001308E4 /* DefaultVideoClientController.swift */; };
 		00C2509E23E217F700325841 /* PermissionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C2509D23E217F700325841 /* PermissionError.swift */; };
 		00C2A91523F76154008CD687 /* DefaultVideoTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C2A91423F76154008CD687 /* DefaultVideoTile.swift */; };
 		00C2A91723F76250008CD687 /* VideoTileState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C2A91623F76250008CD687 /* VideoTileState.swift */; };
+		00C35B5F246A015800EA186F /* URLRewriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C35B5E246A015800EA186F /* URLRewriter.swift */; };
 		00C9DC6123FA366F00876B41 /* VideoRenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C9DC6023FA366F00876B41 /* VideoRenderView.swift */; };
 		00C9DC6323FA368D00876B41 /* VideoTileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C9DC6223FA368D00876B41 /* VideoTileController.swift */; };
 		00C9DC6523FA36BE00876B41 /* VideoTileControllerFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C9DC6423FA36BE00876B41 /* VideoTileControllerFacade.swift */; };
@@ -63,7 +65,6 @@
 		5A6F818E24637BA30031AE97 /* VideoClientStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6F818D24637BA30031AE97 /* VideoClientStateTests.swift */; };
 		5A8B9843240F69C000BA292D /* AttendeeInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8B9842240F69C000BA292D /* AttendeeInfo.swift */; };
 		5A9196FE245A4AE000E17CDE /* Versioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9196FD245A4AE000E17CDE /* Versioning.swift */; };
-		5ADEAFA124293B2700801EA5 /* AmazonChimeSDKMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ADEAFA024293B2700801EA5 /* AmazonChimeSDKMedia.framework */; };
 		5ADEAFA424293B5500801EA5 /* AmazonChimeSDKMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ADEAFA024293B2700801EA5 /* AmazonChimeSDKMedia.framework */; };
 		5AE121D3240F6A8E0090A2AD /* VolumeUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE121D2240F6A8E0090A2AD /* VolumeUpdate.swift */; };
 		5AE121E9240F6ABF0090A2AD /* SignalUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE121E8240F6ABF0090A2AD /* SignalUpdate.swift */; };
@@ -141,6 +142,7 @@
 		00C2509D23E217F700325841 /* PermissionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionError.swift; sourceTree = "<group>"; };
 		00C2A91423F76154008CD687 /* DefaultVideoTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultVideoTile.swift; sourceTree = "<group>"; };
 		00C2A91623F76250008CD687 /* VideoTileState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTileState.swift; sourceTree = "<group>"; };
+		00C35B5E246A015800EA186F /* URLRewriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRewriter.swift; sourceTree = "<group>"; };
 		00C9DC6023FA366F00876B41 /* VideoRenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRenderView.swift; sourceTree = "<group>"; };
 		00C9DC6223FA368D00876B41 /* VideoTileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTileController.swift; sourceTree = "<group>"; };
 		00C9DC6423FA36BE00876B41 /* VideoTileControllerFacade.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTileControllerFacade.swift; sourceTree = "<group>"; };
@@ -240,8 +242,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00B45843246C745E0007D425 /* AmazonChimeSDKMedia.framework in Frameworks */,
 				5AE38AC82428728300B234EC /* AVFoundation.framework in Frameworks */,
-				5ADEAFA124293B2700801EA5 /* AmazonChimeSDKMedia.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,6 +272,7 @@
 				003B588823E22C4F002493AB /* MeetingSessionStatus.swift */,
 				003B588A23E22C6E002493AB /* MeetingSessionStatusCode.swift */,
 				5A6A202923C7B93E000C9157 /* MeetingSessionURLs.swift */,
+				00C35B5E246A015800EA186F /* URLRewriter.swift */,
 			);
 			path = session;
 			sourceTree = "<group>";
@@ -336,7 +339,6 @@
 				5A631A4924298CE000C8DAF3 /* audiovideo */,
 				5A631A502429936200C8DAF3 /* device */,
 				5A631A4824298CA900C8DAF3 /* internal */,
-				5A631A53242993C500C8DAF3 /* realtime */,
 				5AE76EFC24203796009C41FD /* mocks */,
 				5AE1323123EA2FC500BF5997 /* session */,
 				5AE132CB23EB47B100BF5997 /* utils */,
@@ -583,13 +585,6 @@
 				5A0E731A242EA39E006636AB /* VideoTileStateTests.swift */,
 			);
 			path = video;
-			sourceTree = "<group>";
-		};
-		5A631A53242993C500C8DAF3 /* realtime */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = realtime;
 			sourceTree = "<group>";
 		};
 		5A6F818924637A970031AE97 /* audio */ = {
@@ -868,6 +863,7 @@
 				F83F53702452757700614913 /* ObserverUtils.swift in Sources */,
 				0007631D2412E3C2001D598A /* Constants.swift in Sources */,
 				5A6A209B23CB1164000C9157 /* CreateAttendeeResponse.swift in Sources */,
+				00C35B5F246A015800EA186F /* URLRewriter.swift in Sources */,
 				5A6A209A23CB1164000C9157 /* CreateMeetingResponse.swift in Sources */,
 				7C0D1BEE241ACC7B00280031 /* DefaultActiveSpeakerDetector.swift in Sources */,
 				7C0D1BED241ACC7B00280031 /* DefaultActiveSpeakerPolicy.swift in Sources */,
@@ -1121,6 +1117,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks",
 					"$(PROJECT_DIR)/",
+					"$(PROJECT_DIR)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1180,6 +1177,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks",
 					"$(PROJECT_DIR)/",
+					"$(PROJECT_DIR)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				HEADER_SEARCH_PATHS = "";

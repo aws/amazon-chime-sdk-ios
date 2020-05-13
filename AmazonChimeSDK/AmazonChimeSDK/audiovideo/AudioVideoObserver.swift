@@ -23,7 +23,7 @@ import Foundation
     ///
     /// - Parameter reconnecting: Whether the session is reconnecting or not.
     func audioSessionDidStart(reconnecting: Bool)
-    
+
     /// Called when audio session got dropped due to poor network conditions.
     /// There will be an automatic attempt of reconnecting it.
     /// If the reconnection is successful, `onAudioSessionStarted` will be called with value of reconnecting as true
