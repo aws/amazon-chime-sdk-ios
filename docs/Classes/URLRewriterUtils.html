@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>MediaDeviceType Enumeration Reference</title>
+    <title>URLRewriterUtils Class Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Enum/MediaDeviceType" class="dashAnchor"></a>
-    <a title="MediaDeviceType Enumeration Reference"></a>
+    <a name="//apple_ref/swift/Class/URLRewriterUtils" class="dashAnchor"></a>
+    <a title="URLRewriterUtils Class Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html"> Docs</a></p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html"> Reference</a>
         <img id="carat" src="../img/carat.png" />
-        MediaDeviceType Enumeration Reference
+        URLRewriterUtils Class Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -235,15 +235,16 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>MediaDeviceType</h1>
+            <h1>URLRewriterUtils</h1>
               <div class="declaration">
                 <div class="language">
                   <pre class="highlight swift"><code><span class="kd">@objc</span>
-<span class="kd">public</span> <span class="kd">enum</span> <span class="kt">MediaDeviceType</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="kt">CustomStringConvertible</span></code></pre>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">URLRewriterUtils</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
 
                 </div>
               </div>
-            
+            <p><code>URLRewriterUtils</code> is class that defines default Url rewrite behavior</p>
+
           </section>
           <section class="section task-group-section">
             <div class="task-group">
@@ -251,9 +252,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AmazonChimeSDK@E@MediaDeviceType@MediaDeviceTypeAudioBluetooth"></a>
-                    <a name="//apple_ref/swift/Element/audioBluetooth" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@MediaDeviceType@MediaDeviceTypeAudioBluetooth">audioBluetooth</a>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)URLRewriterUtils(cpy)defaultUrlRewriter"></a>
+                    <a name="//apple_ref/swift/Variable/defaultUrlRewriter" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)URLRewriterUtils(cpy)defaultUrlRewriter">defaultUrlRewriter</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -261,195 +262,15 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">audioBluetooth</span></code></pre>
+                        <p>The default implementation returns the original URL unchanged.</p>
 
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:@M@AmazonChimeSDK@E@MediaDeviceType@MediaDeviceTypeAudioWiredHeadset"></a>
-                    <a name="//apple_ref/swift/Element/audioWiredHeadset" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@MediaDeviceType@MediaDeviceTypeAudioWiredHeadset">audioWiredHeadset</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">audioWiredHeadset</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:@M@AmazonChimeSDK@E@MediaDeviceType@MediaDeviceTypeAudioBuiltInSpeaker"></a>
-                    <a name="//apple_ref/swift/Element/audioBuiltInSpeaker" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@MediaDeviceType@MediaDeviceTypeAudioBuiltInSpeaker">audioBuiltInSpeaker</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">audioBuiltInSpeaker</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:@M@AmazonChimeSDK@E@MediaDeviceType@MediaDeviceTypeAudioHandset"></a>
-                    <a name="//apple_ref/swift/Element/audioHandset" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@MediaDeviceType@MediaDeviceTypeAudioHandset">audioHandset</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">audioHandset</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:@M@AmazonChimeSDK@E@MediaDeviceType@MediaDeviceTypeVideoFrontCamera"></a>
-                    <a name="//apple_ref/swift/Element/videoFrontCamera" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@MediaDeviceType@MediaDeviceTypeVideoFrontCamera">videoFrontCamera</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">videoFrontCamera</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:@M@AmazonChimeSDK@E@MediaDeviceType@MediaDeviceTypeVideoBackCamera"></a>
-                    <a name="//apple_ref/swift/Element/videoBackCamera" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@MediaDeviceType@MediaDeviceTypeVideoBackCamera">videoBackCamera</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">videoBackCamera</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:@M@AmazonChimeSDK@E@MediaDeviceType@MediaDeviceTypeOther"></a>
-                    <a name="//apple_ref/swift/Element/other" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@MediaDeviceType@MediaDeviceTypeOther">other</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">other</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:s23CustomStringConvertibleP11descriptionSSvp"></a>
-                    <a name="//apple_ref/swift/Property/description" class="dashAnchor"></a>
-                    <a class="token" href="#/s:s23CustomStringConvertibleP11descriptionSSvp">description</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">defaultUrlRewriter</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:14AmazonChimeSDK11URLRewritera">URLRewriter</a></span></code></pre>
 
                         </div>
                       </div>
