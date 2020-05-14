@@ -103,6 +103,9 @@
                 <a href="../Classes/SignalUpdate.html">SignalUpdate</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/URLRewriterUtils.html">URLRewriterUtils</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/Versioning.html">Versioning</a>
               </li>
               <li class="nav-group-task">
@@ -219,6 +222,14 @@
               </li>
             </ul>
           </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:14AmazonChimeSDK11URLRewritera">URLRewriter</a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </nav>
       <article class="main-content">
@@ -234,7 +245,8 @@
               </div>
             <p><code>MeetingSessionConfiguration</code> contains the information necessary to start a session.
 Constructs a MeetingSessionConfiguration with a chime:<code><a href="../Classes/CreateMeetingResponse.html">CreateMeetingResponse</a></code> and
-chime:<code><a href="../Classes/CreateAttendeeResponse.html">CreateAttendeeResponse</a></code> response.</p>
+chime:<code><a href="../Classes/CreateAttendeeResponse.html">CreateAttendeeResponse</a></code> response and optional custom <code><a href="../Typealiases.html#/s:14AmazonChimeSDK11URLRewritera">URLRewriter</a></code> that will
+rewrite urls given to new urls.</p>
 
           </section>
           <section class="section task-group-section">
@@ -324,6 +336,32 @@ chime:<code><a href="../Classes/CreateAttendeeResponse.html">CreateAttendeeRespo
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)MeetingSessionConfiguration(py)urlRewriter"></a>
+                    <a name="//apple_ref/swift/Property/urlRewriter" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)MeetingSessionConfiguration(py)urlRewriter">urlRewriter</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">urlRewriter</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:14AmazonChimeSDK11URLRewritera">URLRewriter</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(cs)MeetingSessionConfiguration(im)initWithCreateMeetingResponse:createAttendeeResponse:"></a>
                     <a name="//apple_ref/swift/Method/init(createMeetingResponse:createAttendeeResponse:)" class="dashAnchor"></a>
                     <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)MeetingSessionConfiguration(im)initWithCreateMeetingResponse:createAttendeeResponse:">init(createMeetingResponse:<wbr>createAttendeeResponse:<wbr>)</a>
@@ -340,7 +378,36 @@ chime:<code><a href="../Classes/CreateAttendeeResponse.html">CreateAttendeeRespo
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">createMeetingResponse</span><span class="p">:</span> <span class="kt"><a href="../Classes/CreateMeetingResponse.html">CreateMeetingResponse</a></span><span class="p">,</span> <span class="nv">createAttendeeResponse</span><span class="p">:</span> <span class="kt"><a href="../Classes/CreateAttendeeResponse.html">CreateAttendeeResponse</a></span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">createMeetingResponse</span><span class="p">:</span> <span class="kt"><a href="../Classes/CreateMeetingResponse.html">CreateMeetingResponse</a></span><span class="p">,</span>
+                        <span class="nv">createAttendeeResponse</span><span class="p">:</span> <span class="kt"><a href="../Classes/CreateAttendeeResponse.html">CreateAttendeeResponse</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)MeetingSessionConfiguration(im)initWithCreateMeetingResponse:createAttendeeResponse:urlRewriter:"></a>
+                    <a name="//apple_ref/swift/Method/init(createMeetingResponse:createAttendeeResponse:urlRewriter:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)MeetingSessionConfiguration(im)initWithCreateMeetingResponse:createAttendeeResponse:urlRewriter:">init(createMeetingResponse:<wbr>createAttendeeResponse:<wbr>urlRewriter:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">createMeetingResponse</span><span class="p">:</span> <span class="kt"><a href="../Classes/CreateMeetingResponse.html">CreateMeetingResponse</a></span><span class="p">,</span>
+            <span class="nv">createAttendeeResponse</span><span class="p">:</span> <span class="kt"><a href="../Classes/CreateAttendeeResponse.html">CreateAttendeeResponse</a></span><span class="p">,</span>
+            <span class="nv">urlRewriter</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:14AmazonChimeSDK11URLRewritera">URLRewriter</a></span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -352,7 +419,7 @@ chime:<code><a href="../Classes/CreateAttendeeResponse.html">CreateAttendeeRespo
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-05-08)</p>
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-05-13)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
