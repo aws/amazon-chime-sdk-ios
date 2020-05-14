@@ -11,4 +11,5 @@ import UIKit
 
 class VideoTileCell: UICollectionViewCell {
     @IBOutlet var onTileButton: UIButton!
+    @IBOutlet weak var attendeeName: UILabel!
 }

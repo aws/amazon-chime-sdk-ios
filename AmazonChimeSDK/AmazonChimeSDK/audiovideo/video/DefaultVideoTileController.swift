@@ -23,6 +23,13 @@ import UIKit
 
     public func onReceiveFrame(frame: Any?, attendeeId: String?, pauseState: VideoPauseState, videoId: Int) {
         if let videoTile = videoTileMap[videoId] {
+            // when removing video track, video client will send an unpaused nil frame
+            if pauseState == .unpaused && frame == nil {
+                videoTile.renderFrame(frame: nil)
+                onRemoveTrack(tileState: videoTile.state)
+                return
+            }
+
             // Account for any internally changed pause states, but ignore if the tile is paused by
             // user since the pause might not have propagated yet
             if pauseState != videoTile.state.pauseState && videoTile.state.pauseState != .pausedByUserRequest {
@@ -41,15 +48,9 @@ import UIKit
                 }
             }
 
-            // Ignore any frames which come to an already paused tile
-            if videoTile.state.pauseState == .unpaused {
-                if frame != nil {
-                    videoTile.renderFrame(frame: frame)
-                } else {
-                    // Nil frames in unpaused state indicate to remove the tile
-                    videoTile.renderFrame(frame: nil)
-                    onRemoveTrack(tileState: videoTile.state)
-                }
+            // only render unpaused non-nil frames
+            if videoTile.state.pauseState == .unpaused && frame != nil {
+                videoTile.renderFrame(frame: frame)
             }
         } else if frame != nil {
             onAddTrack(videoId: videoId, attendeeId: attendeeId)
@@ -59,6 +60,10 @@ import UIKit
     public func bindVideoView(videoView: VideoRenderView, tileId: Int) {
         logger.info(msg: "Binding VideoView to Tile with tileId = \(tileId)")
         let videoRenderKey = NSValue(nonretainedObject: videoView)
+
+        // If tileId was already bound to another videoRenderView,
+        // unbind it first to prevent side effects
+        unbindVideoView(tileId: tileId, removeTile: false)
 
         // Previously there was another video tile that registered with different tileId
         if let matchedTileId = videoViewToTileMap[videoRenderKey] {
