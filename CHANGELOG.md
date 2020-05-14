@@ -1,6 +1,13 @@
-## Unreleased
+## [Unreleased]
+
 ### Added
-- Added new parameter `urlRewriter` in `MeetingSessionConfiguration` which allows you to customize url
+- Added multiple video tiles support in Swift demo app.
+- Added attendee name label in Swift demo app.
+- Added new parameter `urlRewriter` in `MeetingSessionConfiguration` which allows you to customize url.
+
+### Fixed
+- Fixed an issue in `bindVideoView()`, unbind first to prevent unexpected side effect.
+- Fixed an issue that blocked user from removing paused video tiles.
 
 ## [0.6.0] - 2020-05-08
 

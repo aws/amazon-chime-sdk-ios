@@ -34,9 +34,12 @@ class MeetingViewController: UIViewController {
     private let dispatchGroup = DispatchGroup()
     private let jsonDecoder = JSONDecoder()
     private let logger = ConsoleLogger(name: "MeetingViewController")
-    private var otherVideoTileStates = [VideoTileState?](repeating: nil, count: 2)
     private let uuid = UUID().uuidString
     private let videoTileCellReuseIdentifier = "VideoTileCell"
+    private var videoTileStates: [VideoTileState?] = [nil]
+    private var videoTileStatesForDisplay: ArraySlice<VideoTileState?> = ArraySlice.init(repeating: nil, count: 1)
+    private var videoTileIdToIndexPath: [Int: IndexPath] = [:]
+    private let maxVideoTileCount = 4
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +49,7 @@ class MeetingViewController: UIViewController {
             self.logger.error(msg: "Unable to get meeting session")
             return
         }
+
         DispatchQueue.global(qos: .background).async {
             self.currentMeetingSession = DefaultMeetingSession(
                 configuration: self.meetingSessionConfig!, logger: self.logger)
@@ -119,7 +123,7 @@ class MeetingViewController: UIViewController {
         self.currentMeetingSession?.audioVideo.addActiveSpeakerObserver(policy: DefaultActiveSpeakerPolicy(),
                                                                         observer: self)
     }
-    
+
     func removeSubscriptionToAttendeeChangeHandler () {
         self.currentMeetingSession?.audioVideo.removeVideoTileObserver(observer: self)
         self.currentMeetingSession?.audioVideo.removeRealtimeObserver(observer: self)
@@ -132,6 +136,12 @@ class MeetingViewController: UIViewController {
     private func notify(msg: String) {
         self.logger.info(msg: msg)
         self.view.makeToast(msg, duration: 2.0)
+    }
+
+    private func getMaxIndexOfVisibleVideoTiles() -> Int {
+        // If local video was not enabled, we can show one more remote video
+        let maxRemoteVideoTileCount = self.maxVideoTileCount - (self.videoTileStates[0] == nil ? 0 : 1)
+        return min(maxRemoteVideoTileCount, self.videoTileStates.count - 1)
     }
 
     // MARK: UI related
@@ -155,15 +165,12 @@ class MeetingViewController: UIViewController {
     }
 
     @IBAction func cameraButtonClicked(_ sender: UIButton) {
-        if let selfVideoTile = self.videoCollection!.cellForItem(
-            at: IndexPath(row: 0, section: 0)) as? VideoTileCell {
-            self.cameraButton.isSelected = !self.cameraButton.isSelected
-            selfVideoTile.isHidden = !self.cameraButton.isSelected
-            if self.cameraButton.isSelected {
-                self.setupVideoEnv()
-            } else {
-                self.currentMeetingSession?.audioVideo.stopLocalVideo()
-            }
+        self.cameraButton.isSelected = !self.cameraButton.isSelected
+
+        if self.cameraButton.isSelected {
+            self.setupVideoEnv()
+        } else {
+            self.currentMeetingSession?.audioVideo.stopLocalVideo()
         }
     }
 
@@ -197,12 +204,13 @@ class MeetingViewController: UIViewController {
             self.videoCollection.isHidden = true
             self.currentMeetingSession?.audioVideo.stopRemoteVideo()
         case SegmentedControlIndex.videos.rawValue:
-            for index in 0 ..< self.otherVideoTileStates.count {
-                if self.otherVideoTileStates[index] != nil, let tileState = self.otherVideoTileStates[index] {
+            // Skip index 0 as it's reserved for self video tile
+            for index in 1 ..< self.videoTileStatesForDisplay.count {
+                if let tileState = self.videoTileStatesForDisplay[index] {
                     self.currentMeetingSession?.audioVideo.resumeRemoteVideoTile(tileId: tileState.tileId)
-                    if let otherVideoTileCell = self.videoCollection!.cellForItem(
-                        at: IndexPath(row: index + 1, section: 0)) as? VideoTileCell {
-                        otherVideoTileCell.onTileButton.isSelected = false
+                    if let indexPath = self.videoTileIdToIndexPath[tileState.tileId],
+                        let otherVideoTileCell = self.videoCollection.cellForItem(at: indexPath) as? VideoTileCell {
+                            otherVideoTileCell.onTileButton.isSelected = false
                     }
                 }
             }
@@ -211,8 +219,9 @@ class MeetingViewController: UIViewController {
             self.videoCollection.isHidden = false
             self.currentMeetingSession?.audioVideo.startRemoteVideo()
         case SegmentedControlIndex.screen.rawValue:
-            for index in 0 ..< self.otherVideoTileStates.count {
-                if self.otherVideoTileStates[index] != nil, let tileState = self.otherVideoTileStates[index] {
+            // Skip index 0 as it's reserved for self video tile
+            for index in 1 ..< self.videoTileStatesForDisplay.count {
+                if let tileState = self.videoTileStatesForDisplay[index] {
                     self.currentMeetingSession?.audioVideo.pauseRemoteVideoTile(tileId: tileState.tileId)
                 }
             }
@@ -231,8 +240,9 @@ class MeetingViewController: UIViewController {
 
     func switchCameraClicked() {
         self.currentMeetingSession?.audioVideo.switchCamera()
-        if let selfVideoTileCell = self.videoCollection!.cellForItem(
-            at: IndexPath(row: 0, section: 0)) as? VideoTileCell {
+        if let tileState = self.videoTileStatesForDisplay[0],
+            let indexPath = self.videoTileIdToIndexPath[tileState.tileId],
+            let selfVideoTileCell = self.videoCollection.cellForItem(at: indexPath) as? VideoTileCell {
             if let selfVideoTileView = selfVideoTileCell.contentView as? DefaultVideoRenderView {
                 selfVideoTileView.mirror = !selfVideoTileView.mirror
             }
@@ -242,14 +252,14 @@ class MeetingViewController: UIViewController {
     }
 
     func toggleVideo(index: Int, selected: Bool) {
-        if index > 0, self.otherVideoTileStates[index - 1] != nil {
+        if let tileState = self.videoTileStatesForDisplay[index], !tileState.isLocalTile {
             if selected {
                 self.currentMeetingSession?.audioVideo.pauseRemoteVideoTile(
-                    tileId: self.otherVideoTileStates[index - 1]!.tileId
+                    tileId: tileState.tileId
                 )
             } else {
                 self.currentMeetingSession?.audioVideo.resumeRemoteVideoTile(
-                    tileId: self.otherVideoTileStates[index - 1]!.tileId
+                    tileId: tileState.tileId
                 )
             }
         }
@@ -311,7 +321,7 @@ extension MeetingViewController: AudioVideoObserver {
     func audioSessionDidStart(reconnecting: Bool) {
         self.notify(msg: "Audio successfully started. Reconnecting: \(reconnecting)")
     }
-    
+
     func audioSessionDidDrop() {
         self.notify(msg: "Audio Session Dropped")
     }
@@ -450,35 +460,17 @@ extension MeetingViewController: VideoTileObserver {
     func videoTileDidAdd(tileState: VideoTileState) {
         self.logger.info(msg: "Adding Video Tile tileId: \(tileState.tileId)" +
             " attendeeId: \(String(describing: tileState.attendeeId))")
-        if tileState.isLocalTile {
-            if let selfVideoTileCell = self.videoCollection!.cellForItem(
-                at: IndexPath(row: 0, section: 0)) as? VideoTileCell {
-                if let selfVideoTileView = selfVideoTileCell.contentView as? DefaultVideoRenderView {
-                    if self.currentMeetingSession?.audioVideo.getActiveCamera()?.type == .videoFrontCamera {
-                        selfVideoTileView.mirror = true
-                    }
-                    selfVideoTileCell.isHidden = false
-                    selfVideoTileCell.accessibilityIdentifier = "\(self.selfName ?? "") VideoTile"
-                    self.currentMeetingSession?.audioVideo.bindVideoView(
-                        videoView: selfVideoTileView,
-                        tileId: tileState.tileId)
-                }
-            }
-        } else if tileState.isContent {
+        if tileState.isContent {
             self.currentMeetingSession?.audioVideo.bindVideoView(videoView: self.screenView, tileId: tileState.tileId)
         } else {
-            if let otherVideoTileCell = self.videoCollection!.cellForItem(
-                at: IndexPath(row: 1, section: 0)) as? VideoTileCell {
-                if let otherVideoTileView = otherVideoTileCell.contentView as? DefaultVideoRenderView {
-                    otherVideoTileCell.isHidden = false
-                    otherVideoTileView.accessibilityIdentifier =
-                        "\(self.currentRoster[tileState.attendeeId!]?.attendeeName ?? "") VideoTile"
-                    self.currentMeetingSession?.audioVideo.bindVideoView(
-                        videoView: otherVideoTileView,
-                        tileId: tileState.tileId)
-                    self.otherVideoTileStates[0] = tileState
-                }
+            if tileState.isLocalTile {
+                self.videoTileStates[0] = tileState
+            } else {
+                self.videoTileStates.append(tileState)
             }
+
+            self.videoTileStatesForDisplay = self.videoTileStates[...self.getMaxIndexOfVisibleVideoTiles()]
+            self.videoCollection?.reloadData()
         }
     }
 
@@ -486,9 +478,18 @@ extension MeetingViewController: VideoTileObserver {
         self.logger.info(msg: "Removing Video Tile tileId: \(tileState.tileId)" +
             " attendeeId: \(String(describing: tileState.attendeeId))")
         self.currentMeetingSession?.audioVideo.unbindVideoView(tileId: tileState.tileId)
-        if self.otherVideoTileStates[0]?.tileId == tileState.tileId {
-            self.otherVideoTileStates[0] = nil
+        self.videoTileIdToIndexPath[tileState.tileId] = nil
+
+        if tileState.isLocalTile {
+            self.videoTileStates[0] = nil
+        } else {
+            if let tileStateIndex = self.videoTileStates.firstIndex(of: tileState) {
+                self.videoTileStates.remove(at: tileStateIndex)
+            }
         }
+
+        self.videoTileStatesForDisplay = self.videoTileStates[...self.getMaxIndexOfVisibleVideoTiles()]
+        self.videoCollection?.reloadData()
     }
 
     func videoTileDidPause(tileState: VideoTileState) {
@@ -575,8 +576,7 @@ extension MeetingViewController: UICollectionViewDataSource, UICollectionViewDel
 
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        // Limit at two video tiles for current 1:1 video call
-        return 2
+        return self.videoTileStatesForDisplay.count
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -593,21 +593,47 @@ extension MeetingViewController: UICollectionViewDataSource, UICollectionViewDel
     func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: self.videoTileCellReuseIdentifier, for: indexPath) as? VideoTileCell else {
-            return UICollectionViewCell()
+            return VideoTileCell()
         }
-        cell.contentView.isHidden = true
+        guard let videoRenderView = cell.contentView as? DefaultVideoRenderView else {
+            return cell
+        }
+
+        // Reset the reusable cell as it may contains stale data from previous usage
+        videoRenderView.mirror = false
+        cell.isHidden = true
+        cell.accessibilityIdentifier = nil
         cell.onTileButton.imageView!.contentMode = UIView.ContentMode.scaleAspectFit
         cell.onTileButton.tag = indexPath.row
         cell.onTileButton.addTarget(self, action:
             #selector(self.onTileButtonClicked), for: .touchUpInside)
 
-        if indexPath.row == 0 {
-            cell.onTileButton.setImage(UIImage(named: "switch-camera"), for: .normal)
-        } else {
-            cell.onTileButton.setImage(UIImage(named: "pause-video"), for: .normal)
-            cell.onTileButton.setImage(UIImage(named: "resume-video"), for: .selected)
+        if let tileState = self.videoTileStatesForDisplay[indexPath.row] {
+            var attendeeName = ""
+            if tileState.isLocalTile {
+                if self.currentMeetingSession?.audioVideo.getActiveCamera()?.type == .videoFrontCamera {
+                    videoRenderView.mirror = true
+                }
+                cell.isHidden = !self.cameraButton.isSelected
+                cell.onTileButton.setImage(UIImage(named: "switch-camera"), for: .normal)
+                attendeeName = self.selfName ?? ""
+            } else {
+                cell.isHidden = false
+                cell.onTileButton.setImage(UIImage(named: "pause-video"), for: .normal)
+                cell.onTileButton.setImage(UIImage(named: "resume-video"), for: .selected)
+                attendeeName = self.currentRoster[tileState.attendeeId!]?.attendeeName ?? ""
+            }
+
+            cell.attendeeName.text = attendeeName
+            cell.accessibilityIdentifier = "\(attendeeName) VideoTile"
+
+            self.currentMeetingSession?.audioVideo.bindVideoView(
+                videoView: videoRenderView,
+                tileId: tileState.tileId)
+            self.videoTileIdToIndexPath[tileState.tileId] = indexPath
         }
 
         return cell
