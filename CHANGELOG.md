@@ -1,4 +1,6 @@
-## [Unreleased]
+## [0.6.0] - 2020-05-14
+
+### Added
 - **Breaking** Added additional fields for `CreateAttendeeResponse` and `CreateMeetingResponse`
 - Added `Versioning` class and `sdkVersion` API for retrieving current version of SDK
 - Added `init(frame: CGRect)` initializer in `DefaultVideoRenderView` to properly initialize `DefaultVideoRenderView` in ObjC code.
