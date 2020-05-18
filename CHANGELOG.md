@@ -1,3 +1,8 @@
+## Unreleased
+
+### Added
+- Added `attendeesDidDrop` API in `RealtimeObserver` for attendee who got dropped
+
 ## [0.6.0] - 2020-05-14
 
 ### Added

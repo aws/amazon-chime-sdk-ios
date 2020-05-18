@@ -36,8 +36,15 @@ import Foundation
     ///
     /// Note: this callback will be called on main thread.
     ///
-    /// - Parameter attendeeInfo: an array of AttendeeInfo removed
+    /// - Parameter attendeeInfo: an array of AttendeeInfo who left
     func attendeesDidLeave(attendeeInfo: [AttendeeInfo])
+
+    /// List attendees that got dropped from the meeting due to network
+    ///
+    /// Note: this callback will be called on main thread.
+    ///
+    /// - Parameter attendeeInfo: an array of AttendeeInfo who are dropped
+    func attendeesDidDrop(attendeeInfo: [AttendeeInfo])
 
     /// List attendees that are newly muted in the meeting
     ///
