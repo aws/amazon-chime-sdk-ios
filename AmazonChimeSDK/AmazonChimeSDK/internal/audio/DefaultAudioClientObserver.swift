@@ -97,7 +97,6 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
             }
         }
 
-        attendeePresenceStateChange(newAttendeeVolumeMap)
         let attendeeVolumeDelta = newAttendeeVolumeMap.subtracting(dict: currentAttendeeVolumeMap)
         attendeeMuteStateChange(attendeeVolumeDelta)
         currentAttendeeVolumeMap = newAttendeeVolumeMap
@@ -132,23 +131,55 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         }
     }
 
-    private func attendeePresenceStateChange(_ map: [AttendeeInfo: Any]) {
-        let newAttendees = Set(map.keys)
-        let attendeesAdded = newAttendees.subtracting(currentAttendeeSet)
-        let attendeesRemoved = currentAttendeeSet.subtracting(newAttendees)
+    public func attendeesPresenceChanged(_ attendees: [Any]?) {
+        if attendees == nil {
+            return
+        }
 
-        if !attendeesAdded.isEmpty {
-            ObserverUtils.forEach(observers: realtimeObservers) { (observer: RealtimeObserver) in
-                observer.attendeesDidJoin(attendeeInfo: [AttendeeInfo](attendeesAdded))
+        guard let attendeeUpdate = attendees as? [AttendeeUpdate] else {
+            return
+        }
+
+        let newAttendeeMap = attendeeUpdate
+            .filter { !$0.externalUserId.isEmpty }
+            .reduce(into: [AttendeeStatus: Set<AttendeeInfo>]()) { (result, attendeeUpdate) in
+            if let status = AttendeeStatus(rawValue: Int(truncating: attendeeUpdate.data)) {
+                if result[status] == nil {
+                    result[status] = Set<AttendeeInfo>()
+                }
+
+                result[status]?.insert(AttendeeInfo(attendeeId: attendeeUpdate.profileId,
+                                                    externalUserId: attendeeUpdate.externalUserId))
             }
         }
 
-        if !attendeesRemoved.isEmpty {
-            ObserverUtils.forEach(observers: realtimeObservers) { (observer: RealtimeObserver) in
-                observer.attendeesDidLeave(attendeeInfo: [AttendeeInfo](attendeesRemoved))
+        if let attendeesWithJoinedStatus = newAttendeeMap[AttendeeStatus.joined] {
+            let attendeesJoined = attendeesWithJoinedStatus.subtracting(currentAttendeeSet)
+            if !attendeesJoined.isEmpty {
+                ObserverUtils.forEach(observers: realtimeObservers) { (observer: RealtimeObserver) in
+                    observer.attendeesDidJoin(attendeeInfo: [AttendeeInfo](attendeesJoined))
+                }
+                currentAttendeeSet = currentAttendeeSet.union(attendeesJoined)
             }
         }
-        currentAttendeeSet = newAttendees
+
+        if let attendeesWithLeftStatus = newAttendeeMap[AttendeeStatus.left] {
+            if !attendeesWithLeftStatus.isEmpty {
+                ObserverUtils.forEach(observers: realtimeObservers) { (observer: RealtimeObserver) in
+                    observer.attendeesDidLeave(attendeeInfo: [AttendeeInfo](attendeesWithLeftStatus))
+                }
+                currentAttendeeSet.subtract(attendeesWithLeftStatus)
+            }
+        }
+
+        if let attendeesWithDroppedStatus = newAttendeeMap[AttendeeStatus.dropped] {
+            if !attendeesWithDroppedStatus.isEmpty {
+                ObserverUtils.forEach(observers: realtimeObservers) { (observer: RealtimeObserver) in
+                    observer.attendeesDidDrop(attendeeInfo: [AttendeeInfo](attendeesWithDroppedStatus))
+                }
+                currentAttendeeSet.subtract(attendeesWithDroppedStatus)
+            }
+        }
     }
 
     private func handleStateChangeToConnected(newAudioStatus: MeetingSessionStatusCode) {

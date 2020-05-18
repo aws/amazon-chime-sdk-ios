@@ -129,7 +129,7 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
 
     public func signalStrengthDidChange(signalUpdates: [SignalUpdate]) { }
 
-    public func attendeesDidLeave(attendeeInfo attendeeInfos: [AttendeeInfo]) {
+    private func removeAttendeesAndUpdate(attendeeInfo attendeeInfos: [AttendeeInfo]) {
         for attendeeInfo in attendeeInfos {
             speakerScores[attendeeInfo] = nil
             mostRecentUpdateTimestamp[attendeeInfo] = nil
@@ -137,6 +137,14 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
                 updateActiveSpeakers(policy: $0.value.0, callback: $0.value.1, attendeeInfo: attendeeInfo)
             }
         }
+    }
+
+    public func attendeesDidLeave(attendeeInfo: [AttendeeInfo]) {
+        removeAttendeesAndUpdate(attendeeInfo: attendeeInfo)
+    }
+
+    public func attendeesDidDrop(attendeeInfo: [AttendeeInfo]) {
+        removeAttendeesAndUpdate(attendeeInfo: attendeeInfo)
     }
 
     public func attendeesDidMute(attendeeInfo: [AttendeeInfo]) { }

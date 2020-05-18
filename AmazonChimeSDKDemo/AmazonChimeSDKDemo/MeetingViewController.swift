@@ -285,7 +285,7 @@ class MeetingViewController: UIViewController {
             let attendeeId = currentAttendeeInfo.attendeeId
             guard let attendee = self.currentRoster[attendeeId] else {
                 self.logger.error(msg: "Cannot find attendee with attendee id \(attendeeId)" +
-                    " external user id \(currentAttendeeInfo.externalUserId)")
+                    " external user id \(currentAttendeeInfo.externalUserId): \(action)")
                 continue
             }
             self.logger.info(msg: "\(attendee.attendeeName ?? "nil"): \(action)")
@@ -352,8 +352,7 @@ extension MeetingViewController: AudioVideoObserver {
 }
 
 extension MeetingViewController: RealtimeObserver {
-    func attendeesDidLeave(attendeeInfo: [AttendeeInfo]) {
-        self.logAttendee(attendeeInfo: attendeeInfo, action: "Left")
+    private func removeAttendeesAndReload(attendeeInfo: [AttendeeInfo]) {
         for currentAttendeeInfo in attendeeInfo {
             self.currentRoster.removeValue(forKey: currentAttendeeInfo.attendeeId)
         }
@@ -364,6 +363,16 @@ extension MeetingViewController: RealtimeObserver {
             return false
         })
         self.rosterTable.reloadData()
+    }
+
+    func attendeesDidLeave(attendeeInfo: [AttendeeInfo]) {
+        self.logAttendee(attendeeInfo: attendeeInfo, action: "Left")
+        self.removeAttendeesAndReload(attendeeInfo: attendeeInfo)
+    }
+
+    func attendeesDidDrop(attendeeInfo: [AttendeeInfo]) {
+        self.logAttendee(attendeeInfo: attendeeInfo, action: "Dropped")
+        self.removeAttendeesAndReload(attendeeInfo: attendeeInfo)
     }
 
     func attendeesDidMute(attendeeInfo: [AttendeeInfo]) {
