@@ -11,7 +11,7 @@ import AVFoundation
 import Toast
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
     var meetingID = ""
     var name = ""
     let logger = ConsoleLogger(name: "ViewController")
@@ -21,9 +21,16 @@ class ViewController: UIViewController {
     @IBOutlet var joinButton: UIButton!
     @IBOutlet var versionLabel: UILabel!
 
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         versionLabel.text = "amazon-chime-sdk-ios@\(Versioning.sdkVersion())"
+        meetingIDText.delegate = self
+        nameText.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
