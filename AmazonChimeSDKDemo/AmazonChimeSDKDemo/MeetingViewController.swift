@@ -371,7 +371,10 @@ extension MeetingViewController: RealtimeObserver {
     }
 
     func attendeesDidDrop(attendeeInfo: [AttendeeInfo]) {
-        self.logAttendee(attendeeInfo: attendeeInfo, action: "Dropped")
+        for attendee in attendeeInfo {
+            self.notify(msg: "\(attendee.externalUserId) dropped")
+        }
+
         self.removeAttendeesAndReload(attendeeInfo: attendeeInfo)
     }
 
