@@ -1,999 +1,999 @@
 {
   "warnings": [
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/AudioVideoControllerFacade.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/AudioVideoControllerFacade.swift",
       "line": 13,
       "symbol": "AudioVideoControllerFacade.configuration",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/AudioVideoControllerFacade.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/AudioVideoControllerFacade.swift",
       "line": 14,
       "symbol": "AudioVideoControllerFacade.logger",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/AudioVideoFacade.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/AudioVideoFacade.swift",
       "line": 11,
       "symbol": "AudioVideoFacade",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/DefaultAudioVideoController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/DefaultAudioVideoController.swift",
       "line": 12,
       "symbol": "DefaultAudioVideoController",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/DefaultAudioVideoController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/DefaultAudioVideoController.swift",
       "line": 13,
       "symbol": "DefaultAudioVideoController.configuration",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/DefaultAudioVideoController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/DefaultAudioVideoController.swift",
       "line": 14,
       "symbol": "DefaultAudioVideoController.logger",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/DefaultAudioVideoController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/DefaultAudioVideoController.swift",
       "line": 21,
       "symbol": "DefaultAudioVideoController.init(audioClientController:audioClientObserver:clientMetricsCollector:videoClientController:configuration:logger:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/DefaultAudioVideoFacade.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/DefaultAudioVideoFacade.swift",
       "line": 11,
       "symbol": "DefaultAudioVideoFacade",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/DefaultAudioVideoFacade.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/DefaultAudioVideoFacade.swift",
       "line": 12,
       "symbol": "DefaultAudioVideoFacade.configuration",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/DefaultAudioVideoFacade.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/DefaultAudioVideoFacade.swift",
       "line": 13,
       "symbol": "DefaultAudioVideoFacade.logger",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/audio/activespeakerdetector/DefaultActiveSpeakerDetector.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/audio/activespeakerdetector/DefaultActiveSpeakerDetector.swift",
       "line": 16,
       "symbol": "DefaultActiveSpeakerDetector",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/audio/activespeakerpolicy/ActiveSpeakerPolicy.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/audio/activespeakerpolicy/ActiveSpeakerPolicy.swift",
       "line": 11,
       "symbol": "ActiveSpeakerPolicy",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/audio/activespeakerpolicy/DefaultActiveSpeakerPolicy.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/audio/activespeakerpolicy/DefaultActiveSpeakerPolicy.swift",
       "line": 11,
       "symbol": "DefaultActiveSpeakerPolicy",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/audio/activespeakerpolicy/DefaultActiveSpeakerPolicy.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/audio/activespeakerpolicy/DefaultActiveSpeakerPolicy.swift",
       "line": 17,
       "symbol": "DefaultActiveSpeakerPolicy.init(speakerWeight:cutoffThreshold:takeoverRate:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/data/AttendeeInfo.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/data/AttendeeInfo.swift",
       "line": 11,
       "symbol": "AttendeeInfo",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/data/AttendeeInfo.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/data/AttendeeInfo.swift",
       "line": 12,
       "symbol": "AttendeeInfo.attendeeId",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/data/AttendeeInfo.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/data/AttendeeInfo.swift",
       "line": 13,
       "symbol": "AttendeeInfo.externalUserId",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/data/AttendeeInfo.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/data/AttendeeInfo.swift",
       "line": 20,
       "symbol": "AttendeeInfo.isEqual(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/data/AttendeeInfo.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/data/AttendeeInfo.swift",
       "line": 27,
       "symbol": "AttendeeInfo.hash",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/data/SignalUpdate.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/data/SignalUpdate.swift",
       "line": 11,
       "symbol": "SignalUpdate",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/data/SignalUpdate.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/data/SignalUpdate.swift",
       "line": 12,
       "symbol": "SignalUpdate.attendeeInfo",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/data/SignalUpdate.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/data/SignalUpdate.swift",
       "line": 13,
       "symbol": "SignalUpdate.signalStrength",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/data/VolumeUpdate.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/data/VolumeUpdate.swift",
       "line": 11,
       "symbol": "VolumeUpdate",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/data/VolumeUpdate.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/data/VolumeUpdate.swift",
       "line": 12,
       "symbol": "VolumeUpdate.attendeeInfo",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/data/VolumeUpdate.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/data/VolumeUpdate.swift",
       "line": 13,
       "symbol": "VolumeUpdate.volumeLevel",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/video/DefaultVideoRenderView.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/video/DefaultVideoRenderView.swift",
       "line": 13,
       "symbol": "DefaultVideoRenderView",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/video/DefaultVideoRenderView.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/video/DefaultVideoRenderView.swift",
       "line": 16,
       "symbol": "DefaultVideoRenderView.mirror",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/video/DefaultVideoRenderView.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/video/DefaultVideoRenderView.swift",
       "line": 22,
       "symbol": "DefaultVideoRenderView.contentMode",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/video/DefaultVideoRenderView.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/video/DefaultVideoRenderView.swift",
       "line": 39,
       "symbol": "DefaultVideoRenderView.init(coder:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/video/DefaultVideoRenderView.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/video/DefaultVideoRenderView.swift",
       "line": 46,
       "symbol": "DefaultVideoRenderView.init(frame:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/video/DefaultVideoTile.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/video/DefaultVideoTile.swift",
       "line": 11,
       "symbol": "DefaultVideoTile",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/video/DefaultVideoTileController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/video/DefaultVideoTileController.swift",
       "line": 12,
       "symbol": "DefaultVideoTileController",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/video/VideoTileState.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/audiovideo/video/VideoTileState.swift",
       "line": 28,
       "symbol": "VideoTileState.init(tileId:attendeeId:pauseState:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/device/DefaultDeviceController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/device/DefaultDeviceController.swift",
       "line": 11,
       "symbol": "DefaultDeviceController",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/device/DefaultDeviceController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/device/DefaultDeviceController.swift",
       "line": 17,
       "symbol": "DefaultDeviceController.init(audioSession:videoClientController:logger:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/device/MediaDevice.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/device/MediaDevice.swift",
       "line": 37,
       "symbol": "MediaDevice.init(label:port:videoDevice:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/device/MediaDevice.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/device/MediaDevice.swift",
       "line": 65,
       "symbol": "MediaDevice.description",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/device/MediaDeviceType.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/device/MediaDeviceType.swift",
       "line": 11,
       "symbol": "MediaDeviceType",
       "symbol_kind": "source.lang.swift.decl.enum",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/device/MediaDeviceType.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/device/MediaDeviceType.swift",
       "line": 12,
       "symbol": "MediaDeviceType.audioBluetooth",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/device/MediaDeviceType.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/device/MediaDeviceType.swift",
       "line": 13,
       "symbol": "MediaDeviceType.audioWiredHeadset",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/device/MediaDeviceType.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/device/MediaDeviceType.swift",
       "line": 14,
       "symbol": "MediaDeviceType.audioBuiltInSpeaker",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/device/MediaDeviceType.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/device/MediaDeviceType.swift",
       "line": 15,
       "symbol": "MediaDeviceType.audioHandset",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/device/MediaDeviceType.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/device/MediaDeviceType.swift",
       "line": 16,
       "symbol": "MediaDeviceType.videoFrontCamera",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/device/MediaDeviceType.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/device/MediaDeviceType.swift",
       "line": 17,
       "symbol": "MediaDeviceType.videoBackCamera",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/device/MediaDeviceType.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/device/MediaDeviceType.swift",
       "line": 18,
       "symbol": "MediaDeviceType.other",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/AudioClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/AudioClientController.swift",
       "line": 11,
       "symbol": "AudioClientController",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/AudioClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/AudioClientController.swift",
       "line": 12,
       "symbol": "AudioClientController.setMute(mute:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/AudioClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/AudioClientController.swift",
       "line": 13,
       "symbol": "AudioClientController.start(audioFallbackUrl:audioHostUrl:meetingId:attendeeId:joinToken:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/AudioClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/AudioClientController.swift",
       "line": 18,
       "symbol": "AudioClientController.stop()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/AudioClientObserver.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/AudioClientObserver.swift",
       "line": 11,
       "symbol": "AudioClientObserver",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/AudioClientObserver.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/AudioClientObserver.swift",
       "line": 12,
       "symbol": "AudioClientObserver.notifyAudioClientObserver(observerFunction:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/AudioClientObserver.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/AudioClientObserver.swift",
       "line": 13,
       "symbol": "AudioClientObserver.subscribeToAudioClientStateChange(observer:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/AudioClientObserver.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/AudioClientObserver.swift",
       "line": 14,
       "symbol": "AudioClientObserver.subscribeToRealTimeEvents(observer:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/AudioClientObserver.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/AudioClientObserver.swift",
       "line": 15,
       "symbol": "AudioClientObserver.unsubscribeFromAudioClientStateChange(observer:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/AudioClientObserver.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/AudioClientObserver.swift",
       "line": 16,
       "symbol": "AudioClientObserver.unsubscribeFromRealTimeEvents(observer:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/DefaultAudioClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/DefaultAudioClientController.swift",
       "line": 36,
       "symbol": "DefaultAudioClientController.setMute(mute:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/DefaultAudioClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/DefaultAudioClientController.swift",
       "line": 40,
       "symbol": "DefaultAudioClientController.start(audioFallbackUrl:audioHostUrl:meetingId:attendeeId:joinToken:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/DefaultAudioClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/DefaultAudioClientController.swift",
       "line": 76,
       "symbol": "DefaultAudioClientController.stop()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/metric/ClientMetricsCollector.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/metric/ClientMetricsCollector.swift",
       "line": 17,
       "symbol": "ClientMetricsCollector.processAudioClientMetrics(metrics:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/metric/ClientMetricsCollector.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/metric/ClientMetricsCollector.swift",
       "line": 18,
       "symbol": "ClientMetricsCollector.processVideoClientMetrics(metrics:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/metric/ClientMetricsCollector.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/metric/ClientMetricsCollector.swift",
       "line": 20,
       "symbol": "ClientMetricsCollector.subscribeToMetrics(observer:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/metric/ClientMetricsCollector.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/metric/ClientMetricsCollector.swift",
       "line": 21,
       "symbol": "ClientMetricsCollector.unsubscribeFromMetrics(observer:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/metric/DefaultClientMetricsCollector.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/metric/DefaultClientMetricsCollector.swift",
       "line": 31,
       "symbol": "DefaultClientMetricsCollector.processAudioClientMetrics(metrics:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/metric/DefaultClientMetricsCollector.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/metric/DefaultClientMetricsCollector.swift",
       "line": 59,
       "symbol": "DefaultClientMetricsCollector.subscribeToMetrics(observer:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/metric/DefaultClientMetricsCollector.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/metric/DefaultClientMetricsCollector.swift",
       "line": 63,
       "symbol": "DefaultClientMetricsCollector.unsubscribeFromMetrics(observer:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
       "line": 228,
       "symbol": "DefaultVideoClientController.videoClientIsConnecting(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
       "line": 235,
       "symbol": "DefaultVideoClientController.videoClientDidConnect(_:controlStatus:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
       "line": 250,
       "symbol": "DefaultVideoClientController.videoClientDidFail(_:status:controlStatus:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
       "line": 258,
       "symbol": "DefaultVideoClientController.videoClientDidStop(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
       "line": 265,
       "symbol": "DefaultVideoClientController.videoClient(_:cameraSendIsAvailable:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
       "line": 269,
       "symbol": "DefaultVideoClientController.videoClientRequestTurnCreds(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
       "line": 299,
       "symbol": "DefaultVideoClientController.videoClientMetricsReceived(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
       "line": 307,
       "symbol": "DefaultVideoClientController.start(turnControlUrl:signalingUrl:meetingId:joinToken:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
       "line": 329,
       "symbol": "DefaultVideoClientController.stopAndDestroy()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
       "line": 345,
       "symbol": "DefaultVideoClientController.startLocalVideo()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
       "line": 359,
       "symbol": "DefaultVideoClientController.stopLocalVideo()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
       "line": 368,
       "symbol": "DefaultVideoClientController.startRemoteVideo()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
       "line": 377,
       "symbol": "DefaultVideoClientController.stopRemoteVideo()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
       "line": 386,
       "symbol": "DefaultVideoClientController.switchCamera()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
       "line": 401,
       "symbol": "DefaultVideoClientController.getCurrentDevice()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
       "line": 405,
       "symbol": "DefaultVideoClientController.subscribeToVideoClientStateChange(observer:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
       "line": 409,
       "symbol": "DefaultVideoClientController.unsubscribeToVideoClientStateChange(observer:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
       "line": 413,
       "symbol": "DefaultVideoClientController.subscribeToVideoTileControllerObservers(observer:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
       "line": 417,
       "symbol": "DefaultVideoClientController.unsubscribeToVideoTileControllerObservers(observer:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
       "line": 421,
       "symbol": "DefaultVideoClientController.pauseResumeRemoteVideo(_:pause:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
       "line": 12,
       "symbol": "VideoClientController",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
       "line": 13,
       "symbol": "VideoClientController.start(turnControlUrl:signalingUrl:meetingId:joinToken:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
       "line": 17,
       "symbol": "VideoClientController.stopAndDestroy()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
       "line": 18,
       "symbol": "VideoClientController.startLocalVideo()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
       "line": 19,
       "symbol": "VideoClientController.stopLocalVideo()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
       "line": 20,
       "symbol": "VideoClientController.startRemoteVideo()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
       "line": 21,
       "symbol": "VideoClientController.stopRemoteVideo()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
       "line": 22,
       "symbol": "VideoClientController.switchCamera()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
       "line": 23,
       "symbol": "VideoClientController.getCurrentDevice()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
       "line": 24,
       "symbol": "VideoClientController.subscribeToVideoClientStateChange(observer:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
       "line": 25,
       "symbol": "VideoClientController.unsubscribeToVideoClientStateChange(observer:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
       "line": 26,
       "symbol": "VideoClientController.subscribeToVideoTileControllerObservers(observer:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
       "line": 27,
       "symbol": "VideoClientController.unsubscribeToVideoTileControllerObservers(observer:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/VideoClientController.swift",
       "line": 28,
       "symbol": "VideoClientController.pauseResumeRemoteVideo(_:pause:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/realtime/DefaultRealtimeController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/realtime/DefaultRealtimeController.swift",
       "line": 11,
       "symbol": "DefaultRealtimeController",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/realtime/DefaultRealtimeController.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/realtime/DefaultRealtimeController.swift",
       "line": 15,
       "symbol": "DefaultRealtimeController.init(audioClientController:audioClientObserver:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/CreateAttendeeResponse.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/CreateAttendeeResponse.swift",
       "line": 11,
       "symbol": "CreateAttendeeResponse",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/CreateAttendeeResponse.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/CreateAttendeeResponse.swift",
       "line": 14,
       "symbol": "CreateAttendeeResponse.init(attendee:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/CreateAttendeeResponse.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/CreateAttendeeResponse.swift",
       "line": 19,
       "symbol": "Attendee",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/CreateAttendeeResponse.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/CreateAttendeeResponse.swift",
       "line": 24,
       "symbol": "Attendee.init(attendeeId:externalUserId:joinToken:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/CreateMeetingResponse.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/CreateMeetingResponse.swift",
       "line": 11,
       "symbol": "CreateMeetingResponse",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/CreateMeetingResponse.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/CreateMeetingResponse.swift",
       "line": 14,
       "symbol": "CreateMeetingResponse.init(meeting:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/CreateMeetingResponse.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/CreateMeetingResponse.swift",
       "line": 19,
       "symbol": "Meeting",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/CreateMeetingResponse.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/CreateMeetingResponse.swift",
       "line": 25,
       "symbol": "Meeting.init(externalMeetingId:mediaPlacement:mediaRegion:meetingId:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/CreateMeetingResponse.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/CreateMeetingResponse.swift",
       "line": 33,
       "symbol": "MediaPlacement",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/CreateMeetingResponse.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/CreateMeetingResponse.swift",
       "line": 39,
       "symbol": "MediaPlacement.init(audioFallbackUrl:audioHostUrl:signalingUrl:turnControlUrl:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/DefaultMeetingSession.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/DefaultMeetingSession.swift",
       "line": 13,
       "symbol": "DefaultMeetingSession",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/DefaultMeetingSession.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/DefaultMeetingSession.swift",
       "line": 14,
       "symbol": "DefaultMeetingSession.configuration",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/DefaultMeetingSession.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/DefaultMeetingSession.swift",
       "line": 15,
       "symbol": "DefaultMeetingSession.logger",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/DefaultMeetingSession.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/DefaultMeetingSession.swift",
       "line": 16,
       "symbol": "DefaultMeetingSession.audioVideo",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/DefaultMeetingSession.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/DefaultMeetingSession.swift",
       "line": 20,
       "symbol": "DefaultMeetingSession.init(configuration:logger:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSession.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSession.swift",
       "line": 11,
       "symbol": "MeetingSession",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSession.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSession.swift",
       "line": 12,
       "symbol": "MeetingSession.configuration",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSession.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSession.swift",
       "line": 13,
       "symbol": "MeetingSession.logger",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSession.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSession.swift",
       "line": 14,
       "symbol": "MeetingSession.audioVideo",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSessionConfiguration.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSessionConfiguration.swift",
       "line": 25,
       "symbol": "MeetingSessionConfiguration.urlRewriter",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSessionConfiguration.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSessionConfiguration.swift",
       "line": 27,
       "symbol": "MeetingSessionConfiguration.init(createMeetingResponse:createAttendeeResponse:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSessionConfiguration.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSessionConfiguration.swift",
       "line": 34,
       "symbol": "MeetingSessionConfiguration.init(createMeetingResponse:createAttendeeResponse:urlRewriter:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSessionCredentials.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSessionCredentials.swift",
       "line": 20,
       "symbol": "MeetingSessionCredentials.init(attendeeId:joinToken:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSessionStatus.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSessionStatus.swift",
       "line": 13,
       "symbol": "MeetingSessionStatus.statusCode",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSessionStatus.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSessionStatus.swift",
       "line": 15,
       "symbol": "MeetingSessionStatus.init(statusCode:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSessionStatusCode.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSessionStatusCode.swift",
       "line": 11,
       "symbol": "MeetingSessionStatusCode",
       "symbol_kind": "source.lang.swift.decl.enum",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSessionURLs.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSessionURLs.swift",
       "line": 25,
       "symbol": "MeetingSessionURLs.init(audioFallbackUrl:audioHostUrl:turnControlUrl:signalingUrl:urlRewriter:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/MediaError.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/MediaError.swift",
       "line": 11,
       "symbol": "MediaError",
       "symbol_kind": "source.lang.swift.decl.enum",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/MediaError.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/MediaError.swift",
       "line": 12,
       "symbol": "MediaError.illegalState",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/PermissionError.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/PermissionError.swift",
       "line": 11,
       "symbol": "PermissionError",
       "symbol_kind": "source.lang.swift.decl.enum",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/PermissionError.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/PermissionError.swift",
       "line": 12,
       "symbol": "PermissionError.audioPermissionError",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/PermissionError.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/PermissionError.swift",
       "line": 13,
       "symbol": "PermissionError.videoPermissionError",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/Versioning.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/Versioning.swift",
       "line": 10,
       "symbol": "Versioning",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/logger/ConsoleLogger.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/logger/ConsoleLogger.swift",
       "line": 32,
       "symbol": "ConsoleLogger.init(name:level:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/logger/LogLevel.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/logger/LogLevel.swift",
       "line": 11,
       "symbol": "LogLevel",
       "symbol_kind": "source.lang.swift.decl.enum",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/logger/LogLevel.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/logger/LogLevel.swift",
       "line": 12,
       "symbol": "LogLevel.DEFAULT",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/logger/LogLevel.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/logger/LogLevel.swift",
       "line": 13,
       "symbol": "LogLevel.DEBUG",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/logger/LogLevel.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/logger/LogLevel.swift",
       "line": 14,
       "symbol": "LogLevel.INFO",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/logger/LogLevel.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/logger/LogLevel.swift",
       "line": 15,
       "symbol": "LogLevel.FAULT",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/logger/LogLevel.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/logger/LogLevel.swift",
       "line": 16,
       "symbol": "LogLevel.ERROR",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/logger/LogLevel.swift",
+      "file": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/utils/logger/LogLevel.swift",
       "line": 17,
       "symbol": "LogLevel.OFF",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     }
   ],
-  "source_directory": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK"
+  "source_directory": "/Users/wanghaor/workspace/ChimeSDKiOS/amazon-chime-sdk-apple/AmazonChimeSDK"
 }
