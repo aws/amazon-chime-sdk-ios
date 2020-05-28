@@ -13,7 +13,7 @@ import UIKit
     private let logger: Logger
     private var videoTileMap = [Int: VideoTile]()
     private var videoViewToTileMap = [NSValue: Int]()
-    private let videoTileObservers = NSMutableSet()
+    private let videoTileObservers = AtomicMutableSet()
     private let videoClientController: VideoClientController
 
     init(logger: Logger, videoClientController: VideoClientController) {

@@ -37,14 +37,15 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
 
         timer = IntervalScheduler(
             intervalMs: DefaultActiveSpeakerDetector.activityUpdateIntervalMs,
-            callback: {
-                self.policiesAndCallbacks.forEach {
-                    for attendeeInfo in self.speakerScores.keys {
-                        let lastTimestamp = self.mostRecentUpdateTimestamp[attendeeInfo] ?? 0
+            callback: { [weak self] in
+                guard let welf = self else { return }
+                welf.policiesAndCallbacks.forEach {
+                    for attendeeInfo in welf.speakerScores.keys {
+                        let lastTimestamp = welf.mostRecentUpdateTimestamp[attendeeInfo] ?? 0
                         if Int(Double(DefaultActiveSpeakerDetector.activityWaitIntervalMs) *
                             Date.timeIntervalSinceReferenceDate) - lastTimestamp
                             > DefaultActiveSpeakerDetector.activityWaitIntervalMs {
-                            self.updateScore(
+                            welf.updateScore(
                                 policy: $0.value.0,
                                 callback: $0.value.1,
                                 attendeeInfo: attendeeInfo,

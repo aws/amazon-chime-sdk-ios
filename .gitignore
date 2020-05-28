@@ -5,3 +5,5 @@ MockingbirdMocks
 MockingbirdCache
 build
 AmazonChimeSDK/docs
+AmazonChimeSDK/MockingbirdSupport/
+**/IDEWorkspaceChecks.plist

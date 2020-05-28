@@ -11,14 +11,14 @@ import Foundation
 
 class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     private var audioClient: AudioClient
-    private var audioClientStateObservers = NSMutableSet()
+    private let audioClientStateObservers = AtomicMutableSet()
     private var clientMetricsCollector: ClientMetricsCollector
     private var currentAttendeeSet: Set<AttendeeInfo> = Set()
     private var currentAttendeeSignalMap = [AttendeeInfo: SignalStrength]()
     private var currentAttendeeVolumeMap = [AttendeeInfo: VolumeLevel]()
     private var currentAudioState = SessionStateControllerAction.initialize
     private var currentAudioStatus = MeetingSessionStatusCode.ok
-    private var realtimeObservers = NSMutableSet()
+    private let realtimeObservers = AtomicMutableSet()
 
     init(audioClient: AudioClient, clientMetricsCollector: ClientMetricsCollector) {
         self.audioClient = audioClient
