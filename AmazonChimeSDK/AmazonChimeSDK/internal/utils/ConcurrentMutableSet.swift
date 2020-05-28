@@ -1,5 +1,5 @@
 //
-//  AtomicMutableSet.swift
+//  ConcurrentMutableSet.swift
 //  AmazonChimeSDK
 //
 //  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
@@ -8,8 +8,8 @@
 
 import Foundation
 
-class AtomicMutableSet {
-    private let lock = NSLock()
+@objcMembers class ConcurrentMutableSet {
+    private let lock = NSRecursiveLock()
     private let set = NSMutableSet()
 
     func add(_ object: Any) {

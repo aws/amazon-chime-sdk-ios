@@ -11,7 +11,7 @@ import Foundation
 
 class DefaultClientMetricsCollector {
     private var cachedObservableMetrics: [ObservableMetric: Any] = [:]
-    private let metricsObservers = AtomicMutableSet()
+    private let metricsObservers = ConcurrentMutableSet()
     private var lastEmittedMetricsTime = DispatchTime.now()
     private let metricsEmissionInterval = DispatchTimeInterval.seconds(1)
 
