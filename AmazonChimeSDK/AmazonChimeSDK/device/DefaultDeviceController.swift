@@ -12,7 +12,7 @@ import AVFoundation
     let videoClientController: VideoClientController
     let logger: Logger
     let audioSession: AVAudioSession
-    var deviceChangeObservers = NSMutableSet()
+    let deviceChangeObservers = AtomicMutableSet()
 
     public init(audioSession: AVAudioSession,
                 videoClientController: VideoClientController,

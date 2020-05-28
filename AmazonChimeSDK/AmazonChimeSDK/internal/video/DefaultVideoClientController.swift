@@ -19,8 +19,8 @@ class DefaultVideoClientController: NSObject {
     var signalingUrl: String?
     var videoClient: VideoClient?
     var videoClientState: VideoClientState = .uninitialized
-    var videoTileControllerObservers: NSMutableSet = NSMutableSet()
-    var videoObservers: NSMutableSet = NSMutableSet()
+    let videoTileControllerObservers = AtomicMutableSet()
+    let videoObservers = AtomicMutableSet()
     var turnControlUrl: String?
 
     private let contentTypeHeader = "Content-Type"
