@@ -108,7 +108,7 @@
 		B4980CA123E78B9A00D2DB64 /* DeviceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4980CA023E78B9A00D2DB64 /* DeviceController.swift */; };
 		B4980CB523E78D1800D2DB64 /* DefaultDeviceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4980CB423E78D1800D2DB64 /* DefaultDeviceController.swift */; };
 		B4980CB823E78F9500D2DB64 /* MediaDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4980CB723E78F9500D2DB64 /* MediaDevice.swift */; };
-		C49B5424247EFD2B002829F1 /* AtomicMutableSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49B5423247EFD2B002829F1 /* AtomicMutableSet.swift */; };
+		C49B5424247EFD2B002829F1 /* ConcurrentMutableSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49B5423247EFD2B002829F1 /* ConcurrentMutableSet.swift */; };
 		C60D5593246509BA00C2A278 /* Converters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60D5592246509B900C2A278 /* Converters.swift */; };
 		C60D5596246514B000C2A278 /* ConvertersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60D5595246514B000C2A278 /* ConvertersTests.swift */; };
 		F8204ADC23F499410099E3D1 /* MeetingSessionTURNCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8204ADB23F499410099E3D1 /* MeetingSessionTURNCredentials.swift */; };
@@ -117,6 +117,8 @@
 		F83F53702452757700614913 /* ObserverUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83F536F2452757700614913 /* ObserverUtils.swift */; };
 		F86CB7412411B9A6004FD82F /* exported_symbols in Resources */ = {isa = PBXBuildFile; fileRef = F86CB7402411B9A6004FD82F /* exported_symbols */; };
 		F8C0145E23F1D50E0083D478 /* VideoClientController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C0145D23F1D50E0083D478 /* VideoClientController.swift */; };
+		F8E42DEE247F9464004C8400 /* ConcurrentDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8E42DED247F9464004C8400 /* ConcurrentDictionary.swift */; };
+		F8E42DF0247FD86B004C8400 /* ConcurrentDictionaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8E42DEF247FD86B004C8400 /* ConcurrentDictionaryTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -232,7 +234,7 @@
 		B4980CB423E78D1800D2DB64 /* DefaultDeviceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDeviceController.swift; sourceTree = "<group>"; };
 		B4980CB723E78F9500D2DB64 /* MediaDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDevice.swift; sourceTree = "<group>"; };
 		B4AF16E309DA4B11FCD4D2C9 /* AmazonChimeSDKMocks.generated.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = AmazonChimeSDKMocks.generated.swift; path = MockingbirdMocks/AmazonChimeSDKMocks.generated.swift; sourceTree = "<group>"; };
-		C49B5423247EFD2B002829F1 /* AtomicMutableSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomicMutableSet.swift; sourceTree = "<group>"; };
+		C49B5423247EFD2B002829F1 /* ConcurrentMutableSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcurrentMutableSet.swift; sourceTree = "<group>"; };
 		C60D5592246509B900C2A278 /* Converters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converters.swift; sourceTree = "<group>"; };
 		C60D5595246514B000C2A278 /* ConvertersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertersTests.swift; sourceTree = "<group>"; };
 		F8204ADB23F499410099E3D1 /* MeetingSessionTURNCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSessionTURNCredentials.swift; sourceTree = "<group>"; };
@@ -241,6 +243,8 @@
 		F83F536F2452757700614913 /* ObserverUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserverUtils.swift; sourceTree = "<group>"; };
 		F86CB7402411B9A6004FD82F /* exported_symbols */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = exported_symbols; sourceTree = "<group>"; };
 		F8C0145D23F1D50E0083D478 /* VideoClientController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoClientController.swift; sourceTree = "<group>"; };
+		F8E42DED247F9464004C8400 /* ConcurrentDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcurrentDictionary.swift; sourceTree = "<group>"; };
+		F8E42DEF247FD86B004C8400 /* ConcurrentDictionaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcurrentDictionaryTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -617,7 +621,8 @@
 				0007631C2412E3C2001D598A /* Constants.swift */,
 				C60D5592246509B900C2A278 /* Converters.swift */,
 				F83F536F2452757700614913 /* ObserverUtils.swift */,
-				C49B5423247EFD2B002829F1 /* AtomicMutableSet.swift */,
+				C49B5423247EFD2B002829F1 /* ConcurrentMutableSet.swift */,
+				F8E42DED247F9464004C8400 /* ConcurrentDictionary.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -683,6 +688,7 @@
 			isa = PBXGroup;
 			children = (
 				C60D5595246514B000C2A278 /* ConvertersTests.swift */,
+				F8E42DEF247FD86B004C8400 /* ConcurrentDictionaryTests.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -858,7 +864,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C0D1BEF241ACC7B00280031 /* ActiveSpeakerDetectorFacade.swift in Sources */,
-				C49B5424247EFD2B002829F1 /* AtomicMutableSet.swift in Sources */,
+				C49B5424247EFD2B002829F1 /* ConcurrentMutableSet.swift in Sources */,
 				7C0D1BF0241ACC7B00280031 /* ActiveSpeakerObserver.swift in Sources */,
 				7C0D1BF1241ACC7B00280031 /* ActiveSpeakerPolicy.swift in Sources */,
 				5A16B94923FCC00100ADAE26 /* AudioClientController.swift in Sources */,
@@ -883,6 +889,7 @@
 				5A175AB223CFD27400121924 /* DefaultAudioVideoController.swift in Sources */,
 				5A175AB823CFD28A00121924 /* DefaultAudioVideoFacade.swift in Sources */,
 				5A16B9C923FDF44500ADAE26 /* DefaultClientMetricsCollector.swift in Sources */,
+				F8E42DEE247F9464004C8400 /* ConcurrentDictionary.swift in Sources */,
 				B4980CB523E78D1800D2DB64 /* DefaultDeviceController.swift in Sources */,
 				5A6A209923CB1164000C9157 /* DefaultMeetingSession.swift in Sources */,
 				0083A11623D8CFFD0057027A /* DefaultRealtimeController.swift in Sources */,
@@ -963,6 +970,7 @@
 				7CE107662421CC7B00E209D1 /* SchedulerTests.swift in Sources */,
 				5AF7E00E245B6E86006C7C86 /* VersioningTests.swift in Sources */,
 				5A6F818E24637BA30031AE97 /* VideoClientStateTests.swift in Sources */,
+				F8E42DF0247FD86B004C8400 /* ConcurrentDictionaryTests.swift in Sources */,
 				006894F8246B481D00611C75 /* AttendeeStatusTest.swift in Sources */,
 				5AE76F2D24203AEF009C41FD /* VideoPauseStateTests.swift in Sources */,
 				5A0E731B242EA39E006636AB /* VideoTileStateTests.swift in Sources */,

@@ -31,9 +31,9 @@ import Foundation
     /// Note: this callback will be called on main thread.
     func audioSessionDidDrop()
 
-    /// Called when the audio session has stopped with the reason
-    /// provided in the status. This callback implies that audio client has stopped permanently for this session and there will be
-    /// no attempt of reconnecting it.
+    /// Called when the audio session has stopped with the reason provided in the status.
+    /// This callback implies that audio client has stopped permanently for this session
+    /// and there will be no attempt of reconnecting it.
     ///
     /// Note: this callback will be called on main thread.
     ///

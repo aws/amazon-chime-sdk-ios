@@ -9,10 +9,10 @@
 import Foundation
 
 @objcMembers public class DefaultActiveSpeakerPolicy: ActiveSpeakerPolicy {
-    private var volumes: [String: Double] = [:]
-    private var speakerWeight: Double
-    private var cutoffThreshold: Double
-    private var takeoverRate: Double
+    private let volumes = ConcurrentDictionary<String, Double>()
+    private let speakerWeight: Double
+    private let cutoffThreshold: Double
+    private let takeoverRate: Double
 
     public init(
         speakerWeight: Double = 0.9,
@@ -33,11 +33,14 @@ import Foundation
                      * speakerWeight
                      + scalar * (1 - speakerWeight)
         volumes[attendeeInfo.attendeeId] = score
-        for (otherAttendeeId, _) in volumes where otherAttendeeId != attendeeInfo.attendeeId {
-            volumes[otherAttendeeId] = max(
-                volumes[otherAttendeeId]! - takeoverRate * scalar,
-                0.0
-            )
+        volumes.forEach { (otherAttendeeId, _) in
+            if otherAttendeeId != attendeeInfo.attendeeId,
+                let otherAtttendeeVolume = volumes[otherAttendeeId] {
+                volumes[otherAttendeeId] = max(
+                    otherAtttendeeVolume - takeoverRate * scalar,
+                    0.0
+                )
+            }
         }
         if score < cutoffThreshold {
             return 0.0

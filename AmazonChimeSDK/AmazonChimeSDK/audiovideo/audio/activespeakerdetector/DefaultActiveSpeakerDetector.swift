@@ -14,17 +14,17 @@ import Foundation
 typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
 
 @objcMembers public class DefaultActiveSpeakerDetector: ActiveSpeakerDetectorFacade, RealtimeObserver {
-    private static var activityWaitIntervalMs = 1000
-    private static var activityUpdateIntervalMs = 200
+    private static let activityWaitIntervalMs = 1000
+    private static let activityUpdateIntervalMs = 200
 
-    private var speakerScores: [AttendeeInfo: Double] = [:]
+    private let speakerScores = ConcurrentDictionary<AttendeeInfo, Double>()
     private var activeSpeakers: [AttendeeInfo] = []
-    private var scoresTimers: [String: Scheduler] = [:]
+    private let scoresTimers = ConcurrentDictionary<String, Scheduler>()
     private var hasBandwidthPriority = false
-    private var mostRecentUpdateTimestamp: [AttendeeInfo: Int] = [:]
-    private var audioClientObserver: AudioClientObserver
-    private var selfAttendeeId: String
-    private var policiesAndCallbacks: [String: (ActiveSpeakerPolicy, DetectorCallback)] = [:]
+    private let mostRecentUpdateTimestamp = ConcurrentDictionary<AttendeeInfo, Int>()
+    private let audioClientObserver: AudioClientObserver
+    private let selfAttendeeId: String
+    private let policiesAndCallbacks = ConcurrentDictionary<String, (ActiveSpeakerPolicy, DetectorCallback)>()
     private var timer = IntervalScheduler(intervalMs: activityWaitIntervalMs, callback: {})
 
     init(
@@ -39,15 +39,15 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
             intervalMs: DefaultActiveSpeakerDetector.activityUpdateIntervalMs,
             callback: { [weak self] in
                 guard let welf = self else { return }
-                welf.policiesAndCallbacks.forEach {
-                    for attendeeInfo in welf.speakerScores.keys {
+                welf.policiesAndCallbacks.forEach { (_, policyAndCallback) in
+                    welf.speakerScores.forEach { (attendeeInfo, _) in
                         let lastTimestamp = welf.mostRecentUpdateTimestamp[attendeeInfo] ?? 0
                         if Int(Double(DefaultActiveSpeakerDetector.activityWaitIntervalMs) *
                             Date.timeIntervalSinceReferenceDate) - lastTimestamp
                             > DefaultActiveSpeakerDetector.activityWaitIntervalMs {
                             welf.updateScore(
-                                policy: $0.value.0,
-                                callback: $0.value.1,
+                                policy: policyAndCallback.0,
+                                callback: policyAndCallback.1,
                                 attendeeInfo: attendeeInfo,
                                 volume: VolumeLevel.notSpeaking
                             )
@@ -91,8 +91,7 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
             !activeSpeakers.isEmpty && activeSpeakers[0].attendeeId == selfAttendeeId
         let hasBandwidthPriority =
             selfIsActive && policy.prioritizeVideoSendBandwidthForActiveSpeaker()
-        let hasBandwidthPriorityDidChange = hasBandwidthPriority != hasBandwidthPriority
-        if hasBandwidthPriorityDidChange {
+        if self.hasBandwidthPriority != hasBandwidthPriority {
             self.hasBandwidthPriority = hasBandwidthPriority
             hasBandwidthPriorityCallback(hasBandwidthPriority: hasBandwidthPriority)
         }
@@ -171,7 +170,7 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
             let scoresTimer = IntervalScheduler(intervalMs: observer.scoresCallbackIntervalMs!, callback: {
                 DispatchQueue.main.async { [weak self] in
                     guard let strongSelf = self else { return }
-                    observer.activeSpeakerScoreDidChange!(scores: strongSelf.speakerScores)
+                    observer.activeSpeakerScoreDidChange!(scores: strongSelf.speakerScores.getShallowDictCopy())
                 }
             })
             scoresTimer.start()
@@ -180,7 +179,7 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
     }
 
     public func removeActiveSpeakerObserver(observer: ActiveSpeakerObserver) {
-        if let scoresTimer = self.scoresTimers[observer.observerId] {
+        if let scoresTimer = scoresTimers[observer.observerId] {
             scoresTimer.stop()
             scoresTimers[observer.observerId] = nil
         }
