@@ -53,11 +53,9 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     }
 
     public func audioMetricsChanged(_ metrics: [AnyHashable: Any]?) {
-        if metrics == nil {
-            return
-        }
+        guard let metrics = metrics else { return }
 
-        clientMetricsCollector.processAudioClientMetrics(metrics: metrics!)
+        clientMetricsCollector.processAudioClientMetrics(metrics: metrics)
     }
 
     public func signalStrengthChanged(_ signalStrengths: [Any]?) {

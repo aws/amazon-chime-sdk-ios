@@ -1,5 +1,5 @@
 //
-//  DictionaryTests.swift
+//  DictionaryExtensionTests.swift
 //  AmazonChimeSDK
 //
 //  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
@@ -9,7 +9,7 @@
 @testable import AmazonChimeSDK
 import XCTest
 
-class DictionaryTests: XCTestCase {
+class DictionaryExtensionTests: XCTestCase {
     private var emptyDict: [String: Int] = [:]
     private var dict1 = ["a": 1]
     private var dict2 = ["a": 2]

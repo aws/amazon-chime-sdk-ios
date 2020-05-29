@@ -45,14 +45,14 @@ class MeetingViewController: UIViewController {
         super.viewDidLoad()
         self.setupUI()
         self.meetingNameLabel.text = self.meetingId
-        guard self.meetingSessionConfig != nil else {
+        guard let meetingSessionConfig = self.meetingSessionConfig else {
             self.logger.error(msg: "Unable to get meeting session")
             return
         }
 
         DispatchQueue.global(qos: .background).async {
             self.currentMeetingSession = DefaultMeetingSession(
-                configuration: self.meetingSessionConfig!, logger: self.logger)
+                configuration: meetingSessionConfig, logger: self.logger)
             self.videoCollection.accessibilityIdentifier = "Video Collection"
 
             self.setupAudioEnv()
@@ -149,18 +149,20 @@ class MeetingViewController: UIViewController {
     private func setupUI() {
         let buttonStack = [self.muteButton, self.deviceButton, self.cameraButton, self.endButton]
         for button in buttonStack {
-            button?.imageView!.contentMode = UIView.ContentMode.scaleAspectFit
+            button?.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
         }
     }
 
     @IBAction func muteButtonClicked(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
         if sender.isSelected {
-            let muted = self.currentMeetingSession?.audioVideo.realtimeLocalMute()
-            self.logger.info(msg: "Microphone has been muted \(muted!)")
+            if let muted = self.currentMeetingSession?.audioVideo.realtimeLocalMute() {
+                self.logger.info(msg: "Microphone has been muted \(muted)")
+            }
         } else {
-            let unmuted = self.currentMeetingSession?.audioVideo.realtimeLocalUnmute()
-            self.logger.info(msg: "Microphone has been unmuted \(unmuted!)")
+            if let unmuted = self.currentMeetingSession?.audioVideo.realtimeLocalUnmute() {
+                self.logger.info(msg: "Microphone has been unmuted \(unmuted)")
+            }
         }
     }
 
@@ -177,11 +179,11 @@ class MeetingViewController: UIViewController {
     @IBAction func deviceButtonClicked(_ sender: UIButton) {
         let optionMenu = UIAlertController(title: nil, message: "Choose Audio Device", preferredStyle: .actionSheet)
 
-        if self.currentMeetingSession == nil {
+        guard let currentMeetingSession = self.currentMeetingSession  else {
             return
         }
 
-        for inputDevice in self.currentMeetingSession!.audioVideo.listAudioDevices() {
+        for inputDevice in currentMeetingSession.audioVideo.listAudioDevices() {
             let deviceAction = UIAlertAction(
                 title: inputDevice.label,
                 style: .default,
@@ -618,7 +620,7 @@ extension MeetingViewController: UICollectionViewDataSource, UICollectionViewDel
         videoRenderView.mirror = false
         cell.isHidden = true
         cell.accessibilityIdentifier = nil
-        cell.onTileButton.imageView!.contentMode = UIView.ContentMode.scaleAspectFit
+        cell.onTileButton.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
         cell.onTileButton.tag = indexPath.row
         cell.onTileButton.addTarget(self, action:
             #selector(self.onTileButtonClicked), for: .touchUpInside)
@@ -636,7 +638,11 @@ extension MeetingViewController: UICollectionViewDataSource, UICollectionViewDel
                 cell.isHidden = false
                 cell.onTileButton.setImage(UIImage(named: "pause-video"), for: .normal)
                 cell.onTileButton.setImage(UIImage(named: "resume-video"), for: .selected)
-                attendeeName = self.currentRoster[tileState.attendeeId!]?.attendeeName ?? ""
+                if let attendeeId = tileState.attendeeId, let name = currentRoster[attendeeId]?.attendeeName {
+                    attendeeName = name
+                } else {
+                    attendeeName = ""
+                }
             }
 
             cell.attendeeName.text = attendeeName
