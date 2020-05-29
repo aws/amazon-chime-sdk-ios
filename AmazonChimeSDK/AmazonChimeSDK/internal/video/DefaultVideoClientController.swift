@@ -79,6 +79,10 @@ class DefaultVideoClientController: NSObject {
                     return
                 }
             }
+            guard let signalingUrl = self.signalingUrl else {
+                self.logger.error(msg: "DefaultVideoClientController:signalingUrl is nil")
+                return
+            }
             guard let data = data else { return }
             self.logger.info(msg: "TURN request success")
 
@@ -98,7 +102,7 @@ class DefaultVideoClientController: NSObject {
                     user_name: (turnCredentials.username as NSString).utf8String,
                     password: (turnCredentials.password as NSString).utf8String,
                     ttl: UInt64(turnCredentials.ttl),
-                    signaling_url: (self.signalingUrl! as NSString).utf8String,
+                    signaling_url: (signalingUrl as NSString).utf8String,
                     turn_data_uris: uris,
                     size: Int32(uriSize))
 
@@ -142,7 +146,7 @@ class DefaultVideoClientController: NSObject {
 
         logger.info(msg: "Setting front camera as current device")
 
-        let currentDevice: VideoDevice? = VideoClient.currentDevice()
+        let currentDevice = VideoClient.currentDevice()
         if currentDevice == nil || !isDeviceFrontFacing(videoDevice: currentDevice!) {
             if let devices = (VideoClient.devices() as? [VideoDevice]) {
                 if let frontDevice = devices.first(where: isDeviceFrontFacing) {
@@ -164,7 +168,7 @@ class DefaultVideoClientController: NSObject {
     }
 
     func startInitializedVideoClient() {
-        guard videoClient != nil else {
+        guard let videoClient = videoClient else {
             logger.error(msg: "VideoClient is not initialized properly")
             return
         }
@@ -176,7 +180,7 @@ class DefaultVideoClientController: NSObject {
 
         // Default to idle mode, no video but signaling connection is
         // established for messaging
-        videoClient?.setReceiving(false)
+        videoClient.setReceiving(false)
         var appInfo = app_detailed_info_t.init()
 
         appInfo.platform_version = UnsafePointer<Int8>((UIDevice.current.systemVersion as NSString).utf8String)
@@ -190,11 +194,11 @@ class DefaultVideoClientController: NSObject {
         appInfo.client_source = UnsafePointer<Int8>(("amazon-chime-sdk" as NSString).utf8String)
         appInfo.chime_sdk_version = UnsafePointer<Int8>((Versioning.sdkVersion() as NSString).utf8String)
 
-        videoClient!.start(meetingId,
-                           token: joinToken,
-                           sending: false,
-                           config: videoConfig,
-                           appInfo: appInfo)
+        videoClient.start(meetingId,
+                          token: joinToken,
+                          sending: false,
+                          config: videoConfig,
+                          appInfo: appInfo)
         videoClientState = .started
     }
 }
@@ -202,7 +206,7 @@ class DefaultVideoClientController: NSObject {
 // MARK: - VideoClientDelegate
 
 extension DefaultVideoClientController: VideoClientDelegate {
-    func didReceive(_ buffer: CVPixelBuffer!, profileId: String!, pauseState: PauseState, videoId: UInt32) {
+    func didReceive(_ buffer: CVPixelBuffer?, profileId: String?, pauseState: PauseState, videoId: UInt32) {
         // Translate the Obj-C enum to the public Swift enum
         var translatedPauseState: VideoPauseState
         switch pauseState {
@@ -225,14 +229,14 @@ extension DefaultVideoClientController: VideoClientDelegate {
     }
 
     // swiftlint:enable function_parameter_count
-    public func videoClientIsConnecting(_ client: VideoClient!) {
+    public func videoClientIsConnecting(_ client: VideoClient?) {
         logger.info(msg: "videoClientIsConnecting")
         ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
             observer.videoSessionDidStartConnecting()
         }
     }
 
-    public func videoClientDidConnect(_ client: VideoClient!, controlStatus: Int32) {
+    public func videoClientDidConnect(_ client: VideoClient?, controlStatus: Int32) {
         logger.info(msg: "videoClientDidConnect, \(controlStatus)")
         ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
             switch Int(controlStatus) {
@@ -247,7 +251,7 @@ extension DefaultVideoClientController: VideoClientDelegate {
         }
     }
 
-    public func videoClientDidFail(_ client: VideoClient!, status: video_client_status_t, controlStatus: Int32) {
+    public func videoClientDidFail(_ client: VideoClient?, status: video_client_status_t, controlStatus: Int32) {
         logger.info(msg: "videoClientDidFail")
         ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
             observer.videoSessionDidStopWithStatus(sessionStatus:
@@ -255,18 +259,18 @@ extension DefaultVideoClientController: VideoClientDelegate {
         }
     }
 
-    public func videoClientDidStop(_ client: VideoClient!) {
+    public func videoClientDidStop(_ client: VideoClient?) {
         logger.info(msg: "videoClientDidStop")
         ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
             observer.videoSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus(statusCode: .ok))
         }
     }
 
-    public func videoClient(_ client: VideoClient!, cameraSendIsAvailable available: Bool) {
+    public func videoClient(_ client: VideoClient?, cameraSendIsAvailable available: Bool) {
         logger.info(msg: "videoClientCameraSendIsAvailable")
     }
 
-    public func videoClientRequestTurnCreds(_ videoClient: VideoClient!) {
+    public func videoClientRequestTurnCreds(_ videoClient: VideoClient?) {
         guard
             let turnControlUrl = turnControlUrl,
             let joinToken = self.joinToken,
@@ -296,7 +300,8 @@ extension DefaultVideoClientController: VideoClientDelegate {
         makeTurnRequest(request: request)
     }
 
-    public func videoClientMetricsReceived(_ metrics: [AnyHashable: Any]!) {
+    public func videoClientMetricsReceived(_ metrics: [AnyHashable: Any]?) {
+        guard let metrics = metrics else { return }
         clientMetricsCollector.processVideoClientMetrics(metrics: metrics)
     }
 }

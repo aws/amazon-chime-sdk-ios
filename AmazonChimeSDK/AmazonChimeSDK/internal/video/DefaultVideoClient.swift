@@ -18,7 +18,8 @@ class DefaultVideoClient: VideoClient {
         super.init()
     }
 
-    override func videoLogCallBack(_ logLevel: video_client_loglevel_t, msg: String!) {
+    override func videoLogCallBack(_ logLevel: video_client_loglevel_t, msg: String?) {
+        guard let msg = msg else { return }
         switch logLevel.rawValue {
         case Constants.errorLevel, Constants.fatalLevel:
             logger.error(msg: msg)

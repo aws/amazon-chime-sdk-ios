@@ -38,14 +38,14 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
         timer = IntervalScheduler(
             intervalMs: DefaultActiveSpeakerDetector.activityUpdateIntervalMs,
             callback: { [weak self] in
-                guard let welf = self else { return }
-                welf.policiesAndCallbacks.forEach { (_, policyAndCallback) in
-                    welf.speakerScores.forEach { (attendeeInfo, _) in
-                        let lastTimestamp = welf.mostRecentUpdateTimestamp[attendeeInfo] ?? 0
+                guard let strongSelf = self else { return }
+                strongSelf.policiesAndCallbacks.forEach { (_, policyAndCallback) in
+                    strongSelf.speakerScores.forEach { (attendeeInfo, _) in
+                        let lastTimestamp = strongSelf.mostRecentUpdateTimestamp[attendeeInfo] ?? 0
                         if Int(Double(DefaultActiveSpeakerDetector.activityWaitIntervalMs) *
                             Date.timeIntervalSinceReferenceDate) - lastTimestamp
                             > DefaultActiveSpeakerDetector.activityWaitIntervalMs {
-                            welf.updateScore(
+                            strongSelf.updateScore(
                                 policy: policyAndCallback.0,
                                 callback: policyAndCallback.1,
                                 attendeeInfo: attendeeInfo,
@@ -166,11 +166,13 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
     ) {
         policiesAndCallbacks[observer.observerId] = (policy, observer.activeSpeakerDidDetect)
 
-        if observer.activeSpeakerScoreDidChange(scores:) != nil, observer.scoresCallbackIntervalMs != nil {
-            let scoresTimer = IntervalScheduler(intervalMs: observer.scoresCallbackIntervalMs!, callback: {
+        if observer.activeSpeakerScoreDidChange(scores:) != nil,
+            let scoresCallbackIntervalMs = observer.scoresCallbackIntervalMs {
+
+            let scoresTimer = IntervalScheduler(intervalMs: scoresCallbackIntervalMs, callback: {
                 DispatchQueue.main.async { [weak self] in
                     guard let strongSelf = self else { return }
-                    observer.activeSpeakerScoreDidChange!(scores: strongSelf.speakerScores.getShallowDictCopy())
+                    observer.activeSpeakerScoreDidChange?(scores: strongSelf.speakerScores.getShallowDictCopy())
                 }
             })
             scoresTimer.start()
@@ -184,8 +186,6 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
             scoresTimers[observer.observerId] = nil
         }
 
-        if policiesAndCallbacks[observer.observerId] != nil {
-            policiesAndCallbacks[observer.observerId] = nil
-        }
+        policiesAndCallbacks[observer.observerId] = nil
     }
 }
