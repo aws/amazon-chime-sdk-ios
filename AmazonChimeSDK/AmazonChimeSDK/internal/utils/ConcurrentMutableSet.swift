@@ -11,6 +11,9 @@ import Foundation
 @objcMembers class ConcurrentMutableSet {
     private let lock = NSRecursiveLock()
     private let set = NSMutableSet()
+    var count: Int {
+        return set.count
+    }
 
     func add(_ object: Any) {
         lock.lock()
@@ -22,6 +25,10 @@ import Foundation
         lock.lock()
         defer { lock.unlock() }
         set.remove(object)
+    }
+
+    func contains(_ object: Any) -> Bool {
+        return set.contains(object)
     }
 
     func forEach(_ body: (Any) throws -> Void) rethrows {

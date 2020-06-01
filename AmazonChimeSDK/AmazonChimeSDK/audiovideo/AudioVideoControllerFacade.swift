@@ -14,7 +14,9 @@ import Foundation
     var logger: Logger { get }
     /// Start AudioVideo Controller
     ///
-    /// - Parameter callKitEnabled: A  Bool value to indicate whether the VoIP call to start has CallKit integration
+    /// - Parameter callKitEnabled: A Bool value to indicate whether the VoIP call to start has CallKit integration.
+    /// This parameter is used to determine how audio session interruptions should be handled,
+    /// in scenarios such as receving another phone call during the VoIP call.
     /// - Throws: `PermissionError.audioPermissionError` if `RecordPermission` is not given
     func start(callKitEnabled: Bool) throws
 
