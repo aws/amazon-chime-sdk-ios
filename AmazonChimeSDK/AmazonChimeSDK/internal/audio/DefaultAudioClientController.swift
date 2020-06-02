@@ -34,7 +34,11 @@ class DefaultAudioClientController: NSObject {
 
 extension DefaultAudioClientController: AudioClientController {
     public func setMute(mute: Bool) -> Bool {
-        return audioClient.setMicrophoneMuted(mute) == Int(AUDIO_CLIENT_OK.rawValue)
+        if Self.state == .started {
+            return audioClient.setMicrophoneMuted(mute) == Int(AUDIO_CLIENT_OK.rawValue)
+        } else {
+            return false
+        }
     }
 
     public func start(audioFallbackUrl: String,
@@ -47,11 +51,8 @@ extension DefaultAudioClientController: AudioClientController {
             throw PermissionError.audioPermissionError
         }
 
-        switch Self.state {
-        case .started:
+        if Self.state == .started {
             throw MediaError.illegalState
-        default:
-            Self.state = .started
         }
 
         let url = audioHostUrl.components(separatedBy: ":")
@@ -63,16 +64,19 @@ extension DefaultAudioClientController: AudioClientController {
         }
 
         audioClient.setSpeakerOn(true)
-        audioClient.startSession(host,
-                                 basePort: port,
-                                 callId: meetingId,
-                                 profileId: attendeeId,
-                                 microphoneMute: defaultMicAndSpeaker,
-                                 speakerMute: defaultMicAndSpeaker,
-                                 isPresenter: defaultPresenter,
-                                 sessionToken: joinToken,
-                                 audioWsUrl: audioFallbackUrl,
-                                 callKitEnabled: callKitEnabled)
+        let status = audioClient.startSession(host,
+                                              basePort: port,
+                                              callId: meetingId,
+                                              profileId: attendeeId,
+                                              microphoneMute: defaultMicAndSpeaker,
+                                              speakerMute: defaultMicAndSpeaker,
+                                              isPresenter: defaultPresenter,
+                                              sessionToken: joinToken,
+                                              audioWsUrl: audioFallbackUrl,
+                                              callKitEnabled: callKitEnabled)
+        if status == AUDIO_CLIENT_OK {
+            Self.state = .started
+        }
     }
 
     public func stop() {
