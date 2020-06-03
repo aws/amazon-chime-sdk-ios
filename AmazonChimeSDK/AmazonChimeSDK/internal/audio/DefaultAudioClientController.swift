@@ -12,8 +12,8 @@ import Foundation
 
 class DefaultAudioClientController: NSObject {
     static var state = AudioClientState.initialized
-
-    private let audioClient: AudioClient
+    private let audioLock: NSLock
+    private var audioClient: AudioClient
     private let audioClientObserver: AudioClientObserver
     private let audioSession: AVAudioSession
     private let audioPortOffset = 200
@@ -23,10 +23,12 @@ class DefaultAudioClientController: NSObject {
 
     init(audioClient: AudioClient,
          audioClientObserver: AudioClientObserver,
-         audioSession: AVAudioSession) {
+         audioSession: AVAudioSession,
+         audioClientLock: NSLock) {
         self.audioClient = audioClient
         self.audioClientObserver = audioClientObserver
         self.audioSession = audioSession
+        self.audioLock = audioClientLock
 
         super.init()
     }
@@ -47,6 +49,10 @@ extension DefaultAudioClientController: AudioClientController {
                       attendeeId: String,
                       joinToken: String,
                       callKitEnabled: Bool) throws {
+        audioLock.lock()
+        defer {
+            audioLock.unlock()
+        }
         guard audioSession.recordPermission == .granted else {
             throw PermissionError.audioPermissionError
         }
@@ -85,11 +91,13 @@ extension DefaultAudioClientController: AudioClientController {
         }
 
         DispatchQueue.global().async {
+            self.audioLock.lock()
             let audioClientStatusCode = self.audioClient.stopSession()
             Self.state = .stopped
             let meetingSessionStatusCode = Converters.AudioClientStatus.toMeetingSessionStatusCode(
                 rawValue: UInt32(audioClientStatusCode)
             )
+            self.audioLock.unlock()
             self.audioClientObserver.notifyAudioClientObserver { (observer: AudioVideoObserver) in
                 observer.audioSessionDidStopWithStatus(
                     sessionStatus: MeetingSessionStatus(statusCode: meetingSessionStatusCode)
