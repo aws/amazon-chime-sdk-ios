@@ -21,14 +21,18 @@ import Foundation
         self.configuration = configuration
         self.logger = logger
         VideoClient.globalInitialize()
-        let audioClient: AudioClient = DefaultAudioClient(logger: logger)
+        let audioClient: DefaultAudioClient = DefaultAudioClient.shared(logger: logger)
         let videoClient: VideoClient = DefaultVideoClient(logger: logger)
         let clientMetricsCollector = DefaultClientMetricsCollector()
+        let audioClientLock = NSLock()
+
         let audioClientObserver = DefaultAudioClientObserver(audioClient: audioClient,
-                                                             clientMetricsCollector: clientMetricsCollector)
+                                                             clientMetricsCollector: clientMetricsCollector,
+                                                             audioClientLock: audioClientLock)
         let audioClientController = DefaultAudioClientController(audioClient: audioClient,
                                                                  audioClientObserver: audioClientObserver,
-                                                                 audioSession: audioSession)
+                                                                 audioSession: audioSession,
+                                                                 audioClientLock: audioClientLock)
         let videoClientController = DefaultVideoClientController(videoClient: videoClient,
                                                                  logger: logger,
                                                                  clientMetricsCollector: clientMetricsCollector,

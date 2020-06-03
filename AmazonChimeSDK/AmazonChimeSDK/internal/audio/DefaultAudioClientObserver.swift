@@ -20,9 +20,12 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     private var currentAudioStatus = MeetingSessionStatusCode.ok
     private let realtimeObservers = ConcurrentMutableSet()
 
-    init(audioClient: AudioClient, clientMetricsCollector: ClientMetricsCollector) {
+    private let audioLock: NSLock
+
+    init(audioClient: AudioClient, clientMetricsCollector: ClientMetricsCollector, audioClientLock: NSLock) {
         self.audioClient = audioClient
         self.clientMetricsCollector = clientMetricsCollector
+        audioLock = audioClientLock
         super.init()
         audioClient.delegate = self
     }
@@ -251,8 +254,10 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         }
 
         DispatchQueue.global().async {
+            self.audioLock.lock()
             self.audioClient.stopSession()
             DefaultAudioClientController.state = .stopped
+            self.audioLock.unlock()
             self.notifyAudioClientObserver { (observer: AudioVideoObserver) in
                 observer.audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus(statusCode: newAudioStatus))
             }

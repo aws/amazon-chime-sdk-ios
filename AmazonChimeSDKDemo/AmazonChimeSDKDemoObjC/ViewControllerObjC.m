@@ -191,6 +191,9 @@
 }
 
 - (IBAction)leaveMeeting:(id)sender {
+    [self.meetingSession.audioVideo removeRealtimeObserverWithObserver:self];
+    [self.meetingSession.audioVideo removeMetricsObserverWithObserver:self];
+    [self.meetingSession.audioVideo removeVideoTileObserverWithObserver:self];
     [self.meetingSession.audioVideo stop];
     [self updateUIWithMeetingStarted:NO];
 }
@@ -294,6 +297,13 @@
         [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ volumeLevel changed to %ld", [[currentVolumeUpdate attendeeInfo] attendeeId], [currentVolumeUpdate volumeLevel]]];
     }
 }
+
+- (void)attendeesDidDropWithAttendeeInfo:(NSArray<AttendeeInfo *> * _Nonnull)attendeeInfo {
+    for (id currentAttendeeInfo in attendeeInfo) {
+        [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ dropped", [currentAttendeeInfo attendeeId]]];
+    }
+}
+
 
 - (void)metricsDidReceiveWithMetrics:(NSDictionary *)metrics {
     [self.logger infoWithMsg:[NSString stringWithFormat:@"Media metrics have been received: %@", metrics]];
