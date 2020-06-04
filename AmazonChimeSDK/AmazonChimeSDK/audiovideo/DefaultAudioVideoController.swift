@@ -32,6 +32,12 @@ import Foundation
         self.logger = logger
     }
 
+    public func start() throws {
+        // By default, start for calls without CallKit integration. Use start(callKitEnabled:)
+        // to override the default behavior if the call is integrated with CallKit
+        try self.start(callKitEnabled: false)
+    }
+
     public func start(callKitEnabled: Bool) throws {
         let audioPermissionStatus = AVAudioSession.sharedInstance().recordPermission
         if audioPermissionStatus == .denied || audioPermissionStatus == .undetermined {

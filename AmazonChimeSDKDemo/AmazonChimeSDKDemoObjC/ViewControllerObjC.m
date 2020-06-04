@@ -31,13 +31,21 @@
         return;
     }
 
+    [self.joinButton setEnabled:NO];
+
     NSCharacterSet *set = [NSCharacterSet URLQueryAllowedCharacterSet];
     NSString *url = [[NSString stringWithFormat:@"%sjoin?title=%@&name=%@&region=%s", SERVER_URL, meetingId, name, SERVER_REGION] stringByAddingPercentEncodingWithAllowedCharacters:set];
     [self makeHttpRequest:url withMethod:@"POST" withData:nil withCompletionBlock:^(NSData *data, NSError *error) {
+        __weak typeof(self) weakSelf = self;
+
         if (error != nil) {
             [self showAlertIn:self
                   withMessage:[NSString stringWithFormat:@"Failed to join meeting, error: %@", error.localizedDescription]
                     withDelay:0];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.joinButton setEnabled:YES];
+            });
             return;
         }
 
@@ -83,6 +91,10 @@
             self.meetingSession = [[DefaultMeetingSession alloc] initWithConfiguration:meetingSessionConfiguration
                                                                                 logger:self.logger];
             [self startAudioVideo];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.joinButton setEnabled:YES];
+            });
         }
     }];
 }
@@ -254,7 +266,10 @@
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
         if (httpResponse.statusCode < 200 || httpResponse.statusCode > 299) {
             [self showAlertIn:self withMessage:[NSString stringWithFormat:@"Received status code %ld", (long)httpResponse.statusCode] withDelay:0];
-            completion(nil, error);
+            completion(nil,
+                       [NSError errorWithDomain:@"AmazonChimeSDKDemoObjC"
+                                           code:httpResponse.statusCode
+                                       userInfo:nil]);
         } else {
             completion(data, nil);
         }
@@ -303,7 +318,6 @@
         [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ dropped", [currentAttendeeInfo attendeeId]]];
     }
 }
-
 
 - (void)metricsDidReceiveWithMetrics:(NSDictionary *)metrics {
     [self.logger infoWithMsg:[NSString stringWithFormat:@"Media metrics have been received: %@", metrics]];
