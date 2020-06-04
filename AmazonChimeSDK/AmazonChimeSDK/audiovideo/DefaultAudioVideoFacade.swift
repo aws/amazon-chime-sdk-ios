@@ -39,6 +39,10 @@ import Foundation
         trace(name: "start(callKitEnabled: \(callKitEnabled))")
     }
 
+    public func start() throws {
+        try self.start(callKitEnabled: false)
+    }
+
     public func stop() {
         audioVideoController.stop()
         trace(name: "stop")
