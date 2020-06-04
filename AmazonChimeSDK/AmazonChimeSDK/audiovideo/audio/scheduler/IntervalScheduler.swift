@@ -22,7 +22,7 @@ private let millisPerSecond = 1000.0
     private let timer: DispatchSourceTimer
     private var state: IntervalSchedulerState = .stopped
 
-    init(intervalMs: Int, callback: @escaping () -> Void) {
+    public init(intervalMs: Int, callback: @escaping () -> Void) {
         let timeInterval = TimeInterval(Double(intervalMs) / millisPerSecond)
         let timer = DispatchSource.makeTimerSource()
         timer.schedule(deadline: .now() + timeInterval, repeating: timeInterval)

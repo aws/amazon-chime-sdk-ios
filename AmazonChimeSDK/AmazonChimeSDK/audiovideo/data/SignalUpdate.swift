@@ -12,7 +12,7 @@ import Foundation
     public let attendeeInfo: AttendeeInfo
     public let signalStrength: SignalStrength
 
-    init(attendeeInfo: AttendeeInfo, signalStrength: SignalStrength) {
+    public init(attendeeInfo: AttendeeInfo, signalStrength: SignalStrength) {
         self.attendeeInfo = attendeeInfo
         self.signalStrength = signalStrength
     }

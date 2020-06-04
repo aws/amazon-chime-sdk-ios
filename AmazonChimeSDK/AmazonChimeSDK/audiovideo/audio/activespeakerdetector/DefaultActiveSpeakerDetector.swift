@@ -27,7 +27,7 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
     private let policiesAndCallbacks = ConcurrentDictionary<String, (ActiveSpeakerPolicy, DetectorCallback)>()
     private var timer = IntervalScheduler(intervalMs: activityWaitIntervalMs, callback: {})
 
-    init(
+    public init(
         audioClientObserver: AudioClientObserver,
         selfAttendeeId: String
     ) {

@@ -20,6 +20,11 @@ import Foundation
     /// - Throws: `PermissionError.audioPermissionError` if `RecordPermission` is not given
     func start(callKitEnabled: Bool) throws
 
+    /// Start AudioVideo Controller
+    ///
+    /// - Throws: `PermissionError.audioPermissionError` if `RecordPermission` is not given
+    func start() throws
+
     /// Stop AudioVideo Controller. This will exit the meeting
     func stop()
 

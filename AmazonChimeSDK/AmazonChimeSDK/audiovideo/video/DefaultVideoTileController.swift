@@ -16,7 +16,7 @@ import UIKit
     private let videoTileObservers = ConcurrentMutableSet()
     private let videoClientController: VideoClientController
 
-    init(logger: Logger, videoClientController: VideoClientController) {
+    public init(logger: Logger, videoClientController: VideoClientController) {
         self.logger = logger
         self.videoClientController = videoClientController
     }

@@ -12,7 +12,7 @@ import Foundation
     public let attendeeInfo: AttendeeInfo
     public let volumeLevel: VolumeLevel
 
-    init(attendeeInfo: AttendeeInfo, volumeLevel: VolumeLevel) {
+    public init(attendeeInfo: AttendeeInfo, volumeLevel: VolumeLevel) {
         self.attendeeInfo = attendeeInfo
         self.volumeLevel = volumeLevel
     }
