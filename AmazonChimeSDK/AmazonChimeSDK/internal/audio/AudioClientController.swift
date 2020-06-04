@@ -14,6 +14,7 @@ import Foundation
                audioHostUrl: String,
                meetingId: String,
                attendeeId: String,
-               joinToken: String) throws
+               joinToken: String,
+               callKitEnabled: Bool) throws
     func stop()
 }

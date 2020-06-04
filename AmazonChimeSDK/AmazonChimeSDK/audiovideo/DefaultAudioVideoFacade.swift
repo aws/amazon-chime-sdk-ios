@@ -34,9 +34,9 @@ import Foundation
         self.activeSpeakerDetector = activeSpeakerDetector
     }
 
-    public func start() throws {
-        try audioVideoController.start()
-        trace(name: "start")
+    public func start(callKitEnabled: Bool = false) throws {
+        try audioVideoController.start(callKitEnabled: callKitEnabled)
+        trace(name: "start(callKitEnabled: \(callKitEnabled))")
     }
 
     public func stop() {

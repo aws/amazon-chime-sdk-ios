@@ -41,7 +41,8 @@ extension DefaultAudioClientController: AudioClientController {
                       audioHostUrl: String,
                       meetingId: String,
                       attendeeId: String,
-                      joinToken: String) throws {
+                      joinToken: String,
+                      callKitEnabled: Bool) throws {
         guard audioSession.recordPermission == .granted else {
             throw PermissionError.audioPermissionError
         }
@@ -70,7 +71,8 @@ extension DefaultAudioClientController: AudioClientController {
                                  speakerMute: defaultMicAndSpeaker,
                                  isPresenter: defaultPresenter,
                                  sessionToken: joinToken,
-                                 audioWsUrl: audioFallbackUrl)
+                                 audioWsUrl: audioFallbackUrl,
+                                 callKitEnabled: callKitEnabled)
     }
 
     public func stop() {
