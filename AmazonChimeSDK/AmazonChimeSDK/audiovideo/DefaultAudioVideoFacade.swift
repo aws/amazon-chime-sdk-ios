@@ -18,7 +18,7 @@ import Foundation
     let videoTileController: VideoTileController
     let activeSpeakerDetector: ActiveSpeakerDetectorFacade
 
-    init(
+    public init(
         audioVideoController: AudioVideoControllerFacade,
         realtimeController: RealtimeControllerFacade,
         deviceController: DeviceController,

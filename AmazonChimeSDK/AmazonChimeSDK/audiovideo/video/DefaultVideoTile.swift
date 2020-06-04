@@ -15,7 +15,7 @@ import Foundation
 
     public var videoRenderView: VideoRenderView?
 
-    init(logger: Logger, tileId: Int, attendeeId: String?) {
+    public init(logger: Logger, tileId: Int, attendeeId: String?) {
         self.logger = logger
         self.state = VideoTileState(tileId: tileId, attendeeId: attendeeId, pauseState: .unpaused)
     }

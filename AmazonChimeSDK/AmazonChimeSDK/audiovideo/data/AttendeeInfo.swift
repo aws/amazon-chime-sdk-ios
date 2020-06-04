@@ -12,7 +12,7 @@ import Foundation
     public let attendeeId: String
     public let externalUserId: String
 
-    init(attendeeId: String, externalUserId: String) {
+    public init(attendeeId: String, externalUserId: String) {
         self.attendeeId = attendeeId
         self.externalUserId = externalUserId
     }
