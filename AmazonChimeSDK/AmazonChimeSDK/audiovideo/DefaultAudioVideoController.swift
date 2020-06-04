@@ -32,7 +32,7 @@ import Foundation
         self.logger = logger
     }
 
-    public func start() throws {
+    public func start(callKitEnabled: Bool) throws {
         let audioPermissionStatus = AVAudioSession.sharedInstance().recordPermission
         if audioPermissionStatus == .denied || audioPermissionStatus == .undetermined {
             throw PermissionError.audioPermissionError
@@ -42,7 +42,8 @@ import Foundation
                                     audioHostUrl: configuration.urls.audioHostUrl,
                                     meetingId: configuration.meetingId,
                                     attendeeId: configuration.credentials.attendeeId,
-                                    joinToken: configuration.credentials.joinToken)
+                                    joinToken: configuration.credentials.joinToken,
+                                    callKitEnabled: callKitEnabled)
         videoClientController.start(turnControlUrl: configuration.urls.turnControlUrl,
                                         signalingUrl: configuration.urls.signalingUrl,
                                         meetingId: configuration.meetingId,

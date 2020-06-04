@@ -1,3 +1,6 @@
+### Unreleased
+- Updated `start(callKitEnabled:)` in `AudioVideoControllerFacade` to accept a Bool type `callKitEnabled` parameter, and default it to `false` in `DefaultAudioVideoFacade`. Pass in `true` if your VoIP call has CallKit integration so that audio session interruptions are properly handled.
+
 ## [0.6.1] - 2020-05-22
 
 ### Added

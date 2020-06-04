@@ -14,8 +14,9 @@ import Foundation
     var logger: Logger { get }
     /// Start AudioVideo Controller
     ///
+    /// - Parameter callKitEnabled: A  Bool value to indicate whether the VoIP call to start has CallKit integration
     /// - Throws: `PermissionError.audioPermissionError` if `RecordPermission` is not given
-    func start() throws
+    func start(callKitEnabled: Bool) throws
 
     /// Stop AudioVideo Controller. This will exit the meeting
     func stop()
