@@ -10,10 +10,10 @@ or refer to the demo app.
 Before calling the APIs to start audio and video, the app will need microphone and camera 
 permissions from the user.
 
-In Xcode, open `Info.plist` and add `NSMicrophoneUsageDescription` and `NSCameraUageDescription` 
+In Xcode, open `Info.plist` and add `NSMicrophoneUsageDescription` ("Privacy - Microphone Usage Description") and `NSCameraUsageDescription` ("Privacy - Camera Usage Description")
 to the property list. This will allow the app to ask for microphone and camera permissions.
 
-After doing the above, include the following code in your app to request permission:
+After doing this, you will also need to request permissions for microphone and camera access in your source code. You can either do this with `AVAudioSession.recordPermission` and `AVCaptureDevice.authorizationStatus`, handling the response synchronously and falling back to requesting permissions, or you can use `requestRecordPermission` and `requestAccess` with an asynchronous completion handler.
 ```
 AVAudioSession.sharedInstance().requestRecordPermission
 
@@ -32,6 +32,7 @@ For testing purposes, you can deploy the serverless demo from [amazon-chime-sdk-
 After the deployment you will have a URL (which this guide will refer to as `server_url`)
 
 To get the meeting info make a POST request to:
+
 ```
 "\(server_url)join?title=\(meetingId)&name=\(attendeeName)&region=\(meetingRegion)"
 ```
@@ -39,7 +40,9 @@ To get the meeting info make a POST request to:
 These are the parameters to include in the request:
 * meetingId: Meeting ID for the meeting to join
 * attendeeName: Attendee name to join the meeting with
-* meetingRegion: One of the 14 regions supported by the AWS SDK (e.g."us-east-1")
+* meetingRegion: One of the 14 regions supported by the AWS SDK, for example `"us-east-1"`
+
+Before making any HTTP request, make sure to URL-encode these request parameters. In our demo code, we have such an `encodeStrForURL` function to do so.
 
 ## Create MeetingSessionConfiguration
 
