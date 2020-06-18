@@ -69,7 +69,6 @@ extension DefaultAudioClientController: AudioClientController {
             observer.audioSessionDidStartConnecting(reconnecting: false)
         }
 
-        audioClient.setSpeakerOn(true)
         let status = audioClient.startSession(host,
                                               basePort: port,
                                               callId: meetingId,
