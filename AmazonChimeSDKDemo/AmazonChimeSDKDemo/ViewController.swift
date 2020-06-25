@@ -12,28 +12,28 @@ import Toast
 import UIKit
 
 class ViewController: UIViewController, UITextFieldDelegate {
-    var meetingID = ""
-    var name = ""
-    let logger = ConsoleLogger(name: "ViewController")
-
     @IBOutlet var meetingIDText: UITextField!
     @IBOutlet var nameText: UITextField!
     @IBOutlet var joinButton: UIButton!
     @IBOutlet var versionLabel: UILabel!
 
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.view.endEditing(true)
-        return false
-    }
+    var meetingID = ""
+    var name = ""
+    let logger = ConsoleLogger(name: "ViewController")
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        versionLabel.text = "amazon-chime-sdk-ios@\(Versioning.sdkVersion())"
         meetingIDText.delegate = self
         nameText.delegate = self
+
+        setupHideKeyboardOnTap()
+        versionLabel.text = "amazon-chime-sdk-ios@\(Versioning.sdkVersion())"
+        joinButton.setImage(UIImage(named: "join")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        joinButton.tintColor = .systemGray
+        joinButton.accessibilityLabel = "Join meeting"
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_: Bool) {
         joinButton.isEnabled = true
     }
 
@@ -43,10 +43,12 @@ class ViewController: UIViewController, UITextFieldDelegate {
         return url
     }
 
-    @IBAction func joinMeeting(sender: UIButton) {
+    @IBAction func joinMeeting(sender _: UIButton) {
+        view.endEditing(true)
+        joinButton.isEnabled = false
         meetingID = meetingIDText.text ?? ""
         name = nameText.text ?? ""
-        joinButton.isEnabled = false
+
         postRequest(completion: { data, error in
             guard error == nil else {
                 DispatchQueue.main.async {
@@ -85,7 +87,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     private func postRequest(completion: @escaping CompletionFunc) {
         if meetingID.isEmpty || name.isEmpty {
             DispatchQueue.main.async {
-                self.view.makeToast("Given empty meetingID or name please provide those values", duration: 2.0)
+                self.view.makeToast("MeetingID or name is invalid", duration: 2.0)
             }
             return
         }
