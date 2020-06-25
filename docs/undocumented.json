@@ -457,7 +457,7 @@
     },
     {
       "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/audio/DefaultAudioClientController.swift",
-      "line": 88,
+      "line": 87,
       "symbol": "DefaultAudioClientController.stop()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
@@ -513,140 +513,140 @@
     },
     {
       "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
-      "line": 232,
+      "line": 233,
       "symbol": "DefaultVideoClientController.videoClientIsConnecting(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
-      "line": 239,
+      "line": 240,
       "symbol": "DefaultVideoClientController.videoClientDidConnect(_:controlStatus:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
-      "line": 254,
+      "line": 255,
       "symbol": "DefaultVideoClientController.videoClientDidFail(_:status:controlStatus:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
-      "line": 262,
+      "line": 263,
       "symbol": "DefaultVideoClientController.videoClientDidStop(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
-      "line": 269,
+      "line": 270,
       "symbol": "DefaultVideoClientController.videoClient(_:cameraSendIsAvailable:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
-      "line": 273,
+      "line": 274,
       "symbol": "DefaultVideoClientController.videoClientRequestTurnCreds(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
-      "line": 303,
+      "line": 304,
       "symbol": "DefaultVideoClientController.videoClientMetricsReceived(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
-      "line": 312,
+      "line": 313,
       "symbol": "DefaultVideoClientController.start(turnControlUrl:signalingUrl:meetingId:joinToken:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
-      "line": 334,
+      "line": 335,
       "symbol": "DefaultVideoClientController.stopAndDestroy()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
-      "line": 350,
+      "line": 351,
       "symbol": "DefaultVideoClientController.startLocalVideo()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
-      "line": 364,
+      "line": 365,
       "symbol": "DefaultVideoClientController.stopLocalVideo()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
-      "line": 373,
+      "line": 374,
       "symbol": "DefaultVideoClientController.startRemoteVideo()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
-      "line": 382,
+      "line": 383,
       "symbol": "DefaultVideoClientController.stopRemoteVideo()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
-      "line": 391,
+      "line": 392,
       "symbol": "DefaultVideoClientController.switchCamera()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
-      "line": 406,
+      "line": 407,
       "symbol": "DefaultVideoClientController.getCurrentDevice()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
-      "line": 410,
+      "line": 411,
       "symbol": "DefaultVideoClientController.subscribeToVideoClientStateChange(observer:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
-      "line": 414,
+      "line": 415,
       "symbol": "DefaultVideoClientController.unsubscribeToVideoClientStateChange(observer:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
-      "line": 418,
+      "line": 419,
       "symbol": "DefaultVideoClientController.subscribeToVideoTileControllerObservers(observer:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
-      "line": 422,
+      "line": 423,
       "symbol": "DefaultVideoClientController.unsubscribeToVideoTileControllerObservers(observer:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/tianyux/workplace/ChimeSDK/amazon-chime-sdk-apple/AmazonChimeSDK/AmazonChimeSDK/internal/video/DefaultVideoClientController.swift",
-      "line": 426,
+      "line": 427,
       "symbol": "DefaultVideoClientController.pauseResumeRemoteVideo(_:pause:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
