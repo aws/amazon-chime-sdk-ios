@@ -10,6 +10,8 @@ import UIKit
 
 class RosterTableCell: UITableViewCell {
     @IBOutlet var attendeeName: UILabel!
+    @IBOutlet var indicator: UIView!
+    @IBOutlet var metricName: UILabel!
+    @IBOutlet var metricValue: UILabel!
     @IBOutlet var speakLevel: UIImageView!
-    @IBOutlet var activeSpeaker: UILabel!
 }

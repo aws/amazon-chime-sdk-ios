@@ -73,7 +73,7 @@ Download the following zip:
 
 * [AmazonChimeSDKMedia-0.5.1.tar.gz](https://amazon-chime-sdk.s3.amazonaws.com/ios/amazon-chime-sdk-media/0.5.1/AmazonChimeSDKMedia-0.5.1.tar.gz)
 
-Unzip and copy the .framework to `AmazonChimeSDK` and `AmazonChimeSDKDemo` folder
+Unzip and copy the .framework to `AmazonChimeSDK` folder
 
 ### 3. Deploy serverless demo
 

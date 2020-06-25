@@ -1,3 +1,7 @@
+## Unreleased
+### Changed
+- Changed UI for iOS demo app
+
 ## [0.7.1] - 2020-06-24
 ### Changed
 - `DefaultAudioClientController` no longer defaults to Speaker as audio output when starting audio session.
