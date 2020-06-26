@@ -36,12 +36,7 @@ class MeetingViewController: UIViewController {
     public var meetingId: String?
     public var selfName: String?
 
-    private var activeSpeakerIds: [String] = []
-    private var attendees = [RosterAttendee]()
-    private let contentDelimiter = "#content"
-    private let contentSuffix = "<<Content>>"
     private var currentMeetingSession: MeetingSession?
-    private var currentRoster = [String: RosterAttendee]()
     private let dispatchGroup = DispatchGroup()
     private var isFullScreen = false
     private let jsonDecoder = JSONDecoder()
@@ -49,6 +44,8 @@ class MeetingViewController: UIViewController {
     private let maxVideoTileCount = 16
     private var metricsDict = MetricsDictionary()
     private let uuid = UUID().uuidString
+
+    private let rosterModel = RosterModel()
     private let videoTileCellReuseIdentifier = "VideoTileCell"
     private var videoTileStates: [VideoTileState?] = [nil]
     private var videoTileStatesForDisplay: ArraySlice<VideoTileState?> = ArraySlice(repeating: nil, count: 1)
@@ -145,22 +142,29 @@ class MeetingViewController: UIViewController {
         }
     }
 
-    private func setupSubscriptionToAttendeeChangeHandler() {
-        currentMeetingSession?.audioVideo.addVideoTileObserver(observer: self)
-        currentMeetingSession?.audioVideo.addRealtimeObserver(observer: self)
-        currentMeetingSession?.audioVideo.addAudioVideoObserver(observer: self)
-        currentMeetingSession?.audioVideo.addMetricsObserver(observer: self)
-        currentMeetingSession?.audioVideo.addDeviceChangeObserver(observer: self)
-        currentMeetingSession?.audioVideo.addActiveSpeakerObserver(policy: DefaultActiveSpeakerPolicy(), observer: self)
+    func setupSubscriptionToAttendeeChangeHandler() {
+        guard let audioVideo = currentMeetingSession?.audioVideo else {
+            return
+        }
+        audioVideo.addVideoTileObserver(observer: self)
+        audioVideo.addRealtimeObserver(observer: self)
+        audioVideo.addAudioVideoObserver(observer: self)
+        audioVideo.addMetricsObserver(observer: self)
+        audioVideo.addDeviceChangeObserver(observer: self)
+        audioVideo.addActiveSpeakerObserver(policy: DefaultActiveSpeakerPolicy(),
+                                            observer: self)
     }
 
-    private func removeSubscriptionToAttendeeChangeHandler() {
-        currentMeetingSession?.audioVideo.removeVideoTileObserver(observer: self)
-        currentMeetingSession?.audioVideo.removeRealtimeObserver(observer: self)
-        currentMeetingSession?.audioVideo.removeAudioVideoObserver(observer: self)
-        currentMeetingSession?.audioVideo.removeMetricsObserver(observer: self)
-        currentMeetingSession?.audioVideo.removeDeviceChangeObserver(observer: self)
-        currentMeetingSession?.audioVideo.removeActiveSpeakerObserver(observer: self)
+    func removeSubscriptionToAttendeeChangeHandler() {
+        guard let audioVideo = currentMeetingSession?.audioVideo else {
+            return
+        }
+        audioVideo.removeVideoTileObserver(observer: self)
+        audioVideo.removeRealtimeObserver(observer: self)
+        audioVideo.removeAudioVideoObserver(observer: self)
+        audioVideo.removeMetricsObserver(observer: self)
+        audioVideo.removeDeviceChangeObserver(observer: self)
+        audioVideo.removeActiveSpeakerObserver(observer: self)
     }
 
     private func notify(msg: String) {
@@ -199,6 +203,10 @@ class MeetingViewController: UIViewController {
 
         // States
         showVideoOrScreen(isVideo: true)
+
+        // roster table view
+        rosterTable.delegate = rosterModel
+        rosterTable.dataSource = rosterModel
     }
 
     private func showVideoOrScreen(isVideo: Bool) {
@@ -238,10 +246,12 @@ class MeetingViewController: UIViewController {
     // MARK: IBAction functions
 
     @IBAction func moreButtonClicked(_: UIButton) {
-        moreButton.isSelected = !moreButton.isSelected
-        attendeesButton.isSelected = !moreButton.isSelected
-        rosterTable.isHidden = !moreButton.isSelected
-        rosterTable.reloadData()
+//        moreButton.isSelected = !moreButton.isSelected
+//        attendeesButton.isSelected = !moreButton.isSelected
+//        rosterTable.isHidden = !moreButton.isSelected
+//        rosterTable.reloadData()
+
+        // TODO: This will be add back with a separate table view
     }
 
     @IBAction func muteButtonClicked(_: UIButton) {
@@ -344,25 +354,15 @@ class MeetingViewController: UIViewController {
         }
     }
 
-    private func getAttendeeName(_ info: AttendeeInfo) -> String {
-        let externalUserIdArray = info.externalUserId.components(separatedBy: "#")
-        let attendeeName: String = externalUserIdArray[1]
-        return info.attendeeId.hasSuffix(contentDelimiter) ? "\(attendeeName) \(contentSuffix)" : attendeeName
-    }
-
-    private func getAttendeeName(_ attendeeId: String) -> String {
-        return currentRoster[attendeeId]?.attendeeName ?? ""
-    }
-
     private func logAttendee(attendeeInfo: [AttendeeInfo], action: String) {
         for currentAttendeeInfo in attendeeInfo {
             let attendeeId = currentAttendeeInfo.attendeeId
-            guard let attendee = currentRoster[attendeeId] else {
+            if !rosterModel.contains(attendeeId: attendeeId) {
                 logger.error(msg: "Cannot find attendee with attendee id \(attendeeId)" +
                     " external user id \(currentAttendeeInfo.externalUserId): \(action)")
                 continue
             }
-            logger.info(msg: "\(attendee.attendeeName ?? "nil"): \(action)")
+            logger.info(msg: "\(rosterModel.getAttendeeName(for: attendeeId) ?? "nil"): \(action)")
         }
     }
 
@@ -442,15 +442,8 @@ extension MeetingViewController: AudioVideoObserver {
 
 extension MeetingViewController: RealtimeObserver {
     private func removeAttendeesAndReload(attendeeInfo: [AttendeeInfo]) {
-        for currentAttendeeInfo in attendeeInfo {
-            currentRoster.removeValue(forKey: currentAttendeeInfo.attendeeId)
-        }
-        attendees = currentRoster.values.sorted(by: {
-            if let name0 = $0.attendeeName, let name1 = $1.attendeeName {
-                return name0 < name1
-            }
-            return false
-        })
+        let attendeeIds = attendeeInfo.map { $0.attendeeId }
+        rosterModel.removeAttendees(attendeeIds)
         rosterTable.reloadData()
     }
 
@@ -461,7 +454,7 @@ extension MeetingViewController: RealtimeObserver {
 
     func attendeesDidDrop(attendeeInfo: [AttendeeInfo]) {
         for attendee in attendeeInfo {
-            notify(msg: "\(getAttendeeName(attendee.externalUserId)) dropped")
+            notify(msg: "\(attendee.externalUserId) dropped")
         }
 
         removeAttendeesAndReload(attendeeInfo: attendeeInfo)
@@ -478,65 +471,33 @@ extension MeetingViewController: RealtimeObserver {
     func volumeDidChange(volumeUpdates: [VolumeUpdate]) {
         for currentVolumeUpdate in volumeUpdates {
             let attendeeId = currentVolumeUpdate.attendeeInfo.attendeeId
-            guard let attendee = currentRoster[attendeeId] else {
-                logger.error(msg: "Cannot find attendee with attendee id \(attendeeId)" +
-                    " external user id \(currentVolumeUpdate.attendeeInfo.externalUserId)")
-                continue
-            }
-            let volume = currentVolumeUpdate.volumeLevel
-            if attendee.volume != volume {
-                attendee.volume = volume
-                if let name = attendee.attendeeName {
-                    logger.info(msg: "Volume changed for \(name): \(volume)")
-                    rosterTable.reloadData()
-                }
-            }
+            rosterModel.updateVolume(attendeeId: attendeeId, volume: currentVolumeUpdate.volumeLevel)
         }
+        rosterTable.reloadData()
     }
 
     func signalStrengthDidChange(signalUpdates: [SignalUpdate]) {
         for currentSignalUpdate in signalUpdates {
             let attendeeId = currentSignalUpdate.attendeeInfo.attendeeId
-            guard let attendee = currentRoster[attendeeId] else {
-                logger.error(msg: "Cannot find attendee with attendee id \(attendeeId)" +
-                    " external user id \(currentSignalUpdate.attendeeInfo.externalUserId)")
-                continue
-            }
-            let signal = currentSignalUpdate.signalStrength
-            if attendee.signal != signal {
-                attendee.signal = signal
-                if let name = attendee.attendeeName {
-                    logger.info(msg: "Signal strength changed for \(name): \(signal)")
-                    rosterTable.reloadData()
-                }
-            }
+            rosterModel.updateSignal(attendeeId: attendeeId, signal: currentSignalUpdate.signalStrength)
         }
+        rosterTable.reloadData()
     }
 
     func attendeesDidJoin(attendeeInfo: [AttendeeInfo]) {
-        var updateRoster = [String: RosterAttendee]()
+        var newAttendees = [RosterAttendee]()
         for currentAttendeeInfo in attendeeInfo {
             let attendeeId = currentAttendeeInfo.attendeeId
-            let attendeeName = getAttendeeName(currentAttendeeInfo)
-            if let attendee = currentRoster[attendeeId] {
-                updateRoster[attendeeId] = attendee
-            } else {
-                updateRoster[attendeeId] = RosterAttendee(
-                    attendeeId: attendeeId, attendeeName: attendeeName, volume: .notSpeaking, signal: .high
-                )
+            if !rosterModel.contains(attendeeId: attendeeId) {
+                let attendeeName = RosterModel.convertAttendeeName(from: currentAttendeeInfo)
+                let newAttendee = RosterAttendee(attendeeId: attendeeId,
+                                                 attendeeName: attendeeName,
+                                                 volume: .notSpeaking,
+                                                 signal: .high)
+                newAttendees.append(newAttendee)
             }
         }
-
-        for (attendeeId, attendee) in updateRoster {
-            currentRoster[attendeeId] = attendee
-            attendees.append(attendee)
-        }
-        attendees.sort(by: {
-            if let name0 = $0.attendeeName, let name1 = $1.attendeeName {
-                return name0 < name1
-            }
-            return false
-        })
+        rosterModel.addAttendees(newAttendees)
         rosterTable.reloadData()
     }
 }
@@ -607,7 +568,7 @@ extension MeetingViewController: VideoTileObserver {
 
     func videoTileDidPause(tileState: VideoTileState) {
         let attendeeId = tileState.attendeeId ?? "unkown"
-        let attendeeName = getAttendeeName(attendeeId)
+        let attendeeName = rosterModel.getAttendeeName(for: attendeeId) ?? ""
         if tileState.pauseState == .pausedForPoorConnection {
             view.makeToast("Video for attendee \(attendeeName) " +
                 " has been paused for poor network connection," +
@@ -620,7 +581,8 @@ extension MeetingViewController: VideoTileObserver {
 
     func videoTileDidResume(tileState: VideoTileState) {
         let attendeeId = tileState.attendeeId ?? "unkown"
-        view.makeToast("Video for attendee \(getAttendeeName(attendeeId)) has been unpaused")
+        let attendeeName = rosterModel.getAttendeeName(for: attendeeId) ?? ""
+        view.makeToast("Video for attendee \(attendeeName) has been unpaused")
     }
 }
 
@@ -632,75 +594,8 @@ extension MeetingViewController: ActiveSpeakerObserver {
     }
 
     func activeSpeakerDidDetect(attendeeInfo: [AttendeeInfo]) {
-        activeSpeakerIds = attendeeInfo.map { $0.attendeeId }
+        rosterModel.updateActiveSpeakers(attendeeInfo.map { $0.attendeeId })
         rosterTable.reloadData()
-    }
-}
-
-// MARK: UITableView Delegate
-
-extension MeetingViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
-        return moreButton.isSelected ? metricsDict.getCount() : attendees.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "rosterCell") as? RosterTableCell else {
-            return UITableViewCell()
-        }
-
-        cell.attendeeName.isHidden = moreButton.isSelected
-        cell.metricName.isHidden = !moreButton.isSelected
-        cell.metricValue.isHidden = !moreButton.isSelected
-        cell.speakLevel.isHidden = moreButton.isSelected
-        cell.indicator.isHidden = moreButton.isSelected
-        cell.indicator.layer.cornerRadius = cell.indicator.frame.size.width / 2.0
-
-        if moreButton.isSelected {
-            cell.metricName.text = metricsDict.getMetricsName(index: indexPath.row)
-            cell.metricName.accessibilityIdentifier = "\(cell.metricName.text ?? "") metric"
-            cell.metricValue.text = metricsDict.getMetricsValue(index: indexPath.row)
-            cell.metricValue.accessibilityIdentifier = "\(cell.metricName.text ?? "") value"
-        } else {
-            let currentAttendee = attendees[indexPath.item]
-            cell.attendeeName.text = currentAttendee.attendeeName
-            cell.attendeeName.accessibilityIdentifier = currentAttendee.attendeeName
-            cell.accessibilityIdentifier = "\(currentAttendee.attendeeName ?? "") Speaking"
-            cell.indicator.isHidden = !activeSpeakerIds.contains(currentAttendee.attendeeId)
-
-            if currentAttendee.attendeeId.hasSuffix(contentDelimiter) {
-                cell.speakLevel.image = UIImage(named: "show-screen")?.withRenderingMode(.alwaysTemplate)
-                cell.speakLevel.tintColor = .systemGray
-                return cell
-            }
-
-            switch currentAttendee.volume {
-            case .muted:
-                cell.speakLevel.image = UIImage(named: "volume-muted")?.withRenderingMode(.alwaysTemplate)
-                cell.accessibilityIdentifier = "\(currentAttendee.attendeeName ?? "") Muted"
-            case .notSpeaking:
-                cell.speakLevel.image = UIImage(named: "volume-0")?.withRenderingMode(.alwaysTemplate)
-                cell.accessibilityIdentifier = "\(currentAttendee.attendeeName ?? "") Not Speaking"
-            case .low:
-                cell.speakLevel.image = UIImage(named: "volume-1")?.withRenderingMode(.alwaysTemplate)
-            case .medium:
-                cell.speakLevel.image = UIImage(named: "volume-2")?.withRenderingMode(.alwaysTemplate)
-            case .high:
-                cell.speakLevel.image = UIImage(named: "volume-3")?.withRenderingMode(.alwaysTemplate)
-            }
-
-            if currentAttendee.signal != .high {
-                if currentAttendee.volume == .muted {
-                    cell.speakLevel.image = UIImage(named: "signal-poor-muted")?.withRenderingMode(.alwaysTemplate)
-                } else {
-                    cell.speakLevel.image = UIImage(named: "signal-poor")?.withRenderingMode(.alwaysTemplate)
-                }
-            }
-
-            cell.speakLevel.tintColor = .systemGray
-        }
-
-        return cell
     }
 }
 
@@ -717,10 +612,8 @@ extension MeetingViewController: UICollectionViewDataSource, UICollectionViewDel
         return videoTileStatesForDisplay.count
     }
 
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: videoTileCellReuseIdentifier, for: indexPath
         ) as? VideoTileCell else {
@@ -768,7 +661,7 @@ extension MeetingViewController: UICollectionViewDataSource, UICollectionViewDel
                 cell.onTileButton.setImage(
                     UIImage(named: "resume-video")?.withRenderingMode(.alwaysTemplate), for: .selected
                 )
-                if let attendeeId = tileState.attendeeId, let name = currentRoster[attendeeId]?.attendeeName {
+                if let attendeeId = tileState.attendeeId, let name = rosterModel.getAttendeeName(for: attendeeId) {
                     attendeeName = name
                 }
             }
