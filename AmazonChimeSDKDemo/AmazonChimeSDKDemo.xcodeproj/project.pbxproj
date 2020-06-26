@@ -28,6 +28,7 @@
 		5ACB3E74249AEE7300FC6E1B /* AmazonChimeSDKMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ACB3E6F249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework */; };
 		5ACB3E75249AEE7300FC6E1B /* AmazonChimeSDKMedia.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5ACB3E6F249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5AE38AE02428747100B234EC /* AmazonChimeSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE38AD7242873FD00B234EC /* AmazonChimeSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C4473F7B24A571D9000F7324 /* RosterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4473F7924A571D9000F7324 /* RosterModel.swift */; };
 		F82D50DA23FC9C6C00D8F18C /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D50D923FC9C6C00D8F18C /* AppConfiguration.swift */; };
 		F8AC96232408840D0072EB04 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F8AC96222408840D0072EB04 /* AppDelegate.m */; };
 		F8AC96292408840D0072EB04 /* ViewControllerObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = F8AC96282408840D0072EB04 /* ViewControllerObjC.m */; };
@@ -107,6 +108,7 @@
 		5A81417723F2300D00560201 /* RosterTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RosterTableCell.swift; sourceTree = "<group>"; };
 		5ACB3E6F249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AmazonChimeSDKMedia.framework; path = ../AmazonChimeSDK/AmazonChimeSDKMedia.framework; sourceTree = "<group>"; };
 		5AE38AD1242873FD00B234EC /* AmazonChimeSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AmazonChimeSDK.xcodeproj; path = ../AmazonChimeSDK/AmazonChimeSDK.xcodeproj; sourceTree = "<group>"; };
+		C4473F7924A571D9000F7324 /* RosterModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterModel.swift; sourceTree = "<group>"; };
 		F82D50D923FC9C6C00D8F18C /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		F8AC961F2408840D0072EB04 /* AmazonChimeSDKDemoObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AmazonChimeSDKDemoObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8AC96212408840D0072EB04 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 				F82D50D923FC9C6C00D8F18C /* AppConfiguration.swift */,
 				5A1582B923C40C9B0099F8FA /* AppDelegate.swift */,
 				00F372E923D9196E008F7CA7 /* MeetingViewController.swift */,
+				C4473F7924A571D9000F7324 /* RosterModel.swift */,
 				5A81417723F2300D00560201 /* RosterTableCell.swift */,
 				5A1582BB23C40C9B0099F8FA /* SceneDelegate.swift */,
 				5A1582BD23C40C9B0099F8FA /* ViewController.swift */,
@@ -401,6 +404,7 @@
 				5A1582BC23C40C9B0099F8FA /* SceneDelegate.swift in Sources */,
 				5A16BED824045A7100ADAE26 /* SegmentedControlIndex.swift in Sources */,
 				5A16BE7A24006A2A00ADAE26 /* VideoTileCell.swift in Sources */,
+				C4473F7B24A571D9000F7324 /* RosterModel.swift in Sources */,
 				5A1582BE23C40C9B0099F8FA /* ViewController.swift in Sources */,
 				5A38BFB724A131B3005B2AA7 /* MetricsDictionary.swift in Sources */,
 				5A1DE366249332870060E9C3 /* ViewControllerExtension.swift in Sources */,
