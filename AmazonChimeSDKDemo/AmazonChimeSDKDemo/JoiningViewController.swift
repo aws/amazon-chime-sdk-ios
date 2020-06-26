@@ -11,7 +11,7 @@ import AVFoundation
 import Toast
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class JoiningViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var meetingIDText: UITextField!
     @IBOutlet var nameText: UITextField!
     @IBOutlet var joinButton: UIButton!
@@ -19,7 +19,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
     var meetingID = ""
     var name = ""
-    let logger = ConsoleLogger(name: "ViewController")
+    let logger = ConsoleLogger(name: "JoiningViewController")
 
     override func viewDidLoad() {
         super.viewDidLoad()
