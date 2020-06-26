@@ -41,15 +41,11 @@ class MeetingViewController: UIViewController {
     private var isFullScreen = false
     private let jsonDecoder = JSONDecoder()
     private let logger = ConsoleLogger(name: "MeetingViewController")
-    private let maxVideoTileCount = 16
     private var metricsDict = MetricsDictionary()
     private let uuid = UUID().uuidString
 
     private let rosterModel = RosterModel()
-    private let videoTileCellReuseIdentifier = "VideoTileCell"
-    private var videoTileStates: [VideoTileState?] = [nil]
-    private var videoTileStatesForDisplay: ArraySlice<VideoTileState?> = ArraySlice(repeating: nil, count: 1)
-    private var videoTileIdToIndexPath: [Int: IndexPath] = [:]
+    private let videoModel = VideoModel()
 
     // MARK: Override functions
 
@@ -172,12 +168,6 @@ class MeetingViewController: UIViewController {
         view.makeToast(msg, duration: 2.0)
     }
 
-    private func getMaxIndexOfVisibleVideoTiles() -> Int {
-        // If local video was not enabled, we can show one more remote video
-        let maxRemoteVideoTileCount = maxVideoTileCount - (videoTileStates[0] == nil ? 0 : 1)
-        return min(maxRemoteVideoTileCount, videoTileStates.count - 1)
-    }
-
     // MARK: UI functions
 
     private func setupUI() {
@@ -207,6 +197,11 @@ class MeetingViewController: UIViewController {
         // roster table view
         rosterTable.delegate = rosterModel
         rosterTable.dataSource = rosterModel
+
+        // video collection view
+        videoCollection.delegate = self
+        videoCollection.dataSource = videoModel
+        videoModel.delegate = self
     }
 
     private func showVideoOrScreen(isVideo: Bool) {
@@ -219,26 +214,13 @@ class MeetingViewController: UIViewController {
 
     private func startRemoteVideo() {
         currentMeetingSession?.audioVideo.stopRemoteVideo()
-        for index in 1 ..< videoTileStatesForDisplay.count {
-            if let tileState = videoTileStatesForDisplay[index] {
-                currentMeetingSession?.audioVideo.resumeRemoteVideoTile(tileId: tileState.tileId)
-                if let indexPath = videoTileIdToIndexPath[tileState.tileId],
-                    let otherVideoTileCell = videoCollection.cellForItem(at: indexPath) as? VideoTileCell {
-                    otherVideoTileCell.onTileButton.isSelected = false
-                }
-            }
-        }
+        videoModel.resumeAllRemoteVideo()
         currentMeetingSession?.audioVideo.startRemoteVideo()
         showVideoOrScreen(isVideo: true)
     }
 
     private func startScreenShare() {
-        // Skip index 0 as it's reserved for self video tile
-        for index in 1 ..< videoTileStatesForDisplay.count {
-            if let tileState = videoTileStatesForDisplay[index] {
-                currentMeetingSession?.audioVideo.pauseRemoteVideoTile(tileId: tileState.tileId)
-            }
-        }
+        videoModel.pauseAllRemoteVideo()
         currentMeetingSession?.audioVideo.startRemoteVideo()
         showVideoOrScreen(isVideo: false)
     }
@@ -316,42 +298,6 @@ class MeetingViewController: UIViewController {
 
     @IBAction func leaveButtonClicked(_: UIButton) {
         leaveMeeting()
-    }
-
-    @objc func onTileButtonClicked(_ sender: UIButton) {
-        if sender.tag == 0 {
-            switchCameraClicked()
-        } else {
-            sender.isSelected = !sender.isSelected
-            toggleVideo(index: sender.tag, selected: sender.isSelected)
-        }
-    }
-
-    private func switchCameraClicked() {
-        currentMeetingSession?.audioVideo.switchCamera()
-        if let tileState = videoTileStatesForDisplay[0],
-            let indexPath = videoTileIdToIndexPath[tileState.tileId],
-            let selfVideoTileCell = videoCollection.cellForItem(at: indexPath) as? VideoTileCell {
-            if let selfVideoTileView = selfVideoTileCell.contentView as? DefaultVideoRenderView {
-                selfVideoTileView.mirror = !selfVideoTileView.mirror
-            }
-        }
-        logger.info(msg:
-            "currentDevice \(currentMeetingSession?.audioVideo.getActiveCamera()?.description ?? "No device")")
-    }
-
-    private func toggleVideo(index: Int, selected: Bool) {
-        if let tileState = videoTileStatesForDisplay[index], !tileState.isLocalTile {
-            if selected {
-                currentMeetingSession?.audioVideo.pauseRemoteVideoTile(
-                    tileId: tileState.tileId
-                )
-            } else {
-                currentMeetingSession?.audioVideo.resumeRemoteVideoTile(
-                    tileId: tileState.tileId
-                )
-            }
-        }
     }
 
     private func logAttendee(attendeeInfo: [AttendeeInfo], action: String) {
@@ -529,41 +475,48 @@ extension MeetingViewController: DeviceChangeObserver {
 
 extension MeetingViewController: VideoTileObserver {
     func videoTileDidAdd(tileState: VideoTileState) {
-        logger.info(msg: "Adding Video Tile tileId: \(tileState.tileId)" +
-            " attendeeId: \(String(describing: tileState.attendeeId))")
+        logger.info(msg: "Attempting to add video tile tileId: \(tileState.tileId)" +
+            " attendeeId: \(tileState.attendeeId ?? "")")
         if tileState.isContent {
             currentMeetingSession?.audioVideo.bindVideoView(videoView: screenRenderView, tileId: tileState.tileId)
             screenRenderView.isHidden = false
             screenViewLabel.isHidden = true
         } else {
             if tileState.isLocalTile {
-                videoTileStates[0] = tileState
+                videoModel.setSelfVideoTileState(tileState)
+                videoCollection?.reloadItems(at: [IndexPath(item: 0, section: 0)])
             } else {
-                videoTileStates.append(tileState)
+                videoModel.addRemoteVideoTileState(tileState, completion: { success in
+                    if success {
+                        self.videoCollection?.reloadData()
+                    } else {
+                        self.logger.info(msg: "Cannot add more video tile tileId: \(tileState.tileId)")
+                    }
+                })
             }
-
-            videoTileStatesForDisplay = videoTileStates[...getMaxIndexOfVisibleVideoTiles()]
-            videoCollection?.reloadData()
         }
     }
 
     func videoTileDidRemove(tileState: VideoTileState) {
-        logger.info(msg: "Removing Video Tile tileId: \(tileState.tileId)" +
-            " attendeeId: \(String(describing: tileState.attendeeId))")
+        logger.info(msg: "Attempting to remove video tile tileId: \(tileState.tileId)" +
+            " attendeeId: \(tileState.attendeeId ?? "")")
         currentMeetingSession?.audioVideo.unbindVideoView(tileId: tileState.tileId)
-        videoTileIdToIndexPath[tileState.tileId] = nil
 
         if tileState.isContent {
             screenRenderView.isHidden = true
             screenViewLabel.isHidden = false
         } else if tileState.isLocalTile {
-            videoTileStates[0] = nil
-        } else if let tileStateIndex = videoTileStates.firstIndex(of: tileState) {
-            videoTileStates.remove(at: tileStateIndex)
+            videoModel.setSelfVideoTileState(nil)
+            videoCollection?.reloadItems(at: [IndexPath(item: 0, section: 0)])
+        } else {
+            videoModel.removeRemoteVideoTileState(tileState, completion: { success in
+                if success {
+                    self.videoCollection.reloadData()
+                } else {
+                    self.logger.error(msg: "Cannot remove unexisting remote video tile for tileId: \(tileState.tileId)")
+                }
+            })
         }
-
-        videoTileStatesForDisplay = videoTileStates[...getMaxIndexOfVisibleVideoTiles()]
-        videoCollection?.reloadData()
     }
 
     func videoTileDidPause(tileState: VideoTileState) {
@@ -599,92 +552,45 @@ extension MeetingViewController: ActiveSpeakerObserver {
     }
 }
 
-// MARK: UICollectionView Delegate
+// MARK: VideoModelDelegate
 
-extension MeetingViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func numberOfSections(in _: UICollectionView) -> Int {
-        // Only one section for all video tiles
-        return 1
-    }
-
-    func collectionView(_: UICollectionView,
-                        numberOfItemsInSection _: Int) -> Int {
-        return videoTileStatesForDisplay.count
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: videoTileCellReuseIdentifier, for: indexPath
-        ) as? VideoTileCell else {
-            return VideoTileCell()
+extension MeetingViewController: VideoModelDelegate {
+    func isFrontCameraActive() -> Bool {
+        if let activeCamera = currentMeetingSession?.audioVideo.getActiveCamera() {
+            return activeCamera.type == .videoFrontCamera
         }
-
-        // Reset the reusable cell as it may contains stale data from previous usage
-
-        cell.accessibilityIdentifier = nil
-        cell.attendeeName.isHidden = false
-        cell.backgroundColor = .systemGray
-        cell.contentView.backgroundColor = .systemGray
-        cell.contentView.isHidden = false
-        cell.isHidden = true
-        cell.onTileButton.addTarget(self, action:
-            #selector(onTileButtonClicked), for: .touchUpInside)
-        cell.onTileButton.imageView?.contentMode = UIView.ContentMode.scaleAspectFill
-        cell.onTileButton.tag = indexPath.item
-        cell.shadedView.isHidden = false
-        cell.videoRenderView.backgroundColor = .systemGray
-        cell.videoRenderView.isHidden = true
-        cell.videoRenderView.mirror = false
-
-        if let tileState = videoTileStatesForDisplay[indexPath.item] {
-            var attendeeName = ""
-
-            cell.backgroundColor = .clear
-            cell.isHidden = false
-            cell.onTileButton.isHidden = false
-            cell.onTileImage.isHidden = true
-            cell.videoRenderView.isHidden = false
-
-            if tileState.isLocalTile {
-                cell.onTileButton.setImage(
-                    UIImage(named: "switch-camera")?.withRenderingMode(.alwaysTemplate), for: .normal
-                )
-                attendeeName = selfName ?? attendeeName
-                if currentMeetingSession?.audioVideo.getActiveCamera()?.type == .videoFrontCamera {
-                    cell.videoRenderView.mirror = true
-                }
-            } else {
-                cell.onTileButton.setImage(
-                    UIImage(named: "pause-video")?.withRenderingMode(.alwaysTemplate), for: .normal
-                )
-                cell.onTileButton.setImage(
-                    UIImage(named: "resume-video")?.withRenderingMode(.alwaysTemplate), for: .selected
-                )
-                if let attendeeId = tileState.attendeeId, let name = rosterModel.getAttendeeName(for: attendeeId) {
-                    attendeeName = name
-                }
-            }
-
-            cell.onTileButton.tintColor = .white
-            cell.attendeeName.text = attendeeName
-            cell.accessibilityIdentifier = "\(attendeeName) video tile"
-
-            currentMeetingSession?.audioVideo.bindVideoView(
-                videoView: cell.videoRenderView,
-                tileId: tileState.tileId
-            )
-            videoTileIdToIndexPath[tileState.tileId] = indexPath
-        } else {
-            cell.attendeeName.text = "Turn on your video"
-            cell.isHidden = false
-            cell.onTileButton.isHidden = true
-            cell.onTileImage.isHidden = false
-        }
-
-        return cell
+        return false
     }
 
+    func getVideoTileDisplayName(for videoTile: VideoTileState) -> String {
+        if videoTile.isLocalTile {
+            return selfName ?? ""
+        }
+        return rosterModel.getAttendeeName(for: videoTile.attendeeId ?? "") ?? ""
+    }
+
+    func bindVideoView(videoView: VideoRenderView, tileId: Int) {
+        currentMeetingSession?.audioVideo.bindVideoView(videoView: videoView,
+                                                        tileId: tileId)
+    }
+
+    func switchCamera() {
+        currentMeetingSession?.audioVideo.switchCamera()
+        logger.info(msg: "currentDevice \(currentMeetingSession?.audioVideo.getActiveCamera()?.description ?? "No device")")
+    }
+
+    func pauseVideo(tileId: Int) {
+        currentMeetingSession?.audioVideo.pauseRemoteVideoTile(tileId: tileId)
+    }
+
+    func resumeVideo(tileId: Int) {
+        currentMeetingSession?.audioVideo.resumeRemoteVideoTile(tileId: tileId)
+    }
+}
+
+// MARK: UICollectionViewDelegateFlowLayout
+
+extension MeetingViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView,
                         layout _: UICollectionViewLayout,
                         sizeForItemAt _: IndexPath) -> CGSize {
