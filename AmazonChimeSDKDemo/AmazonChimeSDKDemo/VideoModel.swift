@@ -72,10 +72,10 @@ class VideoModel: NSObject {
         if indexPath.item == 0 {
             return selfVideoTileState
         }
-        if (indexPath.item) > currentRemoteVideoCount {
+        if indexPath.item > currentRemoteVideoCount {
             return nil
         }
-        return remoteVideoTileStates[indexPath.item-1].1
+        return remoteVideoTileStates[indexPath.item - 1].1
     }
 
     private func getVideoTileDisplayName(for indexPath: IndexPath) -> String {

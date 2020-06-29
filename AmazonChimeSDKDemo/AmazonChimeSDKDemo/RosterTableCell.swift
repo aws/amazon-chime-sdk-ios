@@ -14,8 +14,6 @@ let rosterTableCellReuseIdentifier: String = "rosterCell"
 class RosterTableCell: UITableViewCell {
     @IBOutlet var attendeeName: UILabel!
     @IBOutlet var indicator: UIView!
-    @IBOutlet var metricName: UILabel!
-    @IBOutlet var metricValue: UILabel!
     @IBOutlet var speakLevel: UIImageView!
 
     init(attendee: RosterAttendee, isActiveSpeaker: Bool) {

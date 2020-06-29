@@ -21,7 +21,7 @@
 		5A16BE7A24006A2A00ADAE26 /* VideoTileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A16BE7924006A2A00ADAE26 /* VideoTileCell.swift */; };
 		5A16BED824045A7100ADAE26 /* SegmentedControlIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A16BED724045A7100ADAE26 /* SegmentedControlIndex.swift */; };
 		5A1DE366249332870060E9C3 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1DE365249332870060E9C3 /* ViewControllerExtension.swift */; };
-		5A38BFB724A131B3005B2AA7 /* MetricsDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A38BFB624A131B3005B2AA7 /* MetricsDictionary.swift */; };
+		5A38BFB724A131B3005B2AA7 /* MetricsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A38BFB624A131B3005B2AA7 /* MetricsModel.swift */; };
 		5A81417823F2300D00560201 /* RosterTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A81417723F2300D00560201 /* RosterTableCell.swift */; };
 		5A9E17D024A6A810002CACC5 /* AmazonChimeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE38AD7242873FD00B234EC /* AmazonChimeSDK.framework */; };
 		5A9E17D124A6A810002CACC5 /* AmazonChimeSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE38AD7242873FD00B234EC /* AmazonChimeSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -30,6 +30,7 @@
 		5ACB3E74249AEE7300FC6E1B /* AmazonChimeSDKMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ACB3E6F249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework */; };
 		5ACB3E75249AEE7300FC6E1B /* AmazonChimeSDKMedia.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5ACB3E6F249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5AE38AE02428747100B234EC /* AmazonChimeSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE38AD7242873FD00B234EC /* AmazonChimeSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C446C84924A6612500392CE5 /* MetricsTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C446C84824A6612500392CE5 /* MetricsTableCell.swift */; };
 		C4632EBE24A57BF8009F8AF5 /* RosterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4632EBC24A57BF8009F8AF5 /* RosterModel.swift */; };
 		C4D8E1B824A412B6005D9CF7 /* VideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D8E1B724A412B6005D9CF7 /* VideoModel.swift */; };
 		F82D50DA23FC9C6C00D8F18C /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D50D923FC9C6C00D8F18C /* AppConfiguration.swift */; };
@@ -108,10 +109,11 @@
 		5A16BE7924006A2A00ADAE26 /* VideoTileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTileCell.swift; sourceTree = "<group>"; };
 		5A16BED724045A7100ADAE26 /* SegmentedControlIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlIndex.swift; sourceTree = "<group>"; };
 		5A1DE365249332870060E9C3 /* ViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
-		5A38BFB624A131B3005B2AA7 /* MetricsDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsDictionary.swift; sourceTree = "<group>"; };
+		5A38BFB624A131B3005B2AA7 /* MetricsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsModel.swift; sourceTree = "<group>"; };
 		5A81417723F2300D00560201 /* RosterTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RosterTableCell.swift; sourceTree = "<group>"; };
 		5ACB3E6F249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AmazonChimeSDKMedia.framework; path = ../AmazonChimeSDK/AmazonChimeSDKMedia.framework; sourceTree = "<group>"; };
 		5AE38AD1242873FD00B234EC /* AmazonChimeSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AmazonChimeSDK.xcodeproj; path = ../AmazonChimeSDK/AmazonChimeSDK.xcodeproj; sourceTree = "<group>"; };
+		C446C84824A6612500392CE5 /* MetricsTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsTableCell.swift; sourceTree = "<group>"; };
 		C4632EBC24A57BF8009F8AF5 /* RosterModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RosterModel.swift; sourceTree = "<group>"; };
 		C4D8E1B724A412B6005D9CF7 /* VideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoModel.swift; sourceTree = "<group>"; };
 		F82D50D923FC9C6C00D8F18C /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
@@ -153,7 +155,6 @@
 			isa = PBXGroup;
 			children = (
 				003B58AE23E23E9D002493AB /* JoinMeetingResponse.swift */,
-				5A38BFB624A131B3005B2AA7 /* MetricsDictionary.swift */,
 				00F372ED23DA2BFD008F7CA7 /* RosterAttendee.swift */,
 				5A16BED724045A7100ADAE26 /* SegmentedControlIndex.swift */,
 			);
@@ -194,6 +195,8 @@
 				5A81417723F2300D00560201 /* RosterTableCell.swift */,
 				C4D8E1B724A412B6005D9CF7 /* VideoModel.swift */,
 				5A16BE7924006A2A00ADAE26 /* VideoTileCell.swift */,
+				5A38BFB624A131B3005B2AA7 /* MetricsModel.swift */,
+				C446C84824A6612500392CE5 /* MetricsTableCell.swift */,
 				5A1582C223C40C9D0099F8FA /* Assets.xcassets */,
 				5A1582BF23C40C9B0099F8FA /* Main.storyboard */,
 				5A1582C423C40C9D0099F8FA /* LaunchScreen.storyboard */,
@@ -401,6 +404,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C446C84924A6612500392CE5 /* MetricsTableCell.swift in Sources */,
 				F82D50DA23FC9C6C00D8F18C /* AppConfiguration.swift in Sources */,
 				5A1582BA23C40C9B0099F8FA /* AppDelegate.swift in Sources */,
 				003B58B123E25032002493AB /* HttpUtils.swift in Sources */,
@@ -413,7 +417,7 @@
 				5A16BE7A24006A2A00ADAE26 /* VideoTileCell.swift in Sources */,
 				C4632EBE24A57BF8009F8AF5 /* RosterModel.swift in Sources */,
 				5A1582BE23C40C9B0099F8FA /* JoiningViewController.swift in Sources */,
-				5A38BFB724A131B3005B2AA7 /* MetricsDictionary.swift in Sources */,
+				5A38BFB724A131B3005B2AA7 /* MetricsModel.swift in Sources */,
 				C4D8E1B824A412B6005D9CF7 /* VideoModel.swift in Sources */,
 				5A1DE366249332870060E9C3 /* ViewControllerExtension.swift in Sources */,
 			);
