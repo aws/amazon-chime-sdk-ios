@@ -480,6 +480,7 @@ extension MeetingViewController: VideoTileObserver {
         if tileState.isContent {
             currentMeetingSession?.audioVideo.bindVideoView(videoView: screenRenderView, tileId: tileState.tileId)
             screenRenderView.isHidden = false
+            screenRenderView.accessibilityIdentifier = "ScreenTile"
             screenViewLabel.isHidden = true
         } else {
             if tileState.isLocalTile {
