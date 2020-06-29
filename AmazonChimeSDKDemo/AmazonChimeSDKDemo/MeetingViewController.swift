@@ -13,39 +13,54 @@ import Toast
 import UIKit
 
 class MeetingViewController: UIViewController {
-    // MARK: Initialize variables
-
-    @IBOutlet var attendeesButton: UIButton!
-    @IBOutlet var cameraButton: UIButton!
+    // Controls
     @IBOutlet var controlView: UIView!
+    @IBOutlet var rosterButton: UIButton!
+    @IBOutlet var cameraButton: UIButton!
     @IBOutlet var deviceButton: UIButton!
     @IBOutlet var endButton: UIButton!
-    @IBOutlet var mainView: UIView!
-    @IBOutlet var meetingNameLabel: UILabel!
-    @IBOutlet var moreButton: UIButton!
+    @IBOutlet var metricsButton: UIButton!
     @IBOutlet var muteButton: UIButton!
     @IBOutlet var screenButton: UIButton!
-    @IBOutlet var screenView: UIView!
-    @IBOutlet var screenViewLabel: UILabel!
-    @IBOutlet var screenRenderView: DefaultVideoRenderView!
+
+    // Accessory views
+    @IBOutlet var containerView: UIView!
     @IBOutlet var titleView: UIView!
+    @IBOutlet var titleLabel: UILabel!
+
+    // Screen share
+    @IBOutlet var screenView: UIView!
+    @IBOutlet var noScreenViewLabel: UILabel!
+    @IBOutlet var screenRenderView: DefaultVideoRenderView!
+
+    // Roster
     @IBOutlet var rosterTable: UITableView!
+
+    // Video
     @IBOutlet var videoCollection: UICollectionView!
 
+    // Metrics
+    @IBOutlet var metricsTable: UITableView!
+
+    // Models
+    private let rosterModel = RosterModel()
+    private let videoModel = VideoModel()
+    private let metricsModel = MetricsModel()
+
+    // Dependencies
     public var meetingSessionConfig: MeetingSessionConfiguration?
     public var meetingId: String?
     public var selfName: String?
 
+    // Local var
     private var currentMeetingSession: MeetingSession?
-    private let dispatchGroup = DispatchGroup()
     private var isFullScreen = false
+
+    // Utils
+    private let dispatchGroup = DispatchGroup()
     private let jsonDecoder = JSONDecoder()
     private let logger = ConsoleLogger(name: "MeetingViewController")
-    private var metricsDict = MetricsDictionary()
     private let uuid = UUID().uuidString
-
-    private let rosterModel = RosterModel()
-    private let videoModel = VideoModel()
 
     // MARK: Override functions
 
@@ -172,11 +187,11 @@ class MeetingViewController: UIViewController {
 
     private func setupUI() {
         // Labels
-        meetingNameLabel.text = meetingId
-        meetingNameLabel.accessibilityLabel = "Meeting ID \(meetingId ?? "")"
+        titleLabel.text = meetingId
+        titleLabel.accessibilityLabel = "Meeting ID \(meetingId ?? "")"
 
         // Buttons
-        let buttonStack = [muteButton, deviceButton, cameraButton, screenButton, attendeesButton, endButton, moreButton]
+        let buttonStack = [muteButton, deviceButton, cameraButton, screenButton, rosterButton, endButton, metricsButton]
         for button in buttonStack {
             let normalButtonImage = button?.image(for: .normal)?.withRenderingMode(.alwaysTemplate)
             let selectedButtonImage = button?.image(for: .selected)?.withRenderingMode(.alwaysTemplate)
@@ -189,27 +204,45 @@ class MeetingViewController: UIViewController {
 
         // Views
         let tap = UITapGestureRecognizer(target: self, action: #selector(setFullScreen(_:)))
-        mainView.addGestureRecognizer(tap)
+        containerView.addGestureRecognizer(tap)
+        screenRenderView.accessibilityIdentifier = "ScreenTile"
 
         // States
         showVideoOrScreen(isVideo: true)
 
-        // roster table view
+        // Roster table view
         rosterTable.delegate = rosterModel
         rosterTable.dataSource = rosterModel
 
-        // video collection view
+        // Video collection view
         videoCollection.delegate = self
         videoCollection.dataSource = videoModel
         videoModel.delegate = self
+
+        // Metrics table view
+        metricsTable.delegate = metricsModel
+        metricsTable.dataSource = metricsModel
     }
 
     private func showVideoOrScreen(isVideo: Bool) {
-        attendeesButton.isSelected = false
-        moreButton.isSelected = false
+        rosterButton.isSelected = false
+        metricsButton.isSelected = false
         rosterTable.isHidden = true
         screenView.isHidden = isVideo
         videoCollection.isHidden = !isVideo
+    }
+
+    private func showRosterOrMetrics(isRoster: Bool) {
+        rosterTable.isHidden = !isRoster
+        metricsTable.isHidden = isRoster
+
+        if isRoster {
+            metricsButton.isSelected = false
+            rosterTable.reloadData()
+        } else {
+            rosterButton.isSelected = false
+            metricsTable.reloadData()
+        }
     }
 
     private func startRemoteVideo() {
@@ -227,13 +260,13 @@ class MeetingViewController: UIViewController {
 
     // MARK: IBAction functions
 
-    @IBAction func moreButtonClicked(_: UIButton) {
-//        moreButton.isSelected = !moreButton.isSelected
-//        attendeesButton.isSelected = !moreButton.isSelected
-//        rosterTable.isHidden = !moreButton.isSelected
-//        rosterTable.reloadData()
-
-        // TODO: This will be add back with a separate table view
+    @IBAction func metricsButtonClicked(_: UIButton) {
+        metricsButton.isSelected = !metricsButton.isSelected
+        if metricsButton.isSelected {
+            showRosterOrMetrics(isRoster: false)
+        } else {
+            metricsTable.isHidden = true
+        }
     }
 
     @IBAction func muteButtonClicked(_: UIButton) {
@@ -289,11 +322,13 @@ class MeetingViewController: UIViewController {
         }
     }
 
-    @IBAction func attendeesButtonClicked(_: UIButton) {
-        attendeesButton.isSelected = !attendeesButton.isSelected
-        moreButton.isSelected = !attendeesButton.isSelected
-        rosterTable.isHidden = !attendeesButton.isSelected
-        rosterTable.reloadData()
+    @IBAction func rosterButtonClicked(_: UIButton) {
+        rosterButton.isSelected = !rosterButton.isSelected
+        if rosterButton.isSelected {
+            showRosterOrMetrics(isRoster: true)
+        } else {
+            rosterTable.isHidden = true
+        }
     }
 
     @IBAction func leaveButtonClicked(_: UIButton) {
@@ -323,8 +358,8 @@ class MeetingViewController: UIViewController {
     @objc func setFullScreen(_: UITapGestureRecognizer? = nil) {
         if rosterTable.isHidden == false {
             rosterTable.isHidden = true
-            attendeesButton.isSelected = false
-            moreButton.isSelected = false
+            rosterButton.isSelected = false
+            metricsButton.isSelected = false
         } else if UIDevice.current.orientation.isLandscape {
             isFullScreen = !isFullScreen
             controlView.isHidden = isFullScreen
@@ -456,9 +491,9 @@ extension MeetingViewController: MetricsObserver {
             logger.error(msg: "The received metrics \(metrics) is not of type [ObservableMetric: Any].")
             return
         }
-        metricsDict.update(dict: metrics)
+        metricsModel.update(dict: metrics)
         logger.info(msg: "Media metrics have been received: \(observableMetrics)")
-        rosterTable.reloadData()
+        metricsTable.reloadData()
     }
 }
 
@@ -479,9 +514,8 @@ extension MeetingViewController: VideoTileObserver {
             " attendeeId: \(tileState.attendeeId ?? "")")
         if tileState.isContent {
             currentMeetingSession?.audioVideo.bindVideoView(videoView: screenRenderView, tileId: tileState.tileId)
+            noScreenViewLabel.isHidden = true
             screenRenderView.isHidden = false
-            screenRenderView.accessibilityIdentifier = "ScreenTile"
-            screenViewLabel.isHidden = true
         } else {
             if tileState.isLocalTile {
                 videoModel.setSelfVideoTileState(tileState)
@@ -505,7 +539,7 @@ extension MeetingViewController: VideoTileObserver {
 
         if tileState.isContent {
             screenRenderView.isHidden = true
-            screenViewLabel.isHidden = false
+            noScreenViewLabel.isHidden = false
         } else if tileState.isLocalTile {
             videoModel.setSelfVideoTileState(nil)
             videoCollection?.reloadItems(at: [IndexPath(item: 0, section: 0)])
