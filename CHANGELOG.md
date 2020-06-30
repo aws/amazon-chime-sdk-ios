@@ -1,12 +1,16 @@
 ## Unreleased
+
 ### Changed
 - Changed UI for iOS demo app
+- `DefaultVideoRenderView` now supports dynamically changing `contentMode` at run time.
 
 ## [0.7.1] - 2020-06-24
+
 ### Changed
 - `DefaultAudioClientController` no longer defaults to Speaker as audio output when starting audio session.
 
 ## [0.7.0] - 2020-06-05
+
 ### Added
 - **Breaking** Added `start(callKitEnabled:)` in `AudioVideoControllerFacade` to accept a Bool type `callKitEnabled` parameter, which is set to `false` by default in `DefaultAudioVideoFacade`. Pass in `true` if your VoIP call has CallKit integration so that audio session interruptions are properly handled by the SDK.
 

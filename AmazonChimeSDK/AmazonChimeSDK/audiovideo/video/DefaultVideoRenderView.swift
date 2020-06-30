@@ -27,6 +27,7 @@ import os
                        as video resolution may change during the session.
                        """, type: .info)
             }
+            imageView.contentMode = newContentMode
         }
     }
 
