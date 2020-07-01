@@ -35,6 +35,7 @@ class RosterTableCell: UITableViewCell {
         }
 
         indicator.isHidden = !isActiveSpeaker
+        indicator.accessibilityIdentifier = isActiveSpeaker ? "\(attendee.attendeeName ?? "") Active" : ""
         indicator.layer.cornerRadius = indicator.frame.size.width / 2.0
         speakLevel.tintColor = .systemGray
 
