@@ -18,24 +18,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Join a meeting" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UUz-34-lb9">
-                                <rect key="frame" x="8" y="320" width="398" height="48"/>
+                                <rect key="frame" x="8" y="313" width="398" height="48"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gda-Op-d5h">
-                                <rect key="frame" x="195" y="500" width="24" height="24"/>
-                                <accessibility key="accessibilityConfiguration" identifier="Join"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="24" id="dSe-Bl-XHD"/>
-                                    <constraint firstAttribute="height" constant="24" id="rpk-7G-ebA"/>
-                                </constraints>
-                                <connections>
-                                    <action selector="joinMeetingWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zMq-Qo-iE7"/>
-                                </connections>
-                            </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Your Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="osX-FD-I0Z">
-                                <rect key="frame" x="109" y="450" width="196" height="34"/>
+                                <rect key="frame" x="109" y="431" width="196" height="34"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Name Input">
                                     <bool key="isElement" value="YES"/>
                                 </accessibility>
@@ -43,10 +32,10 @@
                                     <constraint firstAttribute="width" constant="196" id="2Um-eD-gwo"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Meeting ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s6f-Ei-sAf">
-                                <rect key="frame" x="109" y="400" width="196" height="34"/>
+                                <rect key="frame" x="109" y="381" width="196" height="34"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Meeting Id Input">
                                     <bool key="isElement" value="YES"/>
                                 </accessibility>
@@ -54,7 +43,7 @@
                                     <constraint firstAttribute="width" constant="196" id="AT3-Na-N2O"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="version" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9bX-Kc-eHT">
                                 <rect key="frame" x="16" y="831.66666666666663" width="382" height="14.333333333333371"/>
@@ -62,30 +51,61 @@
                                 <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="U4C-4u-Vzl" userLabel="Button Stack View">
+                                <rect key="frame" x="87.666666666666686" y="477" width="239" height="110"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SCO-KH-TkU" userLabel="Join without CallKit Button">
+                                        <rect key="frame" x="0.0" y="0.0" width="239" height="30"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="Join Without CallKit"/>
+                                        <state key="normal" title="Join without CallKit"/>
+                                        <connections>
+                                            <action selector="joinWithoutCallKitButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zJh-Ks-Sbt"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5eE-Oj-duC" userLabel="Join with CallKit as Incoming Button">
+                                        <rect key="frame" x="0.0" y="40" width="239" height="30"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="Join CallKit Incoming"/>
+                                        <state key="normal" title="Join with CallKit as Incoming in 15s"/>
+                                        <connections>
+                                            <action selector="joinAsIncomingCallButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HoE-bj-dWO"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Alk-Rp-DLi" userLabel="Join with CallKit as Outgoing Button">
+                                        <rect key="frame" x="0.0" y="80" width="239" height="30"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="Join CallKit Outgoing"/>
+                                        <state key="normal" title="Join with CallKit as Outgoing"/>
+                                        <connections>
+                                            <action selector="joinAsOutgoingCallButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HJW-oH-3iN"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="osX-FD-I0Z" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="14S-aX-21S"/>
                             <constraint firstItem="UUz-34-lb9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="2R9-AX-Dow"/>
-                            <constraint firstItem="Gda-Op-d5h" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="BKP-z8-99b"/>
-                            <constraint firstItem="Gda-Op-d5h" firstAttribute="top" secondItem="osX-FD-I0Z" secondAttribute="bottom" constant="16" id="BOT-IF-kOG"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="9bX-Kc-eHT" secondAttribute="trailing" constant="16" id="CFu-s4-gUV"/>
                             <constraint firstItem="UUz-34-lb9" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="FH0-Ls-emL"/>
                             <constraint firstItem="9bX-Kc-eHT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="JE3-ga-xUR"/>
-                            <constraint firstItem="Gda-Op-d5h" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="64" id="MrR-dT-nk9"/>
+                            <constraint firstItem="U4C-4u-Vzl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="MOu-0K-Cvo"/>
                             <constraint firstItem="s6f-Ei-sAf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="O7I-Dv-H8c"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="9bX-Kc-eHT" secondAttribute="bottom" constant="16" id="U5B-ij-2pj"/>
+                            <constraint firstItem="U4C-4u-Vzl" firstAttribute="top" secondItem="osX-FD-I0Z" secondAttribute="bottom" constant="12" id="WNP-Nc-bRq"/>
                             <constraint firstItem="9bX-Kc-eHT" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XMh-wo-ho8"/>
                             <constraint firstItem="osX-FD-I0Z" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="bfI-1B-dC2"/>
-                            <constraint firstItem="s6f-Ei-sAf" firstAttribute="top" secondItem="UUz-34-lb9" secondAttribute="bottom" constant="32" id="sqC-ky-MjB"/>
+                            <constraint firstItem="s6f-Ei-sAf" firstAttribute="top" secondItem="UUz-34-lb9" secondAttribute="bottom" constant="20" id="sqC-ky-MjB"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="UUz-34-lb9" secondAttribute="trailing" constant="8" id="xEu-O0-RsD"/>
                             <constraint firstItem="osX-FD-I0Z" firstAttribute="top" secondItem="s6f-Ei-sAf" secondAttribute="bottom" constant="16" id="zh1-pn-qLH"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="joinButton" destination="Gda-Op-d5h" id="eDt-aC-zYL"/>
-                        <outlet property="meetingIDText" destination="s6f-Ei-sAf" id="vmx-Lh-C7I"/>
-                        <outlet property="nameText" destination="osX-FD-I0Z" id="lFR-t4-JOi"/>
+                        <outlet property="joinAsIncomingCallButton" destination="5eE-Oj-duC" id="GP7-uN-Zir"/>
+                        <outlet property="joinAsOutgoingCallButton" destination="Alk-Rp-DLi" id="Jax-Of-5sG"/>
+                        <outlet property="joinWithoutCallKitButton" destination="SCO-KH-TkU" id="YnN-ti-7uX"/>
+                        <outlet property="meetingIdTextField" destination="s6f-Ei-sAf" id="vmx-Lh-C7I"/>
+                        <outlet property="nameTextField" destination="osX-FD-I0Z" id="lFR-t4-JOi"/>
                         <outlet property="versionLabel" destination="9bX-Kc-eHT" id="M1d-QC-GNU"/>
                     </connections>
                 </viewController>
@@ -109,6 +129,7 @@
                                         <subviews>
                                             <view userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="SGw-l9-hMc" userLabel="Screen Render View" customClass="DefaultVideoRenderView" customModule="AmazonChimeSDK">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="701"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="ScreenTile"/>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No screen share available" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a6m-dY-eYQ">
                                                 <rect key="frame" x="96.333333333333329" y="338.66666666666669" width="221.33333333333337" height="24"/>

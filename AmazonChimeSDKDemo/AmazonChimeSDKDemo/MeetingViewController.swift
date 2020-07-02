@@ -51,6 +51,7 @@ class MeetingViewController: UIViewController {
     public var meetingSessionConfig: MeetingSessionConfiguration?
     public var meetingId: String?
     public var selfName: String?
+    public var callKitOption: CallKitOption = .disabled
 
     // Local var
     private var currentMeetingSession: MeetingSession?
@@ -77,7 +78,7 @@ class MeetingViewController: UIViewController {
             self.currentMeetingSession = DefaultMeetingSession(
                 configuration: meetingSessionConfig, logger: self.logger
             )
-            self.setupAudioEnv()
+            self.setupAudioEnv(isCallKitEnabled: self.callKitOption != .disabled)
             DispatchQueue.main.async {
                 self.startRemoteVideo()
             }
@@ -98,12 +99,12 @@ class MeetingViewController: UIViewController {
         }
     }
 
-    private func setupAudioEnv() {
+    private func setupAudioEnv(isCallKitEnabled: Bool) {
         do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playAndRecord, options:
-                AVAudioSession.CategoryOptions.allowBluetooth)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playAndRecord,
+                                                            options: AVAudioSession.CategoryOptions.allowBluetooth)
             setupSubscriptionToAttendeeChangeHandler()
-            try currentMeetingSession?.audioVideo.start(callKitEnabled: false)
+            try currentMeetingSession?.audioVideo.start(callKitEnabled: isCallKitEnabled)
         } catch PermissionError.audioPermissionError {
             let audioPermission = AVAudioSession.sharedInstance().recordPermission
             if audioPermission == .denied {
@@ -114,7 +115,7 @@ class MeetingViewController: UIViewController {
             } else {
                 AVAudioSession.sharedInstance().requestRecordPermission { granted in
                     if granted {
-                        self.setupAudioEnv()
+                        self.setupAudioEnv(isCallKitEnabled: isCallKitEnabled)
                     } else {
                         self.logger.error(msg: "User did not grant audio permission")
                         DispatchQueue.main.async {
@@ -205,7 +206,6 @@ class MeetingViewController: UIViewController {
         // Views
         let tap = UITapGestureRecognizer(target: self, action: #selector(setFullScreen(_:)))
         containerView.addGestureRecognizer(tap)
-        screenRenderView.accessibilityIdentifier = "ScreenTile"
 
         // States
         showVideoOrScreen(isVideo: true)
