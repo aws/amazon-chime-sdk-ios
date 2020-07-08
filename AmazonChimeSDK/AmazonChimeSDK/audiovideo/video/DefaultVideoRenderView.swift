@@ -28,6 +28,9 @@ import os
                        """, type: .info)
             }
         }
+        didSet {
+            imageView.contentMode = contentMode
+        }
     }
 
     // Delay the transform until the next frame
