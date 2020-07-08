@@ -70,7 +70,6 @@ class VideoTileCell: UICollectionViewCell {
     }
 
     @objc func onTileButtonClicked(_ sender: UIButton) {
-        
         sender.isSelected = !sender.isSelected
         delegate?.onTileButtonClicked(tag: sender.tag, selected: sender.isSelected)
         if sender.tag == 0 {

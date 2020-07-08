@@ -14,7 +14,6 @@ import UIKit
 class JoiningViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var meetingIdTextField: UITextField!
     @IBOutlet var nameTextField: UITextField!
-    @IBOutlet var joinButton: UIButton!
     @IBOutlet var versionLabel: UILabel!
     @IBOutlet var joinWithoutCallKitButton: UIButton!
     @IBOutlet var joinAsIncomingCallButton: UIButton!
@@ -22,6 +21,7 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
 
     private let logger = ConsoleLogger(name: "JoiningViewController")
     private let toastDisplayDuration = 2.0
+    private let incomingCallKitDelay = 10.0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,7 +112,18 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
                 meetingViewController.meetingId = meetingId
                 meetingViewController.selfName = name
                 meetingViewController.callKitOption = callKitOption
-                self.present(meetingViewController, animated: true, completion: nil)
+                if callKitOption == .incoming {
+                    let backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + self.incomingCallKitDelay) {
+                        self.present(meetingViewController, animated: true) {
+                            UIApplication.shared.endBackgroundTask(backgroundTaskIdentifier)
+                        }
+                    }
+                    self.view.makeToast("You can background the app or lock screen while waiting",
+                                        duration: self.incomingCallKitDelay)
+                } else {
+                    self.present(meetingViewController, animated: true, completion: nil)
+                }
             }
         })
     }
