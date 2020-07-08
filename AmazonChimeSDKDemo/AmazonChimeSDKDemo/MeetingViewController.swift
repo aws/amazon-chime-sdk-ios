@@ -8,6 +8,7 @@
 
 import AmazonChimeSDK
 import AVFoundation
+import CallKit
 import Foundation
 import Toast
 import UIKit
@@ -56,12 +57,15 @@ class MeetingViewController: UIViewController {
     // Local var
     private var currentMeetingSession: MeetingSession?
     private var isFullScreen = false
+    private let activeSpeakerObserverId = UUID().uuidString
 
     // Utils
     private let dispatchGroup = DispatchGroup()
     private let jsonDecoder = JSONDecoder()
     private let logger = ConsoleLogger(name: "MeetingViewController")
-    private let uuid = UUID().uuidString
+
+    // CallKit
+    private var call: Call?
 
     // MARK: Override functions
 
@@ -78,10 +82,30 @@ class MeetingViewController: UIViewController {
             self.currentMeetingSession = DefaultMeetingSession(
                 configuration: meetingSessionConfig, logger: self.logger
             )
-            self.setupAudioEnv(isCallKitEnabled: self.callKitOption != .disabled)
-            DispatchQueue.main.async {
-                self.startRemoteVideo()
-            }
+            self.setupAudioVideoFacadeObservers()
+
+            self.requestRecordPermission(completion: { success in
+                if success {
+                    switch self.callKitOption {
+                    case .disabled:
+                        self.configureAudioSession()
+                        self.startAudioVideoConnection(isCallKitEnabled: false)
+                        DispatchQueue.main.async {
+                            self.startRemoteVideo()
+                        }
+                    case .incoming:
+                        let incomingCall = self.createCall(isOutgoing: false)
+                        CallKitManager.shared().reportNewIncomingCall(with: incomingCall)
+                        self.call = incomingCall
+                    case .outgoing:
+                        let outgoingCall = self.createCall(isOutgoing: true)
+                        CallKitManager.shared().startOutgoingCall(with: outgoingCall)
+                        self.call = outgoingCall
+                    }
+                } else {
+                    self.leaveMeeting()
+                }
+            })
         }
     }
 
@@ -99,38 +123,55 @@ class MeetingViewController: UIViewController {
         }
     }
 
-    private func setupAudioEnv(isCallKitEnabled: Bool) {
+    private func requestRecordPermission(completion: @escaping (Bool) -> Void) {
+        let audioSession = AVAudioSession.sharedInstance()
+        switch audioSession.recordPermission {
+        case .denied:
+            logger.error(msg: "User did not grant audio permission, it should redirect to Settings")
+            completion(false)
+        case .undetermined:
+            audioSession.requestRecordPermission({ granted in
+                if granted {
+                    completion(true)
+                } else {
+                    self.logger.error(msg: "User did not grant audio permission")
+                    completion(false)
+                }
+            })
+        case .granted:
+            completion(true)
+        @unknown default:
+            self.logger.error(msg: "Audio session record permission unknown case detected")
+            completion(false)
+        }
+    }
+
+    private func configureAudioSession() {
+        let audioSession = AVAudioSession.sharedInstance()
         do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playAndRecord,
-                                                            options: AVAudioSession.CategoryOptions.allowBluetooth)
-            setupSubscriptionToAttendeeChangeHandler()
-            try currentMeetingSession?.audioVideo.start(callKitEnabled: isCallKitEnabled)
-        } catch PermissionError.audioPermissionError {
-            let audioPermission = AVAudioSession.sharedInstance().recordPermission
-            if audioPermission == .denied {
-                logger.error(msg: "User did not grant audio permission, it should redirect to Settings")
-                DispatchQueue.main.async {
-                    self.dismiss(animated: true, completion: nil)
-                }
-            } else {
-                AVAudioSession.sharedInstance().requestRecordPermission { granted in
-                    if granted {
-                        self.setupAudioEnv(isCallKitEnabled: isCallKitEnabled)
-                    } else {
-                        self.logger.error(msg: "User did not grant audio permission")
-                        DispatchQueue.main.async {
-                            self.dismiss(animated: true, completion: nil)
-                        }
-                    }
-                }
+            if audioSession.category != .playAndRecord {
+                try audioSession.setCategory(AVAudioSession.Category.playAndRecord,
+                                             options: AVAudioSession.CategoryOptions.allowBluetooth)
             }
+            if audioSession.mode != .voiceChat {
+                try audioSession.setMode(.voiceChat)
+            }
+        } catch {
+            logger.error(msg: "Error configuring AVAudioSession: \(error.localizedDescription)")
+            leaveMeeting()
+        }
+    }
+
+    private func startAudioVideoConnection(isCallKitEnabled: Bool) {
+        do {
+            try currentMeetingSession?.audioVideo.start(callKitEnabled: isCallKitEnabled)
         } catch {
             logger.error(msg: "Error starting the Meeting: \(error.localizedDescription)")
             leaveMeeting()
         }
     }
 
-    private func setupVideoEnv() {
+    private func startLocalVideo() {
         do {
             try currentMeetingSession?.audioVideo.startLocalVideo()
         } catch PermissionError.videoPermissionError {
@@ -141,7 +182,7 @@ class MeetingViewController: UIViewController {
             } else {
                 AVCaptureDevice.requestAccess(for: .video) { granted in
                     if granted {
-                        self.setupVideoEnv()
+                        self.startLocalVideo()
                     } else {
                         self.logger.error(msg: "User did not grant video permission")
                         self.notify(msg: "You did not grant video permission, Please go to Settings and change it")
@@ -154,7 +195,7 @@ class MeetingViewController: UIViewController {
         }
     }
 
-    func setupSubscriptionToAttendeeChangeHandler() {
+    func setupAudioVideoFacadeObservers() {
         guard let audioVideo = currentMeetingSession?.audioVideo else {
             return
         }
@@ -167,7 +208,7 @@ class MeetingViewController: UIViewController {
                                             observer: self)
     }
 
-    func removeSubscriptionToAttendeeChangeHandler() {
+    func removeAudioVideoFacadeObservers() {
         guard let audioVideo = currentMeetingSession?.audioVideo else {
             return
         }
@@ -270,14 +311,11 @@ class MeetingViewController: UIViewController {
     }
 
     @IBAction func muteButtonClicked(_: UIButton) {
-        muteButton.isSelected = !muteButton.isSelected
-        if muteButton.isSelected {
-            if let muted = currentMeetingSession?.audioVideo.realtimeLocalMute() {
-                logger.info(msg: "Microphone has been muted \(muted)")
-            }
+        if callKitOption == .disabled {
+            toggleMute(isMuted: !muteButton.isSelected)
         } else {
-            if let unmuted = currentMeetingSession?.audioVideo.realtimeLocalUnmute() {
-                logger.info(msg: "Microphone has been unmuted \(unmuted)")
+            if let call = call {
+                CallKitManager.shared().setMuted(for: call, isMuted: !muteButton.isSelected)
             }
         }
     }
@@ -307,7 +345,7 @@ class MeetingViewController: UIViewController {
     @IBAction func cameraButtonClicked(_: UIButton) {
         cameraButton.isSelected = !cameraButton.isSelected
         if cameraButton.isSelected {
-            setupVideoEnv()
+            startLocalVideo()
         } else {
             currentMeetingSession?.audioVideo.stopLocalVideo()
         }
@@ -332,7 +370,13 @@ class MeetingViewController: UIViewController {
     }
 
     @IBAction func leaveButtonClicked(_: UIButton) {
-        leaveMeeting()
+        if callKitOption == .disabled {
+            leaveMeeting()
+        } else {
+            if let call = call {
+                CallKitManager.shared().endCallFromLocal(with: call)
+            }
+        }
     }
 
     private func logAttendee(attendeeInfo: [AttendeeInfo], action: String) {
@@ -347,9 +391,26 @@ class MeetingViewController: UIViewController {
         }
     }
 
+    private func toggleMute(isMuted: Bool) {
+        muteButton.isSelected = isMuted
+        if isMuted {
+            if let muted = currentMeetingSession?.audioVideo.realtimeLocalMute() {
+                logger.info(msg: "Microphone has been muted \(muted)")
+            }
+        } else {
+            if let unmuted = currentMeetingSession?.audioVideo.realtimeLocalUnmute() {
+                logger.info(msg: "Microphone has been unmuted \(unmuted)")
+            }
+        }
+    }
+
     private func leaveMeeting() {
         currentMeetingSession?.audioVideo.stop()
-        removeSubscriptionToAttendeeChangeHandler()
+        removeAudioVideoFacadeObservers()
+        dismissMeetingViewController()
+    }
+
+    private func dismissMeetingViewController() {
         DispatchQueue.main.async {
             self.dismiss(animated: true, completion: nil)
         }
@@ -364,6 +425,30 @@ class MeetingViewController: UIViewController {
             isFullScreen = !isFullScreen
             controlView.isHidden = isFullScreen
         }
+    }
+
+    private func createCall(isOutgoing: Bool) -> Call {
+        let handle = self.meetingId ?? "Chime Demo Meeting"
+        let call = Call(uuid: UUID(), handle: handle, isOutgoing: isOutgoing)
+        call.isReadytoConfigureHandler = { [weak self] in
+            self?.configureAudioSession()
+        }
+        call.isAudioSessionActiveHandler = { [weak self] in
+            self?.startAudioVideoConnection(isCallKitEnabled: true)
+            DispatchQueue.main.async {
+                self?.startRemoteVideo()
+            }
+        }
+        call.isEndedHandler = { [weak self] in
+            self?.leaveMeeting()
+        }
+        call.isMutedHandler = { [weak self] isMuted in
+            self?.toggleMute(isMuted: isMuted)
+        }
+        call.isOnHoldHander = { [weak self] isOnHold in
+            // TODO: Handle on hold
+        }
+        return call
     }
 }
 
@@ -384,10 +469,18 @@ extension MeetingViewController: AudioVideoObserver {
 
     func audioSessionDidStartConnecting(reconnecting: Bool) {
         notify(msg: "Audio started connecting. Reconnecting: \(reconnecting)")
+
+        if !reconnecting {
+            call?.isConnectingHandler?()
+        }
     }
 
     func audioSessionDidStart(reconnecting: Bool) {
         notify(msg: "Audio successfully started. Reconnecting: \(reconnecting)")
+
+        if !reconnecting {
+            call?.isConnectedHandler?()
+        }
     }
 
     func audioSessionDidDrop() {
@@ -396,9 +489,22 @@ extension MeetingViewController: AudioVideoObserver {
 
     func audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus) {
         logger.info(msg: "Audio stopped for a reason: \(sessionStatus.statusCode)")
-        if sessionStatus.statusCode != .ok {
-            leaveMeeting()
+
+        if let call = call {
+            switch sessionStatus.statusCode {
+            case .ok:
+                break
+            case .audioCallEnded, .audioServerHungup:
+                CallKitManager.shared().reportCallEndedFromRemote(with: call, reason: .remoteEnded)
+            case .audioJoinedFromAnotherDevice:
+                CallKitManager.shared().reportCallEndedFromRemote(with: call, reason: .answeredElsewhere)
+            case .audioDisconnectAudio:
+                CallKitManager.shared().reportCallEndedFromRemote(with: call, reason: .declinedElsewhere)
+            default:
+                CallKitManager.shared().reportCallEndedFromRemote(with: call, reason: .failed)
+            }
         }
+        leaveMeeting()
     }
 
     func audioSessionDidCancelReconnect() {
@@ -578,7 +684,7 @@ extension MeetingViewController: VideoTileObserver {
 
 extension MeetingViewController: ActiveSpeakerObserver {
     var observerId: String {
-        return uuid
+        return activeSpeakerObserverId
     }
 
     func activeSpeakerDidDetect(attendeeInfo: [AttendeeInfo]) {

@@ -52,10 +52,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="U4C-4u-Vzl" userLabel="Button Stack View">
-                                <rect key="frame" x="87.666666666666686" y="477" width="239" height="110"/>
+                                <rect key="frame" x="87" y="477" width="240" height="110"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SCO-KH-TkU" userLabel="Join without CallKit Button">
-                                        <rect key="frame" x="0.0" y="0.0" width="239" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="240" height="30"/>
                                         <accessibility key="accessibilityConfiguration" identifier="Join Without CallKit"/>
                                         <state key="normal" title="Join without CallKit"/>
                                         <connections>
@@ -63,15 +63,15 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5eE-Oj-duC" userLabel="Join with CallKit as Incoming Button">
-                                        <rect key="frame" x="0.0" y="40" width="239" height="30"/>
+                                        <rect key="frame" x="0.0" y="40" width="240" height="30"/>
                                         <accessibility key="accessibilityConfiguration" identifier="Join CallKit Incoming"/>
-                                        <state key="normal" title="Join with CallKit as Incoming in 15s"/>
+                                        <state key="normal" title="Join with CallKit as Incoming in 10s"/>
                                         <connections>
                                             <action selector="joinAsIncomingCallButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HoE-bj-dWO"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Alk-Rp-DLi" userLabel="Join with CallKit as Outgoing Button">
-                                        <rect key="frame" x="0.0" y="80" width="239" height="30"/>
+                                        <rect key="frame" x="0.0" y="80" width="240" height="30"/>
                                         <accessibility key="accessibilityConfiguration" identifier="Join CallKit Outgoing"/>
                                         <state key="normal" title="Join with CallKit as Outgoing"/>
                                         <connections>
