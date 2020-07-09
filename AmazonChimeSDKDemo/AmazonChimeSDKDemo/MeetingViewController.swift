@@ -23,6 +23,7 @@ class MeetingViewController: UIViewController {
     @IBOutlet var metricsButton: UIButton!
     @IBOutlet var muteButton: UIButton!
     @IBOutlet var screenButton: UIButton!
+    @IBOutlet var resumeCallKitMeetingButton: UIButton!
 
     // Accessory views
     @IBOutlet var containerView: UIView!
@@ -130,18 +131,18 @@ class MeetingViewController: UIViewController {
             logger.error(msg: "User did not grant audio permission, it should redirect to Settings")
             completion(false)
         case .undetermined:
-            audioSession.requestRecordPermission({ granted in
+            audioSession.requestRecordPermission { granted in
                 if granted {
                     completion(true)
                 } else {
                     self.logger.error(msg: "User did not grant audio permission")
                     completion(false)
                 }
-            })
+            }
         case .granted:
             completion(true)
         @unknown default:
-            self.logger.error(msg: "Audio session record permission unknown case detected")
+            logger.error(msg: "Audio session record permission unknown case detected")
             completion(false)
         }
     }
@@ -240,9 +241,10 @@ class MeetingViewController: UIViewController {
             button?.setImage(normalButtonImage, for: .normal)
             button?.setImage(selectedButtonImage, for: .selected)
             button?.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
-            button?.tintColor = .systemGray
+            button?.tintColor = .systemBlue
         }
         endButton.tintColor = .red
+        resumeCallKitMeetingButton.isHidden = true
 
         // Views
         let tap = UITapGestureRecognizer(target: self, action: #selector(setFullScreen(_:)))
@@ -379,6 +381,12 @@ class MeetingViewController: UIViewController {
         }
     }
 
+    @IBAction func resumeCallKitMeetingButtonClicked(_ sender: UIButton) {
+        if let call = call {
+            CallKitManager.shared().setHeld(with: call, isOnHold: false)
+        }
+    }
+
     private func logAttendee(attendeeInfo: [AttendeeInfo], action: String) {
         for currentAttendeeInfo in attendeeInfo {
             let attendeeId = currentAttendeeInfo.attendeeId
@@ -445,8 +453,18 @@ class MeetingViewController: UIViewController {
         call.isMutedHandler = { [weak self] isMuted in
             self?.toggleMute(isMuted: isMuted)
         }
-        call.isOnHoldHander = { [weak self] isOnHold in
-            // TODO: Handle on hold
+        call.isOnHoldHandler = { [weak self] isOnHold in
+            if isOnHold {
+                self?.currentMeetingSession?.audioVideo.stop()
+            }
+            self?.containerView.isHidden = isOnHold
+            self?.resumeCallKitMeetingButton.isHidden = !isOnHold
+            self?.muteButton.isEnabled = !isOnHold
+            self?.deviceButton.isEnabled = !isOnHold
+            self?.cameraButton.isEnabled = !isOnHold
+            self?.screenButton.isEnabled = !isOnHold
+            self?.rosterButton.isEnabled = !isOnHold
+            self?.metricsButton.isEnabled = !isOnHold
         }
         return call
     }
@@ -493,7 +511,9 @@ extension MeetingViewController: AudioVideoObserver {
         if let call = call {
             switch sessionStatus.statusCode {
             case .ok:
-                break
+                if call.isOnHold {
+                    return
+                }
             case .audioCallEnded, .audioServerHungup:
                 CallKitManager.shared().reportCallEndedFromRemote(with: call, reason: .remoteEnded)
             case .audioJoinedFromAnotherDevice:

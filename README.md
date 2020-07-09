@@ -83,6 +83,10 @@ Deploy the serverless demo from [amazon-chime-sdk-js](https://github.com/aws/ama
 
 Update `AppConfiguration.swift` with the URL and region of the serverless demo
 
+### 5. Use Demo App to join meeting
+
+On the joining screen, choose to join the meeting without `CallKit` or join via `CallKit` incoming/outgoing call. Since the demo app does not have Push Notification, it delays joining via incoming call by 10 seconds to give user enough time to background the app or lock the screen to mimic the behavior.
+
 ## Reporting a suspected vulnerability
 
 If you discover a potential security issue in this project we ask that you notify AWS/Amazon Security via our
