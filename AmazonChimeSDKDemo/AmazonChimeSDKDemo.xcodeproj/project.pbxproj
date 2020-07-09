@@ -30,6 +30,7 @@
 		5ACB3E74249AEE7300FC6E1B /* AmazonChimeSDKMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ACB3E6F249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework */; };
 		5ACB3E75249AEE7300FC6E1B /* AmazonChimeSDKMedia.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5ACB3E6F249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5AE38AE02428747100B234EC /* AmazonChimeSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE38AD7242873FD00B234EC /* AmazonChimeSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C439EA3E24B78A11005B94C4 /* JoinRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C439EA3D24B78A11005B94C4 /* JoinRequestService.swift */; };
 		C43FD3CD24B533EA0080D57E /* Call.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43FD3CC24B533EA0080D57E /* Call.swift */; };
 		C446C84924A6612500392CE5 /* MetricsTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C446C84824A6612500392CE5 /* MetricsTableCell.swift */; };
 		C45B6C0824AE38D6001BE825 /* CallKitOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45B6C0724AE38D6001BE825 /* CallKitOption.swift */; };
@@ -116,6 +117,7 @@
 		5A81417723F2300D00560201 /* RosterTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RosterTableCell.swift; sourceTree = "<group>"; };
 		5ACB3E6F249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AmazonChimeSDKMedia.framework; path = ../AmazonChimeSDK/AmazonChimeSDKMedia.framework; sourceTree = "<group>"; };
 		5AE38AD1242873FD00B234EC /* AmazonChimeSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AmazonChimeSDK.xcodeproj; path = ../AmazonChimeSDK/AmazonChimeSDK.xcodeproj; sourceTree = "<group>"; };
+		C439EA3D24B78A11005B94C4 /* JoinRequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinRequestService.swift; sourceTree = "<group>"; };
 		C43FD3CC24B533EA0080D57E /* Call.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Call.swift; sourceTree = "<group>"; };
 		C446C84824A6612500392CE5 /* MetricsTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsTableCell.swift; sourceTree = "<group>"; };
 		C45B6C0724AE38D6001BE825 /* CallKitOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallKitOption.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 				003B58B023E25032002493AB /* HttpUtils.swift */,
 				5A1DE365249332870060E9C3 /* ViewControllerExtension.swift */,
 				C45B6C0724AE38D6001BE825 /* CallKitOption.swift */,
+				C439EA3D24B78A11005B94C4 /* JoinRequestService.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -429,6 +432,7 @@
 				C4632EBE24A57BF8009F8AF5 /* RosterModel.swift in Sources */,
 				5A1582BE23C40C9B0099F8FA /* JoiningViewController.swift in Sources */,
 				5A38BFB724A131B3005B2AA7 /* MetricsModel.swift in Sources */,
+				C439EA3E24B78A11005B94C4 /* JoinRequestService.swift in Sources */,
 				C4D8E1B824A412B6005D9CF7 /* VideoModel.swift in Sources */,
 				5A1DE366249332870060E9C3 /* ViewControllerExtension.swift in Sources */,
 				C45B6C0824AE38D6001BE825 /* CallKitOption.swift in Sources */,

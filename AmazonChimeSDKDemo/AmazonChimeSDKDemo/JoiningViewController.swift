@@ -36,12 +36,6 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
         setJoinButtons(isEnabled: true)
     }
 
-    private func urlRewriter(url: String) -> String {
-        // changing url
-        // return url.replacingOccurrences(of: "example.com", with: "my.example.com")
-        return url
-    }
-
     @IBAction func joinWithoutCallKitButtonClicked(_: UIButton) {
         joinMeeting(callKitOption: .disabled)
     }
@@ -80,8 +74,8 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
 
         setJoinButtons(isEnabled: false)
 
-        postRequest(meetingId: meetingId, name: name, completion: { data, error in
-            guard error == nil, let data = data else {
+        JoinRequestService.postJoinRequest(meetingId: meetingId, name: name) { meetingSessionConfig in
+            guard let meetingSessionConfig = meetingSessionConfig else {
                 DispatchQueue.main.async {
                     self.view.makeToast("Unable to join meeting please try different meeting ID",
                                         duration: self.toastDisplayDuration)
@@ -89,17 +83,6 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
                 }
                 return
             }
-
-            let (meetingResp, attendeeResp) = self.processJson(data: data)
-            guard let currentMeetingResponse = meetingResp, let currentAttendeeResponse = attendeeResp else {
-                self.logger.error(msg: "Unable to process meeting JSON response")
-                return
-            }
-
-            let meetingSessionConfig = MeetingSessionConfiguration(createMeetingResponse: currentMeetingResponse,
-                                                                   createAttendeeResponse: currentAttendeeResponse,
-                                                                   urlRewriter: self.urlRewriter)
-
             DispatchQueue.main.async {
                 let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 guard let meetingViewController = mainStoryboard.instantiateViewController(withIdentifier: "meeting")
@@ -125,48 +108,6 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
                     self.present(meetingViewController, animated: true, completion: nil)
                 }
             }
-        })
-    }
-
-    private func postRequest(meetingId: String, name: String, completion: @escaping CompletionFunc) {
-        let encodedURL = HttpUtils.encodeStrForURL(
-            str: "\(AppConfiguration.url)join?title=\(meetingId)&name=\(name)&region=\(AppConfiguration.region)"
-        )
-        HttpUtils.postRequest(
-            url: encodedURL,
-            completion: completion,
-            jsonData: nil, logger: logger
-        )
-    }
-
-    private func processJson(data: Data) -> (CreateMeetingResponse?, CreateAttendeeResponse?) {
-        let jsonDecoder = JSONDecoder()
-        do {
-            let joinMeetingResponse = try jsonDecoder.decode(JoinMeetingResponse.self, from: data)
-            let meeting = joinMeetingResponse.joinInfo.meeting.meeting
-            let meetingResp = CreateMeetingResponse(meeting:
-                Meeting(
-                    externalMeetingId: meeting.externalMeetingId,
-                    mediaPlacement: MediaPlacement(
-                        audioFallbackUrl: meeting.mediaPlacement.audioFallbackUrl,
-                        audioHostUrl: meeting.mediaPlacement.audioHostUrl,
-                        signalingUrl: meeting.mediaPlacement.signalingUrl,
-                        turnControlUrl: meeting.mediaPlacement.turnControlUrl
-                    ),
-                    mediaRegion: meeting.mediaRegion,
-                    meetingId: meeting.meetingId
-                )
-            )
-            let attendee = joinMeetingResponse.joinInfo.attendee.attendee
-            let attendeeResp = CreateAttendeeResponse(attendee:
-                Attendee(attendeeId: attendee.attendeeId,
-                         externalUserId: attendee.externalUserId,
-                         joinToken: attendee.joinToken)
-            )
-            return (meetingResp, attendeeResp)
-        } catch {
-            logger.error(msg: error.localizedDescription)
-            return (nil, nil)
         }
     }
 }

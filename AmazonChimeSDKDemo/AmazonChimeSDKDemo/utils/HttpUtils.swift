@@ -13,18 +13,21 @@ typealias CompletionFunc = (Data?, Error?) -> Void
 
 class HttpUtils {
     public static func postRequest(url: String,
-                                   completion: @escaping CompletionFunc,
                                    jsonData: Data? = nil,
-                                   logger: Logger? = nil) {
-        makeHttpRequest(url: url, method: "post", completion: completion, jsonData: jsonData, logger: logger)
+                                   logger: Logger? = nil,
+                                   completion: @escaping CompletionFunc) {
+        makeHttpRequest(url: url, method: "post", jsonData: jsonData, logger: logger, completion: completion)
     }
 
-    public static func getRequest(url: String, completion: @escaping CompletionFunc, logger: Logger? = nil) {
-        makeHttpRequest(url: url, method: "get", completion: completion, jsonData: nil, logger: logger)
+    public static func getRequest(url: String, logger: Logger? = nil, completion: @escaping CompletionFunc) {
+        makeHttpRequest(url: url, method: "get", jsonData: nil, logger: logger, completion: completion)
     }
 
-    private static func makeHttpRequest(url: String, method: String,
-                                        completion: @escaping CompletionFunc, jsonData: Data?, logger: Logger?) {
+    private static func makeHttpRequest(url: String,
+                                        method: String,
+                                        jsonData: Data?,
+                                        logger: Logger?,
+                                        completion: @escaping CompletionFunc) {
         guard let serverUrl = URL(string: url) else {
             logger?.error(msg: "Unable to parse Url please make sure check Url")
             return
