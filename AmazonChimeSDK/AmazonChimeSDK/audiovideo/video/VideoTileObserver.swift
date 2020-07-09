@@ -41,4 +41,12 @@ import Foundation
     /// - Parameters:
     ///   - tileState: video tile state associated with this attendee
     func videoTileDidResume(tileState: VideoTileState)
+
+    /// Called whenever a video steam size is changed
+    ///
+    /// Note: this callback will be called on main thread.
+    ///
+    /// - Parameters:
+    ///   - tileState: video tile state whose size was changed
+    func videoTileSizeDidChange(tileState: VideoTileState)
 }

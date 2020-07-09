@@ -21,7 +21,18 @@ import UIKit
         self.videoClientController = videoClientController
     }
 
-    public func onReceiveFrame(frame: Any?, attendeeId: String?, pauseState: VideoPauseState, videoId: Int) {
+    public func onReceiveFrame(frame: CVPixelBuffer?,
+                               videoId: Int,
+                               attendeeId: String?,
+                               pauseState: VideoPauseState) {
+        var videoStreamContentHeight = 0
+        var videoStreamContentWidth = 0
+
+        if let frame = frame {
+            videoStreamContentHeight = CVPixelBufferGetHeight(frame)
+            videoStreamContentWidth = CVPixelBufferGetWidth(frame)
+        }
+
         if let videoTile = videoTileMap[videoId] {
             // when removing video track, video client will send an unpaused nil frame
             if pauseState == .unpaused && frame == nil {
@@ -30,9 +41,18 @@ import UIKit
                 return
             }
 
+            if videoStreamContentHeight != videoTile.state.videoStreamContentHeight ||
+                videoStreamContentWidth != videoTile.state.videoStreamContentWidth {
+                videoTile.state.videoStreamContentHeight = videoStreamContentHeight
+                videoTile.state.videoStreamContentWidth = videoStreamContentWidth
+                ObserverUtils.forEach(observers: videoTileObservers) { (videoTileObserver: VideoTileObserver) in
+                    videoTileObserver.videoTileSizeDidChange(tileState: videoTile.state)
+                }
+            }
+
             // Account for any internally changed pause states, but ignore if the tile is paused by
             // user since the pause might not have propagated yet
-            if pauseState != videoTile.state.pauseState && videoTile.state.pauseState != .pausedByUserRequest {
+            if pauseState != videoTile.state.pauseState, videoTile.state.pauseState != .pausedByUserRequest {
                 // Note that currently, since we preemptively mark tiles as .pausedByUserRequest when requested by user
                 // this path will only be hit when we are either transitioning from .unpaused
                 // to .pausedForPoorConnection or .pausedForPoorConnection to .unpaused
@@ -49,11 +69,14 @@ import UIKit
             }
 
             // only render unpaused non-nil frames
-            if videoTile.state.pauseState == .unpaused && frame != nil {
+            if videoTile.state.pauseState == .unpaused, frame != nil {
                 videoTile.renderFrame(frame: frame)
             }
         } else if frame != nil {
-            onAddTrack(videoId: videoId, attendeeId: attendeeId)
+            onAddTrack(tileId: videoId,
+                       attendeeId: attendeeId,
+                       videoStreamContentHeight: videoStreamContentHeight,
+                       videoStreamContentWidth: videoStreamContentWidth)
         }
     }
 
@@ -87,11 +110,16 @@ import UIKit
         unbindVideoView(tileId: tileId, removeTile: true)
     }
 
-    private func onAddTrack(videoId: Int, attendeeId: String?) {
+    private func onAddTrack(tileId: Int,
+                            attendeeId: String?,
+                            videoStreamContentHeight: Int,
+                            videoStreamContentWidth: Int) {
         let tile = DefaultVideoTile(logger: logger,
-                                    tileId: videoId,
-                                    attendeeId: attendeeId)
-        videoTileMap[videoId] = tile
+                                    tileId: tileId,
+                                    attendeeId: attendeeId,
+                                    videoStreamContentHeight: videoStreamContentHeight,
+                                    videoStreamContentWidth: videoStreamContentWidth)
+        videoTileMap[tileId] = tile
         ObserverUtils.forEach(observers: videoTileObservers) { (videoTileObserver: VideoTileObserver) in
             videoTileObserver.videoTileDidAdd(tileState: tile.state)
         }

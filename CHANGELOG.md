@@ -1,11 +1,13 @@
 ## Unreleased
 
 ### Added
+- **Breaking** Added `videoTileSizeDidChange` API in `VideoTileObserver` for video stream content size change
 - CallKit integration in demo app. Added options to join meeting as incoming or outgoing call. Since our demo app does not have Push Notification for incoming calls, we mimic the behavior by delaying reporting incoming calls to give user time to background the app or lock screen.
 
 ### Changed
 - Changed UI for iOS demo app
 - `DefaultVideoRenderView` now supports dynamically changing `contentMode` at run time.
+- Changed video render frame type from `Any?` to `CVPixelBuffer?`
 
 ## [0.7.1] - 2020-06-24
 
@@ -27,16 +29,16 @@
 ## [0.6.1] - 2020-05-22
 
 ### Added
-- Added `attendeesDidDrop` API in `RealtimeObserver` for attendee who got dropped
+- **Breaking** Added `attendeesDidDrop` API in `RealtimeObserver` for attendee who got dropped
 
 ## [0.6.0] - 2020-05-14
 
 ### Added
 - **Breaking** Added additional fields for `CreateAttendeeResponse` and `CreateMeetingResponse`
+- **Breaking** Added `audioSessionDidDrop` API in `AudioVideoObserver` for temporary disconnects
 - Added `Versioning` class and `sdkVersion` API for retrieving current version of SDK
 - Added `init(frame: CGRect)` initializer in `DefaultVideoRenderView` to properly initialize `DefaultVideoRenderView` in ObjC code.
 - Added basic video features and `MetricsObserver` callback handler in the ObjC demo app.
-- Added `audioSessionDidDrop` API in `AudioVideoObserver` for temporary disconnects
 - Added multiple video tiles support in Swift demo app.
 - Added attendee name label in Swift demo app.
 - Added new parameter `urlRewriter` in `MeetingSessionConfiguration` for customizing url

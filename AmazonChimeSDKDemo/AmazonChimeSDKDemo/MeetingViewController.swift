@@ -80,9 +80,7 @@ class MeetingViewController: UIViewController {
         setupUI()
 
         DispatchQueue.global(qos: .background).async {
-            self.currentMeetingSession = DefaultMeetingSession(
-                configuration: meetingSessionConfig, logger: self.logger
-            )
+            self.currentMeetingSession = DefaultMeetingSession(configuration: meetingSessionConfig, logger: self.logger)
             self.setupAudioVideoFacadeObservers()
 
             self.requestRecordPermission(completion: { success in
@@ -329,12 +327,10 @@ class MeetingViewController: UIViewController {
         let optionMenu = UIAlertController(title: nil, message: "Choose Audio Device", preferredStyle: .actionSheet)
 
         for inputDevice in currentMeetingSession.audioVideo.listAudioDevices() {
-            let deviceAction = UIAlertAction(
-                title: inputDevice.label,
-                style: .default,
-                handler: { _ in self.currentMeetingSession?.audioVideo.chooseAudioDevice(mediaDevice: inputDevice)
-                }
-            )
+            let deviceAction = UIAlertAction(title: inputDevice.label,
+                                             style: .default,
+                                             handler: { _ in currentMeetingSession.audioVideo.chooseAudioDevice(mediaDevice: inputDevice)
+                })
             optionMenu.addAction(deviceAction)
         }
 
@@ -436,7 +432,7 @@ class MeetingViewController: UIViewController {
     }
 
     private func createCall(isOutgoing: Bool) -> Call {
-        let handle = self.meetingId ?? "Chime Demo Meeting"
+        let handle = meetingId ?? "Chime Demo Meeting"
         let call = Call(uuid: UUID(), handle: handle, isOutgoing: isOutgoing)
         call.isReadytoConfigureHandler = { [weak self] in
             self?.configureAudioSession()
@@ -637,7 +633,7 @@ extension MeetingViewController: DeviceChangeObserver {
 extension MeetingViewController: VideoTileObserver {
     func videoTileDidAdd(tileState: VideoTileState) {
         logger.info(msg: "Attempting to add video tile tileId: \(tileState.tileId)" +
-            " attendeeId: \(tileState.attendeeId ?? "")")
+            " attendeeId: \(tileState.attendeeId ?? "") with size \(tileState.videoStreamContentWidth)*\(tileState.videoStreamContentHeight)")
         if tileState.isContent {
             currentMeetingSession?.audioVideo.bindVideoView(videoView: screenRenderView, tileId: tileState.tileId)
             noScreenViewLabel.isHidden = true
@@ -697,6 +693,10 @@ extension MeetingViewController: VideoTileObserver {
         let attendeeId = tileState.attendeeId ?? "unkown"
         let attendeeName = rosterModel.getAttendeeName(for: attendeeId) ?? ""
         view.makeToast("Video for attendee \(attendeeName) has been unpaused")
+    }
+
+    func videoTileSizeDidChange(tileState: VideoTileState) {
+        logger.info(msg: "Video stream content size changed to \(tileState.videoStreamContentWidth)*\(tileState.videoStreamContentHeight) for tileId: \(tileState.tileId)")
     }
 }
 

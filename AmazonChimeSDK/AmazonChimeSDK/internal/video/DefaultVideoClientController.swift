@@ -223,9 +223,9 @@ extension DefaultVideoClientController: VideoClientDelegate {
 
         ObserverUtils.forEach(observers: videoTileControllerObservers) { (observer: VideoTileController) in
             observer.onReceiveFrame(frame: buffer,
+                                    videoId: Int(videoId),
                                     attendeeId: profileId,
-                                    pauseState: translatedPauseState,
-                                    videoId: Int(videoId))
+                                    pauseState: translatedPauseState)
         }
     }
 

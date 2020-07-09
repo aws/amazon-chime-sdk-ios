@@ -22,6 +22,7 @@ class Call {
             isOnHoldHandler?(isOnHold)
         }
     }
+
     var isMuted = false {
         didSet {
             isMutedHandler?(isMuted)
