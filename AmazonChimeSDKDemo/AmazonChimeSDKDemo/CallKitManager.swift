@@ -9,15 +9,17 @@
 import AmazonChimeSDK
 import AVFoundation
 import CallKit
+import UIKit
 
 class CallKitManager: NSObject {
     private static var sharedInstance: CallKitManager?
 
     private let logger = ConsoleLogger(name: "CallKitManager")
     private let callController = CXCallController()
+    private let provider: CXProvider
+
     private(set) var calls: [Call] = []
     private(set) var activeCall: Call?
-    private let provider: CXProvider
 
     static func shared() -> CallKitManager {
         if sharedInstance == nil {
@@ -76,6 +78,12 @@ class CallKitManager: NSObject {
                 self.logger.info(msg: "Report new incoming call successfully")
             }
         })
+
+        call.isUnansweredHandler = { [weak self] in
+            self?.endCallFromLocal(with: call)
+            self?.logger.info(msg: "Incoming call not answered within \(Call.maxIncomingCallAnswerTime) sec")
+        }
+        call.isUnansweredCallTimerActive = true
     }
 
     // End the call from the app. This is not needed when user end the call from the native CallKit UI
@@ -100,6 +108,20 @@ class CallKitManager: NSObject {
                 self.logger.error(msg: "Error requesting CXSetMutedCallAction transaction: \(error)")
             } else {
                 self.logger.info(msg: "Requested CXSetMutedCallAction transaction successfully")
+            }
+        })
+    }
+
+    // This is to resume call from the app. When the interrupting call is ended from Remote,
+    // provider::perform::CXSetMutedCallAction will not be called automatically
+    func setHeld(with call: Call, isOnHold: Bool) {
+        let setHeldCallAction = CXSetHeldCallAction(call: call.uuid, onHold: isOnHold)
+        let transaction = CXTransaction(action: setHeldCallAction)
+        callController.request(transaction, completion: { error in
+            if let error = error {
+                self.logger.error(msg: "Error requesting CXSetHeldCallAction transaction: \(error)")
+            } else {
+                self.logger.info(msg: "Requested CXSetHeldCallAction \(isOnHold) transaction successfully")
             }
         })
     }
@@ -157,6 +179,7 @@ extension CallKitManager: CXProviderDelegate {
         if let call = getCall(with: action.callUUID) {
             call.isReadytoConfigureHandler?()
             activeCall = call
+            call.isUnansweredCallTimerActive = false
             action.fulfill()
         } else {
             action.fail()
