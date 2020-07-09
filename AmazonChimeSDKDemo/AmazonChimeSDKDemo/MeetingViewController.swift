@@ -59,10 +59,6 @@ class MeetingViewController: UIViewController {
     private var currentMeetingSession: MeetingSession?
     private var isFullScreen = false
     private let activeSpeakerObserverId = UUID().uuidString
-
-    // Utils
-    private let dispatchGroup = DispatchGroup()
-    private let jsonDecoder = JSONDecoder()
     private let logger = ConsoleLogger(name: "MeetingViewController")
 
     // CallKit
