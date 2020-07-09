@@ -26,7 +26,6 @@ class VideoTileCell: UICollectionViewCell {
 
     func updateCell(name: String, isSelf: Bool, isVideoActive: Bool, tag: Int) {
         attendeeName.text = name
-        accessibilityIdentifier = "\(name) video tile"
         backgroundColor = .systemGray
         isHidden = false
 
@@ -39,6 +38,7 @@ class VideoTileCell: UICollectionViewCell {
 
         onTileImage.isHidden = true
         videoRenderView.isHidden = false
+        videoRenderView.accessibilityIdentifier = "\(name) VideoTile"
 
         onTileButton.tintColor = .white
         onTileButton.isHidden = false

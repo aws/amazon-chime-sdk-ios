@@ -221,7 +221,7 @@ class MeetingViewController: UIViewController {
 
     private func notify(msg: String) {
         logger.info(msg: msg)
-        view.makeToast(msg, duration: 2.0)
+        view.makeToast(msg, duration: 2.0, position: .top)
     }
 
     // MARK: UI functions
@@ -287,7 +287,6 @@ class MeetingViewController: UIViewController {
     }
 
     private func startRemoteVideo() {
-        currentMeetingSession?.audioVideo.stopRemoteVideo()
         videoModel.resumeAllRemoteVideo()
         currentMeetingSession?.audioVideo.startRemoteVideo()
         showVideoOrScreen(isVideo: true)

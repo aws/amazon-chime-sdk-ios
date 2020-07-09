@@ -46,7 +46,7 @@
                                 <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="version" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9bX-Kc-eHT">
-                                <rect key="frame" x="16" y="831.66666666666663" width="382" height="14.333333333333371"/>
+                                <rect key="frame" x="16" y="831.5" width="382" height="14.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -138,12 +138,12 @@
                                     <view hidden="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gJX-ez-OMF" userLabel="ScreenView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="701"/>
                                         <subviews>
-                                            <view userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="SGw-l9-hMc" userLabel="Screen Render View" customClass="DefaultVideoRenderView" customModule="AmazonChimeSDK">
+                                            <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="SGw-l9-hMc" userLabel="Screen Render View" customClass="DefaultVideoRenderView" customModule="AmazonChimeSDK">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="701"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="ScreenTile"/>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No screen share available" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a6m-dY-eYQ">
-                                                <rect key="frame" x="96.333333333333329" y="338.66666666666669" width="221.33333333333337" height="24"/>
+                                                <rect key="frame" x="96.5" y="338.5" width="221.5" height="24"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -170,14 +170,14 @@
                                         </collectionViewFlowLayout>
                                         <cells>
                                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="VideoTileCell" id="95H-jr-NgT" customClass="VideoTileCell" customModule="AmazonChimeSDKDemo" customModuleProvider="target">
-                                                <rect key="frame" x="50.666666666666664" y="0.0" width="313" height="161"/>
+                                                <rect key="frame" x="50.5" y="0.0" width="313" height="161"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" insetsLayoutMarginsFromSafeArea="NO" id="RhS-IZ-Qv1">
                                                     <rect key="frame" x="0.0" y="0.0" width="313" height="161"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="meeting-video" translatesAutoresizingMaskIntoConstraints="NO" id="ej1-bS-4cC">
-                                                            <rect key="frame" x="112.66666666666669" y="36.666666666666657" width="88" height="88"/>
+                                                            <rect key="frame" x="112.5" y="36.5" width="88" height="88"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="88" id="6HK-md-ZdM"/>
                                                                 <constraint firstAttribute="height" constant="88" id="TWv-hi-J7K"/>
@@ -190,7 +190,7 @@
                                                             <rect key="frame" x="0.0" y="129" width="313" height="32"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sx1-09-ZPf">
-                                                                    <rect key="frame" x="32" y="5.9999999999999982" width="249" height="20.333333333333329"/>
+                                                                    <rect key="frame" x="32" y="6" width="249" height="20.5"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
@@ -254,7 +254,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OXR-yo-WAg" userLabel="Active Speaker Indicator">
-                                                            <rect key="frame" x="16" y="39.666666666666664" width="8" height="8"/>
+                                                            <rect key="frame" x="16" y="39.5" width="8" height="8"/>
                                                             <color key="backgroundColor" red="0.38431372549019605" green="0.84705882352941175" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="8" id="tNl-Ue-FjL"/>
@@ -262,14 +262,14 @@
                                                             </constraints>
                                                         </view>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="volume-muted" translatesAutoresizingMaskIntoConstraints="NO" id="4TK-1h-zWd">
-                                                            <rect key="frame" x="366" y="27.666666666666671" width="32" height="32"/>
+                                                            <rect key="frame" x="366" y="27.5" width="32" height="32"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="32" id="Sx7-of-zQE"/>
                                                                 <constraint firstAttribute="height" constant="32" id="cgx-NI-GeX"/>
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lJB-bO-0qq">
-                                                            <rect key="frame" x="32" y="33.333333333333336" width="326" height="20.333333333333336"/>
+                                                            <rect key="frame" x="32" y="33.5" width="326" height="20.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -305,7 +305,7 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="qcW-do-qEo" userLabel="Metric Name">
-                                                            <rect key="frame" x="16" y="21.666666666666671" width="258" height="44"/>
+                                                            <rect key="frame" x="16" y="21.5" width="258" height="44"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="44" id="eq6-2d-AB1"/>
                                                             </constraints>
@@ -314,7 +314,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lyt-F6-i6S" userLabel="Metric Value">
-                                                            <rect key="frame" x="282" y="27.666666666666671" width="96" height="32"/>
+                                                            <rect key="frame" x="282" y="27.5" width="96" height="32"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="96" id="CCj-U4-ig2"/>
                                                                 <constraint firstAttribute="height" constant="32" id="hEk-Be-CZp"/>
