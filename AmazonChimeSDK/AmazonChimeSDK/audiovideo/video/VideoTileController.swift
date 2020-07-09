@@ -8,19 +8,22 @@
 
 import CoreGraphics.CGImage
 import Foundation
+import VideoToolbox
 
 /// `VideoTileController` handles rendering/creating of new `VideoTile`.
 @objc public protocol VideoTileController: VideoTileControllerFacade {
     /// Called whenever there is a new Video frame received for any of the attendee in the meeting
     /// - Parameters:
     ///   - frame: a frame of video
-    ///   - attendeeId: a id of user who is transmitting current frame
-    ///   - pauseState: current pause state of the video being received
     ///   - videoId: unique id that belongs to video being transmitted
+    ///   - attendeeId: a id of user who is transmitting current frame
+    ///   - videoStreamContentHeight: height of the video stream being transmitted
+    ///   - videoStreamContentWidth: width of the video stream being transmitted
+    ///   - pauseState: current pause state of the video being received
     func onReceiveFrame(
-        frame: Any?,
+        frame: CVPixelBuffer?,
+        videoId: Int,
         attendeeId: String?,
-        pauseState: VideoPauseState,
-        videoId: Int
+        pauseState: VideoPauseState
     )
 }

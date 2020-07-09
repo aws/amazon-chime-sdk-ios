@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import VideoToolbox
 
 @objcMembers public class DefaultVideoTile: VideoTile {
     public var state: VideoTileState
@@ -15,9 +16,17 @@ import Foundation
 
     public var videoRenderView: VideoRenderView?
 
-    public init(logger: Logger, tileId: Int, attendeeId: String?) {
+    public init(logger: Logger,
+                tileId: Int,
+                attendeeId: String?,
+                videoStreamContentHeight: Int,
+                videoStreamContentWidth: Int) {
         self.logger = logger
-        self.state = VideoTileState(tileId: tileId, attendeeId: attendeeId, pauseState: .unpaused)
+        self.state = VideoTileState(tileId: tileId,
+                                    attendeeId: attendeeId,
+                                    videoStreamContentHeight: videoStreamContentHeight,
+                                    videoStreamContentWidth: videoStreamContentWidth,
+                                    pauseState: .unpaused)
     }
 
     public func bind(videoRenderView: VideoRenderView?) {
@@ -27,7 +36,7 @@ import Foundation
         self.videoRenderView = videoRenderView
     }
 
-    public func renderFrame(frame: Any?) {
+    public func renderFrame(frame: CVPixelBuffer?) {
         videoRenderView?.renderFrame(frame: frame)
     }
 

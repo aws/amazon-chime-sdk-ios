@@ -45,7 +45,7 @@ class CallKitManager: NSObject {
 
     // Start an outging call
     func startOutgoingCall(with call: Call) {
-        self.calls.append(call)
+        calls.append(call)
         let handle = CXHandle(type: .generic, value: call.handle)
         let startCallAction = CXStartCallAction(call: call.uuid, handle: handle)
         let transaction = CXTransaction(action: startCallAction)
@@ -61,7 +61,7 @@ class CallKitManager: NSObject {
 
     // This is normally called after receiving a VoIP Push Notification to handle incoming call
     func reportNewIncomingCall(with call: Call) {
-        self.calls.append(call)
+        calls.append(call)
         let handle = CXHandle(type: .generic, value: call.handle)
         let update = CXCallUpdate()
         update.remoteHandle = handle
@@ -145,18 +145,18 @@ class CallKitManager: NSObject {
 }
 
 // MARK: CXProviderDelegate
+
 extension CallKitManager: CXProviderDelegate {
-    func providerDidReset(_ provider: CXProvider) {
+    func providerDidReset(_: CXProvider) {
         for call in calls {
             call.isEndedHandler?()
         }
         clearCalls()
     }
 
-    func providerDidBegin(_ provider: CXProvider) {
-    }
+    func providerDidBegin(_: CXProvider) {}
 
-    func provider(_ provider: CXProvider, perform action: CXStartCallAction) {
+    func provider(_: CXProvider, perform action: CXStartCallAction) {
         if let call = getCall(with: action.callUUID) {
             call.isReadytoConfigureHandler?()
             activeCall = call
@@ -175,7 +175,7 @@ extension CallKitManager: CXProviderDelegate {
         }
     }
 
-    func provider(_ provider: CXProvider, perform action: CXAnswerCallAction) {
+    func provider(_: CXProvider, perform action: CXAnswerCallAction) {
         if let call = getCall(with: action.callUUID) {
             call.isReadytoConfigureHandler?()
             activeCall = call
@@ -186,7 +186,7 @@ extension CallKitManager: CXProviderDelegate {
         }
     }
 
-    func provider(_ provider: CXProvider, perform action: CXEndCallAction) {
+    func provider(_: CXProvider, perform action: CXEndCallAction) {
         if let call = getCall(with: action.callUUID) {
             call.isEndedHandler?()
             action.fulfill()
@@ -196,7 +196,7 @@ extension CallKitManager: CXProviderDelegate {
         }
     }
 
-    func provider(_ provider: CXProvider, perform action: CXSetHeldCallAction) {
+    func provider(_: CXProvider, perform action: CXSetHeldCallAction) {
         if let call = getCall(with: action.callUUID) {
             call.isOnHold = action.isOnHold
             action.fulfill()
@@ -205,7 +205,7 @@ extension CallKitManager: CXProviderDelegate {
         }
     }
 
-    func provider(_ provider: CXProvider, perform action: CXSetMutedCallAction) {
+    func provider(_: CXProvider, perform action: CXSetMutedCallAction) {
         if let call = getCall(with: action.callUUID) {
             call.isMuted = action.isMuted
             action.fulfill()
@@ -214,15 +214,13 @@ extension CallKitManager: CXProviderDelegate {
         }
     }
 
-    func provider(_ provider: CXProvider, timedOutPerforming action: CXAction) {
-    }
+    func provider(_: CXProvider, timedOutPerforming _: CXAction) {}
 
-    func provider(_ provider: CXProvider, didActivate audioSession: AVAudioSession) {
+    func provider(_: CXProvider, didActivate _: AVAudioSession) {
         if let call = activeCall {
             call.isAudioSessionActiveHandler?()
         }
     }
 
-    func provider(_ provider: CXProvider, didDeactivate audioSession: AVAudioSession) {
-    }
+    func provider(_: CXProvider, didDeactivate _: AVAudioSession) {}
 }

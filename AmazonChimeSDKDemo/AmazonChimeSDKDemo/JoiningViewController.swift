@@ -42,15 +42,15 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
         return url
     }
 
-    @IBAction func joinWithoutCallKitButtonClicked(_ sender: UIButton) {
+    @IBAction func joinWithoutCallKitButtonClicked(_: UIButton) {
         joinMeeting(callKitOption: .disabled)
     }
 
-    @IBAction func joinAsIncomingCallButton(_ sender: UIButton) {
+    @IBAction func joinAsIncomingCallButton(_: UIButton) {
         joinMeeting(callKitOption: .incoming)
     }
 
-    @IBAction func joinAsOutgoingCallButton(_ sender: UIButton) {
+    @IBAction func joinAsOutgoingCallButton(_: UIButton) {
         joinMeeting(callKitOption: .outgoing)
     }
 

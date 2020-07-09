@@ -13,21 +13,33 @@ import Foundation
     /// Unique Id associated with this tile
     public let tileId: Int
 
-    /// Whether tile is local or remote tile
-    public let isLocalTile: Bool
-
     /// Id of the user associated with this tile
     public let attendeeId: String?
 
-    /// Whether this is screen share
-    public let isContent: Bool
+    /// Height of video stream content
+    public var videoStreamContentHeight: Int
+
+    /// Width of video stream content
+    public var videoStreamContentWidth: Int
 
     /// Current pause state of this tile
     public var pauseState: VideoPauseState
 
-    public init(tileId: Int, attendeeId: String?, pauseState: VideoPauseState) {
+    /// Whether tile is local or remote tile
+    public let isLocalTile: Bool
+
+    /// Whether this is screen share
+    public let isContent: Bool
+
+    public init(tileId: Int,
+                attendeeId: String?,
+                videoStreamContentHeight: Int,
+                videoStreamContentWidth: Int,
+                pauseState: VideoPauseState) {
         self.tileId = tileId
         self.attendeeId = attendeeId
+        self.videoStreamContentHeight = videoStreamContentHeight
+        self.videoStreamContentWidth = videoStreamContentWidth
         self.pauseState = pauseState
         self.isLocalTile = attendeeId == nil
         self.isContent = attendeeId?.hasSuffix(Constants.modality) ?? false

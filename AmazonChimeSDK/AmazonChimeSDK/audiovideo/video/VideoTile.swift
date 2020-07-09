@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import VideoToolbox
 
 /// `VideoTile` is a tile that binds video render view to diplay the frame into the view.
 @objc public protocol VideoTile {
@@ -26,7 +27,7 @@ import Foundation
     /// to the tile using `bind`
     ///
     /// - Parameter frame: a frame of video
-    func renderFrame(frame: Any?)
+    func renderFrame(frame: CVPixelBuffer?)
 
     /// Unbinds the `videoRenderView` from tile.
     func unbind()

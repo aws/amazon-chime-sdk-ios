@@ -6,9 +6,9 @@
 //  SPDX-License-Identifier: Apache-2.0
 //
 
+import os
 import UIKit
 import VideoToolbox
-import os
 
 @objcMembers public class DefaultVideoRenderView: UIImageView, VideoRenderView {
     private let scalingContentModes: [UIView.ContentMode] = [.scaleAspectFill, .scaleToFill, .scaleAspectFit]
@@ -23,9 +23,9 @@ import os
         willSet(newContentMode) {
             if !scalingContentModes.contains(newContentMode) {
                 os_log("""
-                       Recommend to use a scaling ContentMode on the VideoRenderView,
-                       as video resolution may change during the session.
-                       """, type: .info)
+                Recommend to use a scaling ContentMode on the VideoRenderView,
+                as video resolution may change during the session.
+                """, type: .info)
             }
             imageView.contentMode = newContentMode
         }
@@ -38,14 +38,14 @@ import os
     private var imageView: UIImageView
 
     public required init?(coder: NSCoder) {
-        imageView = UIImageView.init()
+        imageView = UIImageView()
         super.init(coder: coder)
 
         initImageView()
     }
 
     public override init(frame: CGRect) {
-        imageView = UIImageView.init()
+        imageView = UIImageView()
         super.init(frame: frame)
 
         initImageView()
@@ -60,19 +60,13 @@ import os
     }
 
     // Expects CVPixelBuffer as frame type
-    public func renderFrame(frame: Any?) {
+    public func renderFrame(frame: CVPixelBuffer?) {
         if frame == nil {
             isHidden = true
-            return
-        }
-
-        isHidden = false
-        // CF types don't work well with swift casting so force cast is required
-        // We check the type ID as a necessary precaution
-        if CFGetTypeID(frame as CFTypeRef?) == CVPixelBufferGetTypeID() {
+        } else if let frame = frame {
+            isHidden = false
             var cgImage: CGImage?
-            // swiftlint:disable:next force_cast
-            VTCreateCGImageFromCVPixelBuffer((frame as! CVPixelBuffer), options: nil, imageOut: &cgImage)
+            VTCreateCGImageFromCVPixelBuffer(frame, options: nil, imageOut: &cgImage)
             if cgImage == nil {
                 return
             }
