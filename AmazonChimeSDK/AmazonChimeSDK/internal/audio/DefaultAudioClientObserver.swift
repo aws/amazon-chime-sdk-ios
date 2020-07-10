@@ -249,7 +249,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     }
 
     private func handleAudioSessionDidFail(newAudioStatus: MeetingSessionStatusCode) {
-        if DefaultAudioClientController.state != .started {
+        if DefaultAudioClientController.state == .stopped {
             return
         }
 
