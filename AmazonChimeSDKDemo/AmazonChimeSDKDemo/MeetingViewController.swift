@@ -16,14 +16,12 @@ import UIKit
 class MeetingViewController: UIViewController {
     // Controls
     @IBOutlet var controlView: UIView!
-    @IBOutlet var rosterButton: UIButton!
     @IBOutlet var cameraButton: UIButton!
     @IBOutlet var deviceButton: UIButton!
     @IBOutlet var endButton: UIButton!
-    @IBOutlet var metricsButton: UIButton!
     @IBOutlet var muteButton: UIButton!
-    @IBOutlet var screenButton: UIButton!
     @IBOutlet var resumeCallKitMeetingButton: UIButton!
+    @IBOutlet var segmentedControl: UISegmentedControl!
 
     // Accessory views
     @IBOutlet var containerView: UIView!
@@ -57,7 +55,6 @@ class MeetingViewController: UIViewController {
 
     // Local var
     private var currentMeetingSession: MeetingSession?
-    private var isFullScreen = false
     private let activeSpeakerObserverId = UUID().uuidString
     private let logger = ConsoleLogger(name: "MeetingViewController")
 
@@ -113,8 +110,6 @@ class MeetingViewController: UIViewController {
             layout.scrollDirection = .horizontal
         } else {
             layout.scrollDirection = .vertical
-            isFullScreen = false
-            controlView.isHidden = false
         }
     }
 
@@ -228,7 +223,7 @@ class MeetingViewController: UIViewController {
         titleLabel.accessibilityLabel = "Meeting ID \(meetingId ?? "")"
 
         // Buttons
-        let buttonStack = [muteButton, deviceButton, cameraButton, screenButton, rosterButton, endButton, metricsButton]
+        let buttonStack = [muteButton, deviceButton, cameraButton, endButton]
         for button in buttonStack {
             let normalButtonImage = button?.image(for: .normal)?.withRenderingMode(.alwaysTemplate)
             let selectedButtonImage = button?.image(for: .selected)?.withRenderingMode(.alwaysTemplate)
@@ -240,12 +235,8 @@ class MeetingViewController: UIViewController {
         endButton.tintColor = .red
         resumeCallKitMeetingButton.isHidden = true
 
-        // Views
-        let tap = UITapGestureRecognizer(target: self, action: #selector(setFullScreen(_:)))
-        containerView.addGestureRecognizer(tap)
-
-        // States
-        showVideoOrScreen(isVideo: true)
+        // Segmented Controler
+        segmentedControl.selectedSegmentIndex = 0
 
         // Roster table view
         rosterTable.delegate = rosterModel
@@ -261,47 +252,37 @@ class MeetingViewController: UIViewController {
         metricsTable.dataSource = metricsModel
     }
 
-    private func showVideoOrScreen(isVideo: Bool) {
-        rosterButton.isSelected = false
-        metricsButton.isSelected = false
-        rosterTable.isHidden = true
-        screenView.isHidden = isVideo
-        videoCollection.isHidden = !isVideo
-    }
-
-    private func showRosterOrMetrics(isRoster: Bool) {
-        rosterTable.isHidden = !isRoster
-        metricsTable.isHidden = isRoster
-
-        if isRoster {
-            metricsButton.isSelected = false
-            rosterTable.reloadData()
-        } else {
-            rosterButton.isSelected = false
-            metricsTable.reloadData()
-        }
-    }
-
     private func startRemoteVideo() {
         videoModel.resumeAllRemoteVideo()
         currentMeetingSession?.audioVideo.startRemoteVideo()
-        showVideoOrScreen(isVideo: true)
     }
 
     private func startScreenShare() {
         videoModel.pauseAllRemoteVideo()
         currentMeetingSession?.audioVideo.startRemoteVideo()
-        showVideoOrScreen(isVideo: false)
     }
 
     // MARK: IBAction functions
 
-    @IBAction func metricsButtonClicked(_: UIButton) {
-        metricsButton.isSelected = !metricsButton.isSelected
-        if metricsButton.isSelected {
-            showRosterOrMetrics(isRoster: false)
-        } else {
-            metricsTable.isHidden = true
+    @IBAction func segmentedControlClicked(_: Any) {
+        rosterTable.isHidden = true
+        videoCollection.isHidden = true
+        screenView.isHidden = true
+        metricsTable.isHidden = true
+
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            rosterTable.isHidden = false
+        case 1:
+            videoCollection.isHidden = false
+            startRemoteVideo()
+        case 2:
+            screenView.isHidden = false
+            startScreenShare()
+        case 3:
+            metricsTable.isHidden = false
+        default:
+            return
         }
     }
 
@@ -344,24 +325,6 @@ class MeetingViewController: UIViewController {
         }
     }
 
-    @IBAction func screenButtonClicked(_: UIButton) {
-        screenButton.isSelected = !screenButton.isSelected
-        if screenButton.isSelected {
-            startScreenShare()
-        } else {
-            startRemoteVideo()
-        }
-    }
-
-    @IBAction func rosterButtonClicked(_: UIButton) {
-        rosterButton.isSelected = !rosterButton.isSelected
-        if rosterButton.isSelected {
-            showRosterOrMetrics(isRoster: true)
-        } else {
-            rosterTable.isHidden = true
-        }
-    }
-
     @IBAction func leaveButtonClicked(_: UIButton) {
         if callKitOption == .disabled {
             leaveMeeting()
@@ -372,7 +335,7 @@ class MeetingViewController: UIViewController {
         }
     }
 
-    @IBAction func resumeCallKitMeetingButtonClicked(_ sender: UIButton) {
+    @IBAction func resumeCallKitMeetingButtonClicked(_: UIButton) {
         if let call = call {
             CallKitManager.shared().setHeld(with: call, isOnHold: false)
         }
@@ -415,17 +378,6 @@ class MeetingViewController: UIViewController {
         }
     }
 
-    @objc func setFullScreen(_: UITapGestureRecognizer? = nil) {
-        if rosterTable.isHidden == false {
-            rosterTable.isHidden = true
-            rosterButton.isSelected = false
-            metricsButton.isSelected = false
-        } else if UIDevice.current.orientation.isLandscape {
-            isFullScreen = !isFullScreen
-            controlView.isHidden = isFullScreen
-        }
-    }
-
     private func createCall(isOutgoing: Bool) -> Call {
         let handle = meetingId ?? "Chime Demo Meeting"
         let call = Call(uuid: UUID(), handle: handle, isOutgoing: isOutgoing)
@@ -453,9 +405,6 @@ class MeetingViewController: UIViewController {
             self?.muteButton.isEnabled = !isOnHold
             self?.deviceButton.isEnabled = !isOnHold
             self?.cameraButton.isEnabled = !isOnHold
-            self?.screenButton.isEnabled = !isOnHold
-            self?.rosterButton.isEnabled = !isOnHold
-            self?.metricsButton.isEnabled = !isOnHold
         }
         return call
     }
