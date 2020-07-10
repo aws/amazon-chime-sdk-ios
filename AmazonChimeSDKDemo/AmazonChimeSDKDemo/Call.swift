@@ -41,7 +41,7 @@ class Call {
                 }
             } else {
                 UIApplication.shared.endBackgroundTask(endCallBackgroundTaskId)
-                self.endCallBackgroundTaskId = .invalid
+                endCallBackgroundTaskId = .invalid
             }
         }
     }

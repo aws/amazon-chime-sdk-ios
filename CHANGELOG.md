@@ -3,6 +3,7 @@
 ### Added
 - **Breaking** Added `videoTileSizeDidChange` API in `VideoTileObserver` for video stream content size change
 - CallKit integration in demo app. Added options to join meeting as incoming or outgoing call. Since our demo app does not have Push Notification for incoming calls, we mimic the behavior by delaying reporting incoming calls to give user time to background the app or lock screen.
+- Added icons and launch screen for demo app
 
 ### Changed
 - Changed UI for iOS demo app
