@@ -6,6 +6,7 @@
 - Added icons and launch screen for demo app
 
 ### Changed
+- **Breaking** Throw MediaError.audioFailedToStart when AudioClient fails to start
 - Changed UI for iOS demo app
 - `DefaultVideoRenderView` now supports dynamically changing `contentMode` at run time.
 - Changed video render frame type from `Any?` to `CVPixelBuffer?`
