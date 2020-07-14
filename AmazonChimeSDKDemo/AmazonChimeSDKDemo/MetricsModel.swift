@@ -12,6 +12,8 @@ import UIKit
 class MetricsModel: NSObject {
     private var dict = [String: Int]()
 
+    var metricsUpdatedHandler: (() -> Void)?
+
     func update(dict: [AnyHashable: Any]) {
         for key in dict.keys {
             if let key = key as? ObservableMetric {

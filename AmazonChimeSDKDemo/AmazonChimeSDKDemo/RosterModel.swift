@@ -18,6 +18,8 @@ class RosterModel: NSObject {
     private var attendees = [RosterAttendee]()
     private var currentRoster = [String: RosterAttendee]()
 
+    var rosterUpdatedHandler: (() -> Void)?
+
     static func convertAttendeeName(from info: AttendeeInfo) -> String {
         let externalUserIdArray = info.externalUserId.components(separatedBy: "#")
         let attendeeName: String = externalUserIdArray[1]
