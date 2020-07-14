@@ -90,11 +90,13 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
                     self.logger.error(msg: "Unable to instantitate MeetingViewController")
                     return
                 }
+                let meetingModel = MeetingModel(meetingSessionConfig: meetingSessionConfig,
+                                                meetingId: meetingId,
+                                                selfName: name,
+                                                callKitOption: callKitOption)
+                meetingViewController.meetingModel = meetingModel
                 meetingViewController.modalPresentationStyle = .fullScreen
-                meetingViewController.meetingSessionConfig = meetingSessionConfig
-                meetingViewController.meetingId = meetingId
-                meetingViewController.selfName = name
-                meetingViewController.callKitOption = callKitOption
+
                 if callKitOption == .incoming {
                     let backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
                     DispatchQueue.main.asyncAfter(deadline: .now() + self.incomingCallKitDelay) {
