@@ -81,6 +81,8 @@ extension DefaultAudioClientController: AudioClientController {
                                               callKitEnabled: callKitEnabled)
         if status == AUDIO_CLIENT_OK {
             Self.state = .started
+        } else {
+            throw MediaError.audioFailedToStart
         }
     }
 
