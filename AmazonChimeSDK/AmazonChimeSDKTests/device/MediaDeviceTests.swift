@@ -11,17 +11,17 @@ import AVFoundation
 import XCTest
 
 class MediaDeviceTests: XCTestCase {
-    func testMediaDeviceShouldBeInitialized() {
-        let mediaDevice = MediaDevice(label: "mediaDevice")
+    private var mediaDevice: MediaDevice?
 
-        XCTAssertEqual(mediaDevice.label, "mediaDevice")
-        XCTAssertNil(mediaDevice.port)
-        XCTAssertEqual(mediaDevice.type, .other)
+    override func setUp() {
+        super.setUp()
+        mediaDevice = MediaDevice(label: "mediaDevice")
     }
 
-    func testDescriptionShouldMatch() {
-        let mediaDevice = MediaDevice(label: "mediaDevice")
-
-        XCTAssertEqual(mediaDevice.description, "mediaDevice - other")
+    func testMediaDeviceShouldBeInitialized() {
+        XCTAssertEqual(mediaDevice?.label, "mediaDevice")
+        XCTAssertNil(mediaDevice?.port)
+        XCTAssertEqual(mediaDevice?.type, .other)
+        XCTAssertEqual(mediaDevice?.description, "mediaDevice - other")
     }
 }

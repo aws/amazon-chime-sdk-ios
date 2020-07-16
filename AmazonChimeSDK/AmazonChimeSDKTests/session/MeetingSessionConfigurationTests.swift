@@ -21,95 +21,89 @@ class MeetingSessionConfigurationTests: XCTestCase {
     private let signalingUrlStr = "signalingUrl"
     private let turnControlUrlStr = "turnControlUrl"
 
-    func testMediaPlacementShouldBeInitialized() {
-        let mediaPlacement = MediaPlacement(audioFallbackUrl: audioFallbackStr,
-                                            audioHostUrl: audioHostStr,
-                                            signalingUrl: signalingUrlStr,
-                                            turnControlUrl: turnControlUrlStr)
+    private var mediaPlacement: MediaPlacement?
+    private var meeting: Meeting?
+    private var meetingResponse: CreateMeetingResponse?
+    private var attendee: Attendee?
+    private var attendeeResponse: CreateAttendeeResponse?
+    private var configuration: MeetingSessionConfiguration?
 
-        XCTAssertEqual(audioFallbackStr, mediaPlacement.audioFallbackUrl)
-        XCTAssertEqual(audioHostStr, mediaPlacement.audioHostUrl)
-        XCTAssertEqual(signalingUrlStr, mediaPlacement.signalingUrl)
-        XCTAssertEqual(turnControlUrlStr, mediaPlacement.turnControlUrl)
+    override func setUp() {
+        super.setUp()
+        mediaPlacement = MediaPlacement(audioFallbackUrl: audioFallbackStr,
+                                        audioHostUrl: audioHostStr,
+                                        signalingUrl: signalingUrlStr,
+                                        turnControlUrl: turnControlUrlStr)
+        if let mediaPlacement = mediaPlacement {
+            meeting = Meeting(externalMeetingId: externalMeetingIdStr,
+                              mediaPlacement: mediaPlacement,
+                              mediaRegion: mediaRegionStr,
+                              meetingId: meetingIdStr)
+        }
+
+        if let meeting = meeting {
+            meetingResponse = CreateMeetingResponse(meeting: meeting)
+        }
+
+        attendee = Attendee(attendeeId: attendeeIdStr, externalUserId: externalUserIdStr, joinToken: joinTokenStr)
+
+        if let attendee = attendee {
+            attendeeResponse = CreateAttendeeResponse(attendee: attendee)
+        }
+
+        if let meetingResponse = meetingResponse, let attendeeResponse = attendeeResponse {
+            configuration = MeetingSessionConfiguration(createMeetingResponse: meetingResponse,
+                                                        createAttendeeResponse: attendeeResponse)
+        }
+    }
+
+    func testMediaPlacementShouldBeInitialized() {
+        XCTAssertEqual(audioFallbackStr, mediaPlacement?.audioFallbackUrl)
+        XCTAssertEqual(audioHostStr, mediaPlacement?.audioHostUrl)
+        XCTAssertEqual(signalingUrlStr, mediaPlacement?.signalingUrl)
+        XCTAssertEqual(turnControlUrlStr, mediaPlacement?.turnControlUrl)
     }
 
     func testMeetingShouldBeInitialized() {
-        let mediaPlacement = MediaPlacement(audioFallbackUrl: audioFallbackStr,
-                                            audioHostUrl: audioHostStr,
-                                            signalingUrl: signalingUrlStr,
-                                            turnControlUrl: turnControlUrlStr)
-        let meeting = Meeting(externalMeetingId: externalMeetingIdStr,
-                              mediaPlacement: mediaPlacement,
-                              mediaRegion: mediaRegionStr,
-                              meetingId: meetingIdStr)
-
-        XCTAssertEqual(externalMeetingIdStr, meeting.externalMeetingId)
-        XCTAssertEqual(mediaPlacement.audioFallbackUrl, meeting.mediaPlacement.audioFallbackUrl)
-        XCTAssertEqual(mediaPlacement.audioHostUrl, meeting.mediaPlacement.audioHostUrl)
-        XCTAssertEqual(mediaPlacement.signalingUrl, meeting.mediaPlacement.signalingUrl)
-        XCTAssertEqual(mediaPlacement.turnControlUrl, meeting.mediaPlacement.turnControlUrl)
-        XCTAssertEqual(mediaRegionStr, meeting.mediaRegion)
-        XCTAssertEqual(meetingIdStr, meeting.meetingId)
+        XCTAssertEqual(externalMeetingIdStr, meeting?.externalMeetingId)
+        XCTAssertEqual(mediaPlacement?.audioFallbackUrl, meeting?.mediaPlacement.audioFallbackUrl)
+        XCTAssertEqual(mediaPlacement?.audioHostUrl, meeting?.mediaPlacement.audioHostUrl)
+        XCTAssertEqual(mediaPlacement?.signalingUrl, meeting?.mediaPlacement.signalingUrl)
+        XCTAssertEqual(mediaPlacement?.turnControlUrl, meeting?.mediaPlacement.turnControlUrl)
+        XCTAssertEqual(mediaRegionStr, meeting?.mediaRegion)
+        XCTAssertEqual(meetingIdStr, meeting?.meetingId)
     }
 
     func testCreateMeetingResponseShouldBeInitialized() {
-        let mediaPlacement = MediaPlacement(audioFallbackUrl: audioFallbackStr,
-                                            audioHostUrl: audioHostStr,
-                                            signalingUrl: signalingUrlStr,
-                                            turnControlUrl: turnControlUrlStr)
-        let meeting = Meeting(externalMeetingId: externalMeetingIdStr,
-                              mediaPlacement: mediaPlacement,
-                              mediaRegion: mediaRegionStr,
-                              meetingId: meetingIdStr)
-        let meetingResponse = CreateMeetingResponse(meeting: meeting)
-
-        XCTAssertEqual(meetingResponse.meeting.externalMeetingId, meeting.externalMeetingId)
-        XCTAssertEqual(meetingResponse.meeting.mediaPlacement.audioFallbackUrl, meeting.mediaPlacement.audioFallbackUrl)
-        XCTAssertEqual(meetingResponse.meeting.mediaPlacement.audioHostUrl, meeting.mediaPlacement.audioHostUrl)
-        XCTAssertEqual(meetingResponse.meeting.mediaPlacement.signalingUrl, meeting.mediaPlacement.signalingUrl)
-        XCTAssertEqual(meetingResponse.meeting.mediaPlacement.turnControlUrl, meeting.mediaPlacement.turnControlUrl)
-        XCTAssertEqual(meetingResponse.meeting.mediaRegion, meeting.mediaRegion)
-        XCTAssertEqual(meetingResponse.meeting.meetingId, meeting.meetingId)
+        XCTAssertEqual(meetingResponse?.meeting.externalMeetingId, meeting?.externalMeetingId)
+        XCTAssertEqual(meetingResponse?.meeting.mediaPlacement.audioFallbackUrl,
+                       meeting?.mediaPlacement.audioFallbackUrl)
+        XCTAssertEqual(meetingResponse?.meeting.mediaPlacement.audioHostUrl, meeting?.mediaPlacement.audioHostUrl)
+        XCTAssertEqual(meetingResponse?.meeting.mediaPlacement.signalingUrl, meeting?.mediaPlacement.signalingUrl)
+        XCTAssertEqual(meetingResponse?.meeting.mediaPlacement.turnControlUrl, meeting?.mediaPlacement.turnControlUrl)
+        XCTAssertEqual(meetingResponse?.meeting.mediaRegion, meeting?.mediaRegion)
+        XCTAssertEqual(meetingResponse?.meeting.meetingId, meeting?.meetingId)
     }
 
     func testAttendeeShouldBeInitialized() {
-        let attendee = Attendee(attendeeId: attendeeIdStr, externalUserId: externalUserIdStr, joinToken: joinTokenStr)
-
-        XCTAssertEqual(attendeeIdStr, attendee.attendeeId)
-        XCTAssertEqual(externalUserIdStr, attendee.externalUserId)
-        XCTAssertEqual(joinTokenStr, attendee.joinToken)
+        XCTAssertEqual(attendeeIdStr, attendee?.attendeeId)
+        XCTAssertEqual(externalUserIdStr, attendee?.externalUserId)
+        XCTAssertEqual(joinTokenStr, attendee?.joinToken)
     }
 
     func testCreateAttendeeResponseShouldBeInitialized() {
-        let attendee = Attendee(attendeeId: attendeeIdStr, externalUserId: externalUserIdStr, joinToken: joinTokenStr)
-        let attendeeResponse = CreateAttendeeResponse(attendee: attendee)
-
-        XCTAssertEqual(attendee.attendeeId, attendeeResponse.attendee.attendeeId)
-        XCTAssertEqual(attendee.externalUserId, attendeeResponse.attendee.externalUserId)
-        XCTAssertEqual(attendee.joinToken, attendeeResponse.attendee.joinToken)
+        XCTAssertEqual(attendee?.attendeeId, attendeeResponse?.attendee.attendeeId)
+        XCTAssertEqual(attendee?.externalUserId, attendeeResponse?.attendee.externalUserId)
+        XCTAssertEqual(attendee?.joinToken, attendeeResponse?.attendee.joinToken)
     }
 
     func testMeetingSessionConfigurationShouldBeInitialized() {
-        let mediaPlacement = MediaPlacement(audioFallbackUrl: audioFallbackStr,
-                                            audioHostUrl: audioHostStr,
-                                            signalingUrl: signalingUrlStr,
-                                            turnControlUrl: turnControlUrlStr)
-        let meeting = Meeting(externalMeetingId: externalMeetingIdStr,
-                              mediaPlacement: mediaPlacement,
-                              mediaRegion: mediaRegionStr,
-                              meetingId: meetingIdStr)
-        let meetingResponse = CreateMeetingResponse(meeting: meeting)
-        let attendee = Attendee(attendeeId: attendeeIdStr, externalUserId: externalUserIdStr, joinToken: joinTokenStr)
-        let attendeeResponse = CreateAttendeeResponse(attendee: attendee)
-        let configuration = MeetingSessionConfiguration(createMeetingResponse: meetingResponse,
-                                                        createAttendeeResponse: attendeeResponse)
-
-        XCTAssertEqual(mediaPlacement.audioFallbackUrl, configuration.urls.audioFallbackUrl)
-        XCTAssertEqual(mediaPlacement.audioHostUrl, configuration.urls.audioHostUrl)
-        XCTAssertEqual(mediaPlacement.signalingUrl, configuration.urls.signalingUrl)
-        XCTAssertEqual(mediaPlacement.turnControlUrl, configuration.urls.turnControlUrl)
-        XCTAssertEqual(meeting.meetingId, configuration.meetingId)
-        XCTAssertEqual(attendee.attendeeId, configuration.credentials.attendeeId)
-        XCTAssertEqual(attendee.joinToken, configuration.credentials.joinToken)
+        XCTAssertEqual(mediaPlacement?.audioFallbackUrl, configuration?.urls.audioFallbackUrl)
+        XCTAssertEqual(mediaPlacement?.audioHostUrl, configuration?.urls.audioHostUrl)
+        XCTAssertEqual(mediaPlacement?.signalingUrl, configuration?.urls.signalingUrl)
+        XCTAssertEqual(mediaPlacement?.turnControlUrl, configuration?.urls.turnControlUrl)
+        XCTAssertEqual(meeting?.meetingId, configuration?.meetingId)
+        XCTAssertEqual(attendee?.attendeeId, configuration?.credentials.attendeeId)
+        XCTAssertEqual(attendee?.joinToken, configuration?.credentials.joinToken)
     }
 }

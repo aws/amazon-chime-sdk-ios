@@ -14,33 +14,50 @@ class VideoTileStateTests: XCTestCase {
     private let attendeeId = "attendeeId"
     private let screenShareAttendeeId = "attendeeId#content"
     private let pauseState = VideoPauseState.unpaused
+    private let videoStreamContentHeight = 1280
+    private let videoStreamContentWidth = 720
+
+    private var videoTileState: VideoTileState?
 
     func testVideoTileStateShouldBeInitialized() {
-        let videoTileState = VideoTileState(tileId: tileId, attendeeId: attendeeId, pauseState: pauseState)
-
-        XCTAssertEqual(videoTileState.tileId, tileId)
-        XCTAssertEqual(videoTileState.attendeeId, attendeeId)
-        XCTAssertEqual(videoTileState.pauseState, pauseState)
-        XCTAssertFalse(videoTileState.isLocalTile)
-        XCTAssertFalse(videoTileState.isContent)
+        videoTileState = VideoTileState(tileId: tileId,
+                                        attendeeId: attendeeId,
+                                        videoStreamContentHeight: videoStreamContentHeight,
+                                        videoStreamContentWidth: videoStreamContentWidth,
+                                        pauseState: pauseState)
+        XCTAssertEqual(videoTileState?.tileId, tileId)
+        XCTAssertEqual(videoTileState?.attendeeId, attendeeId)
+        XCTAssertEqual(videoTileState?.videoStreamContentHeight, videoStreamContentHeight)
+        XCTAssertEqual(videoTileState?.videoStreamContentWidth, videoStreamContentWidth)
+        XCTAssertEqual(videoTileState?.pauseState, pauseState)
+        XCTAssertEqual(videoTileState?.isLocalTile, false)
+        XCTAssertEqual(videoTileState?.isContent, false)
     }
 
     func testVideoTileStateShouldBeInitializedAsLocalVideoViewWhenAttendeeIdIsEmpty() {
-        let videoTileState = VideoTileState(tileId: tileId, attendeeId: nil, pauseState: pauseState)
+        videoTileState = VideoTileState(tileId: tileId,
+                                        attendeeId: nil,
+                                        videoStreamContentHeight: videoStreamContentHeight,
+                                        videoStreamContentWidth: videoStreamContentWidth,
+                                        pauseState: pauseState)
 
-        XCTAssertEqual(videoTileState.tileId, tileId)
-        XCTAssertEqual(videoTileState.pauseState, pauseState)
-        XCTAssertTrue(videoTileState.isLocalTile)
-        XCTAssertFalse(videoTileState.isContent)
+        XCTAssertEqual(videoTileState?.tileId, tileId)
+        XCTAssertEqual(videoTileState?.pauseState, pauseState)
+        XCTAssertEqual(videoTileState?.isLocalTile, true)
+        XCTAssertEqual(videoTileState?.isContent, false)
     }
 
     func testVideoTileStateShouldBeInitializedAsScreenShareViewWhenAttendeeIdContainsContentKeyword() {
-        let videoTileState = VideoTileState(tileId: tileId, attendeeId: screenShareAttendeeId, pauseState: pauseState)
+        videoTileState = VideoTileState(tileId: tileId,
+                                        attendeeId: screenShareAttendeeId,
+                                        videoStreamContentHeight: videoStreamContentHeight,
+                                        videoStreamContentWidth: videoStreamContentWidth,
+                                        pauseState: pauseState)
 
-        XCTAssertEqual(videoTileState.tileId, tileId)
-        XCTAssertEqual(videoTileState.attendeeId, screenShareAttendeeId)
-        XCTAssertEqual(videoTileState.pauseState, pauseState)
-        XCTAssertFalse(videoTileState.isLocalTile)
-        XCTAssertTrue(videoTileState.isContent)
+        XCTAssertEqual(videoTileState?.tileId, tileId)
+        XCTAssertEqual(videoTileState?.attendeeId, screenShareAttendeeId)
+        XCTAssertEqual(videoTileState?.pauseState, pauseState)
+        XCTAssertEqual(videoTileState?.isLocalTile, false)
+        XCTAssertEqual(videoTileState?.isContent, true)
     }
 }
