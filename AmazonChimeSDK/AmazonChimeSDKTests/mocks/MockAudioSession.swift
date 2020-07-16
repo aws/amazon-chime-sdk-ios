@@ -27,9 +27,7 @@ public final class MockAudioSession: AVAudioSession {
     var overrideOutputAudioPortCallParams: [AVAudioSession.PortOverride] = []
     var availableInputsCallCount = 0
 
-    override init() {
-
-    }
+    override init() {}
 
     public override var availableInputs: [AVAudioSessionPortDescription]? {
         self.availableInputsCallCount += 1

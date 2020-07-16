@@ -34,7 +34,6 @@
 		00C9DC6B23FA393600876B41 /* DefaultVideoTileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C9DC6A23FA393600876B41 /* DefaultVideoTileController.swift */; };
 		00D9DBB2241AE23F00146467 /* DefaultVideoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D9DBB1241AE23F00146467 /* DefaultVideoClient.swift */; };
 		00EB5F612400591800007D3E /* VideoTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EB5F602400591800007D3E /* VideoTile.swift */; };
-		32F235B3714DA0906335CC12 /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7CEAE89DD08E6E863FC8BE /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift */; };
 		5A0E7317242EA072006636AB /* MediaDeviceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E7316242EA072006636AB /* MediaDeviceTests.swift */; };
 		5A0E7319242EA283006636AB /* MeetingSessionStatusCodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E7318242EA283006636AB /* MeetingSessionStatusCodeTests.swift */; };
 		5A0E731B242EA39E006636AB /* VideoTileStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E731A242EA39E006636AB /* VideoTileStateTests.swift */; };
@@ -51,6 +50,7 @@
 		5A175AB323CFD27400121924 /* AudioVideoControllerFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A175AB023CFD27300121924 /* AudioVideoControllerFacade.swift */; };
 		5A175AB723CFD28A00121924 /* AudioVideoFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A175AB523CFD28A00121924 /* AudioVideoFacade.swift */; };
 		5A175AB823CFD28A00121924 /* DefaultAudioVideoFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A175AB623CFD28A00121924 /* DefaultAudioVideoFacade.swift */; };
+		5A2210E524BE577E0038725B /* DefaultMeetingSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2210E424BE577E0038725B /* DefaultMeetingSessionTests.swift */; };
 		5A6A209523CB1164000C9157 /* MeetingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6A201123C7B8D4000C9157 /* MeetingSession.swift */; };
 		5A6A209623CB1164000C9157 /* MeetingSessionConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6A202523C7B91C000C9157 /* MeetingSessionConfiguration.swift */; };
 		5A6A209723CB1164000C9157 /* MeetingSessionCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6A202723C7B92E000C9157 /* MeetingSessionCredentials.swift */; };
@@ -116,6 +116,7 @@
 		F82D50D723FC752600D8F18C /* SignalStrength.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D50C223FC732300D8F18C /* SignalStrength.swift */; };
 		F82D50D823FC752600D8F18C /* VolumeLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D50C323FC732300D8F18C /* VolumeLevel.swift */; };
 		F83F53702452757700614913 /* ObserverUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83F536F2452757700614913 /* ObserverUtils.swift */; };
+		F84CFCE0751438D8B8CFF7BB /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7CEAE89DD08E6E863FC8BE /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift */; };
 		F86CB7412411B9A6004FD82F /* exported_symbols in Resources */ = {isa = PBXBuildFile; fileRef = F86CB7402411B9A6004FD82F /* exported_symbols */; };
 		F8C0145E23F1D50E0083D478 /* VideoClientController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8C0145D23F1D50E0083D478 /* VideoClientController.swift */; };
 		F8E42DEE247F9464004C8400 /* ConcurrentDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8E42DED247F9464004C8400 /* ConcurrentDictionary.swift */; };
@@ -178,6 +179,7 @@
 		5A175AB023CFD27300121924 /* AudioVideoControllerFacade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioVideoControllerFacade.swift; sourceTree = "<group>"; };
 		5A175AB523CFD28A00121924 /* AudioVideoFacade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioVideoFacade.swift; sourceTree = "<group>"; };
 		5A175AB623CFD28A00121924 /* DefaultAudioVideoFacade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultAudioVideoFacade.swift; sourceTree = "<group>"; };
+		5A2210E424BE577E0038725B /* DefaultMeetingSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultMeetingSessionTests.swift; sourceTree = "<group>"; };
 		5A6A201123C7B8D4000C9157 /* MeetingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSession.swift; sourceTree = "<group>"; };
 		5A6A202523C7B91C000C9157 /* MeetingSessionConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSessionConfiguration.swift; sourceTree = "<group>"; };
 		5A6A202723C7B92E000C9157 /* MeetingSessionCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSessionCredentials.swift; sourceTree = "<group>"; };
@@ -640,6 +642,7 @@
 		5AE1323123EA2FC500BF5997 /* session */ = {
 			isa = PBXGroup;
 			children = (
+				5A2210E424BE577E0038725B /* DefaultMeetingSessionTests.swift */,
 				5AE1322A23EA2ED300BF5997 /* MeetingSessionConfigurationTests.swift */,
 				5AE1322C23EA2EE400BF5997 /* MeetingSessionCredentialsTests.swift */,
 				5AE132B723EB41B800BF5997 /* MeetingSessionStatusTests.swift */,
@@ -817,7 +820,7 @@
 			files = (
 			);
 			inputPaths = (
-				"/tmp/Mockingbird-6839FF4A-8637-455B-BD39-0AA1F13DAD69",
+				"/tmp/Mockingbird-12B7FED1-6CBF-44E6-9D20-672F42BC7383",
 			);
 			name = "Generate Mockingbird Mocks";
 			outputPaths = (
@@ -825,7 +828,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nmockingbird generate \\\n  --targets 'AmazonChimeSDK' \\\n  --outputs \"${SRCROOT}/MockingbirdMocks/AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift\"\n\n# Ensure mocks are generated prior to running Compile Sources\nrm -f '/tmp/Mockingbird-6839FF4A-8637-455B-BD39-0AA1F13DAD69'\n";
+			shellScript = "set -e\n\nmockingbird generate \\\n  --targets 'AmazonChimeSDK' \\\n  --outputs \"${SRCROOT}/MockingbirdMocks/AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift\"\n\n# Ensure mocks are generated prior to running Compile Sources\nrm -f '/tmp/Mockingbird-12B7FED1-6CBF-44E6-9D20-672F42BC7383'\n";
 		};
 		114854BF06996650440AB080 /* Clean Mockingbird Mocks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -836,11 +839,11 @@
 			);
 			name = "Clean Mockingbird Mocks";
 			outputPaths = (
-				"/tmp/Mockingbird-6839FF4A-8637-455B-BD39-0AA1F13DAD69",
+				"/tmp/Mockingbird-12B7FED1-6CBF-44E6-9D20-672F42BC7383",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo $RANDOM > '/tmp/Mockingbird-6839FF4A-8637-455B-BD39-0AA1F13DAD69'\n";
+			shellScript = "echo $RANDOM > '/tmp/Mockingbird-12B7FED1-6CBF-44E6-9D20-672F42BC7383'\n";
 		};
 		5A3CFC6423C52B5D00BB63B7 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -951,6 +954,7 @@
 				7CE107652421CC7B00E209D1 /* ActiveSpeakerPolicyTests.swift in Sources */,
 				5AE76F2224203A76009C41FD /* AttendeeInfoTests.swift in Sources */,
 				5A6F818C24637AB80031AE97 /* AudioClientStateTests.swift in Sources */,
+				5A2210E524BE577E0038725B /* DefaultMeetingSessionTests.swift in Sources */,
 				6A01CAE523F8FCAF005C5193 /* ClientMetricsCollectorTests.swift in Sources */,
 				5AE1322F23EA2FB700BF5997 /* ConsoleLoggerTests.swift in Sources */,
 				5A16C0052405E83000ADAE26 /* DictionaryExtensionTests.swift in Sources */,
@@ -979,7 +983,7 @@
 				5A0E731B242EA39E006636AB /* VideoTileStateTests.swift in Sources */,
 				5AE76F2724203AAA009C41FD /* VolumeLevelTests.swift in Sources */,
 				5AE76F2024203A6E009C41FD /* VolumeUpdateTests.swift in Sources */,
-				32F235B3714DA0906335CC12 /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift in Sources */,
+				F84CFCE0751438D8B8CFF7BB /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1371,8 +1375,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/birdrides/mockingbird";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.10.0;
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.13.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

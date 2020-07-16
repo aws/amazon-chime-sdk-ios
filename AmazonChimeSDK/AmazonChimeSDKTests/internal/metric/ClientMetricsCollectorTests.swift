@@ -22,25 +22,26 @@ class ClientMetricsCollectorTests: XCTestCase, MetricsObserver {
         description: "Is fulfilled after metrics were received")
     private let metricsReceivedTimeoutMs = 10.0
 
-    func testOnMetricsReceiveShouldNotBeCalledBeforeInterval() {
-        // Interval timer should start now
-        let clientMetricsCollector = DefaultClientMetricsCollector()
-        clientMetricsCollector.subscribeToMetrics(observer: self)
+    private var clientMetricsCollector: DefaultClientMetricsCollector?
 
+    override func setUp() {
+        super.setUp()
+        clientMetricsCollector = DefaultClientMetricsCollector()
+        clientMetricsCollector?.subscribeToMetrics(observer: self)
+    }
+
+    func testOnMetricsReceiveShouldNotBeCalledBeforeInterval() {
         let audioClientMetrics = [
             serverPostJbMic1sPacketsLostPercent: 1,
             clientPostJbSpk1sPacketsLostPercent: 2
         ]
-        clientMetricsCollector.processAudioClientMetrics(metrics: audioClientMetrics)
+        clientMetricsCollector?.processAudioClientMetrics(metrics: audioClientMetrics)
 
         // No callback should have occurred
         XCTAssertEqual(receivedMetrics.count, 0)
     }
 
     func testOnMetricsReceiveShouldBeCalledAfterInterval() {
-        let clientMetricsCollector = DefaultClientMetricsCollector()
-        clientMetricsCollector.subscribeToMetrics(observer: self)
-
         let audioClientMetrics = [
             serverPostJbMic1sPacketsLostPercent: 1,
             clientPostJbSpk1sPacketsLostPercent: 2
@@ -48,7 +49,7 @@ class ClientMetricsCollectorTests: XCTestCase, MetricsObserver {
 
         // Wait at least a second and next time we process metrics we should receive the callback
         Thread.sleep(forTimeInterval: 1)
-        clientMetricsCollector.processAudioClientMetrics(metrics: audioClientMetrics)
+        clientMetricsCollector?.processAudioClientMetrics(metrics: audioClientMetrics)
         wait(for: [metricsReceivedExpectation], timeout: metricsReceivedTimeoutMs)
 
         XCTAssertEqual(receivedMetrics.count, 2)
@@ -57,31 +58,25 @@ class ClientMetricsCollectorTests: XCTestCase, MetricsObserver {
     }
 
     func testNonObservableMetricShouldNotBeEmitted() {
-        let clientMetricsCollector = DefaultClientMetricsCollector()
-        clientMetricsCollector.subscribeToMetrics(observer: self)
-
         let audioClientMetrics = [
             clientMicDeviceFramesLostPercent: 1
         ]
 
         // Wait at least a second and next time we process metrics we should receive the callback
         Thread.sleep(forTimeInterval: 1)
-        clientMetricsCollector.processAudioClientMetrics(metrics: audioClientMetrics)
+        clientMetricsCollector?.processAudioClientMetrics(metrics: audioClientMetrics)
 
         XCTAssertEqual(receivedMetrics.count, 0)
     }
 
     func testInvalidMetricShouldNotBeEmitted() {
-        let clientMetricsCollector = DefaultClientMetricsCollector()
-        clientMetricsCollector.subscribeToMetrics(observer: self)
-
         let audioClientMetrics = [
             999: 1
         ]
 
         // Wait at least a second and next time we process metrics we should receive the callback
         Thread.sleep(forTimeInterval: 1)
-        clientMetricsCollector.processAudioClientMetrics(metrics: audioClientMetrics)
+        clientMetricsCollector?.processAudioClientMetrics(metrics: audioClientMetrics)
 
         XCTAssertEqual(receivedMetrics.count, 0)
     }
