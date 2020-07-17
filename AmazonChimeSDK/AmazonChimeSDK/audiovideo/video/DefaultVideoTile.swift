@@ -18,8 +18,8 @@ import VideoToolbox
 
     public init(tileId: Int,
                 attendeeId: String,
-                videoStreamContentHeight: Int,
                 videoStreamContentWidth: Int,
+                videoStreamContentHeight: Int,
                 isLocalTile: Bool,
                 logger: Logger) {
         self.state = VideoTileState(tileId: tileId,
