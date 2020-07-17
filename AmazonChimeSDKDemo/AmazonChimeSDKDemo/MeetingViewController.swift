@@ -134,7 +134,7 @@ class MeetingViewController: UIViewController {
         resumeCallKitMeetingButton.isHidden = true
 
         // Segmented Controler
-        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.selectedSegmentIndex = SegmentedControlIndex.attendees.rawValue
 
         // Roster table view
         rosterTable.delegate = meetingModel?.rosterModel
@@ -194,13 +194,13 @@ class MeetingViewController: UIViewController {
 
     @IBAction func segmentedControlClicked(_: Any) {
         switch segmentedControl.selectedSegmentIndex {
-        case 0:
+        case SegmentedControlIndex.attendees.rawValue:
             meetingModel?.activeMode = .roster
-        case 1:
+        case SegmentedControlIndex.video.rawValue:
             meetingModel?.activeMode = .video
-        case 2:
+        case SegmentedControlIndex.screen.rawValue:
             meetingModel?.activeMode = .screenShare
-        case 3:
+        case SegmentedControlIndex.metrics.rawValue:
             meetingModel?.activeMode = .metrics
         default:
             return

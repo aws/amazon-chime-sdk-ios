@@ -16,17 +16,19 @@ import VideoToolbox
 
     public var videoRenderView: VideoRenderView?
 
-    public init(logger: Logger,
-                tileId: Int,
-                attendeeId: String?,
+    public init(tileId: Int,
+                attendeeId: String,
                 videoStreamContentHeight: Int,
-                videoStreamContentWidth: Int) {
-        self.logger = logger
+                videoStreamContentWidth: Int,
+                isLocalTile: Bool,
+                logger: Logger) {
         self.state = VideoTileState(tileId: tileId,
                                     attendeeId: attendeeId,
                                     videoStreamContentHeight: videoStreamContentHeight,
                                     videoStreamContentWidth: videoStreamContentWidth,
-                                    pauseState: .unpaused)
+                                    pauseState: .unpaused,
+                                    isLocalTile: isLocalTile)
+        self.logger = logger
     }
 
     public func bind(videoRenderView: VideoRenderView?) {

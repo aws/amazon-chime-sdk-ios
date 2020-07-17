@@ -23,6 +23,7 @@ class DefaultVideoClientController: NSObject {
     let videoObservers = ConcurrentMutableSet()
     var turnControlUrl: String?
 
+    private let configuration: MeetingSessionConfiguration
     private let contentTypeHeader = "Content-Type"
     private let contentType = "application/json"
     private let userAgentTypeHeader = "User-Agent"
@@ -31,15 +32,15 @@ class DefaultVideoClientController: NSObject {
     private let tokenHeader = "X-Chime-Auth-Token"
     private let tokenKey = "_aws_wt_session"
     private let turnRequestHttpMethod = "POST"
-    private let urlRewriter: URLRewriter
 
-    init(videoClient: VideoClient, logger: Logger,
+    init(videoClient: VideoClient,
          clientMetricsCollector: ClientMetricsCollector,
-         urlRewriter: @escaping URLRewriter) {
+         configuration: MeetingSessionConfiguration,
+         logger: Logger) {
         self.defaultVideoClient = videoClient
-        self.logger = logger
         self.clientMetricsCollector = clientMetricsCollector
-        self.urlRewriter = urlRewriter
+        self.configuration = configuration
+        self.logger = logger
         super.init()
     }
 
@@ -94,7 +95,7 @@ class DefaultVideoClientController: NSObject {
                 let uriSize = turnCredentials.uris.count
                 let uris = UnsafeMutablePointer<UnsafePointer<Int8>?>.allocate(capacity: uriSize)
                 for index in 0..<uriSize {
-                    let uri = self.urlRewriter(turnCredentials.uris[index])
+                    let uri = self.configuration.urlRewriter(turnCredentials.uris[index])
                     uris.advanced(by: index).pointee = (uri as NSString).utf8String
                 }
 
@@ -406,6 +407,10 @@ extension DefaultVideoClientController: VideoClientController {
 
     public func getCurrentDevice() -> VideoDevice? {
         return VideoClient.currentDevice()
+    }
+
+    public func getConfiguration() -> MeetingSessionConfiguration {
+        return configuration
     }
 
     public func subscribeToVideoClientStateChange(observer: AudioVideoObserver) {

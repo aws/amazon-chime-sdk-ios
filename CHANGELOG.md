@@ -2,11 +2,14 @@
 
 ### Added
 - **Breaking** Added `videoTileSizeDidChange` API in `VideoTileObserver` for video stream content size change
+- **Breaking** Added `isLocalTile` to constructor of `DefaultVideoTile` and `VideoTileState`
 - CallKit integration in demo app. Added options to join meeting as incoming or outgoing call. Since our demo app does not have Push Notification for incoming calls, we mimic the behavior by delaying reporting incoming calls to give user time to background the app or lock screen.
 - Added icons and launch screen for demo app
+- Added attendee id to local video tile
 
 ### Changed
 - **Breaking** Throw MediaError.audioFailedToStart when AudioClient fails to start
+- **Breaking** Changed the constructor for `DefaultVideoTileController` 
 - Changed UI for iOS demo app
 - `DefaultVideoRenderView` now supports dynamically changing `contentMode` at run time.
 - Changed video render frame type from `Any?` to `CVPixelBuffer?`

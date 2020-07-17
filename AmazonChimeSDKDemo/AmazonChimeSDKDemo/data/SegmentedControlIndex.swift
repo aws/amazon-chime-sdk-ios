@@ -9,7 +9,8 @@
 import Foundation
 
 enum SegmentedControlIndex: Int {
-    case roster = 0
-    case videos = 1
+    case attendees = 0
+    case video = 1
     case screen = 2
+    case metrics = 3
 }
