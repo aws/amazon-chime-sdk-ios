@@ -14,7 +14,7 @@ import Foundation
     public let tileId: Int
 
     /// Id of the user associated with this tile
-    public let attendeeId: String?
+    public let attendeeId: String
 
     /// Height of video stream content
     public var videoStreamContentHeight: Int
@@ -32,16 +32,17 @@ import Foundation
     public let isContent: Bool
 
     public init(tileId: Int,
-                attendeeId: String?,
+                attendeeId: String,
                 videoStreamContentHeight: Int,
                 videoStreamContentWidth: Int,
-                pauseState: VideoPauseState) {
+                pauseState: VideoPauseState,
+                isLocalTile: Bool) {
         self.tileId = tileId
         self.attendeeId = attendeeId
         self.videoStreamContentHeight = videoStreamContentHeight
         self.videoStreamContentWidth = videoStreamContentWidth
         self.pauseState = pauseState
-        self.isLocalTile = attendeeId == nil
-        self.isContent = attendeeId?.hasSuffix(Constants.modality) ?? false
+        self.isLocalTile = isLocalTile
+        self.isContent = attendeeId.hasSuffix(Constants.modality) ?? false
     }
 }

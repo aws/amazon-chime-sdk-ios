@@ -16,9 +16,9 @@ import UIKit
     private let videoTileObservers = ConcurrentMutableSet()
     private let videoClientController: VideoClientController
 
-    public init(logger: Logger, videoClientController: VideoClientController) {
-        self.logger = logger
+    public init(videoClientController: VideoClientController, logger: Logger) {
         self.videoClientController = videoClientController
+        self.logger = logger
     }
 
     public func onReceiveFrame(frame: CVPixelBuffer?,
@@ -114,11 +114,22 @@ import UIKit
                             attendeeId: String?,
                             videoStreamContentHeight: Int,
                             videoStreamContentWidth: Int) {
-        let tile = DefaultVideoTile(logger: logger,
-                                    tileId: tileId,
-                                    attendeeId: attendeeId,
+        var isLocalTile: Bool
+        var thisAttendeeId: String
+
+        if let attendeeId = attendeeId {
+            thisAttendeeId = attendeeId
+            isLocalTile = false
+        } else {
+            thisAttendeeId = videoClientController.getConfiguration().credentials.attendeeId
+            isLocalTile = true
+        }
+        let tile = DefaultVideoTile(tileId: tileId,
+                                    attendeeId: thisAttendeeId,
                                     videoStreamContentHeight: videoStreamContentHeight,
-                                    videoStreamContentWidth: videoStreamContentWidth)
+                                    videoStreamContentWidth: videoStreamContentWidth,
+                                    isLocalTile: isLocalTile,
+                                    logger: logger)
         videoTileMap[tileId] = tile
         ObserverUtils.forEach(observers: videoTileObservers) { (videoTileObserver: VideoTileObserver) in
             videoTileObserver.videoTileDidAdd(tileState: tile.state)
