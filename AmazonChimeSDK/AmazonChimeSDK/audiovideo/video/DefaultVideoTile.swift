@@ -24,8 +24,8 @@ import VideoToolbox
                 logger: Logger) {
         self.state = VideoTileState(tileId: tileId,
                                     attendeeId: attendeeId,
-                                    videoStreamContentHeight: videoStreamContentHeight,
                                     videoStreamContentWidth: videoStreamContentWidth,
+                                    videoStreamContentHeight: videoStreamContentHeight,
                                     pauseState: .unpaused,
                                     isLocalTile: isLocalTile)
         self.logger = logger
