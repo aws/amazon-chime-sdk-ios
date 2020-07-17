@@ -25,12 +25,12 @@ import UIKit
                                videoId: Int,
                                attendeeId: String?,
                                pauseState: VideoPauseState) {
-        var videoStreamContentHeight = 0
         var videoStreamContentWidth = 0
+        var videoStreamContentHeight = 0
 
         if let frame = frame {
-            videoStreamContentHeight = CVPixelBufferGetHeight(frame)
             videoStreamContentWidth = CVPixelBufferGetWidth(frame)
+            videoStreamContentHeight = CVPixelBufferGetHeight(frame)
         }
 
         if let videoTile = videoTileMap[videoId] {
@@ -41,10 +41,10 @@ import UIKit
                 return
             }
 
-            if videoStreamContentHeight != videoTile.state.videoStreamContentHeight ||
-                videoStreamContentWidth != videoTile.state.videoStreamContentWidth {
-                videoTile.state.videoStreamContentHeight = videoStreamContentHeight
+            if videoStreamContentWidth != videoTile.state.videoStreamContentWidth ||
+                videoStreamContentHeight != videoTile.state.videoStreamContentHeight {
                 videoTile.state.videoStreamContentWidth = videoStreamContentWidth
+                videoTile.state.videoStreamContentHeight = videoStreamContentHeight
                 ObserverUtils.forEach(observers: videoTileObservers) { (videoTileObserver: VideoTileObserver) in
                     videoTileObserver.videoTileSizeDidChange(tileState: videoTile.state)
                 }
@@ -75,8 +75,8 @@ import UIKit
         } else if frame != nil {
             onAddTrack(tileId: videoId,
                        attendeeId: attendeeId,
-                       videoStreamContentHeight: videoStreamContentHeight,
-                       videoStreamContentWidth: videoStreamContentWidth)
+                       videoStreamContentWidth: videoStreamContentWidth,
+                       videoStreamContentHeight: videoStreamContentHeight)
         }
     }
 
@@ -112,8 +112,8 @@ import UIKit
 
     private func onAddTrack(tileId: Int,
                             attendeeId: String?,
-                            videoStreamContentHeight: Int,
-                            videoStreamContentWidth: Int) {
+                            videoStreamContentWidth: Int,
+                            videoStreamContentHeight: Int) {
         var isLocalTile: Bool
         var thisAttendeeId: String
 
@@ -126,8 +126,8 @@ import UIKit
         }
         let tile = DefaultVideoTile(tileId: tileId,
                                     attendeeId: thisAttendeeId,
-                                    videoStreamContentHeight: videoStreamContentHeight,
                                     videoStreamContentWidth: videoStreamContentWidth,
+                                    videoStreamContentHeight: videoStreamContentHeight,
                                     isLocalTile: isLocalTile,
                                     logger: logger)
         videoTileMap[tileId] = tile
