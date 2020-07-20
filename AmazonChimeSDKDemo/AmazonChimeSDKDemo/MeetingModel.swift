@@ -68,7 +68,6 @@ class MeetingModel: NSObject {
     private var isEnded = false {
         didSet {
             currentMeetingSession.audioVideo.stop()
-            removeAudioVideoFacadeObservers()
             isEndedHandler?()
         }
     }
@@ -106,7 +105,6 @@ class MeetingModel: NSObject {
         self.callKitOption = callKitOption
         currentMeetingSession = DefaultMeetingSession(configuration: meetingSessionConfig, logger: logger)
         super.init()
-        setupAudioVideoFacadeObservers()
     }
 
     func bind(videoRenderView: VideoRenderView, tileId: Int) {
@@ -181,6 +179,10 @@ class MeetingModel: NSObject {
     private func notify(msg: String) {
         logger.info(msg: msg)
         notifyHandler?(msg)
+    }
+
+    private func logWithFunctionName(fnName: String = #function, message: String = "") {
+        logger.info(msg: "[Function] \(fnName) -> \(message)")
     }
 
     private func setupAudioVideoFacadeObservers() {
@@ -267,6 +269,7 @@ class MeetingModel: NSObject {
 
     private func startAudioVideoConnection(isCallKitEnabled: Bool) {
         do {
+            setupAudioVideoFacadeObservers()
             try currentMeetingSession.audioVideo.start(callKitEnabled: isCallKitEnabled)
         } catch {
             logger.error(msg: "Error starting the Meeting: \(error.localizedDescription)")
@@ -350,28 +353,30 @@ class MeetingModel: NSObject {
 
 extension MeetingModel: AudioVideoObserver {
     func connectionDidRecover() {
-        notify(msg: "Connection quality has recovered")
+        notifyHandler?("Connection quality has recovered")
+        logWithFunctionName()
     }
 
     func connectionDidBecomePoor() {
-        notify(msg: "Connection quality has become poor")
+        notifyHandler?("Connection quality has become poor")
+        logWithFunctionName()
     }
 
     func videoSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus) {
-        logger.info(msg: "Video stopped \(sessionStatus.statusCode)")
+        logWithFunctionName(message: "\(sessionStatus.statusCode)")
     }
 
     func audioSessionDidStartConnecting(reconnecting: Bool) {
-        notify(msg: "Audio started connecting. Reconnecting: \(reconnecting)")
-
+        notifyHandler?("Audio started connecting. Reconnecting: \(reconnecting)")
+        logWithFunctionName(message: "reconnecting \(reconnecting)")
         if !reconnecting {
             call?.isConnectingHandler?()
         }
     }
 
     func audioSessionDidStart(reconnecting: Bool) {
-        notify(msg: "Audio successfully started. Reconnecting: \(reconnecting)")
-
+        notifyHandler?("Audio successfully started. Reconnecting: \(reconnecting)")
+        logWithFunctionName(message: "reconnecting \(reconnecting)")
         if !reconnecting {
             call?.isConnectedHandler?()
         }
@@ -379,11 +384,12 @@ extension MeetingModel: AudioVideoObserver {
 
     func audioSessionDidDrop() {
         notifyHandler?("Audio Session Dropped")
+        logWithFunctionName()
     }
 
     func audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus) {
-        logger.info(msg: "Audio stopped for a reason: \(sessionStatus.statusCode)")
-
+        logWithFunctionName(message: "\(sessionStatus.statusCode)")
+        removeAudioVideoFacadeObservers()
         if let call = call {
             switch sessionStatus.statusCode {
             case .ok:
@@ -405,18 +411,20 @@ extension MeetingModel: AudioVideoObserver {
 
     func audioSessionDidCancelReconnect() {
         notifyHandler?("Audio cancelled reconnecting")
+        logWithFunctionName()
     }
 
     func videoSessionDidStartConnecting() {
-        logger.info(msg: "Video connecting")
+        logWithFunctionName()
     }
 
     func videoSessionDidStartWithStatus(sessionStatus: MeetingSessionStatus) {
         switch sessionStatus.statusCode {
         case .videoAtCapacityViewOnly:
             notifyHandler?("Maximum concurrent video limit reached! Failed to start local video")
+            logWithFunctionName(message: "\(sessionStatus.statusCode)")
         default:
-            logger.info(msg: "Video started \(sessionStatus.statusCode)")
+            logWithFunctionName(message: "\(sessionStatus.statusCode)")
         }
     }
 }
@@ -465,6 +473,7 @@ extension MeetingModel: RealtimeObserver {
 
     func signalStrengthDidChange(signalUpdates: [SignalUpdate]) {
         for currentSignalUpdate in signalUpdates {
+            logWithFunctionName(message: "\(currentSignalUpdate.attendeeInfo.externalUserId) \(currentSignalUpdate.signalStrength)")
             let attendeeId = currentSignalUpdate.attendeeInfo.attendeeId
             rosterModel.updateSignal(attendeeId: attendeeId, signal: currentSignalUpdate.signalStrength)
         }
@@ -607,11 +616,22 @@ extension MeetingModel: ActiveSpeakerObserver {
     var observerId: String {
         return activeSpeakerObserverId
     }
+    var scoresCallbackIntervalMs: Int {
+        return 5_000 // 5 second
+    }
 
     func activeSpeakerDidDetect(attendeeInfo: [AttendeeInfo]) {
         rosterModel.updateActiveSpeakers(attendeeInfo.map { $0.attendeeId })
         if activeMode == .roster {
             rosterModel.rosterUpdatedHandler?()
         }
+    }
+
+    func activeSpeakerScoreDidChange(scores: [AttendeeInfo: Double]) {
+        let scoresInString = scores.map({ (score) -> String in
+            let (key, value) = score
+            return "\(key.externalUserId): \(value)"
+            }).joined(separator: ",")
+        logWithFunctionName(message: "\(scoresInString)")
     }
 }

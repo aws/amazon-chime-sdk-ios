@@ -83,9 +83,6 @@ class RosterModel: NSObject {
         }
         if attendee.signal != signal {
             attendee.signal = signal
-            if let name = attendee.attendeeName {
-                logger.info(msg: "Signal strength changed for \(name): \(signal)")
-            }
         }
     }
 
