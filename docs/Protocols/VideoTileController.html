@@ -8,6 +8,9 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
     <a name="//apple_ref/swift/Protocol/VideoTileController" class="dashAnchor"></a>
@@ -15,6 +18,11 @@
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html"> Docs</a></p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -241,6 +249,7 @@
             <h1>VideoTileController</h1>
               <div class="declaration">
                 <div class="language">
+                  
                   <pre class="highlight swift"><code><span class="kd">@objc</span>
 <span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">VideoTileController</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/VideoTileControllerFacade.html">VideoTileControllerFacade</a></span></code></pre>
 
@@ -255,9 +264,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AmazonChimeSDK@objc(pl)VideoTileController(im)onReceiveFrameWithFrame:attendeeId:pauseState:videoId:"></a>
-                    <a name="//apple_ref/swift/Method/onReceiveFrame(frame:attendeeId:pauseState:videoId:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoTileController(im)onReceiveFrameWithFrame:attendeeId:pauseState:videoId:">onReceiveFrame(frame:<wbr>attendeeId:<wbr>pauseState:<wbr>videoId:<wbr>)</a>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)VideoTileController(im)onReceiveFrameWithFrame:videoId:attendeeId:pauseState:"></a>
+                    <a name="//apple_ref/swift/Method/onReceiveFrame(frame:videoId:attendeeId:pauseState:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoTileController(im)onReceiveFrameWithFrame:videoId:attendeeId:pauseState:">onReceiveFrame(frame:<wbr>videoId:<wbr>attendeeId:<wbr>pauseState:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -273,10 +282,10 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">onReceiveFrame</span><span class="p">(</span>
-    <span class="nv">frame</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?,</span>
+    <span class="nv">frame</span><span class="p">:</span> <span class="kt">CVPixelBuffer</span><span class="p">?,</span>
+    <span class="nv">videoId</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span>
     <span class="nv">attendeeId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span>
-    <span class="nv">pauseState</span><span class="p">:</span> <span class="kt"><a href="../Enums/VideoPauseState.html">VideoPauseState</a></span><span class="p">,</span>
-    <span class="nv">videoId</span><span class="p">:</span> <span class="kt">Int</span>
+    <span class="nv">pauseState</span><span class="p">:</span> <span class="kt"><a href="../Enums/VideoPauseState.html">VideoPauseState</a></span>
 <span class="p">)</span></code></pre>
 
                         </div>
@@ -300,12 +309,48 @@
                             <tr>
                               <td>
                                 <code>
+                                <em>videoId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>unique id that belongs to video being transmitted</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
                                 <em>attendeeId</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
                                   <p>a id of user who is transmitting current frame</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>videoStreamContentHeight</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>height of the video stream being transmitted</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>videoStreamContentWidth</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>width of the video stream being transmitted</p>
                                 </div>
                               </td>
                             </tr>
@@ -321,18 +366,6 @@
                                 </div>
                               </td>
                             </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>videoId</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>unique id that belongs to video being transmitted</p>
-                                </div>
-                              </td>
-                            </tr>
                           </tbody>
                         </table>
                       </div>
@@ -344,8 +377,8 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-06-24)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-07-20)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
