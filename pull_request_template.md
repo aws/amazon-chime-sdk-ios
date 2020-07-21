@@ -6,7 +6,9 @@
 
 #### Manual test cases (add more as needed):
 
-- [ ] Join meeting
+- [ ] Join meeting without CallKit
+- [ ] Join meeting with CallKit as Incoming
+- [ ] Join meeting with CallKit as Outgoing
 - [ ] Leave meeting
 - [ ] Rejoin meeting
 - [ ] See metrics

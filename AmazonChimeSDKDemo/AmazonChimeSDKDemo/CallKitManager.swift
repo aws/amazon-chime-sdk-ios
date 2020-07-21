@@ -18,9 +18,6 @@ class CallKitManager: NSObject {
     private let callController = CXCallController()
     private let provider: CXProvider
 
-    private(set) var calls: [Call] = []
-    private(set) var activeCall: Call?
-
     static func shared() -> CallKitManager {
         if sharedInstance == nil {
             sharedInstance = CallKitManager()
@@ -46,7 +43,6 @@ class CallKitManager: NSObject {
 
     // Start an outging call
     func startOutgoingCall(with call: Call) {
-        calls.append(call)
         let handle = CXHandle(type: .generic, value: call.handle)
         let startCallAction = CXStartCallAction(call: call.uuid, handle: handle)
         let transaction = CXTransaction(action: startCallAction)
@@ -62,7 +58,6 @@ class CallKitManager: NSObject {
 
     // This is normally called after receiving a VoIP Push Notification to handle incoming call
     func reportNewIncomingCall(with call: Call) {
-        calls.append(call)
         let handle = CXHandle(type: .generic, value: call.handle)
         let update = CXCallUpdate()
         update.remoteHandle = handle
@@ -131,38 +126,19 @@ class CallKitManager: NSObject {
     func reportCallEndedFromRemote(with call: Call, reason: CXCallEndedReason) {
         provider.reportCall(with: call.uuid, endedAt: Date(), reason: reason)
     }
-
-    private func getCall(with uuid: UUID) -> Call? {
-        return calls.first(where: { $0.uuid == uuid })
-    }
-
-    private func removeCall(_ call: Call) {
-        calls.removeAll(where: { $0 === call })
-    }
-
-    private func clearCalls() {
-        calls = []
-    }
 }
 
 // MARK: CXProviderDelegate
 
 extension CallKitManager: CXProviderDelegate {
     func providerDidReset(_: CXProvider) {
-        for call in calls {
-            call.isEndedHandler?()
-        }
-        clearCalls()
+        MeetingModule.shared().endActiveMeeting(completion: {})
     }
 
     func providerDidBegin(_: CXProvider) {}
 
     func provider(_: CXProvider, perform action: CXStartCallAction) {
-        if let call = getCall(with: action.callUUID) {
-            call.isReadytoConfigureHandler?()
-            activeCall = call
-
-            // This is needed for CallKit to know the state of the outgoing call
+        if let meeting = MeetingModule.shared().getMeeting(with: action.callUUID), let call = meeting.call {
             call.isConnectingHandler = { [weak self] in
                 self?.provider.reportOutgoingCall(with: call.uuid, startedConnectingAt: Date())
             }
@@ -170,35 +146,46 @@ extension CallKitManager: CXProviderDelegate {
             call.isConnectedHandler = { [weak self] in
                 self?.provider.reportOutgoingCall(with: call.uuid, connectedAt: Date())
             }
-            action.fulfill()
+            MeetingModule.shared().joinMeeting(meeting) { success in
+                if success {
+                    call.isReadytoConfigureHandler?()
+                    action.fulfill()
+                } else {
+                    action.fail()
+                }
+            }
         } else {
             action.fail()
         }
     }
 
     func provider(_: CXProvider, perform action: CXAnswerCallAction) {
-        if let call = getCall(with: action.callUUID) {
-            call.isReadytoConfigureHandler?()
-            activeCall = call
-            call.isUnansweredCallTimerActive = false
-            action.fulfill()
+        if let meeting = MeetingModule.shared().getMeeting(with: action.callUUID), let call = meeting.call {
+            MeetingModule.shared().joinMeeting(meeting) { success in
+                if success {
+                    call.isReadytoConfigureHandler?()
+                    call.isUnansweredCallTimerActive = false
+                    action.fulfill()
+                } else {
+                    action.fail()
+                }
+            }
         } else {
             action.fail()
         }
     }
 
     func provider(_: CXProvider, perform action: CXEndCallAction) {
-        if let call = getCall(with: action.callUUID) {
+        if let meeting = MeetingModule.shared().getMeeting(with: action.callUUID), let call = meeting.call {
             call.isEndedHandler?()
             action.fulfill()
-            removeCall(call)
         } else {
             action.fail()
         }
     }
 
     func provider(_: CXProvider, perform action: CXSetHeldCallAction) {
-        if let call = getCall(with: action.callUUID) {
+        if let meeting = MeetingModule.shared().getMeeting(with: action.callUUID), let call = meeting.call {
             call.isOnHold = action.isOnHold
             action.fulfill()
         } else {
@@ -207,7 +194,7 @@ extension CallKitManager: CXProviderDelegate {
     }
 
     func provider(_: CXProvider, perform action: CXSetMutedCallAction) {
-        if let call = getCall(with: action.callUUID) {
+        if let meeting = MeetingModule.shared().getMeeting(with: action.callUUID), let call = meeting.call {
             call.isMuted = action.isMuted
             action.fulfill()
         } else {
@@ -218,7 +205,7 @@ extension CallKitManager: CXProviderDelegate {
     func provider(_: CXProvider, timedOutPerforming _: CXAction) {}
 
     func provider(_: CXProvider, didActivate _: AVAudioSession) {
-        if let call = activeCall {
+        if let call = MeetingModule.shared().activeMeeting?.call {
             call.isAudioSessionActiveHandler?()
         }
     }
