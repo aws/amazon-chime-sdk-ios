@@ -85,9 +85,9 @@ class MeetingViewController: UIViewController {
         meetingModel.isMutedHandler = { [weak self] isMuted in
             self?.muteButton.isSelected = isMuted
         }
-        meetingModel.isEndedHandler = { [weak self] in
+        meetingModel.isEndedHandler = {
             DispatchQueue.main.async {
-                self?.dismiss(animated: true, completion: nil)
+                MeetingModule.shared().dismissMeeting(meetingModel)
             }
         }
         meetingModel.rosterModel.rosterUpdatedHandler = { [weak self] in

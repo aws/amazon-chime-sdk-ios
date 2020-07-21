@@ -43,6 +43,6 @@ import Foundation
         self.videoStreamContentHeight = videoStreamContentHeight
         self.pauseState = pauseState
         self.isLocalTile = isLocalTile
-        self.isContent = attendeeId.hasSuffix(Constants.modality) ?? false
+        self.isContent = attendeeId.hasSuffix(Constants.modality)
     }
 }

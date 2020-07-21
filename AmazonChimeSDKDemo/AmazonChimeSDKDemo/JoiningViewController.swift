@@ -19,9 +19,7 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var joinAsIncomingCallButton: UIButton!
     @IBOutlet var joinAsOutgoingCallButton: UIButton!
 
-    private let logger = ConsoleLogger(name: "JoiningViewController")
     private let toastDisplayDuration = 2.0
-    private let incomingCallKitDelay = 10.0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +39,8 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
     }
 
     @IBAction func joinAsIncomingCallButton(_: UIButton) {
+        view.makeToast("You can background the app or lock screen while waiting",
+                       duration: incomingCallKitDelayInSeconds)
         joinMeeting(callKitOption: .incoming)
     }
 
@@ -72,42 +72,12 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
             return
         }
 
-        setJoinButtons(isEnabled: false)
-
-        JoinRequestService.postJoinRequest(meetingId: meetingId, name: name) { meetingSessionConfig in
-            guard let meetingSessionConfig = meetingSessionConfig else {
-                DispatchQueue.main.async {
+        MeetingModule.shared().prepareMeeting(meetingId: meetingId, selfName: name, option: callKitOption) { success in
+            DispatchQueue.main.async {
+                if !success {
+                    self.view.hideToast()
                     self.view.makeToast("Unable to join meeting please try different meeting ID",
                                         duration: self.toastDisplayDuration)
-                    self.setJoinButtons(isEnabled: true)
-                }
-                return
-            }
-            DispatchQueue.main.async {
-                let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                guard let meetingViewController = mainStoryboard.instantiateViewController(withIdentifier: "meeting")
-                    as? MeetingViewController else {
-                    self.logger.error(msg: "Unable to instantitate MeetingViewController")
-                    return
-                }
-                let meetingModel = MeetingModel(meetingSessionConfig: meetingSessionConfig,
-                                                meetingId: meetingId,
-                                                selfName: name,
-                                                callKitOption: callKitOption)
-                meetingViewController.meetingModel = meetingModel
-                meetingViewController.modalPresentationStyle = .fullScreen
-
-                if callKitOption == .incoming {
-                    let backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + self.incomingCallKitDelay) {
-                        self.present(meetingViewController, animated: true) {
-                            UIApplication.shared.endBackgroundTask(backgroundTaskIdentifier)
-                        }
-                    }
-                    self.view.makeToast("You can background the app or lock screen while waiting",
-                                        duration: self.incomingCallKitDelay)
-                } else {
-                    self.present(meetingViewController, animated: true, completion: nil)
                 }
             }
         }

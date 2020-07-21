@@ -23,7 +23,8 @@ class MeetingModel: NSObject {
     let meetingId: String
     let selfName: String
     let callKitOption: CallKitOption
-    let currentMeetingSession: MeetingSession
+    let meetingSessionConfig: MeetingSessionConfiguration
+    lazy var currentMeetingSession = DefaultMeetingSession(configuration: meetingSessionConfig, logger: logger)
 
     // Utils
     let logger = ConsoleLogger(name: "MeetingModel")
@@ -34,6 +35,7 @@ class MeetingModel: NSObject {
     lazy var videoModel = VideoModel(audioVideoFacade: currentMeetingSession.audioVideo)
     let metricsModel = MetricsModel()
     let screenShareModel = ScreenShareModel()
+    let uuid = UUID()
     var call: Call?
 
     private var savedModeBeforeOnHold: ActiveMode?
@@ -103,8 +105,14 @@ class MeetingModel: NSObject {
         self.meetingId = meetingId
         self.selfName = selfName
         self.callKitOption = callKitOption
-        currentMeetingSession = DefaultMeetingSession(configuration: meetingSessionConfig, logger: logger)
+        self.meetingSessionConfig = meetingSessionConfig
         super.init()
+
+        if callKitOption == .incoming {
+            call = createCall(isOutgoing: false)
+        } else if callKitOption == .outgoing {
+            call = createCall(isOutgoing: true)
+        }
     }
 
     func bind(videoRenderView: VideoRenderView, tileId: Int) {
@@ -114,19 +122,10 @@ class MeetingModel: NSObject {
     func startMeeting() {
         requestRecordPermission { success in
             if success {
-                switch self.callKitOption {
-                case .disabled:
+                if self.callKitOption == .disabled {
                     self.configureAudioSession()
                     self.startAudioVideoConnection(isCallKitEnabled: false)
                     self.startRemoteVideo()
-                case .incoming:
-                    let incomingCall = self.createCall(isOutgoing: false)
-                    CallKitManager.shared().reportNewIncomingCall(with: incomingCall)
-                    self.call = incomingCall
-                case .outgoing:
-                    let outgoingCall = self.createCall(isOutgoing: true)
-                    CallKitManager.shared().startOutgoingCall(with: outgoingCall)
-                    self.call = outgoingCall
                 }
             } else {
                 self.endMeeting()
@@ -141,7 +140,7 @@ class MeetingModel: NSObject {
     }
 
     func endMeeting() {
-        if let call = call {
+        if let call = call, !isEnded {
             CallKitManager.shared().endCallFromLocal(with: call)
         } else {
             isEnded = true
@@ -166,7 +165,7 @@ class MeetingModel: NSObject {
             }
         } else {
             if let videoTileState = videoModel.getVideoTileState(for: indexPath) {
-                displayName = rosterModel.getAttendeeName(for: videoTileState.attendeeId ?? "") ?? ""
+                displayName = rosterModel.getAttendeeName(for: videoTileState.attendeeId) ?? ""
             }
         }
         return displayName
@@ -316,7 +315,7 @@ class MeetingModel: NSObject {
     }
 
     private func createCall(isOutgoing: Bool) -> Call {
-        let call = Call(uuid: UUID(), handle: meetingId, isOutgoing: isOutgoing)
+        let call = Call(uuid: uuid, handle: meetingId, isOutgoing: isOutgoing)
         call.isReadytoConfigureHandler = { [weak self] in
             self?.configureAudioSession()
         }
@@ -389,6 +388,7 @@ extension MeetingModel: AudioVideoObserver {
 
     func audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus) {
         logWithFunctionName(message: "\(sessionStatus.statusCode)")
+
         removeAudioVideoFacadeObservers()
         if let call = call {
             switch sessionStatus.statusCode {
@@ -532,7 +532,7 @@ extension MeetingModel: DeviceChangeObserver {
 extension MeetingModel: VideoTileObserver {
     func videoTileDidAdd(tileState: VideoTileState) {
         logger.info(msg: "Attempting to add video tile tileId: \(tileState.tileId)" +
-            " attendeeId: \(tileState.attendeeId ?? "") with size \(tileState.videoStreamContentWidth)*\(tileState.videoStreamContentHeight)")
+            " attendeeId: \(tileState.attendeeId) with size \(tileState.videoStreamContentWidth)*\(tileState.videoStreamContentHeight)")
         if tileState.isContent {
             screenShareModel.tileId = tileState.tileId
             if activeMode == .screenShare {
@@ -560,7 +560,7 @@ extension MeetingModel: VideoTileObserver {
 
     func videoTileDidRemove(tileState: VideoTileState) {
         logger.info(msg: "Attempting to remove video tile tileId: \(tileState.tileId)" +
-            " attendeeId: \(tileState.attendeeId ?? "")")
+            " attendeeId: \(tileState.attendeeId)")
         currentMeetingSession.audioVideo.unbindVideoView(tileId: tileState.tileId)
 
         if tileState.isContent {
@@ -587,7 +587,7 @@ extension MeetingModel: VideoTileObserver {
     }
 
     func videoTileDidPause(tileState: VideoTileState) {
-        let attendeeId = tileState.attendeeId ?? "unkown"
+        let attendeeId = tileState.attendeeId
         let attendeeName = rosterModel.getAttendeeName(for: attendeeId) ?? ""
         if tileState.pauseState == .pausedForPoorConnection {
             notifyHandler?("Video for attendee \(attendeeName) " +
@@ -600,7 +600,7 @@ extension MeetingModel: VideoTileObserver {
     }
 
     func videoTileDidResume(tileState: VideoTileState) {
-        let attendeeId = tileState.attendeeId ?? "unkown"
+        let attendeeId = tileState.attendeeId
         let attendeeName = rosterModel.getAttendeeName(for: attendeeId) ?? ""
         notifyHandler?("Video for attendee \(attendeeName) has been unpaused")
     }
@@ -616,8 +616,9 @@ extension MeetingModel: ActiveSpeakerObserver {
     var observerId: String {
         return activeSpeakerObserverId
     }
+
     var scoresCallbackIntervalMs: Int {
-        return 5_000 // 5 second
+        return 5000 // 5 second
     }
 
     func activeSpeakerDidDetect(attendeeInfo: [AttendeeInfo]) {
@@ -628,10 +629,10 @@ extension MeetingModel: ActiveSpeakerObserver {
     }
 
     func activeSpeakerScoreDidChange(scores: [AttendeeInfo: Double]) {
-        let scoresInString = scores.map({ (score) -> String in
+        let scoresInString = scores.map { (score) -> String in
             let (key, value) = score
             return "\(key.externalUserId): \(value)"
-            }).joined(separator: ",")
+        }.joined(separator: ",")
         logWithFunctionName(message: "\(scoresInString)")
     }
 }

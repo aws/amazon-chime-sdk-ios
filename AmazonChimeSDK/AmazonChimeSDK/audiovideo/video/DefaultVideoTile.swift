@@ -33,7 +33,7 @@ import VideoToolbox
 
     public func bind(videoRenderView: VideoRenderView?) {
         logger.info(
-            msg: "Binding the view to tile: tileId: \(state.tileId), attendeeId: \(state.attendeeId ?? "self")"
+            msg: "Binding the view to tile: tileId: \(state.tileId), attendeeId: \(state.attendeeId)"
         )
         self.videoRenderView = videoRenderView
     }
@@ -44,7 +44,7 @@ import VideoToolbox
 
     public func unbind() {
         logger.info(
-            msg: "Unbinding the view from tile: tileId:  \(state.tileId), attendeeId: \(state.attendeeId ?? "self")"
+            msg: "Unbinding the view from tile: tileId:  \(state.tileId), attendeeId: \(state.attendeeId)"
         )
         videoRenderView = nil
     }
