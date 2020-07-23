@@ -6,6 +6,8 @@
 //  SPDX-License-Identifier: Apache-2.0
 //
 
+import AmazonChimeSDK
+import AVFoundation
 import UIKit
 
 let incomingCallKitDelayInSeconds = 10.0
@@ -15,51 +17,62 @@ class MeetingModule {
     private(set) var activeMeeting: MeetingModel?
     private let meetingPresenter = MeetingPresenter()
     private var meetings: [UUID: MeetingModel] = [:]
+    private let logger = ConsoleLogger(name: "MeetingModule")
 
     static func shared() -> MeetingModule {
         if sharedInstance == nil {
             sharedInstance = MeetingModule()
+
+            // This is to initialize CallKit properly before requesting first outgoing/incoming call
+            _ = CallKitManager.shared()
         }
         return sharedInstance!
     }
 
     func prepareMeeting(meetingId: String, selfName: String, option: CallKitOption, completion: @escaping (Bool) -> Void) {
-        JoinRequestService.postJoinRequest(meetingId: meetingId, name: selfName) { meetingSessionConfig in
-            guard let meetingSessionConfig = meetingSessionConfig else {
-                DispatchQueue.main.async {
-                    completion(false)
-                }
+
+        requestRecordPermission { success in
+            guard success else {
+                completion(false)
                 return
             }
-            let meetingModel = MeetingModel(meetingSessionConfig: meetingSessionConfig,
-                                            meetingId: meetingId,
-                                            selfName: selfName,
-                                            callKitOption: option)
-            self.meetings[meetingModel.uuid] = meetingModel
+            JoinRequestService.postJoinRequest(meetingId: meetingId, name: selfName) { meetingSessionConfig in
+                guard let meetingSessionConfig = meetingSessionConfig else {
+                    DispatchQueue.main.async {
+                        completion(false)
+                    }
+                    return
+                }
+                let meetingModel = MeetingModel(meetingSessionConfig: meetingSessionConfig,
+                                                meetingId: meetingId,
+                                                selfName: selfName,
+                                                callKitOption: option)
+                self.meetings[meetingModel.uuid] = meetingModel
 
-            switch option {
-            case .incoming:
-                guard let call = meetingModel.call else {
-                    completion(false)
-                    return
+                switch option {
+                case .incoming:
+                    guard let call = meetingModel.call else {
+                        completion(false)
+                        return
+                    }
+                    let backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + incomingCallKitDelayInSeconds) {
+                        CallKitManager.shared().reportNewIncomingCall(with: call)
+                        UIApplication.shared.endBackgroundTask(backgroundTaskIdentifier)
+                    }
+                case .outgoing:
+                    guard let call = meetingModel.call else {
+                        completion(false)
+                        return
+                    }
+                    CallKitManager.shared().startOutgoingCall(with: call)
+                case .disabled:
+                    DispatchQueue.main.async {
+                        self.joinMeeting(meetingModel, completion: completion)
+                    }
                 }
-                let backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
-                DispatchQueue.main.asyncAfter(deadline: .now() + incomingCallKitDelayInSeconds) {
-                    CallKitManager.shared().reportNewIncomingCall(with: call)
-                    UIApplication.shared.endBackgroundTask(backgroundTaskIdentifier)
-                }
-            case .outgoing:
-                guard let call = meetingModel.call else {
-                    completion(false)
-                    return
-                }
-                CallKitManager.shared().startOutgoingCall(with: call)
-            case .disabled:
-                DispatchQueue.main.async {
-                    self.joinMeeting(meetingModel, completion: completion)
-                }
+                completion(true)
             }
-            completion(true)
         }
     }
 
@@ -96,6 +109,51 @@ class MeetingModule {
             meetingPresenter.dismissActiveMeetingView(completion: {})
         } else {
             meetings[meeting.uuid] = nil
+        }
+    }
+
+    func requestRecordPermission(completion: @escaping (Bool) -> Void) {
+        let audioSession = AVAudioSession.sharedInstance()
+        switch audioSession.recordPermission {
+        case .denied:
+            logger.error(msg: "User did not grant audio permission, it should redirect to Settings")
+            completion(false)
+        case .undetermined:
+            audioSession.requestRecordPermission { granted in
+                if granted {
+                    completion(true)
+                } else {
+                    self.logger.error(msg: "User did not grant audio permission")
+                    completion(false)
+                }
+            }
+        case .granted:
+            completion(true)
+        @unknown default:
+            logger.error(msg: "Audio session record permission unknown case detected")
+            completion(false)
+        }
+    }
+
+    func requestVideoPermission(completion: @escaping (Bool) -> Void) {
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .denied, .restricted:
+            logger.error(msg: "User did not grant video permission, it should redirect to Settings")
+            completion(false)
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { authorized in
+                if authorized {
+                    completion(true)
+                } else {
+                    self.logger.error(msg: "User did not grant video permission")
+                    completion(false)
+                }
+            }
+        case .authorized:
+            completion(true)
+        @unknown default:
+            logger.error(msg: "AVCaptureDevice authorizationStatus unknown case detected")
+            completion(false)
         }
     }
 }

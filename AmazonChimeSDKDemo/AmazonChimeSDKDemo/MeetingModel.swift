@@ -120,16 +120,10 @@ class MeetingModel: NSObject {
     }
 
     func startMeeting() {
-        requestRecordPermission { success in
-            if success {
-                if self.callKitOption == .disabled {
-                    self.configureAudioSession()
-                    self.startAudioVideoConnection(isCallKitEnabled: false)
-                    self.startRemoteVideo()
-                }
-            } else {
-                self.endMeeting()
-            }
+        if self.callKitOption == .disabled {
+            self.configureAudioSession()
+            self.startAudioVideoConnection(isCallKitEnabled: false)
+            self.startRemoteVideo()
         }
     }
 
@@ -205,51 +199,6 @@ class MeetingModel: NSObject {
         audioVideo.removeActiveSpeakerObserver(observer: self)
     }
 
-    private func requestRecordPermission(completion: @escaping (Bool) -> Void) {
-        let audioSession = AVAudioSession.sharedInstance()
-        switch audioSession.recordPermission {
-        case .denied:
-            logger.error(msg: "User did not grant audio permission, it should redirect to Settings")
-            completion(false)
-        case .undetermined:
-            audioSession.requestRecordPermission { granted in
-                if granted {
-                    completion(true)
-                } else {
-                    self.logger.error(msg: "User did not grant audio permission")
-                    completion(false)
-                }
-            }
-        case .granted:
-            completion(true)
-        @unknown default:
-            logger.error(msg: "Audio session record permission unknown case detected")
-            completion(false)
-        }
-    }
-
-    private func requestVideoPermission(completion: @escaping (Bool) -> Void) {
-        switch AVCaptureDevice.authorizationStatus(for: .video) {
-        case .denied, .restricted:
-            logger.error(msg: "User did not grant video permission, it should redirect to Settings")
-            completion(false)
-        case .notDetermined:
-            AVCaptureDevice.requestAccess(for: .video) { authorized in
-                if authorized {
-                    completion(true)
-                } else {
-                    self.logger.error(msg: "User did not grant video permission")
-                    completion(false)
-                }
-            }
-        case .authorized:
-            completion(true)
-        @unknown default:
-            logger.error(msg: "AVCaptureDevice authorizationStatus unknown case detected")
-            completion(false)
-        }
-    }
-
     private func configureAudioSession() {
         let audioSession = AVAudioSession.sharedInstance()
         do {
@@ -287,7 +236,7 @@ class MeetingModel: NSObject {
     }
 
     private func startLocalVideo() {
-        requestVideoPermission { success in
+        MeetingModule.shared().requestVideoPermission { success in
             if success {
                 do {
                     try self.currentMeetingSession.audioVideo.startLocalVideo()
