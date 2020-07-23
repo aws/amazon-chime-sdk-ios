@@ -42,7 +42,8 @@ import Foundation
                                        logger: logger)
         videoClientController.subscribeToVideoTileControllerObservers(observer: videoTileController)
         let realtimeController = DefaultRealtimeController(audioClientController: audioClientController,
-                                                           audioClientObserver: audioClientObserver)
+                                                           audioClientObserver: audioClientObserver,
+                                                           videoClientController: videoClientController)
         let activeSpeakerDetector =
             DefaultActiveSpeakerDetector(audioClientObserver: audioClientObserver,
                                          selfAttendeeId: configuration.credentials.attendeeId)

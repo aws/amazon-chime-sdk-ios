@@ -9,13 +9,17 @@
 import Foundation
 
 @objcMembers public class DefaultRealtimeController: RealtimeControllerFacade {
+
     private let audioClientController: AudioClientController
     private let audioClientObserver: AudioClientObserver
+    private let videoClientController: VideoClientController
 
     public init(audioClientController: AudioClientController,
-                audioClientObserver: AudioClientObserver) {
+                audioClientObserver: AudioClientObserver,
+                videoClientController: VideoClientController) {
         self.audioClientController = audioClientController
         self.audioClientObserver = audioClientObserver
+        self.videoClientController = videoClientController
     }
 
     public func realtimeLocalMute() -> Bool {
@@ -32,5 +36,17 @@ import Foundation
 
     public func removeRealtimeObserver(observer: RealtimeObserver) {
         audioClientObserver.unsubscribeFromRealTimeEvents(observer: observer)
+    }
+
+    public func addRealtimeDataMessageObserver(topic: String, observer: DataMessageObserver) {
+        videoClientController.subscribeToReceiveDataMessage(topic: topic, observer: observer)
+    }
+
+    public func removeRealtimeDataMessageObserverFromTopic(topic: String) {
+        videoClientController.unsubscribeFromReceiveDataMessageFromTopic(topic: topic)
+    }
+
+    public func realtimeSendDataMessage(topic: String, data: Any, lifetimeMs: Int32 = 0) throws {
+        try videoClientController.sendDataMessage(topic: topic, data: data, lifetimeMs: lifetimeMs)
     }
 }

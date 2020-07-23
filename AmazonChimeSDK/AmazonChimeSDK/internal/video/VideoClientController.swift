@@ -27,4 +27,7 @@ import Foundation
     func subscribeToVideoTileControllerObservers(observer: VideoTileController)
     func unsubscribeToVideoTileControllerObservers(observer: VideoTileController)
     func pauseResumeRemoteVideo(_ videoId: UInt32, pause: Bool)
+    func subscribeToReceiveDataMessage(topic: String, observer: DataMessageObserver)
+    func unsubscribeFromReceiveDataMessageFromTopic(topic: String)
+    func sendDataMessage(topic: String, data: Any, lifetimeMs: Int32) throws
 }

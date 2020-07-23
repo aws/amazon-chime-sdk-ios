@@ -21,6 +21,7 @@ class DefaultVideoClientController: NSObject {
     var videoClientState: VideoClientState = .uninitialized
     let videoTileControllerObservers = ConcurrentMutableSet()
     let videoObservers = ConcurrentMutableSet()
+    var dataMessageObservers = [String: ConcurrentMutableSet]()
     var turnControlUrl: String?
 
     private let configuration: MeetingSessionConfiguration
@@ -306,6 +307,17 @@ extension DefaultVideoClientController: VideoClientDelegate {
         guard let metrics = metrics else { return }
         clientMetricsCollector.processVideoClientMetrics(metrics: metrics)
     }
+
+    public func videoClientDataMessageReceived(_ messages: [DataMessageInternal]) {
+        for message in messages {
+            let dataMessage = DataMessage(message: message)
+            if let observers = dataMessageObservers[dataMessage.topic] {
+                ObserverUtils.forEach(observers: observers) { (observer: DataMessageObserver) in
+                    observer.dataMessageDidReceived(dataMessage: dataMessage)
+                }
+            }
+        }
+    }
 }
 
 extension DefaultVideoClientController: VideoClientController {
@@ -432,5 +444,56 @@ extension DefaultVideoClientController: VideoClientController {
     public func pauseResumeRemoteVideo(_ videoId: UInt32, pause: Bool) {
         logger.info(msg: "pauseResumeRemoteVideo")
         videoClient?.setRemotePause(videoId, pause: pause)
+    }
+
+    public func subscribeToReceiveDataMessage(topic: String, observer: DataMessageObserver) {
+        if dataMessageObservers[topic] == nil {
+            dataMessageObservers[topic] = ConcurrentMutableSet()
+        }
+        dataMessageObservers[topic]?.add(observer)
+    }
+
+    public func unsubscribeFromReceiveDataMessageFromTopic(topic: String) {
+        dataMessageObservers.removeValue(forKey: topic)
+    }
+
+    public func sendDataMessage(topic: String, data: Any, lifetimeMs: Int32 = 0) throws {
+        guard videoClientState == .started else {
+            logger.error(msg: "Cannot send data message because videoClientState=\(videoClientState)")
+            return
+        }
+
+        if lifetimeMs < 0 {
+            throw SendDataMessageError.negativeLifetimeParameter
+        }
+
+        if topic.range(of: Constants.dataMessageTopicRegex, options: .regularExpression) == nil {
+            throw SendDataMessageError.invalidTopic
+        }
+
+        var dataContainer: Data?
+        if let dataAsString = data as? String {
+            dataContainer = dataAsString.data(using: .utf8)
+        } else if JSONSerialization.isValidJSONObject(data) {
+            dataContainer = try JSONSerialization.data(withJSONObject: data)
+        } else {
+            throw SendDataMessageError.invalidData
+        }
+
+        if let container = dataContainer {
+            if container.count > Constants.dataMessageMaxDataSizeInByte {
+                throw SendDataMessageError.invalidDataLength
+            }
+            container.withUnsafeBytes { (bufferRawBufferPointer) -> Void in
+                if let bufferPointer = bufferRawBufferPointer
+                    .baseAddress {
+                    videoClient?.sendDataMessage(topic,
+                                                 data: bufferPointer.assumingMemoryBound(to: Int8.self),
+                                                 lifetimeMs: lifetimeMs)
+                }
+            }
+        } else {
+            throw SendDataMessageError.invalidData
+        }
     }
 }

@@ -36,4 +36,23 @@ import Foundation
     ///
     /// - Parameter observer: Observer that handles real time events
     func removeRealtimeObserver(observer: RealtimeObserver)
+
+    /// Subscribes to data meesage event with an observer
+    ///
+    /// - Parameter topic: Topic to handle
+    /// - Parameter observer: Observer that handles data message event with given topic
+    func addRealtimeDataMessageObserver(topic: String, observer: DataMessageObserver)
+
+    /// Unsubscribes from data meesage event by removing the specified observer by topic
+    ///
+    /// - Parameter topic: Topic to remove
+    func removeRealtimeDataMessageObserverFromTopic(topic: String)
+
+    /// Send arbitrary data to given topic with given lifetime ms (5 mins max)
+    ///
+    /// - Parameter topic: Topic to send
+    /// - Parameter data: Data to send, data can be either a String or JSON serializable object
+    /// - Parameter lifetimeMs: Message lifetime in milisecond, 5 mins max, default 0
+    /// - Throws: SendDataMessageError
+    func realtimeSendDataMessage(topic: String, data: Any, lifetimeMs: Int32) throws
 }
