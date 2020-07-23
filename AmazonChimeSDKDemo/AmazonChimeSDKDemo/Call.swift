@@ -9,7 +9,7 @@
 import UIKit
 
 class Call {
-    static let maxIncomingCallAnswerTime = 10.0
+    static let maxIncomingCallAnswerTime = 30.0
 
     let uuid: UUID
     let handle: String
