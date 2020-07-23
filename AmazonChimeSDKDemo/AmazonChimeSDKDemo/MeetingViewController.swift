@@ -42,6 +42,14 @@ class MeetingViewController: UIViewController {
     // Metrics
     @IBOutlet var metricsTable: UITableView!
 
+    // Chat View
+    @IBOutlet var chatView: UIView!
+    @IBOutlet var chatMessageTable: UITableView!
+    @IBOutlet var inputBox: UIView!
+    @IBOutlet var inputText: UITextField!
+    @IBOutlet var sendMessageButton: UIButton!
+    @IBOutlet var inputBoxBottomConstrain: NSLayoutConstraint!
+
     // Model
     var meetingModel: MeetingModel?
 
@@ -73,6 +81,30 @@ class MeetingViewController: UIViewController {
         } else {
             layout.scrollDirection = .vertical
         }
+    }
+    private func registerForKeyboardNotifications() {
+        //Adding notifies on keyboard appearing
+        NotificationCenter
+            .default
+            .addObserver(self,
+                         selector: #selector(keyboardShowHandler),
+                         name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter
+            .default
+            .addObserver(self,
+                         selector: #selector(keyboardHideHandler),
+                         name: UIResponder.keyboardWillHideNotification,
+                         object: nil)
+    }
+
+    private func deregisterFromKeyboardNotifications() {
+        //Removing notifies on keyboard appearing
+        NotificationCenter
+            .default
+            .removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter
+            .default
+            .removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     private func configure(meetingModel: MeetingModel) {
@@ -111,6 +143,10 @@ class MeetingViewController: UIViewController {
             self?.screenRenderView.isHidden = !shouldShow
             self?.noScreenViewLabel.isHidden = shouldShow
         }
+
+        meetingModel.chatModel.refreshChatTableHandler = { [weak self] in
+            self?.chatMessageTable.reloadData()
+        }
     }
 
     // MARK: UI functions
@@ -121,7 +157,7 @@ class MeetingViewController: UIViewController {
         titleLabel.accessibilityLabel = "Meeting ID \(meetingModel?.meetingId ?? "")"
 
         // Buttons
-        let buttonStack = [muteButton, deviceButton, cameraButton, endButton]
+        let buttonStack = [muteButton, deviceButton, cameraButton, endButton, sendMessageButton]
         for button in buttonStack {
             let normalButtonImage = button?.image(for: .normal)?.withRenderingMode(.alwaysTemplate)
             let selectedButtonImage = button?.image(for: .selected)?.withRenderingMode(.alwaysTemplate)
@@ -147,6 +183,15 @@ class MeetingViewController: UIViewController {
         // Metrics table view
         metricsTable.delegate = meetingModel?.metricsModel
         metricsTable.dataSource = meetingModel?.metricsModel
+
+        // Chat table
+        chatMessageTable.delegate = meetingModel?.chatModel
+        chatMessageTable.dataSource = meetingModel?.chatModel
+        registerForKeyboardNotifications()
+        sendMessageButton.isEnabled = false
+        chatMessageTable.separatorStyle = .none
+        sendMessageButton.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
+        setupHideKeyboardOnTap()
     }
 
     private func switchSubview(mode: MeetingModel.ActiveMode) {
@@ -159,6 +204,7 @@ class MeetingViewController: UIViewController {
         resumeCallKitMeetingButton.isHidden = true
         segmentedControl.isHidden = false
         containerView.isHidden = false
+        chatView.isHidden = true
         muteButton.isEnabled = true
         deviceButton.isEnabled = true
         cameraButton.isEnabled = true
@@ -167,6 +213,9 @@ class MeetingViewController: UIViewController {
         case .roster:
             rosterTable.reloadData()
             rosterTable.isHidden = false
+        case .chat:
+            chatMessageTable.reloadData()
+            chatView.isHidden = false
         case .video:
             videoCollection.reloadData()
             videoCollection.isHidden = false
@@ -196,6 +245,8 @@ class MeetingViewController: UIViewController {
         switch segmentedControl.selectedSegmentIndex {
         case SegmentedControlIndex.attendees.rawValue:
             meetingModel?.activeMode = .roster
+        case SegmentedControlIndex.chat.rawValue:
+            meetingModel?.activeMode = .chat
         case SegmentedControlIndex.video.rawValue:
             meetingModel?.activeMode = .video
         case SegmentedControlIndex.screen.rawValue:
@@ -238,10 +289,47 @@ class MeetingViewController: UIViewController {
 
     @IBAction func leaveButtonClicked(_: UIButton) {
         meetingModel?.endMeeting()
+        deregisterFromKeyboardNotifications()
+    }
+
+    @IBAction func inputTextChanged(_ sender: Any, forEvent event: UIEvent) {
+        guard let text = self.inputText.text else {
+            return
+        }
+        sendMessageButton.isEnabled = !text.isEmpty
+    }
+
+    @IBAction func sendMessageButtonClicked(_ sender: Any) {
+        guard let text = self.inputText.text else {
+            return
+        }
+
+        meetingModel?.sendDataMessage(text)
+        self.inputText.text = ""
+        sendMessageButton.isEnabled = false
     }
 
     @IBAction func resumeCallKitMeetingButtonClicked(_: UIButton) {
         meetingModel?.resumeCallKitMeeting()
+    }
+
+    @objc private func keyboardShowHandler(notification: NSNotification) {
+        //Need to calculate keyboard exact size due to Apple suggestions
+        guard let info: NSDictionary = notification.userInfo as NSDictionary? else {
+            return
+        }
+        guard let keyboardSize = (info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size else {
+            return
+        }
+
+        let viewHeight = self.view.frame.size.height
+        let realOrigin = self.chatView.convert(self.inputBox.frame.origin, to: self.view)
+        let inputBoxDistanceToBottom = viewHeight - realOrigin.y - self.inputBox.frame.height
+        self.inputBoxBottomConstrain.constant =  keyboardSize.height - inputBoxDistanceToBottom
+    }
+
+    @objc private func keyboardHideHandler(notification: NSNotification) {
+        self.inputBoxBottomConstrain.constant = 0
     }
 }
 

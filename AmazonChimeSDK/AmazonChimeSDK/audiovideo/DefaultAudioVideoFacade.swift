@@ -87,6 +87,18 @@ import Foundation
         realtimeController.removeRealtimeObserver(observer: observer)
     }
 
+    public func addRealtimeDataMessageObserver(topic: String, observer: DataMessageObserver) {
+        realtimeController.addRealtimeDataMessageObserver(topic: topic, observer: observer)
+    }
+
+    public func removeRealtimeDataMessageObserverFromTopic(topic: String) {
+        realtimeController.removeRealtimeDataMessageObserverFromTopic(topic: topic)
+    }
+
+    public func realtimeSendDataMessage(topic: String, data: Any, lifetimeMs: Int32 = 0) throws {
+        try realtimeController.realtimeSendDataMessage(topic: topic, data: data, lifetimeMs: lifetimeMs)
+    }
+
     public func addAudioVideoObserver(observer: AudioVideoObserver) {
         audioVideoController.addAudioVideoObserver(observer: observer)
     }

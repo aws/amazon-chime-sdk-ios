@@ -13,6 +13,7 @@ import UIKit
 class MeetingModel: NSObject {
     enum ActiveMode {
         case roster
+        case chat
         case video
         case screenShare
         case metrics
@@ -35,6 +36,7 @@ class MeetingModel: NSObject {
     lazy var videoModel = VideoModel(audioVideoFacade: currentMeetingSession.audioVideo)
     let metricsModel = MetricsModel()
     let screenShareModel = ScreenShareModel()
+    let chatModel = ChatModel()
     let uuid = UUID()
     var call: Call?
 
@@ -169,6 +171,31 @@ class MeetingModel: NSObject {
         currentMeetingSession.audioVideo.chooseAudioDevice(mediaDevice: audioDevice)
     }
 
+    func sendDataMessage(_ message: String) {
+        do {
+             try currentMeetingSession
+                 .audioVideo
+                 .realtimeSendDataMessage(topic: "chat",
+                                          data: message,
+                                          lifetimeMs: 1000)
+         } catch {
+             logger.error(msg: "Failed to send message!")
+             return
+         }
+
+         let currentTimestamp = NSDate().timeIntervalSince1970
+         let timestamp = TimeStampConversion.formatTimestamp(timestamp: CLong(currentTimestamp) * 1000)
+
+         chatModel
+             .addChatMessage(chatMessage:
+                 ChatMessage(
+                     senderName: self.selfName,
+                     message: message,
+                     timestamp: timestamp,
+                     isSelf: true
+             ))
+    }
+
     private func notify(msg: String) {
         logger.info(msg: msg)
         notifyHandler?(msg)
@@ -187,6 +214,7 @@ class MeetingModel: NSObject {
         audioVideo.addDeviceChangeObserver(observer: self)
         audioVideo.addActiveSpeakerObserver(policy: DefaultActiveSpeakerPolicy(),
                                             observer: self)
+        audioVideo.addRealtimeDataMessageObserver(topic: "chat", observer: self)
     }
 
     private func removeAudioVideoFacadeObservers() {
@@ -197,6 +225,7 @@ class MeetingModel: NSObject {
         audioVideo.removeMetricsObserver(observer: self)
         audioVideo.removeDeviceChangeObserver(observer: self)
         audioVideo.removeActiveSpeakerObserver(observer: self)
+        audioVideo.removeRealtimeDataMessageObserverFromTopic(topic: "chat")
     }
 
     private func configureAudioSession() {
@@ -585,3 +614,12 @@ extension MeetingModel: ActiveSpeakerObserver {
         logWithFunctionName(message: "\(scoresInString)")
     }
 }
+
+// MARK: DataMessageObserver
+
+extension MeetingModel: DataMessageObserver {
+    func dataMessageDidReceived(dataMessage: DataMessage) {
+        chatModel.addDataMessage(dataMessage: dataMessage)
+    }
+}
+

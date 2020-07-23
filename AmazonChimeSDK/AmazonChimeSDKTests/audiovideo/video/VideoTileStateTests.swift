@@ -16,8 +16,8 @@ class VideoTileStateTests: XCTestCase {
     private let pauseState = VideoPauseState.unpaused
     private let videoStreamContentWidth = 720
     private let videoStreamContentHeight = 1280
-
     private var videoTileState: VideoTileState?
+
 
     func testVideoTileStateShouldBeInitialized() {
         videoTileState = VideoTileState(tileId: tileId,

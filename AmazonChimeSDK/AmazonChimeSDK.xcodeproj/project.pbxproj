@@ -104,10 +104,15 @@
 		7CE107642421CC7B00E209D1 /* ActiveSpeakerDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE107602421CC7B00E209D1 /* ActiveSpeakerDetectorTests.swift */; };
 		7CE107652421CC7B00E209D1 /* ActiveSpeakerPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE107612421CC7B00E209D1 /* ActiveSpeakerPolicyTests.swift */; };
 		7CE107662421CC7B00E209D1 /* SchedulerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE107632421CC7B00E209D1 /* SchedulerTests.swift */; };
+		B418163024B79C0600FA62BF /* DataMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B418162F24B79C0600FA62BF /* DataMessage.swift */; };
+		B418163224B79CF100FA62BF /* DataMessageObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B418163124B79CF100FA62BF /* DataMessageObserver.swift */; };
+		B418164724B7EDA800FA62BF /* SendDataMessageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B418164624B7EDA800FA62BF /* SendDataMessageError.swift */; };
 		B46B969323F47FC30056F102 /* DeviceChangeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46B969223F47FC30056F102 /* DeviceChangeObserver.swift */; };
+		B491F3C824BFC761005CF109 /* DataMessageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B491F3C724BFC761005CF109 /* DataMessageTests.swift */; };
 		B4980CA123E78B9A00D2DB64 /* DeviceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4980CA023E78B9A00D2DB64 /* DeviceController.swift */; };
 		B4980CB523E78D1800D2DB64 /* DefaultDeviceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4980CB423E78D1800D2DB64 /* DefaultDeviceController.swift */; };
 		B4980CB823E78F9500D2DB64 /* MediaDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4980CB723E78F9500D2DB64 /* MediaDevice.swift */; };
+		B4AEE47C24BE5A4600ED4B77 /* SendDataMessageErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AEE47B24BE5A4600ED4B77 /* SendDataMessageErrorTests.swift */; };
 		C494800624855B4700A41FF8 /* ConcurrentMutableSetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C494800524855B4700A41FF8 /* ConcurrentMutableSetTests.swift */; };
 		C49B5424247EFD2B002829F1 /* ConcurrentMutableSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49B5423247EFD2B002829F1 /* ConcurrentMutableSet.swift */; };
 		C60D5593246509BA00C2A278 /* Converters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60D5592246509B900C2A278 /* Converters.swift */; };
@@ -233,10 +238,15 @@
 		7CE107602421CC7B00E209D1 /* ActiveSpeakerDetectorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveSpeakerDetectorTests.swift; sourceTree = "<group>"; };
 		7CE107612421CC7B00E209D1 /* ActiveSpeakerPolicyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveSpeakerPolicyTests.swift; sourceTree = "<group>"; };
 		7CE107632421CC7B00E209D1 /* SchedulerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchedulerTests.swift; sourceTree = "<group>"; };
+		B418162F24B79C0600FA62BF /* DataMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataMessage.swift; sourceTree = "<group>"; };
+		B418163124B79CF100FA62BF /* DataMessageObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataMessageObserver.swift; sourceTree = "<group>"; };
+		B418164624B7EDA800FA62BF /* SendDataMessageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendDataMessageError.swift; sourceTree = "<group>"; };
 		B46B969223F47FC30056F102 /* DeviceChangeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceChangeObserver.swift; sourceTree = "<group>"; };
+		B491F3C724BFC761005CF109 /* DataMessageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataMessageTests.swift; sourceTree = "<group>"; };
 		B4980CA023E78B9A00D2DB64 /* DeviceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceController.swift; sourceTree = "<group>"; };
 		B4980CB423E78D1800D2DB64 /* DefaultDeviceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDeviceController.swift; sourceTree = "<group>"; };
 		B4980CB723E78F9500D2DB64 /* MediaDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDevice.swift; sourceTree = "<group>"; };
+		B4AEE47B24BE5A4600ED4B77 /* SendDataMessageErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendDataMessageErrorTests.swift; sourceTree = "<group>"; };
 		C494800524855B4700A41FF8 /* ConcurrentMutableSetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcurrentMutableSetTests.swift; sourceTree = "<group>"; };
 		C49B5423247EFD2B002829F1 /* ConcurrentMutableSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcurrentMutableSet.swift; sourceTree = "<group>"; };
 		C60D5592246509B900C2A278 /* Converters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converters.swift; sourceTree = "<group>"; };
@@ -298,6 +308,7 @@
 				5A6F8181246244C30031AE97 /* MediaError.swift */,
 				00C2509D23E217F700325841 /* PermissionError.swift */,
 				5A9196FD245A4AE000E17CDE /* Versioning.swift */,
+				B418164624B7EDA800FA62BF /* SendDataMessageError.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -376,6 +387,7 @@
 				0083A11523D8CFFD0057027A /* DefaultRealtimeController.swift */,
 				0083A11323D8CFD40057027A /* RealtimeControllerFacade.swift */,
 				0024FCDF23E50A3100637414 /* RealtimeObserver.swift */,
+				B418163124B79CF100FA62BF /* DataMessageObserver.swift */,
 			);
 			path = realtime;
 			sourceTree = "<group>";
@@ -509,6 +521,7 @@
 				5A8B9842240F69C000BA292D /* AttendeeInfo.swift */,
 				5AE121E8240F6ABF0090A2AD /* SignalUpdate.swift */,
 				5AE121D2240F6A8E0090A2AD /* VolumeUpdate.swift */,
+				B418162F24B79C0600FA62BF /* DataMessage.swift */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -562,6 +575,7 @@
 				5AE76F2124203A76009C41FD /* AttendeeInfoTests.swift */,
 				5AE76F1D24203A63009C41FD /* SignalUpdateTests.swift */,
 				5AE76F1F24203A6E009C41FD /* VolumeUpdateTests.swift */,
+				B491F3C724BFC761005CF109 /* DataMessageTests.swift */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -659,6 +673,7 @@
 				5A6F8187246379D80031AE97 /* MediaErrorTests.swift */,
 				5AE76F31242044A6009C41FD /* PermissionErrorTests.swift */,
 				5AF7E00D245B6E86006C7C86 /* VersioningTests.swift */,
+				B4AEE47B24BE5A4600ED4B77 /* SendDataMessageErrorTests.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -876,6 +891,7 @@
 				5A16B94923FCC00100ADAE26 /* AudioClientController.swift in Sources */,
 				5A16B99223FCD95100ADAE26 /* AudioClientObserver.swift in Sources */,
 				5A6F81842463665F0031AE97 /* AudioClientState.swift in Sources */,
+				B418163224B79CF100FA62BF /* DataMessageObserver.swift in Sources */,
 				5A175AB323CFD27400121924 /* AudioVideoControllerFacade.swift in Sources */,
 				5A175AB723CFD28A00121924 /* AudioVideoFacade.swift in Sources */,
 				003B587523E227E5002493AB /* AudioVideoObserver.swift in Sources */,
@@ -918,6 +934,7 @@
 				5A6A209523CB1164000C9157 /* MeetingSession.swift in Sources */,
 				5A6A209623CB1164000C9157 /* MeetingSessionConfiguration.swift in Sources */,
 				5A6A209723CB1164000C9157 /* MeetingSessionCredentials.swift in Sources */,
+				B418163024B79C0600FA62BF /* DataMessage.swift in Sources */,
 				003B588923E22C4F002493AB /* MeetingSessionStatus.swift in Sources */,
 				003B588B23E22C6E002493AB /* MeetingSessionStatusCode.swift in Sources */,
 				F8204ADC23F499410099E3D1 /* MeetingSessionTURNCredentials.swift in Sources */,
@@ -928,6 +945,7 @@
 				0083A11423D8CFD40057027A /* RealtimeControllerFacade.swift in Sources */,
 				0024FCE023E50A3100637414 /* RealtimeObserver.swift in Sources */,
 				7C0D1BEC241ACC7B00280031 /* Scheduler.swift in Sources */,
+				B418164724B7EDA800FA62BF /* SendDataMessageError.swift in Sources */,
 				003B588D23E22CD6002493AB /* SessionStateControllerAction.swift in Sources */,
 				F82D50D723FC752600D8F18C /* SignalStrength.swift in Sources */,
 				5AE121E9240F6ABF0090A2AD /* SignalUpdate.swift in Sources */,
@@ -958,9 +976,11 @@
 				6A01CAE523F8FCAF005C5193 /* ClientMetricsCollectorTests.swift in Sources */,
 				5AE1322F23EA2FB700BF5997 /* ConsoleLoggerTests.swift in Sources */,
 				5A16C0052405E83000ADAE26 /* DictionaryExtensionTests.swift in Sources */,
+				B491F3C824BFC761005CF109 /* DataMessageTests.swift in Sources */,
 				5AE76F2F24204387009C41FD /* LogLevelTests.swift in Sources */,
 				5A0E7317242EA072006636AB /* MediaDeviceTests.swift in Sources */,
 				5AE76F3624204A03009C41FD /* MediaDeviceTypeTests.swift in Sources */,
+				B4AEE47C24BE5A4600ED4B77 /* SendDataMessageErrorTests.swift in Sources */,
 				5A6F8188246379D80031AE97 /* MediaErrorTests.swift in Sources */,
 				5AE1322B23EA2ED300BF5997 /* MeetingSessionConfigurationTests.swift in Sources */,
 				5AE1322D23EA2EE400BF5997 /* MeetingSessionCredentialsTests.swift in Sources */,
