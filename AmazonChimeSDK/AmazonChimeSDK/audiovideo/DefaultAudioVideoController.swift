@@ -44,6 +44,10 @@ import Foundation
             throw PermissionError.audioPermissionError
         }
 
+        if let audioClientObserver = audioClientObserver as? DefaultAudioClientObserver {
+            DefaultAudioClient.shared(logger: logger).delegate = audioClientObserver
+        }
+
         try audioClientController.start(audioFallbackUrl: configuration.urls.audioFallbackUrl,
                                     audioHostUrl: configuration.urls.audioHostUrl,
                                     meetingId: configuration.meetingId,
