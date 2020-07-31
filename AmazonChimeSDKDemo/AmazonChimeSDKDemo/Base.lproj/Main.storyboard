@@ -196,7 +196,7 @@
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QdP-Dc-MY3" userLabel="InputText">
                                                         <rect key="frame" x="8" y="0.0" width="326" height="44"/>
-                                                        <accessibility key="accessibilityConfiguration" identifier="Chat Input"/>
+                                                        <accessibility key="accessibilityConfiguration" identifier="Enter message"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <connections>
@@ -205,6 +205,7 @@
                                                     </textField>
                                                     <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8hJ-Zn-X3o">
                                                         <rect key="frame" x="334" y="0.0" width="80" height="44"/>
+                                                        <accessibility key="accessibilityConfiguration" identifier="Send Message"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="80" id="YBn-zj-dWe"/>
                                                             <constraint firstAttribute="height" constant="44" id="tWX-oc-ZhE"/>
