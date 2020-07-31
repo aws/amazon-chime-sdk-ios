@@ -356,4 +356,8 @@
     [self.logger infoWithMsg:[NSString stringWithFormat:@"Video Tile resumed: tileId: %ld, attendeeId: %@", (long)tileState.tileId, tileState.attendeeId]];
 }
 
+- (void)videoTileSizeDidChangeWithTileState:(VideoTileState *)tileState {
+    [self.logger infoWithMsg:[NSString stringWithFormat:@"Video Tile size changed: tileId: %ld, attendeeId: %@", (long)tileState.tileId, tileState.attendeeId]];
+}
+
 @end
