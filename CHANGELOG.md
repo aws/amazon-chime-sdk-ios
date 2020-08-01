@@ -1,4 +1,4 @@
-## Unreleased
+## [0.8.1] - 2020-07-31
 - Added data message API
 
 ## [0.8.0] - 2020-07-20
