@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>VideoTileState Class Reference</title>
+    <title>DataMessage Class Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Class/VideoTileState" class="dashAnchor"></a>
-    <a title="VideoTileState Class Reference"></a>
+    <a name="//apple_ref/swift/Class/DataMessage" class="dashAnchor"></a>
+    <a title="DataMessage Class Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html"> Docs</a></p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html"> Reference</a>
         <img id="carat" src="../img/carat.png" />
-        VideoTileState Class Reference
+        DataMessage Class Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -247,15 +247,15 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>VideoTileState</h1>
+            <h1>DataMessage</h1>
               <div class="declaration">
                 <div class="language">
                   <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="kt">VideoTileState</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">DataMessage</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
 
                 </div>
               </div>
-            <p><code>VideoTileState</code> encapsulates the state of a <code><a href="../Protocols/VideoTile.html">VideoTile</a></code>.</p>
+            <p>Data message received from server.</p>
 
           </section>
           <section class="section task-group-section">
@@ -264,9 +264,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AmazonChimeSDK@objc(cs)VideoTileState(py)tileId"></a>
-                    <a name="//apple_ref/swift/Property/tileId" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)VideoTileState(py)tileId">tileId</a>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)DataMessage(py)timestampMs"></a>
+                    <a name="//apple_ref/swift/Property/timestampMs" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)DataMessage(py)timestampMs">timestampMs</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -274,14 +274,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Unique Id associated with this tile</p>
+                        <p>Monotonically increasing server ingest time</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">tileId</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">timestampMs</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
 
                         </div>
                       </div>
@@ -291,9 +291,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AmazonChimeSDK@objc(cs)VideoTileState(py)attendeeId"></a>
-                    <a name="//apple_ref/swift/Property/attendeeId" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)VideoTileState(py)attendeeId">attendeeId</a>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)DataMessage(py)topic"></a>
+                    <a name="//apple_ref/swift/Property/topic" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)DataMessage(py)topic">topic</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -301,14 +301,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Id of the user associated with this tile</p>
+                        <p>Topic this message was sent on</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">attendeeId</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">topic</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
@@ -318,9 +318,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AmazonChimeSDK@objc(cs)VideoTileState(py)videoStreamContentWidth"></a>
-                    <a name="//apple_ref/swift/Property/videoStreamContentWidth" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)VideoTileState(py)videoStreamContentWidth">videoStreamContentWidth</a>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)DataMessage(py)data"></a>
+                    <a name="//apple_ref/swift/Property/data" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)DataMessage(py)data">data</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -328,14 +328,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Width of video stream content</p>
+                        <p>Data payload</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">videoStreamContentWidth</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span></code></pre>
 
                         </div>
                       </div>
@@ -345,9 +345,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AmazonChimeSDK@objc(cs)VideoTileState(py)videoStreamContentHeight"></a>
-                    <a name="//apple_ref/swift/Property/videoStreamContentHeight" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)VideoTileState(py)videoStreamContentHeight">videoStreamContentHeight</a>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)DataMessage(py)senderAttendeeId"></a>
+                    <a name="//apple_ref/swift/Property/senderAttendeeId" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)DataMessage(py)senderAttendeeId">senderAttendeeId</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -355,14 +355,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Height of video stream content</p>
+                        <p>Sender attendee</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">videoStreamContentHeight</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">senderAttendeeId</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
@@ -372,9 +372,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AmazonChimeSDK@objc(cs)VideoTileState(py)pauseState"></a>
-                    <a name="//apple_ref/swift/Property/pauseState" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)VideoTileState(py)pauseState">pauseState</a>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)DataMessage(py)senderExternalUserId"></a>
+                    <a name="//apple_ref/swift/Property/senderExternalUserId" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)DataMessage(py)senderExternalUserId">senderExternalUserId</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -382,14 +382,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Current pause state of this tile</p>
+                        <p>Sender attendee external user Id</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">pauseState</span><span class="p">:</span> <span class="kt"><a href="../Enums/VideoPauseState.html">VideoPauseState</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">senderExternalUserId</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
@@ -399,9 +399,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AmazonChimeSDK@objc(cs)VideoTileState(py)isLocalTile"></a>
-                    <a name="//apple_ref/swift/Property/isLocalTile" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)VideoTileState(py)isLocalTile">isLocalTile</a>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)DataMessage(py)throttled"></a>
+                    <a name="//apple_ref/swift/Property/throttled" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)DataMessage(py)throttled">throttled</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -409,14 +409,15 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Whether tile is local or remote tile</p>
+                        <p>true if server throttled or rejected message,
+false if server has posted the message to its recipients or it&rsquo;s not a sender receipt</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">isLocalTile</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">throttled</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
                       </div>
@@ -426,9 +427,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AmazonChimeSDK@objc(cs)VideoTileState(py)isContent"></a>
-                    <a name="//apple_ref/swift/Property/isContent" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)VideoTileState(py)isContent">isContent</a>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)DataMessage(im)initWithTopic:data:senderAttendeeId:senderExternalUserId:timestampMs:throttled:"></a>
+                    <a name="//apple_ref/swift/Method/init(topic:data:senderAttendeeId:senderExternalUserId:timestampMs:throttled:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)DataMessage(im)initWithTopic:data:senderAttendeeId:senderExternalUserId:timestampMs:throttled:">init(topic:<wbr>data:<wbr>senderAttendeeId:<wbr>senderExternalUserId:<wbr>timestampMs:<wbr>throttled:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -436,16 +437,100 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Whether this is screen share</p>
+                        <p>Initiailize a DataMessage object</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">isContent</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">topic</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+            <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span>
+            <span class="nv">senderAttendeeId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+            <span class="nv">senderExternalUserId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+            <span class="nv">timestampMs</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span>
+            <span class="nv">throttled</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>topic</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The topic of this data message belongs to</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>data</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Data payload</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>senderAttendeeId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Attendee Id</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>senderExternalUserId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Attendee external user ID</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>timestampMs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Monotonically increasing server ingest time</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>throttled</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>if server throttled or rejected message</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -453,9 +538,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AmazonChimeSDK@objc(cs)VideoTileState(im)initWithTileId:attendeeId:videoStreamContentWidth:videoStreamContentHeight:pauseState:isLocalTile:"></a>
-                    <a name="//apple_ref/swift/Method/init(tileId:attendeeId:videoStreamContentWidth:videoStreamContentHeight:pauseState:isLocalTile:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)VideoTileState(im)initWithTileId:attendeeId:videoStreamContentWidth:videoStreamContentHeight:pauseState:isLocalTile:">init(tileId:<wbr>attendeeId:<wbr>videoStreamContentWidth:<wbr>videoStreamContentHeight:<wbr>pauseState:<wbr>isLocalTile:<wbr>)</a>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)DataMessage(im)text"></a>
+                    <a name="//apple_ref/swift/Method/text()" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)DataMessage(im)text">text()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -463,20 +548,51 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Marshal data byte array to String</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">tileId</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span>
-            <span class="nv">attendeeId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-            <span class="nv">videoStreamContentWidth</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span>
-            <span class="nv">videoStreamContentHeight</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span>
-            <span class="nv">pauseState</span><span class="p">:</span> <span class="kt"><a href="../Enums/VideoPauseState.html">VideoPauseState</a></span><span class="p">,</span>
-            <span class="nv">isLocalTile</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">text</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="p">?</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>utf8 encoding string of data, null if data contains non utf8 characters</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)DataMessage(im)fromJSON"></a>
+                    <a name="//apple_ref/swift/Method/fromJSON()" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)DataMessage(im)fromJSON">fromJSON()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Try deserialize data byte array to swift basic collection type</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fromJSON</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Any</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>null if not deserializable, or swift basic collection type</p>
                       </div>
                     </section>
                   </div>
