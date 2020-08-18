@@ -1,3 +1,14 @@
+## Unreleased
+
+### Fixed
+- `DefaultDeviceController` now uses the correct `MediaDeviceType` for the default Built-In Speaker. ([#62](https://github.com/aws/amazon-chime-sdk-ios/issues/62))
+
+### Added
+- Added unit test for `DefaultDeviceController`
+
+### Changed
+- **Breaking** the returned label for the Built-In Speaker `MediaDevice` has been changed from "Build-in Speaker" to "Buil*t*-in Speaker
+
 ## [0.8.2] - 2020-08-13
 
 ## [0.8.1] - 2020-07-31

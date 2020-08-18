@@ -34,6 +34,8 @@
 		00C9DC6B23FA393600876B41 /* DefaultVideoTileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C9DC6A23FA393600876B41 /* DefaultVideoTileController.swift */; };
 		00D9DBB2241AE23F00146467 /* DefaultVideoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D9DBB1241AE23F00146467 /* DefaultVideoClient.swift */; };
 		00EB5F612400591800007D3E /* VideoTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EB5F602400591800007D3E /* VideoTile.swift */; };
+		1C38DDD024EC0DA4005524AB /* DeviceControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C38DDCF24EC0DA4005524AB /* DeviceControllerTests.swift */; };
+		1C38DDD224EC0DBA005524AB /* MockVideoClientController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C38DDD124EC0DBA005524AB /* MockVideoClientController.swift */; };
 		5A0E7317242EA072006636AB /* MediaDeviceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E7316242EA072006636AB /* MediaDeviceTests.swift */; };
 		5A0E7319242EA283006636AB /* MeetingSessionStatusCodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E7318242EA283006636AB /* MeetingSessionStatusCodeTests.swift */; };
 		5A0E731B242EA39E006636AB /* VideoTileStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E731A242EA39E006636AB /* VideoTileStateTests.swift */; };
@@ -165,6 +167,8 @@
 		00C9DC6A23FA393600876B41 /* DefaultVideoTileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultVideoTileController.swift; sourceTree = "<group>"; };
 		00D9DBB1241AE23F00146467 /* DefaultVideoClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultVideoClient.swift; sourceTree = "<group>"; };
 		00EB5F602400591800007D3E /* VideoTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTile.swift; sourceTree = "<group>"; };
+		1C38DDCF24EC0DA4005524AB /* DeviceControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceControllerTests.swift; sourceTree = "<group>"; };
+		1C38DDD124EC0DBA005524AB /* MockVideoClientController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockVideoClientController.swift; sourceTree = "<group>"; };
 		5A0E7316242EA072006636AB /* MediaDeviceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDeviceTests.swift; sourceTree = "<group>"; };
 		5A0E7318242EA283006636AB /* MeetingSessionStatusCodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSessionStatusCodeTests.swift; sourceTree = "<group>"; };
 		5A0E731A242EA39E006636AB /* VideoTileStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTileStateTests.swift; sourceTree = "<group>"; };
@@ -594,6 +598,7 @@
 			children = (
 				5A0E7316242EA072006636AB /* MediaDeviceTests.swift */,
 				5AE76F3524204A03009C41FD /* MediaDeviceTypeTests.swift */,
+				1C38DDCF24EC0DA4005524AB /* DeviceControllerTests.swift */,
 			);
 			path = device;
 			sourceTree = "<group>";
@@ -682,6 +687,7 @@
 			isa = PBXGroup;
 			children = (
 				5AE76F15242037A4009C41FD /* MockAudioSession.swift */,
+				1C38DDD124EC0DBA005524AB /* MockVideoClientController.swift */,
 			);
 			path = mocks;
 			sourceTree = "<group>";
@@ -997,8 +1003,10 @@
 				7CE107662421CC7B00E209D1 /* SchedulerTests.swift in Sources */,
 				5AF7E00E245B6E86006C7C86 /* VersioningTests.swift in Sources */,
 				5A6F818E24637BA30031AE97 /* VideoClientStateTests.swift in Sources */,
+				1C38DDD024EC0DA4005524AB /* DeviceControllerTests.swift in Sources */,
 				F8E42DF0247FD86B004C8400 /* ConcurrentDictionaryTests.swift in Sources */,
 				006894F8246B481D00611C75 /* AttendeeStatusTest.swift in Sources */,
+				1C38DDD224EC0DBA005524AB /* MockVideoClientController.swift in Sources */,
 				5AE76F2D24203AEF009C41FD /* VideoPauseStateTests.swift in Sources */,
 				5A0E731B242EA39E006636AB /* VideoTileStateTests.swift in Sources */,
 				5AE76F2724203AAA009C41FD /* VolumeLevelTests.swift in Sources */,
