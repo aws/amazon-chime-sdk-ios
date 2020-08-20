@@ -79,11 +79,15 @@ Unzip and copy the .framework to `AmazonChimeSDK` folder
 
 ### 3. Deploy serverless demo
 
-Deploy the serverless demo from [amazon-chime-sdk-js](https://github.com/aws/amazon-chime-sdk-js)
+Deploy the serverless demo from [amazon-chime-sdk-js](https://github.com/aws/amazon-chime-sdk-js), which returns two urls `https://xxxxx.xxxxx.xxx.com/Prod/` and `https://xxxxx.xxxxx.xxx.com/Prod/v2/` 
+
+Provide `https://xxxxx.xxxxx.xxx.com/Prod/` for mobile demo app.
 
 ### 4. Update Demo App
 
 Update `AppConfiguration.swift` with the URL and region of the serverless demo
+
+> NOTE: use `https://xxxxx.xxxxx.xxx.com/Prod/` instead of v2 url
 
 ### 5. Use Demo App to join meeting
 
