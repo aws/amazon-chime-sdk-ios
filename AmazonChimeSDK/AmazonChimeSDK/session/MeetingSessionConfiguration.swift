@@ -36,6 +36,7 @@ import Foundation
                 urlRewriter: @escaping URLRewriter) {
         self.meetingId = createMeetingResponse.meeting.meetingId
         self.credentials = MeetingSessionCredentials(attendeeId: createAttendeeResponse.attendee.attendeeId,
+                                                     externalUserId: createAttendeeResponse.attendee.externalUserId,
                                                      joinToken: createAttendeeResponse.attendee.joinToken)
         self.urls = MeetingSessionURLs(audioFallbackUrl: createMeetingResponse.meeting.mediaPlacement.audioFallbackUrl,
                                        audioHostUrl: createMeetingResponse.meeting.mediaPlacement.audioHostUrl,

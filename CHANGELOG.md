@@ -1,3 +1,11 @@
+## Unreleased
+
+### Added
+* **Breaking** Added additional `externalUserId` field for `MeetingSessionCredentials`
+
+### Fixed
+* Fixed a bug that attendee events got filtered out due to absence of `externalUserId`
+
 ## [0.8.2] - 2020-08-13
 
 ## [0.8.1] - 2020-07-31

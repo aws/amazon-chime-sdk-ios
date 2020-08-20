@@ -13,6 +13,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     private var audioClient: AudioClient
     private let audioClientStateObservers = ConcurrentMutableSet()
     private var clientMetricsCollector: ClientMetricsCollector
+    private var configuration: MeetingSessionConfiguration
     private var currentAttendeeSet: Set<AttendeeInfo> = Set()
     private var currentAttendeeSignalMap = [AttendeeInfo: SignalStrength]()
     private var currentAttendeeVolumeMap = [AttendeeInfo: VolumeLevel]()
@@ -22,9 +23,11 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
 
     private let audioLock: NSLock
 
-    init(audioClient: AudioClient, clientMetricsCollector: ClientMetricsCollector, audioClientLock: NSLock) {
+    init(audioClient: AudioClient, clientMetricsCollector: ClientMetricsCollector,
+         audioClientLock: NSLock, configuration: MeetingSessionConfiguration) {
         self.audioClient = audioClient
         self.clientMetricsCollector = clientMetricsCollector
+        self.configuration = configuration
         audioLock = audioClientLock
         super.init()
         audioClient.delegate = self
@@ -67,10 +70,8 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         }
 
         let newAttendeeSignalMap = signalUpdate.reduce(into: [AttendeeInfo: SignalStrength]()) {
-            if !$1.externalUserId.isEmpty {
-                let attendeeInfo = AttendeeInfo(attendeeId: $1.profileId, externalUserId: $1.externalUserId)
-                $0[attendeeInfo] = SignalStrength(rawValue: Int(truncating: $1.data))
-            }
+            let attendeeInfo = createAttendeeInfo(attendeeUpdate: $1)
+            $0[attendeeInfo] = SignalStrength(rawValue: Int(truncating: $1.data))
         }
 
         let attendeeSignalDelta = newAttendeeSignalMap.subtracting(dict: currentAttendeeSignalMap)
@@ -92,10 +93,8 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
             return
         }
         let newAttendeeVolumeMap = volumesUpdate.reduce(into: [AttendeeInfo: VolumeLevel]()) {
-            if !$1.externalUserId.isEmpty {
-                let attendeeInfo = AttendeeInfo(attendeeId: $1.profileId, externalUserId: $1.externalUserId)
-                $0[attendeeInfo] = VolumeLevel(rawValue: Int(truncating: $1.data))
-            }
+            let attendeeInfo = createAttendeeInfo(attendeeUpdate: $1)
+            $0[attendeeInfo] = VolumeLevel(rawValue: Int(truncating: $1.data))
         }
 
         let attendeeVolumeDelta = newAttendeeVolumeMap.subtracting(dict: currentAttendeeVolumeMap)
@@ -142,15 +141,13 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         }
 
         let newAttendeeMap = attendeeUpdate
-            .filter { !$0.externalUserId.isEmpty }
             .reduce(into: [AttendeeStatus: Set<AttendeeInfo>]()) { (result, attendeeUpdate) in
             if let status = AttendeeStatus(rawValue: Int(truncating: attendeeUpdate.data)) {
                 if result[status] == nil {
                     result[status] = Set<AttendeeInfo>()
                 }
 
-                result[status]?.insert(AttendeeInfo(attendeeId: attendeeUpdate.profileId,
-                                                    externalUserId: attendeeUpdate.externalUserId))
+                result[status]?.insert(createAttendeeInfo(attendeeUpdate: attendeeUpdate))
             }
         }
 
@@ -181,6 +178,17 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
                 currentAttendeeSet.subtract(attendeesWithDroppedStatus)
             }
         }
+    }
+
+    // Create AttendeeInfo based on AttendeeUpdate, fill up external ID for local attendee
+    private func createAttendeeInfo(attendeeUpdate: AttendeeUpdate) -> AttendeeInfo {
+        var externalUserId: String
+        if attendeeUpdate.externalUserId.isEmpty && attendeeUpdate.profileId == configuration.credentials.attendeeId {
+            externalUserId = configuration.credentials.externalUserId
+        } else {
+            externalUserId = attendeeUpdate.externalUserId
+        }
+        return AttendeeInfo(attendeeId: attendeeUpdate.profileId, externalUserId: externalUserId)
     }
 
     private func handleStateChangeToConnected(newAudioStatus: MeetingSessionStatusCode) {
