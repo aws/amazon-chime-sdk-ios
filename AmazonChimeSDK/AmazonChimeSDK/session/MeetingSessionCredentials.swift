@@ -14,11 +14,15 @@ import Foundation
     /// The attendee id for these credentials.
     public let attendeeId: String
 
-    /// The token that the session will be authenticated with
+    /// The external user Id associated with the attendee.
+    public let externalUserId: String
+
+    /// The token that the session will be authenticated with.
     public let joinToken: String
 
-    public init(attendeeId: String, joinToken: String) {
+    public init(attendeeId: String, externalUserId: String, joinToken: String) {
         self.attendeeId = attendeeId
+        self.externalUserId = externalUserId
         self.joinToken = joinToken
     }
 }
