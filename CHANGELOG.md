@@ -1,9 +1,11 @@
 ## Unreleased
 
 ### Fixed
+- Fixed a bug that attendee events got filtered out due to absence of `externalUserId`
 - `DefaultDeviceController` now uses the correct `MediaDeviceType` for the default Built-In Speaker. ([#62](https://github.com/aws/amazon-chime-sdk-ios/issues/62))
 
 ### Added
+- **Breaking** Added additional `externalUserId` field for `MeetingSessionCredentials`
 - Added unit test for `DefaultDeviceController`
 
 ### Changed
