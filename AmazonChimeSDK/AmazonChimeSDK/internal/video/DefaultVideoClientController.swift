@@ -308,7 +308,8 @@ extension DefaultVideoClientController: VideoClientDelegate {
         clientMetricsCollector.processVideoClientMetrics(metrics: metrics)
     }
 
-    public func videoClientDataMessageReceived(_ messages: [DataMessageInternal]) {
+    public func videoClientDataMessageReceived(_ messages: [DataMessageInternal]?) {
+        guard let messages = messages else { return }
         for message in messages {
             let dataMessage = DataMessage(message: message)
             if let observers = dataMessageObservers[dataMessage.topic] {
