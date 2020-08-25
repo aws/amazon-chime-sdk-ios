@@ -24,10 +24,16 @@ class VideoTileCell: UICollectionViewCell {
 
     weak var delegate: VideoTileCellDelegate?
 
-    func updateCell(name: String, isSelf: Bool, isVideoActive: Bool, tag: Int) {
+    func updateCell(name: String, isSelf: Bool, videoTileState: VideoTileState?, tag: Int) {
+        let isVideoActive = videoTileState != nil
+        let isVideoPausedByUser = isVideoActive && videoTileState?.pauseState == .pausedByUserRequest
+
         attendeeName.text = name
         backgroundColor = .systemGray
         isHidden = false
+
+        // Clean up old video image to prevent frame flicker
+        videoRenderView.renderFrame(frame: nil)
 
         // Self video cell not active
         if isSelf, !isVideoActive {
@@ -44,6 +50,7 @@ class VideoTileCell: UICollectionViewCell {
         onTileButton.isHidden = false
         onTileButton.tag = tag
         onTileButton.addTarget(self, action: #selector(onTileButtonClicked), for: .touchUpInside)
+        onTileButton.isSelected = isVideoPausedByUser
 
         if isSelf {
             onTileButton.setImage(UIImage(named: "switch-camera")?.withRenderingMode(.alwaysTemplate),

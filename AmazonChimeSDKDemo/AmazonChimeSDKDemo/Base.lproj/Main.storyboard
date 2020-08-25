@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -298,7 +298,7 @@
                                         </prototypes>
                                     </tableView>
                                     <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Qja-lL-6xQ">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="608"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="578"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="F0D-d0-6d0">
                                             <size key="itemSize" width="313" height="161"/>
@@ -383,6 +383,40 @@
                                             <userDefinedRuntimeAttribute type="string" keyPath="accessibilityIdentifier" value="Video Collection"/>
                                         </userDefinedRuntimeAttributes>
                                     </collectionView>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eZ2-xQ-Pkf" userLabel="VideoPaginationControlView">
+                                        <rect key="frame" x="0.0" y="578" width="414" height="30"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ce1-zU-74I">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="30"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LyA-wt-IwP">
+                                                        <rect key="frame" x="0.0" y="0.0" width="203" height="30"/>
+                                                        <state key="normal" title="&lt;&lt; Prev Page"/>
+                                                        <connections>
+                                                            <action selector="prevPageButtonClicked:" destination="Sfo-A7-USF" eventType="touchUpInside" id="yky-PK-KLG"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rze-mq-tyX">
+                                                        <rect key="frame" x="211" y="0.0" width="203" height="30"/>
+                                                        <state key="normal" title="Next Page &gt;&gt;"/>
+                                                        <connections>
+                                                            <action selector="nextPageButtonClicked:" destination="Sfo-A7-USF" eventType="touchUpInside" id="ssp-yj-5Tb"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="JS3-J2-l6b"/>
+                                                </constraints>
+                                            </stackView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="ce1-zU-74I" secondAttribute="bottom" id="1gm-UV-ujB"/>
+                                            <constraint firstItem="ce1-zU-74I" firstAttribute="top" secondItem="eZ2-xQ-Pkf" secondAttribute="top" id="3KI-4s-wPO"/>
+                                            <constraint firstItem="ce1-zU-74I" firstAttribute="leading" secondItem="eZ2-xQ-Pkf" secondAttribute="leading" id="EgR-gz-spf"/>
+                                            <constraint firstAttribute="height" constant="30" id="qDY-zs-U1l"/>
+                                            <constraint firstAttribute="trailing" secondItem="ce1-zU-74I" secondAttribute="trailing" id="waA-f9-GQV"/>
+                                        </constraints>
+                                    </view>
                                     <view hidden="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gJX-ez-OMF" userLabel="ScreenView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="608"/>
                                         <subviews>
@@ -461,8 +495,11 @@
                                     <constraint firstItem="pnJ-hW-dw5" firstAttribute="trailing" secondItem="ELJ-Ld-nMt" secondAttribute="trailing" id="1Yz-uf-zle"/>
                                     <constraint firstItem="ELJ-Ld-nMt" firstAttribute="top" secondItem="rZi-u5-BDg" secondAttribute="top" id="2k6-gy-dwL"/>
                                     <constraint firstAttribute="bottom" secondItem="ugK-9v-6P7" secondAttribute="bottom" id="KgX-tr-8GQ"/>
+                                    <constraint firstItem="eZ2-xQ-Pkf" firstAttribute="centerX" secondItem="rZi-u5-BDg" secondAttribute="centerX" id="M12-EQ-qCr"/>
                                     <constraint firstItem="pnJ-hW-dw5" firstAttribute="leading" secondItem="ELJ-Ld-nMt" secondAttribute="leading" id="MUO-kr-ZiN"/>
+                                    <constraint firstAttribute="bottom" secondItem="eZ2-xQ-Pkf" secondAttribute="bottom" id="OgJ-5k-Tk3"/>
                                     <constraint firstItem="Qja-lL-6xQ" firstAttribute="leading" secondItem="rZi-u5-BDg" secondAttribute="leading" id="TEZ-ji-Fy1"/>
+                                    <constraint firstItem="eZ2-xQ-Pkf" firstAttribute="leading" secondItem="rZi-u5-BDg" secondAttribute="leading" id="UIw-g3-OKn"/>
                                     <constraint firstItem="ugK-9v-6P7" firstAttribute="leading" secondItem="rZi-u5-BDg" secondAttribute="leading" id="aWe-uh-kDY"/>
                                     <constraint firstItem="ELJ-Ld-nMt" firstAttribute="leading" secondItem="rZi-u5-BDg" secondAttribute="leading" id="agi-Sl-fmQ"/>
                                     <constraint firstAttribute="bottom" secondItem="ELJ-Ld-nMt" secondAttribute="bottom" id="b7u-jJ-m5k"/>
@@ -471,7 +508,8 @@
                                     <constraint firstItem="pnJ-hW-dw5" firstAttribute="bottom" secondItem="ELJ-Ld-nMt" secondAttribute="bottom" id="gDI-8z-scJ"/>
                                     <constraint firstAttribute="trailing" secondItem="ugK-9v-6P7" secondAttribute="trailing" id="gpx-KY-rwU"/>
                                     <constraint firstAttribute="trailing" secondItem="Qja-lL-6xQ" secondAttribute="trailing" id="jW1-ix-GKK"/>
-                                    <constraint firstAttribute="bottom" secondItem="Qja-lL-6xQ" secondAttribute="bottom" id="lTe-Rn-UWH"/>
+                                    <constraint firstAttribute="bottom" secondItem="Qja-lL-6xQ" secondAttribute="bottom" constant="30" id="lTe-Rn-UWH"/>
+                                    <constraint firstAttribute="trailing" secondItem="eZ2-xQ-Pkf" secondAttribute="trailing" id="rXJ-TW-yce"/>
                                     <constraint firstAttribute="bottom" secondItem="gJX-ez-OMF" secondAttribute="bottom" id="tfP-mj-ZAn"/>
                                     <constraint firstItem="Qja-lL-6xQ" firstAttribute="top" secondItem="rZi-u5-BDg" secondAttribute="top" id="wc9-Zz-Jg7"/>
                                     <constraint firstAttribute="bottom" secondItem="ugK-9v-6P7" secondAttribute="bottom" id="whc-IC-tTh"/>
@@ -623,7 +661,9 @@
                         <outlet property="inputText" destination="QdP-Dc-MY3" id="ibb-Bi-gcg"/>
                         <outlet property="metricsTable" destination="pnJ-hW-dw5" id="uDF-Kl-QTz"/>
                         <outlet property="muteButton" destination="fzH-S4-QOP" id="vmO-mV-2jv"/>
+                        <outlet property="nextVideoPageButton" destination="rze-mq-tyX" id="gz7-bR-78L"/>
                         <outlet property="noScreenViewLabel" destination="a6m-dY-eYQ" id="rMc-sk-tSp"/>
+                        <outlet property="prevVideoPageButton" destination="LyA-wt-IwP" id="kXS-Pr-56y"/>
                         <outlet property="resumeCallKitMeetingButton" destination="3gp-l6-EdL" id="9Da-AF-S8v"/>
                         <outlet property="rosterTable" destination="ELJ-Ld-nMt" id="R2u-1L-jEP"/>
                         <outlet property="screenRenderView" destination="SGw-l9-hMc" id="RQc-8i-6Gl"/>
@@ -633,6 +673,7 @@
                         <outlet property="titleLabel" destination="eGg-Lr-MVg" id="GHP-SY-nSu"/>
                         <outlet property="titleView" destination="awH-B0-U5A" id="bDk-fK-cti"/>
                         <outlet property="videoCollection" destination="Qja-lL-6xQ" id="dIx-E3-6pz"/>
+                        <outlet property="videoPaginationControlView" destination="eZ2-xQ-Pkf" id="oWi-6t-rkS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gja-bz-aQW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
