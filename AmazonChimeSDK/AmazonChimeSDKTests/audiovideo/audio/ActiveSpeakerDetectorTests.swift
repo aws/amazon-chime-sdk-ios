@@ -12,11 +12,11 @@ import Foundation
 import XCTest
 
 class MockaudioClientObserver: AudioClientObserver {
-    func notifyAudioClientObserver(observerFunction: (AudioVideoObserver) -> Void) {}
-    func subscribeToAudioClientStateChange(observer: AudioVideoObserver) {}
-    func subscribeToRealTimeEvents(observer: RealtimeObserver) {}
-    func unsubscribeFromAudioClientStateChange(observer: AudioVideoObserver) {}
-    func unsubscribeFromRealTimeEvents(observer: RealtimeObserver) {}
+    func notifyAudioClientObserver(observerFunction _: (AudioVideoObserver) -> Void) {}
+    func subscribeToAudioClientStateChange(observer _: AudioVideoObserver) {}
+    func subscribeToRealTimeEvents(observer _: RealtimeObserver) {}
+    func unsubscribeFromAudioClientStateChange(observer _: AudioVideoObserver) {}
+    func unsubscribeFromRealTimeEvents(observer _: RealtimeObserver) {}
 }
 
 class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeakerObserver, AudioClientObserver {
@@ -28,7 +28,8 @@ class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeaker
     var scoreChangeAttendees: [AttendeeInfo: Double] = [AttendeeInfo(attendeeId: "", externalUserId: ""): 0.0]
     var scoreIndex = 0
     var activeSpeakerDetector = DefaultActiveSpeakerDetector(
-        audioClientObserver: MockaudioClientObserver(), selfAttendeeId: "")
+        audioClientObserver: MockaudioClientObserver(), selfAttendeeId: ""
+    )
     private let emptyAttendeesReceivedExpectation = XCTestExpectation(
         description: "Is fulfilled when received no attendees in callback")
     private let calculateScoreExpectation = XCTestExpectation(
@@ -48,10 +49,11 @@ class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeaker
     private let halfSeconds = 0.5
 
     override func setUp() {
-        for index in 0...4 {
+        for index in 0 ... 4 {
             attendees.append(AttendeeInfo(
                 attendeeId: "attendee" + String(index),
-                externalUserId: "attendee" + String(index)))
+                externalUserId: "attendee" + String(index)
+            ))
             volumeUpdates.append(VolumeUpdate(attendeeInfo: attendees[index], volumeLevel: volumes[index]))
         }
         calculateScoreExpectation.expectedFulfillmentCount = 5
@@ -124,7 +126,7 @@ class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeaker
         XCTAssertEqual(attendeesReceived, [])
     }
 
-    func calculateScore(attendeeInfo: AttendeeInfo, volume: VolumeLevel) -> Double {
+    func calculateScore(attendeeInfo _: AttendeeInfo, volume _: VolumeLevel) -> Double {
         calculateScoreExpectation.fulfill()
         let returnScore = scoreIndex < 5 ? scores[scoreIndex] : 0.0
         scoreIndex += 1
@@ -136,11 +138,11 @@ class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeaker
         return true
     }
 
-    func subscribeToRealTimeEvents(observer: RealtimeObserver) {
+    func subscribeToRealTimeEvents(observer _: RealtimeObserver) {
         subscribeToRealTimeEventsExpectation.fulfill()
     }
 
-    func unsubscribeFromRealTimeEvents(observer: RealtimeObserver) {
+    func unsubscribeFromRealTimeEvents(observer _: RealtimeObserver) {
         unSubscribeFromRealTimeEventsExpectation.fulfill()
     }
 
@@ -161,7 +163,7 @@ class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeaker
         scoreChangeAttendees = scores
     }
 
-    func notifyAudioClientObserver(observerFunction: (AudioVideoObserver) -> Void) {}
-    func subscribeToAudioClientStateChange(observer: AudioVideoObserver) {}
-    func unsubscribeFromAudioClientStateChange(observer: AudioVideoObserver) {}
+    func notifyAudioClientObserver(observerFunction _: (AudioVideoObserver) -> Void) {}
+    func subscribeToAudioClientStateChange(observer _: AudioVideoObserver) {}
+    func unsubscribeFromAudioClientStateChange(observer _: AudioVideoObserver) {}
 }

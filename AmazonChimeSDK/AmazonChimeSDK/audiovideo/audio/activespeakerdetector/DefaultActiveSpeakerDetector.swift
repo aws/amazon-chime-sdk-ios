@@ -39,12 +39,13 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
             intervalMs: DefaultActiveSpeakerDetector.activityUpdateIntervalMs,
             callback: { [weak self] in
                 guard let strongSelf = self else { return }
-                strongSelf.policiesAndCallbacks.forEach { (_, policyAndCallback) in
-                    strongSelf.speakerScores.forEach { (attendeeInfo, _) in
+                strongSelf.policiesAndCallbacks.forEach { _, policyAndCallback in
+                    strongSelf.speakerScores.forEach { attendeeInfo, _ in
                         let lastTimestamp = strongSelf.mostRecentUpdateTimestamp[attendeeInfo] ?? 0
                         if Int(Double(DefaultActiveSpeakerDetector.activityWaitIntervalMs) *
                             Date.timeIntervalSinceReferenceDate) - lastTimestamp
-                            > DefaultActiveSpeakerDetector.activityWaitIntervalMs {
+                            > DefaultActiveSpeakerDetector.activityWaitIntervalMs
+                        {
                             strongSelf.updateScore(
                                 policy: policyAndCallback.0,
                                 callback: policyAndCallback.1,
@@ -110,7 +111,7 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
         }
     }
 
-    public func hasBandwidthPriorityCallback(hasBandwidthPriority: Bool) {}
+    public func hasBandwidthPriorityCallback(hasBandwidthPriority _: Bool) {}
 
     public func volumeDidChange(volumeUpdates: [VolumeUpdate]) {
         for volumeUpdate in volumeUpdates {
@@ -127,7 +128,7 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
         }
     }
 
-    public func signalStrengthDidChange(signalUpdates: [SignalUpdate]) { }
+    public func signalStrengthDidChange(signalUpdates _: [SignalUpdate]) {}
 
     private func removeAttendeesAndUpdate(attendeeInfo attendeeInfos: [AttendeeInfo]) {
         for attendeeInfo in attendeeInfos {
@@ -147,9 +148,9 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
         removeAttendeesAndUpdate(attendeeInfo: attendeeInfo)
     }
 
-    public func attendeesDidMute(attendeeInfo: [AttendeeInfo]) { }
+    public func attendeesDidMute(attendeeInfo _: [AttendeeInfo]) {}
 
-    public func attendeesDidUnmute(attendeeInfo: [AttendeeInfo]) { }
+    public func attendeesDidUnmute(attendeeInfo _: [AttendeeInfo]) {}
 
     public func attendeesDidJoin(attendeeInfo attendeeInfos: [AttendeeInfo]) {
         for attendeeInfo in attendeeInfos {
@@ -167,8 +168,8 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
         policiesAndCallbacks[observer.observerId] = (policy, observer.activeSpeakerDidDetect)
 
         if observer.activeSpeakerScoreDidChange(scores:) != nil,
-            let scoresCallbackIntervalMs = observer.scoresCallbackIntervalMs {
-
+            let scoresCallbackIntervalMs = observer.scoresCallbackIntervalMs
+        {
             let scoresTimer = IntervalScheduler(intervalMs: scoresCallbackIntervalMs, callback: {
                 DispatchQueue.main.async { [weak self] in
                     guard let strongSelf = self else { return }

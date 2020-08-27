@@ -13,11 +13,14 @@ import XCTest
 
 class ActiveSpeakerPolicyTests: XCTestCase {
     private var activeSpeakerPolicy: DefaultActiveSpeakerPolicy = DefaultActiveSpeakerPolicy(
-        speakerWeight: 0.9, cutoffThreshold: 0.01, takeoverRate: 0.2)
+        speakerWeight: 0.9, cutoffThreshold: 0.01, takeoverRate: 0.2
+    )
     private var attendeeA: AttendeeInfo = AttendeeInfo(
-        attendeeId: "fakeAttendeeIdA", externalUserId: "fakeExternalUserIdA")
+        attendeeId: "fakeAttendeeIdA", externalUserId: "fakeExternalUserIdA"
+    )
     private var attendeeB: AttendeeInfo = AttendeeInfo(
-        attendeeId: "fakeAttendeeIdB", externalUserId: "fakeExternalUserIdB")
+        attendeeId: "fakeAttendeeIdB", externalUserId: "fakeExternalUserIdB"
+    )
 
     private var speakerWeight = 0.9
     private var cutoffThreshold = 0.01
@@ -28,7 +31,8 @@ class ActiveSpeakerPolicyTests: XCTestCase {
         activeSpeakerPolicy = DefaultActiveSpeakerPolicy(
             speakerWeight: speakerWeight,
             cutoffThreshold: cutoffThreshold,
-            takeoverRate: takeoverRate)
+            takeoverRate: takeoverRate
+        )
     }
 
     func testActiveSpeakerShouldGetBandwidthPriority() {
@@ -80,7 +84,8 @@ class ActiveSpeakerPolicyTests: XCTestCase {
         activeSpeakerPolicy = DefaultActiveSpeakerPolicy(
             speakerWeight: speakerWeight,
             cutoffThreshold: cutoffThreshold,
-            takeoverRate: takeoverRate)
+            takeoverRate: takeoverRate
+        )
         let score = activeSpeakerPolicy.calculateScore(attendeeInfo: attendeeA, volume: .high)
         XCTAssertEqual(score, 0.0)
     }

@@ -23,7 +23,8 @@ import Foundation
                 clientMetricsCollector: ClientMetricsCollector,
                 videoClientController: VideoClientController,
                 configuration: MeetingSessionConfiguration,
-                logger: Logger) {
+                logger: Logger)
+    {
         self.audioClientController = audioClientController
         self.audioClientObserver = audioClientObserver
         self.clientMetricsCollector = clientMetricsCollector
@@ -35,7 +36,7 @@ import Foundation
     public func start() throws {
         // By default, start for calls without CallKit integration. Use start(callKitEnabled:)
         // to override the default behavior if the call is integrated with CallKit
-        try self.start(callKitEnabled: false)
+        try start(callKitEnabled: false)
     }
 
     public func start(callKitEnabled: Bool) throws {
@@ -49,15 +50,15 @@ import Foundation
         }
 
         try audioClientController.start(audioFallbackUrl: configuration.urls.audioFallbackUrl,
-                                    audioHostUrl: configuration.urls.audioHostUrl,
-                                    meetingId: configuration.meetingId,
-                                    attendeeId: configuration.credentials.attendeeId,
-                                    joinToken: configuration.credentials.joinToken,
-                                    callKitEnabled: callKitEnabled)
-        videoClientController.start(turnControlUrl: configuration.urls.turnControlUrl,
-                                        signalingUrl: configuration.urls.signalingUrl,
+                                        audioHostUrl: configuration.urls.audioHostUrl,
                                         meetingId: configuration.meetingId,
-                                        joinToken: configuration.credentials.joinToken)
+                                        attendeeId: configuration.credentials.attendeeId,
+                                        joinToken: configuration.credentials.joinToken,
+                                        callKitEnabled: callKitEnabled)
+        videoClientController.start(turnControlUrl: configuration.urls.turnControlUrl,
+                                    signalingUrl: configuration.urls.signalingUrl,
+                                    meetingId: configuration.meetingId,
+                                    joinToken: configuration.credentials.joinToken)
     }
 
     public func stop() {

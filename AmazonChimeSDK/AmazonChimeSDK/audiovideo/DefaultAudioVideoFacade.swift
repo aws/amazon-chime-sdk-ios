@@ -29,8 +29,8 @@ import Foundation
         self.realtimeController = realtimeController
         self.deviceController = deviceController
         self.videoTileController = videoTileController
-        self.configuration = audioVideoController.configuration
-        self.logger = audioVideoController.logger
+        configuration = audioVideoController.configuration
+        logger = audioVideoController.logger
         self.activeSpeakerDetector = activeSpeakerDetector
     }
 
@@ -40,7 +40,7 @@ import Foundation
     }
 
     public func start() throws {
-        try self.start(callKitEnabled: false)
+        try start(callKitEnabled: false)
     }
 
     public func stop() {
@@ -177,5 +177,5 @@ import Foundation
         activeSpeakerDetector.removeActiveSpeakerObserver(observer: observer)
     }
 
-    public func hasBandwidthPriorityCallback(hasBandwidthPriority: Bool) {}
+    public func hasBandwidthPriorityCallback(hasBandwidthPriority _: Bool) {}
 }

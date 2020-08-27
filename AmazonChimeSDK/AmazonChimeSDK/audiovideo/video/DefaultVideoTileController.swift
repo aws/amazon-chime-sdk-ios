@@ -24,7 +24,8 @@ import UIKit
     public func onReceiveFrame(frame: CVPixelBuffer?,
                                videoId: Int,
                                attendeeId: String?,
-                               pauseState: VideoPauseState) {
+                               pauseState: VideoPauseState)
+    {
         var videoStreamContentWidth = 0
         var videoStreamContentHeight = 0
 
@@ -42,7 +43,8 @@ import UIKit
             }
 
             if videoStreamContentWidth != videoTile.state.videoStreamContentWidth ||
-                videoStreamContentHeight != videoTile.state.videoStreamContentHeight {
+                videoStreamContentHeight != videoTile.state.videoStreamContentHeight
+            {
                 videoTile.state.videoStreamContentWidth = videoStreamContentWidth
                 videoTile.state.videoStreamContentHeight = videoStreamContentHeight
                 ObserverUtils.forEach(observers: videoTileObservers) { (videoTileObserver: VideoTileObserver) in
@@ -113,7 +115,8 @@ import UIKit
     private func onAddTrack(tileId: Int,
                             attendeeId: String?,
                             videoStreamContentWidth: Int,
-                            videoStreamContentHeight: Int) {
+                            videoStreamContentHeight: Int)
+    {
         var isLocalTile: Bool
         var thisAttendeeId: String
 

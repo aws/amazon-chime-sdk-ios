@@ -26,7 +26,8 @@ import Foundation
                 audioHostUrl: String,
                 turnControlUrl: String,
                 signalingUrl: String,
-                urlRewriter: URLRewriter) {
+                urlRewriter: URLRewriter)
+    {
         self.audioFallbackUrl = urlRewriter(audioFallbackUrl)
         self.audioHostUrl = urlRewriter(audioHostUrl)
         self.turnControlUrl = urlRewriter(turnControlUrl)

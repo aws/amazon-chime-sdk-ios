@@ -25,7 +25,8 @@ import Foundation
     public let urlRewriter: URLRewriter
 
     public convenience init(createMeetingResponse: CreateMeetingResponse,
-                            createAttendeeResponse: CreateAttendeeResponse) {
+                            createAttendeeResponse: CreateAttendeeResponse)
+    {
         self.init(createMeetingResponse: createMeetingResponse,
                   createAttendeeResponse: createAttendeeResponse,
                   urlRewriter: URLRewriterUtils.defaultUrlRewriter)
@@ -33,16 +34,17 @@ import Foundation
 
     public init(createMeetingResponse: CreateMeetingResponse,
                 createAttendeeResponse: CreateAttendeeResponse,
-                urlRewriter: @escaping URLRewriter) {
-        self.meetingId = createMeetingResponse.meeting.meetingId
-        self.credentials = MeetingSessionCredentials(attendeeId: createAttendeeResponse.attendee.attendeeId,
-                                                     externalUserId: createAttendeeResponse.attendee.externalUserId,
-                                                     joinToken: createAttendeeResponse.attendee.joinToken)
-        self.urls = MeetingSessionURLs(audioFallbackUrl: createMeetingResponse.meeting.mediaPlacement.audioFallbackUrl,
-                                       audioHostUrl: createMeetingResponse.meeting.mediaPlacement.audioHostUrl,
-                                       turnControlUrl: createMeetingResponse.meeting.mediaPlacement.turnControlUrl,
-                                       signalingUrl: createMeetingResponse.meeting.mediaPlacement.signalingUrl,
-                                       urlRewriter: urlRewriter)
+                urlRewriter: @escaping URLRewriter)
+    {
+        meetingId = createMeetingResponse.meeting.meetingId
+        credentials = MeetingSessionCredentials(attendeeId: createAttendeeResponse.attendee.attendeeId,
+                                                externalUserId: createAttendeeResponse.attendee.externalUserId,
+                                                joinToken: createAttendeeResponse.attendee.joinToken)
+        urls = MeetingSessionURLs(audioFallbackUrl: createMeetingResponse.meeting.mediaPlacement.audioFallbackUrl,
+                                  audioHostUrl: createMeetingResponse.meeting.mediaPlacement.audioHostUrl,
+                                  turnControlUrl: createMeetingResponse.meeting.mediaPlacement.turnControlUrl,
+                                  signalingUrl: createMeetingResponse.meeting.mediaPlacement.signalingUrl,
+                                  urlRewriter: urlRewriter)
         self.urlRewriter = urlRewriter
     }
 }

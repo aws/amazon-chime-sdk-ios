@@ -12,23 +12,24 @@ import Foundation
 
 class DefaultAudioClientController: NSObject {
     static var state = AudioClientState.initialized
-    private let audioLock: NSLock
-    private var audioClient: AudioClient
+    private let audioLock: AudioLock
+    private var audioClient: AudioClientProtocol
     private let audioClientObserver: AudioClientObserver
-    private let audioSession: AVAudioSession
+    private let audioSession: AudioSession
     private let audioPortOffset = 200
     private let defaultMicAndSpeaker = false
     private let defaultPort = 0
     private let defaultPresenter = true
 
-    init(audioClient: AudioClient,
+    init(audioClient: AudioClientProtocol,
          audioClientObserver: AudioClientObserver,
-         audioSession: AVAudioSession,
-         audioClientLock: NSLock) {
+         audioSession: AudioSession,
+         audioClientLock: AudioLock)
+    {
         self.audioClient = audioClient
         self.audioClientObserver = audioClientObserver
         self.audioSession = audioSession
-        self.audioLock = audioClientLock
+        audioLock = audioClientLock
 
         super.init()
     }
@@ -48,7 +49,8 @@ extension DefaultAudioClientController: AudioClientController {
                       meetingId: String,
                       attendeeId: String,
                       joinToken: String,
-                      callKitEnabled: Bool) throws {
+                      callKitEnabled: Bool) throws
+    {
         audioLock.lock()
         defer {
             audioLock.unlock()

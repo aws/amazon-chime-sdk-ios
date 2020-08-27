@@ -58,7 +58,7 @@ import Foundation
                 type = .other
             }
         } else {
-            self.type = .other
+            type = .other
         }
     }
 

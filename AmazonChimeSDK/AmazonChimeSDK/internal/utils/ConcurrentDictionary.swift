@@ -32,7 +32,8 @@ import Foundation
     }
 
     func sorted(by order: ((key: Key, value: Value), (key: Key, value: Value)) throws -> Bool)
-        rethrows -> [(key: Key, value: Value)] {
+        rethrows -> [(key: Key, value: Value)]
+    {
         lock.lock()
         defer { lock.unlock() }
         let sorted = try dict.sorted(by: order)

@@ -13,6 +13,7 @@ class MeetingSessionURLsTests: XCTestCase {
     private func rewriteURL(url: String) -> String {
         return url.replacingOccurrences(of: "Url", with: "hello")
     }
+
     func testMeetingSessionURLsShouldBeInitialized() {
         let url = MeetingSessionURLs(audioFallbackUrl: "audioFallbackUrl",
                                      audioHostUrl: "audioHostUrl",

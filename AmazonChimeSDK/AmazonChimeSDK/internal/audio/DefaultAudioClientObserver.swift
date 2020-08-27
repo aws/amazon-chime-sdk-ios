@@ -21,10 +21,11 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     private var currentAudioStatus = MeetingSessionStatusCode.ok
     private let realtimeObservers = ConcurrentMutableSet()
 
-    private let audioLock: NSLock
+    private let audioLock: AudioLock
 
     init(audioClient: AudioClient, clientMetricsCollector: ClientMetricsCollector,
-         audioClientLock: NSLock, configuration: MeetingSessionConfiguration) {
+         audioClientLock: AudioLock, configuration: MeetingSessionConfiguration)
+    {
         self.audioClient = audioClient
         self.clientMetricsCollector = clientMetricsCollector
         self.configuration = configuration
@@ -141,15 +142,15 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         }
 
         let newAttendeeMap = attendeeUpdate
-            .reduce(into: [AttendeeStatus: Set<AttendeeInfo>]()) { (result, attendeeUpdate) in
-            if let status = AttendeeStatus(rawValue: Int(truncating: attendeeUpdate.data)) {
-                if result[status] == nil {
-                    result[status] = Set<AttendeeInfo>()
-                }
+            .reduce(into: [AttendeeStatus: Set<AttendeeInfo>]()) { result, attendeeUpdate in
+                if let status = AttendeeStatus(rawValue: Int(truncating: attendeeUpdate.data)) {
+                    if result[status] == nil {
+                        result[status] = Set<AttendeeInfo>()
+                    }
 
-                result[status]?.insert(createAttendeeInfo(attendeeUpdate: attendeeUpdate))
+                    result[status]?.insert(createAttendeeInfo(attendeeUpdate: attendeeUpdate))
+                }
             }
-        }
 
         if let attendeesWithJoinedStatus = newAttendeeMap[AttendeeStatus.joined] {
             let attendeesJoined = attendeesWithJoinedStatus.subtracting(currentAttendeeSet)
@@ -183,7 +184,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     // Create AttendeeInfo based on AttendeeUpdate, fill up external ID for local attendee
     private func createAttendeeInfo(attendeeUpdate: AttendeeUpdate) -> AttendeeInfo {
         var externalUserId: String
-        if attendeeUpdate.externalUserId.isEmpty && attendeeUpdate.profileId == configuration.credentials.attendeeId {
+        if attendeeUpdate.externalUserId.isEmpty, attendeeUpdate.profileId == configuration.credentials.attendeeId {
             externalUserId = configuration.credentials.externalUserId
         } else {
             externalUserId = attendeeUpdate.externalUserId
@@ -287,7 +288,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
 
 extension DefaultAudioClientObserver: AudioClientObserver {
     func notifyAudioClientObserver(observerFunction: @escaping (_ observer: AudioVideoObserver) -> Void) {
-        ObserverUtils.forEach(observers: self.audioClientStateObservers) { (observer: AudioVideoObserver) in
+        ObserverUtils.forEach(observers: audioClientStateObservers) { (observer: AudioVideoObserver) in
             observerFunction(observer)
         }
     }

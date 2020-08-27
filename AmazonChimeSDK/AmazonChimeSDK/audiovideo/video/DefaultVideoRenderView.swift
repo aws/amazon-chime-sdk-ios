@@ -19,7 +19,7 @@ import VideoToolbox
         }
     }
 
-    public override var contentMode: UIView.ContentMode {
+    override public var contentMode: UIView.ContentMode {
         willSet(newContentMode) {
             if !scalingContentModes.contains(newContentMode) {
                 os_log("""
@@ -44,7 +44,7 @@ import VideoToolbox
         initImageView()
     }
 
-    public override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         imageView = UIImageView()
         super.init(frame: frame)
 

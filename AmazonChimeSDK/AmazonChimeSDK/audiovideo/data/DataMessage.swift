@@ -6,8 +6,8 @@
 //  SPDX-License-Identifier: Apache-2.0
 //
 
-import Foundation
 import AmazonChimeSDKMedia
+import Foundation
 
 /// Data message received from server.
 @objcMembers public class DataMessage: NSObject {
@@ -44,7 +44,8 @@ import AmazonChimeSDKMedia
                 senderAttendeeId: String,
                 senderExternalUserId: String,
                 timestampMs: Int,
-                throttled: Bool) {
+                throttled: Bool)
+    {
         self.topic = topic
         self.data = data
         self.senderAttendeeId = senderAttendeeId
@@ -68,14 +69,14 @@ import AmazonChimeSDKMedia
     /// Marshal data byte array to String
     /// - Returns: utf8 encoding string of data, null if data contains non utf8 characters
     public func text() -> String? {
-        return String(data: self.data, encoding: .utf8)
+        return String(data: data, encoding: .utf8)
     }
 
     /// Try deserialize data byte array to swift basic collection type
     /// - Returns: null if not deserializable, or swift basic collection type
     public func fromJSON() -> Any? {
         do {
-            let json = try JSONSerialization.jsonObject(with: self.data)
+            let json = try JSONSerialization.jsonObject(with: data)
             return json
         } catch {
             return nil

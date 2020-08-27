@@ -36,13 +36,14 @@ import Foundation
                 videoStreamContentWidth: Int,
                 videoStreamContentHeight: Int,
                 pauseState: VideoPauseState,
-                isLocalTile: Bool) {
+                isLocalTile: Bool)
+    {
         self.tileId = tileId
         self.attendeeId = attendeeId
         self.videoStreamContentWidth = videoStreamContentWidth
         self.videoStreamContentHeight = videoStreamContentHeight
         self.pauseState = pauseState
         self.isLocalTile = isLocalTile
-        self.isContent = attendeeId.hasSuffix(Constants.modality)
+        isContent = attendeeId.hasSuffix(Constants.modality)
     }
 }

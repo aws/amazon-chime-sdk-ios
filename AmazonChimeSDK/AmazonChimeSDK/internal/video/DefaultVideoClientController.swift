@@ -37,8 +37,9 @@ class DefaultVideoClientController: NSObject {
     init(videoClient: VideoClient,
          clientMetricsCollector: ClientMetricsCollector,
          configuration: MeetingSessionConfiguration,
-         logger: Logger) {
-        self.defaultVideoClient = videoClient
+         logger: Logger)
+    {
+        defaultVideoClient = videoClient
         self.clientMetricsCollector = clientMetricsCollector
         self.configuration = configuration
         self.logger = logger
@@ -52,7 +53,8 @@ class DefaultVideoClientController: NSObject {
         let defaultAgent = "(\(model); iOS \(systemVersion); Scale/\(String(format: "%.2f", scaleFactor)))"
         if let dict = Bundle.main.infoDictionary {
             if let identifier = dict[kCFBundleExecutableKey as String] ?? dict[kCFBundleIdentifierKey as String],
-                let version = dict[kCFBundleVersionKey as String] {
+                let version = dict[kCFBundleVersionKey as String]
+            {
                 return "\(identifier)/\(version) \(defaultAgent)"
             }
         }
@@ -91,11 +93,12 @@ class DefaultVideoClientController: NSObject {
             let jsonDecoder = JSONDecoder()
             do {
                 let turnCredentials: MeetingSessionTURNCredentials = try jsonDecoder.decode(
-                    MeetingSessionTURNCredentials.self, from: data)
+                    MeetingSessionTURNCredentials.self, from: data
+                )
 
                 let uriSize = turnCredentials.uris.count
                 let uris = UnsafeMutablePointer<UnsafePointer<Int8>?>.allocate(capacity: uriSize)
-                for index in 0..<uriSize {
+                for index in 0 ..< uriSize {
                     let uri = self.configuration.urlRewriter(turnCredentials.uris[index])
                     uris.advanced(by: index).pointee = (uri as NSString).utf8String
                 }
@@ -106,7 +109,8 @@ class DefaultVideoClientController: NSObject {
                     ttl: UInt64(turnCredentials.ttl),
                     signaling_url: (signalingUrl as NSString).utf8String,
                     turn_data_uris: uris,
-                    size: Int32(uriSize))
+                    size: Int32(uriSize)
+                )
 
                 self.videoClient?.updateTurnCreds(turnResponse, turn: VIDEO_CLIENT_TURN_FEATURE_ON)
             } catch {
@@ -232,14 +236,14 @@ extension DefaultVideoClientController: VideoClientDelegate {
     }
 
     // swiftlint:enable function_parameter_count
-    public func videoClientIsConnecting(_ client: VideoClient?) {
+    public func videoClientIsConnecting(_: VideoClient?) {
         logger.info(msg: "videoClientIsConnecting")
         ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
             observer.videoSessionDidStartConnecting()
         }
     }
 
-    public func videoClientDidConnect(_ client: VideoClient?, controlStatus: Int32) {
+    public func videoClientDidConnect(_: VideoClient?, controlStatus: Int32) {
         logger.info(msg: "videoClientDidConnect, \(controlStatus)")
         ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
             switch Int(controlStatus) {
@@ -254,7 +258,7 @@ extension DefaultVideoClientController: VideoClientDelegate {
         }
     }
 
-    public func videoClientDidFail(_ client: VideoClient?, status: video_client_status_t, controlStatus: Int32) {
+    public func videoClientDidFail(_: VideoClient?, status _: video_client_status_t, controlStatus _: Int32) {
         logger.info(msg: "videoClientDidFail")
         ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
             observer.videoSessionDidStopWithStatus(sessionStatus:
@@ -262,18 +266,18 @@ extension DefaultVideoClientController: VideoClientDelegate {
         }
     }
 
-    public func videoClientDidStop(_ client: VideoClient?) {
+    public func videoClientDidStop(_: VideoClient?) {
         logger.info(msg: "videoClientDidStop")
         ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
             observer.videoSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus(statusCode: .ok))
         }
     }
 
-    public func videoClient(_ client: VideoClient?, cameraSendIsAvailable available: Bool) {
+    public func videoClient(_: VideoClient?, cameraSendIsAvailable _: Bool) {
         logger.info(msg: "videoClientCameraSendIsAvailable")
     }
 
-    public func videoClientRequestTurnCreds(_ videoClient: VideoClient?) {
+    public func videoClientRequestTurnCreds(_: VideoClient?) {
         guard
             let turnControlUrl = turnControlUrl,
             let joinToken = self.joinToken,
@@ -327,7 +331,8 @@ extension DefaultVideoClientController: VideoClientController {
     public func start(turnControlUrl: String,
                       signalingUrl: String,
                       meetingId: String,
-                      joinToken: String) {
+                      joinToken: String)
+    {
         self.turnControlUrl = turnControlUrl
         self.signalingUrl = signalingUrl
         self.meetingId = meetingId
@@ -487,7 +492,8 @@ extension DefaultVideoClientController: VideoClientController {
             }
             container.withUnsafeBytes { (bufferRawBufferPointer) -> Void in
                 if let bufferPointer = bufferRawBufferPointer
-                    .baseAddress {
+                    .baseAddress
+                {
                     videoClient?.sendDataMessage(topic,
                                                  data: bufferPointer.assumingMemoryBound(to: Int8.self),
                                                  lifetimeMs: lifetimeMs)

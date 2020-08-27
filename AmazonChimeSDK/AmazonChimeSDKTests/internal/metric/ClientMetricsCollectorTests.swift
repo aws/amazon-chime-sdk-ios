@@ -33,7 +33,7 @@ class ClientMetricsCollectorTests: XCTestCase, MetricsObserver {
     func testOnMetricsReceiveShouldNotBeCalledBeforeInterval() {
         let audioClientMetrics = [
             serverPostJbMic1sPacketsLostPercent: 1,
-            clientPostJbSpk1sPacketsLostPercent: 2
+            clientPostJbSpk1sPacketsLostPercent: 2,
         ]
         clientMetricsCollector?.processAudioClientMetrics(metrics: audioClientMetrics)
 
@@ -44,7 +44,7 @@ class ClientMetricsCollectorTests: XCTestCase, MetricsObserver {
     func testOnMetricsReceiveShouldBeCalledAfterInterval() {
         let audioClientMetrics = [
             serverPostJbMic1sPacketsLostPercent: 1,
-            clientPostJbSpk1sPacketsLostPercent: 2
+            clientPostJbSpk1sPacketsLostPercent: 2,
         ]
 
         // Wait at least a second and next time we process metrics we should receive the callback
@@ -59,7 +59,7 @@ class ClientMetricsCollectorTests: XCTestCase, MetricsObserver {
 
     func testNonObservableMetricShouldNotBeEmitted() {
         let audioClientMetrics = [
-            clientMicDeviceFramesLostPercent: 1
+            clientMicDeviceFramesLostPercent: 1,
         ]
 
         // Wait at least a second and next time we process metrics we should receive the callback
@@ -71,7 +71,7 @@ class ClientMetricsCollectorTests: XCTestCase, MetricsObserver {
 
     func testInvalidMetricShouldNotBeEmitted() {
         let audioClientMetrics = [
-            999: 1
+            999: 1,
         ]
 
         // Wait at least a second and next time we process metrics we should receive the callback

@@ -19,7 +19,7 @@ import Foundation
 
     override public func isEqual(_ object: Any?) -> Bool {
         if let other = object as? AttendeeInfo {
-            return self.attendeeId == other.attendeeId
+            return attendeeId == other.attendeeId
         }
         return false
     }

@@ -14,7 +14,8 @@ class MeetingSessionCredentialsTests: XCTestCase {
         let credentials = MeetingSessionCredentials(
             attendeeId: "attendeeId",
             externalUserId: "externalUserId",
-            joinToken: "joinToken")
+            joinToken: "joinToken"
+        )
 
         XCTAssertEqual(credentials.attendeeId, "attendeeId")
         XCTAssertEqual(credentials.externalUserId, "externalUserId")

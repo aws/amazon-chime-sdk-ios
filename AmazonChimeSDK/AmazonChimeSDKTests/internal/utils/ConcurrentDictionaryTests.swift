@@ -14,7 +14,7 @@ class ConcurrentDictionaryTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        self.dict = ConcurrentDictionary()
+        dict = ConcurrentDictionary()
     }
 
     func testPutNonNilAndGetShouldWork() {
@@ -36,7 +36,7 @@ class ConcurrentDictionaryTests: XCTestCase {
 
         var sum: Int = 0
         var count: Int = 0
-        dict.forEach { (_, value) in
+        dict.forEach { _, value in
             count += 1
             sum += value
         }
@@ -88,7 +88,7 @@ class ConcurrentDictionaryTests: XCTestCase {
         }
 
         wait(for: [backgroundThreadEndedExpectation, mainThreadEndedExpectation], timeout: 5)
-        XCTAssertEqual(self.dict["?"], 2)
+        XCTAssertEqual(dict["?"], 2)
     }
 
     func testThreadSafetyShouldFailForNormalDict() {

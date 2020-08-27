@@ -9,14 +9,14 @@
 import Foundation
 
 @objcMembers public class DefaultRealtimeController: RealtimeControllerFacade {
-
     private let audioClientController: AudioClientController
     private let audioClientObserver: AudioClientObserver
     private let videoClientController: VideoClientController
 
     public init(audioClientController: AudioClientController,
                 audioClientObserver: AudioClientObserver,
-                videoClientController: VideoClientController) {
+                videoClientController: VideoClientController)
+    {
         self.audioClientController = audioClientController
         self.audioClientObserver = audioClientObserver
         self.videoClientController = videoClientController

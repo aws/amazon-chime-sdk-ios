@@ -11,12 +11,13 @@ import AVFoundation
 @objcMembers public class DefaultDeviceController: DeviceController {
     let videoClientController: VideoClientController
     let logger: Logger
-    let audioSession: AVAudioSession
+    let audioSession: AudioSession
     let deviceChangeObservers = ConcurrentMutableSet()
 
-    public init(audioSession: AVAudioSession,
+    public init(audioSession: AudioSession,
                 videoClientController: VideoClientController,
-                logger: Logger) {
+                logger: Logger)
+    {
         self.videoClientController = videoClientController
         self.logger = logger
         self.audioSession = audioSession
@@ -56,7 +57,8 @@ import AVFoundation
     @objc private func handleSystemAudioChange(notification: Notification) {
         guard let userInfo = notification.userInfo,
             let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
-            let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue) else {
+            let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue)
+        else {
             return
         }
 

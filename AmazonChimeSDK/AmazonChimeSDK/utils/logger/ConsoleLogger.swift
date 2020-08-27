@@ -67,7 +67,7 @@ import os
             return
         }
 
-        let logMessage = "[\(LogLevel.allCases[type.rawValue])] \(self.name) - " + msg
+        let logMessage = "[\(LogLevel.allCases[type.rawValue])] \(name) - " + msg
 
         switch type {
         case .DEFAULT:
