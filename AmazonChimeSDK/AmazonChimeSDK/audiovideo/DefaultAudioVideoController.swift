@@ -39,11 +39,6 @@ import Foundation
     }
 
     public func start(callKitEnabled: Bool) throws {
-        let audioPermissionStatus = AVAudioSession.sharedInstance().recordPermission
-        if audioPermissionStatus == .denied || audioPermissionStatus == .undetermined {
-            throw PermissionError.audioPermissionError
-        }
-
         if let audioClientObserver = audioClientObserver as? DefaultAudioClientObserver {
             DefaultAudioClient.shared(logger: logger).delegate = audioClientObserver
         }
@@ -55,9 +50,9 @@ import Foundation
                                     joinToken: configuration.credentials.joinToken,
                                     callKitEnabled: callKitEnabled)
         videoClientController.start(turnControlUrl: configuration.urls.turnControlUrl,
-                                        signalingUrl: configuration.urls.signalingUrl,
-                                        meetingId: configuration.meetingId,
-                                        joinToken: configuration.credentials.joinToken)
+                                    signalingUrl: configuration.urls.signalingUrl,
+                                    meetingId: configuration.meetingId,
+                                    joinToken: configuration.credentials.joinToken)
     }
 
     public func stop() {
@@ -72,7 +67,7 @@ import Foundation
 
     public func removeAudioVideoObserver(observer: AudioVideoObserver) {
         audioClientObserver.unsubscribeFromAudioClientStateChange(observer: observer)
-        videoClientController.unsubscribeToVideoClientStateChange(observer: observer)
+        videoClientController.unsubscribeFromVideoClientStateChange(observer: observer)
     }
 
     public func addMetricsObserver(observer: MetricsObserver) {

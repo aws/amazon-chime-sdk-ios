@@ -123,6 +123,7 @@
 		C6DA0B2924F71C1C00028F2B /* AudioSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DA0B2824F71C1C00028F2B /* AudioSession.swift */; };
 		C6DA0B5B24F80BAC00028F2B /* AudioClientProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DA0B5A24F80BAC00028F2B /* AudioClientProtocol.swift */; };
 		C6DA0B5D24F8107000028F2B /* AudioLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DA0B5C24F8107000028F2B /* AudioLock.swift */; };
+		C6DA0B6224F961AA00028F2B /* DefaultAudioVideoControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DA0B6124F961AA00028F2B /* DefaultAudioVideoControllerTests.swift */; };
 		F8204ADC23F499410099E3D1 /* MeetingSessionTURNCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8204ADB23F499410099E3D1 /* MeetingSessionTURNCredentials.swift */; };
 		F82D50D723FC752600D8F18C /* SignalStrength.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D50C223FC732300D8F18C /* SignalStrength.swift */; };
 		F82D50D823FC752600D8F18C /* VolumeLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D50C323FC732300D8F18C /* VolumeLevel.swift */; };
@@ -261,6 +262,7 @@
 		C6DA0B2824F71C1C00028F2B /* AudioSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSession.swift; sourceTree = "<group>"; };
 		C6DA0B5A24F80BAC00028F2B /* AudioClientProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioClientProtocol.swift; sourceTree = "<group>"; };
 		C6DA0B5C24F8107000028F2B /* AudioLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioLock.swift; sourceTree = "<group>"; };
+		C6DA0B6124F961AA00028F2B /* DefaultAudioVideoControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAudioVideoControllerTests.swift; sourceTree = "<group>"; };
 		F8204ADB23F499410099E3D1 /* MeetingSessionTURNCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSessionTURNCredentials.swift; sourceTree = "<group>"; };
 		F82D50C223FC732300D8F18C /* SignalStrength.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalStrength.swift; sourceTree = "<group>"; };
 		F82D50C323FC732300D8F18C /* VolumeLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeLevel.swift; sourceTree = "<group>"; };
@@ -555,6 +557,7 @@
 				5A631A52242993AE00C8DAF3 /* video */,
 				5AE76F2424203AA2009C41FD /* SignalStrengthTests.swift */,
 				5AE76F2624203AAA009C41FD /* VolumeLevelTests.swift */,
+				C6DA0B6124F961AA00028F2B /* DefaultAudioVideoControllerTests.swift */,
 			);
 			path = audiovideo;
 			sourceTree = "<group>";
@@ -1010,6 +1013,7 @@
 				5AE1323323EA972C00BF5997 /* MeetingSessionURLsTests.swift in Sources */,
 				C6DA0B2624F7118000028F2B /* DefaultAudioClientControllerTests.swift in Sources */,
 				5AE76F2924203AB8009C41FD /* ObservableMetricTests.swift in Sources */,
+				C6DA0B6224F961AA00028F2B /* DefaultAudioVideoControllerTests.swift in Sources */,
 				5AE76F32242044A6009C41FD /* PermissionErrorTests.swift in Sources */,
 				5AE76F2524203AA2009C41FD /* SignalStrengthTests.swift in Sources */,
 				5AE76F1E24203A63009C41FD /* SignalUpdateTests.swift in Sources */,
