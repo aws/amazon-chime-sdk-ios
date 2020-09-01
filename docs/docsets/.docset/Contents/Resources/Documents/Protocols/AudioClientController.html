@@ -8,6 +8,9 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
     <a name="//apple_ref/swift/Protocol/AudioClientController" class="dashAnchor"></a>
@@ -15,6 +18,11 @@
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html"> Docs</a></p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -250,6 +258,7 @@
             <h1>AudioClientController</h1>
               <div class="declaration">
                 <div class="language">
+                  
                   <pre class="highlight swift"><code><span class="kd">@objc</span>
 <span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">AudioClientController</span></code></pre>
 
@@ -265,7 +274,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioClientController(im)setMuteWithMute:"></a>
                     <a name="//apple_ref/swift/Method/setMute(mute:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioClientController(im)setMuteWithMute:">setMute(mute:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioClientController(im)setMuteWithMute:">setMute(mute:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -291,7 +300,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioClientController(im)startWithAudioFallbackUrl:audioHostUrl:meetingId:attendeeId:joinToken:callKitEnabled:error:"></a>
                     <a name="//apple_ref/swift/Method/start(audioFallbackUrl:audioHostUrl:meetingId:attendeeId:joinToken:callKitEnabled:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioClientController(im)startWithAudioFallbackUrl:audioHostUrl:meetingId:attendeeId:joinToken:callKitEnabled:error:">start(audioFallbackUrl:audioHostUrl:meetingId:attendeeId:joinToken:callKitEnabled:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioClientController(im)startWithAudioFallbackUrl:audioHostUrl:meetingId:attendeeId:joinToken:callKitEnabled:error:">start(audioFallbackUrl:<wbr>audioHostUrl:<wbr>meetingId:<wbr>attendeeId:<wbr>joinToken:<wbr>callKitEnabled:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -305,7 +314,12 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">start</span><span class="p">(</span><span class="nv">audioFallbackUrl</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">audioHostUrl</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">meetingId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">attendeeId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">joinToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">callKitEnabled</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">start</span><span class="p">(</span><span class="nv">audioFallbackUrl</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+           <span class="nv">audioHostUrl</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+           <span class="nv">meetingId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+           <span class="nv">attendeeId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+           <span class="nv">joinToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+           <span class="nv">callKitEnabled</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="k">throws</span></code></pre>
 
                         </div>
                       </div>
@@ -343,8 +357,8 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-08-13)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-09-01)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

@@ -8,6 +8,9 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
     <a name="//apple_ref/swift/Protocol/VideoTileControllerFacade" class="dashAnchor"></a>
@@ -15,6 +18,11 @@
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html"> Docs</a></p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -250,6 +258,7 @@
             <h1>VideoTileControllerFacade</h1>
               <div class="declaration">
                 <div class="language">
+                  
                   <pre class="highlight swift"><code><span class="kd">@objc</span>
 <span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">VideoTileControllerFacade</span></code></pre>
 
@@ -268,7 +277,7 @@ in the <code>videoTileDidAdd</code> and <code>videoTileDidRemove</code> callback
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade(im)bindVideoViewWithVideoView:tileId:"></a>
                     <a name="//apple_ref/swift/Method/bindVideoView(videoView:tileId:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade(im)bindVideoViewWithVideoView:tileId:">bindVideoView(videoView:tileId:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade(im)bindVideoViewWithVideoView:tileId:">bindVideoView(videoView:<wbr>tileId:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -327,7 +336,7 @@ after the completion of this API</p>
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade(im)unbindVideoViewWithTileId:"></a>
                     <a name="//apple_ref/swift/Method/unbindVideoView(tileId:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade(im)unbindVideoViewWithTileId:">unbindVideoView(tileId:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade(im)unbindVideoViewWithTileId:">unbindVideoView(tileId:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -374,7 +383,7 @@ after the completion of this API</p>
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade(im)addVideoTileObserverWithObserver:"></a>
                     <a name="//apple_ref/swift/Method/addVideoTileObserver(observer:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade(im)addVideoTileObserverWithObserver:">addVideoTileObserver(observer:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade(im)addVideoTileObserverWithObserver:">addVideoTileObserver(observer:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -420,7 +429,7 @@ after the completion of this API</p>
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade(im)removeVideoTileObserverWithObserver:"></a>
                     <a name="//apple_ref/swift/Method/removeVideoTileObserver(observer:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade(im)removeVideoTileObserverWithObserver:">removeVideoTileObserver(observer:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade(im)removeVideoTileObserverWithObserver:">removeVideoTileObserver(observer:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -466,7 +475,7 @@ after the completion of this API</p>
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade(im)pauseRemoteVideoTileWithTileId:"></a>
                     <a name="//apple_ref/swift/Method/pauseRemoteVideoTile(tileId:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade(im)pauseRemoteVideoTileWithTileId:">pauseRemoteVideoTile(tileId:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade(im)pauseRemoteVideoTileWithTileId:">pauseRemoteVideoTile(tileId:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -512,7 +521,7 @@ after the completion of this API</p>
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade(im)resumeRemoteVideoTileWithTileId:"></a>
                     <a name="//apple_ref/swift/Method/resumeRemoteVideoTile(tileId:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade(im)resumeRemoteVideoTileWithTileId:">resumeRemoteVideoTile(tileId:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade(im)resumeRemoteVideoTileWithTileId:">resumeRemoteVideoTile(tileId:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -558,8 +567,8 @@ after the completion of this API</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-08-13)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-09-01)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

@@ -8,6 +8,9 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
     <a name="//apple_ref/swift/Protocol/RealtimeControllerFacade" class="dashAnchor"></a>
@@ -15,6 +18,11 @@
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html"> Docs</a></p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -250,6 +258,7 @@
             <h1>RealtimeControllerFacade</h1>
               <div class="declaration">
                 <div class="language">
+                  
                   <pre class="highlight swift"><code><span class="kd">@objc</span>
 <span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">RealtimeControllerFacade</span></code></pre>
 
@@ -335,7 +344,7 @@ volume/mute/signal/attendee callbacks that can be used to render in the UI.</p>
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)addRealtimeObserverWithObserver:"></a>
                     <a name="//apple_ref/swift/Method/addRealtimeObserver(observer:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)addRealtimeObserverWithObserver:">addRealtimeObserver(observer:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)addRealtimeObserverWithObserver:">addRealtimeObserver(observer:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -381,7 +390,7 @@ volume/mute/signal/attendee callbacks that can be used to render in the UI.</p>
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)removeRealtimeObserverWithObserver:"></a>
                     <a name="//apple_ref/swift/Method/removeRealtimeObserver(observer:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)removeRealtimeObserverWithObserver:">removeRealtimeObserver(observer:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)removeRealtimeObserverWithObserver:">removeRealtimeObserver(observer:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -427,7 +436,7 @@ volume/mute/signal/attendee callbacks that can be used to render in the UI.</p>
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)addRealtimeDataMessageObserverWithTopic:observer:"></a>
                     <a name="//apple_ref/swift/Method/addRealtimeDataMessageObserver(topic:observer:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)addRealtimeDataMessageObserverWithTopic:observer:">addRealtimeDataMessageObserver(topic:observer:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)addRealtimeDataMessageObserverWithTopic:observer:">addRealtimeDataMessageObserver(topic:<wbr>observer:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -485,7 +494,7 @@ volume/mute/signal/attendee callbacks that can be used to render in the UI.</p>
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)removeRealtimeDataMessageObserverFromTopicWithTopic:"></a>
                     <a name="//apple_ref/swift/Method/removeRealtimeDataMessageObserverFromTopic(topic:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)removeRealtimeDataMessageObserverFromTopicWithTopic:">removeRealtimeDataMessageObserverFromTopic(topic:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)removeRealtimeDataMessageObserverFromTopicWithTopic:">removeRealtimeDataMessageObserverFromTopic(topic:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -531,7 +540,7 @@ volume/mute/signal/attendee callbacks that can be used to render in the UI.</p>
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)realtimeSendDataMessageWithTopic:data:lifetimeMs:error:"></a>
                     <a name="//apple_ref/swift/Method/realtimeSendDataMessage(topic:data:lifetimeMs:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)realtimeSendDataMessageWithTopic:data:lifetimeMs:error:">realtimeSendDataMessage(topic:data:lifetimeMs:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)realtimeSendDataMessageWithTopic:data:lifetimeMs:error:">realtimeSendDataMessage(topic:<wbr>data:<wbr>lifetimeMs:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -606,8 +615,8 @@ volume/mute/signal/attendee callbacks that can be used to render in the UI.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-08-13)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-09-01)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
