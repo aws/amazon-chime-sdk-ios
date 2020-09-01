@@ -8,6 +8,9 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
     <a name="//apple_ref/swift/Class/DefaultActiveSpeakerDetector" class="dashAnchor"></a>
@@ -15,6 +18,11 @@
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html"> Docs</a></p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -250,6 +258,7 @@
             <h1>DefaultActiveSpeakerDetector</h1>
               <div class="declaration">
                 <div class="language">
+                  
                   <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="kt">DefaultActiveSpeakerDetector</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ActiveSpeakerDetectorFacade.html">ActiveSpeakerDetectorFacade</a></span><span class="p">,</span> <span class="kt"><a href="../Protocols/RealtimeObserver.html">RealtimeObserver</a></span></code></pre>
 
@@ -265,7 +274,7 @@
                     <code>
                     <a name="/s:14AmazonChimeSDK28DefaultActiveSpeakerDetectorC19audioClientObserver14selfAttendeeIdAcA05AudioiJ0_p_SStcfc"></a>
                     <a name="//apple_ref/swift/Method/init(audioClientObserver:selfAttendeeId:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14AmazonChimeSDK28DefaultActiveSpeakerDetectorC19audioClientObserver14selfAttendeeIdAcA05AudioiJ0_p_SStcfc">init(audioClientObserver:selfAttendeeId:)</a>
+                    <a class="token" href="#/s:14AmazonChimeSDK28DefaultActiveSpeakerDetectorC19audioClientObserver14selfAttendeeIdAcA05AudioiJ0_p_SStcfc">init(audioClientObserver:<wbr>selfAttendeeId:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -294,7 +303,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)ActiveSpeakerDetectorFacade(im)hasBandwidthPriorityCallbackWithHasBandwidthPriority:"></a>
                     <a name="//apple_ref/swift/Method/hasBandwidthPriorityCallback(hasBandwidthPriority:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)ActiveSpeakerDetectorFacade(im)hasBandwidthPriorityCallbackWithHasBandwidthPriority:">hasBandwidthPriorityCallback(hasBandwidthPriority:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)ActiveSpeakerDetectorFacade(im)hasBandwidthPriorityCallbackWithHasBandwidthPriority:">hasBandwidthPriorityCallback(hasBandwidthPriority:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -320,7 +329,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)volumeDidChangeWithVolumeUpdates:"></a>
                     <a name="//apple_ref/swift/Method/volumeDidChange(volumeUpdates:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)volumeDidChangeWithVolumeUpdates:">volumeDidChange(volumeUpdates:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)volumeDidChangeWithVolumeUpdates:">volumeDidChange(volumeUpdates:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -346,7 +355,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)signalStrengthDidChangeWithSignalUpdates:"></a>
                     <a name="//apple_ref/swift/Method/signalStrengthDidChange(signalUpdates:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)signalStrengthDidChangeWithSignalUpdates:">signalStrengthDidChange(signalUpdates:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)signalStrengthDidChangeWithSignalUpdates:">signalStrengthDidChange(signalUpdates:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -372,7 +381,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidLeaveWithAttendeeInfo:"></a>
                     <a name="//apple_ref/swift/Method/attendeesDidLeave(attendeeInfo:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidLeaveWithAttendeeInfo:">attendeesDidLeave(attendeeInfo:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidLeaveWithAttendeeInfo:">attendeesDidLeave(attendeeInfo:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -398,7 +407,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidDropWithAttendeeInfo:"></a>
                     <a name="//apple_ref/swift/Method/attendeesDidDrop(attendeeInfo:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidDropWithAttendeeInfo:">attendeesDidDrop(attendeeInfo:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidDropWithAttendeeInfo:">attendeesDidDrop(attendeeInfo:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -424,7 +433,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidMuteWithAttendeeInfo:"></a>
                     <a name="//apple_ref/swift/Method/attendeesDidMute(attendeeInfo:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidMuteWithAttendeeInfo:">attendeesDidMute(attendeeInfo:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidMuteWithAttendeeInfo:">attendeesDidMute(attendeeInfo:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -450,7 +459,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidUnmuteWithAttendeeInfo:"></a>
                     <a name="//apple_ref/swift/Method/attendeesDidUnmute(attendeeInfo:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidUnmuteWithAttendeeInfo:">attendeesDidUnmute(attendeeInfo:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidUnmuteWithAttendeeInfo:">attendeesDidUnmute(attendeeInfo:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -476,7 +485,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidJoinWithAttendeeInfo:"></a>
                     <a name="//apple_ref/swift/Method/attendeesDidJoin(attendeeInfo:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidJoinWithAttendeeInfo:">attendeesDidJoin(attendeeInfo:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidJoinWithAttendeeInfo:">attendeesDidJoin(attendeeInfo:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -502,7 +511,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)ActiveSpeakerDetectorFacade(im)addActiveSpeakerObserverWithPolicy:observer:"></a>
                     <a name="//apple_ref/swift/Method/addActiveSpeakerObserver(policy:observer:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)ActiveSpeakerDetectorFacade(im)addActiveSpeakerObserverWithPolicy:observer:">addActiveSpeakerObserver(policy:observer:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)ActiveSpeakerDetectorFacade(im)addActiveSpeakerObserverWithPolicy:observer:">addActiveSpeakerObserver(policy:<wbr>observer:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -531,7 +540,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)ActiveSpeakerDetectorFacade(im)removeActiveSpeakerObserverWithObserver:"></a>
                     <a name="//apple_ref/swift/Method/removeActiveSpeakerObserver(observer:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)ActiveSpeakerDetectorFacade(im)removeActiveSpeakerObserverWithObserver:">removeActiveSpeakerObserver(observer:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)ActiveSpeakerDetectorFacade(im)removeActiveSpeakerObserverWithObserver:">removeActiveSpeakerObserver(observer:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -557,8 +566,8 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-08-13)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-09-01)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

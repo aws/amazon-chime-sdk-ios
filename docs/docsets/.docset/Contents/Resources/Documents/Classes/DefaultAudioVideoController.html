@@ -8,6 +8,9 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
     <a name="//apple_ref/swift/Class/DefaultAudioVideoController" class="dashAnchor"></a>
@@ -15,6 +18,11 @@
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html"> Docs</a></p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -250,6 +258,7 @@
             <h1>DefaultAudioVideoController</h1>
               <div class="declaration">
                 <div class="language">
+                  
                   <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="kt">DefaultAudioVideoController</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/AudioVideoControllerFacade.html">AudioVideoControllerFacade</a></span></code></pre>
 
@@ -317,7 +326,7 @@
                     <code>
                     <a name="/s:14AmazonChimeSDK27DefaultAudioVideoControllerC011audioClientG00hI8Observer22clientMetricsCollector05videoiG013configuration6loggerAcA0eiG0_p_AA0eiJ0_pAA0ilM0_pAA0fiG0_pAA27MeetingSessionConfigurationCAA6Logger_ptcfc"></a>
                     <a name="//apple_ref/swift/Method/init(audioClientController:audioClientObserver:clientMetricsCollector:videoClientController:configuration:logger:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14AmazonChimeSDK27DefaultAudioVideoControllerC011audioClientG00hI8Observer22clientMetricsCollector05videoiG013configuration6loggerAcA0eiG0_p_AA0eiJ0_pAA0ilM0_pAA0fiG0_pAA27MeetingSessionConfigurationCAA6Logger_ptcfc">init(audioClientController:audioClientObserver:clientMetricsCollector:videoClientController:configuration:logger:)</a>
+                    <a class="token" href="#/s:14AmazonChimeSDK27DefaultAudioVideoControllerC011audioClientG00hI8Observer22clientMetricsCollector05videoiG013configuration6loggerAcA0eiG0_p_AA0eiJ0_pAA0ilM0_pAA0fiG0_pAA27MeetingSessionConfigurationCAA6Logger_ptcfc">init(audioClientController:<wbr>audioClientObserver:<wbr>clientMetricsCollector:<wbr>videoClientController:<wbr>configuration:<wbr>logger:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -374,7 +383,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startWithCallKitEnabled:error:"></a>
                     <a name="//apple_ref/swift/Method/start(callKitEnabled:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startWithCallKitEnabled:error:">start(callKitEnabled:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startWithCallKitEnabled:error:">start(callKitEnabled:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -426,7 +435,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)addAudioVideoObserverWithObserver:"></a>
                     <a name="//apple_ref/swift/Method/addAudioVideoObserver(observer:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)addAudioVideoObserverWithObserver:">addAudioVideoObserver(observer:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)addAudioVideoObserverWithObserver:">addAudioVideoObserver(observer:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -452,7 +461,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)removeAudioVideoObserverWithObserver:"></a>
                     <a name="//apple_ref/swift/Method/removeAudioVideoObserver(observer:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)removeAudioVideoObserverWithObserver:">removeAudioVideoObserver(observer:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)removeAudioVideoObserverWithObserver:">removeAudioVideoObserver(observer:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -478,7 +487,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)addMetricsObserverWithObserver:"></a>
                     <a name="//apple_ref/swift/Method/addMetricsObserver(observer:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)addMetricsObserverWithObserver:">addMetricsObserver(observer:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)addMetricsObserverWithObserver:">addMetricsObserver(observer:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -504,7 +513,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)removeMetricsObserverWithObserver:"></a>
                     <a name="//apple_ref/swift/Method/removeMetricsObserver(observer:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)removeMetricsObserverWithObserver:">removeMetricsObserver(observer:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)removeMetricsObserverWithObserver:">removeMetricsObserver(observer:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -634,8 +643,8 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-08-13)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-09-01)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

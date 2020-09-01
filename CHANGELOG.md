@@ -1,4 +1,4 @@
-## Unreleased
+## [0.9.0] - 2020-09-01
 
 ### Added
 * **Breaking** Added additional `externalUserId` field for `MeetingSessionCredentials`
