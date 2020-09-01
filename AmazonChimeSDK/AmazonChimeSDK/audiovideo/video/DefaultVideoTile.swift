@@ -21,13 +21,14 @@ import VideoToolbox
                 videoStreamContentWidth: Int,
                 videoStreamContentHeight: Int,
                 isLocalTile: Bool,
-                logger: Logger) {
-        self.state = VideoTileState(tileId: tileId,
-                                    attendeeId: attendeeId,
-                                    videoStreamContentWidth: videoStreamContentWidth,
-                                    videoStreamContentHeight: videoStreamContentHeight,
-                                    pauseState: .unpaused,
-                                    isLocalTile: isLocalTile)
+                logger: Logger)
+    {
+        state = VideoTileState(tileId: tileId,
+                               attendeeId: attendeeId,
+                               videoStreamContentWidth: videoStreamContentWidth,
+                               videoStreamContentHeight: videoStreamContentHeight,
+                               pauseState: .unpaused,
+                               isLocalTile: isLocalTile)
         self.logger = logger
     }
 
@@ -44,7 +45,7 @@ import VideoToolbox
 
     public func unbind() {
         logger.info(
-            msg: "Unbinding the view from tile: tileId:  \(state.tileId), attendeeId: \(state.attendeeId)"
+            msg: "Unbinding the view from tile: tileId: \(state.tileId), attendeeId: \(state.attendeeId)"
         )
         videoRenderView = nil
     }
