@@ -32,9 +32,6 @@ class VideoTileCell: UICollectionViewCell {
         backgroundColor = .systemGray
         isHidden = false
 
-        // Clean up old video image to prevent frame flicker
-        videoRenderView.renderFrame(frame: nil)
-
         // Self video cell not active
         if isSelf, !isVideoActive {
             onTileButton.isHidden = true
@@ -74,6 +71,8 @@ class VideoTileCell: UICollectionViewCell {
         videoRenderView.backgroundColor = .systemGray
         videoRenderView.isHidden = true
         videoRenderView.mirror = false
+        // Clean up old video image to prevent frame flicker
+        videoRenderView.renderFrame(frame: nil)
     }
 
     @objc func onTileButtonClicked(_ sender: UIButton) {

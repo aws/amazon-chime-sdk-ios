@@ -13,7 +13,7 @@ class VideoModel: NSObject {
     private let maxRemoteVideoTileCount = 8
     private let remoteVideoTileCountPerPage = 2
 
-    private var remoteVideoPageNumber = 1
+    private var currentRemoteVideoPageIndex = 0
 
     private var selfVideoTileState: VideoTileState?
     private var remoteVideoTileStates: [(Int, VideoTileState)] = []
@@ -32,12 +32,21 @@ class VideoModel: NSObject {
         return remoteVideoCountInCurrentPage + 1
     }
 
+    var canGoToPrevRemoteVideoPage: Bool {
+        return currentRemoteVideoPageIndex > 0
+    }
+
+    var canGoToNextRemoteVideoPage: Bool {
+        let maxRemoteVideoPageIndex = Int(ceil(Double(currentRemoteVideoCount) / Double(remoteVideoTileCountPerPage))) - 1
+        return currentRemoteVideoPageIndex < maxRemoteVideoPageIndex
+    }
+
     private var currentRemoteVideoCount: Int {
         return remoteVideoTileStates.count
     }
 
-    var remoteVideoStatesInCurrentPage: [(Int, VideoTileState)] {
-        let remoteVideoStartIndex = (remoteVideoPageNumber - 1) * remoteVideoTileCountPerPage
+    private var remoteVideoStatesInCurrentPage: [(Int, VideoTileState)] {
+        let remoteVideoStartIndex = currentRemoteVideoPageIndex * remoteVideoTileCountPerPage
         let remoteVideoEndIndex = min(currentRemoteVideoCount, remoteVideoStartIndex + remoteVideoTileCountPerPage) - 1
 
         if remoteVideoEndIndex < remoteVideoStartIndex {
@@ -57,6 +66,10 @@ class VideoModel: NSObject {
 
     private var isMaximumRemoteVideoReached: Bool {
         return currentRemoteVideoCount >= maxRemoteVideoTileCount
+    }
+
+    func isRemoteVideoDisplaying(tileId: Int) -> Bool {
+        return remoteVideoStatesInCurrentPage.contains(where: { $0.0 == tileId })
     }
 
     func updateRemoteVideoStatesBasedOnActiveSpeakers(activeSpeakers: [AttendeeInfo]) {
@@ -105,7 +118,7 @@ class VideoModel: NSObject {
     }
 
     func getPreviousRemoteVideoPage(completion: @escaping (Bool) -> Void) {
-        if remoteVideoPageNumber <= 1 {
+        if !canGoToPrevRemoteVideoPage {
             completion(false)
             return
         }
@@ -113,13 +126,12 @@ class VideoModel: NSObject {
         for remoteVideoTileState in remoteVideoStatesInCurrentPage {
             audioVideoFacade.pauseRemoteVideoTile(tileId: remoteVideoTileState.0)
         }
-        remoteVideoPageNumber -= 1
+        currentRemoteVideoPageIndex -= 1
         completion(true)
     }
 
     func getNextRemoteVideoPage(completion: @escaping (Bool) -> Void) {
-        let maxPageNumber = Int(ceil(Double(currentRemoteVideoCount) / Double(remoteVideoTileCountPerPage)))
-        if remoteVideoPageNumber >= maxPageNumber {
+        if !canGoToNextRemoteVideoPage {
             completion(false)
             return
         }
@@ -127,12 +139,12 @@ class VideoModel: NSObject {
         for remoteVideoTileState in remoteVideoStatesInCurrentPage {
             audioVideoFacade.pauseRemoteVideoTile(tileId: remoteVideoTileState.0)
         }
-        remoteVideoPageNumber += 1
+        currentRemoteVideoPageIndex += 1
         completion(true)
     }
 
-    func revalidateRemoteVideoPageNumber() {
-        while remoteVideoPageNumber != 1, remoteVideoCountInCurrentPage == 0 {
+    func revalidateRemoteVideoPageIndex() {
+        while canGoToPrevRemoteVideoPage, remoteVideoCountInCurrentPage == 0 {
             getPreviousRemoteVideoPage(completion: { _ in })
         }
     }

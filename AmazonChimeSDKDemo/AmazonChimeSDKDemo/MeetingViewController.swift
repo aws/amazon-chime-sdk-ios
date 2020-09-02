@@ -135,6 +135,8 @@ class MeetingViewController: UIViewController {
         }
         meetingModel.videoModel.videoUpdatedHandler = { [weak self] in
             meetingModel.videoModel.resumeAllRemoteVideosInCurrentPageExceptUserPausedVideos()
+            self?.prevVideoPageButton.isEnabled = meetingModel.videoModel.canGoToPrevRemoteVideoPage
+            self?.nextVideoPageButton.isEnabled = meetingModel.videoModel.canGoToNextRemoteVideoPage
             self?.videoCollection.reloadData()
         }
         meetingModel.videoModel.localVideoUpdatedHandler = { [weak self] in
@@ -174,6 +176,8 @@ class MeetingViewController: UIViewController {
         }
         endButton.tintColor = .red
         resumeCallKitMeetingButton.isHidden = true
+        prevVideoPageButton.isEnabled = false
+        nextVideoPageButton.isEnabled = false
 
         // Segmented Controler
         segmentedControl.selectedSegmentIndex = SegmentedControlIndex.attendees.rawValue

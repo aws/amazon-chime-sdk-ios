@@ -517,7 +517,7 @@ extension MeetingModel: VideoTileObserver {
                     if success {
                         if self.activeMode == .video {
                             // If the video is not currently being displayed, pause it
-                            if !self.videoModel.remoteVideoStatesInCurrentPage.contains(where: { $0.0 == tileState.tileId }) {
+                            if !self.videoModel.isRemoteVideoDisplaying(tileId: tileState.tileId) {
                                 self.currentMeetingSession.audioVideo.pauseRemoteVideoTile(tileId: tileState.tileId)
                             }
                             self.videoModel.videoUpdatedHandler?()
@@ -551,7 +551,7 @@ extension MeetingModel: VideoTileObserver {
         } else {
             videoModel.removeRemoteVideoTileState(tileState, completion: { success in
                 if success {
-                    self.videoModel.revalidateRemoteVideoPageNumber()
+                    self.videoModel.revalidateRemoteVideoPageIndex()
                     if self.activeMode == .video {
                         self.videoModel.videoUpdatedHandler?()
                     }

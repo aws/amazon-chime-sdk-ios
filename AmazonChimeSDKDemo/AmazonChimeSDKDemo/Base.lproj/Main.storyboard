@@ -389,14 +389,14 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ce1-zU-74I">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="30"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LyA-wt-IwP">
+                                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LyA-wt-IwP">
                                                         <rect key="frame" x="0.0" y="0.0" width="203" height="30"/>
                                                         <state key="normal" title="&lt;&lt; Prev Page"/>
                                                         <connections>
                                                             <action selector="prevPageButtonClicked:" destination="Sfo-A7-USF" eventType="touchUpInside" id="yky-PK-KLG"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rze-mq-tyX">
+                                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rze-mq-tyX">
                                                         <rect key="frame" x="211" y="0.0" width="203" height="30"/>
                                                         <state key="normal" title="Next Page &gt;&gt;"/>
                                                         <connections>
