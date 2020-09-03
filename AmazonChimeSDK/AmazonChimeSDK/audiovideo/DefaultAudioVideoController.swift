@@ -44,11 +44,11 @@ import Foundation
         }
 
         try audioClientController.start(audioFallbackUrl: configuration.urls.audioFallbackUrl,
-                                    audioHostUrl: configuration.urls.audioHostUrl,
-                                    meetingId: configuration.meetingId,
-                                    attendeeId: configuration.credentials.attendeeId,
-                                    joinToken: configuration.credentials.joinToken,
-                                    callKitEnabled: callKitEnabled)
+                                        audioHostUrl: configuration.urls.audioHostUrl,
+                                        meetingId: configuration.meetingId,
+                                        attendeeId: configuration.credentials.attendeeId,
+                                        joinToken: configuration.credentials.joinToken,
+                                        callKitEnabled: callKitEnabled)
         videoClientController.start(turnControlUrl: configuration.urls.turnControlUrl,
                                     signalingUrl: configuration.urls.signalingUrl,
                                     meetingId: configuration.meetingId,
