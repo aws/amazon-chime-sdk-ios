@@ -39,6 +39,11 @@ class MeetingViewController: UIViewController {
     // Video
     @IBOutlet var videoCollection: UICollectionView!
 
+    // Video Pagination Control
+    @IBOutlet var videoPaginationControlView: UIView!
+    @IBOutlet var prevVideoPageButton: UIButton!
+    @IBOutlet var nextVideoPageButton: UIButton!
+
     // Metrics
     @IBOutlet var metricsTable: UITableView!
 
@@ -129,6 +134,9 @@ class MeetingViewController: UIViewController {
             self?.metricsTable.reloadData()
         }
         meetingModel.videoModel.videoUpdatedHandler = { [weak self] in
+            meetingModel.videoModel.resumeAllRemoteVideosInCurrentPageExceptUserPausedVideos()
+            self?.prevVideoPageButton.isEnabled = meetingModel.videoModel.canGoToPrevRemoteVideoPage
+            self?.nextVideoPageButton.isEnabled = meetingModel.videoModel.canGoToNextRemoteVideoPage
             self?.videoCollection.reloadData()
         }
         meetingModel.videoModel.localVideoUpdatedHandler = { [weak self] in
@@ -168,6 +176,8 @@ class MeetingViewController: UIViewController {
         }
         endButton.tintColor = .red
         resumeCallKitMeetingButton.isHidden = true
+        prevVideoPageButton.isEnabled = false
+        nextVideoPageButton.isEnabled = false
 
         // Segmented Controler
         segmentedControl.selectedSegmentIndex = SegmentedControlIndex.attendees.rawValue
@@ -197,6 +207,7 @@ class MeetingViewController: UIViewController {
     private func switchSubview(mode: MeetingModel.ActiveMode) {
         rosterTable.isHidden = true
         videoCollection.isHidden = true
+        videoPaginationControlView.isHidden = true
         screenView.isHidden = true
         screenRenderView.isHidden = true
         noScreenViewLabel.isHidden = true
@@ -219,6 +230,7 @@ class MeetingViewController: UIViewController {
         case .video:
             videoCollection.reloadData()
             videoCollection.isHidden = false
+            videoPaginationControlView.isHidden = false
         case .screenShare:
             screenView.isHidden = false
             if meetingModel?.screenShareModel.isAvailable ?? false {
@@ -313,6 +325,16 @@ class MeetingViewController: UIViewController {
         meetingModel?.resumeCallKitMeeting()
     }
 
+    @IBAction func prevPageButtonClicked(_ sender: UIButton) {
+        meetingModel?.videoModel.getPreviousRemoteVideoPage()
+        meetingModel?.videoModel.videoUpdatedHandler?()
+    }
+
+    @IBAction func nextPageButtonClicked(_ sender: UIButton) {
+        meetingModel?.videoModel.getNextRemoteVideoPage()
+        meetingModel?.videoModel.videoUpdatedHandler?()
+    }
+
     @objc private func keyboardShowHandler(notification: NSNotification) {
         //Need to calculate keyboard exact size due to Apple suggestions
         guard let info: NSDictionary = notification.userInfo as NSDictionary? else {
@@ -387,7 +409,6 @@ extension MeetingViewController: UICollectionViewDataSource {
         let isSelf = indexPath.item == 0
         let videoTileState = meetingModel.videoModel.getVideoTileState(for: indexPath)
         let displayName = meetingModel.getVideoTileDisplayName(for: indexPath)
-        let isVideoActive = (videoTileState != nil)
 
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: videoTileCellReuseIdentifier,
                                                             for: indexPath) as? VideoTileCell else {
@@ -396,7 +417,7 @@ extension MeetingViewController: UICollectionViewDataSource {
 
         cell.updateCell(name: displayName,
                         isSelf: isSelf,
-                        isVideoActive: isVideoActive,
+                        videoTileState: videoTileState,
                         tag: indexPath.row)
         cell.delegate = meetingModel.videoModel
 
@@ -405,6 +426,9 @@ extension MeetingViewController: UICollectionViewDataSource {
                 cell.videoRenderView.mirror = true
             }
             meetingModel.bind(videoRenderView: cell.videoRenderView, tileId: tileState.tileId)
+        } else if isSelf {
+            // If the tileState is nil and it's for local video, bind the current cell to the local tile (tileId=0)
+            meetingModel.bind(videoRenderView: cell.videoRenderView, tileId: 0)
         }
 
         return cell
