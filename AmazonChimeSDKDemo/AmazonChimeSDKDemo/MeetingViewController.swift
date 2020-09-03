@@ -326,23 +326,13 @@ class MeetingViewController: UIViewController {
     }
 
     @IBAction func prevPageButtonClicked(_ sender: UIButton) {
-        meetingModel?.videoModel.getPreviousRemoteVideoPage(completion: { [weak self] success in
-            if success {
-                self?.meetingModel?.videoModel.videoUpdatedHandler?()
-            } else {
-                self?.logger.error(msg: "Failed to get the previous remote video page")
-            }
-        })
+        meetingModel?.videoModel.getPreviousRemoteVideoPage()
+        meetingModel?.videoModel.videoUpdatedHandler?()
     }
 
     @IBAction func nextPageButtonClicked(_ sender: UIButton) {
-        meetingModel?.videoModel.getNextRemoteVideoPage(completion: { [weak self] success in
-            if success {
-                self?.meetingModel?.videoModel.videoUpdatedHandler?()
-            } else {
-                self?.logger.error(msg: "Failed to get the next remote video page")
-            }
-        })
+        meetingModel?.videoModel.getNextRemoteVideoPage()
+        meetingModel?.videoModel.videoUpdatedHandler?()
     }
 
     @objc private func keyboardShowHandler(notification: NSNotification) {

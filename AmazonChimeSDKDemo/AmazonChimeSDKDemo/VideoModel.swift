@@ -117,35 +117,23 @@ class VideoModel: NSObject {
         }
     }
 
-    func getPreviousRemoteVideoPage(completion: @escaping (Bool) -> Void) {
-        if !canGoToPrevRemoteVideoPage {
-            completion(false)
-            return
-        }
-
+    func getPreviousRemoteVideoPage() {
         for remoteVideoTileState in remoteVideoStatesInCurrentPage {
             audioVideoFacade.pauseRemoteVideoTile(tileId: remoteVideoTileState.0)
         }
         currentRemoteVideoPageIndex -= 1
-        completion(true)
     }
 
-    func getNextRemoteVideoPage(completion: @escaping (Bool) -> Void) {
-        if !canGoToNextRemoteVideoPage {
-            completion(false)
-            return
-        }
-
+    func getNextRemoteVideoPage() {
         for remoteVideoTileState in remoteVideoStatesInCurrentPage {
             audioVideoFacade.pauseRemoteVideoTile(tileId: remoteVideoTileState.0)
         }
         currentRemoteVideoPageIndex += 1
-        completion(true)
     }
 
     func revalidateRemoteVideoPageIndex() {
         while canGoToPrevRemoteVideoPage, remoteVideoCountInCurrentPage == 0 {
-            getPreviousRemoteVideoPage(completion: { _ in })
+            getPreviousRemoteVideoPage()
         }
     }
 
