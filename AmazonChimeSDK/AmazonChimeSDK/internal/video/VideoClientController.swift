@@ -23,9 +23,9 @@ import Foundation
     func getCurrentDevice() -> VideoDevice?
     func getConfiguration() -> MeetingSessionConfiguration
     func subscribeToVideoClientStateChange(observer: AudioVideoObserver)
-    func unsubscribeToVideoClientStateChange(observer: AudioVideoObserver)
+    func unsubscribeFromVideoClientStateChange(observer: AudioVideoObserver)
     func subscribeToVideoTileControllerObservers(observer: VideoTileController)
-    func unsubscribeToVideoTileControllerObservers(observer: VideoTileController)
+    func unsubscribeFromVideoTileControllerObservers(observer: VideoTileController)
     func pauseResumeRemoteVideo(_ videoId: UInt32, pause: Bool)
     func subscribeToReceiveDataMessage(topic: String, observer: DataMessageObserver)
     func unsubscribeFromReceiveDataMessageFromTopic(topic: String)
