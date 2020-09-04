@@ -343,7 +343,7 @@ extension MeetingModel: AudioVideoObserver {
 
     func audioSessionDidStart(reconnecting: Bool) {
         notifyHandler?("Audio successfully started. Reconnecting: \(reconnecting)")
-        logWithFunctionName(message: "reconnecting \(reconnecting)")
+        logWithFunctionName(message: "reconnecting \(reconnecting), device \(currentMeetingSession.audioVideo.getActiveAudioDevice()?.label ?? "none")")
         if !reconnecting {
             call?.isConnectedHandler?()
         }

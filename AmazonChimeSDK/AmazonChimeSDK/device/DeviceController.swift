@@ -36,4 +36,8 @@ import Foundation
     /// Get currently used video device
     /// - Returns: a media device or nil if no device is present
     func getActiveCamera() -> MediaDevice?
+
+    /// Get currently used audio device
+    /// - Returns: a media device or nil if no device is present
+    func getActiveAudioDevice() -> MediaDevice?
 }

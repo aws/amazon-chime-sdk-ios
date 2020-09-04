@@ -1,4 +1,9 @@
 ## Unreleased
+
+### Added
+* Added `getActiveAudioDevice` in `DefaultDeviceController`
+
+### Removed
 * **Breaking** Removed audio permission check in `DefaultAudioVideoController` which is performed in `DefaultAudioClientController`. For developers who has their own `AudioClientController` implementation, please make sure to check audio permission in `start()`.
 
 ## [0.9.0] - 2020-09-01
