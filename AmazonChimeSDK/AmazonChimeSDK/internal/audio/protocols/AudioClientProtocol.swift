@@ -10,7 +10,17 @@ import AmazonChimeSDKMedia
 import Foundation
 
 @objc public protocol AudioClientProtocol {
-    func startSession(_ host: String!, basePort port: Int, callId: String!, profileId: String!, microphoneMute mic_mute: Bool, speakerMute spk_mute: Bool, isPresenter presenter: Bool, sessionToken tokenString: String!, audioWsUrl: String!, callKitEnabled: Bool) -> audio_client_status_t
+    // swiftlint:disable function_parameter_count variable_name
+    func startSession(_ host: String!,
+                      basePort port: Int,
+                      callId: String!,
+                      profileId: String!,
+                      microphoneMute mic_mute: Bool,
+                      speakerMute spk_mute: Bool,
+                      isPresenter presenter: Bool,
+                      sessionToken tokenString: String!,
+                      audioWsUrl: String!,
+                      callKitEnabled: Bool) -> audio_client_status_t
 
     func stopSession() -> Int
 
