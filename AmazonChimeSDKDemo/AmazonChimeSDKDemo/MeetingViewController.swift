@@ -278,6 +278,7 @@ class MeetingViewController: UIViewController {
         guard let meetingModel = meetingModel else {
             return
         }
+
         let optionMenu = UIAlertController(title: nil, message: "Choose Audio Device", preferredStyle: .actionSheet)
 
         for inputDevice in meetingModel.audioDevices {

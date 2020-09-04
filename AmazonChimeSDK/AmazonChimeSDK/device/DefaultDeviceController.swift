@@ -13,6 +13,7 @@ import AVFoundation
     let logger: Logger
     let audioSession: AudioSession
     let deviceChangeObservers = ConcurrentMutableSet()
+    var currenDevice: MediaDevice?
 
     public init(audioSession: AudioSession,
                 videoClientController: VideoClientController,
@@ -49,6 +50,7 @@ import AVFoundation
             } else {
                 try audioSession.setPreferredInput(mediaDevice.port)
             }
+            self.currenDevice = mediaDevice
         } catch {
             logger.error(msg: "Error on setting audio input device: \(error.localizedDescription)")
         }
@@ -108,5 +110,9 @@ import AVFoundation
     public func getActiveCamera() -> MediaDevice? {
         let activeCamera = MediaDevice.fromVideoDevice(device: videoClientController.getCurrentDevice())
         return activeCamera.type == .other ? nil : activeCamera
+    }
+
+    public func getActiveAudioDevice() -> MediaDevice? {
+        return self.currenDevice
     }
 }

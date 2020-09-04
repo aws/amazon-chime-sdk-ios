@@ -178,4 +178,8 @@ import Foundation
     }
 
     public func hasBandwidthPriorityCallback(hasBandwidthPriority: Bool) {}
+
+    public func getActiveAudioDevice() -> MediaDevice? {
+        return deviceController.getActiveAudioDevice()
+    }
 }
