@@ -21,6 +21,7 @@ import Foundation
                       sessionToken tokenString: String!,
                       audioWsUrl: String!,
                       callKitEnabled: Bool) -> audio_client_status_t
+    // swiftlint:enable function_parameter_count variable_name
 
     func stopSession() -> Int
 
