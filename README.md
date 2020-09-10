@@ -38,10 +38,10 @@ For the purpose of setup, your project's root folder (where you can find your `.
 
 Download the following zips:
  * if you need bitcode support:
-    * [AmazonChimeSDK-0.9.0.tar.gz](https://amazon-chime-sdk-ios.s3.amazonaws.com/sdk/0.9.0/AmazonChimeSDK-0.9.0.tar.gz)
+    * [AmazonChimeSDK-0.10.0.tar.gz](https://amazon-chime-sdk-ios.s3.amazonaws.com/sdk/0.10.0/AmazonChimeSDK-0.10.0.tar.gz)
     * [AmazonChimeSDKMedia-0.6.2.tar.gz](https://amazon-chime-sdk-ios.s3.amazonaws.com/media/0.6.2/AmazonChimeSDKMedia-0.6.2.tar.gz)
  * if you do NOT need bitcode support:
-    * [AmazonChimeSDK-0.9.0.tar.gz](https://amazon-chime-sdk-ios.s3.amazonaws.com/sdk-without-bitcode/0.9.0/AmazonChimeSDK-0.9.0.tar.gz)
+    * [AmazonChimeSDK-0.10.0.tar.gz](https://amazon-chime-sdk-ios.s3.amazonaws.com/sdk-without-bitcode/0.10.0/AmazonChimeSDK-0.10.0.tar.gz)
     * [AmazonChimeSDKMedia-0.6.2.tar.gz](https://amazon-chime-sdk-ios.s3.amazonaws.com/media-without-bitcode/0.6.2/AmazonChimeSDKMedia-0.6.2.tar.gz)
 
 Unzip and copy the `.framework`s to `root`
