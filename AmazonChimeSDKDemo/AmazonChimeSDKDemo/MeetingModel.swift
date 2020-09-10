@@ -46,9 +46,9 @@ class MeetingModel: NSObject {
     var activeMode: ActiveMode = .roster {
         didSet {
             if activeMode == .video {
-                startRemoteVideo()
-            } else if activeMode == .screenShare {
-                startScreenShare()
+                videoModel.resumeAllRemoteVideosInCurrentPageExceptUserPausedVideos()
+            } else {
+                videoModel.pauseAllRemoteVideos()
             }
             activeModeDidSetHandler?(activeMode)
         }
@@ -125,7 +125,7 @@ class MeetingModel: NSObject {
         if self.callKitOption == .disabled {
             self.configureAudioSession()
             self.startAudioVideoConnection(isCallKitEnabled: false)
-            self.startRemoteVideo()
+            self.currentMeetingSession.audioVideo.startRemoteVideo()
         }
     }
 
@@ -254,16 +254,6 @@ class MeetingModel: NSObject {
         }
     }
 
-    private func startRemoteVideo() {
-        videoModel.resumeAllRemoteVideo()
-        currentMeetingSession.audioVideo.startRemoteVideo()
-    }
-
-    private func startScreenShare() {
-        videoModel.pauseAllRemoteVideo()
-        currentMeetingSession.audioVideo.startRemoteVideo()
-    }
-
     private func startLocalVideo() {
         MeetingModule.shared().requestVideoPermission { success in
             if success {
@@ -299,7 +289,7 @@ class MeetingModel: NSObject {
         }
         call.isAudioSessionActiveHandler = { [weak self] in
             self?.startAudioVideoConnection(isCallKitEnabled: true)
-            self?.startRemoteVideo()
+            self?.currentMeetingSession.audioVideo.startRemoteVideo()
             if self?.isMuted ?? false {
                 _ = self?.currentMeetingSession.audioVideo.realtimeLocalMute()
             }
@@ -526,7 +516,14 @@ extension MeetingModel: VideoTileObserver {
                 videoModel.addRemoteVideoTileState(tileState, completion: { success in
                     if success {
                         if self.activeMode == .video {
+                            // If the video is not currently being displayed, pause it
+                            if !self.videoModel.isRemoteVideoDisplaying(tileId: tileState.tileId) {
+                                self.currentMeetingSession.audioVideo.pauseRemoteVideoTile(tileId: tileState.tileId)
+                            }
                             self.videoModel.videoUpdatedHandler?()
+                        } else {
+                            // Currently not in the video view, no need to render the video tile
+                            self.currentMeetingSession.audioVideo.pauseRemoteVideoTile(tileId: tileState.tileId)
                         }
                     } else {
                         self.logger.info(msg: "Cannot add more video tile tileId: \(tileState.tileId)")
@@ -554,6 +551,7 @@ extension MeetingModel: VideoTileObserver {
         } else {
             videoModel.removeRemoteVideoTileState(tileState, completion: { success in
                 if success {
+                    self.videoModel.revalidateRemoteVideoPageIndex()
                     if self.activeMode == .video {
                         self.videoModel.videoUpdatedHandler?()
                     }
@@ -600,6 +598,11 @@ extension MeetingModel: ActiveSpeakerObserver {
     }
 
     func activeSpeakerDidDetect(attendeeInfo: [AttendeeInfo]) {
+        videoModel.updateRemoteVideoStatesBasedOnActiveSpeakers(activeSpeakers: attendeeInfo)
+        if activeMode == .video {
+            videoModel.videoUpdatedHandler?()
+        }
+
         rosterModel.updateActiveSpeakers(attendeeInfo.map { $0.attendeeId })
         if activeMode == .roster {
             rosterModel.rosterUpdatedHandler?()
@@ -622,4 +625,3 @@ extension MeetingModel: DataMessageObserver {
         chatModel.addDataMessage(dataMessage: dataMessage)
     }
 }
-

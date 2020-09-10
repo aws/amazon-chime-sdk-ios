@@ -8,6 +8,9 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
     <a name="//apple_ref/swift/Class/DefaultVideoTile" class="dashAnchor"></a>
@@ -15,6 +18,11 @@
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html"> Docs</a></p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -158,6 +166,20 @@
             </ul>
           </li>
           <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions.html#/c:objc(cs)AVAudioSession">AVAudioSession</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions.html#/c:objc(cs)AudioClient">AudioClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions.html#/c:objc(cs)NSLock">NSLock</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a href="../Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -174,6 +196,15 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/AudioClientObserver.html">AudioClientObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AudioClientProtocol.html">AudioClientProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AudioLock.html">AudioLock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AudioSession.html">AudioSession</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/AudioVideoControllerFacade.html">AudioVideoControllerFacade</a>
@@ -250,6 +281,7 @@
             <h1>DefaultVideoTile</h1>
               <div class="declaration">
                 <div class="language">
+                  
                   <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="kt">DefaultVideoTile</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/VideoTile.html">VideoTile</a></span></code></pre>
 
@@ -317,7 +349,7 @@
                     <code>
                     <a name="/s:14AmazonChimeSDK16DefaultVideoTileC6tileId08attendeeH023videoStreamContentWidth0jkL6Height07isLocalF06loggerACSi_SSS2iSbAA6Logger_ptcfc"></a>
                     <a name="//apple_ref/swift/Method/init(tileId:attendeeId:videoStreamContentWidth:videoStreamContentHeight:isLocalTile:logger:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14AmazonChimeSDK16DefaultVideoTileC6tileId08attendeeH023videoStreamContentWidth0jkL6Height07isLocalF06loggerACSi_SSS2iSbAA6Logger_ptcfc">init(tileId:attendeeId:videoStreamContentWidth:videoStreamContentHeight:isLocalTile:logger:)</a>
+                    <a class="token" href="#/s:14AmazonChimeSDK16DefaultVideoTileC6tileId08attendeeH023videoStreamContentWidth0jkL6Height07isLocalF06loggerACSi_SSS2iSbAA6Logger_ptcfc">init(tileId:<wbr>attendeeId:<wbr>videoStreamContentWidth:<wbr>videoStreamContentHeight:<wbr>isLocalTile:<wbr>logger:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -348,7 +380,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)VideoTile(im)bindWithVideoRenderView:"></a>
                     <a name="//apple_ref/swift/Method/bind(videoRenderView:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoTile(im)bindWithVideoRenderView:">bind(videoRenderView:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoTile(im)bindWithVideoRenderView:">bind(videoRenderView:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -374,7 +406,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)VideoTile(im)renderFrameWithFrame:"></a>
                     <a name="//apple_ref/swift/Method/renderFrame(frame:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoTile(im)renderFrameWithFrame:">renderFrame(frame:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoTile(im)renderFrameWithFrame:">renderFrame(frame:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -426,7 +458,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)VideoTile(im)setPauseStateWithPauseState:"></a>
                     <a name="//apple_ref/swift/Method/setPauseState(pauseState:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoTile(im)setPauseStateWithPauseState:">setPauseState(pauseState:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoTile(im)setPauseStateWithPauseState:">setPauseState(pauseState:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -452,8 +484,8 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-08-13)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-09-10)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

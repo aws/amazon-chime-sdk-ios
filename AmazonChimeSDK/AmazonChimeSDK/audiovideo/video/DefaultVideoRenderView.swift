@@ -63,6 +63,7 @@ import VideoToolbox
     public func renderFrame(frame: CVPixelBuffer?) {
         if frame == nil {
             isHidden = true
+            imageView.image = nil
         } else if let frame = frame {
             isHidden = false
             var cgImage: CGImage?

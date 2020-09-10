@@ -11,9 +11,13 @@ import UIKit
 
 class VideoModel: NSObject {
     private let maxRemoteVideoTileCount = 8
+    private let remoteVideoTileCountPerPage = 2
+
+    private var currentRemoteVideoPageIndex = 0
 
     private var selfVideoTileState: VideoTileState?
     private var remoteVideoTileStates: [(Int, VideoTileState)] = []
+    private var userPausedVideoTileIds: Set<Int> = Set()
     private let audioVideoFacade: AudioVideoFacade
 
     var videoUpdatedHandler: (() -> Void)?
@@ -25,15 +29,70 @@ class VideoModel: NSObject {
     }
 
     var videoTileCount: Int {
-        return currentRemoteVideoCount + 1
+        return remoteVideoCountInCurrentPage + 1
+    }
+
+    var canGoToPrevRemoteVideoPage: Bool {
+        return currentRemoteVideoPageIndex > 0
+    }
+
+    var canGoToNextRemoteVideoPage: Bool {
+        let maxRemoteVideoPageIndex = Int(ceil(Double(currentRemoteVideoCount) / Double(remoteVideoTileCountPerPage))) - 1
+        return currentRemoteVideoPageIndex < maxRemoteVideoPageIndex
     }
 
     private var currentRemoteVideoCount: Int {
         return remoteVideoTileStates.count
     }
 
+    private var remoteVideoStatesInCurrentPage: [(Int, VideoTileState)] {
+        let remoteVideoStartIndex = currentRemoteVideoPageIndex * remoteVideoTileCountPerPage
+        let remoteVideoEndIndex = min(currentRemoteVideoCount, remoteVideoStartIndex + remoteVideoTileCountPerPage) - 1
+
+        if remoteVideoEndIndex < remoteVideoStartIndex {
+            return []
+        }
+        return Array(remoteVideoTileStates[remoteVideoStartIndex...remoteVideoEndIndex])
+    }
+
+    private var remoteVideoStatesNotInCurrentPage: [(Int, VideoTileState)] {
+        let remoteVideoAttendeeIdsInCurrentPage = Set(remoteVideoStatesInCurrentPage.map { $0.1.attendeeId })
+        return remoteVideoTileStates.filter { !remoteVideoAttendeeIdsInCurrentPage.contains($0.1.attendeeId) }
+    }
+
+    private var remoteVideoCountInCurrentPage: Int {
+        return remoteVideoStatesInCurrentPage.count
+    }
+
     private var isMaximumRemoteVideoReached: Bool {
         return currentRemoteVideoCount >= maxRemoteVideoTileCount
+    }
+
+    func isRemoteVideoDisplaying(tileId: Int) -> Bool {
+        return remoteVideoStatesInCurrentPage.contains(where: { $0.0 == tileId })
+    }
+
+    func updateRemoteVideoStatesBasedOnActiveSpeakers(activeSpeakers: [AttendeeInfo]) {
+        let activeSpeakerIds = Set(activeSpeakers.map { $0.attendeeId })
+
+        // Cast to NSArray to make sure the sorting implementation is stable
+        remoteVideoTileStates = (remoteVideoTileStates as NSArray).sortedArray(options: .stable,
+                                                                               usingComparator: { (lhs, rhs) -> ComparisonResult in
+            let lhsIsActiveSpeaker = activeSpeakerIds.contains((lhs as? (Int, VideoTileState))?.1.attendeeId ?? "")
+            let rhsIsActiveSpeaker = activeSpeakerIds.contains((rhs as? (Int, VideoTileState))?.1.attendeeId ?? "")
+
+            if lhsIsActiveSpeaker == rhsIsActiveSpeaker {
+                return ComparisonResult.orderedSame
+            } else if lhsIsActiveSpeaker && !rhsIsActiveSpeaker {
+                return ComparisonResult.orderedAscending
+            } else {
+                return ComparisonResult.orderedDescending
+            }
+        }) as? [(Int, VideoTileState)] ?? []
+
+        for remoteVideoTileState in remoteVideoStatesNotInCurrentPage {
+            audioVideoFacade.pauseRemoteVideoTile(tileId: remoteVideoTileState.0)
+        }
     }
 
     func setSelfVideoTileState(_ videoTileState: VideoTileState?) {
@@ -58,13 +117,35 @@ class VideoModel: NSObject {
         }
     }
 
-    func resumeAllRemoteVideo() {
-        for remoteVideoTileState in remoteVideoTileStates {
-            audioVideoFacade.resumeRemoteVideoTile(tileId: remoteVideoTileState.0)
+    func getPreviousRemoteVideoPage() {
+        for remoteVideoTileState in remoteVideoStatesInCurrentPage {
+            audioVideoFacade.pauseRemoteVideoTile(tileId: remoteVideoTileState.0)
+        }
+        currentRemoteVideoPageIndex -= 1
+    }
+
+    func getNextRemoteVideoPage() {
+        for remoteVideoTileState in remoteVideoStatesInCurrentPage {
+            audioVideoFacade.pauseRemoteVideoTile(tileId: remoteVideoTileState.0)
+        }
+        currentRemoteVideoPageIndex += 1
+    }
+
+    func revalidateRemoteVideoPageIndex() {
+        while canGoToPrevRemoteVideoPage, remoteVideoCountInCurrentPage == 0 {
+            getPreviousRemoteVideoPage()
         }
     }
 
-    func pauseAllRemoteVideo() {
+    func resumeAllRemoteVideosInCurrentPageExceptUserPausedVideos() {
+        for remoteVideoTileState in remoteVideoStatesInCurrentPage {
+            if !userPausedVideoTileIds.contains(remoteVideoTileState.0) {
+                audioVideoFacade.resumeRemoteVideoTile(tileId: remoteVideoTileState.0)
+            }
+        }
+    }
+
+    func pauseAllRemoteVideos() {
         for remoteVideoTileState in remoteVideoTileStates {
             audioVideoFacade.pauseRemoteVideoTile(tileId: remoteVideoTileState.0)
         }
@@ -74,10 +155,10 @@ class VideoModel: NSObject {
         if indexPath.item == 0 {
             return selfVideoTileState
         }
-        if indexPath.item > currentRemoteVideoCount {
+        if indexPath.item > remoteVideoTileCountPerPage {
             return nil
         }
-        return remoteVideoTileStates[indexPath.item - 1].1
+        return remoteVideoStatesInCurrentPage[indexPath.item - 1].1
     }
 }
 
@@ -88,8 +169,10 @@ extension VideoModel: VideoTileCellDelegate {
         } else {
             if let tileState = getVideoTileState(for: IndexPath(item: tag, section: 0)), !tileState.isLocalTile {
                 if selected {
+                    userPausedVideoTileIds.insert(tileState.tileId)
                     audioVideoFacade.pauseRemoteVideoTile(tileId: tileState.tileId)
                 } else {
+                    userPausedVideoTileIds.remove(tileState.tileId)
                     audioVideoFacade.resumeRemoteVideoTile(tileId: tileState.tileId)
                 }
             }

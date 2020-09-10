@@ -430,7 +430,7 @@ extension DefaultVideoClientController: VideoClientController {
         videoObservers.add(observer)
     }
 
-    public func unsubscribeToVideoClientStateChange(observer: AudioVideoObserver) {
+    public func unsubscribeFromVideoClientStateChange(observer: AudioVideoObserver) {
         videoObservers.remove(observer)
     }
 
@@ -438,7 +438,7 @@ extension DefaultVideoClientController: VideoClientController {
         videoTileControllerObservers.add(observer)
     }
 
-    public func unsubscribeToVideoTileControllerObservers(observer: VideoTileController) {
+    public func unsubscribeFromVideoTileControllerObservers(observer: VideoTileController) {
         videoTileControllerObservers.remove(observer)
     }
 

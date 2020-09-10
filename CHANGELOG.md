@@ -1,15 +1,32 @@
 ## Unreleased
 
+### Changed
+* **Breaking** The returned label for the Built-In Speaker `MediaDevice` has been changed from "Build-in Speaker" to "Buil*t*-in Speaker
+
+## [0.10.0] - 2020-09-10
+
+### Removed
+* **Breaking** Removed audio permission check in `DefaultAudioVideoController` which is performed in `DefaultAudioClientController`. For developers who has their own `AudioClientController` implementation, please make sure to check audio permission in `start()`.
+
+## [0.9.0] - 2020-09-01
+
 ### Fixed
 - Fixed a bug that attendee events got filtered out due to absence of `externalUserId`
 - `DefaultDeviceController` now uses the correct `MediaDeviceType` for the default Built-In Speaker. ([#62](https://github.com/aws/amazon-chime-sdk-ios/issues/62))
 
 ### Added
-- **Breaking** Added additional `externalUserId` field for `MeetingSessionCredentials`
-- Added unit test for `DefaultDeviceController`
+* **Breaking** Added additional `externalUserId` field for `MeetingSessionCredentials`
+* Added video pagination feature in the Swift demo app. Remote videos will be paginated into several pages. Each page contains at most 2 remote videos, and user can switch between different pages. Videos that are not being displayed will not consume any network bandwidth or computation resource.
+* Added active-speaker-based video tile feature in the Swift demo app. Video tiles of active speakers will be promoted to the top of the list automatically.
 
 ### Changed
-- **Breaking** the returned label for the Built-In Speaker `MediaDevice` has been changed from "Build-in Speaker" to "Buil*t*-in Speaker
+* **Breaking** Changed the behavior of `DefaultVideoRenderView` so that it clears the internal `ImageView` when it receives a nil frame.
+* Changed the Swift demo app so that it will not subscribe to video streams when user is not viewing the Videos tab.
+
+### Fixed
+* Fixed a bug that attendee events got filtered out due to absence of `externalUserId`
+* Fixed the video flicker issue when binding video tile to a recycled `DefaultVideoRenderView`.
+* Fixed the local video binding issue when local video was not enabled yet.
 
 ## [0.8.2] - 2020-08-13
 

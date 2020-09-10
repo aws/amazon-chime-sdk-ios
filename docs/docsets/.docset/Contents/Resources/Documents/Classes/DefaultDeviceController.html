@@ -8,6 +8,9 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
     <a name="//apple_ref/swift/Class/DefaultDeviceController" class="dashAnchor"></a>
@@ -15,6 +18,11 @@
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html"> Docs</a></p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
       </div>
     </header>
     <div class="content-wrapper">
@@ -158,6 +166,20 @@
             </ul>
           </li>
           <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions.html#/c:objc(cs)AVAudioSession">AVAudioSession</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions.html#/c:objc(cs)AudioClient">AudioClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions.html#/c:objc(cs)NSLock">NSLock</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a href="../Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -174,6 +196,15 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/AudioClientObserver.html">AudioClientObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AudioClientProtocol.html">AudioClientProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AudioLock.html">AudioLock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AudioSession.html">AudioSession</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/AudioVideoControllerFacade.html">AudioVideoControllerFacade</a>
@@ -250,6 +281,7 @@
             <h1>DefaultDeviceController</h1>
               <div class="declaration">
                 <div class="language">
+                  
                   <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="kt">DefaultDeviceController</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/DeviceController.html">DeviceController</a></span></code></pre>
 
@@ -263,9 +295,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14AmazonChimeSDK23DefaultDeviceControllerC12audioSession011videoClientF06loggerACSo07AVAudioH0C_AA05VideojF0_pAA6Logger_ptcfc"></a>
+                    <a name="/s:14AmazonChimeSDK23DefaultDeviceControllerC12audioSession011videoClientF06loggerAcA05AudioH0_p_AA05VideojF0_pAA6Logger_ptcfc"></a>
                     <a name="//apple_ref/swift/Method/init(audioSession:videoClientController:logger:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14AmazonChimeSDK23DefaultDeviceControllerC12audioSession011videoClientF06loggerACSo07AVAudioH0C_AA05VideojF0_pAA6Logger_ptcfc">init(audioSession:videoClientController:logger:)</a>
+                    <a class="token" href="#/s:14AmazonChimeSDK23DefaultDeviceControllerC12audioSession011videoClientF06loggerAcA05AudioH0_p_AA05VideojF0_pAA6Logger_ptcfc">init(audioSession:<wbr>videoClientController:<wbr>logger:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -279,7 +311,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">audioSession</span><span class="p">:</span> <span class="kt">AVAudioSession</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">audioSession</span><span class="p">:</span> <span class="kt"><a href="../Protocols/AudioSession.html">AudioSession</a></span><span class="p">,</span>
             <span class="nv">videoClientController</span><span class="p">:</span> <span class="kt"><a href="../Protocols/VideoClientController.html">VideoClientController</a></span><span class="p">,</span>
             <span class="nv">logger</span><span class="p">:</span> <span class="kt"><a href="../Protocols/Logger.html">Logger</a></span><span class="p">)</span></code></pre>
 
@@ -319,7 +351,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)DeviceController(im)chooseAudioDeviceWithMediaDevice:"></a>
                     <a name="//apple_ref/swift/Method/chooseAudioDevice(mediaDevice:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)DeviceController(im)chooseAudioDeviceWithMediaDevice:">chooseAudioDevice(mediaDevice:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)DeviceController(im)chooseAudioDeviceWithMediaDevice:">chooseAudioDevice(mediaDevice:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -345,7 +377,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)DeviceController(im)addDeviceChangeObserverWithObserver:"></a>
                     <a name="//apple_ref/swift/Method/addDeviceChangeObserver(observer:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)DeviceController(im)addDeviceChangeObserverWithObserver:">addDeviceChangeObserver(observer:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)DeviceController(im)addDeviceChangeObserverWithObserver:">addDeviceChangeObserver(observer:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -371,7 +403,7 @@
                     <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)DeviceController(im)removeDeviceChangeObserverWithObserver:"></a>
                     <a name="//apple_ref/swift/Method/removeDeviceChangeObserver(observer:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)DeviceController(im)removeDeviceChangeObserverWithObserver:">removeDeviceChangeObserver(observer:)</a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)DeviceController(im)removeDeviceChangeObserverWithObserver:">removeDeviceChangeObserver(observer:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -449,8 +481,8 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-08-13)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-09-10)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
