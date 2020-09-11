@@ -1,9 +1,18 @@
+## Unreleased
+
+### Changed
+* **Breaking** The returned label for the Built-In Speaker `MediaDevice` has been changed from "Build-in Speaker" to "Buil*t*-in Speaker
+
 ## [0.10.0] - 2020-09-10
 
 ### Removed
 * **Breaking** Removed audio permission check in `DefaultAudioVideoController` which is performed in `DefaultAudioClientController`. For developers who has their own `AudioClientController` implementation, please make sure to check audio permission in `start()`.
 
 ## [0.9.0] - 2020-09-01
+
+### Fixed
+- Fixed a bug that attendee events got filtered out due to absence of `externalUserId`
+- `DefaultDeviceController` now uses the correct `MediaDeviceType` for the default Built-In Speaker. ([#62](https://github.com/aws/amazon-chime-sdk-ios/issues/62))
 
 ### Added
 * **Breaking** Added additional `externalUserId` field for `MeetingSessionCredentials`
