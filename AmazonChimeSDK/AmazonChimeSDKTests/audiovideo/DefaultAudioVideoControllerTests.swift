@@ -71,33 +71,41 @@ class DefaultAudioVideoControllerTests: XCTestCase {
 
     func testStart() {
         XCTAssertNoThrow(try defaultAudioVideoController.start())
-        
-        verify(audioClientControllerMock.start(audioFallbackUrl: self.meetingSessionConfigurationMock.urls.audioFallbackUrl,
-                                               audioHostUrl: self.meetingSessionConfigurationMock.urls.audioHostUrl,
-                                               meetingId: self.meetingSessionConfigurationMock.meetingId,
-                                               attendeeId: self.meetingSessionConfigurationMock.credentials.attendeeId,
-                                               joinToken: self.meetingSessionConfigurationMock.credentials.joinToken,
-                                               callKitEnabled: false)).wasCalled()
-        verify(videoClientControllerMock.start(turnControlUrl: self.meetingSessionConfigurationMock.urls.turnControlUrl,
-                                               signalingUrl: self.meetingSessionConfigurationMock.urls.signalingUrl,
-                                               meetingId: self.meetingSessionConfigurationMock.meetingId,
-                                               joinToken: self.meetingSessionConfigurationMock.credentials.joinToken)).wasCalled()
+
+        verify(audioClientControllerMock.start(
+            audioFallbackUrl: self.meetingSessionConfigurationMock.urls.audioFallbackUrl,
+            audioHostUrl: self.meetingSessionConfigurationMock.urls.audioHostUrl,
+            meetingId: self.meetingSessionConfigurationMock.meetingId,
+            attendeeId: self.meetingSessionConfigurationMock.credentials.attendeeId,
+            joinToken: self.meetingSessionConfigurationMock.credentials.joinToken,
+            callKitEnabled: false
+        )).wasCalled()
+        verify(videoClientControllerMock.start(
+            turnControlUrl: self.meetingSessionConfigurationMock.urls.turnControlUrl,
+            signalingUrl: self.meetingSessionConfigurationMock.urls.signalingUrl,
+            meetingId: self.meetingSessionConfigurationMock.meetingId,
+            joinToken: self.meetingSessionConfigurationMock.credentials.joinToken
+        )).wasCalled()
     }
-    
+
     func testStart_callKitEnabled() {
-        let callKitEnabled = true;
+        let callKitEnabled = true
         XCTAssertNoThrow(try defaultAudioVideoController.start(callKitEnabled: callKitEnabled))
-        
-        verify(audioClientControllerMock.start(audioFallbackUrl: self.meetingSessionConfigurationMock.urls.audioFallbackUrl,
-                                               audioHostUrl: self.meetingSessionConfigurationMock.urls.audioHostUrl,
-                                               meetingId: self.meetingSessionConfigurationMock.meetingId,
-                                               attendeeId: self.meetingSessionConfigurationMock.credentials.attendeeId,
-                                               joinToken: self.meetingSessionConfigurationMock.credentials.joinToken,
-                                               callKitEnabled: callKitEnabled)).wasCalled()
-        verify(videoClientControllerMock.start(turnControlUrl: self.meetingSessionConfigurationMock.urls.turnControlUrl,
-                                               signalingUrl: self.meetingSessionConfigurationMock.urls.signalingUrl,
-                                               meetingId: self.meetingSessionConfigurationMock.meetingId,
-                                               joinToken: self.meetingSessionConfigurationMock.credentials.joinToken)).wasCalled()
+
+        verify(audioClientControllerMock.start(
+            audioFallbackUrl: self.meetingSessionConfigurationMock.urls.audioFallbackUrl,
+            audioHostUrl: self.meetingSessionConfigurationMock.urls.audioHostUrl,
+            meetingId: self.meetingSessionConfigurationMock.meetingId,
+            attendeeId: self.meetingSessionConfigurationMock.credentials.attendeeId,
+            joinToken: self.meetingSessionConfigurationMock.credentials.joinToken,
+            callKitEnabled: callKitEnabled
+        )).wasCalled()
+        verify(videoClientControllerMock.start(
+            turnControlUrl: self.meetingSessionConfigurationMock.urls.turnControlUrl,
+            signalingUrl: self.meetingSessionConfigurationMock.urls.signalingUrl,
+            meetingId: self.meetingSessionConfigurationMock.meetingId,
+            joinToken: self.meetingSessionConfigurationMock.credentials.joinToken
+        )).wasCalled()
     }
 
     func testStop() {
@@ -106,58 +114,61 @@ class DefaultAudioVideoControllerTests: XCTestCase {
         verify(audioClientControllerMock.stop()).wasCalled()
         verify(videoClientControllerMock.stopAndDestroy()).wasCalled()
     }
-    
+
     func testAddAudioVideoObserver() {
         let audioVideoObserverMock: AudioVideoObserverMock = mock(AudioVideoObserver.self)
         defaultAudioVideoController.addAudioVideoObserver(observer: audioVideoObserverMock)
 
         verify(audioClientObserverMock.subscribeToAudioClientStateChange(observer: audioVideoObserverMock)).wasCalled()
-        verify(videoClientControllerMock.subscribeToVideoClientStateChange(observer: audioVideoObserverMock)).wasCalled()
+        verify(videoClientControllerMock.subscribeToVideoClientStateChange(observer: audioVideoObserverMock))
+            .wasCalled()
     }
-    
+
     func testRemoveAudioVideoObserver() {
         let audioVideoObserverMock: AudioVideoObserverMock = mock(AudioVideoObserver.self)
         defaultAudioVideoController.removeAudioVideoObserver(observer: audioVideoObserverMock)
-        
-        verify(audioClientObserverMock.unsubscribeFromAudioClientStateChange(observer: audioVideoObserverMock)).wasCalled()
-        verify(videoClientControllerMock.unsubscribeFromVideoClientStateChange(observer: audioVideoObserverMock)).wasCalled()
+
+        verify(audioClientObserverMock.unsubscribeFromAudioClientStateChange(observer: audioVideoObserverMock))
+            .wasCalled()
+        verify(videoClientControllerMock.unsubscribeFromVideoClientStateChange(observer: audioVideoObserverMock))
+            .wasCalled()
     }
-    
+
     func testAddMetricsObserver() {
         let metricsObserverMock: MetricsObserverMock = mock(MetricsObserver.self)
         defaultAudioVideoController.addMetricsObserver(observer: metricsObserverMock)
-        
+
         verify(clientMetricsCollectorMock.subscribeToMetrics(observer: metricsObserverMock)).wasCalled()
     }
-    
+
     func testRemoveMetricsObserver() {
         let metricsObserverMock: MetricsObserverMock = mock(MetricsObserver.self)
         defaultAudioVideoController.removeMetricsObserver(observer: metricsObserverMock)
-        
+
         verify(clientMetricsCollectorMock.unsubscribeFromMetrics(observer: metricsObserverMock)).wasCalled()
     }
-    
+
     func testStartLocalVideo() {
         XCTAssertNoThrow(try defaultAudioVideoController.startLocalVideo())
-        
+
         verify(videoClientControllerMock.startLocalVideo()).wasCalled()
     }
-    
+
     func testStopLocalVideo() {
         defaultAudioVideoController.stopLocalVideo()
-        
+
         verify(videoClientControllerMock.stopLocalVideo()).wasCalled()
     }
-    
+
     func testStartRemoteVideo() {
         defaultAudioVideoController.startRemoteVideo()
-        
+
         verify(videoClientControllerMock.startRemoteVideo()).wasCalled()
     }
-    
+
     func testStopRemoteVideo() {
         defaultAudioVideoController.stopRemoteVideo()
-        
+
         verify(videoClientControllerMock.stopRemoteVideo()).wasCalled()
     }
 }
