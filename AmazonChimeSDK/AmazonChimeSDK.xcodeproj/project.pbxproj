@@ -172,7 +172,6 @@
 		00C9DC6A23FA393600876B41 /* DefaultVideoTileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultVideoTileController.swift; sourceTree = "<group>"; };
 		00D9DBB1241AE23F00146467 /* DefaultVideoClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultVideoClient.swift; sourceTree = "<group>"; };
 		00EB5F602400591800007D3E /* VideoTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTile.swift; sourceTree = "<group>"; };
-		1C38DDD124EC0DBA005524AB /* MockVideoClientController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockVideoClientController.swift; sourceTree = "<group>"; };
 		5A0E7316242EA072006636AB /* MediaDeviceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDeviceTests.swift; sourceTree = "<group>"; };
 		5A0E7318242EA283006636AB /* MeetingSessionStatusCodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSessionStatusCodeTests.swift; sourceTree = "<group>"; };
 		5A0E731A242EA39E006636AB /* VideoTileStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTileStateTests.swift; sourceTree = "<group>"; };
@@ -346,7 +345,6 @@
 				5A15821E23C4020D0099F8FA /* Products */,
 				5A1582A023C403120099F8FA /* Frameworks */,
 				B2624DE0EEE7B7B1BCEB6407 /* Generated Mocks */,
-				C6C2F104250BD96F001678B8 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -723,14 +721,6 @@
 				5A16C0042405E83000ADAE26 /* DictionaryExtensionTests.swift */,
 			);
 			path = utils;
-			sourceTree = "<group>";
-		};
-		C6C2F104250BD96F001678B8 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				1C38DDD124EC0DBA005524AB /* MockVideoClientController.swift */,
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		C6DA0B2724F71B9000028F2B /* protocols */ = {
