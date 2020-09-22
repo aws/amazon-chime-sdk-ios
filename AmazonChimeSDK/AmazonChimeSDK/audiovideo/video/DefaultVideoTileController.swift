@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-@objcMembers public class DefaultVideoTileController: VideoTileController {
+@objcMembers public class DefaultVideoTileController: NSObject, VideoTileController {
     private let logger: Logger
     private var videoTileMap = [Int: VideoTile]()
     private var videoViewToTileMap = [NSValue: Int]()

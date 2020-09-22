@@ -13,7 +13,7 @@ import Foundation
  */
 typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
 
-@objcMembers public class DefaultActiveSpeakerDetector: ActiveSpeakerDetectorFacade, RealtimeObserver {
+@objcMembers public class DefaultActiveSpeakerDetector: NSObject, ActiveSpeakerDetectorFacade, RealtimeObserver {
     private static let activityWaitIntervalMs = 1000
     private static let activityUpdateIntervalMs = 200
 
@@ -33,6 +33,7 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
     ) {
         self.audioClientObserver = audioClientObserver
         self.selfAttendeeId = selfAttendeeId
+        super.init()
         audioClientObserver.subscribeToRealTimeEvents(observer: self)
 
         timer = IntervalScheduler(

@@ -9,7 +9,7 @@
 import Foundation
 import VideoToolbox
 
-@objcMembers public class DefaultVideoTile: VideoTile {
+@objcMembers public class DefaultVideoTile: NSObject, VideoTile {
     public var state: VideoTileState
 
     private let logger: Logger
@@ -21,8 +21,7 @@ import VideoToolbox
                 videoStreamContentWidth: Int,
                 videoStreamContentHeight: Int,
                 isLocalTile: Bool,
-                logger: Logger)
-    {
+                logger: Logger) {
         state = VideoTileState(tileId: tileId,
                                attendeeId: attendeeId,
                                videoStreamContentWidth: videoStreamContentWidth,

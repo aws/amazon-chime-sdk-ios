@@ -8,7 +8,7 @@
 
 import AVFoundation
 
-@objcMembers public class DefaultDeviceController: DeviceController {
+@objcMembers public class DefaultDeviceController: NSObject, DeviceController {
     let videoClientController: VideoClientController
     let logger: Logger
     let audioSession: AudioSession
@@ -16,11 +16,11 @@ import AVFoundation
 
     public init(audioSession: AudioSession,
                 videoClientController: VideoClientController,
-                logger: Logger)
-    {
+                logger: Logger) {
         self.videoClientController = videoClientController
         self.logger = logger
         self.audioSession = audioSession
+        super.init()
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(handleSystemAudioChange),
                                                name: AVAudioSession.routeChangeNotification,
