@@ -24,8 +24,7 @@ class DefaultAudioClientController: NSObject {
     init(audioClient: AudioClientProtocol,
          audioClientObserver: AudioClientObserver,
          audioSession: AudioSession,
-         audioClientLock: AudioLock)
-    {
+         audioClientLock: AudioLock) {
         self.audioClient = audioClient
         self.audioClientObserver = audioClientObserver
         self.audioSession = audioSession
@@ -49,8 +48,7 @@ extension DefaultAudioClientController: AudioClientController {
                       meetingId: String,
                       attendeeId: String,
                       joinToken: String,
-                      callKitEnabled: Bool) throws
-    {
+                      callKitEnabled: Bool) throws {
         audioLock.lock()
         defer {
             audioLock.unlock()

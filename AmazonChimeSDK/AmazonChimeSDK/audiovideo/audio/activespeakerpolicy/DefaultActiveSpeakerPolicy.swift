@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objcMembers public class DefaultActiveSpeakerPolicy: ActiveSpeakerPolicy {
+@objcMembers public class DefaultActiveSpeakerPolicy: NSObject, ActiveSpeakerPolicy {
     private let volumes = ConcurrentDictionary<String, Double>()
     private let speakerWeight: Double
     private let cutoffThreshold: Double
