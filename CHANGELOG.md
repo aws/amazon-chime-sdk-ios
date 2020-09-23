@@ -2,6 +2,7 @@
 
 ### Changed
 * **Breaking** The returned label for the Built-In Speaker `MediaDevice` has been changed from "Build-in Speaker" to "Buil*t*-in Speaker
+* Changed `maxRemoteVideoTileCount` in the Swift demo app from 8 to 16. Now the Swift demo app can support at most 16 remote video tiles.
 
 ## [0.10.0] - 2020-09-10
 
