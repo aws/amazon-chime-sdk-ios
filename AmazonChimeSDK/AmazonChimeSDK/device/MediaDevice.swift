@@ -34,6 +34,12 @@ import Foundation
         return MediaDevice(label: device?.name ?? "unknown", videoDevice: device)
     }
 
+    public init(label: String, type: MediaDeviceType) {
+        self.label = label
+        self.type = type
+        self.port = nil
+    }
+
     public init(label: String, port: AVAudioSessionPortDescription? = nil, videoDevice: VideoDevice? = nil) {
         self.label = label
         self.port = port
@@ -54,6 +60,8 @@ import Foundation
                 type = .audioHandset
             case .headphones, .headsetMic:
                 type = .audioWiredHeadset
+            case .builtInSpeaker:
+                type = .audioBuiltInSpeaker
             default:
                 type = .other
             }
