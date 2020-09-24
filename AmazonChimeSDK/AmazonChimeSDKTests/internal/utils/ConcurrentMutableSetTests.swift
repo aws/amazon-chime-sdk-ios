@@ -106,7 +106,7 @@ class ConcurrentMutableSetTests: XCTestCase {
             mainThreadEndedExpectation.fulfill()
         }
 
-        wait(for: [backgroundThreadEndedExpectation, mainThreadEndedExpectation], timeout: 5)
+        wait(for: [backgroundThreadEndedExpectation, mainThreadEndedExpectation], timeout: 7)
         XCTAssertEqual(count, 1)
         XCTAssertEqual(sum, 1)
         XCTAssertEqual(normalSet.count, 1)

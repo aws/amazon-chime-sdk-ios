@@ -280,18 +280,32 @@ class MeetingViewController: UIViewController {
         }
 
         let optionMenu = UIAlertController(title: nil, message: "Choose Audio Device", preferredStyle: .actionSheet)
-
+        let currentAudioDevice = meetingModel.currentAudioDevice
         for inputDevice in meetingModel.audioDevices {
-            let deviceAction = UIAlertAction(title: inputDevice.label,
+            var label = inputDevice.label
+            if let selectedAudioDevice = currentAudioDevice {
+                if selectedAudioDevice.label == inputDevice.label {
+                    label = "\(label) ✔︎"
+                }
+            }
+            let deviceAction = UIAlertAction(title: label,
                                              style: .default,
                                              handler: { _ in meetingModel.chooseAudioDevice(inputDevice)
-                })
+            })
             optionMenu.addAction(deviceAction)
         }
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         optionMenu.addAction(cancelAction)
-
+        // We need to handle iPad
+        if let popoverController = optionMenu.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX,
+                                                  y: self.view.bounds.midY,
+                                                  width: 0,
+                                                  height: 0)
+            popoverController.permittedArrowDirections = []
+        }
         present(optionMenu, animated: true, completion: nil)
     }
 

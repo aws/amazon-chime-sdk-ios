@@ -80,6 +80,10 @@ class MeetingModel: NSObject {
         return currentMeetingSession.audioVideo.listAudioDevices()
     }
 
+    var currentAudioDevice: MediaDevice? {
+        return currentMeetingSession.audioVideo.getActiveAudioDevice()
+    }
+
     var isLocalVideoActive = false {
         didSet {
             if isLocalVideoActive {
@@ -234,6 +238,7 @@ class MeetingModel: NSObject {
             if audioSession.category != .playAndRecord {
                 try audioSession.setCategory(AVAudioSession.Category.playAndRecord,
                                              options: AVAudioSession.CategoryOptions.allowBluetooth)
+                try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
             }
             if audioSession.mode != .voiceChat {
                 try audioSession.setMode(.voiceChat)
@@ -343,7 +348,7 @@ extension MeetingModel: AudioVideoObserver {
 
     func audioSessionDidStart(reconnecting: Bool) {
         notifyHandler?("Audio successfully started. Reconnecting: \(reconnecting)")
-        logWithFunctionName(message: "reconnecting \(reconnecting), device \(currentMeetingSession.audioVideo.getActiveAudioDevice()?.label ?? "none")")
+        logWithFunctionName(message: "reconnecting \(reconnecting)")
         if !reconnecting {
             call?.isConnectedHandler?()
         }

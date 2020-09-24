@@ -13,7 +13,6 @@ import AVFoundation
     let logger: Logger
     let audioSession: AudioSession
     let deviceChangeObservers = ConcurrentMutableSet()
-    var currenDevice: MediaDevice?
 
     public init(audioSession: AudioSession,
                 videoClientController: VideoClientController,
@@ -50,7 +49,6 @@ import AVFoundation
             } else {
                 try audioSession.setPreferredInput(mediaDevice.port)
             }
-            self.currenDevice = mediaDevice
         } catch {
             logger.error(msg: "Error on setting audio input device: \(error.localizedDescription)")
         }
@@ -113,6 +111,18 @@ import AVFoundation
     }
 
     public func getActiveAudioDevice() -> MediaDevice? {
-        return self.currenDevice
+        // Check for speaker case
+        if audioSession.currentRoute.outputs.count > 0 {
+            let currentOutput = audioSession.currentRoute.outputs[0]
+
+            if currentOutput.portType == .builtInSpeaker {
+                return MediaDevice(label: "Built-in Speaker", type: MediaDeviceType.audioBuiltInSpeaker)
+            }
+        }
+        if audioSession.currentRoute.inputs.count > 0 {
+            return MediaDevice.fromAVSessionPort(port: audioSession.currentRoute.inputs[0])
+        } else {
+            return nil
+        }
     }
 }
