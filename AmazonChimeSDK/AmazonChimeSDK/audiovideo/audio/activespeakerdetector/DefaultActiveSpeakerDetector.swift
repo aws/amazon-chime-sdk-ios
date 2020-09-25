@@ -16,12 +16,14 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
 @objcMembers public class DefaultActiveSpeakerDetector: NSObject, ActiveSpeakerDetectorFacade, RealtimeObserver {
     private static let activityWaitIntervalMs = 1000
     private static let activityUpdateIntervalMs = 200
+    private static let millisecondsInSeconds = 1000
+    private static let activityWaitIntervalInSeconds = TimeInterval(activityWaitIntervalMs / millisecondsInSeconds)
 
     private let speakerScores = ConcurrentDictionary<AttendeeInfo, Double>()
     private var activeSpeakers: [AttendeeInfo] = []
     private let scoresTimers = ConcurrentDictionary<String, Scheduler>()
     private var hasBandwidthPriority = false
-    private let mostRecentUpdateTimestamp = ConcurrentDictionary<AttendeeInfo, Int>()
+    private let mostRecentUpdateTimestamp = ConcurrentDictionary<AttendeeInfo, TimeInterval>()
     private let audioClientObserver: AudioClientObserver
     private let selfAttendeeId: String
     private let policiesAndCallbacks = ConcurrentDictionary<String, (ActiveSpeakerPolicy, DetectorCallback)>()
@@ -43,9 +45,7 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
                 strongSelf.policiesAndCallbacks.forEach { (_, policyAndCallback) in
                     strongSelf.speakerScores.forEach { (attendeeInfo, _) in
                         let lastTimestamp = strongSelf.mostRecentUpdateTimestamp[attendeeInfo] ?? 0
-                        if Int(Double(DefaultActiveSpeakerDetector.activityWaitIntervalMs) *
-                            Date.timeIntervalSinceReferenceDate) - lastTimestamp
-                            > DefaultActiveSpeakerDetector.activityWaitIntervalMs {
+                        if Date.timeIntervalSinceReferenceDate - lastTimestamp > DefaultActiveSpeakerDetector.activityWaitIntervalInSeconds {
                             strongSelf.updateScore(
                                 policy: policyAndCallback.0,
                                 callback: policyAndCallback.1,
@@ -116,7 +116,7 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
     public func volumeDidChange(volumeUpdates: [VolumeUpdate]) {
         for volumeUpdate in volumeUpdates {
             mostRecentUpdateTimestamp[volumeUpdate.attendeeInfo]
-                = Int(Date.timeIntervalSinceReferenceDate * Double(DefaultActiveSpeakerDetector.activityWaitIntervalMs))
+                = Date.timeIntervalSinceReferenceDate
             policiesAndCallbacks.forEach {
                 updateScore(
                     policy: $0.value.0,
