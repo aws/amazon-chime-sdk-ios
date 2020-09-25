@@ -36,12 +36,14 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     }
 
     public func audioClientStateChanged(_ audioClientState: audio_client_state_t, status: audio_client_status_t) {
-        logger.debug(debugFunction: {
-            return "AudioClient State: \(audioClientState.rawValue) Status: \(status.rawValue)"
-        })
-
         let newAudioState = Converters.AudioClientState.toSessionStateControllerAction(state: audioClientState)
         let newAudioStatus = Converters.AudioClientStatus.toMeetingSessionStatusCode(status: status)
+
+        if newAudioState == .unknown {
+            logger.info(msg: "AudioClient State: \(newAudioState) Unknown Status rawValue: \(status.rawValue)")
+        } else {
+            logger.info(msg: "AudioClient State: \(newAudioState) Status: \(newAudioStatus)")
+        }
 
         if newAudioState == .unknown || (newAudioState == currentAudioState && newAudioStatus == currentAudioStatus) {
             return
