@@ -29,7 +29,7 @@ import AVFoundation
 
     public func listAudioDevices() -> [MediaDevice] {
         var inputDevices: [MediaDevice] = []
-        let loudSpeaker = MediaDevice(label: "Built-in Speaker", type: MediaDeviceType.audioBuiltInSpeaker)
+        let loudSpeaker = getSpeakerMediaDevice()
         if let availablePort = audioSession.availableInputs {
             inputDevices = availablePort.map { port in MediaDevice.fromAVSessionPort(port: port) }
         }
@@ -116,7 +116,7 @@ import AVFoundation
             let currentOutput = audioSession.currentRoute.outputs[0]
 
             if currentOutput.portType == .builtInSpeaker {
-                return MediaDevice(label: "Built-in Speaker", type: MediaDeviceType.audioBuiltInSpeaker)
+                return getSpeakerMediaDevice()
             }
         }
         if audioSession.currentRoute.inputs.count > 0 {
@@ -124,5 +124,9 @@ import AVFoundation
         } else {
             return nil
         }
+    }
+
+    private func getSpeakerMediaDevice() -> MediaDevice {
+        return MediaDevice(label: "Built-in Speaker", type: MediaDeviceType.audioBuiltInSpeaker)
     }
 }
