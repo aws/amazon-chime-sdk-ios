@@ -29,7 +29,8 @@ import Foundation
         let audioClientObserver = DefaultAudioClientObserver(audioClient: audioClient,
                                                              clientMetricsCollector: clientMetricsCollector,
                                                              audioClientLock: audioClientLock,
-                                                             configuration: configuration)
+                                                             configuration: configuration,
+                                                             logger: logger)
         let audioClientController = DefaultAudioClientController(audioClient: audioClient,
                                                                  audioClientObserver: audioClientObserver,
                                                                  audioSession: audioSession,

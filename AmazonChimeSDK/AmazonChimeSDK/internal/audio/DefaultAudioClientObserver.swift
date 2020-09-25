@@ -20,20 +20,26 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     private var currentAudioState = SessionStateControllerAction.initialize
     private var currentAudioStatus = MeetingSessionStatusCode.ok
     private let realtimeObservers = ConcurrentMutableSet()
+    private let logger: Logger
 
     private let audioLock: NSLock
 
     init(audioClient: AudioClient, clientMetricsCollector: ClientMetricsCollector,
-         audioClientLock: NSLock, configuration: MeetingSessionConfiguration) {
+         audioClientLock: NSLock, configuration: MeetingSessionConfiguration, logger: Logger) {
         self.audioClient = audioClient
         self.clientMetricsCollector = clientMetricsCollector
         self.configuration = configuration
+        self.logger = logger
         audioLock = audioClientLock
         super.init()
         audioClient.delegate = self
     }
 
     public func audioClientStateChanged(_ audioClientState: audio_client_state_t, status: audio_client_status_t) {
+        logger.debug(debugFunction: {
+            return "AudioClient State: \(audioClientState.rawValue) Status: \(status.rawValue)"
+        })
+
         let newAudioState = Converters.AudioClientState.toSessionStateControllerAction(state: audioClientState)
         let newAudioStatus = Converters.AudioClientStatus.toMeetingSessionStatusCode(status: status)
 
