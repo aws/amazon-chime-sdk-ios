@@ -40,7 +40,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         let newAudioStatus = Converters.AudioClientStatus.toMeetingSessionStatusCode(status: status)
 
         if newAudioState == .unknown {
-            logger.info(msg: "AudioClient State: \(newAudioState) Unknown Status rawValue: \(status.rawValue)")
+            logger.info(msg: "AudioClient State rawValue: \(audioClientState.rawValue) Unknown Status rawValue: \(status.rawValue)")
         } else {
             logger.info(msg: "AudioClient State: \(newAudioState) Status: \(newAudioStatus)")
         }
