@@ -1,11 +1,14 @@
 ## Unreleased
 
 ### Changed
-* **Breaking** The returned label for the Built-In Speaker `MediaDevice` has been changed from "Build-in Speaker" to "Buil*t*-in Speaker
+* **Breaking** The returned label for the Built-In Speaker `MediaDevice` has been changed from "Build-in Speaker" to "Buil*t*-in Speaker".
+* **Breaking** `timestampMs` on `DataMessage` type is changed to `Int64` to prevent overflow on 32-bit system.
 * Changed `maxRemoteVideoTileCount` in the Swift demo app from 8 to 16. Now the Swift demo app can support at most 16 remote video tiles.
 
 ### Fixed
 - Fixed a crash when joining meeting on device with 32-bit system (iPhone 5/5c) due to integer overflow in `DefaultActiveSpeakerDetector`
+- Fixed a crash when sending DataMessage on 32-bit system (iPhone 5/5c)
+- Fixed a crash when opening ObjC demo app on iPhone 5/5c
 
 ## [0.10.0] - 2020-09-10
 

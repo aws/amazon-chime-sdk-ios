@@ -12,7 +12,7 @@ import AmazonChimeSDKMedia
 /// Data message received from server.
 @objcMembers public class DataMessage: NSObject {
     /// Monotonically increasing server ingest time
-    public let timestampMs: Int
+    public let timestampMs: Int64
 
     /// Topic this message was sent on
     public let topic: String
@@ -43,7 +43,7 @@ import AmazonChimeSDKMedia
                 data: Data,
                 senderAttendeeId: String,
                 senderExternalUserId: String,
-                timestampMs: Int,
+                timestampMs: Int64,
                 throttled: Bool) {
         self.topic = topic
         self.data = data
