@@ -17,6 +17,7 @@ import Foundation
     /// Observes the active speaker scores at frequency scoresCallbackIntervalMs
     ///
     /// Note: this callback will be called on main thread.
+    /// Note: this callback will NOT be called unless scoresCallbackIntervalMs was set
     ///
     /// - Parameter scores: Active speaker scores for each attendee
     @objc optional func activeSpeakerScoreDidChange(scores: [AttendeeInfo: Double])
