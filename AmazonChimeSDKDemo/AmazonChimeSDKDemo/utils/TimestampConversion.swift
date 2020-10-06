@@ -9,7 +9,7 @@
 import Foundation
 
 class TimeStampConversion: NSObject {
-    static func formatTimestamp(timestamp: Int) -> String {
+    static func formatTimestamp(timestamp: Int64) -> String {
         let date = Date(timeIntervalSince1970: TimeInterval(timestamp / 1000))
         let dateFormatter = DateFormatter()
         dateFormatter.locale = NSLocale.current

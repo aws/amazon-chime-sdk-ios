@@ -184,7 +184,7 @@ class MeetingModel: NSObject {
          }
 
          let currentTimestamp = NSDate().timeIntervalSince1970
-         let timestamp = TimeStampConversion.formatTimestamp(timestamp: CLong(currentTimestamp) * 1000)
+         let timestamp = TimeStampConversion.formatTimestamp(timestamp: Int64(currentTimestamp) * 1000)
 
          chatModel
              .addChatMessage(chatMessage:
