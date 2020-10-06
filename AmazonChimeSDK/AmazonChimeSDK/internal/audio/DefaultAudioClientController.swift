@@ -106,4 +106,16 @@ extension DefaultAudioClientController: AudioClientController {
             }
         }
     }
+
+    func toggleVoiceFocus(on: Bool) -> Bool {
+        if Self.state == .started {
+            return audioClient.setBliteNSSelected(on) == Int(AUDIO_CLIENT_OK.rawValue)
+        } else {
+            return false
+        }
+    }
+
+    func isVoiceFocusOn() -> Bool {
+        return audioClient.isBliteNSSelected()
+    }
 }

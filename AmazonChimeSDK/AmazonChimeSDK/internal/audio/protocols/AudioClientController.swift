@@ -17,4 +17,6 @@ import Foundation
                joinToken: String,
                callKitEnabled: Bool) throws
     func stop()
+    func toggleVoiceFocus(on: Bool) -> Bool
+    func isVoiceFocusOn() -> Bool
 }

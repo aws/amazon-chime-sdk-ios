@@ -55,4 +55,17 @@ import Foundation
     /// - Parameter lifetimeMs: Message lifetime in milisecond, 5 mins max, default 0
     /// - Throws: SendDataMessageError
     func realtimeSendDataMessage(topic: String, data: Any, lifetimeMs: Int32) throws
+
+    /// Toggle Voice Focus (ML-based noise suppression) on/off
+    ///
+    /// Note: this API can only be called after audio session was started.
+    ///
+    /// - Parameter on: A `Bool` value, where `true` to toggle on, `false` to toggle off
+    /// - Returns: Whether toggle was successful
+    func realtimeToggleVoiceFocus(on: Bool) -> Bool
+
+    /// Get if Voice Focus (ML-based noise suppression) is on or not
+    ///
+    /// - Returns: `true` if Voice Focus is running; `false` if Voice Focus is not running
+    func realtimeIsVoiceFocusOn() -> Bool
 }
