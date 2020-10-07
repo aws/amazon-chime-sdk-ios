@@ -20,6 +20,7 @@ class MeetingViewController: UIViewController {
     @IBOutlet var deviceButton: UIButton!
     @IBOutlet var endButton: UIButton!
     @IBOutlet var muteButton: UIButton!
+    @IBOutlet var voiceFocusButton: UIButton!
     @IBOutlet var resumeCallKitMeetingButton: UIButton!
     @IBOutlet var segmentedControl: UISegmentedControl!
 
@@ -122,6 +123,10 @@ class MeetingViewController: UIViewController {
         meetingModel.isMutedHandler = { [weak self] isMuted in
             self?.muteButton.isSelected = isMuted
         }
+        meetingModel.toggleVoiceFocusHandler = { [weak self] isVoiceFocusOn in
+            self?.voiceFocusButton.isSelected = isVoiceFocusOn
+            self?.voiceFocusButton.tintColor = isVoiceFocusOn ? .systemBlue : .systemGray
+        }
         meetingModel.isEndedHandler = {
             DispatchQueue.main.async {
                 MeetingModule.shared().dismissMeeting(meetingModel)
@@ -165,7 +170,7 @@ class MeetingViewController: UIViewController {
         titleLabel.accessibilityLabel = "Meeting ID \(meetingModel?.meetingId ?? "")"
 
         // Buttons
-        let buttonStack = [muteButton, deviceButton, cameraButton, endButton, sendMessageButton]
+        let buttonStack = [muteButton, voiceFocusButton, deviceButton, cameraButton, endButton, sendMessageButton]
         for button in buttonStack {
             let normalButtonImage = button?.image(for: .normal)?.withRenderingMode(.alwaysTemplate)
             let selectedButtonImage = button?.image(for: .selected)?.withRenderingMode(.alwaysTemplate)
@@ -217,6 +222,7 @@ class MeetingViewController: UIViewController {
         containerView.isHidden = false
         chatView.isHidden = true
         muteButton.isEnabled = true
+        voiceFocusButton.isEnabled = true
         deviceButton.isEnabled = true
         cameraButton.isEnabled = true
 
@@ -246,6 +252,7 @@ class MeetingViewController: UIViewController {
             segmentedControl.isHidden = true
             containerView.isHidden = true
             muteButton.isEnabled = false
+            voiceFocusButton.isEnabled = false
             deviceButton.isEnabled = false
             cameraButton.isEnabled = false
         }
@@ -272,6 +279,10 @@ class MeetingViewController: UIViewController {
 
     @IBAction func muteButtonClicked(_: UIButton) {
         meetingModel?.setMute(isMuted: !muteButton.isSelected)
+    }
+
+    @IBAction func voiceFocusButtonClicked(_: UIButton) {
+        meetingModel?.toggleVoiceFocus(on: !voiceFocusButton.isSelected)
     }
 
     @IBAction func deviceButtonClicked(_: UIButton) {
