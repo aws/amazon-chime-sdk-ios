@@ -9,7 +9,7 @@ You will need to create a [Logger](https://aws.github.io/amazon-chime-sdk-ios/Pr
 
 ### 1a. Create a logger
 
-You can utilize the [ConsoleLogger](https://aws.github.io/amazon-chime-sdk-ios/Classes/ConsoleLogger.html) to write logs with [os_log](https://developer.apple.com/documentation/os/os_log). You can also implement the Logger interface to customize the logging behavior.
+You can utilize the [ConsoleLogger](https://aws.github.io/amazon-chime-sdk-ios/Classes/ConsoleLogger.html) to write logs with [os_log](https://developer.apple.com/documentation/os/os_log). You can also implement the Logger protocol to customize the logging behavior.
 
 ```
 let logger = ConsoleLogger(name: "test", level: LogLevel.DEBUG)
@@ -75,7 +75,7 @@ An AudioVideoObserver has the following methods:
 * [audioSessionDidStartConnecting(reconnecting:)
 ](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoObserver.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)audioSessionDidStartConnectingWithReconnecting:): called when the audio session is connecting or reconnecting
 * [audioSessionDidStart(reconnecting:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoObserver.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)audioSessionDidStartWithReconnecting:): called when the audio session has started
-* [audioSessionDidDrop()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoObserver.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)audioSessionDidDrop): called when audio session gets dropped due to poor network conditions
+* [audioSessionDidDrop()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoObserver.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)audioSessionDidDrop): called when the audio session gets dropped due to poor network conditions
 * [audioSessionDidStopWithStatus(sessionStatus:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoObserver.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)audioSessionDidStopWithStatusWithSessionStatus:): called when the audio session has stopped with the reason provided in the status
 * [audioSessionDidCancelReconnect()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoObserver.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)audioSessionDidCancelReconnect): called when the audio session cancelled reconnecting
 * [connectionDidBecomePoor()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoObserver.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)connectionDidBecomePoor) : called when connection health has become poor
@@ -88,7 +88,7 @@ An AudioVideoObserver has the following methods:
 
 Call this method after doing pre-requisite configuration (See previous sections). Audio permissions are required for starting the meeting session. 
 
-To start the meeting session, call meetingSession.audioVideo.[start(callKitEnabled:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startWithCallKitEnabled:error:). This will start underlying media clients and will start sending and receiving audio. Equivalently, call meetingSession.audioVideo.[start()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startAndReturnError:) if the call is not reported to CallKit so that audio interruptions will be handled by the SDK itself.
+To start the meeting session, call meetingSession.audioVideo.[start(callKitEnabled:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startWithCallKitEnabled:error:). This will start underlying media clients and will start sending and receiving audio. Alternatively, call meetingSession.audioVideo.[start()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startAndReturnError:) if the call is not reported to CallKit so that audio interruptions will be handled by the SDK itself.
 
 To stop the meeting session, call meetingSession.audioVideo.[stop()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)stop). 
 
@@ -109,8 +109,8 @@ A RealtimeObserver has the following methods:
 * [attendeesDidJoin(attendeeInfo:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/RealtimeObserver.html#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidJoinWithAttendeeInfo:): called when one or more attendees join the meeting
 * [attendeesDidLeave(attendeeInfo:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/RealtimeObserver.html#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidLeaveWithAttendeeInfo:): called when one or more attendees leave the meeting
 * [attendeesDidDrop(attendeeInfo:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/RealtimeObserver.html#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidDropWithAttendeeInfo:): called when one or more attendees get dropped
-* [attendeesDidMute(attendeeInfo:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/RealtimeObserver.html#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidMuteWithAttendeeInfo:): called when one or more attendee become muted
-* [attendeesDidUnmute(attendeeInfo:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/RealtimeObserver.html#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidUnmuteWithAttendeeInfo:): called when one or more attendee become unmuted
+* [attendeesDidMute(attendeeInfo:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/RealtimeObserver.html#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidMuteWithAttendeeInfo:): called when one or more attendees become muted
+* [attendeesDidUnmute(attendeeInfo:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/RealtimeObserver.html#/c:@M@AmazonChimeSDK@objc(pl)RealtimeObserver(im)attendeesDidUnmuteWithAttendeeInfo:): called when one or more attendees become unmuted
 
 Note that only attendees whose volume level, mute state, or signal strength has changed will be included. All callbacks provide both the attendee ID and external user ID from [chime:CreateAttendee](https://docs.aws.amazon.com/chime/latest/APIReference/API_CreateAttendee.html) so that you may map between the two IDs.
 
@@ -118,13 +118,11 @@ Note that only attendees whose volume level, mute state, or signal strength has 
 
 If you are interested in detecting the active speaker (e.g. to display the active speaker's video as a large, central tile), implement an [ActiveSpeakerObserver](https://aws.github.io/amazon-chime-sdk-ios/Protocols/ActiveSpeakerObserver.html) and register the observer with the audio video facade.
 
-You will also need to provide an [ActiveSpeakerPolicy](https://aws.github.io/amazon-chime-sdk-ios/Protocols/ActiveSpeakerPolicy.html). You can use [DefaultActiveSpeakerPolicy](https://aws.github.io/amazon-chime-sdk-ios/Classes/DefaultActiveSpeakerPolicy.html) or implement the ActiveSpeakerPolicy interface to customize the policy.
+You will also need to provide an [ActiveSpeakerPolicy](https://aws.github.io/amazon-chime-sdk-ios/Protocols/ActiveSpeakerPolicy.html). You can use [DefaultActiveSpeakerPolicy](https://aws.github.io/amazon-chime-sdk-ios/Classes/DefaultActiveSpeakerPolicy.html) or implement the ActiveSpeakerPolicy protocol to customize the policy.
 
 To add an ActiveSpeakerObserver, call meetingSession.audioVideo.[addActiveSpeakerObserver(policy:observer:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/ActiveSpeakerDetectorFacade.html#/c:@M@AmazonChimeSDK@objc(pl)ActiveSpeakerDetectorFacade(im)addActiveSpeakerObserverWithPolicy:observer:).
 
 To remove an ActiveSpeakerObserver, call meetingSession.audioVideo.[removeActiveSpeakerObserver(observer:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/ActiveSpeakerDetectorFacade.html#/c:@M@AmazonChimeSDK@objc(pl)ActiveSpeakerDetectorFacade(im)removeActiveSpeakerObserverWithObserver:).
-
-You can also tell the active speaker detector whether or not to prioritize video bandwidth for active speakers by calling [hasBandwidthPriorityCallback(hasBandwidthPriority:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/ActiveSpeakerDetectorFacade.html#/c:@M@AmazonChimeSDK@objc(pl)ActiveSpeakerDetectorFacade(im)hasBandwidthPriorityCallbackWithHasBandwidthPriority:)
 
 An ActiveSpeakerObserver has the following methods:
 
@@ -183,16 +181,16 @@ A VideoTileObserver has the following methods:
 * [videoTileDidRemove(tileState:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoTileObserver.html#/c:@M@AmazonChimeSDK@objc(pl)VideoTileObserver(im)videoTileDidRemoveWithTileState:): called when an attendee stops sharing video
 * [videoTileDidPause(tileState:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoTileObserver.html#/c:@M@AmazonChimeSDK@objc(pl)VideoTileObserver(im)videoTileDidPauseWithTileState:): called when a video tile's pause state changes from Unpaused
 * [videoTileDidResume(tileState:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoTileObserver.html#/c:@M@AmazonChimeSDK@objc(pl)VideoTileObserver(im)videoTileDidResumeWithTileState:): called when a video tile's pause state changes to Unpaused
-* [videoTileSizeDidChange(tileState:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoTileObserver.html#/c:@M@AmazonChimeSDK@objc(pl)VideoTileObserver(im)videoTileSizeDidChangeWithTileState:): called when a video steam content size changes
+* [videoTileSizeDidChange(tileState:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoTileObserver.html#/c:@M@AmazonChimeSDK@objc(pl)VideoTileObserver(im)videoTileSizeDidChangeWithTileState:): called when a video tile's content size changes
 
 A pause or resume event can occur when the underlying media client pauses the video tile for connection reasons or when the pause or resume video tile methods are called.
 
-The video tile state is represented with a [VideoPauseState](https://aws.github.io/amazon-chime-sdk-ios/Enums/VideoPauseState.html) that describes whether it is paused and if so why (e.g., paused by user request, or paused for poor connection).
+The video tile state is represented by a [VideoPauseState](https://aws.github.io/amazon-chime-sdk-ios/Enums/VideoPauseState.html) that describes if and why (e.g., paused by user request, or paused for poor connection) it was paused.
 
 ### 8e. Binding a video tile to a video view
 
 To display video, you will also need to bind a video view to a video tile. Create a [VideoRenderView](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoRenderView.html) and bind that view to the video tile in VideoTileObserver's `onVideoTileAdded` method. You can use [DefaultVideoRenderView](https://aws.github.io/amazon-chime-sdk-ios/Classes/DefaultVideoRenderView.html) or customize the behavior by implementing the
-VideoRenderView interface.
+VideoRenderView protocol.
 
 To bind a video tile to a view, call meetingSession.audioVideo.[bindVideoView(videoView:tileId:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoTileControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade(im)bindVideoViewWithVideoView:tileId:).
 
@@ -214,17 +212,17 @@ To remove a MetricsObserver, call meetingSession.audioVideo.[removeMetricsObserv
 
 A MetricsObserver has the following method:
 
-* [onMetricsReceived](https://aws.github.io/amazon-chime-sdk-ios/Protocols/MetricsObserver.html): called when audio/video related metrics are received
+* [metricsDidReceive(metrics:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/MetricsObserver.html#/c:@M@AmazonChimeSDK@objc(pl)MetricsObserver(im)metricsDidReceiveWithMetrics:): called when audio/video related metrics are received
 
-## 10. Send and receive data messages (optional)
+## 10. Sending and receiving data messages (optional)
 Attendees can broadcast small (2KB max) data messages to other attendees. Data messages can be used to signal attendees of changes to meeting state or develop custom collaborative features. Each message is sent on a particular topic, which allows you to tag messages according to their function to make it easier to handle messages of different types.
 
-To send a message on a given topic, meetingSession.audioVideo.[realtimeSendDataMessage(topic:data:lifetimeMs:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/RealtimeControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)realtimeSendDataMessageWithTopic:data:lifetimeMs:error:). When sending a message, the media server stores the messages for the duration of `lifetimeMs` specified. Up to 1024 messages may be stored for a maximum of 5 minutes. Any attendee joining late or reconnecting will automatically receive the messages in this buffer once they connect. You can use this feature to help paper over gaps in connectivity or give attendees some context into messages that were recently received.
+To send a message on a given topic, meetingSession.audioVideo.[realtimeSendDataMessage(topic:data:lifetimeMs:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/RealtimeControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)realtimeSendDataMessageWithTopic:data:lifetimeMs:error:). When sending a message, the media server stores the messages for the duration specified by `lifetimeMs`. Up to 1024 messages may be stored for a maximum of 5 minutes. Any attendee joining late or reconnecting will automatically receive the messages in this buffer once they connect. You can use this feature to help paper over gaps in connectivity or give attendees some context into messages that were recently received.
 
-To receive messages on a given topic, implement a [DataMessageObserver](https://aws.github.io/amazon-chime-sdk-ios/Protocols/DataMessageObserver.html) and subscribe it to the topic using meetingSession.audioVideo.[addRealtimeDataMessageObserver(topic:observer:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/RealtimeControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)addRealtimeDataMessageObserverWithTopic:observer:). In the observer, you receive a [DataMessage](https://aws.github.io/amazon-chime-sdk-ios/Classes/DataMessage.html) containing the payload of the message and other metadata about the message.
+To receive messages on a given topic, implement a [DataMessageObserver](https://aws.github.io/amazon-chime-sdk-ios/Protocols/DataMessageObserver.html) and subscribe it to the topic using meetingSession.audioVideo.[addRealtimeDataMessageObserver(topic:observer:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/RealtimeControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)addRealtimeDataMessageObserverWithTopic:observer:). Through [dataMessageDidReceived(dataMessage:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/DataMessageObserver.html#/c:@M@AmazonChimeSDK@objc(pl)DataMessageObserver(im)dataMessageDidReceivedWithDataMessage:) in the observer, you receive a [DataMessage](https://aws.github.io/amazon-chime-sdk-ios/Classes/DataMessage.html) containing the payload of the message and other metadata about the message.
 
-To unsubscribe the receive message observers, call meetingSession.audioVideo.[removeRealtimeDataMessageObserverFromTopic(topic:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/RealtimeControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)removeRealtimeDataMessageObserverFromTopicWithTopic:), which removes all observers for the topic.
+To unsubscribe all `DataMessageObserver`s from the topic, call meetingSession.audioVideo.[removeRealtimeDataMessageObserverFromTopic(topic:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/RealtimeControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)removeRealtimeDataMessageObserverFromTopicWithTopic:).
 
 If you send too many messages at once, your messages may be returned to you with the [throttled](https://aws.github.io/amazon-chime-sdk-ios/Classes/DataMessage.html#/c:@M@AmazonChimeSDK@objc(cs)DataMessage(py)throttled) flag set. If you continue to exceed the throttle limit, the server may hang up the connection.
 
-Note: You can only send and receive data message when audio video is started. Make sure to call meetingSession.audioVideo.[start()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startAndReturnError:) or meetingSession.audioVideo.[start(callKitEnabled:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startWithCallKitEnabled:error:) before sending messages. To receive messages from the server, subscribe the `DataMessageObserver` to the topic, and do so before starting audio video to avoid missing messages.
+Note: You can only send and receive data message after calling meetingSession.audioVideo.[start()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startAndReturnError:) or meetingSession.audioVideo.[start(callKitEnabled:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startWithCallKitEnabled:error:). To avoid missing messages, subscribe the `DataMessageObserver` to the topic prior to starting audio video.
