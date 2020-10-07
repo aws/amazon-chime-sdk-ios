@@ -9,10 +9,10 @@ You will need to create a [Logger](https://aws.github.io/amazon-chime-sdk-ios/Pr
 
 ### 1a. Create a logger
 
-You can utilize the [ConsoleLogger](https://aws.github.io/amazon-chime-sdk-ios/Classes/ConsoleLogger.html) to write logs with iOS' [os_log](https://developer.apple.com/documentation/os/os_log). You can also implement the Logger interface to customize the logging behavior.
+You can utilize the [ConsoleLogger](https://aws.github.io/amazon-chime-sdk-ios/Classes/ConsoleLogger.html) to write logs with [os_log](https://developer.apple.com/documentation/os/os_log). You can also implement the Logger interface to customize the logging behavior.
 
 ```
-val logger = ConsoleLogger(name: "test", level: LogLevel.DEBUG) 
+let logger = ConsoleLogger(name: "test", level: LogLevel.DEBUG)
 ```
 
 ### 1b. Create a meeting session configuration
@@ -21,10 +21,10 @@ Create a [MeetingSessionConfiguration](https://aws.github.io/amazon-chime-sdk-io
 
 ### 1c. Create a meeting session
 
-Using the above objects and an application context, create a [DefaultMeetingSession](https://aws.github.io/amazon-chime-sdk-ios/Classes/DefaultMeetingSession.html).
+Create a [DefaultMeetingSession](https://aws.github.io/amazon-chime-sdk-ios/Classes/DefaultMeetingSession.html) with the `MeetingSessionConfiguration` object created above.
 
 ```
-val meetingSession = DefaultMeetingSession(sessionConfig, logger, applicationContext)
+let meetingSession = DefaultMeetingSession(configuration: configuration, logger: logger)
 ```
 
 ## Configure the session
