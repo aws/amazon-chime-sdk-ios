@@ -1,4 +1,4 @@
-## Unreleased
+## [0.11.0] - 2020-10-08
 
 ### Changed
 * **Breaking** The returned label for the Built-In Speaker `MediaDevice` has been changed from "Build-in Speaker" to "Buil*t*-in Speaker".
