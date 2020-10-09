@@ -25,8 +25,8 @@ To get started, see the following resources:
 * [SDK Documentation](https://aws.github.io/amazon-chime-sdk-ios/)
 
 And review the following guides:
-
-* [Getting Started](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/01_Getting_Started.md)
+* [API Overview](guides/api_overview.md)
+* [Getting Started](guides/getting_started.md)
 
 ## Setup
 
