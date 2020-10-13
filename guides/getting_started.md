@@ -4,7 +4,7 @@
 
 * You have read [Building a Meeting Application using the Amazon Chime SDK](https://aws.amazon.com/blogs/business-productivity/building-a-meeting-application-using-the-amazon-chime-sdk/). You understand the basic architecture of Amazon Chime SDK and deployed a serverless/browser demo meeting application.
 * You have a basic to intermediate understanding of iOS development and tools.
-* You have installed Xcode version 11.0 or later.
+* You have installed Xcode version 11.3 or later.
 
 Note: Deploying the serverless/browser demo and receiving traffic from the demo created in this post can incur AWS charges.
 
