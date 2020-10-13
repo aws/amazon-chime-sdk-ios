@@ -1,55 +1,68 @@
-# Amazon Chime SDK for iOS
+# Getting Started
 
-## Getting Started
+## Prerequisites
 
-This guide contains a quick explanation of initializing the meeting session and using that to 
-access audio and video features. For more information, please refer to the [SDK Documentation](https://aws.github.io/amazon-chime-sdk-ios/)
-or refer to the demo app.
+* You have read [Building a Meeting Application using the Amazon Chime SDK](https://aws.amazon.com/blogs/business-productivity/building-a-meeting-application-using-the-amazon-chime-sdk/). You understand the basic architecture of Amazon Chime SDK and deployed a serverless/browser demo meeting application.
+* You have a basic to intermediate understanding of iOS development and tools.
+* You have installed Xcode version 11.3 or later.
 
-## Permissions
-Before calling the APIs to start audio and video, the app will need microphone and camera 
-permissions from the user.
+Note: Deploying the serverless/browser demo and receiving traffic from the demo created in this post can incur AWS charges.
 
-In Xcode, open `Info.plist` and add `NSMicrophoneUsageDescription` ("Privacy - Microphone Usage Description") and `NSCameraUsageDescription` ("Privacy - Camera Usage Description")
-to the property list. This will allow the app to ask for microphone and camera permissions.
+## Configure your application
 
-After doing this, you will also need to request permissions for microphone and camera access in your source code. You can either do this with `AVAudioSession.recordPermission` and `AVCaptureDevice.authorizationStatus`, handling the response synchronously and falling back to requesting permissions, or you can use `requestRecordPermission` and `requestAccess` with an asynchronous completion handler.
+To declare the Amazon Chime SDK as a dependency, you must complete the following steps.
+
+1. Follow the steps in the *Setup* section in the [README](https://github.com/aws/amazon-chime-sdk-ios/blob/master/README.md) file to download and import the Amazon Chime SDK.
+2. Add `Privacy - Microphone Usage Description` and `Privacy - Camera Usage Description` to the `Info.plist` of your Xcode project.
+3. Request microphone and camera permissions. You can use `AVAudioSession.recordPermission` and `AVCaptureDevice.authorizationStatus` by handling the response synchronously and falling back to requesting permissions. You can also use `requestRecordPermission` and `requestAccess` with an asynchronous completion handler.
 ```
-AVAudioSession.sharedInstance().requestRecordPermission
+switch AVAudioSession.sharedInstance().recordPermission {
+  case AVAudioSessionRecordPermission.granted:
+    // You can use audio.
+    ...
+  case AVAudioSessionRecordPermission.denied:
+    // You may not use audio. Your application should handle this.
+    ...
+  case AVAudioSessionRecordPermission.undetermined:
+    // You must request permission.
+    AVAudioSession.sharedInstance().requestRecordPermission({ (granted) in
+      if granted {
+        ...
+      } else {
+        // The user rejected your request.
+      }
+    })
+}
 
+// Request permission for video. You can similarly check
+// using AVCaptureDevice.authorizationStatus(for: .video).
 AVCaptureDevice.requestAccess(for: .video)
 ```
 
-Calling the APIs without having the above permissions granted will result in a `PermissionError`.
+## Create a meeting session
 
-## Getting Meeting Info
+To start a meeting, you need to create a meeting session. We provide `DefaultMeetingSession` as an actual implementation of the protocol `MeetingSession`. `DefaultMeetingSession` takes in both `MeetingSessionConfiguration` and `ConsoleLogger`.
 
-The first step is to get various parameters about the meeting. The client application will receive 
-this information from the server application. It is up to the builder to decide on how the client
-application and server application communicates. 
-
-For testing purposes, you can deploy the serverless demo from [amazon-chime-sdk-js](https://github.com/aws/amazon-chime-sdk-js). 
-After the deployment you will have a URL (which this guide will refer to as `server_url`)
-
-To get the meeting info make a POST request to:
-
+1. Create a `ConsoleLogger` for logging.
 ```
-"\(server_url)join?title=\(meetingId)&name=\(attendeeName)&region=\(meetingRegion)"
+let logger = ConsoleLogger(name: "MeetingViewController")
 ```
+2. Make a POST request to `server_url` to create a meeting and an attendee. The `server_url` is the URL of the serverless demo meeting application you deployed (see Prerequisites section).
+Note: use `https://xxxxx.xxxxx.xxx.com/Prod/` instead of v2 url.
+```
+var url = "\(server_url)join?title=\(meetingId)&name=\(attendeeName)&region=\(meetingRegion)"
+url = encodeStrForURL(str: url)
 
-These are the parameters to include in the request:
-* meetingId: Meeting ID for the meeting to join
-* attendeeName: Attendee name to join the meeting with
-* meetingRegion: One of the 14 regions supported by the AWS SDK, for example `"us-east-1"`
-
-Before making any HTTP request, make sure to URL-encode these request parameters. In our demo code, we have such an `encodeStrForURL` function to do so.
-
-## Create MeetingSessionConfiguration
-
-Parse the JSON response obtained from your server application to create the `MeetingSessionConfiguration` object. 
-
+// Helper function for URL encoding.
+public static func encodeStrForURL(str: String) -> String {
+    return str.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? str
+}
+```
+3. Create a `MeetingSessionConfiguration`. JSON response of the POST request contains data required for constructing a `CreateMeetingResponse` and a `CreateAttendeeResponse`.
 ```
 let joinMeetingResponse = try jsonDecoder.decode(MeetingResponse.self, from: data)
+
+// Construct CreatMeetingResponse and CreateAttendeeResponse.
 let meetingResp = CreateMeetingResponse(meeting:
     Meeting(
         externalMeetingId: joinMeetingResponse.joinInfo.meeting.meeting.externalMeetingId,
@@ -63,28 +76,23 @@ let meetingResp = CreateMeetingResponse(meeting:
         meetingId: joinMeetingResponse.joinInfo.meeting.meeting.meetingId
     )
 )
+
 let attendeeResp = CreateAttendeeResponse(attendee:
     Attendee(attendeeId: joinMeetingResponse.joinInfo.attendee.attendee.attendeeId,
         externalUserId: joinMeetingResponse.joinInfo.attendee.attendee.externalUserId,
         joinToken: joinMeetingResponse.joinInfo.attendee.attendee.joinToken
     )
 )
-return (meetingResp, attendeeResp)
-```
 
-```
+// Construct MeetingSessionConfiguration.
 let meetingSessionConfig = MeetingSessionConfiguration(
-    createMeetingResponse: meetingResp,
-    createAttendeeResponse: attendeeResp
+    createMeetingResponse: currentMeetingResponse,
+    createAttendeeResponse: currentAttendeeResponse
 )
 ```
-
-## Create MeetingSession
-
-Create the `DefaultMeetingSession` using the `MeetingSessionConfiguration` object.
-
+4. Now create an instance of `DefaultMeetingSession`.
 ```
-self.currentMeetingSession = DefaultMeetingSession(
+let currentMeetingSession = DefaultMeetingSession(
     configuration: meetingSessionConfig,
     logger: logger
 )
@@ -92,235 +100,95 @@ self.currentMeetingSession = DefaultMeetingSession(
 
 ## Access AudioVideoFacade
 
-### Audio
+`AudioVideoFacade` is used to control audio and video experience. Inside the `DefaultMeetingSession` object, `audioVideo` is an instance variable of type `AudioVideoFacade`.
 
-To start audio:
+1. To start audio, you can call start on `AudioVideoFacade`.
 ```
 do {
     try self.currentMeetingSession?.audioVideo.start()
 } catch PermissionError.audioPermissionError {
-} catch {}
+    // Handle the case where no permission is granted.
+} catch {
+    // Catch other errors.
+}
 ```
-
-To stop audio:
+2. You can turn local audio on and off by calling the mute and unmute APIs.
 ```
-self.currentMeetingSession?.audioVideo.stop()
-```
-
-To listen to AudioClient’s lifecycle events:
-```
-self.currentMeetingSession?.audioVideo.addAudioVideoObserver(AudioVideoObserver)
-
-self.currentMeetingSession?.audioVideo.removeAudioVideoObserver(AudioVideoObserver)
-```
-
-A class implementing `AudioVideoObserver` would need to implement the following:
-
-```
-audioSessionDidStartConnecting(reconnecting: Bool)
-
-audioSessionDidStart(reconnecting: Bool)
-
-audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus)
-
-audioSessionDidCancelReconnect()
-
-connectionDidRecover()
-
-connectionDidBecomePoor()
-
-videoSessionDidStartConnecting()
-
-videoSessionDidStartWithStatus(sessionStatus: MeetingSessionStatus)
-
-videoSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus)
-```
-
-To Mute the Microphone:
-```
+// Mute audio.
 self.currentMeetingSession?.audioVideo.realtimeLocalMute()
-```
-
-To Unmute the Microphone:
-```
+// Unmute audio.
 self.currentMeetingSession?.audioVideo.realtimeLocalUnmute()
 ```
-
-To listen to real time events such as volume update, signal update, and attendee join / leave events:
+3. There are two sets of APIs for starting and stopping video. `startLocalVideo` and `stopLocalVideo` are for turning on and off the camera on the user’s device. `startRemoteVideo` and `stopRemoteVideo` are for receiving videos from other participants on the same meeting.
 ```
-self.currentMeetingSession?.audioVideo.addRealtimeObserver(RealtimeObserver)
+// Start local video.
+do {
+    try self.currentMeetingSession?.audioVideo.startLocalVideo()
+} catch PermissionError.videoPermissionError {
+    // Handle the case where no permission is granted.
+} catch {
+    // Catch some other errors.
+}
 
-self.currentMeetingSession?.audioVideo.removeRealtimeObserver(RealtimeObserver)
+// Start remote video.
+self.currentMeetingSession?.audioVideo.startRemoteVideo()
+
+// Stop local video.
+self.currentMeetingSession?.audioVideo.stopLocalVideo()
+
+// Stop remote video.
+self.currentMeetingSession?.audioVideo.stopRemoteVideo()
 ```
-
-A class implementing `RealtimeObserver` would need to implement the following:
-
+4. You can switch the camera for local video between front-facing and rear-facing. Call `switchCamera` and have different logic based on the camera type returned by calling `getActiveCamera`.
 ```
-volumeDidChange(volumeUpdates: [VolumeUpdate])
+self.currentMeetingSession?.audioVideo.switchCamera()
 
-signalStrengthDidChange(signalUpdates: [SignalUpdate])
-
-attendeesDidJoin(attendeeInfo: [AttendeeInfo])
-
-attendeesDidLeave(attendeeInfo: [AttendeeInfo])
-
-attendeesDidMute(attendeeInfo: [AttendeeInfo])
-
-attendeesDidUnmute(attendeeInfo: [AttendeeInfo])
-```
-
-To detect active speaker:
-```
-self.currentMeetingSession?.audioVideo.addActiveSpeakerObserver(policy: DefaultActiveSpeakerPolicy(), observer: self)
-```
-
-A class implementing `ActiveSpeakerObserver` would need to implement the following:
-
-```
-scoresCallbackIntervalMs: Int
-
-activeSpeakerDidDetect(attendeeInfo: [AttendeeInfo])
-
-activeSpeakerScoreDidChange(scores: [AttendeeInfo: Double])
-```
-
-That class will also need to provide an `observerId`:
-```
-extension MeetingViewController: ActiveSpeakerObserver {
-    var observerId: String {
-        return self.uuid
-    }
+// Add logic to respond to camera type change.
+switch self.currentMeetingSession?.audioVideo.getActiveCamera().type {
+case MediaDeviceType.videoFrontCamera:
+    ...
+case MediaDeviceType.videoBackCamera:
+    ...
+default:
+    ...
 }
 ```
 
-You can also define a logic to determine who are the active speakers by implementing `ActiveSpeakerPolicy` or use the default implementation `DefaultActiveSpeakerPolicy`. 
+## Render a video tile
 
-A class implementing `ActiveSpeakerPolicy` would need to implement the following:
+By implementing `videoTileDidAdd` and `videoTileDidRemove` on the `VideoTileObserver`, you can track the currently active video tiles. The video track can come from either camera or screen share.
+
+`DefaultVideoRenderView` is used to render the frames of videos on `UIImageView`. Once you have both `VideoTileState` and a `DefaultVideoRenderView`, you can bind them by calling `bindVideoView`.
 ```
-calculateScore(attendeeInfo: AttendeeInfo, volume: VolumeLevel) -> Double
+// Register the observer.
+audioVideo.addVideoTileObserver(observer: VideoTileObserver)
 
-prioritizeVideoSendBandwidthForActiveSpeaker() -> Bool
-```
+func videoTileDidAdd(tileState: VideoTileState) {
+    logger.info(msg: "Video tile added, titleId: \(tileState.tileId), attendeeId: \(tileState.attendeeId), isContent: \(tileState.isContent)")
 
-Note that the default implementations of other components currently do not do anything with the result of `prioritizeVideoSendBandwidthForActiveSpeaker`
+    showVideoTile(tileState)
+}
 
-### Devices
+func videoTileDidRemove(tileState: VideoTileState) {
+    logger.info(msg: "Video tile removed, titleId: \(tileState.tileId), attendeeId: \(tileState.attendeeId)")
 
-To list audio devices:
-```
-self.currentMeetingSession?.audioVideo.listAudioDevices()
-```
+    // Unbind the video tile to release the resource
+    audioVideo.unbindVideoView(tileId)
+}
 
-To select an audio device to use:
-```
-self.currentMeetingSession?.audioVideo.chooseAudioDevice(MediaDevice)
-```
+// It could be remote or local video.
+func showVideoTile(_ tileState: VideoTileState) {
+    // Render the DefaultVideoRenderView
 
-To listen to audio device changes:
-```
-self.currentMeetingSession?.audioVideo.addDeviceChangeObserver(DeviceChangeObserver)
-
-self.currentMeetingSession?.audioVideo.removeDeviceChangeObserver(DeviceChangeObserver)
-```
-
-A class implementing `DeviceChangeObserver` would need to implement the following:
-
-```
-audioDeviceDidChange(freshAudioDeviceList: [MediaDevice])
+    //Bind the video tile to the DefaultVideoRenderView
+    audioVideo.bindVideoView(someDefaultVideoRenderView, tileState.tileId)
+}
 ```
 
-### Metrics
+## Test
 
-To listen to metrics:
-```
-self.currentMeetingSession?.audioVideo.addMetricsObserver(MetricsObserver)
+After building and running your iOS application, you can verify the end-to-end behavior. Test it by joining the same meeting from your iOS device and a browser (using the demo application you set up in the prerequisites).
 
-self.currentMeetingSession?.audioVideo.removeMetricsObserver(MetricsObserver)
-```
+## Cleanup
 
-A class implementing `MetricsObserver` would need to implement the following:
-```
-metricsDidReceive(metrics: [AnyHashable: Any])
-```
-
-### Video
-
-To start self video (local video):
-```
-self.currentMeetingSession?.audioVideo.startLocalVideo()
-```
-
-To stop self video (local video):
-```
-self.currentMeetingSession?.audioVideo.stopLocalVideo()
-```
-
-To start remote video:
-```
-self.currentMeetingSession?.audioVideo.startRemoteVideo()
-```
-
-To stop remote video:
-```
-self.currentMeetingSession?.audioVideo.stopRemoteVideo()
-```
-
-To switch camera:
-```
-self.currentMeetingSession?.audioVideo.switchCamera()
-```
-
-To get active camera:
-```
-self.currentMeetingSession?.audioVideo.getActiveCamera()
-```
-
-### Working with video view
-In order to bind a video source to the UI, implement `VideoTileObserver`, which has the following:
-
-```
-videoTileDidAdd(tileState: VideoTileState)
-
-videoTileDidRemove(tileState: VideoTileState)
-
-videoTileDidPause(tileState: VideoTileState)
-
-videoTileDidResume(tileState: VideoTileState)
-```
-
-To add `VideoTileObserver`:
-```
-self.currentMeetingSession?.audioVideo.addVideoTileObserver(VideoTileObserver)
-```
-
-To remove `VideoTileObserver`:
-```
-self.currentMeetingSession?.audioVideo.removeVideoTileObserver(VideoTileObserver)
-```
-
-After receiving a `VideoTileState` from the video tile events, use it to bind the UI view to the video stream:
-```
-self.currentMeetingSession?.audioVideo.bindVideoView(videoView: VideoRenderView, tileId: Int)
-```
-
-To unbind the UI view from the video stream:
-```
-self.currentMeetingSession?.audioVideo.unbindVideoView(tileId: Int)
-```
-
-To pause remote video:
-```
-self.currentMeetingSession?.audioVideo.pauseRemoteVideoTile(tileId)
-```
-
-To resume remote video:
-```
-self.currentMeetingSession?.audioVideo.resumeRemoteVideoTile(tileId)
-```
-
-### VideoRenderView
-In order to render frames from the video client, the UIView needs to implement the `VideoRenderView` protocol:
-
-```
-func renderFrame(frame: Any?)
-```
+If you no longer want to keep the demo active in your AWS account and want to avoid incurring AWS charges, the demo resources can be removed. Delete the two [AWS CloudFormation](https://aws.amazon.com/cloudformation/) stacks created in the prerequisites that can be found in the [AWS CloudFormation console](https://console.aws.amazon.com/cloudformation/home).
