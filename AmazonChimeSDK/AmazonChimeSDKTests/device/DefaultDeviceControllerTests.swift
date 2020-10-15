@@ -21,7 +21,9 @@ class DefaultDeviceControllerTests: XCTestCase {
     override func setUp() {
         videoClientControllerMock = mock(VideoClientController.self)
         loggerMock = mock(Logger.self)
+        let route = AVAudioSession.sharedInstance().currentRoute
         audioSessionMock = mock(AudioSession.self)
+        given(audioSessionMock.getCurrentRoute()).willReturn(route)
         defaultDeviceController = DefaultDeviceController(audioSession: audioSessionMock,
                                                           videoClientController: videoClientControllerMock,
                                                           logger: loggerMock)
@@ -56,5 +58,23 @@ class DefaultDeviceControllerTests: XCTestCase {
         defaultDeviceController.switchCamera()
 
         verify(videoClientControllerMock.switchCamera()).wasCalled()
+    }
+
+    func testGetCurrentAudioDevice() {
+        let currentDevice = defaultDeviceController.getActiveAudioDevice()
+        let route = AVAudioSession.sharedInstance().currentRoute
+        var expected: MediaDevice?
+        if route.outputs.count > 0 {
+            if route.outputs[0].portType == .builtInSpeaker {
+                expected = MediaDevice(label: "Built-in Speaker", type: MediaDeviceType.audioBuiltInSpeaker)
+            } else if route.inputs.count > 0 {
+                expected = MediaDevice.fromAVSessionPort(port: route.inputs[0])
+            }
+        }
+
+        verify(audioSessionMock.getCurrentRoute()).wasCalled(2)
+        XCTAssertEqual(currentDevice?.label, expected?.label)
+        XCTAssertEqual(currentDevice?.type, expected?.type)
+
     }
 }

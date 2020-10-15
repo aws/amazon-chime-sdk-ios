@@ -14,6 +14,7 @@ import Foundation
     var availableInputs: [AVAudioSessionPortDescription]? { get }
     func setPreferredInput(_ inPort: AVAudioSessionPortDescription?) throws
     func overrideOutputAudioPort(_ portOverride: AVAudioSession.PortOverride) throws
+    var currentRoute: AVAudioSessionRouteDescription { get }
 }
 
 extension AVAudioSession: AudioSession {}

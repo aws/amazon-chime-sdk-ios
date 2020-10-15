@@ -118,6 +118,10 @@ class MeetingModel: NSObject {
         return currentMeetingSession.audioVideo.listAudioDevices()
     }
 
+    var currentAudioDevice: MediaDevice? {
+        return currentMeetingSession.audioVideo.getActiveAudioDevice()
+    }
+
     var isLocalVideoActive = false {
         didSet {
             if isLocalVideoActive {
