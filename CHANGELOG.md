@@ -1,3 +1,8 @@
+## Unreleased
+
+### Changed
+* Changed the max number of remote video tiles per page in the Swift demo app from 2 to 6.
+
 ## [0.11.0] - 2020-10-08
 
 ### Changed
