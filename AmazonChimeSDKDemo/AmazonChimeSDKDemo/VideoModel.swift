@@ -11,7 +11,7 @@ import UIKit
 
 class VideoModel: NSObject {
     private let maxRemoteVideoTileCount = 16
-    private let remoteVideoTileCountPerPage = 2
+    private let remoteVideoTileCountPerPage = 6
 
     private var currentRemoteVideoPageIndex = 0
 
