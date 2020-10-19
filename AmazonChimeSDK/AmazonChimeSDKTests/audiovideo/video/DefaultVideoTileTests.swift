@@ -42,11 +42,13 @@ class DefaultVideoTileTests: XCTestCase {
     func testRenderFrame() {
         var cVPPixelBuffer: CVPixelBuffer?
         CVPixelBufferCreate(kCFAllocatorDefault, 3840, 2160, kCVPixelFormatType_32ARGB, nil, &cVPPixelBuffer)
+        let buffer = VideoFramePixelBuffer(pixelBuffer: cVPPixelBuffer!)
+        let frame = VideoFrame(timestampNs: 0, rotation: .rotation0, buffer: buffer)
         videoRenderViewMock = mock(VideoRenderView.self)
         defaultVideoTitle.bind(videoRenderView: videoRenderViewMock)
-        defaultVideoTitle.renderFrame(frame: cVPPixelBuffer)
+        defaultVideoTitle.onVideoFrameReceived(frame: frame)
 
-        verify(videoRenderViewMock.renderFrame(frame: cVPPixelBuffer)).wasCalled()
+        verify(videoRenderViewMock.onVideoFrameReceived(frame: frame)).wasCalled()
     }
 
     func testUnbind() {

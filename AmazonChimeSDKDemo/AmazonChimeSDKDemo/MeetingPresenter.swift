@@ -10,7 +10,7 @@ import UIKit
 
 class MeetingPresenter {
     private let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-    private var activeMeetingViewController: MeetingViewController?
+    private var activeMeetingViewController: UIViewController?
 
     var rootViewController: UIViewController? {
         return UIApplication.shared.keyWindow?.rootViewController
@@ -38,6 +38,20 @@ class MeetingPresenter {
         activeMeetingViewController.dismiss(animated: true) {
             self.activeMeetingViewController = nil
             completion()
+        }
+    }
+
+    func showDeviceSelectionView(meetingModel: MeetingModel, completion: @escaping (Bool) -> Void) {
+        guard let deviceSelectionVC = mainStoryboard.instantiateViewController(withIdentifier: "deviceSelection")
+            as? DeviceSelectionViewController, let rootViewController = self.rootViewController else {
+            completion(false)
+            return
+        }
+        deviceSelectionVC.modalPresentationStyle = .fullScreen
+        deviceSelectionVC.model = meetingModel.deviceSelectionModel
+        rootViewController.present(deviceSelectionVC, animated: true) {
+            self.activeMeetingViewController = deviceSelectionVC
+            completion(true)
         }
     }
 }

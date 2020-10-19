@@ -30,7 +30,6 @@ class MeetingModule {
     }
 
     func prepareMeeting(meetingId: String, selfName: String, option: CallKitOption, completion: @escaping (Bool) -> Void) {
-
         requestRecordPermission { success in
             guard success else {
                 completion(false)
@@ -68,11 +67,32 @@ class MeetingModule {
                     CallKitManager.shared().startOutgoingCall(with: call)
                 case .disabled:
                     DispatchQueue.main.async { [weak self] in
-                        self?.joinMeeting(meetingModel, completion: completion)
+                        self?.selectDevice(meetingModel, completion: completion)
                     }
                 }
                 completion(true)
             }
+        }
+    }
+
+    func selectDevice(_ meeting: MeetingModel, completion: @escaping (Bool) -> Void) {
+        // This is needed to discover bluetooth devices
+        configureAudioSession()
+        self.meetingPresenter.showDeviceSelectionView(meetingModel: meeting) { success in
+            if success {
+                self.activeMeeting = meeting
+            }
+            completion(success)
+        }
+    }
+
+    func deviceSelected(_ deviceSelectionModel: DeviceSelectionModel) {
+        guard let activeMeeting = activeMeeting else {
+            return
+        }
+        activeMeeting.deviceSelectionModel = deviceSelectionModel
+        meetingPresenter.dismissActiveMeetingView {
+            self.meetingPresenter.showMeetingView(meetingModel: activeMeeting) { _ in }
         }
     }
 
@@ -156,6 +176,22 @@ class MeetingModule {
         @unknown default:
             logger.error(msg: "AVCaptureDevice authorizationStatus unknown case detected")
             completion(false)
+        }
+    }
+
+    func configureAudioSession() {
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            if audioSession.category != .playAndRecord {
+                try audioSession.setCategory(AVAudioSession.Category.playAndRecord,
+                                             options: AVAudioSession.CategoryOptions.allowBluetooth)
+                try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+            }
+            if audioSession.mode != .voiceChat {
+                try audioSession.setMode(.voiceChat)
+            }
+        } catch {
+            logger.error(msg: "Error configuring AVAudioSession: \(error.localizedDescription)")
         }
     }
 }

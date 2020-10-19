@@ -6,8 +6,8 @@
 //  SPDX-License-Identifier: Apache-2.0
 //
 
-import Foundation
 import AmazonChimeSDKMedia
+import Foundation
 
 /// Data message received from server.
 @objcMembers public class DataMessage: NSObject {

@@ -38,8 +38,8 @@ import VideoToolbox
         self.videoRenderView = videoRenderView
     }
 
-    public func renderFrame(frame: CVPixelBuffer?) {
-        videoRenderView?.renderFrame(frame: frame)
+    public func onVideoFrameReceived(frame: VideoFrame) {
+        videoRenderView?.onVideoFrameReceived(frame: frame)
     }
 
     public func unbind() {

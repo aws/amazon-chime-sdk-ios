@@ -10,7 +10,6 @@
 import XCTest
 
 class DataMessageTests: XCTestCase {
-
     let topic = "AValidTopic"
     let data = Data()
     let senderAttendeeId = "123456"

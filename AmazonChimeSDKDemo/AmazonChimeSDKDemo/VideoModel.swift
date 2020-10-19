@@ -22,6 +22,7 @@ class VideoModel: NSObject {
 
     var videoUpdatedHandler: (() -> Void)?
     var localVideoUpdatedHandler: (() -> Void)?
+    let customSource = DefaultCameraCaptureSource(logger: ConsoleLogger(name: "CustomCameraSource"))
 
     init(audioVideoFacade: AudioVideoFacade) {
         self.audioVideoFacade = audioVideoFacade
@@ -52,7 +53,7 @@ class VideoModel: NSObject {
         if remoteVideoEndIndex < remoteVideoStartIndex {
             return []
         }
-        return Array(remoteVideoTileStates[remoteVideoStartIndex...remoteVideoEndIndex])
+        return Array(remoteVideoTileStates[remoteVideoStartIndex ... remoteVideoEndIndex])
     }
 
     private var remoteVideoStatesNotInCurrentPage: [(Int, VideoTileState)] {
@@ -160,12 +161,23 @@ class VideoModel: NSObject {
         }
         return remoteVideoStatesInCurrentPage[indexPath.item - 1].1
     }
+
+    func toggleTorch() -> Bool {
+        let desiredState = !customSource.torchEnabled
+        customSource.torchEnabled = desiredState
+        return customSource.torchEnabled == desiredState
+    }
 }
 
 extension VideoModel: VideoTileCellDelegate {
     func onTileButtonClicked(tag: Int, selected: Bool) {
         if tag == 0 {
-            audioVideoFacade.switchCamera()
+            // See comments above MeetingModel::isUsingExternalVideoSource
+            if audioVideoFacade.getActiveCamera() != nil {
+                audioVideoFacade.switchCamera()
+            } else {
+                customSource.switchCamera()
+            }
         } else {
             if let tileState = getVideoTileState(for: IndexPath(item: tag, section: 0)), !tileState.isLocalTile {
                 if selected {

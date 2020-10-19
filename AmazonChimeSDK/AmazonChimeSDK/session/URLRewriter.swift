@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// `URLRewriter` Function to transform URLs. 
+/// `URLRewriter` Function to transform URLs.
 /// Use this to rewrite URLs to traverse proxies.
 /// - Parameter url: Url string
 /// - Returns: A new url string manipulated
@@ -18,6 +18,6 @@ public typealias URLRewriter = (_ url: String) -> String
 @objc public class URLRewriterUtils: NSObject {
     /// The default implementation returns the original URL unchanged.
     @objc public static let defaultUrlRewriter: URLRewriter = { url in
-        return url
+        url
     }
 }

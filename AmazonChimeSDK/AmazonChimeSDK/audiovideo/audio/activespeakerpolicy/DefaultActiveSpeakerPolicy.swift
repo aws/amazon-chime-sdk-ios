@@ -39,10 +39,10 @@ import Foundation
             scalar = 0.0
         }
         let score = (volumes[attendeeInfo.attendeeId] ?? 0.0)
-                     * speakerWeight
-                     + scalar * (1 - speakerWeight)
+            * speakerWeight
+            + scalar * (1 - speakerWeight)
         volumes[attendeeInfo.attendeeId] = score
-        volumes.forEach { (otherAttendeeId, _) in
+        volumes.forEach { otherAttendeeId, _ in
             if otherAttendeeId != attendeeInfo.attendeeId,
                 let otherAtttendeeVolume = volumes[otherAttendeeId] {
                 volumes[otherAttendeeId] = max(
