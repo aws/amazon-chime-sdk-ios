@@ -69,9 +69,6 @@ class MeetingModel: NSObject {
         }
     }
 
-    // Enable Voice Focus by default
-    private var isVoiceFocusEnabled = true
-
     private var isEnded = false {
         didSet {
             currentMeetingSession.audioVideo.stop()
@@ -104,7 +101,6 @@ class MeetingModel: NSObject {
     var activeModeDidSetHandler: ((ActiveMode) -> Void)?
     var notifyHandler: ((String) -> Void)?
     var isMutedHandler: ((Bool) -> Void)?
-    var toggleVoiceFocusHandler: ((Bool) -> Void)?
     var isEndedHandler: (() -> Void)?
 
     init(meetingSessionConfig: MeetingSessionConfiguration, meetingId: String, selfName: String, callKitOption: CallKitOption) {
@@ -163,9 +159,10 @@ class MeetingModel: NSObject {
         } else {
             notify(msg: "Failed to \(action) Voice Focus")
         }
-        // Save the latest Voice Focus state so that we can restore it later when resuming the call
-        isVoiceFocusEnabled = currentMeetingSession.audioVideo.realtimeIsVoiceFocusEnabled()
-        toggleVoiceFocusHandler?(isVoiceFocusEnabled)
+    }
+
+    func isVoiceFocusEnabled() -> Bool {
+        return currentMeetingSession.audioVideo.realtimeIsVoiceFocusEnabled()
     }
 
     func getVideoTileDisplayName(for indexPath: IndexPath) -> String {
@@ -361,8 +358,7 @@ extension MeetingModel: AudioVideoObserver {
     func audioSessionDidStart(reconnecting: Bool) {
         notifyHandler?("Audio successfully started. Reconnecting: \(reconnecting)")
         logWithFunctionName(message: "reconnecting \(reconnecting)")
-        // Restore the saved Voice Focus state
-        setVoiceFocusEnabled(enabled: isVoiceFocusEnabled)
+        setVoiceFocusEnabled(enabled: isVoiceFocusEnabled())
         if !reconnecting {
             call?.isConnectedHandler?()
         }

@@ -1,5 +1,14 @@
 ## [0.11.1] - 2020-10-23
 
+### Added
+* Added new APIs in `RealtimeControllerFacade` to enable/disable Voice Focus (ML-based noise suppression) and get the on/off status of Voice Focus.
+* Added Voice Focus feature in Swift demo app.
+
+### Fixed
+* Fixed a crash in Swift demo app when user opens the device selection Action Sheet in iPad.
+
+## [0.11.1] - 2020-10-22
+
 ### Changed
 * Changed the max number of remote video tiles per page in the Swift demo app from 2 to 6.
 
