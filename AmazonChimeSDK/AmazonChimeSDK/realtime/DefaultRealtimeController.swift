@@ -49,11 +49,11 @@ import Foundation
         try videoClientController.sendDataMessage(topic: topic, data: data, lifetimeMs: lifetimeMs)
     }
 
-    public func realtimeToggleVoiceFocus(on: Bool) -> Bool {
-        return audioClientController.toggleVoiceFocus(on: on)
+    public func realtimeSetVoiceFocusEnabled(enabled: Bool) -> Bool {
+        return audioClientController.setVoiceFocusEnabled(enabled: enabled)
     }
 
-    public func realtimeIsVoiceFocusOn() -> Bool {
-        return audioClientController.isVoiceFocusOn()
+    public func realtimeIsVoiceFocusEnabled() -> Bool {
+        return audioClientController.isVoiceFocusEnabled()
     }
 }

@@ -56,16 +56,18 @@ import Foundation
     /// - Throws: SendDataMessageError
     func realtimeSendDataMessage(topic: String, data: Any, lifetimeMs: Int32) throws
 
-    /// Toggle Voice Focus (ML-based noise suppression) on/off
+    /// Enable/disable Voice Focus (ML-based noise suppression)
     ///
     /// Note: this API can only be called after audio session was started.
     ///
-    /// - Parameter on: A `Bool` value, where `true` to toggle on, `false` to toggle off
-    /// - Returns: Whether toggle was successful
-    func realtimeToggleVoiceFocus(on: Bool) -> Bool
+    /// - Parameter enabled: A `Bool` value, where `true` to enable; `false` to disable
+    /// - Returns: Whether the enable/disable action was successful
+    func realtimeSetVoiceFocusEnabled(enabled: Bool) -> Bool
 
-    /// Get if Voice Focus (ML-based noise suppression) is on or not
+    /// Get if Voice Focus (ML-based noise suppression) is enabled or not
     ///
-    /// - Returns: `true` if Voice Focus is running; `false` if Voice Focus is not running
-    func realtimeIsVoiceFocusOn() -> Bool
+    /// Note: this API can only be called after audio session was started.
+    ///
+    /// - Returns: `true` if Voice Focus is enabled; `false` if Voice Focus is not enabled, or the audio session was not started yet
+    func realtimeIsVoiceFocusEnabled() -> Bool
 }

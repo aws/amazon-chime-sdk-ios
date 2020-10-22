@@ -99,12 +99,12 @@ import Foundation
         try realtimeController.realtimeSendDataMessage(topic: topic, data: data, lifetimeMs: lifetimeMs)
     }
 
-    public func realtimeToggleVoiceFocus(on: Bool) -> Bool {
-        return realtimeController.realtimeToggleVoiceFocus(on: on)
+    public func realtimeSetVoiceFocusEnabled(enabled: Bool) -> Bool {
+        return realtimeController.realtimeSetVoiceFocusEnabled(enabled: enabled)
     }
 
-    public func realtimeIsVoiceFocusOn() -> Bool {
-        return realtimeController.realtimeIsVoiceFocusOn()
+    public func realtimeIsVoiceFocusEnabled() -> Bool {
+        return realtimeController.realtimeIsVoiceFocusEnabled()
     }
 
     public func addAudioVideoObserver(observer: AudioVideoObserver) {

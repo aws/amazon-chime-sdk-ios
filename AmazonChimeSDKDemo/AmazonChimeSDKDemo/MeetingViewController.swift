@@ -123,9 +123,9 @@ class MeetingViewController: UIViewController {
         meetingModel.isMutedHandler = { [weak self] isMuted in
             self?.muteButton.isSelected = isMuted
         }
-        meetingModel.toggleVoiceFocusHandler = { [weak self] isVoiceFocusOn in
-            self?.voiceFocusButton.isSelected = isVoiceFocusOn
-            self?.voiceFocusButton.tintColor = isVoiceFocusOn ? .systemBlue : .systemGray
+        meetingModel.toggleVoiceFocusHandler = { [weak self] isVoiceFocusEnabled in
+            self?.voiceFocusButton.isSelected = isVoiceFocusEnabled
+            self?.voiceFocusButton.tintColor = isVoiceFocusEnabled ? .systemBlue : .systemGray
         }
         meetingModel.isEndedHandler = {
             DispatchQueue.main.async {
@@ -282,7 +282,7 @@ class MeetingViewController: UIViewController {
     }
 
     @IBAction func voiceFocusButtonClicked(_: UIButton) {
-        meetingModel?.toggleVoiceFocus(on: !voiceFocusButton.isSelected)
+        meetingModel?.setVoiceFocusEnabled(enabled: !voiceFocusButton.isSelected)
     }
 
     @IBAction func deviceButtonClicked(_: UIButton) {
