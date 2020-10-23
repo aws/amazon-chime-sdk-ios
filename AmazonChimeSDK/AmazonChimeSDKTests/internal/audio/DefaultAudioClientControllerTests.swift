@@ -148,4 +148,57 @@ class DefaultAudioClientControllerTests: XCTestCase {
         XCTAssertEqual(.initialized, DefaultAudioClientController.state)
         verify(audioLockMock.unlock()).wasCalled()
     }
+
+    func testSetVoiceFocusEnabled_success() {
+        DefaultAudioClientController.state = .started
+
+        given(audioClientMock.setBliteNSSelected(any())).willReturn(Int(AUDIO_CLIENT_OK.rawValue))
+
+        XCTAssertTrue(defaultAudioClientController.setVoiceFocusEnabled(enabled: true))
+        verify(audioClientMock.setBliteNSSelected(true)).wasCalled()
+
+        XCTAssertTrue(defaultAudioClientController.setVoiceFocusEnabled(enabled: false))
+        verify(audioClientMock.setBliteNSSelected(false)).wasCalled()
+    }
+
+    func testSetVoiceFocusEnabled_failure_audioClientNotStarted() {
+        DefaultAudioClientController.state = .initialized
+
+        XCTAssertFalse(defaultAudioClientController.setVoiceFocusEnabled(enabled: true))
+        verify(audioClientMock.setBliteNSSelected(any())).wasNeverCalled()
+
+        XCTAssertFalse(defaultAudioClientController.setVoiceFocusEnabled(enabled: false))
+        verify(audioClientMock.setBliteNSSelected(any())).wasNeverCalled()
+    }
+
+    func testSetVoiceFocusEnabled_failure_mediaFailure() {
+        DefaultAudioClientController.state = .started
+
+        given(audioClientMock.setBliteNSSelected(any())).willReturn(Int(AUDIO_CLIENT_ERR.rawValue))
+
+        XCTAssertFalse(defaultAudioClientController.setVoiceFocusEnabled(enabled: true))
+        verify(audioClientMock.setBliteNSSelected(true)).wasCalled()
+
+        XCTAssertFalse(defaultAudioClientController.setVoiceFocusEnabled(enabled: false))
+        verify(audioClientMock.setBliteNSSelected(false)).wasCalled()
+    }
+
+    func testIsVoiceFocusEnabled_success() {
+        DefaultAudioClientController.state = .started
+
+        given(audioClientMock.isBliteNSSelected()).willReturn(true)
+        XCTAssertTrue(defaultAudioClientController.isVoiceFocusEnabled())
+        verify(audioClientMock.isBliteNSSelected()).wasCalled()
+
+        given(audioClientMock.isBliteNSSelected()).willReturn(false)
+        XCTAssertFalse(defaultAudioClientController.isVoiceFocusEnabled())
+        verify(audioClientMock.isBliteNSSelected()).wasCalled(2)
+    }
+
+    func testIsVoiceFocusEnabled_failure_audioClientNotStarted() {
+        DefaultAudioClientController.state = .initialized
+
+        XCTAssertFalse(defaultAudioClientController.isVoiceFocusEnabled())
+        verify(audioClientMock.isBliteNSSelected()).wasNeverCalled()
+    }
 }

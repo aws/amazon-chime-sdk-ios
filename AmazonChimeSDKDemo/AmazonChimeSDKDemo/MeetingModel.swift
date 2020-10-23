@@ -358,7 +358,8 @@ extension MeetingModel: AudioVideoObserver {
     func audioSessionDidStart(reconnecting: Bool) {
         notifyHandler?("Audio successfully started. Reconnecting: \(reconnecting)")
         logWithFunctionName(message: "reconnecting \(reconnecting)")
-        setVoiceFocusEnabled(enabled: isVoiceFocusEnabled())
+        // Start Voice Focus as soon as audio session started
+        setVoiceFocusEnabled(enabled: true)
         if !reconnecting {
             call?.isConnectedHandler?()
         }
