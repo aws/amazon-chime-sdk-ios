@@ -2,6 +2,7 @@
 
 ### Fixed
 - Fixed a bug in Swift demo app: self video disappears when a remote video tile is added.
+- Fixed a bug where `videoTileSizeDidChange` is called even when frame is null
 
 ## [0.11.1] - 2020-10-23
 
