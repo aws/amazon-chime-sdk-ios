@@ -6,6 +6,7 @@
 
 ### Fixed
 * Fixed a crash in Swift demo app when user opens the device selection Action Sheet in iPad.
+* Fixed a bug in Swift demo app: self video disappears when a remote video tile is added.
 
 ## [0.11.1] - 2020-10-23
 

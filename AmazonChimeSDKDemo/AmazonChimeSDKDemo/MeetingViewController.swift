@@ -458,11 +458,7 @@ extension MeetingViewController: UICollectionViewDataSource {
                 cell.videoRenderView.mirror = true
             }
             meetingModel.bind(videoRenderView: cell.videoRenderView, tileId: tileState.tileId)
-        } else if isSelf {
-            // If the tileState is nil and it's for local video, bind the current cell to the local tile (tileId=0)
-            meetingModel.bind(videoRenderView: cell.videoRenderView, tileId: 0)
         }
-
         return cell
     }
 }
