@@ -2,6 +2,7 @@
 
 ### Fixed
 - Fixed a bug in Swift demo app: self video disappears when a remote video tile is added.
+- **Breaking** Changed behavior to no longer call `videoTileSizeDidChange` when a video is paused to fix a bug where pausing triggered this callback with width=0 and height=0
 
 ## [0.11.1] - 2020-10-23
 
