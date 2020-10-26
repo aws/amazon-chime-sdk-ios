@@ -41,8 +41,8 @@ import UIKit
                 return
             }
 
-            if videoStreamContentWidth != videoTile.state.videoStreamContentWidth ||
-                videoStreamContentHeight != videoTile.state.videoStreamContentHeight {
+            if frame != nil && (videoStreamContentWidth != videoTile.state.videoStreamContentWidth ||
+                videoStreamContentHeight != videoTile.state.videoStreamContentHeight) {
                 videoTile.state.videoStreamContentWidth = videoStreamContentWidth
                 videoTile.state.videoStreamContentHeight = videoStreamContentHeight
                 ObserverUtils.forEach(observers: videoTileObservers) { (videoTileObserver: VideoTileObserver) in
