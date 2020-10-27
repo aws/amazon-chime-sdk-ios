@@ -555,7 +555,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="406" height="44"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fzH-S4-QOP" userLabel="Mic">
-                                                <rect key="frame" x="0.0" y="0.0" width="95.666666666666671" height="44"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="74.666666666666671" height="44"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="Toggle Mute" label="Mute"/>
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" image="volume-0"/>
@@ -565,7 +565,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1AR-gN-PDB">
-                                                <rect key="frame" x="103.66666666666669" y="0.0" width="95.333333333333314" height="44"/>
+                                                <rect key="frame" x="82.666666666666671" y="0.0" width="75.000000000000014" height="44"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="Toggle Speaker" label="Speaker"/>
                                                 <state key="normal" image="meeting-speaker"/>
                                                 <connections>
@@ -573,7 +573,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NMj-an-6IT">
-                                                <rect key="frame" x="207" y="0.0" width="95.666666666666686" height="44"/>
+                                                <rect key="frame" x="165.66666666666666" y="0.0" width="74.666666666666657" height="44"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="Toggle Camera" label="Camera"/>
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" image="meeting-video"/>
@@ -582,8 +582,16 @@
                                                     <action selector="cameraButtonClicked:" destination="Sfo-A7-USF" eventType="touchUpInside" id="0Zi-3J-oyb"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Czb-kL-jK7" userLabel="Additional Options">
+                                                <rect key="frame" x="248.33333333333337" y="0.0" width="75" height="44"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="Additional Options" label="Additional options"/>
+                                                <state key="normal" image="more"/>
+                                                <connections>
+                                                    <action selector="additionalOptionsButtonClicked:" destination="Sfo-A7-USF" eventType="touchUpInside" id="2U9-I0-iJt"/>
+                                                </connections>
+                                            </button>
                                             <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wwR-Kt-AOS" userLabel="End">
-                                                <rect key="frame" x="310.66666666666669" y="0.0" width="95.333333333333314" height="44"/>
+                                                <rect key="frame" x="331.33333333333331" y="0.0" width="74.666666666666686" height="44"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="Leave Meeting" label="Leave meeting"/>
                                                 <state key="normal" image="meeting-end"/>
                                                 <connections>
@@ -649,6 +657,7 @@
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="additionalOptionsButton" destination="Czb-kL-jK7" id="icN-UM-6Rt"/>
                         <outlet property="cameraButton" destination="NMj-an-6IT" id="yQm-jV-c4i"/>
                         <outlet property="chatMessageTable" destination="Xcj-Cg-mNh" id="hSe-g3-URp"/>
                         <outlet property="chatView" destination="ugK-9v-6P7" id="DCW-nB-Mgr"/>
@@ -686,6 +695,7 @@
         <image name="meeting-speaker" width="24" height="24"/>
         <image name="meeting-video" width="24" height="24"/>
         <image name="meeting-video-on" width="24" height="24"/>
+        <image name="more" width="24" height="24"/>
         <image name="up-large" width="36" height="36"/>
         <image name="volume-0" width="24" height="24"/>
         <image name="volume-muted" width="24" height="24"/>

@@ -18,6 +18,7 @@ class MeetingViewController: UIViewController {
     @IBOutlet var controlView: UIView!
     @IBOutlet var cameraButton: UIButton!
     @IBOutlet var deviceButton: UIButton!
+    @IBOutlet var additionalOptionsButton: UIButton!
     @IBOutlet var endButton: UIButton!
     @IBOutlet var muteButton: UIButton!
     @IBOutlet var resumeCallKitMeetingButton: UIButton!
@@ -165,7 +166,7 @@ class MeetingViewController: UIViewController {
         titleLabel.accessibilityLabel = "Meeting ID \(meetingModel?.meetingId ?? "")"
 
         // Buttons
-        let buttonStack = [muteButton, deviceButton, cameraButton, endButton, sendMessageButton]
+        let buttonStack = [muteButton, deviceButton, cameraButton, additionalOptionsButton, endButton, sendMessageButton]
         for button in buttonStack {
             let normalButtonImage = button?.image(for: .normal)?.withRenderingMode(.alwaysTemplate)
             let selectedButtonImage = button?.image(for: .selected)?.withRenderingMode(.alwaysTemplate)
@@ -217,6 +218,7 @@ class MeetingViewController: UIViewController {
         containerView.isHidden = false
         chatView.isHidden = true
         muteButton.isEnabled = true
+        additionalOptionsButton.isEnabled = true
         deviceButton.isEnabled = true
         cameraButton.isEnabled = true
 
@@ -246,6 +248,7 @@ class MeetingViewController: UIViewController {
             segmentedControl.isHidden = true
             containerView.isHidden = true
             muteButton.isEnabled = false
+            additionalOptionsButton.isEnabled = false
             deviceButton.isEnabled = false
             cameraButton.isEnabled = false
         }
@@ -274,7 +277,31 @@ class MeetingViewController: UIViewController {
         meetingModel?.setMute(isMuted: !muteButton.isSelected)
     }
 
-    @IBAction func deviceButtonClicked(_: UIButton) {
+    @IBAction func additionalOptionsButtonClicked(_ sender: UIButton) {
+        guard let meetingModel = meetingModel else {
+            return
+        }
+        let optionMenu = UIAlertController(title: nil, message: "Additional Options", preferredStyle: .actionSheet)
+
+        let isVoiceFocusEnabled = meetingModel.isVoiceFocusEnabled()
+        let nextVoiceFocusStatus = isVoiceFocusEnabled ? "off" : "on"
+        let voiceFocusAction = UIAlertAction(title: "Turn \(nextVoiceFocusStatus) Voice Focus", style: .default, handler: { _ in
+            meetingModel.setVoiceFocusEnabled(enabled: !isVoiceFocusEnabled)
+        })
+        optionMenu.addAction(voiceFocusAction)
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        optionMenu.addAction(cancelAction)
+
+        if let popover = optionMenu.popoverPresentationController {
+            popover.sourceView = sender
+            popover.sourceRect = sender.bounds
+        }
+
+        present(optionMenu, animated: true, completion: nil)
+    }
+
+    @IBAction func deviceButtonClicked(_ sender: UIButton) {
         guard let meetingModel = meetingModel else {
             return
         }
@@ -290,6 +317,11 @@ class MeetingViewController: UIViewController {
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         optionMenu.addAction(cancelAction)
+
+        if let popover = optionMenu.popoverPresentationController {
+            popover.sourceView = sender
+            popover.sourceRect = sender.bounds
+        }
 
         present(optionMenu, animated: true, completion: nil)
     }

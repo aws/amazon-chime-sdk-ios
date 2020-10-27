@@ -55,4 +55,17 @@ import Foundation
     /// - Parameter lifetimeMs: Message lifetime in milisecond, 5 mins max, default 0
     /// - Throws: SendDataMessageError
     func realtimeSendDataMessage(topic: String, data: Any, lifetimeMs: Int32) throws
+
+    /// Enable or disable Voice Focus (ML-based noise suppression) on the audio input
+    ///
+    /// Note: Only call this API after audioClient starts. Calling it before that results in a no-op. Voice Focus is disabled by default when audioClient starts.
+    ///
+    /// - Parameter enabled: A `Bool` value, where `true` to enable; `false` to disable
+    /// - Returns: Whether the enable/disable action was successful
+    func realtimeSetVoiceFocusEnabled(enabled: Bool) -> Bool
+
+    /// Check if Voice Focus (ML-based noise suppression) is enabled or not
+    ///
+    /// - Returns: `true` if Voice Focus is enabled; `false` if Voice Focus is not enabled, or the audio session was not started yet
+    func realtimeIsVoiceFocusEnabled() -> Bool
 }

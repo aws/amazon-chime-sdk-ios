@@ -1,8 +1,14 @@
 ## Unreleased
 
+### Added
+* Added new APIs in `RealtimeControllerFacade` to enable/disable Voice Focus (ML-based noise suppression) and get the on/off status of Voice Focus.
+* Added Voice Focus feature in Swift demo app.
+
 ### Fixed
-- Fixed a bug in Swift demo app: self video disappears when a remote video tile is added.
-- **Breaking** Changed behavior to no longer call `videoTileSizeDidChange` when a video is paused to fix a bug where pausing triggered this callback with width=0 and height=0
+* Fixed a crash in Swift demo app when user opens the device selection Action Sheet in iPad.
+* Fixed a bug in Swift demo app: self video disappears when a remote video tile is added.
+* Fixed a bug in Swift demo app: self video disappears when a remote video tile is added.
+* **Breaking** Changed behavior to no longer call `videoTileSizeDidChange` when a video is paused to fix a bug where pausing triggered this callback with width=0 and height=0.
 
 ## [0.11.1] - 2020-10-23
 

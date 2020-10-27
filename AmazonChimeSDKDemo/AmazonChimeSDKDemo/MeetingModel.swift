@@ -151,6 +151,20 @@ class MeetingModel: NSObject {
         }
     }
 
+    func setVoiceFocusEnabled(enabled: Bool) {
+        let action = enabled ? "enable" : "disable"
+        let success = currentMeetingSession.audioVideo.realtimeSetVoiceFocusEnabled(enabled: enabled)
+        if success {
+            notify(msg: "Voice Focus \(action)d")
+        } else {
+            notify(msg: "Failed to \(action) Voice Focus")
+        }
+    }
+
+    func isVoiceFocusEnabled() -> Bool {
+        return currentMeetingSession.audioVideo.realtimeIsVoiceFocusEnabled()
+    }
+
     func getVideoTileDisplayName(for indexPath: IndexPath) -> String {
         var displayName = ""
         if indexPath.item == 0 {
@@ -344,6 +358,8 @@ extension MeetingModel: AudioVideoObserver {
     func audioSessionDidStart(reconnecting: Bool) {
         notifyHandler?("Audio successfully started. Reconnecting: \(reconnecting)")
         logWithFunctionName(message: "reconnecting \(reconnecting)")
+        // Start Voice Focus as soon as audio session started
+        setVoiceFocusEnabled(enabled: true)
         if !reconnecting {
             call?.isConnectedHandler?()
         }

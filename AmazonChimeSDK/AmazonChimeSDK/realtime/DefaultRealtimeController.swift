@@ -9,7 +9,6 @@
 import Foundation
 
 @objcMembers public class DefaultRealtimeController: NSObject, RealtimeControllerFacade {
-
     private let audioClientController: AudioClientController
     private let audioClientObserver: AudioClientObserver
     private let videoClientController: VideoClientController
@@ -48,5 +47,13 @@ import Foundation
 
     public func realtimeSendDataMessage(topic: String, data: Any, lifetimeMs: Int32 = 0) throws {
         try videoClientController.sendDataMessage(topic: topic, data: data, lifetimeMs: lifetimeMs)
+    }
+
+    public func realtimeSetVoiceFocusEnabled(enabled: Bool) -> Bool {
+        return audioClientController.setVoiceFocusEnabled(enabled: enabled)
+    }
+
+    public func realtimeIsVoiceFocusEnabled() -> Bool {
+        return audioClientController.isVoiceFocusEnabled()
     }
 }

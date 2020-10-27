@@ -40,6 +40,10 @@ import Foundation
     func remoteMute()
 
     func audioLogCallBack(_ logLevel: loglevel_t, msg: String!)
+
+    func isBliteNSSelected() -> Bool
+
+    func setBliteNSSelected(_ bliteSelected: Bool) -> Int
 }
 
 extension AudioClient: AudioClientProtocol {}
