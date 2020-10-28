@@ -114,6 +114,9 @@
         [self.meetingSession.audioVideo addRealtimeObserverWithObserver:self];
         [self.meetingSession.audioVideo addMetricsObserverWithObserver:self];
         [self.meetingSession.audioVideo addVideoTileObserverWithObserver:self];
+        DefaultActiveSpeakerPolicy *policy = [DefaultActiveSpeakerPolicy new];
+        [self.meetingSession.audioVideo addActiveSpeakerObserverWithPolicy:policy
+                                                                  observer:self];
 
         [self startVideoClient];
     } else {
@@ -277,6 +280,8 @@
     [task resume];
 }
 
+# pragma mark - RealtimeObserver
+
 - (void)attendeesDidJoinWithAttendeeInfo:(NSArray<AttendeeInfo *> * _Nonnull)attendeeInfo {
     for (id currentAttendeeInfo in attendeeInfo) {
         [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ joined", [currentAttendeeInfo attendeeId]]];
@@ -319,9 +324,13 @@
     }
 }
 
+# pragma mark - MetricsObserver
+
 - (void)metricsDidReceiveWithMetrics:(NSDictionary *)metrics {
     [self.logger infoWithMsg:[NSString stringWithFormat:@"Media metrics have been received: %@", metrics]];
 }
+
+# pragma mark - VideoTileObserver
 
 - (void)videoTileDidAddWithTileState:(VideoTileState *)tileState {
     [self.logger infoWithMsg:[NSString stringWithFormat:@"Adding Video Tile tileId: %ld, attendeeId: %@", (long)tileState.tileId, tileState.attendeeId]];
@@ -359,5 +368,17 @@
 - (void)videoTileSizeDidChangeWithTileState:(VideoTileState *)tileState {
     [self.logger infoWithMsg:[NSString stringWithFormat:@"Video Tile size changed: tileId: %ld, attendeeId: %@", (long)tileState.tileId, tileState.attendeeId]];
 }
+
+# pragma mark - ActiveSpeakerObserver
+
+- (void)activeSpeakerScoreDidChangeWithScores:(NSDictionary<AttendeeInfo *, NSNumber *> * _Nonnull)scores {
+    [self.logger infoWithMsg:@"activeSpeakerScoreDidChangeWithScores callback invoked"];
+}
+
+- (void)activeSpeakerDidDetectWithAttendeeInfo:(NSArray<AttendeeInfo *> * _Nonnull)attendeeInfo {
+    [self.logger infoWithMsg:@"activeSpeakerDidDetectWithAttendeeInfo callback invoked"];
+}
+
+@synthesize observerId;
 
 @end
