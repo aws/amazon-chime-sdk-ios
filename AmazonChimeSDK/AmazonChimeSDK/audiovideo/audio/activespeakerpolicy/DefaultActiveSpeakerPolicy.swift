@@ -9,19 +9,28 @@
 import Foundation
 
 @objcMembers public class DefaultActiveSpeakerPolicy: NSObject, ActiveSpeakerPolicy {
+    public static let defaultSpeakerWeight = 0.9
+    public static let defaultCutoffThreshold = 0.01
+    public static let defaultTakeoverRate = 0.2
+
     private let volumes = ConcurrentDictionary<String, Double>()
     private let speakerWeight: Double
     private let cutoffThreshold: Double
     private let takeoverRate: Double
 
-    public init(
-        speakerWeight: Double = 0.9,
-        cutoffThreshold: Double = 0.01,
-        takeoverRate: Double = 0.2
-    ) {
+    convenience public override init() {
+        self.init(speakerWeight: Self.defaultSpeakerWeight,
+                  cutoffThreshold: Self.defaultCutoffThreshold,
+                  takeoverRate: Self.defaultTakeoverRate)
+    }
+
+    public init(speakerWeight: Double = DefaultActiveSpeakerPolicy.defaultSpeakerWeight,
+                cutoffThreshold: Double = DefaultActiveSpeakerPolicy.defaultCutoffThreshold,
+                takeoverRate: Double = DefaultActiveSpeakerPolicy.defaultTakeoverRate) {
         self.speakerWeight = speakerWeight
         self.cutoffThreshold = cutoffThreshold
         self.takeoverRate = takeoverRate
+        super.init()
     }
 
     public func calculateScore(attendeeInfo: AttendeeInfo, volume: VolumeLevel) -> Double {
