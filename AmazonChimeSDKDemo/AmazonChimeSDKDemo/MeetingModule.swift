@@ -67,8 +67,8 @@ class MeetingModule {
                     }
                     CallKitManager.shared().startOutgoingCall(with: call)
                 case .disabled:
-                    DispatchQueue.main.async {
-                        self.joinMeeting(meetingModel, completion: completion)
+                    DispatchQueue.main.async { [weak self] in
+                        self?.joinMeeting(meetingModel, completion: completion)
                     }
                 }
                 completion(true)
@@ -107,6 +107,8 @@ class MeetingModule {
     func dismissMeeting(_ meeting: MeetingModel) {
         if let activeMeeting = activeMeeting, meeting.uuid == activeMeeting.uuid {
             meetingPresenter.dismissActiveMeetingView(completion: {})
+            meetings[meeting.uuid] = nil
+            self.activeMeeting = nil
         } else {
             meetings[meeting.uuid] = nil
         }

@@ -85,8 +85,9 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
         activeSpeakers = speakerScores.sorted(by: { $0.value > $1.value })
             .filter { $0.value > 0.0 }
             .map { $0.0 }
-        DispatchQueue.main.async {
-            callback(self.activeSpeakers)
+        DispatchQueue.main.async { [weak self] in
+            guard let strongSelf = self else { return }
+            callback(strongSelf.activeSpeakers)
         }
         let selfIsActive =
             !activeSpeakers.isEmpty && activeSpeakers[0].attendeeId == selfAttendeeId
