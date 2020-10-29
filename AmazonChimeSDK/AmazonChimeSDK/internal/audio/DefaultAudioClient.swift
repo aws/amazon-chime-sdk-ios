@@ -26,8 +26,12 @@ class DefaultAudioClient: AudioClient {
         switch logLevel.rawValue {
         case Constants.errorLevel, Constants.fatalLevel:
             DefaultAudioClient.logger?.error(msg: msg)
+        case Constants.warningLevel, Constants.infoLevel:
+            DefaultAudioClient.logger?.debug(debugFunction: { () -> String in
+                msg
+            })
         default:
-            break
+            DefaultAudioClient.logger?.default(msg: msg)
         }
     }
 }
