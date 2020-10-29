@@ -23,8 +23,12 @@ class DefaultVideoClient: VideoClient {
         switch logLevel.rawValue {
         case Constants.errorLevel, Constants.fatalLevel:
             logger.error(msg: msg)
+        case Constants.warningLevel, Constants.infoLevel:
+            logger.debug(debugFunction: { () -> String in
+                msg
+            })
         default:
-            break
+            logger.default(msg: msg)
         }
     }
 }
