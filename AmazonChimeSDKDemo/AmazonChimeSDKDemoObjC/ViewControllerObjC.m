@@ -379,6 +379,12 @@
     [self.logger infoWithMsg:@"activeSpeakerDidDetectWithAttendeeInfo callback invoked"];
 }
 
-@synthesize observerId;
+- (NSInteger)scoresCallbackIntervalMs {
+    return 5000;
+}
+
+- (NSString*) observerId {
+    return [NSUUID new].UUIDString;
+}
 
 @end
