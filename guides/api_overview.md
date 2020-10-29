@@ -226,3 +226,18 @@ To unsubscribe all `DataMessageObserver`s from the topic, call meetingSession.au
 If you send too many messages at once, your messages may be returned to you with the [throttled](https://aws.github.io/amazon-chime-sdk-ios/Classes/DataMessage.html#/c:@M@AmazonChimeSDK@objc(cs)DataMessage(py)throttled) flag set. If you continue to exceed the throttle limit, the server may hang up the connection.
 
 Note: You can only send and receive data message after calling meetingSession.audioVideo.[start()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startAndReturnError:) or meetingSession.audioVideo.[start(callKitEnabled:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startWithCallKitEnabled:error:). To avoid missing messages, subscribe the `DataMessageObserver` to the topic prior to starting audio video.
+
+## 11. Using Amazon Voice Focus (optional)
+Amazon Voice Focus reduces the sound levels of noises that can intrude on a meeting, such as:
+
+- **Environment noises** – wind, fans, running water.
+- **Background noises** – lawnmowers, barking dogs.
+- **Foreground noises** – typing, papers shuffling.
+
+*Note:* Amazon Voice Focus doesn't eliminate those types of noises; it reduces their sound levels. To ensure privacy during a meeting, call meetingSession.audioVideo.[realtimeLocalMute()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/RealtimeControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)realtimeLocalMute) to silence yourself.
+
+You must start the audio session before enabling/disabling Amazon Voice Focus or before checking if Amazon Voice Focus is enabled. To enable/disable Amazon Voice Focus, call meetingSession.audioVideo.[realtimeSetVoiceFocusEnabled(enabled: enabled)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/RealtimeControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)realtimeSetVoiceFocusEnabledWithEnabled:). To check if Amazon Voice Focus is enabled, call meetingSession.audioVideo.[realtimeIsVoiceFocusEnabled()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/RealtimeControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)realtimeIsVoiceFocusEnabled).
+
+When Amazon Voice Focus is running, a CPU usage increase is expected, but the performance impact is small on modern devices (on average, we observed around 5-7% CPU increase). If your app will be running on resource-critical devices, you should take this into consideration before enabling Amazon Voice Focus.
+
+Note that if you want to share music or background sounds with others in the call (e.g., in a fitness or music lesson application), you should disable Amazon Voice Focus. Otherwise, the Amazon Chime SDK will filter these sounds out.
