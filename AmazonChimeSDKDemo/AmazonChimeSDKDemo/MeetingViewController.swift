@@ -123,8 +123,9 @@ class MeetingViewController: UIViewController {
         meetingModel.isMutedHandler = { [weak self] isMuted in
             self?.muteButton.isSelected = isMuted
         }
-        meetingModel.isEndedHandler = {
+        meetingModel.isEndedHandler = { [weak meetingModel] in
             DispatchQueue.main.async {
+                guard let meetingModel = meetingModel else { return }
                 MeetingModule.shared().dismissMeeting(meetingModel)
             }
         }
@@ -134,17 +135,21 @@ class MeetingViewController: UIViewController {
         meetingModel.metricsModel.metricsUpdatedHandler = { [weak self] in
             self?.metricsTable.reloadData()
         }
-        meetingModel.videoModel.videoUpdatedHandler = { [weak self] in
+        meetingModel.videoModel.videoUpdatedHandler = { [weak self, weak meetingModel] in
+            guard let strongSelf = self, let meetingModel = meetingModel else { return }
             meetingModel.videoModel.resumeAllRemoteVideosInCurrentPageExceptUserPausedVideos()
-            self?.prevVideoPageButton.isEnabled = meetingModel.videoModel.canGoToPrevRemoteVideoPage
-            self?.nextVideoPageButton.isEnabled = meetingModel.videoModel.canGoToNextRemoteVideoPage
-            self?.videoCollection.reloadData()
+            strongSelf.prevVideoPageButton.isEnabled = meetingModel.videoModel.canGoToPrevRemoteVideoPage
+            strongSelf.nextVideoPageButton.isEnabled = meetingModel.videoModel.canGoToNextRemoteVideoPage
+            strongSelf.videoCollection.reloadData()
         }
         meetingModel.videoModel.localVideoUpdatedHandler = { [weak self] in
             self?.videoCollection?.reloadItems(at: [IndexPath(item: 0, section: 0)])
         }
-        meetingModel.screenShareModel.tileIdDidSetHandler = { [weak self] tileId in
-            if let tileId = tileId, let screenRenderView = self?.screenRenderView {
+        meetingModel.screenShareModel.tileIdDidSetHandler = { [weak self, weak meetingModel] tileId in
+            if let tileId = tileId,
+               let screenRenderView = self?.screenRenderView,
+               let meetingModel = meetingModel {
+
                 meetingModel.bind(videoRenderView: screenRenderView, tileId: tileId)
             }
         }

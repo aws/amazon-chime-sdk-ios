@@ -5,10 +5,11 @@
 * Added Voice Focus feature in Swift demo app.
 
 ### Fixed
+* Fixed `DefaultDeviceController` not removing itself as observer from `NotificationCenter` after deallocation and causes crash in Swift demo app.
 * Fixed a crash in Swift demo app when user opens the device selection Action Sheet in iPad.
 * Fixed a crash in Swift demo app when building with Xcode 12: `DefaultActiveSpeakerPolicy.init()` not implemented.
 * Fixed a bug in Swift demo app: self video disappears when a remote video tile is added.
-* Fixed a bug in Swift demo app: self video disappears when a remote video tile is added.
+* Fixed a bug in Swift demo app: MeetingModel is not deallocated properly after meeting ends.
 * **Breaking** Changed behavior to no longer call `videoTileSizeDidChange` when a video is paused to fix a bug where pausing triggered this callback with width=0 and height=0.
 
 ## [0.11.1] - 2020-10-23

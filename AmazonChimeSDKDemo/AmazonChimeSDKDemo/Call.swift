@@ -33,10 +33,11 @@ class Call {
         didSet {
             if isUnansweredCallTimerActive {
                 endCallBackgroundTaskId = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
-                DispatchQueue.main.asyncAfter(deadline: .now() + Call.maxIncomingCallAnswerTime) {
-                    if self.endCallBackgroundTaskId != .invalid {
-                        self.isUnansweredHandler?()
-                        self.isUnansweredCallTimerActive = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + Call.maxIncomingCallAnswerTime) { [weak self] in
+                    guard let strongSelf = self else { return }
+                    if strongSelf.endCallBackgroundTaskId != .invalid {
+                        strongSelf.isUnansweredHandler?()
+                        strongSelf.isUnansweredCallTimerActive = false
                     }
                 }
             } else {

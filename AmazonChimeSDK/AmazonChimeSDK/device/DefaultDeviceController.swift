@@ -27,6 +27,10 @@ import AVFoundation
                                                object: nil)
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
     public func listAudioDevices() -> [MediaDevice] {
         var inputDevices: [MediaDevice] = []
         let loudSpeaker = MediaDevice(label: "Built-in Speaker", type: MediaDeviceType.audioBuiltInSpeaker)
@@ -71,9 +75,9 @@ import AVFoundation
 
             // Based on Apple's API of AVAudioSession.routeChangeNotification, The case 1) will not trigger
             // this function.
-            DispatchQueue.main.async {
-                [unowned self] in
-                var availableDevices = self.listAudioDevices()
+            DispatchQueue.main.async { [weak self] in
+                guard let strongSelf = self else { return }
+                var availableDevices = strongSelf.listAudioDevices()
                 if reason == .oldDeviceUnavailable {
                     // We need to manually remove the previous input because in some
                     // situation the mediaDevice get disconnected is still showing in .availableInputs
@@ -81,11 +85,13 @@ import AVFoundation
                     // This is an unexpect behavior from Apple's API
                     let oldDevice = userInfo[AVAudioSessionRouteChangePreviousRouteKey]
                         as? AVAudioSessionRouteDescription
-                    availableDevices.removeAll(where: { mediaDevice in
-                        mediaDevice.port?.uid == oldDevice?.inputs[0].uid
-                    })
+                    if let oldDevice = oldDevice, !oldDevice.inputs.isEmpty {
+                        availableDevices.removeAll(where: { mediaDevice in
+                            mediaDevice.port?.uid == oldDevice.inputs[0].uid
+                        })
+                    }
                 }
-                ObserverUtils.forEach(observers: self.deviceChangeObservers) { (observer: DeviceChangeObserver) in
+                ObserverUtils.forEach(observers: strongSelf.deviceChangeObservers) { (observer: DeviceChangeObserver) in
                     observer.audioDeviceDidChange(freshAudioDeviceList: availableDevices)
                 }
             }
