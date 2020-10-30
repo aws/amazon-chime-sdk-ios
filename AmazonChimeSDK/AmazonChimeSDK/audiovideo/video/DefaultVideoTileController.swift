@@ -71,9 +71,10 @@ import UIKit
             if videoTile.state.pauseState == .unpaused, let frame = frame {
                 videoTile.onVideoFrameReceived(frame: frame)
             }
-        } else if frame != nil {
+        } else if (frame != nil || pauseState != .unpaused) {
             onAddTrack(tileId: videoId,
                        attendeeId: attendeeId,
+                       pauseState: pauseState,
                        videoStreamContentWidth: videoStreamContentWidth,
                        videoStreamContentHeight: videoStreamContentHeight)
         }
@@ -111,6 +112,7 @@ import UIKit
 
     private func onAddTrack(tileId: Int,
                             attendeeId: String?,
+                            pauseState: VideoPauseState,
                             videoStreamContentWidth: Int,
                             videoStreamContentHeight: Int) {
         var isLocalTile: Bool
@@ -129,6 +131,7 @@ import UIKit
                                     videoStreamContentHeight: videoStreamContentHeight,
                                     isLocalTile: isLocalTile,
                                     logger: logger)
+        tile.setPauseState(pauseState: pauseState)
         videoTileMap[tileId] = tile
         ObserverUtils.forEach(observers: videoTileObservers) { (videoTileObserver: VideoTileObserver) in
             videoTileObserver.videoTileDidAdd(tileState: tile.state)
