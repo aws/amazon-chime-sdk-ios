@@ -17,7 +17,7 @@ class ConsoleLoggerTests: XCTestCase {
     }
 
     func testConsoleLoggerShouldBeInitialized() {
-        XCTAssertEqual(LogLevel.DEFAULT, logger?.getLogLevel())
+        XCTAssertEqual(LogLevel.INFO, logger?.getLogLevel())
     }
 
     func testConsoleLoggerShouldBeSetLogLevelWhenBeingInitializedWithGivenLevel() {
