@@ -12,6 +12,9 @@
 * Fixed a bug in Swift demo app: MeetingModel is not deallocated properly after meeting ends.
 * **Breaking** Changed behavior to no longer call `videoTileSizeDidChange` when a video is paused to fix a bug where pausing triggered this callback with width=0 and height=0.
 
+### Changed
+* **Breaking** Changed default log level of `ConsoleLogger` to INFO.
+
 ## [0.11.1] - 2020-10-23
 
 ### Changed
