@@ -1,8 +1,8 @@
 ## Unreleased
-
 ### Added
 * Added new APIs in `RealtimeControllerFacade` to enable/disable Voice Focus (ML-based noise suppression) and get the on/off status of Voice Focus.
 * Added Voice Focus feature in Swift demo app.
+* Added more verbose logging from media layer to SDK layer for builders to control log level. Set `LogLevel` to `INFO` or above for production application to not be bombarded with logs.
 
 ### Fixed
 * Fixed `DefaultDeviceController` not removing itself as observer from `NotificationCenter` after deallocation and causes crash in Swift demo app.
@@ -11,6 +11,9 @@
 * Fixed a bug in Swift demo app: self video disappears when a remote video tile is added.
 * Fixed a bug in Swift demo app: MeetingModel is not deallocated properly after meeting ends.
 * **Breaking** Changed behavior to no longer call `videoTileSizeDidChange` when a video is paused to fix a bug where pausing triggered this callback with width=0 and height=0.
+
+### Changed
+* **Breaking** Changed default log level of `ConsoleLogger` to INFO.
 
 ## [0.11.1] - 2020-10-23
 

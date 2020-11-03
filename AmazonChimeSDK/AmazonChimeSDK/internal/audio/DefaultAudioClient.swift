@@ -27,7 +27,7 @@ class DefaultAudioClient: AudioClient {
         case Constants.errorLevel, Constants.fatalLevel:
             DefaultAudioClient.logger?.error(msg: msg)
         default:
-            break
+            DefaultAudioClient.logger?.default(msg: msg)
         }
     }
 }

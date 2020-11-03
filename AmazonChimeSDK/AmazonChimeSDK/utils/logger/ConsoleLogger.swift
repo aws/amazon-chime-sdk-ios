@@ -13,7 +13,7 @@ import os
 ///
 /// ```
 /// // working with the ConsoleLogger
-/// let logger = new ConsoleLogger("demo"); //default level is LogLevel.DEFAULT prints everything
+/// let logger = new ConsoleLogger("demo"); //default level is LogLevel.INFO
 /// logger.info("info");
 /// logger.debug("debug");
 /// logger.fault("fault");
@@ -29,7 +29,7 @@ import os
     let name: String
     var level: LogLevel
 
-    public init(name: String, level: LogLevel = .DEFAULT) {
+    public init(name: String, level: LogLevel = .INFO) {
         self.name = name
         self.level = level
     }
