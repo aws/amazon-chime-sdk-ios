@@ -16,11 +16,12 @@ import Foundation
                joinToken: String)
     func stopAndDestroy()
     func startLocalVideo() throws
+    func startLocalVideo(source: VideoSource)
     func stopLocalVideo()
     func startRemoteVideo()
     func stopRemoteVideo()
     func switchCamera()
-    func getCurrentDevice() -> VideoDevice?
+    func getCurrentDevice() -> MediaDevice?
     func getConfiguration() -> MeetingSessionConfiguration
     func subscribeToVideoClientStateChange(observer: AudioVideoObserver)
     func unsubscribeFromVideoClientStateChange(observer: AudioVideoObserver)

@@ -33,6 +33,10 @@
 		B4FCD85224B9330A00064C9E /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCD85124B9330A00064C9E /* ChatMessageCell.swift */; };
 		B4FCD85524B9364900064C9E /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCD85424B9364900064C9E /* ChatModel.swift */; };
 		B4FCD85724B947FC00064C9E /* TimestampConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCD85624B947FB00064C9E /* TimestampConversion.swift */; };
+		C42A8A0D253E2E22008419A6 /* DeviceSelectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42A8A0A253E2E22008419A6 /* DeviceSelectionModel.swift */; };
+		C42A8A0E253E2E22008419A6 /* DeviceSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42A8A0C253E2E22008419A6 /* DeviceSelectionViewController.swift */; };
+		C42A8A11253E2E4E008419A6 /* MetalVideoProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42A8A0F253E2E4E008419A6 /* MetalVideoProcessor.swift */; };
+		C42A8A12253E2E4E008419A6 /* CoreImageVideoProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42A8A10253E2E4E008419A6 /* CoreImageVideoProcessor.swift */; };
 		C439EA3E24B78A11005B94C4 /* JoinRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C439EA3D24B78A11005B94C4 /* JoinRequestService.swift */; };
 		C43FD3CD24B533EA0080D57E /* Call.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43FD3CC24B533EA0080D57E /* Call.swift */; };
 		C446C84924A6612500392CE5 /* MetricsTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C446C84824A6612500392CE5 /* MetricsTableCell.swift */; };
@@ -127,6 +131,10 @@
 		B4FCD85124B9330A00064C9E /* ChatMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageCell.swift; sourceTree = "<group>"; usesTabs = 0; };
 		B4FCD85424B9364900064C9E /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
 		B4FCD85624B947FB00064C9E /* TimestampConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimestampConversion.swift; sourceTree = "<group>"; };
+		C42A8A0A253E2E22008419A6 /* DeviceSelectionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceSelectionModel.swift; sourceTree = "<group>"; };
+		C42A8A0C253E2E22008419A6 /* DeviceSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceSelectionViewController.swift; sourceTree = "<group>"; };
+		C42A8A0F253E2E4E008419A6 /* MetalVideoProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalVideoProcessor.swift; sourceTree = "<group>"; };
+		C42A8A10253E2E4E008419A6 /* CoreImageVideoProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreImageVideoProcessor.swift; sourceTree = "<group>"; };
 		C439EA3D24B78A11005B94C4 /* JoinRequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinRequestService.swift; sourceTree = "<group>"; };
 		C43FD3CC24B533EA0080D57E /* Call.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Call.swift; sourceTree = "<group>"; };
 		C446C84824A6612500392CE5 /* MetricsTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsTableCell.swift; sourceTree = "<group>"; };
@@ -217,6 +225,8 @@
 				C4923C0924BF62FE00EE866B /* MeetingPresenter.swift */,
 				5A1582BD23C40C9B0099F8FA /* JoiningViewController.swift */,
 				00F372E923D9196E008F7CA7 /* MeetingViewController.swift */,
+				C42A8A0C253E2E22008419A6 /* DeviceSelectionViewController.swift */,
+				C42A8A0A253E2E22008419A6 /* DeviceSelectionModel.swift */,
 				C4923BEC24B8CB1B00EE866B /* MeetingModel.swift */,
 				C4781FD524ABC45800300604 /* CallKitManager.swift */,
 				C43FD3CC24B533EA0080D57E /* Call.swift */,
@@ -260,6 +270,8 @@
 				C45B6C0724AE38D6001BE825 /* CallKitOption.swift */,
 				C439EA3D24B78A11005B94C4 /* JoinRequestService.swift */,
 				B4FCD85624B947FB00064C9E /* TimestampConversion.swift */,
+				C42A8A10253E2E4E008419A6 /* CoreImageVideoProcessor.swift */,
+				C42A8A0F253E2E4E008419A6 /* MetalVideoProcessor.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -448,8 +460,11 @@
 				C4923C0624BE71D800EE866B /* MeetingModule.swift in Sources */,
 				00F372EA23D9196E008F7CA7 /* MeetingViewController.swift in Sources */,
 				C4923BED24B8CB1B00EE866B /* MeetingModel.swift in Sources */,
+				C42A8A12253E2E4E008419A6 /* CoreImageVideoProcessor.swift in Sources */,
+				C42A8A0E253E2E22008419A6 /* DeviceSelectionViewController.swift in Sources */,
 				00F372EE23DA2BFD008F7CA7 /* RosterAttendee.swift in Sources */,
 				B4FCD85724B947FC00064C9E /* TimestampConversion.swift in Sources */,
+				C42A8A11253E2E4E008419A6 /* MetalVideoProcessor.swift in Sources */,
 				5A81417823F2300D00560201 /* RosterTableCell.swift in Sources */,
 				5A1582BC23C40C9B0099F8FA /* SceneDelegate.swift in Sources */,
 				5A16BED824045A7100ADAE26 /* SegmentedControlIndex.swift in Sources */,
@@ -457,6 +472,7 @@
 				B4FCD85524B9364900064C9E /* ChatModel.swift in Sources */,
 				5A16BE7A24006A2A00ADAE26 /* VideoTileCell.swift in Sources */,
 				C4632EBE24A57BF8009F8AF5 /* RosterModel.swift in Sources */,
+				C42A8A0D253E2E22008419A6 /* DeviceSelectionModel.swift in Sources */,
 				5A1582BE23C40C9B0099F8FA /* JoiningViewController.swift in Sources */,
 				5A38BFB724A131B3005B2AA7 /* MetricsModel.swift in Sources */,
 				C439EA3E24B78A11005B94C4 /* JoinRequestService.swift in Sources */,

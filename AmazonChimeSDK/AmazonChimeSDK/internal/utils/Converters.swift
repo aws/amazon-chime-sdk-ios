@@ -6,8 +6,8 @@
 //  SPDX-License-Identifier: Apache-2.0
 //
 
-import Foundation
 import AmazonChimeSDKMedia
+import Foundation
 
 @objcMembers class Converters: NSObject {
     enum AudioClientStatus {

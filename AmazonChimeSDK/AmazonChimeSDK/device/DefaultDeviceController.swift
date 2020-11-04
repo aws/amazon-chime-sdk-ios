@@ -112,7 +112,14 @@ import AVFoundation
     }
 
     public func getActiveCamera() -> MediaDevice? {
-        let activeCamera = MediaDevice.fromVideoDevice(device: videoClientController.getCurrentDevice())
-        return activeCamera.type == .other ? nil : activeCamera
+        return videoClientController.getCurrentDevice()
+    }
+
+    public func listVideoDevices() -> [MediaDevice] {
+        return MediaDevice.listVideoDevices()
+    }
+
+    public func listSupportedVideoCaptureFormats(mediaDevice: MediaDevice) -> [VideoCaptureFormat] {
+        return MediaDevice.listSupportedVideoCaptureFormats(mediaDevice: mediaDevice)
     }
 }

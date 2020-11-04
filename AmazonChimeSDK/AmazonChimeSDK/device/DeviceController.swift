@@ -30,10 +30,12 @@ import Foundation
     /// - Parameter observer: the object that will be removed
     func removeDeviceChangeObserver(observer: DeviceChangeObserver)
 
-    /// Switch between front/back camera
+    /// Switch between front/back camera. This will no-op if using a custom source,
+    /// e.g. one passed in via `startLocalVideo`
     func switchCamera()
 
-    /// Get currently used video device
+    /// Get the currently active camera, if any. This will return null if using a custom source,
+    /// e.g. one passed in via `AudioVideoControllerFacade.startLocalVideo`
     /// - Returns: a media device or nil if no device is present
     func getActiveCamera() -> MediaDevice?
 }

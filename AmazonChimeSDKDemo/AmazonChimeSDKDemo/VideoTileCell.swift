@@ -72,7 +72,7 @@ class VideoTileCell: UICollectionViewCell {
         videoRenderView.isHidden = true
         videoRenderView.mirror = false
         // Clean up old video image to prevent frame flicker
-        videoRenderView.renderFrame(frame: nil)
+        videoRenderView.resetImage()
     }
 
     @objc func onTileButtonClicked(_ sender: UIButton) {

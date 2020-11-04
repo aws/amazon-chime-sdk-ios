@@ -28,12 +28,31 @@ import Foundation
     /// Stop AudioVideo Controller. This will exit the meeting
     func stop()
 
-    /// Enable self video to start streaming
+    /// Start local video and begin transmitting frames from an internally held `DefaultCameraCaptureSource`.
+    /// `stopLocalVideo` will stop the internal capture source if being used.
+    ///
+    /// Calling this after passing in a custom `VideoSource` will replace it with the internal capture source.
+    ///
+    /// This function will only have effect if `start` has already been called
     ///
     /// - Throws: `PermissionError.videoPermissionError` if video permission of `AVCaptureDevice` is not granted
     func startLocalVideo() throws
 
-    /// Disable self video streaming
+    /// Start local video with a provided custom `VideoSource` which can be used to provide custom
+    /// `VideoFrame`s to be transmitted to remote clients. This will call `VideoSource.addVideoSink`
+    /// on the provided source.
+    ///
+    /// Calling this function repeatedly will replace the previous `VideoSource` as the one being
+    /// transmitted. It will also stop and replace the internal capture source if `startLocalVideo`
+    /// was previously called with no arguments.
+    ///
+    /// This function will only have effect if `start` has already been called
+    ///
+    /// - Parameter source: The source of video frames to be sent to other clients
+    func startLocalVideo(source: VideoSource)
+
+    /// Stops sending video for local attendee. This will additionally stop the internal capture source if being used.
+    /// If using a custom video source, this will call `VideoSource.removeVideoSink` on the previously provided source.
     func stopLocalVideo()
 
     /// Enable remote video to start receiving streams

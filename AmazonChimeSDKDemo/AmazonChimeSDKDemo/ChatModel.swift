@@ -32,7 +32,7 @@ struct ChatMessage {
 class ChatModel: NSObject {
     private var chatMessages: [ChatMessage] = []
     private let logger = ConsoleLogger(name: "ChatModel")
-    var refreshChatTableHandler:(() -> Void)?
+    var refreshChatTableHandler: (() -> Void)?
     public func addDataMessage(dataMessage: DataMessage) {
         guard let message = dataMessage.chatMessage() else {
             return
@@ -61,7 +61,7 @@ extension ChatModel: UITableViewDelegate, UITableViewDataSource {
 
         guard let cell = tableView
             .dequeueReusableCell(withIdentifier: chatMessageCellReuseIdentifier) as? ChatMessageCell
-            else {
+        else {
             return ChatMessageCell(chatMessage: chatMessage)
         }
         cell.updateCell(chatMessage: chatMessage)

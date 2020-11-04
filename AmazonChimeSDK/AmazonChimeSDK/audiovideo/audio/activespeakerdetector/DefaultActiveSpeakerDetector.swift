@@ -42,8 +42,8 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
             intervalMs: DefaultActiveSpeakerDetector.activityUpdateIntervalMs,
             callback: { [weak self] in
                 guard let strongSelf = self else { return }
-                strongSelf.policiesAndCallbacks.forEach { (_, policyAndCallback) in
-                    strongSelf.speakerScores.forEach { (attendeeInfo, _) in
+                strongSelf.policiesAndCallbacks.forEach { _, policyAndCallback in
+                    strongSelf.speakerScores.forEach { attendeeInfo, _ in
                         let lastTimestamp = strongSelf.mostRecentUpdateTimestamp[attendeeInfo] ?? 0
                         if Date.timeIntervalSinceReferenceDate - lastTimestamp > DefaultActiveSpeakerDetector.activityWaitIntervalInSeconds {
                             strongSelf.updateScore(
@@ -170,7 +170,6 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
 
         if observer.activeSpeakerScoreDidChange(scores:) != nil,
             let scoresCallbackIntervalMs = observer.scoresCallbackIntervalMs {
-
             let scoresTimer = IntervalScheduler(intervalMs: scoresCallbackIntervalMs, callback: {
                 DispatchQueue.main.async { [weak self] in
                     guard let strongSelf = self else { return }

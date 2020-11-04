@@ -36,7 +36,7 @@ class ConcurrentDictionaryTests: XCTestCase {
 
         var sum: Int = 0
         var count: Int = 0
-        dict.forEach { (_, value) in
+        dict.forEach { _, value in
             count += 1
             sum += value
         }

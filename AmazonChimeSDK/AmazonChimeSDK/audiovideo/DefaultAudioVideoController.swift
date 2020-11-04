@@ -82,6 +82,10 @@ import Foundation
         try videoClientController.startLocalVideo()
     }
 
+    public func startLocalVideo(source: VideoSource) {
+        videoClientController.startLocalVideo(source: source)
+    }
+
     public func stopLocalVideo() {
         videoClientController.stopLocalVideo()
     }

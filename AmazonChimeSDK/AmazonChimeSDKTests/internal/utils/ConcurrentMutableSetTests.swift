@@ -10,7 +10,6 @@
 import XCTest
 
 class ConcurrentMutableSetTests: XCTestCase {
-
     private var set: ConcurrentMutableSet!
 
     override func setUp() {

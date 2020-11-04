@@ -21,7 +21,7 @@ import UIKit
         self.logger = logger
     }
 
-    public func onReceiveFrame(frame: CVPixelBuffer?,
+    public func onReceiveFrame(frame: VideoFrame?,
                                videoId: Int,
                                attendeeId: String?,
                                pauseState: VideoPauseState) {
@@ -29,14 +29,13 @@ import UIKit
         var videoStreamContentHeight = 0
 
         if let frame = frame {
-            videoStreamContentWidth = CVPixelBufferGetWidth(frame)
-            videoStreamContentHeight = CVPixelBufferGetHeight(frame)
+            videoStreamContentWidth = frame.width
+            videoStreamContentHeight = frame.height
         }
 
         if let videoTile = videoTileMap[videoId] {
             // when removing video track, video client will send an unpaused nil frame
             if pauseState == .unpaused && frame == nil {
-                videoTile.renderFrame(frame: nil)
                 onRemoveTrack(tileState: videoTile.state)
                 return
             }
@@ -69,8 +68,8 @@ import UIKit
             }
 
             // only render unpaused non-nil frames
-            if videoTile.state.pauseState == .unpaused, frame != nil {
-                videoTile.renderFrame(frame: frame)
+            if videoTile.state.pauseState == .unpaused, let frame = frame {
+                videoTile.onVideoFrameReceived(frame: frame)
             }
         } else if frame != nil {
             onAddTrack(tileId: videoId,

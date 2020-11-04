@@ -11,7 +11,7 @@ import Foundation
 @testable import AmazonChimeSDK
 import XCTest
 
-class MockaudioClientObserver: AudioClientObserver {
+class MockAudioClientObserver: AudioClientObserver {
     func notifyAudioClientObserver(observerFunction: (AudioVideoObserver) -> Void) {}
     func subscribeToAudioClientStateChange(observer: AudioVideoObserver) {}
     func subscribeToRealTimeEvents(observer: RealtimeObserver) {}
@@ -28,7 +28,8 @@ class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeaker
     var scoreChangeAttendees: [AttendeeInfo: Double] = [AttendeeInfo(attendeeId: "", externalUserId: ""): 0.0]
     var scoreIndex = 0
     var activeSpeakerDetector = DefaultActiveSpeakerDetector(
-        audioClientObserver: MockaudioClientObserver(), selfAttendeeId: "")
+        audioClientObserver: MockAudioClientObserver(), selfAttendeeId: ""
+    )
     private let emptyAttendeesReceivedExpectation = XCTestExpectation(
         description: "Is fulfilled when received no attendees in callback")
     private let calculateScoreExpectation = XCTestExpectation(
@@ -48,10 +49,11 @@ class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeaker
     private let halfSeconds = 0.5
 
     override func setUp() {
-        for index in 0...4 {
+        for index in 0 ... 4 {
             attendees.append(AttendeeInfo(
                 attendeeId: "attendee" + String(index),
-                externalUserId: "attendee" + String(index)))
+                externalUserId: "attendee" + String(index)
+            ))
             volumeUpdates.append(VolumeUpdate(attendeeInfo: attendees[index], volumeLevel: volumes[index]))
         }
         calculateScoreExpectation.expectedFulfillmentCount = 5

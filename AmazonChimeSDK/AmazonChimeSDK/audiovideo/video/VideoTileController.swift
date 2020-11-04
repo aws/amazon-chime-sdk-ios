@@ -17,11 +17,9 @@ import VideoToolbox
     ///   - frame: a frame of video
     ///   - videoId: unique id that belongs to video being transmitted
     ///   - attendeeId: a id of user who is transmitting current frame
-    ///   - videoStreamContentHeight: height of the video stream being transmitted
-    ///   - videoStreamContentWidth: width of the video stream being transmitted
     ///   - pauseState: current pause state of the video being received
     func onReceiveFrame(
-        frame: CVPixelBuffer?,
+        frame: VideoFrame?,
         videoId: Int,
         attendeeId: String?,
         pauseState: VideoPauseState
