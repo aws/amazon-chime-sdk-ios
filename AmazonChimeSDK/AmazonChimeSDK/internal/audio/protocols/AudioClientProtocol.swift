@@ -5,6 +5,7 @@
 //  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //  SPDX-License-Identifier: Apache-2.0
 //
+// swiftlint:disable identifier_name function_parameter_count
 
 import AmazonChimeSDKMedia
 import Foundation

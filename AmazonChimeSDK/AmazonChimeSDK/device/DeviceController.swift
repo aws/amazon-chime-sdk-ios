@@ -38,4 +38,8 @@ import Foundation
     /// e.g. one passed in via `AudioVideoControllerFacade.startLocalVideo`
     /// - Returns: a media device or nil if no device is present
     func getActiveCamera() -> MediaDevice?
+
+    /// Get currently used audio device
+    /// - Returns: a media device or nil if no device is present
+    func getActiveAudioDevice() -> MediaDevice?
 }

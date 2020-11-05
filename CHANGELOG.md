@@ -3,6 +3,7 @@
 * Added new APIs in `RealtimeControllerFacade` to enable/disable Voice Focus (ML-based noise suppression) and get the on/off status of Voice Focus.
 * Added Voice Focus feature in Swift demo app.
 * Added more verbose logging from media layer to SDK layer for builders to control log level. Set `LogLevel` to `INFO` or above for production application to not be bombarded with logs.
+* Added `getActiveAudioDevice` API in `DefaultDeviceController`.
 
 ### Fixed
 * Fixed `DefaultDeviceController` not removing itself as observer from `NotificationCenter` after deallocation and causes crash in Swift demo app.

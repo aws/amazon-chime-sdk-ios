@@ -335,13 +335,20 @@ class MeetingViewController: UIViewController {
         guard let meetingModel = meetingModel else {
             return
         }
-        let optionMenu = UIAlertController(title: nil, message: "Choose Audio Device", preferredStyle: .actionSheet)
 
+        let optionMenu = UIAlertController(title: nil, message: "Choose Audio Device", preferredStyle: .actionSheet)
+        let currentAudioDevice = meetingModel.currentAudioDevice
         for inputDevice in meetingModel.audioDevices {
-            let deviceAction = UIAlertAction(title: inputDevice.label,
+            var label = inputDevice.label
+            if let selectedAudioDevice = currentAudioDevice {
+                if selectedAudioDevice.label == inputDevice.label {
+                    label = "\(label) ✔︎"
+                }
+            }
+            let deviceAction = UIAlertAction(title: label,
                                              style: .default,
                                              handler: { _ in meetingModel.chooseAudioDevice(inputDevice)
-                })
+            })
             optionMenu.addAction(deviceAction)
         }
 
