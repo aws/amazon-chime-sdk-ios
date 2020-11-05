@@ -209,6 +209,7 @@
     [self.meetingSession.audioVideo removeRealtimeObserverWithObserver:self];
     [self.meetingSession.audioVideo removeMetricsObserverWithObserver:self];
     [self.meetingSession.audioVideo removeVideoTileObserverWithObserver:self];
+    [self.meetingSession.audioVideo removeActiveSpeakerObserverWithObserver:self];
     [self.meetingSession.audioVideo stop];
     [self updateUIWithMeetingStarted:NO];
 }
@@ -220,9 +221,8 @@
         [self.nameText setEnabled:!started];
         [self.joinButton setHidden:started];
         [self.leaveButton setHidden:!started];
-        // Currently using setAlpha as a workaround as setHidden is not working properly
-        [self.selfVideoView setAlpha:started ? 1 : 0];
-        [self.remoteVideoView setAlpha:started ? 1 : 0];
+        [self.selfVideoView setHidden:!started];
+        [self.remoteVideoView setHidden:!started];
     });
 }
 
@@ -383,7 +383,7 @@
     return 5000;
 }
 
-- (NSString*) observerId {
+- (NSString*)observerId {
     return [NSUUID new].UUIDString;
 }
 
