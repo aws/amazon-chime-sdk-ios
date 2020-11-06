@@ -12,6 +12,7 @@
 * Fixed a bug in Swift demo app: self video disappears when a remote video tile is added.
 * Fixed a bug in Swift demo app: MeetingModel is not deallocated properly after meeting ends.
 * **Breaking** Changed behavior to no longer call `videoTileSizeDidChange` when a video is paused to fix a bug where pausing triggered this callback with width=0 and height=0.
+* Fixed `videoTileDidAdd` not being called for paused tiles.
 
 ### Changed
 * **Breaking** Changed default log level of `ConsoleLogger` to INFO.
