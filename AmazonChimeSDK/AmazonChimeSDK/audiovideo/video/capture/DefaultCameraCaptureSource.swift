@@ -63,8 +63,7 @@ import UIKit
                                                     for: .video,
                                                     position: isUsingFrontCamera ? .front : .back)
             if session.isRunning {
-                stop()
-                start()
+                start() // Restart
             }
         }
     }
@@ -72,8 +71,7 @@ import UIKit
     public var format: VideoCaptureFormat = defaultCaptureFormat {
         didSet {
             if captureDevice != nil, session.isRunning {
-                stop()
-                start()
+                start() // Restart
             }
         }
     }

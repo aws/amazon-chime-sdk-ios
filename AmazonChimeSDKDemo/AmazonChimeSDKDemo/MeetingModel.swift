@@ -86,7 +86,6 @@ class MeetingModel: NSObject {
     var isUsingExternalVideoSource = true {
         didSet {
             if isLocalVideoActive {
-                stopLocalVideo()
                 startLocalVideo()
             }
         }
@@ -96,7 +95,6 @@ class MeetingModel: NSObject {
     var isUsingCoreImageVideoProcessor = false {
         didSet {
             if isLocalVideoActive {
-                stopLocalVideo()
                 startLocalVideo()
             }
         }
@@ -108,7 +106,6 @@ class MeetingModel: NSObject {
     var isUsingMetalVideoProcessor = false {
         didSet {
             if isLocalVideoActive {
-                stopLocalVideo()
                 startLocalVideo()
             }
         }
@@ -123,7 +120,7 @@ class MeetingModel: NSObject {
     }
 
     var isLocalVideoActive = false {
-        didSet {
+        willSet(isLocalVideoActive) {
             if isLocalVideoActive {
                 startLocalVideo()
             } else {
@@ -320,7 +317,10 @@ class MeetingModel: NSObject {
                         customSource = metalVideoProcessor
                     }
                     self.currentMeetingSession.audioVideo.startLocalVideo(source: customSource)
-                    self.videoModel.customSource.start()
+                    if (!self.isLocalVideoActive) {
+                        // Only start capturer if it is not already running
+                        self.videoModel.customSource.start()
+                    }
                 } else {
                     do {
                         try self.currentMeetingSession.audioVideo.startLocalVideo()
