@@ -15,6 +15,7 @@
 * Fixed `videoTileDidAdd` not being called for paused tiles.
 
 ### Changed
+
 * **Breaking** Changed default log level of `ConsoleLogger` to INFO.
 
 ## [0.11.1] - 2020-10-23
