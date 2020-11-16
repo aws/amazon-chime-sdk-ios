@@ -18,7 +18,7 @@ import Foundation
     /// Add a video sink which will immediately begin to receive new frames.
     ///
     /// Multiple sinks can be added to a single `VideoSource` to allow forking of video frames,
-    /// e.g. to send to both local preview and MediaSDK (for encoding) at the same time.
+    /// e.g. to send to both local preview and AmazonChimeSDKMedia framework (i.e. for encoding) at the same time.
     /// 
     /// - Parameter sink: New video sink
     func addVideoSink(sink: VideoSink)

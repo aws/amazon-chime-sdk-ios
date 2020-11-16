@@ -79,7 +79,7 @@ The camera capture implementation is found in [DefaultCameraCaptureSource](https
 
 To use the capture source in a call, do the following:
 
-1. When enabling local video, call [AudioVideoControllerFacade.startLocalVideo(source:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startLocalVideoWithSource:) with the camera capture source as the parameter. Ensure that the capture source is started to start transmitting frames.
+1. When enabling local video, call [AudioVideoControllerFacade.startLocalVideo(source:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startLocalVideoWithSource:) with the camera capture source as the parameter. Ensure that the capture source is started  before `startLocalVideo(source:)` to start transmitting frames.
 
 ```
     // Start the camera capture source is started if not already
@@ -129,7 +129,7 @@ class MyVideoSource: VideoSource {
 }
 ```
 
-When enabling local video, call [AudioVideoControllerFacade.startLocalVideo(source:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startLocalVideoWithSource:) with the custom source as the parameter. Ensure that the capture source is started to start transmitting frames.
+When enabling local video, call [AudioVideoControllerFacade.startLocalVideo(source:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startLocalVideoWithSource:) with the custom source as the parameter. Ensure that the capture source is started  before `startLocalVideo(source:)` to start transmitting frames.
 
 ```
     // Create and start the processor
@@ -142,7 +142,7 @@ When enabling local video, call [AudioVideoControllerFacade.startLocalVideo(sour
 
 ## Implementing a custom video processing step for local source
 
-By combining the [VideoSource](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoSource.html) and [VideoSink](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoSink.html) APIs, builders can easily create a video processing step to their applications. Incoming frames can be processed, and then fanned out to downstream sinks like in the following snippet. Note that if frames are passed onto seperate threads, builders must call [VideoFrame.retain](https://aws.github.io/amazon-chime-sdk-ios/) to avoid the resources being dropped before the seperate thread accesses them. See example processors in [Demo code](https://github.com/aws/amazon-chime-sdk-ios/blob/master/AmazonChimeSDKDemo/AmazonChimeSDKDemo/utils/MetalVideoProcessor.swift) for complete, documented implementations.
+By combining the [VideoSource](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoSource.html) and [VideoSink](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoSink.html) APIs, builders can easily create a video processing step to their applications. Incoming frames can be processed, and then fanned out to downstream sinks like in the following snippet. See example processors in [Demo code](https://github.com/aws/amazon-chime-sdk-ios/blob/master/AmazonChimeSDKDemo/AmazonChimeSDKDemo/utils/MetalVideoProcessor.swift) for complete, documented implementations.
 
 ```
 class MyVideoProcessor: VideoSource, VideoSink {

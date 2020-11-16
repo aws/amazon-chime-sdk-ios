@@ -30,7 +30,7 @@
     * Builders with a custom `VideoTile` will have to update APIs correspondingly. All current `VideoFrame` objects used by the SDK will contain `VideoFramePixelBuffer` buffers, which contain `CVPixelBuffer`s internally.
   * **Breaking** `VideoRenderView` is now just a `VideoSink` (i.e. it now accepts `VideoFrame` object via `VideoSink.onReceivedVideoFrame` rather then `CVPixelBuffer?` via `render`).
     * Builders with a custom `VideoTile` will have to update APIs correspondingly. All current `VideoFrame` objects used by the SDK will contain `VideoFramePixelBuffer` buffers, which contain `CVPixelBuffer`s internally.
-* If no custom source is provided, the SDK level video client will use a `DefaultCameraCaptureSource` instead of relying on capture implementations within the MediaSDK; though behavior should be identical, please open an issue if any differences are noticed.
+* If no custom source is provided, the SDK level video client will use a `DefaultCameraCaptureSource` instead of relying on capture implementations within the AmazonChimeSDKMedia framework; though behavior should be identical, please open an issue if any differences are noticed.
 * Added additional, optional `id` (unique ID) parameter to `MediaDevice` for video capture devices.
 
 ## [0.11.1] - 2020-10-23
