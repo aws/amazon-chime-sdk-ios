@@ -25,7 +25,7 @@ The camera capture implementation is found in [DefaultCameraCaptureSource](https
     let cameraCaptureSource = DefaultCameraCaptureSource(logger: logger)
 ```
 
-3. Call [VideoCaptureSource.start()](Protocols/VideoCaptureSource.html#/c:@M@AmazonChimeSDK@objc(pl)VideoCaptureSource(im)start) and [DefaultCameraCaptureSource.stop()](https://aws.github.io/amazon-chime-sdk-ios/Classes/DefaultCameraCaptureSource.html#/c:@M@AmazonChimeSDK@objc(pl)VideoCaptureSource(im)stop) to start and stop the capture respectively. Note if no [VideoSink](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoSink.html) have been attached (see later sections) that captured frames will be immediately dropped.
+3. Call [VideoCaptureSource.start()](Protocols/VideoCaptureSource.html#/c:@M@AmazonChimeSDK@objc(pl)VideoCaptureSource(im)start) and [DefaultCameraCaptureSource.stop()](https://aws.github.io/amazon-chime-sdk-ios/Classes/DefaultCameraCaptureSource.html#/c:@M@AmazonChimeSDK@objc(pl)VideoCaptureSource(im)stop) to start and stop the capture respectively. Note that if no [VideoSink](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoSink.html) has been attached (see later sections) that captured frames will be immediately dropped.
 
 ```
     // Start the capture
@@ -76,7 +76,7 @@ The camera capture implementation is found in [DefaultCameraCaptureSource](https
 
 To use the capture source in a call, do the following:
 
-1. When enabling local video, call [AudioVideoControllerFacade.startLocalVideo(source:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startLocalVideoWithSource:) with the camera capture source as the parameter. Ensure that the capture source is started  before `startLocalVideo(source:)` to start transmitting frames.
+1. When enabling local video, call [AudioVideoControllerFacade.startLocalVideo(source:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startLocalVideoWithSource:) with the camera capture source as the parameter. Ensure that the capture source is started before `startLocalVideo(source:)` to start transmitting frames.
 
 ```
     // Start the camera capture source is started if not already
@@ -126,7 +126,7 @@ class MyVideoSource: VideoSource {
 }
 ```
 
-When enabling local video, call [AudioVideoControllerFacade.startLocalVideo(source:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startLocalVideoWithSource:) with the custom source as the parameter. Ensure that the capture source is started  before `startLocalVideo(source:)` to start transmitting frames.
+When enabling local video, call [AudioVideoControllerFacade.startLocalVideo(source:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startLocalVideoWithSource:) with the custom source as the parameter. Ensure that the capture source is started before `startLocalVideo(source:)` to start transmitting frames.
 
 ```
     // Create and start the processor
