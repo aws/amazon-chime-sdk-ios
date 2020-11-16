@@ -241,3 +241,7 @@ You must start the audio session before enabling/disabling Amazon Voice Focus or
 When Amazon Voice Focus is running, a CPU usage increase is expected, but the performance impact is small on modern devices (on average, we observed around 5-7% CPU increase). If your app will be running on resource-critical devices, you should take this into consideration before enabling Amazon Voice Focus.
 
 Note that if you want to share music or background sounds with others in the call (e.g., in a fitness or music lesson application), you should disable Amazon Voice Focus. Otherwise, the Amazon Chime SDK will filter these sounds out.
+
+## 12. Using a custom video source, sink or processing step (optional)
+
+Builders using the Amazon Chime SDK for video can produce, modify, and consume raw video frames transmitted or received during the call.  You can allow the facade to manage its own camera capture source, provide your own custom source, or use a provided SDK capture source as the first step in a video processing pipeline which modifies frames before transmission. See the [Custom Video Sources, Processors, and Sinks](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/custom_video.md) guide for more information.

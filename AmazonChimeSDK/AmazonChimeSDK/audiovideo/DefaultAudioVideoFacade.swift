@@ -153,14 +153,6 @@ import Foundation
         return deviceController.getActiveCamera()
     }
 
-    public func listVideoDevices() -> [MediaDevice] {
-        return MediaDevice.listVideoDevices()
-    }
-
-    public func listSupportedVideoCaptureFormats(mediaDevice: MediaDevice) -> [VideoCaptureFormat] {
-        return MediaDevice.listSupportedVideoCaptureFormats(mediaDevice: mediaDevice)
-    }
-
     // MARK: VideoTileController
 
     public func bindVideoView(videoView: VideoRenderView, tileId: Int) {
