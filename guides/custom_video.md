@@ -4,9 +4,6 @@ Builders using the Amazon Chime SDK for video can produce, modify, and consume r
 
 ## Prerequisites
 
-* You have read [Building a Meeting Application using the Amazon Chime SDK](https://aws.amazon.com/blogs/business-productivity/building-a-meeting-application-using-the-amazon-chime-sdk/). You understand the basic architecture of Amazon Chime SDK and deployed a serverless/browser demo meeting application.
-* You have a basic to intermediate understanding of iOS development and tools.
-* You have installed Xcode version 11.3 or later.
 * You have read the [API overview](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/api_overview.md) and have a basic understanding of the components covered in that document.
 * You have completed [Getting Started](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/getting_started.md) and have running application which uses the Amazon Chime SDK.
 
