@@ -4,6 +4,11 @@
 * Added Voice Focus feature in Swift demo app.
 * Added more verbose logging from media layer to SDK layer for builders to control log level. Set `LogLevel` to `INFO` or above for production application to not be bombarded with logs.
 * Added `getActiveAudioDevice` API in `DefaultDeviceController`.
+* Added `VideoFrame`, `VideoRotation`, `VideoContentHint`, `VideoFrameBuffer`, `VideoFramePixelBuffer` classes, enums, and interfaces to hold video frames of various raw types.
+* Added `VideoSource` and `VideoSink` to facilitate transfer of `VideoFrame` objects.
+* Added `CameraCaptureSource`, `CaptureSourceError`, `CaptureSourceObserver`, `VideoCaptureFormat`, and `VideoCaptureSource` interfaces and enums to facilitate releasing capturers as part of the SDK.
+* Added `DefaultCameraCaptureSource` implementation of `CameraCaptureSource`.
+* Added `listVideoDevices` and `listSupportedVideoCaptureFormats` to `MediaDevice.Companion`.
 
 ### Fixed
 * Fixed `DefaultDeviceController` not removing itself as observer from `NotificationCenter` after deallocation and causes crash in Swift demo app.
@@ -14,9 +19,19 @@
 * **Breaking** Changed behavior to no longer call `videoTileSizeDidChange` when a video is paused to fix a bug where pausing triggered this callback with width=0 and height=0.
 * Fixed `videoTileDidAdd` not being called for paused tiles.
 
+
 ### Changed
 
 * **Breaking** Changed default log level of `ConsoleLogger` to INFO.
+* The render path has been changed to use `VideoFrame`s for consistency with the send side, this includes:
+  * **Breaking** `VideoTileController.onReceiveFrame` now takes `VideoFrame?` instead of `CVPixelBuffer?`.
+    * Builders with a custom `VideoTileController` will have to update APIs correspondingly. All current `VideoFrame` objects used by the SDK will contain `VideoFramePixelBuffer` buffers, which contain `CVPixelBuffer`s internally.
+  * **Breaking** `VideoTile.renderFrame` now takes `VideoFrame` instead of `CVPixelBuffer?` and has been replaced by extending `VideoSink` and using `onReceivedVideoFrame`.
+    * Builders with a custom `VideoTile` will have to update APIs correspondingly. All current `VideoFrame` objects used by the SDK will contain `VideoFramePixelBuffer` buffers, which contain `CVPixelBuffer`s internally.
+  * **Breaking** `VideoRenderView` is now just a `VideoSink` (i.e. it now accepts `VideoFrame` object via `VideoSink.onReceivedVideoFrame` rather then `CVPixelBuffer?` via `render`).
+    * Builders with a custom `VideoTile` will have to update APIs correspondingly. All current `VideoFrame` objects used by the SDK will contain `VideoFramePixelBuffer` buffers, which contain `CVPixelBuffer`s internally.
+* If no custom source is provided, the SDK level video client will use a `DefaultCameraCaptureSource` instead of relying on capture implementations within the AmazonChimeSDKMedia framework; though behavior should be identical, please open an issue if any differences are noticed.
+* Added additional, optional `id` (unique ID) parameter to `MediaDevice` for video capture devices.
 
 ## [0.11.1] - 2020-10-23
 

@@ -115,14 +115,6 @@ import AVFoundation
         return videoClientController.getCurrentDevice()
     }
 
-    public func listVideoDevices() -> [MediaDevice] {
-        return MediaDevice.listVideoDevices()
-    }
-
-    public func listSupportedVideoCaptureFormats(mediaDevice: MediaDevice) -> [VideoCaptureFormat] {
-        return MediaDevice.listSupportedVideoCaptureFormats(mediaDevice: mediaDevice)
-    }
-
     public func getActiveAudioDevice() -> MediaDevice? {
         // Check for speaker case
         if audioSession.currentRoute.outputs.count > 0 {

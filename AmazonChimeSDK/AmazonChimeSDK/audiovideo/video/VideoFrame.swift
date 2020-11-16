@@ -18,8 +18,8 @@ import Foundation
     public let height: Int
 
     /// Timestamp in nanoseconds at which the video frame was captured from some system monotonic clock.
-    /// Will be aligned and converted to NTP (Network Time Protocol) within MediaSDK, which will then be converted to a system
-    /// monotonic clock on remote end. May be different on frames emanated from MediaSDK.
+    /// Will be aligned and converted to NTP (Network Time Protocol) within AmazonChimeSDKMedia framework, which will then be converted to a system
+    /// monotonic clock on remote end. May be different on frames emanated from AmazonChimeSDKMedia framework.
     public let timestampNs: Int64
 
     /// Rotation of the video frame buffer in degrees clockwise from intended viewing horizon.
