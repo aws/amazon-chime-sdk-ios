@@ -69,6 +69,9 @@
                 <a href="../Classes/DefaultAudioVideoFacade.html">DefaultAudioVideoFacade</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/DefaultCameraCaptureSource.html">DefaultCameraCaptureSource</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/DefaultDeviceController.html">DefaultDeviceController</a>
               </li>
               <li class="nav-group-task">
@@ -120,6 +123,15 @@
                 <a href="../Classes/Versioning.html">Versioning</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/VideoCaptureFormat.html">VideoCaptureFormat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VideoFrame.html">VideoFrame</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VideoFramePixelBuffer.html">VideoFramePixelBuffer</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/VideoTileState.html">VideoTileState</a>
               </li>
               <li class="nav-group-task">
@@ -132,6 +144,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Enums/AttendeeStatus.html">AttendeeStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/CaptureSourceError.html">CaptureSourceError</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/LogLevel.html">LogLevel</a>
@@ -158,7 +173,13 @@
                 <a href="../Enums/SignalStrength.html">SignalStrength</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Enums/VideoContentHint.html">VideoContentHint</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Enums/VideoPauseState.html">VideoPauseState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/VideoRotation.html">VideoRotation</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/VolumeLevel.html">VolumeLevel</a>
@@ -216,6 +237,12 @@
                 <a href="../Protocols/AudioVideoObserver.html">AudioVideoObserver</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols/CameraCaptureSource.html">CameraCaptureSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/CaptureSourceObserver.html">CaptureSourceObserver</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/ClientMetricsCollector.html">ClientMetricsCollector</a>
               </li>
               <li class="nav-group-task">
@@ -246,10 +273,22 @@
                 <a href="../Protocols/Scheduler.html">Scheduler</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols/VideoCaptureSource.html">VideoCaptureSource</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/VideoClientController.html">VideoClientController</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/VideoRenderView.html">VideoRenderView</a>
+                <a href="../Protocols/VideoFrameBuffer.html">VideoFrameBuffer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols.html#/c:@M@AmazonChimeSDK@objc(pl)VideoRenderView">VideoRenderView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoSink.html">VideoSink</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoSource.html">VideoSource</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/VideoTile.html">VideoTile</a>
@@ -470,7 +509,12 @@ in scenarios such as receving another phone call during the VoIP call.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Enable self video to start streaming</p>
+                        <p>Start local video and begin transmitting frames from an internally held <code><a href="../Classes/DefaultCameraCaptureSource.html">DefaultCameraCaptureSource</a></code>.
+<code>stopLocalVideo</code> will stop the internal capture source if being used.</p>
+
+<p>Calling this after passing in a custom <code><a href="../Protocols/VideoSource.html">VideoSource</a></code> will replace it with the internal capture source.</p>
+
+<p>This function will only have effect if <code>start</code> has already been called</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     <code><a href="../Enums/PermissionError.html#/c:@M@AmazonChimeSDK@E@PermissionError@PermissionErrorVideoPermissionError">PermissionError.videoPermissionError</a></code> if video permission of <code>AVCaptureDevice</code> is not granted
@@ -492,6 +536,60 @@ in scenarios such as receving another phone call during the VoIP call.</p>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startLocalVideoWithSource:"></a>
+                    <a name="//apple_ref/swift/Method/startLocalVideo(source:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startLocalVideoWithSource:">startLocalVideo(source:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Start local video with a provided custom <code><a href="../Protocols/VideoSource.html">VideoSource</a></code> which can be used to provide custom
+<code><a href="../Classes/VideoFrame.html">VideoFrame</a></code>s to be transmitted to remote clients. This will call <code>VideoSource.addVideoSink</code>
+on the provided source.</p>
+
+<p>Calling this function repeatedly will replace the previous <code><a href="../Protocols/VideoSource.html">VideoSource</a></code> as the one being
+transmitted. It will also stop and replace the internal capture source if <code>startLocalVideo</code>
+was previously called with no arguments.</p>
+
+<p>This function will only have effect if <code>start</code> has already been called</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">startLocalVideo</span><span class="p">(</span><span class="nv">source</span><span class="p">:</span> <span class="kt"><a href="../Protocols/VideoSource.html">VideoSource</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>source</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The source of video frames to be sent to other clients</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)stopLocalVideo"></a>
                     <a name="//apple_ref/swift/Method/stopLocalVideo()" class="dashAnchor"></a>
                     <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)stopLocalVideo">stopLocalVideo()</a>
@@ -502,7 +600,8 @@ in scenarios such as receving another phone call during the VoIP call.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Disable self video streaming</p>
+                        <p>Stops sending video for local attendee. This will additionally stop the internal capture source if being used.
+If using a custom video source, this will call <code>VideoSource.removeVideoSink</code> on the previously provided source.</p>
 
                       </div>
                       <div class="declaration">
@@ -759,8 +858,8 @@ in scenarios such as receving another phone call during the VoIP call.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-10-23)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-11-16)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

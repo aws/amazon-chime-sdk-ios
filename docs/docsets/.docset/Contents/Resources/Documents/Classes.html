@@ -69,6 +69,9 @@
                 <a href="Classes/DefaultAudioVideoFacade.html">DefaultAudioVideoFacade</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/DefaultCameraCaptureSource.html">DefaultCameraCaptureSource</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/DefaultDeviceController.html">DefaultDeviceController</a>
               </li>
               <li class="nav-group-task">
@@ -120,6 +123,15 @@
                 <a href="Classes/Versioning.html">Versioning</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/VideoCaptureFormat.html">VideoCaptureFormat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/VideoFrame.html">VideoFrame</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/VideoFramePixelBuffer.html">VideoFramePixelBuffer</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/VideoTileState.html">VideoTileState</a>
               </li>
               <li class="nav-group-task">
@@ -132,6 +144,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="Enums/AttendeeStatus.html">AttendeeStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/CaptureSourceError.html">CaptureSourceError</a>
               </li>
               <li class="nav-group-task">
                 <a href="Enums/LogLevel.html">LogLevel</a>
@@ -158,7 +173,13 @@
                 <a href="Enums/SignalStrength.html">SignalStrength</a>
               </li>
               <li class="nav-group-task">
+                <a href="Enums/VideoContentHint.html">VideoContentHint</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Enums/VideoPauseState.html">VideoPauseState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/VideoRotation.html">VideoRotation</a>
               </li>
               <li class="nav-group-task">
                 <a href="Enums/VolumeLevel.html">VolumeLevel</a>
@@ -216,6 +237,12 @@
                 <a href="Protocols/AudioVideoObserver.html">AudioVideoObserver</a>
               </li>
               <li class="nav-group-task">
+                <a href="Protocols/CameraCaptureSource.html">CameraCaptureSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/CaptureSourceObserver.html">CaptureSourceObserver</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Protocols/ClientMetricsCollector.html">ClientMetricsCollector</a>
               </li>
               <li class="nav-group-task">
@@ -246,10 +273,22 @@
                 <a href="Protocols/Scheduler.html">Scheduler</a>
               </li>
               <li class="nav-group-task">
+                <a href="Protocols/VideoCaptureSource.html">VideoCaptureSource</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Protocols/VideoClientController.html">VideoClientController</a>
               </li>
               <li class="nav-group-task">
-                <a href="Protocols/VideoRenderView.html">VideoRenderView</a>
+                <a href="Protocols/VideoFrameBuffer.html">VideoFrameBuffer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols.html#/c:@M@AmazonChimeSDK@objc(pl)VideoRenderView">VideoRenderView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/VideoSink.html">VideoSink</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/VideoSource.html">VideoSource</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/VideoTile.html">VideoTile</a>
@@ -560,7 +599,7 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="kt">DefaultVideoRenderView</span> <span class="p">:</span> <span class="kt">UIImageView</span><span class="p">,</span> <span class="kt"><a href="Protocols/VideoRenderView.html">VideoRenderView</a></span></code></pre>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">DefaultVideoRenderView</span> <span class="p">:</span> <span class="kt">UIImageView</span><span class="p">,</span> <span class="kt"><a href="Protocols.html#/c:@M@AmazonChimeSDK@objc(pl)VideoRenderView">VideoRenderView</a></span></code></pre>
 
                         </div>
                       </div>
@@ -626,6 +665,65 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)VideoFrame"></a>
+                    <a name="//apple_ref/swift/Class/VideoFrame" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)VideoFrame">VideoFrame</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>VideoFrame</code> is a class which contains a <code><a href="Protocols/VideoFrameBuffer.html">VideoFrameBuffer</a></code> and metadata necessary for transmission.
+Typically produced via a <code><a href="Protocols/VideoSource.html">VideoSource</a></code> and consumed via a <code><a href="Protocols/VideoSink.html">VideoSink</a></code></p>
+
+                        <a href="Classes/VideoFrame.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">VideoFrame</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)VideoFramePixelBuffer"></a>
+                    <a name="//apple_ref/swift/Class/VideoFramePixelBuffer" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)VideoFramePixelBuffer">VideoFramePixelBuffer</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>VideoFramePixelBuffer</code> is a buffer which contains a single video frame in the form of <code>CVPixelBuffer</code>.</p>
+
+                        <a href="Classes/VideoFramePixelBuffer.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">VideoFramePixelBuffer</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt"><a href="Protocols/VideoFrameBuffer.html">VideoFrameBuffer</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(cs)VideoTileState"></a>
                     <a name="//apple_ref/swift/Class/VideoTileState" class="dashAnchor"></a>
                     <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)VideoTileState">VideoTileState</a>
@@ -646,6 +744,65 @@
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="kt">VideoTileState</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)DefaultCameraCaptureSource"></a>
+                    <a name="//apple_ref/swift/Class/DefaultCameraCaptureSource" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)DefaultCameraCaptureSource">DefaultCameraCaptureSource</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Classes/DefaultCameraCaptureSource.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">DefaultCameraCaptureSource</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt"><a href="Protocols/CameraCaptureSource.html">CameraCaptureSource</a></span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">DefaultCameraCaptureSource</span><span class="p">:</span> <span class="kt">AVCaptureVideoDataOutputSampleBufferDelegate</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)VideoCaptureFormat"></a>
+                    <a name="//apple_ref/swift/Class/VideoCaptureFormat" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)VideoCaptureFormat">VideoCaptureFormat</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>VideoCaptureFormat</code>describes a given capture format that may be possible to apply to a <code><a href="Protocols/VideoCaptureSource.html">VideoCaptureSource</a></code>.
+Note that <code><a href="Protocols/VideoCaptureSource.html">VideoCaptureSource</a></code> implementations may ignore or adjust unsupported values.</p>
+
+                        <a href="Classes/VideoCaptureFormat.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">VideoCaptureFormat</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
 
                         </div>
                       </div>
@@ -1097,7 +1254,7 @@ the attendee on the meeting</p>
                       <div class="abstract">
                         <p>ConsoleLogger writes logs with console.</p>
 <pre class="highlight swift"><code><span class="c1">// working with the ConsoleLogger</span>
-<span class="k">let</span> <span class="nv">logger</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">ConsoleLogger</span><span class="p">(</span><span class="s">"demo"</span><span class="p">);</span> <span class="c1">//default level is LogLevel.DEFAULT prints everything</span>
+<span class="k">let</span> <span class="nv">logger</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">ConsoleLogger</span><span class="p">(</span><span class="s">"demo"</span><span class="p">);</span> <span class="c1">//default level is LogLevel.INFO</span>
 <span class="n">logger</span><span class="o">.</span><span class="nf">info</span><span class="p">(</span><span class="s">"info"</span><span class="p">);</span>
 <span class="n">logger</span><span class="o">.</span><span class="nf">debug</span><span class="p">(</span><span class="s">"debug"</span><span class="p">);</span>
 <span class="n">logger</span><span class="o">.</span><span class="nf">fault</span><span class="p">(</span><span class="s">"fault"</span><span class="p">);</span>
@@ -1129,8 +1286,8 @@ the attendee on the meeting</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-10-23)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-11-16)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

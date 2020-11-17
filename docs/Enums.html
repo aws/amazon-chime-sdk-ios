@@ -69,6 +69,9 @@
                 <a href="Classes/DefaultAudioVideoFacade.html">DefaultAudioVideoFacade</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/DefaultCameraCaptureSource.html">DefaultCameraCaptureSource</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/DefaultDeviceController.html">DefaultDeviceController</a>
               </li>
               <li class="nav-group-task">
@@ -120,6 +123,15 @@
                 <a href="Classes/Versioning.html">Versioning</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/VideoCaptureFormat.html">VideoCaptureFormat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/VideoFrame.html">VideoFrame</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/VideoFramePixelBuffer.html">VideoFramePixelBuffer</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/VideoTileState.html">VideoTileState</a>
               </li>
               <li class="nav-group-task">
@@ -132,6 +144,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="Enums/AttendeeStatus.html">AttendeeStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/CaptureSourceError.html">CaptureSourceError</a>
               </li>
               <li class="nav-group-task">
                 <a href="Enums/LogLevel.html">LogLevel</a>
@@ -158,7 +173,13 @@
                 <a href="Enums/SignalStrength.html">SignalStrength</a>
               </li>
               <li class="nav-group-task">
+                <a href="Enums/VideoContentHint.html">VideoContentHint</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Enums/VideoPauseState.html">VideoPauseState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/VideoRotation.html">VideoRotation</a>
               </li>
               <li class="nav-group-task">
                 <a href="Enums/VolumeLevel.html">VolumeLevel</a>
@@ -216,6 +237,12 @@
                 <a href="Protocols/AudioVideoObserver.html">AudioVideoObserver</a>
               </li>
               <li class="nav-group-task">
+                <a href="Protocols/CameraCaptureSource.html">CameraCaptureSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/CaptureSourceObserver.html">CaptureSourceObserver</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Protocols/ClientMetricsCollector.html">ClientMetricsCollector</a>
               </li>
               <li class="nav-group-task">
@@ -246,10 +273,22 @@
                 <a href="Protocols/Scheduler.html">Scheduler</a>
               </li>
               <li class="nav-group-task">
+                <a href="Protocols/VideoCaptureSource.html">VideoCaptureSource</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Protocols/VideoClientController.html">VideoClientController</a>
               </li>
               <li class="nav-group-task">
-                <a href="Protocols/VideoRenderView.html">VideoRenderView</a>
+                <a href="Protocols/VideoFrameBuffer.html">VideoFrameBuffer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols.html#/c:@M@AmazonChimeSDK@objc(pl)VideoRenderView">VideoRenderView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/VideoSink.html">VideoSink</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/VideoSource.html">VideoSource</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/VideoTile.html">VideoTile</a>
@@ -379,6 +418,36 @@ Receive video metrics are only reported when receiving.</p>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@VideoContentHint"></a>
+                    <a name="//apple_ref/swift/Enum/VideoContentHint" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@VideoContentHint">VideoContentHint</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>VideoContentHint</code> describes the content type of a video source so that downstream encoders, etc. can properly
+decide on what parameters will work best. These options mirror <a href="https://www.w3.org/TR/mst-content-hint/">https://www.w3.org/TR/mst-content-hint/</a> .</p>
+
+                        <a href="Enums/VideoContentHint.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">enum</span> <span class="kt">VideoContentHint</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@M@AmazonChimeSDK@E@VideoPauseState"></a>
                     <a name="//apple_ref/swift/Enum/VideoPauseState" class="dashAnchor"></a>
                     <a class="token" href="#/c:@M@AmazonChimeSDK@E@VideoPauseState">VideoPauseState</a>
@@ -399,6 +468,69 @@ Receive video metrics are only reported when receiving.</p>
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">@objc</span>
 <span class="kd">public</span> <span class="kd">enum</span> <span class="kt">VideoPauseState</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="kt">CaseIterable</span><span class="p">,</span> <span class="kt">CustomStringConvertible</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@VideoRotation"></a>
+                    <a name="//apple_ref/swift/Enum/VideoRotation" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@VideoRotation">VideoRotation</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>VideoRotation</code> describes the rotation of the video frame buffer in degrees clockwise
+from intended viewing horizon.</p>
+
+<p>e.g. If you were recording camera capture upside down relative to
+the orientation of the sensor, this value would be <code><a href="Enums/VideoRotation.html#/c:@M@AmazonChimeSDK@E@VideoRotation@VideoRotationRotation180">VideoRotation.rotation180</a></code>.</p>
+
+                        <a href="Enums/VideoRotation.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">enum</span> <span class="kt">VideoRotation</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@CaptureSourceError"></a>
+                    <a name="//apple_ref/swift/Enum/CaptureSourceError" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@CaptureSourceError">CaptureSourceError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>CaptureSourceError</code> describes an error resulting from a capture source failure.
+These can be used to trigger UI, or attempt to restart the capture source.</p>
+
+                        <a href="Enums/CaptureSourceError.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">enum</span> <span class="kt">CaptureSourceError</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
 
                         </div>
                       </div>
@@ -607,8 +739,8 @@ Receive video metrics are only reported when receiving.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-10-23)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-11-16)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

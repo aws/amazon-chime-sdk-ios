@@ -69,6 +69,9 @@
                 <a href="Classes/DefaultAudioVideoFacade.html">DefaultAudioVideoFacade</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/DefaultCameraCaptureSource.html">DefaultCameraCaptureSource</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/DefaultDeviceController.html">DefaultDeviceController</a>
               </li>
               <li class="nav-group-task">
@@ -120,6 +123,15 @@
                 <a href="Classes/Versioning.html">Versioning</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/VideoCaptureFormat.html">VideoCaptureFormat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/VideoFrame.html">VideoFrame</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/VideoFramePixelBuffer.html">VideoFramePixelBuffer</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/VideoTileState.html">VideoTileState</a>
               </li>
               <li class="nav-group-task">
@@ -132,6 +144,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="Enums/AttendeeStatus.html">AttendeeStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/CaptureSourceError.html">CaptureSourceError</a>
               </li>
               <li class="nav-group-task">
                 <a href="Enums/LogLevel.html">LogLevel</a>
@@ -158,7 +173,13 @@
                 <a href="Enums/SignalStrength.html">SignalStrength</a>
               </li>
               <li class="nav-group-task">
+                <a href="Enums/VideoContentHint.html">VideoContentHint</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Enums/VideoPauseState.html">VideoPauseState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/VideoRotation.html">VideoRotation</a>
               </li>
               <li class="nav-group-task">
                 <a href="Enums/VolumeLevel.html">VolumeLevel</a>
@@ -216,6 +237,12 @@
                 <a href="Protocols/AudioVideoObserver.html">AudioVideoObserver</a>
               </li>
               <li class="nav-group-task">
+                <a href="Protocols/CameraCaptureSource.html">CameraCaptureSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/CaptureSourceObserver.html">CaptureSourceObserver</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Protocols/ClientMetricsCollector.html">ClientMetricsCollector</a>
               </li>
               <li class="nav-group-task">
@@ -246,10 +273,22 @@
                 <a href="Protocols/Scheduler.html">Scheduler</a>
               </li>
               <li class="nav-group-task">
+                <a href="Protocols/VideoCaptureSource.html">VideoCaptureSource</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Protocols/VideoClientController.html">VideoClientController</a>
               </li>
               <li class="nav-group-task">
-                <a href="Protocols/VideoRenderView.html">VideoRenderView</a>
+                <a href="Protocols/VideoFrameBuffer.html">VideoFrameBuffer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols.html#/c:@M@AmazonChimeSDK@objc(pl)VideoRenderView">VideoRenderView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/VideoSink.html">VideoSink</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/VideoSource.html">VideoSource</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/VideoTile.html">VideoTile</a>
@@ -519,6 +558,36 @@ It consults the <code><a href="Protocols/ActiveSpeakerPolicy.html">ActiveSpeaker
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)VideoFrameBuffer"></a>
+                    <a name="//apple_ref/swift/Protocol/VideoFrameBuffer" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoFrameBuffer">VideoFrameBuffer</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>VideoFrameBuffer</code> is a buffer which contains a single video buffer&rsquo;s raw data.
+Typically owned by a <code><a href="Classes/VideoFrame.html">VideoFrame</a></code> which includes additional metadata.</p>
+
+                        <a href="Protocols/VideoFrameBuffer.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">VideoFrameBuffer</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)VideoRenderView"></a>
                     <a name="//apple_ref/swift/Protocol/VideoRenderView" class="dashAnchor"></a>
                     <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoRenderView">VideoRenderView</a>
@@ -529,16 +598,76 @@ It consults the <code><a href="Protocols/ActiveSpeakerPolicy.html">ActiveSpeaker
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><code>VideoRenderView</code> renders frame that comes from <code><a href="Protocols/VideoTile.html">VideoTile</a></code>.</p>
+                        <p><code>VideoRenderView</code> is the type of VideoSink used by the <code><a href="Protocols/VideoTileController.html">VideoTileController</a></code></p>
 
-                        <a href="Protocols/VideoRenderView.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">@objc</span>
-<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">VideoRenderView</span></code></pre>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">VideoRenderView</span> <span class="p">:</span> <span class="kt"><a href="Protocols/VideoSink.html">VideoSink</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)VideoSink"></a>
+                    <a name="//apple_ref/swift/Protocol/VideoSink" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoSink">VideoSink</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A <code>VideoSink</code> consumes video frames, typically from a <code><a href="Protocols/VideoSource.html">VideoSource</a></code>. It may process, fork, or render these frames.
+Typically connected via video <code>VideoSource.addVideoSink</code> and disconnected via <code>VideoSource.removeVideoSink</code></p>
+
+                        <a href="Protocols/VideoSink.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">VideoSink</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)VideoSource"></a>
+                    <a name="//apple_ref/swift/Protocol/VideoSource" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoSource">VideoSource</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>VideoSource</code> is an interface for sources which produce video frames, and can send to a <code><a href="Protocols/VideoSink.html">VideoSink</a></code>.
+Implementations can be passed to the <code><a href="Protocols.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoFacade">AudioVideoFacade</a></code> to be used as the video source sent to remote
+participlants</p>
+
+                        <a href="Protocols/VideoSource.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">VideoSource</span></code></pre>
 
                         </div>
                       </div>
@@ -567,7 +696,7 @@ It consults the <code><a href="Protocols/ActiveSpeakerPolicy.html">ActiveSpeaker
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">@objc</span>
-<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">VideoTile</span></code></pre>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">VideoTile</span> <span class="p">:</span> <span class="kt"><a href="Protocols/VideoSink.html">VideoSink</a></span></code></pre>
 
                         </div>
                       </div>
@@ -657,6 +786,97 @@ in the <code>videoTileDidAdd</code> and <code>videoTileDidRemove</code> callback
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">@objc</span>
 <span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">VideoTileObserver</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)CameraCaptureSource"></a>
+                    <a name="//apple_ref/swift/Protocol/CameraCaptureSource" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)CameraCaptureSource">CameraCaptureSource</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>CameraCaptureSource</code> is an interface for camera capture sources with additional features
+not covered by <code><a href="Protocols/VideoCaptureSource.html">VideoCaptureSource</a></code>.
+All the APIs in this protocol can be called regardless of whether the <code><a href="Protocols/MeetingSession.html#/c:@M@AmazonChimeSDK@objc(pl)MeetingSession(py)audioVideo">MeetingSession.audioVideo</a></code> is started or not.</p>
+
+                        <a href="Protocols/CameraCaptureSource.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">CameraCaptureSource</span> <span class="p">:</span> <span class="kt"><a href="Protocols/VideoCaptureSource.html">VideoCaptureSource</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)CaptureSourceObserver"></a>
+                    <a name="//apple_ref/swift/Protocol/CaptureSourceObserver" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)CaptureSourceObserver">CaptureSourceObserver</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>CaptureSourceObserver</code> observes events resulting from different types of capture devices.
+Builders may desire this input to decide when to show certain UI elements, or to notify users of failure.</p>
+
+                        <a href="Protocols/CaptureSourceObserver.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">CaptureSourceObserver</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)VideoCaptureSource"></a>
+                    <a name="//apple_ref/swift/Protocol/VideoCaptureSource" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoCaptureSource">VideoCaptureSource</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>VideoCaptureSource</code> is an interface for various video capture sources (i.e. screen, camera, file) which can emit <code><a href="Classes/VideoFrame.html">VideoFrame</a></code> objects.
+All the APIs in this protocol can be called regardless of whether the <code><a href="Protocols/MeetingSession.html#/c:@M@AmazonChimeSDK@objc(pl)MeetingSession(py)audioVideo">MeetingSession.audioVideo</a></code> is started or not.</p>
+
+                        <a href="Protocols/VideoCaptureSource.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">VideoCaptureSource</span> <span class="p">:</span> <span class="kt"><a href="Protocols/VideoSource.html">VideoSource</a></span></code></pre>
 
                         </div>
                       </div>
@@ -1081,8 +1301,8 @@ volume/mute/signal/attendee callbacks that can be used to render in the UI.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-10-23)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-11-16)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

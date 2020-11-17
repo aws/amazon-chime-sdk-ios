@@ -38,11 +38,11 @@ For the purpose of setup, your project's root folder (where you can find your `.
 
 Download the following zips:
  * if you need bitcode support:
-    * [AmazonChimeSDK-0.11.1.tar.gz](https://amazon-chime-sdk-ios.s3.amazonaws.com/sdk/0.11.1/AmazonChimeSDK-0.11.1.tar.gz)
-    * [AmazonChimeSDKMedia-0.7.1.tar.gz](https://amazon-chime-sdk-ios.s3.amazonaws.com/media/0.7.1/AmazonChimeSDKMedia-0.7.1.tar.gz)
+    * [AmazonChimeSDK-0.12.0.tar.gz](https://amazon-chime-sdk-ios.s3.amazonaws.com/sdk/0.12.0/AmazonChimeSDK-0.12.0.tar.gz)
+    * [AmazonChimeSDKMedia-0.8.0.tar.gz](https://amazon-chime-sdk-ios.s3.amazonaws.com/media/0.8.0/AmazonChimeSDKMedia-0.8.0.tar.gz)
  * if you do NOT need bitcode support:
-    * [AmazonChimeSDK-0.11.1.tar.gz](https://amazon-chime-sdk-ios.s3.amazonaws.com/sdk-without-bitcode/0.11.1/AmazonChimeSDK-0.11.1.tar.gz)
-    * [AmazonChimeSDKMedia-0.7.1.tar.gz](https://amazon-chime-sdk-ios.s3.amazonaws.com/media-without-bitcode/0.7.1/AmazonChimeSDKMedia-0.7.1.tar.gz)
+    * [AmazonChimeSDK-0.12.0.tar.gz](https://amazon-chime-sdk-ios.s3.amazonaws.com/sdk-without-bitcode/0.12.0/AmazonChimeSDK-0.12.0.tar.gz)
+    * [AmazonChimeSDKMedia-0.8.0.tar.gz](https://amazon-chime-sdk-ios.s3.amazonaws.com/media-without-bitcode/0.8.0/AmazonChimeSDKMedia-0.8.0.tar.gz)
 
 Unzip and copy the `.framework`s to `root`
 
@@ -73,7 +73,7 @@ To run the demo application, follow these steps.
 
 Download the following zip:
 
-* [AmazonChimeSDKMedia-0.7.1.tar.gz](https://amazon-chime-sdk-ios.s3.amazonaws.com/media/0.7.1/AmazonChimeSDKMedia-0.7.1.tar.gz)
+* [AmazonChimeSDKMedia-0.8.0.tar.gz](https://amazon-chime-sdk-ios.s3.amazonaws.com/media/0.8.0/AmazonChimeSDKMedia-0.8.0.tar.gz)
 
 Unzip and copy the .framework to `AmazonChimeSDK` folder
 
