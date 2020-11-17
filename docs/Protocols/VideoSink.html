@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>VideoRenderView Protocol Reference</title>
+    <title>VideoSink Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -13,8 +13,8 @@
     <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
-    <a name="//apple_ref/swift/Protocol/VideoRenderView" class="dashAnchor"></a>
-    <a title="VideoRenderView Protocol Reference"></a>
+    <a name="//apple_ref/swift/Protocol/VideoSink" class="dashAnchor"></a>
+    <a title="VideoSink Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html"> Docs</a></p>
@@ -29,7 +29,7 @@
       <p id="breadcrumbs">
         <a href="../index.html"> Reference</a>
         <img id="carat" src="../img/carat.png" />
-        VideoRenderView Protocol Reference
+        VideoSink Protocol Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -67,6 +67,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/DefaultAudioVideoFacade.html">DefaultAudioVideoFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultCameraCaptureSource.html">DefaultCameraCaptureSource</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/DefaultDeviceController.html">DefaultDeviceController</a>
@@ -120,6 +123,15 @@
                 <a href="../Classes/Versioning.html">Versioning</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/VideoCaptureFormat.html">VideoCaptureFormat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VideoFrame.html">VideoFrame</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VideoFramePixelBuffer.html">VideoFramePixelBuffer</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/VideoTileState.html">VideoTileState</a>
               </li>
               <li class="nav-group-task">
@@ -132,6 +144,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Enums/AttendeeStatus.html">AttendeeStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/CaptureSourceError.html">CaptureSourceError</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/LogLevel.html">LogLevel</a>
@@ -158,7 +173,13 @@
                 <a href="../Enums/SignalStrength.html">SignalStrength</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Enums/VideoContentHint.html">VideoContentHint</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Enums/VideoPauseState.html">VideoPauseState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/VideoRotation.html">VideoRotation</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/VolumeLevel.html">VolumeLevel</a>
@@ -216,6 +237,12 @@
                 <a href="../Protocols/AudioVideoObserver.html">AudioVideoObserver</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols/CameraCaptureSource.html">CameraCaptureSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/CaptureSourceObserver.html">CaptureSourceObserver</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/ClientMetricsCollector.html">ClientMetricsCollector</a>
               </li>
               <li class="nav-group-task">
@@ -246,10 +273,22 @@
                 <a href="../Protocols/Scheduler.html">Scheduler</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols/VideoCaptureSource.html">VideoCaptureSource</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/VideoClientController.html">VideoClientController</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Protocols/VideoRenderView.html">VideoRenderView</a>
+                <a href="../Protocols/VideoFrameBuffer.html">VideoFrameBuffer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols.html#/c:@M@AmazonChimeSDK@objc(pl)VideoRenderView">VideoRenderView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoSink.html">VideoSink</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoSource.html">VideoSource</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/VideoTile.html">VideoTile</a>
@@ -278,16 +317,17 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>VideoRenderView</h1>
+            <h1>VideoSink</h1>
               <div class="declaration">
                 <div class="language">
                   
                   <pre class="highlight swift"><code><span class="kd">@objc</span>
-<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">VideoRenderView</span></code></pre>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">VideoSink</span></code></pre>
 
                 </div>
               </div>
-            <p><code>VideoRenderView</code> renders frame that comes from <code><a href="../Protocols/VideoTile.html">VideoTile</a></code>.</p>
+            <p>A <code>VideoSink</code> consumes video frames, typically from a <code><a href="../Protocols/VideoSource.html">VideoSource</a></code>. It may process, fork, or render these frames.
+Typically connected via video <code>VideoSource.addVideoSink</code> and disconnected via <code>VideoSource.removeVideoSink</code></p>
 
           </section>
           <section class="section task-group-section">
@@ -296,9 +336,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AmazonChimeSDK@objc(pl)VideoRenderView(im)renderFrameWithFrame:"></a>
-                    <a name="//apple_ref/swift/Method/renderFrame(frame:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoRenderView(im)renderFrameWithFrame:">renderFrame(frame:<wbr>)</a>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)VideoSink(im)onVideoFrameReceivedWithFrame:"></a>
+                    <a name="//apple_ref/swift/Method/onVideoFrameReceived(frame:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)VideoSink(im)onVideoFrameReceivedWithFrame:">onVideoFrameReceived(frame:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -306,14 +346,15 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Render given frame to UI</p>
+                        <p>Receive a video frame from some upstream source.
+The <code>VideoSink</code> may render, store, process, and forward the frame, among other applications.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">renderFrame</span><span class="p">(</span><span class="nv">frame</span><span class="p">:</span> <span class="kt">CVPixelBuffer</span><span class="p">?)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">onVideoFrameReceived</span><span class="p">(</span><span class="nv">frame</span><span class="p">:</span> <span class="kt"><a href="../Classes/VideoFrame.html">VideoFrame</a></span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -329,7 +370,7 @@
                               </td>
                               <td>
                                 <div>
-                                  <p>a frame of video</p>
+                                  <p>New video frame to consume</p>
                                 </div>
                               </td>
                             </tr>
@@ -344,8 +385,8 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-10-23)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2020-11-16)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
