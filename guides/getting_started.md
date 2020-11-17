@@ -48,7 +48,7 @@ To start a meeting, you need to create a meeting session. We provide `DefaultMee
 let logger = ConsoleLogger(name: "MeetingViewController")
 ```
 2. Make a POST request to `server_url` to create a meeting and an attendee. The `server_url` is the URL of the serverless demo meeting application you deployed (see Prerequisites section).
-Note: use `https://xxxxx.xxxxx.xxx.com/Prod/` instead of v2 url.
+Note: use `https://xxxxx.xxxxx.xxx.com/Prod/`.
 ```
 var url = "\(server_url)join?title=\(meetingId)&name=\(attendeeName)&region=\(meetingRegion)"
 url = encodeStrForURL(str: url)
