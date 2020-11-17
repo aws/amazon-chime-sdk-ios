@@ -393,10 +393,13 @@ extension DefaultVideoClientController: VideoClientController {
     }
 
     public func startLocalVideo(source: VideoSource) {
+        if isInternalCaptureSourceRunning {
+            internalCaptureSource.stop()
+            isInternalCaptureSourceRunning = false
+        }
         setVideoSource(source: source)
 
         logger.info(msg: "Starting local video with custom source")
-        isInternalCaptureSourceRunning = false
     }
 
     private func setVideoSource(source: VideoSource) {
