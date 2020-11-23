@@ -202,6 +202,40 @@ To pause a remote attendee's video tile, call meetingSession.audioVideo.[pauseRe
 
 To resume a remote attendee's video tile, call meetingSession.audioVideo.[resumeRemoteVideoTile(tileId:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoTileControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade(im)resumeRemoteVideoTileWithTileId:).
 
+### 8g. In-depth look and comparison between video APIs
+
+#### Start/Stop Local Video
+
+As the names suggest, `startLocalVideo()` and `stopLocalVideo()` will start and stop sending local attendee’s video respectively. `startLocalVideo()` will first check if the video client is initialized and the application has permission to access device camera, then it will update the service type of video client and turn on its *sending* mode, so that local video can be sent to server and forwarded to other peers.
+
+You should call `startLocalVideo()` when you want to start sending local video to others, and call `stopLocalVideo()` when you want to stop sending local video to others (e.g. when the app is in background). Stopping local video will save uplink bandwidth and computation resource for encoding video.
+
+#### Start/Stop Remote Video
+
+Similar to `startLocalVideo()` and `stopLocalVideo()`, `startRemoteVideo()` and `stopRemoteVideo()` will start and stop receiving remote attendees’ videos by setting the service type of video client and turning on/off its *receiving* mode.
+
+Note that when the application calls `stopRemoteVideo()`, all the resources in the render pipeline will be released, and it takes some time to re-initialize all these resources. You should call `stopRemoteVideo()` only when you want to stop receiving remote videos for a *considerable amount of time*. If you want to temporarily stop remote videos, consider iterating through remote videos and call `pauseRemoteVideoTile(tileId:)` instead.
+
+#### Pause/Resume Remote Video Tile
+
+You can call `pauseRemoteVideoTile(tileId:)` to temporarily pause a remote video stream. When you call `pauseRemoteVideoTile(tileId:)`, the video client will add the tile id to a local block list, so that server will not forward video frames from the paused stream to the client. In that case, you can save downlink bandwidth and computation resource for decoding video. You can call `resumeRemoteVideoTile(tileId:)` to remove a video from the local block list and resume streaming.
+
+You should call `pauseRemoteVideoTile(tileId:)` when you want to temporarily pause remote video (e.g. when user is not in the video view and remote videos are not actively being showed), or when you want to stop *some* remote videos (e.g. in the video pagination example in the following sections, where we want to render videos on the current page, but stop invisible videos on other pages).
+
+#### Bind/Unbind Video View
+
+To display video, you need to bind a video tile to a video view. You can call `bindVideoView(videoView:tileId:)` to bind a video tile to a view, and call `unbindVideoView(tileId:)` to unbind a video tile from a view.
+
+Note that bind/unbind only impacts *UI layer*, which means these APIs only control when and where the video stream will be displayed in your application UI. If you unbind a video tile, the server will keep sending video frames to the client, and the client will continue consuming resources to receive and decode video. If you want to reduce unnecessary data consumption and CPU usage of your application by stopping remote videos, you should call `pauseRemoteVideoTile(tileId:)` first.
+
+### 8h. Rendering selected remote videos
+
+You can render some of the available remote videos instead of rendering them all at the same time.
+
+To selectively render some remote videos, call meetingSession.audioVideo.[resumeRemoteVideoTile(tileId:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoTileControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade(im)resumeRemoteVideoTileWithTileId:) on the videos you care about, and call meetingSession.audioVideo.[pauseRemoteVideoTile(tileId:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoTileControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade(im)pauseRemoteVideoTileWithTileId:) to pause other videos.
+
+See the [Video Pagination with Active Speaker-Based Policy](video_pagination.md) guide for more information about related APIs and sample code.
+
 ## 9. Receiving metrics (optional)
 
 You can receive events about available audio and video metrics by implementing a [MetricsObserver](https://aws.github.io/amazon-chime-sdk-ios/Protocols/MetricsObserver.html) and registering the observer with the audio video facade. Events occur on a one second interval.
@@ -236,7 +270,7 @@ Amazon Voice Focus reduces the sound levels of noises that can intrude on a meet
 
 *Note:* Amazon Voice Focus doesn't eliminate those types of noises; it reduces their sound levels. To ensure privacy during a meeting, call meetingSession.audioVideo.[realtimeLocalMute()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/RealtimeControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)realtimeLocalMute) to silence yourself.
 
-You must start the audio session before enabling/disabling Amazon Voice Focus or before checking if Amazon Voice Focus is enabled. To enable/disable Amazon Voice Focus, call meetingSession.audioVideo.[realtimeSetVoiceFocusEnabled(enabled: enabled)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/RealtimeControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)realtimeSetVoiceFocusEnabledWithEnabled:). To check if Amazon Voice Focus is enabled, call meetingSession.audioVideo.[realtimeIsVoiceFocusEnabled()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/RealtimeControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)realtimeIsVoiceFocusEnabled).
+You must start the audio session before enabling/disabling Amazon Voice Focus or before checking if Amazon Voice Focus is enabled. To enable/disable Amazon Voice Focus, call meetingSession.audioVideo.[realtimeSetVoiceFocusEnabled(enabled:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/RealtimeControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)realtimeSetVoiceFocusEnabledWithEnabled:). To check if Amazon Voice Focus is enabled, call meetingSession.audioVideo.[realtimeIsVoiceFocusEnabled()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/RealtimeControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)RealtimeControllerFacade(im)realtimeIsVoiceFocusEnabled).
 
 When Amazon Voice Focus is running, a CPU usage increase is expected, but the performance impact is small on modern devices (on average, we observed around 5-7% CPU increase). If your app will be running on resource-critical devices, you should take this into consideration before enabling Amazon Voice Focus.
 
@@ -244,4 +278,4 @@ Note that if you want to share music or background sounds with others in the cal
 
 ## 12. Using a custom video source, sink or processing step (optional)
 
-Builders using the Amazon Chime SDK for video can produce, modify, and consume raw video frames transmitted or received during the call. You can allow the facade to manage its own camera capture source, provide your own custom source, or use a provided SDK capture source as the first step in a video processing pipeline which modifies frames before transmission. See the [Custom Video Sources, Processors, and Sinks](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/custom_video.md) guide for more information.
+Builders using the Amazon Chime SDK for video can produce, modify, and consume raw video frames transmitted or received during the call. You can allow the facade to manage its own camera capture source, provide your own custom source, or use a provided SDK capture source as the first step in a video processing pipeline which modifies frames before transmission. See the [Custom Video Sources, Processors, and Sinks](custom_video.md) guide for more information.
