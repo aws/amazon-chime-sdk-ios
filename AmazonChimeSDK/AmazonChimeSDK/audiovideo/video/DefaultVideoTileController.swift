@@ -12,7 +12,7 @@ import UIKit
 @objcMembers public class DefaultVideoTileController: NSObject, VideoTileController {
     private let logger: Logger
     private var videoTileMap = [Int: VideoTile]()
-    private var videoViewToTileMap = [NSValue: Int]()
+    private var videoViewToTileMap = [NSValue: VideoTile]()
     private let videoTileObservers = ConcurrentMutableSet()
     private let videoClientController: VideoClientController
 
@@ -84,30 +84,34 @@ import UIKit
         logger.info(msg: "Binding VideoView to Tile with tileId = \(tileId)")
         let videoRenderKey = NSValue(nonretainedObject: videoView)
 
-        // If tileId was already bound to another videoRenderView,
-        // unbind it first to prevent side effects
-        unbindVideoView(tileId: tileId, removeTile: false)
-
-        // Previously there was another video tile that registered with different tileId
-        if let matchedTileId = videoViewToTileMap[videoRenderKey] {
-            unbindVideoView(tileId: matchedTileId, removeTile: false)
+        // Previously there was another videoTile that bounded to the videoView, unbind it
+        if let matchedTile = videoViewToTileMap[videoRenderKey] {
+            logger.info(msg: "Override the binding from \(matchedTile.state.tileId) to \(tileId)")
+            removeVideoViewBindMapping(tileId: matchedTile.state.tileId)
         }
 
-        let videoTile = videoTileMap[tileId]
-        videoTile?.bind(videoRenderView: videoView)
-        videoViewToTileMap[videoRenderKey] = tileId
+        if let videoTile = videoTileMap[tileId] {
+            if videoTile.videoRenderView != nil {
+                // If tileId was already bound to another videoRenderView, unbind it
+                logger.info(msg: "tileId = \(tileId) already had a different video view. Unbinding the old one and associating the new one")
+                removeVideoViewBindMapping(tileId: tileId)
+            }
+            videoTile.bind(videoRenderView: videoView)
+            videoViewToTileMap[videoRenderKey] = videoTile
+        }
     }
 
-    private func unbindVideoView(tileId: Int, removeTile: Bool) {
-        let videoTile = removeTile ? videoTileMap.removeValue(forKey: tileId) : videoTileMap[tileId]
-        let videoRenderKey = NSValue(nonretainedObject: videoTile?.videoRenderView)
-        videoViewToTileMap.removeValue(forKey: videoRenderKey)
-        videoTile?.unbind()
+    private func removeVideoViewBindMapping(tileId: Int) {
+        videoViewToTileMap.filter({ $1.state.tileId == tileId }).forEach {renderView, videoTile in
+            videoTile.unbind()
+            let videoRenderKey = NSValue(nonretainedObject: videoTile.videoRenderView)
+            videoViewToTileMap.removeValue(forKey: videoRenderKey)
+        }
     }
 
     public func unbindVideoView(tileId: Int) {
         logger.info(msg: "Unbinding VideoView to Tile with tileId = \(tileId)")
-        unbindVideoView(tileId: tileId, removeTile: true)
+        removeVideoViewBindMapping(tileId: tileId)
     }
 
     private func onAddTrack(tileId: Int,
@@ -142,6 +146,7 @@ import UIKit
         ObserverUtils.forEach(observers: videoTileObservers) { (videoTileObserver: VideoTileObserver) in
             videoTileObserver.videoTileDidRemove(tileState: tileState)
         }
+        videoTileMap.removeValue(forKey: tileState.tileId)
     }
 
     public func addVideoTileObserver(observer: VideoTileObserver) {
