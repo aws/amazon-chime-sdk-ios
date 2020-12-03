@@ -102,9 +102,8 @@ import UIKit
     }
 
     private func removeVideoViewBindMapping(tileId: Int) {
-        videoViewToTileMap.filter({ $1.state.tileId == tileId }).forEach {renderView, videoTile in
+        videoViewToTileMap.first(where: { $1.state.tileId == tileId }).map { videoRenderKey, videoTile in
             videoTile.unbind()
-            let videoRenderKey = NSValue(nonretainedObject: videoTile.videoRenderView)
             videoViewToTileMap.removeValue(forKey: videoRenderKey)
         }
     }
