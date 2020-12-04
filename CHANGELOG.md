@@ -1,7 +1,7 @@
 ## Unreleased
 
 ### Changed
-* **Breaking** Changed SDK behavior to remove the internal video tile mapping entry when video is removed, instead of when video is unbound. This provides better API symmetry so that the video metadata will be added in `videoTileDidAdd(tileState)` callback and removed in `videoTileDidRemove(tileState)` callback.
+* **Breaking** Changed SDK behavior to remove the internal video tile mapping entry when video is *removed*, instead of when video is *unbound*. This fixes [`videoTileDidAdd(tileState)` is sometimes not called issue](https://github.com/aws/amazon-chime-sdk-android/issues/186), and provides better API symmetry so that builders no longer need to call `unbindVideoView(tileId:)` if they did not call `bindVideoView(videoView:tileId:)`.
 
 ## [0.12.1] - 2020-11-20
 
