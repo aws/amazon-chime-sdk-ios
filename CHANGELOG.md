@@ -1,8 +1,14 @@
+## Unreleased
+
+### Changed
+* **Breaking** Changed SDK behavior to remove the internal video tile mapping entry when video is *removed*, instead of when video is *unbound*. This fixes [`videoTileDidAdd(tileState)` is sometimes not called issue](https://github.com/aws/amazon-chime-sdk-android/issues/186), and provides better API symmetry so that builders no longer need to call `unbindVideoView(tileId:)` if they did not call `bindVideoView(videoView:tileId:)`.
+
 ## [0.12.2] - 2020-12-11
 
 ## [0.12.1] - 2020-11-20
 
 ## [0.12.0] - 2020-11-17
+
 ### Added
 * Added new APIs in `RealtimeControllerFacade` to enable/disable Voice Focus (ML-based noise suppression) and get the on/off status of Voice Focus.
 * Added Voice Focus feature in Swift demo app.
@@ -23,9 +29,7 @@
 * **Breaking** Changed behavior to no longer call `videoTileSizeDidChange` when a video is paused to fix a bug where pausing triggered this callback with width=0 and height=0.
 * Fixed `videoTileDidAdd` not being called for paused tiles.
 
-
 ### Changed
-
 * **Breaking** Changed default log level of `ConsoleLogger` to INFO.
 * The render path has been changed to use `VideoFrame`s for consistency with the send side, this includes:
   * **Breaking** `VideoTileController.onReceiveFrame` now takes `VideoFrame?` instead of `CVPixelBuffer?`.
