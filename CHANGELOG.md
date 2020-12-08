@@ -16,6 +16,7 @@
 * **Breaking** `DefaultAudioVideoFacade` init requires a `ContentShareController` instance.
 * Update text of additional options on demo app.
 * `MeetingSessionURLs` and `MeetingSessionCredentials` now conform to `Codable`.
+* Changes that support a speed up of video client initialization. `videoClientRequestTurnCreds` callback will only be invoked as a backup for media layer logic. The signaling url is now passed into video client start. A new callback `videoClientTurnURIsReceived` will be invoked when TURN uris are received by the client. This allows urls to be modified with urlRewriter or customer builder logic.
 
 ## [0.13.1] - 2021-01-08
 
@@ -45,6 +46,7 @@
 * Added `CameraCaptureSource`, `CaptureSourceError`, `CaptureSourceObserver`, `VideoCaptureFormat`, and `VideoCaptureSource` interfaces and enums to facilitate releasing capturers as part of the SDK.
 * Added `DefaultCameraCaptureSource` implementation of `CameraCaptureSource`.
 * Added `listVideoDevices` and `listSupportedVideoCaptureFormats` to `MediaDevice.Companion`.
+* Added TURN uris received callback.
 
 ### Fixed
 * Fixed `DefaultDeviceController` not removing itself as observer from `NotificationCenter` after deallocation and causes crash in Swift demo app.

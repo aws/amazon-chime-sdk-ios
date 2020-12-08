@@ -107,6 +107,7 @@ class DefaultVideoClientController: NSObject {
         videoConfig.isUsingPixelBufferRenderer = true
         videoConfig.isUsingOptimizedTwoSimulcastStreamTable = true
         videoConfig.isExcludeSelfContentInIndex = true
+        videoConfig.isUsingInbandTurnCreds = true
 
         // Default to idle mode, no video but signaling connection is
         // established for messaging
@@ -116,7 +117,8 @@ class DefaultVideoClientController: NSObject {
                           token: configuration.credentials.joinToken,
                           sending: false,
                           config: videoConfig,
-                          appInfo: DeviceUtils.getDetailedInfo())
+                          appInfo: DeviceUtils.getDetailedInfo(),
+                          signalingUrl: configuration.urls.signalingUrl)
         videoClientState = .started
     }
 }
@@ -235,6 +237,10 @@ extension DefaultVideoClientController: VideoClientDelegate {
                 }
             }
         }
+    }
+    
+    public func videoClientTurnURIsReceived(_ uris: [String]) -> [String] {
+        return uris.map(self.configuration.urlRewriter)
     }
 }
 
