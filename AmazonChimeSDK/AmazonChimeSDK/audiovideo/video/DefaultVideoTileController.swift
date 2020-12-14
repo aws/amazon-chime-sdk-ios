@@ -110,6 +110,8 @@ import UIKit
 
     public func unbindVideoView(tileId: Int) {
         logger.info(msg: "Unbinding VideoView to Tile with tileId = \(tileId)")
+        // Remove the video from both mappings when unbind, in order to keep the old SDK behavior
+        videoTileMap.removeValue(forKey: tileId)
         removeVideoViewBindMapping(tileId: tileId)
     }
 
