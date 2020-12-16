@@ -1,3 +1,7 @@
+## Unreleased
+### Added
+* Update demo application to pause/resume when app is in background/foreground
+
 ## 0.13.0 - 2020-12-17
 
 ### Changed
