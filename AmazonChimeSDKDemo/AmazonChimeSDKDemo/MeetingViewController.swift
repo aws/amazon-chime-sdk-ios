@@ -59,9 +59,6 @@ class MeetingViewController: UIViewController {
     // Model
     var meetingModel: MeetingModel?
     
-    // isLocalOn
-    private var isLocalOn: Bool = false
-
     // Local var
     private let logger = ConsoleLogger(name: "MeetingViewController")
 
