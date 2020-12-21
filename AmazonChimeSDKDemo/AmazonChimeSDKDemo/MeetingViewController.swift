@@ -91,31 +91,6 @@ class MeetingViewController: UIViewController {
             layout.scrollDirection = .vertical
         }
     }
-    
-    private func registerForAppLifeCycleNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
-    }
-    
-    private func deregisterForAppLifeCycleNotification() {
-        NotificationCenter.default.removeObserver(self, name: UIApplication.didEnterBackgroundNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
-    }
-    
-    @objc private func appMovedToBackground() {
-        isLocalOn = meetingModel?.isLocalVideoActive ?? false
-        if isLocalOn {
-            meetingModel?.isLocalVideoActive = false
-        }
-        meetingModel?.videoModel.pauseAllRemoteVideos()
-    }
-    
-    @objc private func appMovedToForeground() {
-        if isLocalOn {
-            meetingModel?.isLocalVideoActive = true
-        }
-        meetingModel?.videoModel.resumeAllRemoteVideosInCurrentPageExceptUserPausedVideos()
-    }
 
     private func registerForKeyboardNotifications() {
         // Adding notifies on keyboard appearing
@@ -233,7 +208,6 @@ class MeetingViewController: UIViewController {
         chatMessageTable.delegate = meetingModel?.chatModel
         chatMessageTable.dataSource = meetingModel?.chatModel
         registerForKeyboardNotifications()
-        registerForAppLifeCycleNotification()
         sendMessageButton.isEnabled = false
         chatMessageTable.separatorStyle = .none
         sendMessageButton.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
@@ -400,7 +374,6 @@ class MeetingViewController: UIViewController {
     @IBAction func leaveButtonClicked(_: UIButton) {
         meetingModel?.endMeeting()
         deregisterFromKeyboardNotifications()
-        deregisterForAppLifeCycleNotification()
     }
 
     @IBAction func inputTextChanged(_: Any, forEvent _: UIEvent) {
