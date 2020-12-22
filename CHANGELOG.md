@@ -1,3 +1,8 @@
+## Unreleased
+
+### Added
+* Update demo application to pause/resume remote videos and stop/start local video when app is in background/foreground
+
 ## [0.13.1] - 2021-01-08
 
 ### Fixed
