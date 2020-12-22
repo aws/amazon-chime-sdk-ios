@@ -58,7 +58,7 @@ class MeetingViewController: UIViewController {
 
     // Model
     var meetingModel: MeetingModel?
-    
+
     // Local var
     private let logger = ConsoleLogger(name: "MeetingViewController")
 
