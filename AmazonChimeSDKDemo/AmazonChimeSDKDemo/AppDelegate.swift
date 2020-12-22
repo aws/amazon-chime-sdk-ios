@@ -17,6 +17,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         return true
     }
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        if let meeting = MeetingModule.shared().activeMeeting {
+            meeting.isAppInBackground = true
+        }
+    }
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        if let meeting = MeetingModule.shared().activeMeeting {
+            meeting.isAppInBackground = false
+        }
+    }
 
     // MARK: UISceneSession Lifecycle
 
