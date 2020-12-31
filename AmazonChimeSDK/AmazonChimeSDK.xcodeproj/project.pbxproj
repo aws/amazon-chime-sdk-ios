@@ -20,7 +20,6 @@
 		0083A11423D8CFD40057027A /* RealtimeControllerFacade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0083A11323D8CFD40057027A /* RealtimeControllerFacade.swift */; };
 		0083A11623D8CFFD0057027A /* DefaultRealtimeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0083A11523D8CFFD0057027A /* DefaultRealtimeController.swift */; };
 		0095013423FF372E003260E3 /* VideoClientState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0095013323FF372E003260E3 /* VideoClientState.swift */; };
-		00B45843246C745E0007D425 /* AmazonChimeSDKMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ADEAFA024293B2700801EA5 /* AmazonChimeSDKMedia.framework */; };
 		00B9D9CB23FE1ED8001308E4 /* DefaultVideoClientController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B9D9CA23FE1ED8001308E4 /* DefaultVideoClientController.swift */; };
 		00C2509E23E217F700325841 /* PermissionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C2509D23E217F700325841 /* PermissionError.swift */; };
 		00C2A91523F76154008CD687 /* DefaultVideoTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C2A91423F76154008CD687 /* DefaultVideoTile.swift */; };
@@ -33,6 +32,7 @@
 		00C9DC6923FA377000876B41 /* DefaultVideoRenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C9DC6823FA377000876B41 /* DefaultVideoRenderView.swift */; };
 		00C9DC6B23FA393600876B41 /* DefaultVideoTileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C9DC6A23FA393600876B41 /* DefaultVideoTileController.swift */; };
 		00D9DBB2241AE23F00146467 /* DefaultVideoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D9DBB1241AE23F00146467 /* DefaultVideoClient.swift */; };
+		00E1990D259E714D00AD4DAA /* CommonTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E1990C259E714D00AD4DAA /* CommonTestCase.swift */; };
 		00EB5F612400591800007D3E /* VideoTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EB5F602400591800007D3E /* VideoTile.swift */; };
 		32F235B3714DA0906335CC12 /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7CEAE89DD08E6E863FC8BE /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift */; };
 		5A0E7317242EA072006636AB /* MediaDeviceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E7316242EA072006636AB /* MediaDeviceTests.swift */; };
@@ -191,6 +191,7 @@
 		00C9DC6823FA377000876B41 /* DefaultVideoRenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultVideoRenderView.swift; sourceTree = "<group>"; };
 		00C9DC6A23FA393600876B41 /* DefaultVideoTileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultVideoTileController.swift; sourceTree = "<group>"; };
 		00D9DBB1241AE23F00146467 /* DefaultVideoClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultVideoClient.swift; sourceTree = "<group>"; };
+		00E1990C259E714D00AD4DAA /* CommonTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonTestCase.swift; sourceTree = "<group>"; };
 		00EB5F602400591800007D3E /* VideoTile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTile.swift; sourceTree = "<group>"; };
 		5A0E7316242EA072006636AB /* MediaDeviceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDeviceTests.swift; sourceTree = "<group>"; };
 		5A0E7318242EA283006636AB /* MeetingSessionStatusCodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSessionStatusCodeTests.swift; sourceTree = "<group>"; };
@@ -377,6 +378,14 @@
 			path = logger;
 			sourceTree = "<group>";
 		};
+		00E1990B259E713F00AD4DAA /* common */ = {
+			isa = PBXGroup;
+			children = (
+				00E1990C259E714D00AD4DAA /* CommonTestCase.swift */,
+			);
+			path = common;
+			sourceTree = "<group>";
+		};
 		5A15821323C4020D0099F8FA = {
 			isa = PBXGroup;
 			children = (
@@ -415,6 +424,7 @@
 		5A15822A23C4020D0099F8FA /* AmazonChimeSDKTests */ = {
 			isa = PBXGroup;
 			children = (
+				00E1990B259E713F00AD4DAA /* common */,
 				5A631A4924298CE000C8DAF3 /* audiovideo */,
 				5A631A502429936200C8DAF3 /* device */,
 				5A631A4824298CA900C8DAF3 /* internal */,
@@ -1104,6 +1114,7 @@
 				C60D5596246514B000C2A278 /* ConvertersTests.swift in Sources */,
 				5AE132B823EB41B800BF5997 /* MeetingSessionStatusTests.swift in Sources */,
 				C494800624855B4700A41FF8 /* ConcurrentMutableSetTests.swift in Sources */,
+				00E1990D259E714D00AD4DAA /* CommonTestCase.swift in Sources */,
 				5A0E7319242EA283006636AB /* MeetingSessionStatusCodeTests.swift in Sources */,
 				5AE1323323EA972C00BF5997 /* MeetingSessionURLsTests.swift in Sources */,
 				C6DA0B2624F7118000028F2B /* DefaultAudioClientControllerTests.swift in Sources */,
