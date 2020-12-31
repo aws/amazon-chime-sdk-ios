@@ -33,6 +33,7 @@
 		00C9DC6B23FA393600876B41 /* DefaultVideoTileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C9DC6A23FA393600876B41 /* DefaultVideoTileController.swift */; };
 		00D9DBB2241AE23F00146467 /* DefaultVideoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D9DBB1241AE23F00146467 /* DefaultVideoClient.swift */; };
 		00E1990D259E714D00AD4DAA /* CommonTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E1990C259E714D00AD4DAA /* CommonTestCase.swift */; };
+		00E19913259E7D9B00AD4DAA /* AmazonChimeSDKMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ADEAFA024293B2700801EA5 /* AmazonChimeSDKMedia.framework */; };
 		00EB5F612400591800007D3E /* VideoTile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EB5F602400591800007D3E /* VideoTile.swift */; };
 		32F235B3714DA0906335CC12 /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7CEAE89DD08E6E863FC8BE /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift */; };
 		5A0E7317242EA072006636AB /* MediaDeviceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E7316242EA072006636AB /* MediaDeviceTests.swift */; };
@@ -130,7 +131,6 @@
 		C49A1C54253F43A50089FEEF /* VideoFrameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49A1C53253F43A50089FEEF /* VideoFrameTests.swift */; };
 		C49B5424247EFD2B002829F1 /* ConcurrentMutableSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49B5423247EFD2B002829F1 /* ConcurrentMutableSet.swift */; };
 		C4A6F9C4252E686700455418 /* VideoContentHint.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A6F9C3252E686700455418 /* VideoContentHint.swift */; };
-		C4A6F9C5252E8F6100455418 /* AmazonChimeSDKMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AA9F969252243E400EB0644 /* AmazonChimeSDKMedia.framework */; };
 		C4A6F9CD252F718200455418 /* VideoRotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A6F9CC252F718200455418 /* VideoRotation.swift */; };
 		C4C540662538C08D00427A84 /* VideoCaptureFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C540652538C08D00427A84 /* VideoCaptureFormat.swift */; };
 		C4EDDAAC253F46FF0028264A /* VideoCaptureFormatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EDDAAB253F46FF0028264A /* VideoCaptureFormatTests.swift */; };
@@ -321,8 +321,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00E19913259E7D9B00AD4DAA /* AmazonChimeSDKMedia.framework in Frameworks */,
 				5AE38AC82428728300B234EC /* AVFoundation.framework in Frameworks */,
-				C4A6F9C5252E8F6100455418 /* AmazonChimeSDKMedia.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
