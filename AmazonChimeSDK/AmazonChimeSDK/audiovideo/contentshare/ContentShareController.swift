@@ -17,6 +17,10 @@ import Foundation
     /// Once sharing has started successfully, `ContentShareObserver.contentShareDidStart` will
     /// be notified. If sharing fails or stops, `ContentShareObserver.contentShareDidStop`
     /// will be invoked with `ContentShareStatus` as the cause.
+    ///
+    /// This will call `VideoSource.addVideoSink(sink:)` on the provided source
+    /// and `VideoSource.removeVideoSink(sink:)` on the previously provided source.
+    ///
     /// Calling this function repeatedly will replace the previous `ContentShareSource` as the one being transmitted.
     ///
     /// - Parameter source: source of content to be shared
@@ -29,10 +33,12 @@ import Foundation
     func stopContentShare()
 
     /// Subscribe the given observer to content share events (sharing started and stopped).
+    ///
     /// - Parameter observer: observer to be notified for events
     func addContentShareObserver(observer: ContentShareObserver)
 
     /// Unsubscribe the given observer from content share events.
+    ///
     /// - Parameter observer: observer to be removed for events
     func removeContentShareObserver(observer: ContentShareObserver)
 }

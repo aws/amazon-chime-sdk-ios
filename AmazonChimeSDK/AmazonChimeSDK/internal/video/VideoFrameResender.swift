@@ -13,7 +13,7 @@ import CoreMedia
 /// This can be useful with sources which may pause the generation of frames (like in-app ReplayKit screen sharing)
 /// so that internally encoders don't get in a poor state, and new receivers can immediately receive frames
 @objcMembers public class VideoFrameResender: NSObject {
-    private let minFramerate: Int
+    private let minFramerate: UInt
     private let resendQueue = DispatchQueue.global()
     // Will be nil until the first frame is sent, and nil again on stop
     private var resendTimer: DispatchSourceTimer?
@@ -28,10 +28,10 @@ import CoreMedia
 
     /// Callback will be triggered with a previous `VideoFrame` which will have different timestamp
     /// then originally sent with so it won't be dropped by downstream encoders
-    init(minFramerate: Int, resendFrameHandler: @escaping (VideoFrame) -> Void) {
+    init(minFramerate: UInt, resendFrameHandler: @escaping (VideoFrame) -> Void) {
         self.minFramerate = minFramerate
         self.resendFrameHandler = resendFrameHandler
-        self.resendTimeInterval = CMTime(value: CMTimeValue(Constants.millisecondsPerSecond / minFramerate),
+        self.resendTimeInterval = CMTime(value: CMTimeValue(Constants.millisecondsPerSecond / Int(minFramerate)),
                                       timescale: CMTimeScale(Constants.millisecondsPerSecond))
     }
 
@@ -93,7 +93,7 @@ import CoreMedia
         })
 
         let deadline = DispatchTime.now()
-            + DispatchTimeInterval.milliseconds(Constants.millisecondsPerSecond / minFramerate)
+            + DispatchTimeInterval.milliseconds(Constants.millisecondsPerSecond / Int(minFramerate))
         timer.schedule(deadline: deadline, leeway: resendScheduleLeewayMs)
         timer.activate()
     }

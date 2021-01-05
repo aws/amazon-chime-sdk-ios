@@ -9,12 +9,13 @@
 import Foundation
 import ReplayKit
 
-/// `InAppScreenCaptureSource` is used to share  screen capture within the app. When the app is in the background,
+/// `InAppScreenCaptureSource` is used to share screen capture within the app. When the app is in the background,
 /// there is no sample sent to handler, and screen sharing is paused. `InAppScreenCaptureSource` is only available
 /// on iOS 11+ because of `RPScreenRecorder.startCapture(handler:completionHandler:)` method.
 /// `InAppScreenCaptureSource` does not support rotation while it's in progress. 
 @available(iOS 11.0, *)
 @objcMembers public class InAppScreenCaptureSource: NSObject, VideoCaptureSource {
+    // This will prioritize resolution over framerate.
     public var videoContentHint: VideoContentHint = .text
 
     private let logger: Logger

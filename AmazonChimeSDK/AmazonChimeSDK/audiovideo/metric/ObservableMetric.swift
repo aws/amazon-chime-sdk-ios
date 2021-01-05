@@ -78,4 +78,9 @@ import Foundation
             return "contentShareVideoSendRttMs"
         }
     }
+
+    /// Determine if the metric is for content share stream.
+    public var isContentShareMetric: Bool {
+        return description.hasPrefix("contentShare")
+    }
 }

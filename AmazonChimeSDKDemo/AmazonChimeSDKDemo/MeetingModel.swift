@@ -42,17 +42,19 @@ class MeetingModel: NSObject {
                                                          cameraCaptureSource: videoModel.customSource)
     let uuid = UUID()
     var call: Call?
+
+    // States
     var isAppInBackground: Bool = false {
         didSet {
             if isAppInBackground {
-                wasLocalVideoOn = isLocalVideoActive
+                wasLocalVideoOn = videoModel.isLocalVideoActive
                 if wasLocalVideoOn {
-                    isLocalVideoActive = false
+                    videoModel.isLocalVideoActive = false
                 }
                 videoModel.pauseAllRemoteVideos()
             } else {
                 if wasLocalVideoOn {
-                    isLocalVideoActive = true
+                    videoModel.isLocalVideoActive = true
                 }
                 videoModel.resumeAllRemoteVideosInCurrentPageExceptUserPausedVideos()
             }
@@ -60,7 +62,7 @@ class MeetingModel: NSObject {
     }
     private var savedModeBeforeOnHold: ActiveMode?
     private var wasLocalVideoOn: Bool = false
-    // States
+
     var activeMode: ActiveMode = .roster {
         didSet {
             if activeMode == .video {

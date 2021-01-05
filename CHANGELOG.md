@@ -1,6 +1,7 @@
 ## Unreleased
 
 ### Added
+* **Breaking** Added content share metrics as new enums in `ObservableMetric`.
 * Added content share APIs that supports a 2nd video sending stream such as screen capture, read [content share guide](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/content_share.md) for details.
 * Added in app only screen share to demo app.
 * Added `AmazonChimeSDKDemoBroadcast` Broadcast Upload Extension to the demo app to share device level screen.
