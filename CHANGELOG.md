@@ -3,6 +3,9 @@
 ### Added
 * Update demo application to pause/resume remote videos and stop/start local video when app is in background/foreground
 
+### Fixed
+* Fix the demo application bug that front camera video was not mirrored without selecting video device on the video preview page.
+
 ## 0.13.0 - 2020-12-17
 
 ### Changed
