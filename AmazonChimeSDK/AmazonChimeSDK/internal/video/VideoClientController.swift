@@ -10,10 +10,7 @@ import AmazonChimeSDKMedia
 import Foundation
 
 @objc public protocol VideoClientController {
-    func start(turnControlUrl: String,
-               signalingUrl: String,
-               meetingId: String,
-               joinToken: String)
+    func start()
     func stopAndDestroy()
     func startLocalVideo() throws
     func startLocalVideo(source: VideoSource)

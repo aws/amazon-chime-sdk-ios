@@ -13,27 +13,16 @@ import UIKit
 
 class DefaultVideoClientController: NSObject {
     var clientMetricsCollector: ClientMetricsCollector
-    var joinToken: String?
     var logger: Logger
-    var meetingId: String?
-    var signalingUrl: String?
     var videoClient: VideoClient?
     var videoSourceAdapter = VideoSourceAdapter()
     var videoClientState: VideoClientState = .uninitialized
     let videoTileControllerObservers = ConcurrentMutableSet()
     let videoObservers = ConcurrentMutableSet()
     var dataMessageObservers = [String: ConcurrentMutableSet]()
-    var turnControlUrl: String?
 
     private let configuration: MeetingSessionConfiguration
-    private let contentTypeHeader = "Content-Type"
-    private let contentType = "application/json"
-    private let userAgentTypeHeader = "User-Agent"
     private let defaultVideoClient: VideoClient
-    private let meetingIdKey = "meetingId"
-    private let tokenHeader = "X-Chime-Auth-Token"
-    private let tokenKey = "_aws_wt_session"
-    private let turnRequestHttpMethod = "POST"
 
     // This internal camera capture source is used for `startLocalVideo()` API without parameter.
     private let internalCaptureSource: DefaultCameraCaptureSource
@@ -49,79 +38,6 @@ class DefaultVideoClientController: NSObject {
         self.logger = logger
         self.internalCaptureSource = DefaultCameraCaptureSource(logger: logger)
         super.init()
-    }
-
-    private func getUserAgent() -> String {
-        let model = UIDevice.current.model
-        let systemVersion = UIDevice.current.systemVersion
-        let scaleFactor = UIScreen.main.scale
-        let defaultAgent = "(\(model); iOS \(systemVersion); Scale/\(String(format: "%.2f", scaleFactor)))"
-        if let dict = Bundle.main.infoDictionary {
-            if let identifier = dict[kCFBundleExecutableKey as String] ?? dict[kCFBundleIdentifierKey as String],
-                let version = dict[kCFBundleVersionKey as String] {
-                return "\(identifier)/\(version) \(defaultAgent)"
-            }
-        }
-        return defaultAgent
-    }
-
-    private func getModelInfo() -> String {
-        var systemInfo = utsname()
-        uname(&systemInfo)
-        let machineMirror = Mirror(reflecting: systemInfo.machine)
-        return machineMirror.children.reduce("") { identifier, element in
-            guard let value = element.value as? Int8, value != 0 else { return identifier }
-            return identifier + String(UnicodeScalar(UInt8(value)))
-        }
-    }
-
-    private func makeTurnRequest(request: URLRequest) {
-        URLSession.shared.dataTask(with: request) { data, resp, error in
-            if let error = error {
-                self.logger.error(msg: "Failed to make TURN request, error: \(error.localizedDescription)")
-                return
-            }
-            if let httpResponse = resp as? HTTPURLResponse {
-                guard httpResponse.statusCode == 200 else {
-                    self.logger.error(msg: "Received status code \(httpResponse.statusCode) when making TURN request")
-                    return
-                }
-            }
-            guard let signalingUrl = self.signalingUrl else {
-                self.logger.error(msg: "DefaultVideoClientController:signalingUrl is nil")
-                return
-            }
-            guard let data = data else { return }
-            self.logger.info(msg: "TURN request success")
-
-            let jsonDecoder = JSONDecoder()
-            do {
-                let turnCredentials: MeetingSessionTURNCredentials = try jsonDecoder.decode(
-                    MeetingSessionTURNCredentials.self, from: data
-                )
-
-                let uriSize = turnCredentials.uris.count
-                let uris = UnsafeMutablePointer<UnsafePointer<Int8>?>.allocate(capacity: uriSize)
-                for index in 0 ..< uriSize {
-                    let uri = self.configuration.urlRewriter(turnCredentials.uris[index])
-                    uris.advanced(by: index).pointee = (uri as NSString).utf8String
-                }
-
-                let turnResponse: turn_session_response_t = turn_session_response_t.init(
-                    user_name: (turnCredentials.username as NSString).utf8String,
-                    password: (turnCredentials.password as NSString).utf8String,
-                    ttl: UInt64(turnCredentials.ttl),
-                    signaling_url: (signalingUrl as NSString).utf8String,
-                    turn_data_uris: uris,
-                    size: Int32(uriSize)
-                )
-
-                self.videoClient?.updateTurnCreds(turnResponse, turn: VIDEO_CLIENT_TURN_FEATURE_ON)
-            } catch {
-                self.logger.error(msg: "Failed to decode TURN response, error: \(error.localizedDescription)")
-                return
-            }
-        }.resume()
     }
 
     // MARK: VideoClientController
@@ -188,28 +104,17 @@ class DefaultVideoClientController: NSObject {
         videoConfig.isUsing16by9AspectRatio = true
         videoConfig.isUsingPixelBufferRenderer = true
         videoConfig.isUsingOptimizedTwoSimulcastStreamTable = true
+        videoConfig.isExcludeSelfContentInIndex = true
 
         // Default to idle mode, no video but signaling connection is
         // established for messaging
         videoClient.setReceiving(false)
-        var appInfo = app_detailed_info_t.init()
 
-        appInfo.platform_version = UnsafePointer<Int8>((UIDevice.current.systemVersion as NSString).utf8String)
-        if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] {
-            appInfo.app_version_name = UnsafePointer<Int8>(("iOS \(appVersion)" as NSString).utf8String)
-            appInfo.app_version_code = UnsafePointer<Int8>(("\(appVersion)" as NSString).utf8String)
-        }
-        appInfo.device_model = UnsafePointer<Int8>((getModelInfo() as NSString).utf8String)
-        appInfo.platform_name = UnsafePointer<Int8>(("iOS" as NSString).utf8String)
-        appInfo.device_make = UnsafePointer<Int8>(("apple" as NSString).utf8String)
-        appInfo.client_source = UnsafePointer<Int8>(("amazon-chime-sdk" as NSString).utf8String)
-        appInfo.chime_sdk_version = UnsafePointer<Int8>((Versioning.sdkVersion() as NSString).utf8String)
-
-        videoClient.start(meetingId,
-                          token: joinToken,
+        videoClient.start(configuration.meetingId,
+                          token: configuration.credentials.joinToken,
                           sending: false,
                           config: videoConfig,
-                          appInfo: appInfo)
+                          appInfo: DeviceUtils.getDetailedInfo())
         videoClientState = .started
     }
 }
@@ -294,33 +199,23 @@ extension DefaultVideoClientController: VideoClientDelegate {
     }
 
     public func videoClientRequestTurnCreds(_ videoClient: VideoClient?) {
-        guard
-            let turnControlUrl = turnControlUrl,
-            let joinToken = self.joinToken,
-            let serverUrl = URL(string: turnControlUrl)
-        else {
-            logger.error(msg: "Failed to request TURN creds because required info is missing")
-            return
-        }
+        let turnControlUrl = configuration.urls.turnControlUrl
+        let joinToken = configuration.credentials.joinToken
+        let meetingId = configuration.meetingId
+        let signalingUrl = configuration.urls.signalingUrl
+
         logger.info(msg: "Requesting TURN creds")
 
-        // Prepare TURN request
-        var request = URLRequest(url: serverUrl)
-        request.httpMethod = turnRequestHttpMethod
-        request.addValue("\(tokenKey)=\(joinToken)", forHTTPHeaderField: tokenHeader)
-        request.addValue(contentType, forHTTPHeaderField: contentTypeHeader)
-        request.addValue(getUserAgent(), forHTTPHeaderField: userAgentTypeHeader)
-
-        // Write meetingId into HTTP request body
-        let meetingIdDict = [meetingIdKey: meetingId]
-        do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: meetingIdDict)
-        } catch {
-            logger.error(msg: "Failed to set meetingId in TURN request payload, error: \(error.localizedDescription)")
-            return
+        TURNRequestService.postTURNRequest(meetingId: meetingId,
+                                           turnControlUrl: turnControlUrl,
+                                           joinToken: joinToken,
+                                           logger: logger) { [weak self] turnCredentials in
+            if let strongSelf = self, let turnCredentials = turnCredentials {
+                let turnResponse = turnCredentials.toTURNSessionResponse(urlRewriter: strongSelf.configuration.urlRewriter,
+                                                                         signalingUrl: signalingUrl)
+                strongSelf.videoClient?.updateTurnCreds(turnResponse, turn: VIDEO_CLIENT_TURN_FEATURE_ON)
+            }
         }
-
-        makeTurnRequest(request: request)
     }
 
     public func videoClientMetricsReceived(_ metrics: [AnyHashable: Any]?) {
@@ -344,15 +239,7 @@ extension DefaultVideoClientController: VideoClientDelegate {
 extension DefaultVideoClientController: VideoClientController {
     // MARK: - Lifecycle: start and initialize
 
-    public func start(turnControlUrl: String,
-                      signalingUrl: String,
-                      meetingId: String,
-                      joinToken: String) {
-        self.turnControlUrl = turnControlUrl
-        self.signalingUrl = signalingUrl
-        self.meetingId = meetingId
-        self.joinToken = joinToken
-
+    public func start() {
         switch videoClientState {
         case .uninitialized:
             initialize()

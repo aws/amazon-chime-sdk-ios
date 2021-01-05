@@ -477,7 +477,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="313" height="161"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="meeting-video" translatesAutoresizingMaskIntoConstraints="NO" id="tMr-mN-AG5">
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="meeting-video" translatesAutoresizingMaskIntoConstraints="NO" id="tMr-mN-AG5" userLabel="Video Disabled Image">
                                                             <rect key="frame" x="112.66666666666669" y="36.666666666666657" width="88" height="88"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="88" id="dYI-bF-EUO"/>
@@ -519,25 +519,55 @@
                                                                 <constraint firstAttribute="trailing" secondItem="A9r-yc-76P" secondAttribute="trailing" constant="8" id="oMi-i7-Ib3"/>
                                                             </constraints>
                                                         </view>
+                                                        <view hidden="YES" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Gm-AY-FbD" userLabel="Poor Connection Background">
+                                                            <rect key="frame" x="0.0" y="0.0" width="313" height="129"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </view>
+                                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Poor local connection. Video will resume when your connection improves." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FMD-Q2-cFR" userLabel="Poor Connection Label">
+                                                            <rect key="frame" x="20" y="50" width="273" height="61"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" image="connection-problem" translatesAutoresizingMaskIntoConstraints="NO" id="oN8-OP-rV7" userLabel="Poor Connection Image">
+                                                            <rect key="frame" x="134" y="5" width="45" height="45"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" secondItem="oN8-OP-rV7" secondAttribute="height" multiplier="1:1" id="Am6-e1-5zc"/>
+                                                            </constraints>
+                                                        </imageView>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="rIq-lk-w7t" firstAttribute="top" secondItem="80b-KU-QcI" secondAttribute="bottom" id="5iO-wv-OvU"/>
+                                                        <constraint firstItem="FMD-Q2-cFR" firstAttribute="centerX" secondItem="1aC-e6-3qi" secondAttribute="centerX" id="7cQ-fs-JIB"/>
+                                                        <constraint firstItem="6Gm-AY-FbD" firstAttribute="top" secondItem="80b-KU-QcI" secondAttribute="top" id="Hut-Pg-GjT"/>
                                                         <constraint firstAttribute="trailing" secondItem="rIq-lk-w7t" secondAttribute="trailing" id="IYC-p1-WOV"/>
+                                                        <constraint firstItem="FMD-Q2-cFR" firstAttribute="centerY" secondItem="1aC-e6-3qi" secondAttribute="centerY" id="MjA-Jj-tpO"/>
                                                         <constraint firstItem="rIq-lk-w7t" firstAttribute="leading" secondItem="1aC-e6-3qi" secondAttribute="leading" id="NGr-zl-GTl"/>
                                                         <constraint firstItem="tMr-mN-AG5" firstAttribute="centerX" secondItem="1aC-e6-3qi" secondAttribute="centerX" id="QO8-Vn-3xR"/>
+                                                        <constraint firstItem="FMD-Q2-cFR" firstAttribute="leading" secondItem="1aC-e6-3qi" secondAttribute="leading" constant="20" id="Wqq-Ob-uf6"/>
+                                                        <constraint firstItem="oN8-OP-rV7" firstAttribute="top" secondItem="1aC-e6-3qi" secondAttribute="top" constant="5" id="Xr9-Lv-nP8"/>
+                                                        <constraint firstItem="FMD-Q2-cFR" firstAttribute="top" secondItem="oN8-OP-rV7" secondAttribute="bottom" id="YhF-p1-yyw"/>
+                                                        <constraint firstItem="oN8-OP-rV7" firstAttribute="centerX" secondItem="1aC-e6-3qi" secondAttribute="centerX" id="ZIG-HB-0k8"/>
                                                         <constraint firstItem="80b-KU-QcI" firstAttribute="top" secondItem="1aC-e6-3qi" secondAttribute="top" id="aCe-WZ-HvU"/>
+                                                        <constraint firstItem="6Gm-AY-FbD" firstAttribute="trailing" secondItem="1aC-e6-3qi" secondAttribute="trailing" id="dAe-TE-SKc"/>
+                                                        <constraint firstItem="6Gm-AY-FbD" firstAttribute="bottom" secondItem="80b-KU-QcI" secondAttribute="bottom" id="el9-BF-hkk"/>
                                                         <constraint firstItem="tMr-mN-AG5" firstAttribute="centerY" secondItem="1aC-e6-3qi" secondAttribute="centerY" id="gJ2-g3-jfY"/>
                                                         <constraint firstItem="80b-KU-QcI" firstAttribute="leading" secondItem="1aC-e6-3qi" secondAttribute="leading" id="jjt-dY-sev"/>
                                                         <constraint firstAttribute="trailing" secondItem="80b-KU-QcI" secondAttribute="trailing" id="nta-if-CKi"/>
+                                                        <constraint firstItem="6Gm-AY-FbD" firstAttribute="leading" secondItem="1aC-e6-3qi" secondAttribute="leading" id="t8E-HS-BU5"/>
                                                         <constraint firstAttribute="bottom" secondItem="rIq-lk-w7t" secondAttribute="bottom" id="vrj-2t-tBf"/>
+                                                        <constraint firstAttribute="trailing" secondItem="FMD-Q2-cFR" secondAttribute="trailing" constant="20" id="zcz-4Z-tnG"/>
                                                     </constraints>
                                                 </collectionViewCellContentView>
                                                 <size key="customSize" width="313" height="161"/>
                                                 <connections>
                                                     <outlet property="attendeeName" destination="sga-dz-S8z" id="HhX-aj-qwe"/>
                                                     <outlet property="onTileButton" destination="A9r-yc-76P" id="lBD-q6-ZKp"/>
-                                                    <outlet property="onTileImage" destination="tMr-mN-AG5" id="ymH-sC-Zy2"/>
+                                                    <outlet property="poorConnectionBackground" destination="6Gm-AY-FbD" id="YeH-hT-aSK"/>
+                                                    <outlet property="poorConnectionImage" destination="oN8-OP-rV7" id="ycQ-wP-iIT"/>
+                                                    <outlet property="poorConnectionLabel" destination="FMD-Q2-cFR" id="OLN-aX-lWc"/>
                                                     <outlet property="shadedView" destination="rIq-lk-w7t" id="wum-T3-p3b"/>
+                                                    <outlet property="videoDisabledImage" destination="tMr-mN-AG5" id="ymH-sC-Zy2"/>
                                                     <outlet property="videoRenderView" destination="80b-KU-QcI" id="AjQ-rS-6J2"/>
                                                 </connections>
                                             </collectionViewCell>
@@ -617,7 +647,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="87"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="0oD-Yz-HfY" userLabel="Metric Name">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="0oD-Yz-HfY" userLabel="Metric Name">
                                                             <rect key="frame" x="16" y="21.666666666666671" width="258" height="44"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="44" id="FXl-nv-Bcs"/>
@@ -717,47 +747,56 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="l0A-Sg-Q3r">
                                         <rect key="frame" x="0.0" y="0.0" width="406" height="44"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tqt-DK-rj5" userLabel="Mic">
-                                                <rect key="frame" x="0.0" y="0.0" width="74.666666666666671" height="44"/>
+                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tqt-DK-rj5" userLabel="Mic">
+                                                <rect key="frame" x="0.0" y="0.0" width="61" height="44"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="Toggle Mute" label="Mute"/>
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                                 <state key="normal" image="volume-0"/>
                                                 <state key="selected" image="volume-muted"/>
                                                 <connections>
                                                     <action selector="muteButtonClicked:" destination="ur0-O1-pag" eventType="touchUpInside" id="0aI-Xr-M0O"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4mT-rM-aXK">
-                                                <rect key="frame" x="82.666666666666671" y="0.0" width="75.000000000000014" height="44"/>
+                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4mT-rM-aXK">
+                                                <rect key="frame" x="69" y="0.0" width="61" height="44"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="Toggle Speaker" label="Speaker"/>
+                                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                                 <state key="normal" image="meeting-speaker"/>
                                                 <connections>
                                                     <action selector="deviceButtonClicked:" destination="ur0-O1-pag" eventType="touchUpInside" id="lba-hA-CYN"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="urn-hi-Y25">
-                                                <rect key="frame" x="165.66666666666666" y="0.0" width="74.666666666666657" height="44"/>
+                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="urn-hi-Y25">
+                                                <rect key="frame" x="138" y="0.0" width="61" height="44"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="Toggle Camera" label="Camera"/>
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                                 <state key="normal" image="meeting-video"/>
                                                 <state key="selected" image="meeting-video-on"/>
                                                 <connections>
                                                     <action selector="cameraButtonClicked:" destination="ur0-O1-pag" eventType="touchUpInside" id="LE3-qc-urZ"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ief-dn-Lr8">
-                                                <rect key="frame" x="248.33333333333337" y="0.0" width="75" height="44"/>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="45k-rb-bfn" userLabel="Broadcast Picker View">
+                                                <rect key="frame" x="207" y="0.0" width="61" height="44"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ief-dn-Lr8">
+                                                <rect key="frame" x="276" y="0.0" width="61" height="44"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="More" label="More"/>
                                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                                 <state key="normal" image="more"/>
                                                 <state key="selected" image="meeting-video-on"/>
                                                 <connections>
                                                     <action selector="additionalOptionsButtonClicked:" destination="ur0-O1-pag" eventType="touchUpInside" id="GEN-CU-7ht"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QpV-zh-bvd" userLabel="End">
-                                                <rect key="frame" x="331.33333333333331" y="0.0" width="74.666666666666686" height="44"/>
+                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QpV-zh-bvd" userLabel="End">
+                                                <rect key="frame" x="345" y="0.0" width="61" height="44"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="Leave Meeting" label="Leave meeting"/>
+                                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                                 <state key="normal" image="meeting-end"/>
                                                 <connections>
                                                     <action selector="leaveButtonClicked:" destination="ur0-O1-pag" eventType="touchUpInside" id="Cx5-s8-LI7"/>
@@ -823,6 +862,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="additionalOptionsButton" destination="Ief-dn-Lr8" id="3PU-5V-JQ7"/>
+                        <outlet property="broadcastPickerContainerView" destination="45k-rb-bfn" id="DYh-zE-TBa"/>
                         <outlet property="cameraButton" destination="urn-hi-Y25" id="aXe-mE-gEa"/>
                         <outlet property="chatMessageTable" destination="SDw-oV-14H" id="sz1-YB-TBn"/>
                         <outlet property="chatView" destination="RGo-2N-w2S" id="z58-eq-wYt"/>
@@ -852,10 +892,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DDZ-DD-2dd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1854" y="113"/>
+            <point key="canvasLocation" x="1853.6231884057972" y="112.5"/>
         </scene>
     </scenes>
     <resources>
+        <image name="connection-problem" width="24" height="24"/>
         <image name="meeting-end" width="24" height="24"/>
         <image name="meeting-speaker" width="24" height="24"/>
         <image name="meeting-video" width="24" height="24"/>

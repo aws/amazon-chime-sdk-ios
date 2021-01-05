@@ -279,3 +279,35 @@ Note that if you want to share music or background sounds with others in the cal
 ## 12. Using a custom video source, sink or processing step (optional)
 
 Builders using the Amazon Chime SDK for video can produce, modify, and consume raw video frames transmitted or received during the call. You can allow the facade to manage its own camera capture source, provide your own custom source, or use a provided SDK capture source as the first step in a video processing pipeline which modifies frames before transmission. See the [Custom Video Sources, Processors, and Sinks](custom_video.md) guide for more information.
+
+## 13. Share screen and other content (optional)
+
+Builders using the Amazon Chime SDK for iOS can share a second video stream such as screen capture in a meeting without disrupting their applications existing audio/video stream. When a content share is started, another attendee with the attendee ID `<attendee-id>#content` joins the meeting. You can subscribe its presence event to show it in the roster and bind its video tile to a video render view the same as you would for a regular attendee.
+
+Each attendee can share one content share in addition to their main video. Each meeting may have two simultaneous content shares. Content share does not count towards the max video tile limit.
+
+### 13a. Start and stop the content share
+
+To start the content share, call meetingSession.audioVideo.[startContentShare(source:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/ContentShareController.html#/c:@M@AmazonChimeSDK@objc(pl)ContentShareController(im)startContentShareWithSource:).
+
+To stop the content share, call meetingSession.audioVideo.[stopContentShare()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/ContentShareController.html#/c:@M@AmazonChimeSDK@objc(pl)ContentShareController(im)stopContentShare).
+
+### 13b. Register a content share observer
+
+You can receive events about the content share by implementing a [ContentShareObserver](https://aws.github.io/amazon-chime-sdk-ios/Protocols/ContentShareObserver.html).
+
+To add a ContentShareObserver, call meetingSession.audioVideo.[addContentShareObserver(observer:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/ContentShareController.html#/c:@M@AmazonChimeSDK@objc(pl)ContentShareController(im)addContentShareObserverWithObserver:).
+
+To remove a ContentShareObserver, call meetingSession.audioVideo.[removeContentShareObserver(observer:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/ContentShareController.html#/c:@M@AmazonChimeSDK@objc(pl)ContentShareController(im)removeContentShareObserverWithObserver:).
+
+You can implement the following callbacks:
+
+* [contentShareDidStart](https://aws.github.io/amazon-chime-sdk-ios/Protocols/ContentShareObserver.html#/c:@M@AmazonChimeSDK@objc(pl)ContentShareObserver(im)contentShareDidStart): called when the content share has started
+
+* [contentShareDidStop(status:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/ContentShareObserver.html#/c:@M@AmazonChimeSDK@objc(pl)ContentShareObserver(im)contentShareDidStopWithStatus:): called when the content is no longer shared with other attendees with the reason provided in the status
+
+### 13c. Collect content share metrics
+
+You will receive content share metrics if you registered a metric observer by [9.Receiving metrics (optional)](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/api_overview.md#9-receiving-metrics-optional).
+
+Content share metrics will be prefixed by `contentShare`.

@@ -71,7 +71,7 @@ import UIKit
             if videoTile.state.pauseState == .unpaused, let frame = frame {
                 videoTile.onVideoFrameReceived(frame: frame)
             }
-        } else if (frame != nil || pauseState != .unpaused) {
+        } else if frame != nil || pauseState != .unpaused {
             onAddTrack(tileId: videoId,
                        attendeeId: attendeeId,
                        pauseState: pauseState,
@@ -122,12 +122,13 @@ import UIKit
                             videoStreamContentHeight: Int) {
         var isLocalTile: Bool
         var thisAttendeeId: String
+        let selfAttendeeId = videoClientController.getConfiguration().credentials.attendeeId
 
         if let attendeeId = attendeeId {
             thisAttendeeId = attendeeId
             isLocalTile = false
         } else {
-            thisAttendeeId = videoClientController.getConfiguration().credentials.attendeeId
+            thisAttendeeId = selfAttendeeId
             isLocalTile = true
         }
         let tile = DefaultVideoTile(tileId: tileId,
