@@ -11,19 +11,19 @@ import ReplayKit
 
 /// `ReplayKitSource` repackages `CMSampleBuffer` objects from ReplayKit into SDK
 /// usable `VideoFrame` objects. It currently supports resending video frames to maintain a
-/// minimum framerate.
+/// minimum frame rate.
 ///
 /// It does not directly contain any system library calls that actually captures the screen.
 /// Builders can use `InAppScreenCaptureSource`to share screen from only their application.
 /// For device level screen broadcast, take a look at the `SampleHandler` in AmazonChimeSDKDemoBroadcast.
 @objcMembers public class ReplayKitSource: VideoSource {
-    // This will prioritize resolution over framerate.
+    // This will prioritize resolution over frame rate.
     public var videoContentHint: VideoContentHint = .detail
 
     private let logger: Logger
     private let sinks = ConcurrentMutableSet()
 
-    private lazy var videoFrameResender = VideoFrameResender(minFramerate: 5) { [weak self] (frame) -> Void in
+    private lazy var videoFrameResender = VideoFrameResender(minFrameRate: 5) { [weak self] (frame) -> Void in
         guard let `self` = self else { return }
         self.sendVideoFrame(frame: frame)
     }

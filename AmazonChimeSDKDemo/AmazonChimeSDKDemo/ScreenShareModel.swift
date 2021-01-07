@@ -28,7 +28,6 @@ class ScreenShareModel: NSObject {
 
     init(meetingSessionConfig: MeetingSessionConfiguration,
          contentShareController: ContentShareController) {
-
         self.broadcastCaptureModel = BroadcastScreenCaptureModel(meetingSessionConfig: meetingSessionConfig)
         self.inAppCaptureModel = InAppScreenCaptureModel(contentShareController: contentShareController)
         super.init()

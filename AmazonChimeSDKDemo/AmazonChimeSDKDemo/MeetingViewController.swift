@@ -264,7 +264,7 @@ class MeetingViewController: UIViewController {
                                          constant: 0)
         broadcastPickerContainerView.addConstraint(centerY)
         let width = NSLayoutConstraint(item: pickerView,
-                                     attribute: .width,
+                                       attribute: .width,
                                        relatedBy: .equal,
                                        toItem: nil,
                                        attribute: .notAnAttribute,
@@ -273,11 +273,11 @@ class MeetingViewController: UIViewController {
         broadcastPickerContainerView.addConstraint(width)
         let height = NSLayoutConstraint(item: pickerView,
                                         attribute: .height,
-                                          relatedBy: .equal,
-                                          toItem: nil,
-                                          attribute: .notAnAttribute,
-                                          multiplier: 1,
-                                          constant: pickerViewDiameter)
+                                        relatedBy: .equal,
+                                        toItem: nil,
+                                        attribute: .notAnAttribute,
+                                        multiplier: 1,
+                                        constant: pickerViewDiameter)
         broadcastPickerContainerView.addConstraint(height)
         broadcastPickerContainerView.bringSubviewToFront(pickerView)
     }
@@ -410,7 +410,7 @@ class MeetingViewController: UIViewController {
         optionMenu.addAction(customSourceAction)
 
         #if !targetEnvironment(simulator)
-        let inAppContentShareTitle = meetingModel.screenShareModel.inAppCaptureModel.isSharing ?
+            let inAppContentShareTitle = meetingModel.screenShareModel.inAppCaptureModel.isSharing ?
                 "Stop sharing content" : "Share in app content"
             let inAppContentShareAction = UIAlertAction(title: inAppContentShareTitle,
                                                         style: .default,

@@ -34,8 +34,7 @@ class MetricsModel: NSObject {
             if let strongSelf = self,
                let userDefaults = strongSelf.appGroupUserDefaults,
                let broadcastMetrics = userDefaults.demoMeetingBroadcastMetrics {
-
-                    strongSelf.broadcastMetrics = broadcastMetrics
+                strongSelf.broadcastMetrics = broadcastMetrics
             } else {
                 self?.broadcastMetrics = [:]
             }

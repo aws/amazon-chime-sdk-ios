@@ -10,7 +10,7 @@ import Foundation
 
 /// `ContentShareController` exposes methods for starting and stopping content share with a `ContentShareSource`.
 /// The content represents a media steam to be shared in the meeting, such as screen capture or media files.
-/// Read [content share guide](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/content_share.md) for details.
+/// Please refer to [content share guide](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/content_share.md) for details.
 @objc public protocol ContentShareController {
     /// Start sharing the content of a given `ContentShareSource`.
     ///

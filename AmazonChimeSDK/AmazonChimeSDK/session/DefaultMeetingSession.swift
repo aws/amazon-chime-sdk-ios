@@ -50,7 +50,7 @@ import Foundation
             DefaultActiveSpeakerDetector(audioClientObserver: audioClientObserver,
                                          selfAttendeeId: configuration.credentials.attendeeId)
 
-        let contentModality = String(DefaultModality.separator) + ModalityType.content.description
+        let contentModality = String(DefaultModality.separator) + String(describing: ModalityType.content)
         let contentShareCredentials = MeetingSessionCredentials(
             attendeeId: configuration.credentials.attendeeId + contentModality,
             externalUserId: configuration.credentials.externalUserId,

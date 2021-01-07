@@ -25,7 +25,7 @@ import ReplayKit
     private var screenRecorder: RPScreenRecorder {
         return RPScreenRecorder.shared()
     }
-    // Use an internal source so logic can be shared with ReplayKit broadcast sources
+    // Use an internal source so that logic can be shared with ReplayKit broadcast sources.
     private let replayKitSource: ReplayKitSource
 
     public init(logger: Logger) {
@@ -66,15 +66,15 @@ import ReplayKit
             return
         }
         screenRecorder.stopCapture { [weak self] error in
-            guard let `self` = self else { return }
+            guard let strongSelf = self else { return }
             if let error = error {
-                `self`.logger.error(msg: "RPScreenRecorder stop failed: \(error.localizedDescription)")
-                ObserverUtils.forEach(observers: `self`.observers) { (observer: CaptureSourceObserver) in
+                strongSelf.logger.error(msg: "RPScreenRecorder stop failed: \(error.localizedDescription)")
+                ObserverUtils.forEach(observers: strongSelf.observers) { (observer: CaptureSourceObserver) in
                     observer.captureDidFail(error: .systemFailure)
                 }
             } else {
-                self.logger.info(msg: "RPScreenRecorder stop succeeded.")
-                ObserverUtils.forEach(observers: `self`.observers) { (observer: CaptureSourceObserver) in
+                strongSelf.logger.info(msg: "RPScreenRecorder stop succeeded.")
+                ObserverUtils.forEach(observers: strongSelf.observers) { (observer: CaptureSourceObserver) in
                     observer.captureDidStop()
                 }
             }

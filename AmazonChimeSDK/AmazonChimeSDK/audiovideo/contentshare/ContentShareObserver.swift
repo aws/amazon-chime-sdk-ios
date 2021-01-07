@@ -13,12 +13,14 @@ import Foundation
 /// one can get notified with content share status events.
 @objc public protocol ContentShareObserver {
     /// Called when the content share has started.
-    /// This callback will be called on the main thread.
+    ///
+    /// Note: this callback will be called on main thread.
     func contentShareDidStart()
 
     /// Called when the content is no longer shared with other attendees with the reason provided in the status.
     /// If you no longer need the source producing frames, stop the source after this callback is invoked.
-    /// This callback will be called on the main thread.
+    ///
+    /// Note: this callback will be called on main thread.
     ///
     /// - Parameter status: the reason why the content share has stopped
     func contentShareDidStop(status: ContentShareStatus)

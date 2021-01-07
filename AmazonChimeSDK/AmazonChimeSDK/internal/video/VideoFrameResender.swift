@@ -9,11 +9,11 @@
 import Foundation
 import CoreMedia
 
-/// `VideoFrameResender` contains logic to resend video frames as needed to maintain a minimum framerate
+/// `VideoFrameResender` contains logic to resend video frames as needed to maintain a minimum frame rate
 /// This can be useful with sources which may pause the generation of frames (like in-app ReplayKit screen sharing)
 /// so that internally encoders don't get in a poor state, and new receivers can immediately receive frames
 @objcMembers public class VideoFrameResender: NSObject {
-    private let minFramerate: UInt
+    private let minFrameRate: UInt
     private let resendQueue = DispatchQueue.global()
     // Will be nil until the first frame is sent, and nil again on stop
     private var resendTimer: DispatchSourceTimer?
@@ -27,11 +27,11 @@ import CoreMedia
     private let resendFrameHandler: (VideoFrame) -> Void
 
     /// Callback will be triggered with a previous `VideoFrame` which will have different timestamp
-    /// then originally sent with so it won't be dropped by downstream encoders
-    init(minFramerate: UInt, resendFrameHandler: @escaping (VideoFrame) -> Void) {
-        self.minFramerate = minFramerate
+    /// than originally sent with so it won't be dropped by downstream encoders
+    init(minFrameRate: UInt, resendFrameHandler: @escaping (VideoFrame) -> Void) {
+        self.minFrameRate = minFrameRate
         self.resendFrameHandler = resendFrameHandler
-        self.resendTimeInterval = CMTime(value: CMTimeValue(Constants.millisecondsPerSecond / Int(minFramerate)),
+        self.resendTimeInterval = CMTime(value: CMTimeValue(Constants.millisecondsPerSecond / Int(minFrameRate)),
                                       timescale: CMTimeScale(Constants.millisecondsPerSecond))
     }
 
@@ -93,7 +93,7 @@ import CoreMedia
         })
 
         let deadline = DispatchTime.now()
-            + DispatchTimeInterval.milliseconds(Constants.millisecondsPerSecond / Int(minFramerate))
+            + DispatchTimeInterval.milliseconds(Constants.millisecondsPerSecond / Int(minFrameRate))
         timer.schedule(deadline: deadline, leeway: resendScheduleLeewayMs)
         timer.activate()
     }

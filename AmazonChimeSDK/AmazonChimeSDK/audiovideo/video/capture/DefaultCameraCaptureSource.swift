@@ -234,7 +234,7 @@ extension DefaultCameraCaptureSource: AVCaptureVideoDataOutputSampleBufferDelega
             ObserverUtils.forEach(observers: captureSourceObservers) { (observer: CaptureSourceObserver) in
                 observer.captureDidFail(error: .invalidFrame)
             }
-            logger.error(msg: "DefaultCameraCaptureSource Could not convert captured CMSampleBuffer to video frame")
+            logger.error(msg: "DefaultCameraCaptureSource could not convert captured CMSampleBuffer to video frame")
             return
         }
 
