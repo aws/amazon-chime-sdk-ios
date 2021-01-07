@@ -269,13 +269,12 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
             return
         }
 
-        DispatchQueue.global().async { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.audioLock.lock()
-            strongSelf.audioClient.stopSession()
+        DispatchQueue.global().async {
+            self.audioLock.lock()
+            self.audioClient.stopSession()
             DefaultAudioClientController.state = .stopped
-            strongSelf.audioLock.unlock()
-            strongSelf.notifyAudioClientObserver { (observer: AudioVideoObserver) in
+            self.audioLock.unlock()
+            self.notifyAudioClientObserver { (observer: AudioVideoObserver) in
                 observer.audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus(statusCode: newAudioStatus))
             }
         }
