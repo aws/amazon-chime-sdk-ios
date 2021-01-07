@@ -1,4 +1,9 @@
-## 0.13.0 - 2020-12-17
+## Unreleased
+
+### Fixed
+* Fix a bug that internal capture source was not stopped properly when the video client was being stopped. (Issue [#200](https://github.com/aws/amazon-chime-sdk-ios/issues/200))
+
+## [0.13.0] - 2020-12-17
 
 ### Changed
 * **Breaking** Remove the internal video tile mapping entry not only when the video is *unbound*, but also when the video is *removed*. This fixes [`videoTileDidAdd(tileState)` is sometimes not called issue](https://github.com/aws/amazon-chime-sdk-android/issues/186), and provides better API symmetry so that builders no longer need to call `unbindVideoView(tileId:)` if they did not call `bindVideoView(videoView:tileId:)`.

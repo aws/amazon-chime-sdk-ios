@@ -140,6 +140,8 @@ class DefaultVideoClientController: NSObject {
         logger.info(msg: "Stopping VideoClient")
         videoClient?.stop()
         videoClientState = .stopped
+        // SDK owns the lifecycle of the internal capture source
+        stopInternalCaptureSourceIfRunning()
     }
 
     private func destroyVideoClient() {
@@ -393,13 +395,17 @@ extension DefaultVideoClientController: VideoClientController {
     }
 
     public func startLocalVideo(source: VideoSource) {
+        stopInternalCaptureSourceIfRunning()
+        setVideoSource(source: source)
+
+        logger.info(msg: "Starting local video with custom source")
+    }
+
+    private func stopInternalCaptureSourceIfRunning() {
         if isInternalCaptureSourceRunning {
             internalCaptureSource.stop()
             isInternalCaptureSourceRunning = false
         }
-        setVideoSource(source: source)
-
-        logger.info(msg: "Starting local video with custom source")
     }
 
     private func setVideoSource(source: VideoSource) {
@@ -420,10 +426,7 @@ extension DefaultVideoClientController: VideoClientController {
         }
         logger.info(msg: "Stopping local video")
         videoClient?.setSending(false)
-        if isInternalCaptureSourceRunning {
-            internalCaptureSource.stop()
-            isInternalCaptureSourceRunning = false
-        }
+        stopInternalCaptureSourceIfRunning()
     }
 
     public func startRemoteVideo() {
