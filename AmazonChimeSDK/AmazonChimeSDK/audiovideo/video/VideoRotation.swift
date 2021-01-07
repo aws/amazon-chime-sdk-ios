@@ -35,7 +35,7 @@ import Foundation
         self = VideoRotation(rawValue: Int(internalValue.rawValue)) ?? .rotation0
     }
 
-    var description: String {
+    public var description: String {
         switch self {
         case .rotation0:
             return "rotation_0"

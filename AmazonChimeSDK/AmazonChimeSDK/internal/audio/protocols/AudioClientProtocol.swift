@@ -5,7 +5,6 @@
 //  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //  SPDX-License-Identifier: Apache-2.0
 //
-// swiftlint:disable identifier_name function_parameter_count
 
 import AmazonChimeSDKMedia
 import Foundation
@@ -22,7 +21,6 @@ import Foundation
                       sessionToken tokenString: String!,
                       audioWsUrl: String!,
                       callKitEnabled: Bool) -> audio_client_status_t
-    // swiftlint:enable function_parameter_count variable_name
 
     func stopSession() -> Int
 

@@ -18,7 +18,9 @@ class JoinRequestService: NSObject {
         return url
     }
 
-    static func postJoinRequest(meetingId: String, name: String, completion: @escaping (MeetingSessionConfiguration?) -> Void) {
+    static func postJoinRequest(meetingId: String,
+                                name: String,
+                                completion: @escaping (MeetingSessionConfiguration?) -> Void) {
         let url = AppConfiguration.url.hasSuffix("/") ? AppConfiguration.url : "\(AppConfiguration.url)/"
         let encodedURL = HttpUtils.encodeStrForURL(
             str: "\(url)join?title=\(meetingId)&name=\(name)&region=\(AppConfiguration.region)"

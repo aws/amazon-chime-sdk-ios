@@ -92,7 +92,7 @@ import UIKit
                 }
             } else {
                 torchEnabled = false
-                logger.error(msg: "Torch is not available on current camera.")
+                logger.info(msg: "Torch is not available on current camera.")
             }
         }
     }
@@ -230,24 +230,14 @@ extension DefaultCameraCaptureSource: AVCaptureVideoDataOutputSampleBufferDelega
     public func captureOutput(_: AVCaptureOutput,
                               didOutput sampleBuffer: CMSampleBuffer,
                               from _: AVCaptureConnection) {
-        guard CMSampleBufferGetNumSamples(sampleBuffer) == 1,
-            CMSampleBufferIsValid(sampleBuffer),
-            CMSampleBufferDataIsReady(sampleBuffer),
-            let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
-
+        guard let frame = VideoFrame(sampleBuffer: sampleBuffer) else {
             ObserverUtils.forEach(observers: captureSourceObservers) { (observer: CaptureSourceObserver) in
                 observer.captureDidFail(error: .invalidFrame)
             }
-            logger.error(msg: "DefaultCameraCaptureSource invalid frame received")
+            logger.error(msg: "DefaultCameraCaptureSource could not convert captured CMSampleBuffer to video frame")
             return
         }
-        let buffer = VideoFramePixelBuffer(pixelBuffer: pixelBuffer)
-        let timestampNs = CMTimeGetSeconds(CMSampleBufferGetOutputPresentationTimeStamp(sampleBuffer))
-            * Double(Constants.nanosecondsPerSecond)
 
-        let frame = VideoFrame(timestampNs: Int64(timestampNs),
-                               rotation: .rotation0,
-                               buffer: buffer)
         sinks.forEach { item in
             guard let sink = item as? VideoSink else { return }
             sink.onVideoFrameReceived(frame: frame)

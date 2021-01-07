@@ -5,11 +5,13 @@
 //  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //  SPDX-License-Identifier: Apache-2.0
 //
+// swiftlint:disable type_body_length
 
 import AmazonChimeSDK
 import AVFoundation
 import CallKit
 import Foundation
+import ReplayKit
 import Toast
 import UIKit
 
@@ -18,6 +20,7 @@ class MeetingViewController: UIViewController {
     @IBOutlet var controlView: UIView!
     @IBOutlet var cameraButton: UIButton!
     @IBOutlet var deviceButton: UIButton!
+    @IBOutlet var broadcastPickerContainerView: UIView!
     @IBOutlet var additionalOptionsButton: UIButton!
     @IBOutlet var endButton: UIButton!
     @IBOutlet var muteButton: UIButton!
@@ -172,7 +175,12 @@ class MeetingViewController: UIViewController {
         titleLabel.accessibilityLabel = "Meeting ID \(meetingModel?.meetingId ?? "")"
 
         // Buttons
-        let buttonStack = [muteButton, deviceButton, cameraButton, additionalOptionsButton, endButton, sendMessageButton]
+        let buttonStack = [muteButton,
+                           deviceButton,
+                           cameraButton,
+                           additionalOptionsButton,
+                           endButton,
+                           sendMessageButton]
         for button in buttonStack {
             let normalButtonImage = button?.image(for: .normal)?.withRenderingMode(.alwaysTemplate)
             let selectedButtonImage = button?.image(for: .selected)?.withRenderingMode(.alwaysTemplate)
@@ -209,6 +217,69 @@ class MeetingViewController: UIViewController {
         chatMessageTable.separatorStyle = .none
         sendMessageButton.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
         setupHideKeyboardOnTap()
+        #if !targetEnvironment(simulator)
+            if #available(iOS 12.0, *) {
+                setupBroadcastPickerView()
+            }
+        #endif
+    }
+
+    // RPSystemBroadcastPickerView
+    @available(iOS 12.0, *)
+    private func setupBroadcastPickerView() {
+        let pickerViewDiameter: CGFloat = 35
+        let pickerView = RPSystemBroadcastPickerView(frame: CGRect(x: 0,
+                                                                   y: 0,
+                                                                   width: pickerViewDiameter,
+                                                                   height: pickerViewDiameter))
+        pickerView.translatesAutoresizingMaskIntoConstraints = false
+        pickerView.preferredExtension = AppConfiguration.broadcastBundleId
+
+        // Microphone audio is passed through AudioVideoControllerFacade instead of ContentShareController
+        pickerView.showsMicrophoneButton = false
+
+        // We add an action to turn off in app content sharing when user attemp to use broadcast
+        for subview in pickerView.subviews {
+            if let button = subview as? UIButton {
+                button.imageView?.tintColor = .systemBlue
+                button.addTarget(self, action: #selector(broadcastButtonTapped), for: .touchUpInside)
+            }
+        }
+        broadcastPickerContainerView.addSubview(pickerView)
+
+        let centerX = NSLayoutConstraint(item: pickerView,
+                                         attribute: .centerX,
+                                         relatedBy: .equal,
+                                         toItem: broadcastPickerContainerView,
+                                         attribute: .centerX,
+                                         multiplier: 1,
+                                         constant: 0)
+        broadcastPickerContainerView.addConstraint(centerX)
+        let centerY = NSLayoutConstraint(item: pickerView,
+                                         attribute: .centerY,
+                                         relatedBy: .equal,
+                                         toItem: broadcastPickerContainerView,
+                                         attribute: .centerY,
+                                         multiplier: 1,
+                                         constant: 0)
+        broadcastPickerContainerView.addConstraint(centerY)
+        let width = NSLayoutConstraint(item: pickerView,
+                                       attribute: .width,
+                                       relatedBy: .equal,
+                                       toItem: nil,
+                                       attribute: .notAnAttribute,
+                                       multiplier: 1,
+                                       constant: pickerViewDiameter)
+        broadcastPickerContainerView.addConstraint(width)
+        let height = NSLayoutConstraint(item: pickerView,
+                                        attribute: .height,
+                                        relatedBy: .equal,
+                                        toItem: nil,
+                                        attribute: .notAnAttribute,
+                                        multiplier: 1,
+                                        constant: pickerViewDiameter)
+        broadcastPickerContainerView.addConstraint(height)
+        broadcastPickerContainerView.bringSubviewToFront(pickerView)
     }
 
     private func switchSubview(mode: MeetingModel.ActiveMode) {
@@ -292,7 +363,7 @@ class MeetingViewController: UIViewController {
         let optionMenu = UIAlertController(title: nil, message: "Additional Options", preferredStyle: .actionSheet)
 
         let isVoiceFocusEnabled = meetingModel.isVoiceFocusEnabled()
-        let nextVoiceFocusStatus = isVoiceFocusEnabled ? "off" : "on"
+        let nextVoiceFocusStatus = nextOnOrOff(current: isVoiceFocusEnabled)
         let voiceFocusAction = UIAlertAction(title: "Turn \(nextVoiceFocusStatus) Voice Focus",
                                              style: .default,
                                              handler: { _ in
@@ -300,25 +371,52 @@ class MeetingViewController: UIViewController {
                                              })
         optionMenu.addAction(voiceFocusAction)
 
-        let torchAction = UIAlertAction(title: "Toggle torch on current camera",
-                                        style: .default,
-                                        handler: { _ in self.toggleTorch() })
-        optionMenu.addAction(torchAction)
-
-        let gpuFilterAction = UIAlertAction(title: "Toggle Core Image video filter",
+        // We can only access torch and apply filter on external video source
+        if meetingModel.videoModel.isUsingExternalVideoSource {
+            let isTorchOn = meetingModel.videoModel.customSource.torchEnabled
+            let nextTorchStatus = nextOnOrOff(current: isTorchOn)
+            let torchAction = UIAlertAction(title: "Turn \(nextTorchStatus) flashlight",
                                             style: .default,
-                                            handler: { _ in self.toggleCoreImageFilter() })
-        optionMenu.addAction(gpuFilterAction)
+                                            handler: { _ in
+                                                self.toggleTorch(nextStatus: nextTorchStatus)
+                                            })
+            optionMenu.addAction(torchAction)
 
-        let cpuFilterAction = UIAlertAction(title: "Toggle Metal video filter",
-                                            style: .default,
-                                            handler: { _ in self.toggleMetalFilter() })
-        optionMenu.addAction(cpuFilterAction)
+            let isGpuFilterOn = meetingModel.videoModel.isUsingCoreImageVideoProcessor
+            let nextGpuFilterStatus = nextOnOrOff(current: isGpuFilterOn)
+            let gpuFilterAction = UIAlertAction(title: "Turn \(nextGpuFilterStatus) Core Image video filter",
+                                                style: .default,
+                                                handler: { _ in
+                                                    self.toggleCoreImageFilter(nextStatus: nextGpuFilterStatus)
+                                                })
+            optionMenu.addAction(gpuFilterAction)
 
-        let customSourceAction = UIAlertAction(title: "Toggle custom video source API usage",
+            let isCpuFilterOn = meetingModel.videoModel.isUsingMetalVideoProcessor
+            let nextCpuFilterStatus = nextOnOrOff(current: isCpuFilterOn)
+            let cpuFilterAction = UIAlertAction(title: "Turn \(nextCpuFilterStatus) Metal video filter",
+                                                style: .default,
+                                                handler: { _ in
+                                                    self.toggleMetalFilter(nextStatus: nextCpuFilterStatus)
+                                                })
+            optionMenu.addAction(cpuFilterAction)
+        }
+
+        let nextSourceType = meetingModel.videoModel.isUsingExternalVideoSource ? "internal" : "external"
+        let customSourceAction = UIAlertAction(title: "Use \(nextSourceType) camera source",
                                                style: .default,
-                                               handler: { _ in self.toggleCustomCameraSource() })
+                                               handler: { _ in
+                                                    self.toggleCustomCameraSource(nextSourceType: nextSourceType)
+                                               })
         optionMenu.addAction(customSourceAction)
+
+        #if !targetEnvironment(simulator)
+            let inAppContentShareTitle = meetingModel.screenShareModel.inAppCaptureModel.isSharing ?
+                "Stop sharing content" : "Share in app content"
+            let inAppContentShareAction = UIAlertAction(title: inAppContentShareTitle,
+                                                        style: .default,
+                                                        handler: { _ in self.toggleInAppContentShare() })
+            optionMenu.addAction(inAppContentShareAction)
+        #endif
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         optionMenu.addAction(cancelAction)
@@ -364,8 +462,8 @@ class MeetingViewController: UIViewController {
     }
 
     @IBAction func cameraButtonClicked(_: UIButton) {
-        cameraButton.isSelected = !cameraButton.isSelected
-        meetingModel?.isLocalVideoActive = cameraButton.isSelected
+        cameraButton.isSelected.toggle()
+        meetingModel?.videoModel.isLocalVideoActive = cameraButton.isSelected
     }
 
     @IBAction func leaveButtonClicked(_: UIButton) {
@@ -423,65 +521,75 @@ class MeetingViewController: UIViewController {
         self.inputBoxBottomConstrain.constant = 0
     }
 
-    @objc private func toggleTorch() {
-        logger.info(msg: "Toggling torch")
+    @objc private func broadcastButtonTapped() {
+        meetingModel?.screenShareModel.broadcastCaptureModel.isBlocked = false
+        meetingModel?.screenShareModel.inAppCaptureModel.isSharing = false
+    }
+
+    @objc private func toggleInAppContentShare() {
+        let isOn = meetingModel?.screenShareModel.inAppCaptureModel.isSharing ?? false
+        let nextStateString = isOn ? "off" : "on"
+        logger.info(msg: "Turning \(nextStateString) in app content share")
         guard let meetingModel = meetingModel else {
             return
         }
-        if !meetingModel.isUsingExternalVideoSource {
-            meetingModel.notifyHandler?("Cannot toggle flashlight without using custom camera capture source")
-            return
-        }
-        if !meetingModel.videoModel.toggleTorch() {
-            meetingModel.notifyHandler?("Failed to toggle torch on current camera; torch may not be available")
+        if #available(iOS 11.0, *) {
+            meetingModel.screenShareModel.inAppCaptureModel.isSharing.toggle()
+        } else {
+            meetingModel.notifyHandler?("In App Content Share is only available on iOS 11+")
         }
     }
 
-    @objc private func toggleCoreImageFilter() {
-        logger.info(msg: "Toggling CoreImage filter")
+    @objc private func toggleTorch(nextStatus: String) {
+        logger.info(msg: "Turning \(nextStatus) torch")
         guard let meetingModel = meetingModel else {
             return
         }
-        if !meetingModel.isUsingExternalVideoSource {
-            meetingModel.notifyHandler?("Cannot toggle filters without using custom camera capture source")
+        if !meetingModel.videoModel.toggleTorch() {
+            meetingModel.notifyHandler?("Failed to turn \(nextStatus) torch on current camera; torch may not be available")
+        }
+    }
+
+    @objc private func toggleCoreImageFilter(nextStatus: String) {
+        logger.info(msg: "Turning \(nextStatus) CoreImage filter")
+        guard let meetingModel = meetingModel else {
             return
         }
-        if meetingModel.isUsingMetalVideoProcessor {
+        if meetingModel.videoModel.isUsingMetalVideoProcessor {
             meetingModel.notifyHandler?("Cannot toggle both filters on at same time")
             return
         }
 
-        meetingModel.isUsingCoreImageVideoProcessor = !meetingModel.isUsingCoreImageVideoProcessor
+        meetingModel.videoModel.isUsingCoreImageVideoProcessor.toggle()
     }
 
-    @objc private func toggleMetalFilter() {
-        logger.info(msg: "Toggling Metal filter")
+    @objc private func toggleMetalFilter(nextStatus: String) {
+        logger.info(msg: "Turning \(nextStatus) Metal filter")
         guard let meetingModel = meetingModel else {
             return
         }
         // See comments in MetalVideoProcessor
         guard let device = MTLCreateSystemDefaultDevice(), device.supportsFeatureSet(.iOS_GPUFamily2_v1) else {
-            meetingModel.notifyHandler?("Cannot toggle Metal filter because it's not available on this device")
+            meetingModel.notifyHandler?("Cannot turn \(nextStatus) Metal filter because it's not available on this device")
             return
         }
-        if !meetingModel.isUsingExternalVideoSource {
-            meetingModel.notifyHandler?("Cannot toggle filters without using custom camera capture source")
-            return
-        }
-        if meetingModel.isUsingCoreImageVideoProcessor {
+        if meetingModel.videoModel.isUsingCoreImageVideoProcessor {
             meetingModel.notifyHandler?("Cannot toggle both filters on at same time")
             return
         }
-
-        meetingModel.isUsingMetalVideoProcessor = !meetingModel.isUsingMetalVideoProcessor
+        meetingModel.videoModel.isUsingMetalVideoProcessor.toggle()
     }
 
-    @objc private func toggleCustomCameraSource() {
-        logger.info(msg: "Toggling usage of custom camera source")
+    @objc private func toggleCustomCameraSource(nextSourceType: String) {
+        logger.info(msg: "Selecting \(nextSourceType) camera source")
         guard let meetingModel = meetingModel else {
             return
         }
-        meetingModel.isUsingExternalVideoSource = !meetingModel.isUsingExternalVideoSource
+        meetingModel.videoModel.isUsingExternalVideoSource.toggle()
+    }
+
+    private func nextOnOrOff(current: Bool) -> String {
+        return current ? "off" : "on"
     }
 }
 
@@ -552,7 +660,7 @@ extension MeetingViewController: UICollectionViewDataSource {
         cell.delegate = meetingModel.videoModel
 
         if let tileState = videoTileState {
-            if tileState.isLocalTile, meetingModel.isFrontCameraActive {
+            if tileState.isLocalTile, !tileState.isContent, meetingModel.videoModel.isFrontCameraActive {
                 cell.videoRenderView.mirror = true
             }
             meetingModel.bind(videoRenderView: cell.videoRenderView, tileId: tileState.tileId)

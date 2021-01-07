@@ -22,6 +22,7 @@ class VideoModel: NSObject {
 
     var videoUpdatedHandler: (() -> Void)?
     var localVideoUpdatedHandler: (() -> Void)?
+    let logger = ConsoleLogger(name: "VideoModel")
     let customSource = DefaultCameraCaptureSource(logger: ConsoleLogger(name: "CustomCameraSource"))
 
     init(audioVideoFacade: AudioVideoFacade) {
@@ -40,6 +41,59 @@ class VideoModel: NSObject {
     var canGoToNextRemoteVideoPage: Bool {
         let maxRemoteVideoPageIndex = Int(ceil(Double(currentRemoteVideoCount) / Double(remoteVideoTileCountPerPage))) - 1
         return currentRemoteVideoPageIndex < maxRemoteVideoPageIndex
+    }
+
+    var isLocalVideoActive = false {
+        willSet(isLocalVideoActive) {
+            if isLocalVideoActive {
+                customSource.start()
+                startLocalVideo()
+            } else {
+                customSource.stop()
+                stopLocalVideo()
+            }
+        }
+    }
+
+    var isFrontCameraActive: Bool {
+        // See comments above isUsingExternalVideoSource
+        if let internalCamera = audioVideoFacade.getActiveCamera() {
+            return internalCamera.type == .videoFrontCamera
+        }
+        if let activeCamera = customSource.device {
+            return activeCamera.type == .videoFrontCamera
+        }
+        return false
+    }
+
+    // To facilitate demoing and testing both use cases, we account for both our external
+    // camera and the camera managed by the facade. Actual applications should
+    // only use one or the other
+    var isUsingExternalVideoSource = true {
+        didSet {
+            if isLocalVideoActive {
+                startLocalVideo()
+            }
+        }
+    }
+
+    private let coreImageVideoProcessor = CoreImageVideoProcessor()
+    var isUsingCoreImageVideoProcessor = false {
+        didSet {
+            if isLocalVideoActive {
+                startLocalVideo()
+            }
+        }
+    }
+
+    // See comments in MetalVideoProcessor
+    private let metalVideoProcessor = MetalVideoProcessor()
+    var isUsingMetalVideoProcessor = false {
+        didSet {
+            if isLocalVideoActive {
+                startLocalVideo()
+            }
+        }
     }
 
     private var currentRemoteVideoCount: Int {
@@ -67,6 +121,43 @@ class VideoModel: NSObject {
 
     private var isMaximumRemoteVideoReached: Bool {
         return currentRemoteVideoCount >= maxRemoteVideoTileCount
+    }
+
+    private func startLocalVideo() {
+        MeetingModule.shared().requestVideoPermission { success in
+            if success {
+                // See comments above isUsingExternalVideoSource
+                if self.isUsingExternalVideoSource {
+                    var customVideoSource: VideoSource = self.customSource
+                    customVideoSource.removeVideoSink(sink: self.coreImageVideoProcessor)
+                    if let metalVideoProcessor = self.metalVideoProcessor {
+                        customVideoSource.removeVideoSink(sink: metalVideoProcessor)
+                    }
+                    if self.isUsingCoreImageVideoProcessor {
+                        customVideoSource.addVideoSink(sink: self.coreImageVideoProcessor)
+                        customVideoSource = self.coreImageVideoProcessor
+                    } else if self.isUsingMetalVideoProcessor, let metalVideoProcessor = self.metalVideoProcessor {
+                        customVideoSource.addVideoSink(sink: metalVideoProcessor)
+                        customVideoSource = metalVideoProcessor
+                    }
+                    self.audioVideoFacade.startLocalVideo(source: customVideoSource)
+                } else {
+                    do {
+                        try self.audioVideoFacade.startLocalVideo()
+                    } catch {
+                        self.logger.error(msg: "Error starting local video: \(error.localizedDescription)")
+                    }
+                }
+            }
+        }
+    }
+
+    private func stopLocalVideo() {
+        audioVideoFacade.stopLocalVideo()
+        // See comments above isUsingExternalVideoSource
+        if isUsingExternalVideoSource {
+            customSource.stop()
+        }
     }
 
     func isRemoteVideoDisplaying(tileId: Int) -> Bool {
@@ -115,6 +206,13 @@ class VideoModel: NSObject {
             completion(true)
         } else {
             completion(false)
+        }
+    }
+
+    func updateRemoteVideoTileState(_ videoTileState: VideoTileState) {
+        if let index = remoteVideoTileStates.firstIndex(where: { $0.0 == videoTileState.tileId }) {
+            remoteVideoTileStates[index] = (videoTileState.tileId, videoTileState)
+            videoUpdatedHandler?()
         }
     }
 

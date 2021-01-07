@@ -11,20 +11,7 @@ import AVFoundation
 import Mockingbird
 import XCTest
 
-class DefaultAudioVideoControllerTests: XCTestCase {
-    let externalMeetingId = "external-meeting-id"
-    let audioFallbackUrl = "audioFallbackUrl"
-    let audioHostUrl = "audioHostUrl"
-    let signalingUrl = "signalingUrl"
-    let turnControlUrl = "turnControlUrl"
-    let mediaRegion = "us-east-1"
-    let meetingId = "meeting-id"
-    let attendeeId = "attendee-id"
-    let externalUserId = "externalUserId"
-    let joinToken = "join-token"
-
-    var meetingSessionConfigurationMock: MeetingSessionConfigurationMock!
-    var loggerMock: LoggerMock!
+class DefaultAudioVideoControllerTests: CommonTestCase {
     var audioClientControllerMock: AudioClientControllerMock!
     var audioClientObserverMock: AudioClientObserverMock!
     var clientMetricsCollectorMock: ClientMetricsCollectorMock!
@@ -33,29 +20,8 @@ class DefaultAudioVideoControllerTests: XCTestCase {
     var defaultAudioVideoController: DefaultAudioVideoController!
 
     override func setUp() {
-        let mediaPlacementMock: MediaPlacementMock = mock(MediaPlacement.self)
-            .initialize(audioFallbackUrl: audioFallbackUrl,
-                        audioHostUrl: audioHostUrl,
-                        signalingUrl: signalingUrl,
-                        turnControlUrl: turnControlUrl)
-        let meetingMock: MeetingMock = mock(Meeting.self).initialize(externalMeetingId: externalMeetingId,
-                                                                     mediaPlacement: mediaPlacementMock,
-                                                                     mediaRegion: mediaRegion,
-                                                                     meetingId: meetingId)
-        let createMeetingResponseMock: CreateMeetingResponseMock = mock(CreateMeetingResponse.self)
-            .initialize(meeting: meetingMock)
+        super.setUp()
 
-        let attendeeMock: AttendeeMock = mock(Attendee.self).initialize(attendeeId: attendeeId,
-                                                                        externalUserId: externalUserId,
-                                                                        joinToken: joinToken)
-        let createAttendeeResponseMock: CreateAttendeeResponseMock = mock(CreateAttendeeResponse.self)
-            .initialize(attendee: attendeeMock)
-
-        meetingSessionConfigurationMock = mock(MeetingSessionConfiguration.self)
-            .initialize(createMeetingResponse: createMeetingResponseMock,
-                        createAttendeeResponse: createAttendeeResponseMock,
-                        urlRewriter: URLRewriterUtils.defaultUrlRewriter)
-        loggerMock = mock(Logger.self)
         audioClientControllerMock = mock(AudioClientController.self)
         audioClientObserverMock = mock(AudioClientObserver.self)
         clientMetricsCollectorMock = mock(ClientMetricsCollector.self)
@@ -80,12 +46,7 @@ class DefaultAudioVideoControllerTests: XCTestCase {
             joinToken: self.meetingSessionConfigurationMock.credentials.joinToken,
             callKitEnabled: false
         )).wasCalled()
-        verify(videoClientControllerMock.start(
-            turnControlUrl: self.meetingSessionConfigurationMock.urls.turnControlUrl,
-            signalingUrl: self.meetingSessionConfigurationMock.urls.signalingUrl,
-            meetingId: self.meetingSessionConfigurationMock.meetingId,
-            joinToken: self.meetingSessionConfigurationMock.credentials.joinToken
-        )).wasCalled()
+        verify(videoClientControllerMock.start()).wasCalled()
     }
 
     func testStart_callKitEnabled() {
@@ -100,12 +61,7 @@ class DefaultAudioVideoControllerTests: XCTestCase {
             joinToken: self.meetingSessionConfigurationMock.credentials.joinToken,
             callKitEnabled: callKitEnabled
         )).wasCalled()
-        verify(videoClientControllerMock.start(
-            turnControlUrl: self.meetingSessionConfigurationMock.urls.turnControlUrl,
-            signalingUrl: self.meetingSessionConfigurationMock.urls.signalingUrl,
-            meetingId: self.meetingSessionConfigurationMock.meetingId,
-            joinToken: self.meetingSessionConfigurationMock.credentials.joinToken
-        )).wasCalled()
+        verify(videoClientControllerMock.start()).wasCalled()
     }
 
     func testStop() {

@@ -31,6 +31,16 @@ import Foundation
                   urlRewriter: URLRewriterUtils.defaultUrlRewriter)
     }
 
+    public init(meetingId: String,
+                credentials: MeetingSessionCredentials,
+                urls: MeetingSessionURLs,
+                urlRewriter: @escaping URLRewriter) {
+        self.meetingId = meetingId
+        self.credentials = credentials
+        self.urls = urls
+        self.urlRewriter = urlRewriter
+    }
+
     public init(createMeetingResponse: CreateMeetingResponse,
                 createAttendeeResponse: CreateAttendeeResponse,
                 urlRewriter: @escaping URLRewriter) {

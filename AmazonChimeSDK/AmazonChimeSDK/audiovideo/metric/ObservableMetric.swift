@@ -35,6 +35,17 @@ import Foundation
     /// Percentage of video packets lost from server to client across all receive streams
     case videoReceivePacketLossPercent
 
+    /// Below are metrics for content share stream
+
+    /// Sum of total bitrate across all send streams
+    case contentShareVideoSendBitrate
+    /// Percentage of video packets lost from client to server across all send streams
+    case contentShareVideoSendPacketLossPercent
+    /// Average send FPS across all send streams
+    case contentShareVideoSendFps
+    /// Round trip time of packets sent from client to server
+    case contentShareVideoSendRttMs
+
     public var description: String {
         switch self {
         case .audioReceivePacketLossPercent:
@@ -57,6 +68,19 @@ import Foundation
             return "videoReceiveBitrate"
         case .videoReceivePacketLossPercent:
             return "videoReceivePacketLossPercent"
+        case .contentShareVideoSendBitrate:
+            return "contentShareVideoSendBitrate"
+        case .contentShareVideoSendPacketLossPercent:
+            return "contentShareVideoSendPacketLossPercent"
+        case .contentShareVideoSendFps:
+            return "contentShareVideoSendFps"
+        case .contentShareVideoSendRttMs:
+            return "contentShareVideoSendRttMs"
         }
+    }
+
+    /// Determine if the metric is for content share stream.
+    public var isContentShareMetric: Bool {
+        return description.hasPrefix("contentShare")
     }
 }

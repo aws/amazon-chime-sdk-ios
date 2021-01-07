@@ -49,6 +49,23 @@ import Foundation
         let activeSpeakerDetector =
             DefaultActiveSpeakerDetector(audioClientObserver: audioClientObserver,
                                          selfAttendeeId: configuration.credentials.attendeeId)
+
+        let contentModality = String(DefaultModality.separator) + String(describing: ModalityType.content)
+        let contentShareCredentials = MeetingSessionCredentials(
+            attendeeId: configuration.credentials.attendeeId + contentModality,
+            externalUserId: configuration.credentials.externalUserId,
+            joinToken: configuration.credentials.joinToken + contentModality)
+        let contentShareConfiguration = MeetingSessionConfiguration(meetingId: configuration.meetingId,
+                                                                    credentials: contentShareCredentials,
+                                                                    urls: configuration.urls,
+                                                                    urlRewriter: configuration.urlRewriter)
+        let contentShareVideoClient = DefaultVideoClient(logger: logger)
+        let contentShareVideoClientController = DefaultContentShareVideoClientController(videoClient: contentShareVideoClient,
+                                                                                         configuration: contentShareConfiguration,
+                                                                                         logger: logger,
+                                                                                         clientMetricsCollector: clientMetricsCollector)
+        let contentShareController = DefaultContentShareController(contentShareVideoClientController: contentShareVideoClientController)
+
         self.audioVideo =
             DefaultAudioVideoFacade(audioVideoController:
                 DefaultAudioVideoController(audioClientController: audioClientController,
@@ -63,6 +80,7 @@ import Foundation
                                         videoClientController: videoClientController,
                                         logger: logger),
                                     videoTileController: videoTileController,
-                                    activeSpeakerDetector: activeSpeakerDetector)
+                                    activeSpeakerDetector: activeSpeakerDetector,
+                                    contentShareController: contentShareController)
     }
 }

@@ -9,7 +9,7 @@
 import Foundation
 
 /// `MeetingSessionURLs` contains the URLs that will be used to reach the meeting service.
-@objcMembers public class MeetingSessionURLs: NSObject {
+@objcMembers public class MeetingSessionURLs: NSObject, Codable {
     /// The audio fallback URL of the session
     public let audioFallbackUrl: String
 

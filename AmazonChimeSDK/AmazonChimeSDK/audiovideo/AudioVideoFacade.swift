@@ -9,4 +9,4 @@
 import Foundation
 
 @objc public protocol AudioVideoFacade: AudioVideoControllerFacade, RealtimeControllerFacade,
-    DeviceController, VideoTileControllerFacade, ActiveSpeakerDetectorFacade {}
+    DeviceController, VideoTileControllerFacade, ActiveSpeakerDetectorFacade, ContentShareController {}

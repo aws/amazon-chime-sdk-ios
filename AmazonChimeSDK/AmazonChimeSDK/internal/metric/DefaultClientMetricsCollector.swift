@@ -56,6 +56,19 @@ extension DefaultClientMetricsCollector: ClientMetricsCollector {
         maybeEmitMetrics()
     }
 
+    func processContentShareVideoClientMetrics(metrics: [AnyHashable: Any]) {
+        // Currently, content share is send-only
+        cachedObservableMetrics[ObservableMetric.contentShareVideoSendBitrate]
+            = metrics[VideoClientMetric.videoSendBitrate.rawValue]
+        cachedObservableMetrics[ObservableMetric.contentShareVideoSendPacketLossPercent]
+            = metrics[VideoClientMetric.videoSendPacketLossPercent.rawValue]
+        cachedObservableMetrics[ObservableMetric.contentShareVideoSendFps]
+            = metrics[VideoClientMetric.videoSendFps.rawValue]
+        cachedObservableMetrics[ObservableMetric.contentShareVideoSendRttMs]
+            = metrics[VideoClientMetric.videoSendRttMs.rawValue]
+        maybeEmitMetrics()
+    }
+
     public func subscribeToMetrics(observer: MetricsObserver) {
         metricsObservers.add(observer)
     }

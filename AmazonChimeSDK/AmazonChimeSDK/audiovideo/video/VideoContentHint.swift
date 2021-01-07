@@ -35,7 +35,7 @@ import Foundation
         return VideoContentHintInternal(rawValue: UInt(rawValue)) ?? .none
     }
 
-    var description: String {
+    public var description: String {
         switch self {
         case .none:
             return "none"

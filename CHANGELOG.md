@@ -1,10 +1,21 @@
 ## Unreleased
 
 ### Added
+* **Breaking** Added content share metrics as new enums in `ObservableMetric`.
+* Added content share APIs that supports a 2nd video sending stream such as screen capture, read [content share guide](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/content_share.md) for details.
+* Added in app only screen share to demo app.
+* Added `AmazonChimeSDKDemoBroadcast` Broadcast Upload Extension to the demo app to share device level screen.
+* Added message for video tiles paused by poor network in demo app.
 * Update demo application to pause/resume remote videos and stop/start local video when app is in background/foreground
 
 ### Fixed
 * Fix the demo application bug that front camera video was not mirrored without selecting video device on the video preview page.
+
+### Changed
+* **Breaking** `AudioVideoFacade` now also implements `ContentShareController`.
+* **Breaking** `DefaultAudioVideoFacade` init requires a `ContentShareController` instance.
+* Update text of additional options on demo app.
+* `MeetingSessionURLs` and `MeetingSessionCredentials` now conform to `Codable`.
 
 ## [0.13.1] - 2021-01-08
 
@@ -116,7 +127,7 @@
 
 ### Changed
 - **Breaking** Throw MediaError.audioFailedToStart when AudioClient fails to start
-- **Breaking** Changed the constructor for `DefaultVideoTileController` 
+- **Breaking** Changed the constructor for `DefaultVideoTileController`
 - Changed UI for iOS demo app
 - `DefaultVideoRenderView` now supports dynamically changing `contentMode` at run time.
 - Changed video render frame type from `Any?` to `CVPixelBuffer?`

@@ -19,7 +19,10 @@ class VideoTileCell: UICollectionViewCell {
     @IBOutlet var attendeeName: UILabel!
     @IBOutlet var shadedView: UIView!
     @IBOutlet var onTileButton: UIButton!
-    @IBOutlet var onTileImage: UIImageView!
+    @IBOutlet var videoDisabledImage: UIImageView!
+    @IBOutlet var poorConnectionBackground: UIView!
+    @IBOutlet var poorConnectionImage: UIImageView!
+    @IBOutlet var poorConnectionLabel: UILabel!
     @IBOutlet var videoRenderView: DefaultVideoRenderView!
 
     weak var delegate: VideoTileCellDelegate?
@@ -35,11 +38,13 @@ class VideoTileCell: UICollectionViewCell {
         // Self video cell not active
         if isSelf, !isVideoActive {
             onTileButton.isHidden = true
-            onTileImage.isHidden = false
+            videoDisabledImage.image = UIImage(named: "meeting-video")?.withRenderingMode(.alwaysTemplate)
+            videoDisabledImage.tintColor = .white
+            videoDisabledImage.isHidden = false
             return
         }
 
-        onTileImage.isHidden = true
+        videoDisabledImage.isHidden = true
         videoRenderView.isHidden = false
         videoRenderView.accessibilityIdentifier = "\(name) VideoTile"
 
@@ -57,6 +62,8 @@ class VideoTileCell: UICollectionViewCell {
                                   for: .normal)
             onTileButton.setImage(UIImage(named: "resume-video")?.withRenderingMode(.alwaysTemplate),
                                   for: .selected)
+            let shouldShowPoorConnection = videoTileState?.pauseState == .pausedForPoorConnection
+            renderPoorConnection(isHidden: !shouldShowPoorConnection)
         }
     }
 
@@ -70,16 +77,27 @@ class VideoTileCell: UICollectionViewCell {
         shadedView.isHidden = false
         videoRenderView.backgroundColor = .systemGray
         videoRenderView.isHidden = true
+        renderPoorConnection(isHidden: true)
         videoRenderView.mirror = false
         // Clean up old video image to prevent frame flicker
         videoRenderView.resetImage()
     }
 
     @objc func onTileButtonClicked(_ sender: UIButton) {
-        sender.isSelected = !sender.isSelected
+        sender.isSelected.toggle()
         delegate?.onTileButtonClicked(tag: sender.tag, selected: sender.isSelected)
         if sender.tag == 0 {
-            videoRenderView.mirror = !videoRenderView.mirror
+            videoRenderView.mirror.toggle()
         }
+    }
+
+    private func renderPoorConnection(isHidden: Bool) {
+        if !isHidden {
+            poorConnectionImage.image = UIImage(named: "connection-problem")!.withRenderingMode(.alwaysTemplate)
+            poorConnectionImage.tintColor = .white
+        }
+        poorConnectionImage.isHidden = isHidden
+        poorConnectionLabel.isHidden = isHidden
+        poorConnectionBackground.isHidden = isHidden
     }
 }

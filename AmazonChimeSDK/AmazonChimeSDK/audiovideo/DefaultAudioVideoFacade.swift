@@ -17,13 +17,15 @@ import Foundation
     let deviceController: DeviceController
     let videoTileController: VideoTileController
     let activeSpeakerDetector: ActiveSpeakerDetectorFacade
+    let contentShareController: ContentShareController
 
     public init(
         audioVideoController: AudioVideoControllerFacade,
         realtimeController: RealtimeControllerFacade,
         deviceController: DeviceController,
         videoTileController: VideoTileController,
-        activeSpeakerDetector: ActiveSpeakerDetectorFacade
+        activeSpeakerDetector: ActiveSpeakerDetectorFacade,
+        contentShareController: ContentShareController
     ) {
         self.audioVideoController = audioVideoController
         self.realtimeController = realtimeController
@@ -32,6 +34,7 @@ import Foundation
         self.configuration = audioVideoController.configuration
         self.logger = audioVideoController.logger
         self.activeSpeakerDetector = activeSpeakerDetector
+        self.contentShareController = contentShareController
     }
 
     public func start(callKitEnabled: Bool = false) throws {
@@ -193,5 +196,23 @@ import Foundation
 
     public func getActiveAudioDevice() -> MediaDevice? {
         return deviceController.getActiveAudioDevice()
+    }
+
+    // MARK: ContentShareController
+
+    public func startContentShare(source: ContentShareSource) {
+        contentShareController.startContentShare(source: source)
+    }
+
+    public func stopContentShare() {
+        contentShareController.stopContentShare()
+    }
+
+    public func addContentShareObserver(observer: ContentShareObserver) {
+        contentShareController.addContentShareObserver(observer: observer)
+    }
+
+    public func removeContentShareObserver(observer: ContentShareObserver) {
+        contentShareController.removeContentShareObserver(observer: observer)
     }
 }

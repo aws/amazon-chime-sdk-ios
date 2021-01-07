@@ -49,10 +49,7 @@ import Foundation
                                         attendeeId: configuration.credentials.attendeeId,
                                         joinToken: configuration.credentials.joinToken,
                                         callKitEnabled: callKitEnabled)
-        videoClientController.start(turnControlUrl: configuration.urls.turnControlUrl,
-                                    signalingUrl: configuration.urls.signalingUrl,
-                                    meetingId: configuration.meetingId,
-                                    joinToken: configuration.credentials.joinToken)
+        videoClientController.start()
     }
 
     public func stop() {
