@@ -111,15 +111,15 @@ If you discover a potential security issue in this project we ask that you notif
   - [Custom Video Source](#custom-video-source)
 ### Starting a session
 
-#### Use case 1. Start a session. 
+#### Use case 1. Start a session
 
 To start sending/receiving audio, you’ll just need to start the session.
 
 ```swift
-currentMeetingSession.audioVideo.start()
+meetingSession.audioVideo.start()
 ```
 
-#### Use case 2. Add an observer to receive audio and video session life cycle events. 
+#### Use case 2. Add an observer to receive audio and video session life cycle events
 
 ```swift
 class ViewController: AudioVideoObserver {
@@ -138,7 +138,7 @@ class ViewController: AudioVideoObserver {
     }
     func videoSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus) {}
     
-    currentMeetingSession.audioVideo.addAudioVideoObserver(observer: self)
+    meetingSession.audioVideo.addAudioVideoObserver(observer: self)
 }
 ```
 
@@ -146,26 +146,26 @@ class ViewController: AudioVideoObserver {
 
 #### Use case 3. List audio devices
 
-List available devices that can be used for the meeting
+List available devices that can be used for the meeting.
 
 ```swift
-let devices = currentMeetingSession.audioVideo.listAudioDevices()
+let devices = meetingSession.audioVideo.listAudioDevices()
 ```
 
 #### Use case 4. Choose audio device by passing `MediaDevice` object
 
-> NOTE: chooseAudioDevice is no-op if it is called before audioVideo.start(). You should call this after audio session has started. You can put it in audioSessionDidStart callback
+> NOTE: chooseAudioDevice is no-op if it is called before audioVideo.start(). You should call this after audio session has started. You can put it in audioSessionDidStart callback.
 
 
 
-> NOTE: You should call chooseAudioDevice with one of devices returned from listAudioDevices()
+> NOTE: You should call chooseAudioDevice with one of devices returned from listAudioDevices().
 
 ```swift
 let devices = audioVideo.listAudioDevices()
 // Have your own logic to sort listAudioDevices() 
 // For instance, you can sort it by Blutooth -> Earphone -> Speaker -> built-in earpiece
 if (devices.isNotEmpty()) {
-    currentMeetingSession.audioVideo.chooseAudioDevice(mediaDevice: devices[0])
+    meetingSession.audioVideo.chooseAudioDevice(mediaDevice: devices[0])
 }             
 ```
 
@@ -174,10 +174,10 @@ if (devices.isNotEmpty()) {
 > NOTE: switchCamera() is no-op if you are using custom camera capture source. Please refer [custom_video](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/custom_video.md#implementing-a-custom-video-source-and-transmitting) for more details.
 
 
-`switchCamera` will switch currently active camera. In order to get active camera, you can call [getActiveCamera](https://aws.github.io/amazon-chime-sdk-ios/Protocols/DeviceController.html#/c:@M@AmazonChimeSDK@objc(pl)DeviceController(im)getActiveCamera)
+`switchCamera` will switch currently active camera. In order to get active camera, you can call [getActiveCamera](https://aws.github.io/amazon-chime-sdk-ios/Protocols/DeviceController.html#/c:@M@AmazonChimeSDK@objc(pl)DeviceController(im)getActiveCamera).
 
 ```swift
-currentMeetingSession.audioVideo.switchCamera()
+meetingSession.audioVideo.switchCamera()
 ```
 
 #### Use case 6. Subscribe to get updated device list
@@ -191,14 +191,14 @@ class ViewController: DeviceChangeObserver {
         let deviceLabels: [String] = freshAudioDeviceList.map { device in "\(device.label) (\(device.type))" }
     }
     
-    currentMeetingSession.audioVideo.addDeviceChangeObserver(observer: self)
+    meetingSession.audioVideo.addDeviceChangeObserver(observer: self)
 }
 ```
 
 #### Use case 7. Get currently selected audio device
 
 ```swift
-let activeAudioDevice = currentMeetingSession.audioVideo.getActiveAudioDevice()
+let activeAudioDevice = meetingSession.audioVideo.getActiveAudioDevice()
 ```
 
 ### Audio
@@ -206,14 +206,14 @@ let activeAudioDevice = currentMeetingSession.audioVideo.getActiveAudioDevice()
 #### Use case 8. Mute and unmute an audio input
 
 ```swift
-let muted = currentMeetingSession.audioVideo.realtimeLocalMute() // Mute
+let muted = meetingSession.audioVideo.realtimeLocalMute() // Mute
 
-let unmuted = currentMeetingSession.audioVideo.realtimeLocalUnmute // Unmute
+let unmuted = meetingSession.audioVideo.realtimeLocalUnmute // Unmute
 ```
 
-#### Use case 9. Add an observer to observe realtime events such as volume changes/signal change/muted status of a specific attendee. 
+#### Use case 9. Add an observer to observe realtime events such as volume changes/signal change/muted status of a specific attendee
 
-You can use this to build real-time indicator UI on specific attendee
+You can use this to build real-time indicator UI on specific attendee.
 
 ```swift
 class ViewController: RealtimeObserver {
@@ -239,13 +239,13 @@ class ViewController: RealtimeObserver {
         // Update UI to show attendees
     }
     
-    currentMeetingSession.audioVideo.addRealtimeObserver(observer: self)
+    meetingSession.audioVideo.addRealtimeObserver(observer: self)
 }
 ```
 
-#### Use case 10. Detect the active speakers. 
+#### Use case 10. Detect the active speakers
 
-> NOTE: You need to set `scoreCallbackIntervalMs` to receive callback for `activeSpeakerScoreDidChange`. If this value is not set, you will only get `activeSpeakerScoreDidChange` callback. For basic use case, you can just use `activeSpeakerDidDetect.`
+> NOTE: You need to set `scoreCallbackIntervalMs` to receive callback for `activeSpeakerScoreDidChange`. If this value is not set, you will only get `activeSpeakerScoreDidChange` callback. For basic use case, you can just use `activeSpeakerDidDetect`.
 
 ```swift
 class ViewController: ActiveSpeakerObserver {
@@ -266,7 +266,7 @@ class ViewController: ActiveSpeakerObserver {
 
     // Use default policy for active speaker. 
     // If you want custom logic, implement your own ActiveSpeakerPolicy
-    currentMeetingSession.audioVideo.addActiveSpeakerObserver(policy: DefaultActiveSpeakerPolicy(), observer: self)
+    meetingSession.audioVideo.addActiveSpeakerObserver(policy: DefaultActiveSpeakerPolicy(), observer: self)
 }
 
 
@@ -276,17 +276,17 @@ class ViewController: ActiveSpeakerObserver {
 
 > NOTE: You will need to bind the video  to `DefaultVideoRenderView` or your customer render view (`VideoRenderView`) in order to display the video.
 
-You can find more details on adding/removing/viewing video from [building-a-meeting-application-on-ios-using-the-amazon-chime-sdk/](https://aws.amazon.com/blogs/business-productivity/building-a-meeting-application-on-ios-using-the-amazon-chime-sdk/)
+You can find more details on adding/removing/viewing video from [building-a-meeting-application-on-ios-using-the-amazon-chime-sdk/](https://aws.amazon.com/blogs/business-productivity/building-a-meeting-application-on-ios-using-the-amazon-chime-sdk/).
 
-#### Use case 11. Start receiving remote video. 
+#### Use case 11. Start receiving remote video
 
-> NOTE: From `videoTileDidAdd` callback, tileState should have property of `isLocalTile` true
+> NOTE: From `videoTileDidAdd` callback, tileState should have property of `isLocalTile` true.
 
 ```swift
 /// start receiving remote video
 /// startRemoteVideo will invoke videoTileDidAdd callback when remote
 /// starts sharing their videos
-currentMeetingSession.audioVideo.startRemoteVideo()
+meetingSession.audioVideo.startRemoteVideo()
 ```
 
 #### Use case 12. Start viewing remote video tile
@@ -298,22 +298,22 @@ class ViewController: VideoTileObserver {
     
     func videoTileDidAdd(tileState: VideoTileState) {
             if tileState.isLocalTile {
-                currentMeetingSession.audioVideo.bind(videoView: remoteVideoView, tileId: tileState.tileId)
+                meetingSession.audioVideo.bind(videoView: remoteVideoView, tileId: tileState.tileId)
             }
         }
     }
     
     // Add observer in order to receieve videoTileDidAdd callback 
-    currentMeetingSession.audioVideo.addVideoTileObserver(observer: self)
+    meetingSession.audioVideo.addVideoTileObserver(observer: self)
 }
 ```
 
-#### Use case 13. Stop receiving remote video.
+#### Use case 13. Stop receiving remote video
 
 ```swift
 // stop receiving remote video
 // stopRemoteVideo will invoke videoTileDidRemove callback
-currentMeetingSession.audioVideo.stopRemoteVideo()
+meetingSession.audioVideo.stopRemoteVideo()
 ```
 
 #### Use case 14. Stop viewing remote video
@@ -322,26 +322,26 @@ currentMeetingSession.audioVideo.stopRemoteVideo()
 class ViewController: VideoTileObserver {
     func videoTileDidRemove(tileState: VideoTileState) {
         // unbind video view to stop viewing the tile
-        currentMeetingSession.audioVideo.unbindVideoView(tileId: tileState.tileId)
+        meetingSession.audioVideo.unbindVideoView(tileId: tileState.tileId)
     }   
     
-    currentMeetingSession.audioVideo.addVideoTileObserver(observer: self)
+    meetingSession.audioVideo.addVideoTileObserver(observer: self)
 }
 ```
 
-#### Use case 15. Start sharing your video. 
+#### Use case 15. Start sharing your video
 
-> NOTE: From `videoTileDidAdd` callback, tileState should have property of `isLocalTile` true
+> NOTE: From `videoTileDidAdd` callback, tileState should have property of `isLocalTile` true.
 
 ```swift
 // start sharing local video
 // startLocalVideo will invoke videoTileDidAdd callback
-currentMeetingSession.audioVideo.startLocalVideo()
+meetingSession.audioVideo.startLocalVideo()
 ```
 
 #### Use case 16. Start viewing local video tile
 
-> NOTE: The local video should be mirrored. cell.videoRenderView.mirror = true
+> NOTE: The local video should be mirrored. cell.videoRenderView.mirror = true.
 
 ```swift
 class ViewController: VideoTileObserver {
@@ -350,22 +350,22 @@ class ViewController: VideoTileObserver {
     
     func videoTileDidAdd(tileState: VideoTileState) {
             if tileState.isLocalTile {
-                currentMeetingSession.audioVideo.bind(videoView: localVideoView, tileId: tileState.tileId)
+                meetingSession.audioVideo.bind(videoView: localVideoView, tileId: tileState.tileId)
             }
         }
     }
     
     // Add observer in order to receieve videoTileDidAdd callback 
-    currentMeetingSession.audioVideo.addVideoTileObserver(observer: self)
+    meetingSession.audioVideo.addVideoTileObserver(observer: self)
 }
 ```
 
-#### Use case 17. Stop sharing your video.
+#### Use case 17. Stop sharing your video
 
 ```swift
 // stop sharing local video
 // stopLocalVideo will invoke videoTileDidRemove callback
-currentMeetingSession.audioVideo.stopLocalVideo()
+meetingSession.audioVideo.stopLocalVideo()
 ```
 
 #### Use case 18. Stop viewing local video
@@ -374,18 +374,18 @@ currentMeetingSession.audioVideo.stopLocalVideo()
 class ViewController: VideoTileObserver {
     func videoTileDidRemove(tileState: VideoTileState) {
         // unbind video view to stop viewing the tile
-        currentMeetingSession.audioVideo.unbindVideoView(tileId: tileState.tileId)
+        meetingSession.audioVideo.unbindVideoView(tileId: tileState.tileId)
     }
     
-    currentMeetingSession.audioVideo.addVideoTileObserver(observer: self)
+    meetingSession.audioVideo.addVideoTileObserver(observer: self)
 }
 ```
 
-More advanced use case can be found in [video_pagination](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/video_pagination.md)
+More advanced use case can be found in [video_pagination](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/video_pagination.md).
 
 ### Screen share
 
-#### Use case 19. Start/Stop viewing remote screen share.
+#### Use case 19. Start/Stop viewing remote screen share
 
 ```swift
 class ViewController: VideoTileObserver {
@@ -394,15 +394,15 @@ class ViewController: VideoTileObserver {
     
     func videoTileDidAdd(tileState: VideoTileState) {
         if (tileState.isContent) {
-            currentMeetingSession.audioVideo.bindVideoView(videoView: screenVideoView, tileId: tileState.tileId)
+            meetingSession.audioVideo.bindVideoView(videoView: screenVideoView, tileId: tileState.tileId)
         }
     }
 
     func videoTileDidRemove(tileState: VideoTileState) {
-        currentMeetingSession.audioVideo.unbindVideoView(tileId: tileState.tileId)
+        meetingSession.audioVideo.unbindVideoView(tileId: tileState.tileId)
     }
     
-    currentMeetingSession.audioVideo.addVideoTileObserver(observer: self)
+    meetingSession.audioVideo.addVideoTileObserver(observer: self)
 }
 ```
 
@@ -416,7 +416,7 @@ class ViewController: MetricsObserver {
         // handle metric observer
     }
     
-    currentMeetingSession.audioVideo.addMetricsObserver(observer: **self**)
+    meetingSession.audioVideo.addMetricsObserver(observer: self)
 }
 ```
 
@@ -434,7 +434,7 @@ class ViewController: DataMessageObserver {
         // handle data message
     }
     // You can also subscribe to different topic.
-    currentMeetingSession.audioVideo.addRealtimeDataMessageObserver(topic: "chat", observer: **self**)
+    meetingSession.audioVideo.addRealtimeDataMessageObserver(topic: "chat", observer: self)
 }
 ```
 
@@ -442,12 +442,12 @@ class ViewController: DataMessageObserver {
 
 You can send real time message to any subscribed topic. 
 
-> NOTE: topic needs to be alpha-numeric and it can include hyphen and underscores. Data cannot exceed 2kb and lifetime should be positive integer 
+> NOTE: Topic needs to be alpha-numeric and it can include hyphen and underscores. Data cannot exceed 2kb and lifetime should be positive integer. 
 
 ```swift
 do {
     // Send "Hello Chime" to any subscribers who are listening to "chat" topic with 1 seconds of lifetime
-    try currentMeetingSession
+    try meetingSession
         .audioVideo
         .realtimeSendDataMessage(topic: "chat",
                                 data: "Hello Chime",
@@ -477,7 +477,7 @@ class ViewController : AudioVideoObserver {
     }
     
     private func removeAudioVideoFacadeObservers() {
-        let audioVideo = currentMeetingSession.audioVideo
+        let audioVideo = meetingSession.audioVideo
         audioVideo.removeVideoTileObserver(observer: self)
         audioVideo.removeRealtimeObserver(observer: self)
         audioVideo.removeAudioVideoObserver(observer: self)
@@ -486,7 +486,7 @@ class ViewController : AudioVideoObserver {
         audioVideo.removeActiveSpeakerObserver(observer: self)
         audioVideo.removeRealtimeDataMessageObserverFromTopic(topic: "chat")
     }
-    currentMeetingSession.audioVideo.stop()
+    meetingSession.audioVideo.stop()
 }
 ```
 
