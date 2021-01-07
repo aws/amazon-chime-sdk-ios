@@ -369,16 +369,15 @@ extension DefaultVideoClientController: VideoClientController {
     // MARK: - Lifecycle: stop and destroy
 
     public func stopAndDestroy() {
-        DispatchQueue.global().async { [weak self] in
-            guard let strongSelf = self else { return }
-            switch strongSelf.videoClientState {
+        DispatchQueue.global().async {
+            switch self.videoClientState {
             case .uninitialized:
-                strongSelf.logger.info(msg: "VideoClient is uninitialized so cannot be stopped and destroyed")
+                self.logger.info(msg: "VideoClient is uninitialized so cannot be stopped and destroyed")
             case .started:
-                strongSelf.stopVideoClient()
-                strongSelf.destroyVideoClient()
+                self.stopVideoClient()
+                self.destroyVideoClient()
             case .initialized, .stopped:
-                strongSelf.destroyVideoClient()
+                self.destroyVideoClient()
             }
         }
     }

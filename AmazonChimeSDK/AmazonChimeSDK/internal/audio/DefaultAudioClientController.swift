@@ -91,16 +91,15 @@ extension DefaultAudioClientController: AudioClientController {
             return
         }
 
-        DispatchQueue.global().async { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.audioLock.lock()
-            let audioClientStatusCode = strongSelf.audioClient.stopSession()
+        DispatchQueue.global().async {
+            self.audioLock.lock()
+            let audioClientStatusCode = self.audioClient.stopSession()
             Self.state = .stopped
             let meetingSessionStatusCode = Converters.AudioClientStatus.toMeetingSessionStatusCode(
                 rawValue: UInt32(audioClientStatusCode)
             )
-            strongSelf.audioLock.unlock()
-            strongSelf.audioClientObserver.notifyAudioClientObserver { (observer: AudioVideoObserver) in
+            self.audioLock.unlock()
+            self.audioClientObserver.notifyAudioClientObserver { (observer: AudioVideoObserver) in
                 observer.audioSessionDidStopWithStatus(
                     sessionStatus: MeetingSessionStatus(statusCode: meetingSessionStatusCode)
                 )

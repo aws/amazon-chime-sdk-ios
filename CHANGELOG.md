@@ -2,6 +2,7 @@
 
 ### Fixed
 * Fix a bug that internal capture source was not stopped properly when the video client was being stopped. (Issue [#200](https://github.com/aws/amazon-chime-sdk-ios/issues/200))
+* Fix a bug that `self` was weakly-referenced incorrectly in several closures and caused `audioClient.stopSession()` not being called as expected. (Issue [#193](https://github.com/aws/amazon-chime-sdk-ios/issues/193))
 
 ## [0.13.0] - 2020-12-17
 
