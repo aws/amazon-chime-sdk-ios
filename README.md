@@ -96,4 +96,4 @@ On the joining screen, choose to join the meeting without `CallKit` or join via 
 If you discover a potential security issue in this project we ask that you notify AWS/Amazon Security via our
 [vulnerability reporting page](http://aws.amazon.com/security/vulnerability-reporting/). Please do **not** create a public GitHub issue.
 
-Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved..
