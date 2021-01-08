@@ -1,4 +1,4 @@
-## Unreleased
+## [0.13.1] - 2021-01-08
 
 ### Fixed
 * Fix a bug that internal capture source was not stopped properly when the video client was being stopped. (Issue [#200](https://github.com/aws/amazon-chime-sdk-ios/issues/200))
