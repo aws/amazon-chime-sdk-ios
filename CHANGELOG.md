@@ -7,6 +7,7 @@
 * Added `AmazonChimeSDKDemoBroadcast` Broadcast Upload Extension to the demo app to share device level screen.
 * Added message for video tiles paused by poor network in demo app.
 * Update demo application to pause/resume remote videos and stop/start local video when app is in background/foreground
+* [Documentation] Added usage documentation
 
 ### Fixed
 * Fix the demo application bug that front camera video was not mirrored without selecting video device on the video preview page.
