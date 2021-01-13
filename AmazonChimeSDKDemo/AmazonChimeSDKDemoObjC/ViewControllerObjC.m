@@ -355,6 +355,9 @@
 - (void)videoTileDidRemoveWithTileState:(VideoTileState *)tileState {
     [self.logger infoWithMsg:[NSString stringWithFormat:@"Removing Video Tile tileId: %ld, attendeeId: %@", (long)tileState.tileId, tileState.attendeeId]];
     [self.meetingSession.audioVideo unbindVideoViewWithTileId:tileState.tileId];
+    if (![tileState isLocalTile]) {
+        [self.remoteVideoView resetImage];
+    }
 }
 
 - (void)videoTileDidPauseWithTileState:(VideoTileState *)tileState {
