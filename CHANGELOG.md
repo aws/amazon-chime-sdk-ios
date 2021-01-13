@@ -10,6 +10,7 @@
 
 ### Fixed
 * Fix the demo application bug that front camera video was not mirrored without selecting video device on the video preview page.
+* Fix the ObjC demo application issue that remote VideoRenderView was not cleared when remote video tile was removed.
 
 ### Changed
 * **Breaking** `AudioVideoFacade` now also implements `ContentShareController`.
