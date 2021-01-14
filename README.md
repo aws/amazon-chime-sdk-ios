@@ -164,7 +164,7 @@ List available audio devices for the meeting.
 let audioDevices = meetingSession.audioVideo.listAudioDevices()
 
 for device in audioDevices {
-    logger.info(msg: "Device type: \(device.type), label: \(device.label)"
+    logger.info(msg: "Device type: \(device.type), label: \(device.label)")
 }
 ```
 
@@ -198,7 +198,7 @@ class MyDeviceChangeObserver: DeviceChangeObserver {
     func audioDeviceDidChange(freshAudioDeviceList: [MediaDevice]) {
         // A list of updated MediaDevice objects
         for device in freshAudioDeviceList {
-            logger.info(msg: "Device type: \(device.type), label: \(device.label)"
+            logger.info(msg: "Device type: \(device.type), label: \(device.label)")
         }    
     }
     
