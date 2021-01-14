@@ -512,8 +512,8 @@ do {
     try meetingSession
         .audioVideo
         .realtimeSendDataMessage(topic: dataMessageTopic,
-                                data: "Hello Chime",
-                                lifetimeMs: dataMessageLifetimeMs)
+                                 data: "Hello Chime",
+                                 lifetimeMs: dataMessageLifetimeMs)
 } catch let err as SendDataMessageError {
     logger.error(msg: "Failed to send message! \(err)")
 } catch {
