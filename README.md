@@ -98,7 +98,7 @@ On the joining screen, choose to join the meeting without `CallKit` or join via 
 If you discover a potential security issue in this project we ask that you notify AWS/Amazon Security via our
 [vulnerability reporting page](http://aws.amazon.com/security/vulnerability-reporting/). Please do **not** create a public GitHub issue.
 
-## iOS Usage
+## Usage
   - [Starting a session](#starting-a-session)
   - [Device](#device)
   - [Audio](#audio)
@@ -114,7 +114,7 @@ If you discover a potential security issue in this project we ask that you notif
 
 #### Use case 1. Start a session. 
 
-To start sending/receiving audio, you need to start the session. Once the session has started, you can talk and listen to attendees. Make sure audio permission is granted from the user.
+You need to start the meeting session to start sending and receiving audio. Make sure that the user has granted audio permission first.
 
 ```swift
 meetingSession.audioVideo.start()
@@ -122,7 +122,7 @@ meetingSession.audioVideo.start()
 
 #### Use case 2. Add an observer to receive audio and video session life cycle events. 
 
-> Note: to avoid missing any events, add an observer before session starts. You can remove the observer by calling meetingSession.audioVideo.removeAudioVideoObserver(observer).
+> Note: To avoid missing any events, add an observer before the session starts. You can remove the observer by calling meetingSession.audioVideo.removeAudioVideoObserver(observer).
 
 ```swift
 class MyAudioVideoObserver: AudioVideoObserver {
@@ -157,7 +157,7 @@ class MyAudioVideoObserver: AudioVideoObserver {
 
 #### Use case 3. List audio devices.
 
-List available audio devices that can be used for the meeting.
+List available audio devices for the meeting.
 
 ```swift
 // An list of MediaDevice objects
@@ -188,9 +188,9 @@ Switch to use front or back camera on the device, if available.
 meetingSession.audioVideo.switchCamera()
 ```
 
-#### Use case 6. Add observer to receive the updated device list.
+#### Use case 6. Add an observer to receive the updated device list.
 
-Add `DeviceChangeObserver` to receive callback when new audio device is connected or audio device has been disconnected. For instance, if a bluetooth audio device is connected, `audioDeviceDidChange` is called with the device list including the headphone.
+Add a `DeviceChangeObserver` to receive a callback when a new audio device connects or when an audio device disconnects. `onAudioDeviceChanged` includes an updated device list.
 
 ```swift
 class MyDeviceChangeObserver: DeviceChangeObserver {
@@ -225,7 +225,7 @@ let unmuted = meetingSession.audioVideo.realtimeLocalUnmute // returns true if u
 
 You can use this to build real-time indicators UI and get them updated for changes delivered by the array. 
 
-> Note: Only delta will be notified.
+> Note: These callbacks will only include the delta from the previous callback.
 
 ```swift
 class MyRealtimeObserver: RealtimeObserver {
@@ -308,10 +308,13 @@ class MyActiveSpeakerObserver: ActiveSpeakerObserver {
 
 ### Video
 
-> Note: You will need to bind the video to `VideoRenderView` in order to display the video. 
-> * A local video tile can be identified using `isLocalTile` property.
-> * A content video tile can be identified using `isContent` property. See Screen and content share.
-> * A tile is created with a new tile ID when the same remote attendee restarts the video.
+> Note: You will need to bind the video to `VideoRenderView` in order to display the video.
+
+> A local video tile can be identified using `isLocalTile` property.
+
+> A content video tile can be identified using `isContent` property. See [Screen and content share](#screen-and-content-share).
+
+> A tile is created with a new tile ID when the same remote attendee restarts the video.
 
 
 
@@ -319,7 +322,7 @@ You can find more details on adding/removing/viewing video from [building-a-meet
 
 #### Use case 11. Start receiving remote video. 
 
-By default, you’ll not receive remote videos after session started. You can call `startRemoteVideo` to start receiving.
+You can call `startRemoteVideo` to start receiving remote videos, as this doesn’t happen by default.
 
 ```swift
 meetingSession.audioVideo.startRemoteVideo()
@@ -330,7 +333,7 @@ meetingSession.audioVideo.startRemoteVideo()
 ```swift
 class MyVideoTileObserver: VideoTileObserver {
     func videoTileDidAdd(tileState: VideoTileState) {
-        // Ignore local video (see View local video), content video (seeScreen and content share)
+        // Ignore local video (see View local video), content video (see Screen and content share)
        if tileState.isLocalTile || tileState.isContent {
             return
         }
@@ -351,7 +354,7 @@ class MyVideoTileObserver: VideoTileObserver {
 
 #### Use case 13. Stop receiving remote video.
 
-`stopRemoteVideo` stops receiving remote videos and also triggers `onVideoTileRemoved` for existing remote videos.
+`stopRemoteVideo` stops receiving remote videos and triggers `onVideoTileRemoved` for existing remote videos.
 
 ```swift
 meetingSession.audioVideo.stopRemoteVideo()
@@ -403,7 +406,7 @@ For more advanced video tile management, take a look at  [video_pagination](http
 
 ### Screen and content share
 
-> Note: When you or other attendees share content (a screen capture, or any other VideoSource object), the content attendee (attendee-id#content) joins the session and shares content as if a regular attendee shares a video.
+> Note: When you or other attendees share content (e.g. screen capture or any other VideoSource object), the content attendee (attendee-id#content) joins the session and shares content as if a regular attendee shares a video.
 
 > For example, your attendee ID is "my-id". When you call `meetingSession.audioVideo.startContentShare`, the content attendee "my-id#content" will join the session and share your content.
 
@@ -429,6 +432,8 @@ class MyContentShareObserver: ContentShareObserver {
 See [content share guide](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/content_share.md) for more details.
 
 #### Use case 18. View remote screen share.
+
+Chime SDK allows two simultaneous content shares per meeting. Remote content shares will trigger `onVideoTileAdded`, while local share will not. To render the video for preview, add a `VideoSink` to the `VideoSource` in the `ContentShareSource`.
 
 ```swift
 class MyVideoTileObserver: VideoTileObserver { 
@@ -456,7 +461,7 @@ class MyVideoTileObserver: VideoTileObserver {
 
 #### Use case 19. Add an observer to receive the meeting metrics.
 
-See `ObservableMetric` for more available metrics, to monitor audio, video and content share quality.
+See `ObservableMetric` for more available metrics and to monitor audio, video, and content share quality.
 
 ```swift
 class MyMetricsObserver: MetricsObserver {
@@ -473,7 +478,7 @@ class MyMetricsObserver: MetricsObserver {
 
 #### Use case 20. Add  an observer to receive data message.
 
-You can receive real-time message from from multiple topics after meeting session started.
+You can receive real-time messages from multiple topics after starting the meeting session.
 
 ```swift
 class MyDataMessageObserver: DataMessageObserver {
@@ -516,7 +521,7 @@ do {
 ```swift
 class MyAudioVideoObserver: AudioVideoObserver {
     // There are other handlers in AudioVideoObserver you do need to implement
-    func audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus) {
+    func  audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus) {
         // Some clean up code when meeting ended.
     }
     
@@ -536,14 +541,15 @@ Voice focus reduces the background noise in the meeting for better meeting exper
 #### Use case 23. Enable/Disable voice focus.
 
 ```swift
-val enabled = audioVideo.realtimeSetVoiceFocusEnabled(true) // success = enabling voice focus successful
+val enabled = audioVideo.realtimeSetVoiceFocusEnabled(true) // enabling voice focus successful
 
-val disabled = audioVideo.realtimeSetVoiceFocusEnabled(false) // success = disabling voice focus successful
+val disabled = audioVideo.realtimeSetVoiceFocusEnabled(false) // disabling voice focus successful
 ```
 
 ### Custom Video Source
 
-Custom video source allows you to inject your own source to control the video such as applying filter to the video. Detailed guides can be found in [custom video guide](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/custom_video.md).
+Custom video source allows you to control the video, such as applying a video filter. For more details, see [custom video](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/custom_video.md).
+
 
 ---
 
