@@ -174,7 +174,7 @@ let audioDevices = meetingSession.audioVideo.listAudioDevices()
 ```swift
 let audioDevices = audioVideo.listAudioDevices()
 val device = /* An item from audioDevices */
- meetingSession.audioVideo.chooseAudioDevice(mediaDevice: device)           
+meetingSession.audioVideo.chooseAudioDevice(mediaDevice: device)           
 ```
 
 #### Use case 5. Switch between camera.
@@ -288,7 +288,7 @@ class MyActiveSpeakerObserver: ActiveSpeakerObserver {
     func activeSpeakerDidDetect(attendeeInfo: [AttendeeInfo]) {
         if !attendeeInfo.isEmpty {
             logger.info(msg: "\(attendeeInfo[0].attendeeId) is the most active speaker")
-       }
+        }
     }
 
     func activeSpeakerScoreDidChange(scores: [AttendeeInfo: Double]) {
@@ -309,8 +309,11 @@ class MyActiveSpeakerObserver: ActiveSpeakerObserver {
 ### Video
 
 > Note: You will need to bind the video to `VideoRenderView` in order to display the video.
+> 
 > A local video tile can be identified using `isLocalTile` property.
+> 
 > A content video tile can be identified using `isContent` property. See [Screen and content share](#screen-and-content-share).
+> 
 > A tile is created with a new tile ID when the same remote attendee restarts the video.
 
 
@@ -331,7 +334,7 @@ meetingSession.audioVideo.startRemoteVideo()
 class MyVideoTileObserver: VideoTileObserver {
     func videoTileDidAdd(tileState: VideoTileState) {
         // Ignore local video (see View local video), content video (see Screen and content share)
-       if tileState.isLocalTile || tileState.isContent {
+        if tileState.isLocalTile || tileState.isContent {
             return
         }
        
@@ -404,6 +407,7 @@ For more advanced video tile management, take a look at  [Video Pagination](http
 ### Screen and content share
 
 > Note: When you or other attendees share content (e.g. screen capture or any other VideoSource object), the content attendee (attendee-id#content) joins the session and shares content as if a regular attendee shares a video.
+> 
 > For example, your attendee ID is "my-id". When you call `meetingSession.audioVideo.startContentShare`, the content attendee "my-id#content" will join the session and share your content.
 
 #### Use case 17. Start sharing your screen or content.
@@ -517,7 +521,7 @@ do {
 ```swift
 class MyAudioVideoObserver: AudioVideoObserver {
     // There are other handlers in AudioVideoObserver you do need to implement
-    func  audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus) {
+    func audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus) {
         // Some clean up code when meeting ended.
     }
     
