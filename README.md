@@ -191,7 +191,7 @@ meetingSession.audioVideo.switchCamera()
 
 #### Use case 6. Add an observer to receive the updated device list.
 
-Add a `DeviceChangeObserver` to receive a callback when a new audio device connects or when an audio device disconnects. `onAudioDeviceChanged` includes an updated device list.
+Add a `DeviceChangeObserver` to receive a callback when a new audio device connects or when an audio device disconnects. `audioDeviceDidChange` includes an updated device list.
 
 ```swift
 class MyDeviceChangeObserver: DeviceChangeObserver {
@@ -209,7 +209,7 @@ class MyDeviceChangeObserver: DeviceChangeObserver {
 #### Use case 7. Get currently selected audio device.
 
 ```swift
-let activeAudioDevice = meetingSession`.``audioVideo``.``getActiveAudioDevice``()`
+let activeAudioDevice = meetingSession.audioVideo.getActiveAudioDevice()
 ```
 
 ### Audio
@@ -486,14 +486,14 @@ You can receive real-time messages from multiple topics after starting the meeti
 
 ```swift
 class MyDataMessageObserver: DataMessageObserver {
-    let topic = "chat"
+    let dataMessageTopic = "chat"
     // A throttled message is returned by backend from local sender
     func dataMessageDidReceived(dataMessage: DataMessage) {
         logger.info(msg: "\(dataMessage.timestampMs) \(dataMessage.text()) \(dataMessage.senderAttendeeId)")
     }
     
     // You can also subscribe to multiple topics.
-    meetingSession.audioVideo.addRealtimeDataMessageObserver(topic: topic, observer: self)
+    meetingSession.audioVideo.addRealtimeDataMessageObserver(topic: dataMessageTopic, observer: self)
 }
 ```
 
@@ -504,18 +504,20 @@ You can send real time message to any topic, to which the observers that have su
 > Note: Topic needs to be alpha-numeric and it can include hyphen and underscores. Data cannot exceed 2kb and lifetime is optional but positive integer.
 
 ```swift
-let topic = "chat"
+let dataMessageTopic = "chat"
+let dataMessageLifetimeMs = 1000
 
 do {
     // Send "Hello Chime" to any subscribers who are listening to "chat" topic with 1 seconds of lifetime
     try meetingSession
         .audioVideo
-        .realtimeSendDataMessage(topic: topic,
+        .realtimeSendDataMessage(topic: dataMessageTopic,
                                 data: "Hello Chime",
-                                lifetimeMs: 1000)
+                                lifetimeMs: dataMessageLifetimeMs)
+} catch let err as SendDataMessageError {
+    logger.error(msg: "Failed to send message! \(err)")
 } catch {
-    logger.error(msg: "Failed to send message!")
-    return
+    logger.error(msg: "Unknown error \(error.localizedDescription)")
 }
 ```
 
