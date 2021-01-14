@@ -179,7 +179,7 @@ val device = /* An item from audioDevices */
 
 #### Use case 5. Switch between camera.
 
-> Note: switchCamera() is no-op if you are using custom camera capture source. Please refer [custom video guide](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/custom_video.md#implementing-a-custom-video-source-and-transmitting) for more details.
+> Note: switchCamera() is no-op if you are using custom camera capture source. Please refer to [Custom Video](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/custom_video.md#implementing-a-custom-video-source-and-transmitting) for more details.
 
 
 Switch to use front or back camera on the device, if available.
@@ -309,16 +309,13 @@ class MyActiveSpeakerObserver: ActiveSpeakerObserver {
 ### Video
 
 > Note: You will need to bind the video to `VideoRenderView` in order to display the video.
-
 > A local video tile can be identified using `isLocalTile` property.
-
 > A content video tile can be identified using `isContent` property. See [Screen and content share](#screen-and-content-share).
-
 > A tile is created with a new tile ID when the same remote attendee restarts the video.
 
 
 
-You can find more details on adding/removing/viewing video from [building-a-meeting-application-on-ios-using-the-amazon-chime-sdk/](https://aws.amazon.com/blogs/business-productivity/building-a-meeting-application-on-ios-using-the-amazon-chime-sdk/).
+You can find more details on adding/removing/viewing video from [Building a meeting application on ios using the Amazon Chime SDK](https://aws.amazon.com/blogs/business-productivity/building-a-meeting-application-on-ios-using-the-amazon-chime-sdk/).
 
 #### Use case 11. Start receiving remote video. 
 
@@ -402,12 +399,11 @@ class MyVideoTileObserver: VideoTileObserver {
 meetingSession.audioVideo.stopLocalVideo()
 ```
 
-For more advanced video tile management, take a look at  [video_pagination](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/video_pagination.md).
+For more advanced video tile management, take a look at  [Video Pagination](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/video_pagination.md).
 
 ### Screen and content share
 
 > Note: When you or other attendees share content (e.g. screen capture or any other VideoSource object), the content attendee (attendee-id#content) joins the session and shares content as if a regular attendee shares a video.
-
 > For example, your attendee ID is "my-id". When you call `meetingSession.audioVideo.startContentShare`, the content attendee "my-id#content" will join the session and share your content.
 
 #### Use case 17. Start sharing your screen or content.
@@ -429,7 +425,7 @@ class MyContentShareObserver: ContentShareObserver {
 }
 ```
 
-See [content share guide](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/content_share.md) for more details.
+See [Content Share](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/content_share.md) for more details.
 
 #### Use case 18. View remote screen share.
 
@@ -536,7 +532,7 @@ class MyAudioVideoObserver: AudioVideoObserver {
 
 ### Voice Focus
 
-Voice focus reduces the background noise in the meeting for better meeting experience. For more details, see [using-amazon-voice-focus-optional](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/api_overview.md#11-using-amazon-voice-focus-optional).
+Voice focus reduces the background noise in the meeting for better meeting experience. For more details, see [Amazon Voice Focus](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/api_overview.md#11-using-amazon-voice-focus-optional).
 
 #### Use case 23. Enable/Disable voice focus.
 
@@ -548,7 +544,7 @@ val disabled = audioVideo.realtimeSetVoiceFocusEnabled(false) // disabling voice
 
 ### Custom Video Source
 
-Custom video source allows you to control the video, such as applying a video filter. For more details, see [custom video](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/custom_video.md).
+Custom video source allows you to control the video, such as applying a video filter. For more details, see [Custom Video](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/custom_video.md).
 
 
 ---
