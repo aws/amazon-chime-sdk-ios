@@ -276,7 +276,7 @@ class SampleHandler: RPBroadcastSampleHandler {
 
 ## Viewing the content
 
-Now users can share screen capture from within Customer Application, or bring up system broadcast picker to share device level screen capture. Users can view the screen share from another device by joining the same meeting session, the same way as viewing screen share from Amazon Chime SDK for Javascript. The `attendeeId` of a screen share is the same as the original attendee, but with a suffix of **#content** [videoTileDidAdd(tileState:)](https://github.com/zhinang-amazon/amazon-chime-sdk-ios/blob/content-share/AmazonChimeSDK/AmazonChimeSDK/audiovideo/video/VideoTileObserver.swift#L19) on `VideoTileObserver` is called with `tileState.isContent` being true for the screen share video stream.
+Now users can share screen capture from within Customer Application, or bring up system broadcast picker to share device level screen capture. Users can view the screen share from another device by joining the same meeting session, the same way as viewing screen share from Amazon Chime SDK for Javascript. The `attendeeId` of a screen share is the same as the original attendee, but with a suffix of **#content** [videoTileDidAdd(tileState:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoTileObserver.html#/c:@M@AmazonChimeSDK@objc(pl)VideoTileObserver(im)videoTileDidAddWithTileState:) on `VideoTileObserver` is called with `tileState.isContent` being true for the screen share video stream.
 
 ```
 // Get reference to current MeetingSession object.
