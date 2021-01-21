@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ContentShareObserver Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Protocol/ContentShareObserver" class="dashAnchor"></a>
+    <a title="ContentShareObserver Protocol Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html"> Docs</a></p>
+        <p class="header-right">
+          <form role="search" action="../search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html"> Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        ContentShareObserver Protocol Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/Attendee.html">Attendee</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/AttendeeInfo.html">AttendeeInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ConsoleLogger.html">ConsoleLogger</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ContentShareSource.html">ContentShareSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ContentShareStatus.html">ContentShareStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CreateAttendeeResponse.html">CreateAttendeeResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CreateMeetingResponse.html">CreateMeetingResponse</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DataMessage.html">DataMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultActiveSpeakerDetector.html">DefaultActiveSpeakerDetector</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultActiveSpeakerPolicy.html">DefaultActiveSpeakerPolicy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultAudioVideoController.html">DefaultAudioVideoController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultAudioVideoFacade.html">DefaultAudioVideoFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultCameraCaptureSource.html">DefaultCameraCaptureSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultContentShareController.html">DefaultContentShareController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultContentShareVideoClientController.html">DefaultContentShareVideoClientController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultDeviceController.html">DefaultDeviceController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultMeetingSession.html">DefaultMeetingSession</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultModality.html">DefaultModality</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultRealtimeController.html">DefaultRealtimeController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultVideoRenderView.html">DefaultVideoRenderView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultVideoTile.html">DefaultVideoTile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultVideoTileController.html">DefaultVideoTileController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DeviceUtils.html">DeviceUtils</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/InAppScreenCaptureSource.html">InAppScreenCaptureSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/IntervalScheduler.html">IntervalScheduler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MediaDevice.html">MediaDevice</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MediaPlacement.html">MediaPlacement</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Meeting.html">Meeting</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MeetingSessionConfiguration.html">MeetingSessionConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MeetingSessionCredentials.html">MeetingSessionCredentials</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MeetingSessionStatus.html">MeetingSessionStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MeetingSessionURLs.html">MeetingSessionURLs</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ReplayKitSource.html">ReplayKitSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/SignalUpdate.html">SignalUpdate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes.html#/c:@M@AmazonChimeSDK@objc(cs)TURNRequestService">TURNRequestService</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/URLRewriterUtils.html">URLRewriterUtils</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Versioning.html">Versioning</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VideoCaptureFormat.html">VideoCaptureFormat</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VideoFrame.html">VideoFrame</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VideoFramePixelBuffer.html">VideoFramePixelBuffer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes.html#/c:@M@AmazonChimeSDK@objc(cs)VideoFrameResender">VideoFrameResender</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VideoTileState.html">VideoTileState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VolumeUpdate.html">VolumeUpdate</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/AttendeeStatus.html">AttendeeStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/CaptureSourceError.html">CaptureSourceError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ContentShareStatusCode.html">ContentShareStatusCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/LogLevel.html">LogLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MediaDeviceType.html">MediaDeviceType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MediaError.html">MediaError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MeetingSessionStatusCode.html">MeetingSessionStatusCode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ModalityType.html">ModalityType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ObservableMetric.html">ObservableMetric</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/PermissionError.html">PermissionError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SendDataMessageError.html">SendDataMessageError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SignalStrength.html">SignalStrength</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/VideoContentHint.html">VideoContentHint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/VideoPauseState.html">VideoPauseState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/VideoRotation.html">VideoRotation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/VolumeLevel.html">VolumeLevel</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions.html#/c:objc(cs)AVAudioSession">AVAudioSession</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions.html#/c:objc(cs)AudioClient">AudioClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/CMSampleBuffer.html">CMSampleBuffer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions.html#/c:objc(cs)NSLock">NSLock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions.html#/c:objc(cs)VideoClient">VideoClient</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/ActiveSpeakerDetectorFacade.html">ActiveSpeakerDetectorFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ActiveSpeakerObserver.html">ActiveSpeakerObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ActiveSpeakerPolicy.html">ActiveSpeakerPolicy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AudioClientController.html">AudioClientController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AudioClientObserver.html">AudioClientObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AudioClientProtocol.html">AudioClientProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AudioLock.html">AudioLock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AudioSession.html">AudioSession</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AudioVideoControllerFacade.html">AudioVideoControllerFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoFacade">AudioVideoFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AudioVideoObserver.html">AudioVideoObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/CameraCaptureSource.html">CameraCaptureSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/CaptureSourceObserver.html">CaptureSourceObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ClientMetricsCollector.html">ClientMetricsCollector</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ContentShareController.html">ContentShareController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ContentShareObserver.html">ContentShareObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ContentShareVideoClientController.html">ContentShareVideoClientController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DataMessageObserver.html">DataMessageObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DeviceChangeObserver.html">DeviceChangeObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/DeviceController.html">DeviceController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Logger.html">Logger</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/MeetingSession.html">MeetingSession</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/MetricsObserver.html">MetricsObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/RealtimeControllerFacade.html">RealtimeControllerFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/RealtimeObserver.html">RealtimeObserver</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/Scheduler.html">Scheduler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoCaptureSource.html">VideoCaptureSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoClientController.html">VideoClientController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoClientProtocol.html">VideoClientProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoFrameBuffer.html">VideoFrameBuffer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols.html#/c:@M@AmazonChimeSDK@objc(pl)VideoRenderView">VideoRenderView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoSink.html">VideoSink</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoSource.html">VideoSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoTile.html">VideoTile</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoTileController.html">VideoTileController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoTileControllerFacade.html">VideoTileControllerFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/VideoTileObserver.html">VideoTileObserver</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:14AmazonChimeSDK11URLRewritera">URLRewriter</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>ContentShareObserver</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ContentShareObserver</span></code></pre>
+
+                </div>
+              </div>
+            <p><code>ContentShareObserver</code> handles all callbacks related to the content share.
+By implementing the callback functions and registering with <code>ContentShareController.addContentShareObserver</code>,
+one can get notified with content share status events.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)ContentShareObserver(im)contentShareDidStart"></a>
+                    <a name="//apple_ref/swift/Method/contentShareDidStart()" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)ContentShareObserver(im)contentShareDidStart">contentShareDidStart()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Called when the content share has started.</p>
+
+<p>Note: this callback will be called on main thread.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">contentShareDidStart</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)ContentShareObserver(im)contentShareDidStopWithStatus:"></a>
+                    <a name="//apple_ref/swift/Method/contentShareDidStop(status:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)ContentShareObserver(im)contentShareDidStopWithStatus:">contentShareDidStop(status:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Called when the content is no longer shared with other attendees with the reason provided in the status.
+If you no longer need the source producing frames, stop the source after this callback is invoked.</p>
+
+<p>Note: this callback will be called on main thread.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">contentShareDidStop</span><span class="p">(</span><span class="nv">status</span><span class="p">:</span> <span class="kt"><a href="../Classes/ContentShareStatus.html">ContentShareStatus</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>status</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the reason why the content share has stopped</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2021 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2021-01-21)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
