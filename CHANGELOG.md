@@ -1,4 +1,4 @@
-## Unreleased
+## [0.14.0] - 2021-01-21
 
 ### Added
 * **Breaking** Added content share metrics as new enums in `ObservableMetric`.
