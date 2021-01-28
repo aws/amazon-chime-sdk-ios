@@ -1,3 +1,8 @@
+## Unreleased
+
+## Fixed
+* Fixed data message conversion that sometimes does not handle null terminator when converting from string to c-string.
+
 ## [0.14.0] - 2021-01-21
 
 ### Added

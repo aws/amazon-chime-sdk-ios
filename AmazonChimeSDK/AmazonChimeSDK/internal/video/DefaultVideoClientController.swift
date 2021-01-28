@@ -238,7 +238,7 @@ extension DefaultVideoClientController: VideoClientDelegate {
             }
         }
     }
-    
+
     public func videoClientTurnURIsReceived(_ uris: [String]) -> [String] {
         return uris.map(self.configuration.urlRewriter)
     }
@@ -416,13 +416,10 @@ extension DefaultVideoClientController: VideoClientController {
             if container.count > Constants.dataMessageMaxDataSizeInByte {
                 throw SendDataMessageError.invalidDataLength
             }
-            container.withUnsafeBytes { (bufferRawBufferPointer) -> Void in
-                if let bufferPointer = bufferRawBufferPointer
-                    .baseAddress {
-                    videoClient?.sendDataMessage(topic,
-                                                 data: bufferPointer.assumingMemoryBound(to: Int8.self),
-                                                 lifetimeMs: lifetimeMs)
-                }
+            if let str = String(data: container, encoding: .utf8) {
+                videoClient?.sendDataMessage(topic,
+                                             data: (str as NSString).utf8String,
+                                             lifetimeMs: lifetimeMs)
             }
         } else {
             throw SendDataMessageError.invalidData
