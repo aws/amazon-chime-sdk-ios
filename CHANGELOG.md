@@ -3,15 +3,17 @@
 ### Added
 * Added support for XCFramework. AmazonChimeSDK and AmazonChimeSDKMedia binaries now contain .xcframework format as well. See `README.md` for updated Setup instructions.
 * Added Analytics
-    * `EventAnalyticsController`, `EventAnalyticsFacade`, `EventAnalyticsObserver` to handle analytics.
+    * Added `EventAnalyticsController`, `EventAnalyticsFacade`, `EventAnalyticsObserver` to handle analytics.
     * Added `EventAttributesName`, `EventName` for meeting event information.
-    * **Breaking** Added `EventAnalyticsController` to parameters of `DefaultAudioVideoFacade`.
-    * Added `EventAnalyticsController` to property of `DefaultCameraCaptureSource`, `DefaultAudioClientObserver`, `DefaultAudioClientController`.
     * Added `externalMeetingId` to property of `MeetingSessionConfiguration`.
-    * **Breaking** Added `EventAnalyticsController` to property of `MeetingSession`.
+    * **Breaking** Added `eventAnalyticsController` to property of `MeetingSession`.
     * [Demo] Added `PostLogger` to demonstrate making HTTP POST request to server with logs.
     * [Documentation] Added usage guide for analytics.
 
+### Changed
+* Analytics
+  * Changed to take `EventAnalyticsController` as an additional parameter of `DefaultAudioClientObserver`, `DefaultAudioClientController` constructor.
+  * **Breaking** Changed to take `EventAnalyticsController` as an additional parameter of `DefaultAudioVideoFacade` constructor.
 ## Fixed
 * Fixed data message conversion that sometimes does not handle null terminator when converting from string to c-string. (Issue #217)
 
