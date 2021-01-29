@@ -14,10 +14,12 @@ import Foundation
     public let audioVideo: AudioVideoFacade
     public let configuration: MeetingSessionConfiguration
     public let logger: Logger
+    public let eventAnalyticsController: EventAnalyticsController
 
     private let audioSession = AVAudioSession.sharedInstance()
 
-    public init(configuration: MeetingSessionConfiguration, logger: Logger) {
+    public init(configuration: MeetingSessionConfiguration,
+                logger: Logger) {
         self.configuration = configuration
         self.logger = logger
         VideoClient.globalInitialize()
@@ -25,23 +27,33 @@ import Foundation
         let videoClient: VideoClient = DefaultVideoClient(logger: logger)
         let clientMetricsCollector = DefaultClientMetricsCollector()
         let audioClientLock = NSLock()
-
+        
+        let meetingStatsCollector =  DefaultMeetingStatsCollector(logger: logger)
+        self.eventAnalyticsController = DefaultEventAnalyticsController(meetingSessionConfig: configuration,
+                                                                       meetingStatsCollector: meetingStatsCollector,
+                                                                       logger: logger)
         let audioClientObserver = DefaultAudioClientObserver(audioClient: audioClient,
                                                              clientMetricsCollector: clientMetricsCollector,
                                                              audioClientLock: audioClientLock,
                                                              configuration: configuration,
-                                                             logger: logger)
+                                                             logger: logger,
+                                                             eventAnalyticsController: self.eventAnalyticsController,
+                                                             meetingStatsCollector: meetingStatsCollector)
         let audioClientController = DefaultAudioClientController(audioClient: audioClient,
                                                                  audioClientObserver: audioClientObserver,
                                                                  audioSession: audioSession,
-                                                                 audioClientLock: audioClientLock)
+                                                                 audioClientLock: audioClientLock,
+                                                                 eventAnalyticsController: self.eventAnalyticsController,
+                                                                 meetingStatsCollector: meetingStatsCollector)
         let videoClientController = DefaultVideoClientController(videoClient: videoClient,
                                                                  clientMetricsCollector: clientMetricsCollector,
                                                                  configuration: configuration,
-                                                                 logger: logger)
+                                                                 logger: logger,
+                                                                 eventAnalyticsController: self.eventAnalyticsController)
         let videoTileController =
             DefaultVideoTileController(videoClientController: videoClientController,
-                                       logger: logger)
+                                       logger: logger,
+                                       meetingStatsCollector: meetingStatsCollector)
         videoClientController.subscribeToVideoTileControllerObservers(observer: videoTileController)
         let realtimeController = DefaultRealtimeController(audioClientController: audioClientController,
                                                            audioClientObserver: audioClientObserver,
@@ -56,6 +68,7 @@ import Foundation
             externalUserId: configuration.credentials.externalUserId,
             joinToken: configuration.credentials.joinToken + contentModality)
         let contentShareConfiguration = MeetingSessionConfiguration(meetingId: configuration.meetingId,
+                                                                    externalMeetingId: configuration.externalMeetingId,
                                                                     credentials: contentShareCredentials,
                                                                     urls: configuration.urls,
                                                                     urlRewriter: configuration.urlRewriter)
@@ -78,9 +91,12 @@ import Foundation
                                     deviceController:
                 DefaultDeviceController(audioSession: audioSession,
                                         videoClientController: videoClientController,
+                                        eventAnalyticsController: eventAnalyticsController,
                                         logger: logger),
                                     videoTileController: videoTileController,
                                     activeSpeakerDetector: activeSpeakerDetector,
-                                    contentShareController: contentShareController)
+                                    contentShareController: contentShareController,
+                                    eventAnalyticsController: self.eventAnalyticsController,
+                                    meetingStatsCollector: meetingStatsCollector)
     }
 }

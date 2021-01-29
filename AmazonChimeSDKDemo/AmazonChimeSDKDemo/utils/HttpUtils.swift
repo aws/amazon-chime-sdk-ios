@@ -37,6 +37,7 @@ class HttpUtils {
         request.httpMethod = method
 
         if let data = jsonData, method.lowercased() == "post" {
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.httpBody = data
         }
 

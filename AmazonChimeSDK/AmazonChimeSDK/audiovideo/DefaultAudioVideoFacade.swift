@@ -18,6 +18,7 @@ import Foundation
     let videoTileController: VideoTileController
     let activeSpeakerDetector: ActiveSpeakerDetectorFacade
     let contentShareController: ContentShareController
+    let eventAnalyticsController: EventAnalyticsController
 
     public init(
         audioVideoController: AudioVideoControllerFacade,
@@ -25,7 +26,9 @@ import Foundation
         deviceController: DeviceController,
         videoTileController: VideoTileController,
         activeSpeakerDetector: ActiveSpeakerDetectorFacade,
-        contentShareController: ContentShareController
+        contentShareController: ContentShareController,
+        eventAnalyticsController: EventAnalyticsController,
+        meetingStatsCollector: MeetingStatsCollector
     ) {
         self.audioVideoController = audioVideoController
         self.realtimeController = realtimeController
@@ -35,6 +38,7 @@ import Foundation
         self.logger = audioVideoController.logger
         self.activeSpeakerDetector = activeSpeakerDetector
         self.contentShareController = contentShareController
+        self.eventAnalyticsController = eventAnalyticsController
     }
 
     public func start(callKitEnabled: Bool = false) throws {
@@ -214,5 +218,21 @@ import Foundation
 
     public func removeContentShareObserver(observer: ContentShareObserver) {
         contentShareController.removeContentShareObserver(observer: observer)
+    }
+
+    public func addEventAnalyticsObserver(observer: EventAnalyticsObserver) {
+        eventAnalyticsController.addEventAnalyticsObserver(observer: observer)
+    }
+
+    public func removeEventAnalyticsObserver(observer: EventAnalyticsObserver) {
+        eventAnalyticsController.removeEventAnalyticsObserver(observer: observer)
+    }
+
+    public func getMeetingHistory() -> [MeetingHistoryEvent] {
+        return eventAnalyticsController.getMeetingHistory()
+    }
+
+    public func getCommonEventAttributes() -> [AnyHashable: Any] {
+        return eventAnalyticsController.getCommonEventAttributes()
     }
 }

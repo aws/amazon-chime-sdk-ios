@@ -15,10 +15,14 @@ import UIKit
     private var videoViewToTileMap = [NSValue: VideoTile]()
     private let videoTileObservers = ConcurrentMutableSet()
     private let videoClientController: VideoClientController
+    private let meetingStatsCollector: MeetingStatsCollector
 
-    public init(videoClientController: VideoClientController, logger: Logger) {
+    public init(videoClientController: VideoClientController,
+                logger: Logger,
+                meetingStatsCollector: MeetingStatsCollector) {
         self.videoClientController = videoClientController
         self.logger = logger
+        self.meetingStatsCollector = meetingStatsCollector
     }
 
     public func onReceiveFrame(frame: VideoFrame?,
@@ -139,6 +143,7 @@ import UIKit
                                     logger: logger)
         tile.setPauseState(pauseState: pauseState)
         videoTileMap[tileId] = tile
+        self.meetingStatsCollector.updateMaxVideoTile(videoTileCount: videoTileMap.count)
         ObserverUtils.forEach(observers: videoTileObservers) { (videoTileObserver: VideoTileObserver) in
             videoTileObserver.videoTileDidAdd(tileState: tile.state)
         }

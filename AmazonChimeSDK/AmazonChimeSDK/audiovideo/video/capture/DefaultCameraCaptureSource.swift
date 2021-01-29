@@ -26,6 +26,7 @@ import UIKit
     private var session = AVCaptureSession()
     private var orientation = UIDeviceOrientation.portrait
     private var captureDevice: AVCaptureDevice?
+    private var eventAnalyticsController: EventAnalyticsController?
 
     public init(logger: Logger) {
         self.logger = logger
@@ -115,9 +116,7 @@ import UIKit
         guard let deviceInput = try? AVCaptureDeviceInput(device: captureDevice),
             session.canAddInput(deviceInput) else {
             session.commitConfiguration()
-            ObserverUtils.forEach(observers: captureSourceObservers) { (observer: CaptureSourceObserver) in
-                observer.captureDidFail(error: .configurationFailure)
-            }
+            handleCaptureFailed(reason: .configurationFailure)
             logger.error(msg: "DefaultCameraCaptureSource configuration failure")
             return
         }
@@ -129,9 +128,7 @@ import UIKit
             session.addOutput(output)
         } else {
             session.commitConfiguration()
-            ObserverUtils.forEach(observers: captureSourceObservers) { (observer: CaptureSourceObserver) in
-                observer.captureDidFail(error: .configurationFailure)
-            }
+            handleCaptureFailed(reason: .configurationFailure)
             logger.error(msg: "DefaultCameraCaptureSource configuration failure")
             return
         }
@@ -166,6 +163,10 @@ import UIKit
         let isUsingFrontCamera = device?.type == .videoFrontCamera
         device = MediaDevice.listVideoDevices().first { mediaDevice in
             mediaDevice.type == (isUsingFrontCamera ? .videoBackCamera : .videoFrontCamera)
+        }
+
+        if device != nil {
+            eventAnalyticsController?.pushHistory(historyEventName: .videoInputSelected)
         }
     }
 
@@ -224,6 +225,22 @@ import UIKit
             self.updateOrientation()
         }
     }
+
+    private func handleCaptureFailed(reason: CaptureSourceError) {
+        let attributes = [
+            EventAttributeName.videoInputError: reason
+        ]
+
+        eventAnalyticsController?.publishEvent(name: .videoInputFailed, attributes: attributes)
+
+        ObserverUtils.forEach(observers: captureSourceObservers) { (observer: CaptureSourceObserver) in
+            observer.captureDidFail(error: reason)
+        }
+    }
+
+    public func setEventAnalyticsController(eventAnalyticsController: EventAnalyticsController?) {
+        self.eventAnalyticsController = eventAnalyticsController
+    }
 }
 
 extension DefaultCameraCaptureSource: AVCaptureVideoDataOutputSampleBufferDelegate {
@@ -231,10 +248,9 @@ extension DefaultCameraCaptureSource: AVCaptureVideoDataOutputSampleBufferDelega
                               didOutput sampleBuffer: CMSampleBuffer,
                               from _: AVCaptureConnection) {
         guard let frame = VideoFrame(sampleBuffer: sampleBuffer) else {
-            ObserverUtils.forEach(observers: captureSourceObservers) { (observer: CaptureSourceObserver) in
-                observer.captureDidFail(error: .invalidFrame)
-            }
+            handleCaptureFailed(reason: .invalidFrame)
             logger.error(msg: "DefaultCameraCaptureSource could not convert captured CMSampleBuffer to video frame")
+
             return
         }
 

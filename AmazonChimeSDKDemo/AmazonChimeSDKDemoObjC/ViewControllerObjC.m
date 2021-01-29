@@ -18,7 +18,7 @@
     [super viewDidLoad];
     [self updateUIWithMeetingStarted:NO];
     self.logger = [[ConsoleLogger alloc] initWithName:@"ViewControllerObjC"
-                                                level:LogLevelDEFAULT];
+                                                level:LogLevelINFO];
     self.versionLabel.text = [NSString stringWithFormat:@"amazon-chime-sdk-ios@%@", [Versioning sdkVersion]];
 }
 
@@ -106,6 +106,7 @@
     }
 
     NSError* error = nil;
+    [self.meetingSession.audioVideo addEventAnalyticsObserverWithObserver:self];
     BOOL started = [self.meetingSession.audioVideo startAndReturnError:&error];
     if (started && error == nil) {
         [self.logger infoWithMsg:@"ObjC meeting session was started successfully"];
@@ -210,6 +211,7 @@
     [self.meetingSession.audioVideo removeMetricsObserverWithObserver:self];
     [self.meetingSession.audioVideo removeVideoTileObserverWithObserver:self];
     [self.meetingSession.audioVideo removeActiveSpeakerObserverWithObserver:self];
+    [self.meetingSession.audioVideo removeEventAnalyticsObserverWithObserver:self];
     [self.meetingSession.audioVideo stop];
     [self updateUIWithMeetingStarted:NO];
 }
@@ -388,6 +390,11 @@
 
 - (NSString*)observerId {
     return [NSUUID new].UUIDString;
+}
+
+# pragma mark - EventAnalyticObserver
+- (void)eventDidReceiveWithName:(enum EventName)name attributes:(NSDictionary *)attributes {
+    [self.logger infoWithMsg:[NSString stringWithFormat:@"%ld %@\n", name, [attributes toJsonString]]];
 }
 
 @end

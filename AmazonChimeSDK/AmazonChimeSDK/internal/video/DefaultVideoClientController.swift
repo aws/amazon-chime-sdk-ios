@@ -27,16 +27,20 @@ class DefaultVideoClientController: NSObject {
     // This internal camera capture source is used for `startLocalVideo()` API without parameter.
     private let internalCaptureSource: DefaultCameraCaptureSource
     private var isInternalCaptureSourceRunning = true
+    private var eventAnalyticsController: EventAnalyticsController
 
     init(videoClient: VideoClient,
          clientMetricsCollector: ClientMetricsCollector,
          configuration: MeetingSessionConfiguration,
-         logger: Logger) {
+         logger: Logger,
+         eventAnalyticsController: EventAnalyticsController) {
         self.defaultVideoClient = videoClient
         self.clientMetricsCollector = clientMetricsCollector
         self.configuration = configuration
         self.logger = logger
         self.internalCaptureSource = DefaultCameraCaptureSource(logger: logger)
+        self.internalCaptureSource.setEventAnalyticsController(eventAnalyticsController: eventAnalyticsController)
+        self.eventAnalyticsController = eventAnalyticsController
         super.init()
     }
 
@@ -44,6 +48,11 @@ class DefaultVideoClientController: NSObject {
 
     private func checkVideoPermission() throws {
         if AVCaptureDevice.authorizationStatus(for: .video) != .authorized {
+            let attributes = [
+                EventAttributeName.videoInputError: PermissionError.videoPermissionError
+            ]
+
+            eventAnalyticsController.publishEvent(name: .videoInputFailed, attributes: attributes)
             throw PermissionError.videoPermissionError
         }
     }

@@ -10,7 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AmazonChimeSDK/AmazonChimeSDK-Swift.h>
 
-@interface ViewControllerObjC : UIViewController <RealtimeObserver, MetricsObserver, VideoTileObserver, ActiveSpeakerObserver>
+@interface ViewControllerObjC : UIViewController <RealtimeObserver, MetricsObserver, VideoTileObserver, ActiveSpeakerObserver, EventAnalyticsObserver>
 
 #define SERVER_URL "YOUR_SERVER_URL"
 #define SERVER_REGION "YOUR_SERVER_REGION"

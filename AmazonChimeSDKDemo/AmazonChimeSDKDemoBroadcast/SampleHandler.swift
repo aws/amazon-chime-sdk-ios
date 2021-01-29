@@ -5,7 +5,6 @@
 //  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //  SPDX-License-Identifier: Apache-2.0
 //
-// swiftlint:disable private_over_fileprivate
 
 import AmazonChimeSDK
 import ReplayKit
@@ -13,6 +12,7 @@ import ReplayKit
 let appGroupId = "YOUR_APP_GROUP_ID"
 
 let userDefaultsKeyMeetingId = "demoMeetingId"
+let userDefaultsKeyExternalMeetingId = "demoExternalMeetingId"
 let userDefaultsKeyCredentials = "demoMeetingCredentials"
 let userDefaultsKeyUrls = "demoMeetingUrls"
 let userDefaultsKeyBroadcastMetrics = "demoMeetingBroadcastMetrics"
@@ -80,12 +80,14 @@ class SampleHandler: RPBroadcastSampleHandler {
         }
         let decoder = JSONDecoder()
         if let meetingId = appGroupUserDefaults.demoMeetingId,
+           let externalMeetingId = appGroupUserDefaults.demoExternalMeetingId,
            let credentialsData = appGroupUserDefaults.demoMeetingCredentials,
            let urlsData = appGroupUserDefaults.demoMeetingUrls,
            let credentials = try? decoder.decode(MeetingSessionCredentials.self, from: credentialsData),
            let urls = try? decoder.decode(MeetingSessionURLs.self, from: urlsData) {
 
             return MeetingSessionConfiguration(meetingId: meetingId,
+                                               externalMeetingId: externalMeetingId,
                                                credentials: credentials,
                                                urls: urls,
                                                urlRewriter: URLRewriterUtils.defaultUrlRewriter)
@@ -98,7 +100,7 @@ class SampleHandler: RPBroadcastSampleHandler {
 // automatically flow into the app. So we are saving these metrics from Broadcast Extension into
 // shared App Groups User Defaults, observe and retrieve them in MetricsModel to display in demo app.
 extension SampleHandler: MetricsObserver {
-    func metricsDidReceive(metrics: [AnyHashable : Any]) {
+    func metricsDidReceive(metrics: [AnyHashable: Any]) {
         cachedBroadcastMetrics[ObservableMetric.contentShareVideoSendBitrate.description]
             = metrics[ObservableMetric.contentShareVideoSendBitrate] as? Double
         cachedBroadcastMetrics[ObservableMetric.contentShareVideoSendPacketLossPercent.description]
@@ -114,6 +116,9 @@ extension SampleHandler: MetricsObserver {
 extension UserDefaults {
     @objc dynamic var demoMeetingId: String? {
         return string(forKey: userDefaultsKeyMeetingId)
+    }
+    @objc dynamic var demoExternalMeetingId: String? {
+        return string(forKey: userDefaultsKeyExternalMeetingId)
     }
     @objc dynamic var demoMeetingCredentials: Data? {
         return object(forKey: userDefaultsKeyCredentials) as? Data
