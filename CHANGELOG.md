@@ -1,5 +1,8 @@
 ## Unreleased
 
+### Added
+* Added support for XCFramework. AmazonChimeSDK and AmazonChimeSDKMedia binaries now contain .xcframework format as well. See `README.md` for updated Setup instructions.
+
 ## Fixed
 * Fixed data message conversion that sometimes does not handle null terminator when converting from string to c-string.
 

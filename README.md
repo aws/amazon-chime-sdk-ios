@@ -35,19 +35,13 @@ And review the following guides:
 
 To include the SDK binaries in your own project, follow these steps.
 
-For the purpose of setup, your project's root folder (where you can find your `.xcodeproj` file) will be referred to as `root`
+For the purpose of setup, your project's root folder (where you can find your `.xcodeproj` file) will be referred to as `root`.
 
 ### 1. Download binaries
 
-Download the following zips:
- * if you need bitcode support:
-    * [AmazonChimeSDK-0.14.0.tar.gz](https://amazon-chime-sdk-ios.s3.amazonaws.com/sdk/0.14.0/AmazonChimeSDK-0.14.0.tar.gz)
-    * [AmazonChimeSDKMedia-0.10.0.tar.gz](https://amazon-chime-sdk-ios.s3.amazonaws.com/media/0.10.0/AmazonChimeSDKMedia-0.10.0.tar.gz)
- * if you do NOT need bitcode support:
-    * [AmazonChimeSDK-0.14.0.tar.gz](https://amazon-chime-sdk-ios.s3.amazonaws.com/sdk-without-bitcode/0.14.0/AmazonChimeSDK-0.14.0.tar.gz)
-    * [AmazonChimeSDKMedia-0.10.0.tar.gz](https://amazon-chime-sdk-ios.s3.amazonaws.com/media-without-bitcode/0.10.0/AmazonChimeSDKMedia-0.10.0.tar.gz)
+Download the `AmazonChimeSDK` and `AmazonChimeSDKMedia` binaries from the latest [release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
 
-Unzip and copy the `.framework`s to `root`
+Unzip and copy the `.framework`s or `.xcframework`s to `root`.
 
 ### 2. Update project file
 
@@ -55,7 +49,9 @@ Open your `.xcodeproj` file in Xcode and click on your build target. Under `Buil
 
 Under `Build Settings` tab, add `@executable_path/Frameworks` to `Runpath Search Paths`
 
-Under `General` tab, look for `Frameworks, Libraries, and Embedded Content` section. Click on `+`, then `Add Others`, then `Add Files`. Specify the location of `AmazonChimeSDK.framework` and `AmazonChimeSDKMedia.framework` from Step 1
+Under `General` tab, look for `Frameworks, Libraries, and Embedded Content` section. Click on `+`, then `Add Others`, then `Add Files`.
+* If you are using traditional `.framework`, specify the location of `AmazonChimeSDK.framework` and `AmazonChimeSDKMedia.framework` from Step 1.
+* If you are using `.xcframework`, specify the location of `AmazonChimeSDK.xcframework` and `AmazonChimeSDKMedia.xcframework` from Step 1.
 
 After adding the two frameworks, verify that `Embed & Sign` is selected under the `Embed` option.
 
@@ -74,11 +70,9 @@ To run the demo application, follow these steps.
 
 ### 2. Download binary
 
-Download the following zip:
+Download `AmazonChimeSDKMedia` binary with bitcode support from the latest [release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
 
-* [AmazonChimeSDKMedia-0.10.0.tar.gz](https://amazon-chime-sdk-ios.s3.amazonaws.com/media/0.10.0/AmazonChimeSDKMedia-0.10.0.tar.gz)
-
-Unzip and copy the .framework to `AmazonChimeSDK` folder
+Unzip and copy the `AmazonChimeSDKMedia.framework` to `AmazonChimeSDK` folder.
 
 ### 3. Deploy serverless demo
 
