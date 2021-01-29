@@ -6,11 +6,11 @@
     * `EventAnalyticsController`, `EventAnalyticsFacade`, `EventAnalyticsObserver` to handle analytics.
     * Added `EventAttributesName`, `EventName` for meeting event information.
     * **Breaking** Added `EventAnalyticsController` to parameters of `DefaultAudioVideoFacade`.
-    * Added `EventAnalyticsController` to parameters of `DefaultCameraCaptureSource`, `DefaultAudioClientObserver`, `DefaultAudioClientController`.
+    * Added `EventAnalyticsController` to property of `DefaultCameraCaptureSource`, `DefaultAudioClientObserver`, `DefaultAudioClientController`.
     * Added `externalMeetingId` to property of `MeetingSessionConfiguration`.
-    * Added `EventAnalyticsController` to property of `MeetingSession`.
+    * **Breaking** Added `EventAnalyticsController` to property of `MeetingSession`.
     * [Demo] Added `PostLogger` to demonstrate making HTTP POST request to server with logs.
-    * [Documentation] Added usage guide for analytics
+    * [Documentation] Added usage guide for analytics.
 
 ## Fixed
 * Fixed data message conversion that sometimes does not handle null terminator when converting from string to c-string. (Issue #217)

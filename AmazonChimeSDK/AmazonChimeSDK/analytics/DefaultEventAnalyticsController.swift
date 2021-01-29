@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objcMembers public class DefaultEventAnalyticsController: EventAnalyticsController {
+@objcMembers public class DefaultEventAnalyticsController: NSObject, EventAnalyticsController {
     private var eventAnalyticObservers = ConcurrentMutableSet()
     private let meetingStatsCollector: MeetingStatsCollector
     private let meetingSessionConfig: MeetingSessionConfiguration
@@ -20,6 +20,7 @@ import Foundation
         self.meetingSessionConfig = meetingSessionConfig
         self.meetingStatsCollector = meetingStatsCollector
         self.logger = logger
+        super.init()
     }
 
     public func publishEvent(name: EventName, attributes: [AnyHashable: Any]) {

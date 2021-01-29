@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objcMembers public class DefaultMeetingStatsCollector: MeetingStatsCollector {
+@objcMembers public class DefaultMeetingStatsCollector: NSObject, MeetingStatsCollector {
     private let logger: Logger
     private var meetingStartTimeMs: Int64 = 0
     private var retryCount: Int = 0
@@ -18,6 +18,7 @@ import Foundation
 
     init(logger: Logger) {
         self.logger = logger
+        super.init()
     }
 
     public func getMeetingHistory() -> [MeetingHistoryEvent] {

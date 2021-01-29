@@ -27,7 +27,7 @@ class DefaultVideoClientController: NSObject {
     // This internal camera capture source is used for `startLocalVideo()` API without parameter.
     private let internalCaptureSource: DefaultCameraCaptureSource
     private var isInternalCaptureSourceRunning = true
-    private var eventAnalyticsController: EventAnalyticsController
+    private let eventAnalyticsController: EventAnalyticsController
 
     init(videoClient: VideoClient,
          clientMetricsCollector: ClientMetricsCollector,
