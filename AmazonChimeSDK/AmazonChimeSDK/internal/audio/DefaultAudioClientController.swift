@@ -88,7 +88,6 @@ extension DefaultAudioClientController: AudioClientController {
         if status == AUDIO_CLIENT_OK {
             Self.state = .started
         } else {
-            // TODO: Add meetingErrorMessage
             eventAnalyticsController.publishEvent(name: .meetingStartFailed)
             throw MediaError.audioFailedToStart
         }
