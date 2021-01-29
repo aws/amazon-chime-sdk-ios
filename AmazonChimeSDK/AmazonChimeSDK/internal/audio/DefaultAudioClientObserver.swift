@@ -10,7 +10,7 @@ import AmazonChimeSDKMedia
 import Foundation
 
 class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
-    private var audioClient: AudioClient
+    private var audioClient: AudioClientProtocol
     private let audioClientStateObservers = ConcurrentMutableSet()
     private var clientMetricsCollector: ClientMetricsCollector
     private var configuration: MeetingSessionConfiguration
@@ -21,15 +21,24 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     private var currentAudioStatus = MeetingSessionStatusCode.ok
     private let realtimeObservers = ConcurrentMutableSet()
     private let logger: Logger
+    private let eventAnalyticsController: EventAnalyticsController
+    private let meetingStatsCollector: MeetingStatsCollector
 
-    private let audioLock: NSLock
+    private let audioLock: AudioLock
 
-    init(audioClient: AudioClient, clientMetricsCollector: ClientMetricsCollector,
-         audioClientLock: NSLock, configuration: MeetingSessionConfiguration, logger: Logger) {
+    init(audioClient: AudioClientProtocol,
+         clientMetricsCollector: ClientMetricsCollector,
+         audioClientLock: AudioLock,
+         configuration: MeetingSessionConfiguration,
+         logger: Logger,
+         eventAnalyticsController: EventAnalyticsController,
+         meetingStatsCollector: MeetingStatsCollector) {
         self.audioClient = audioClient
         self.clientMetricsCollector = clientMetricsCollector
         self.configuration = configuration
         self.logger = logger
+        self.eventAnalyticsController = eventAnalyticsController
+        self.meetingStatsCollector = meetingStatsCollector
         audioLock = audioClientLock
         super.init()
         audioClient.delegate = self
@@ -202,10 +211,14 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     private func handleStateChangeToConnected(newAudioStatus: MeetingSessionStatusCode) {
         switch currentAudioState {
         case .connecting:
+            notifyStartSucceeded()
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
                 observer.audioSessionDidStart(reconnecting: false)
             }
         case .reconnecting:
+            meetingStatsCollector.incrementRetryCount()
+            eventAnalyticsController.pushHistory(historyEventName: .meetingReconnected)
+            notifyStartSucceeded()
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
                 observer.audioSessionDidStart(reconnecting: true)
             }
@@ -216,6 +229,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
                     observer.connectionDidRecover()
                 }
             case (.networkBecomePoor, .ok):
+                meetingStatsCollector.incrementPoorConnectionCount()
                 notifyAudioClientObserver { (observer: AudioVideoObserver) in
                     observer.connectionDidBecomePoor()
                 }
@@ -225,6 +239,11 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         default:
             break
         }
+    }
+
+    private func notifyStartSucceeded() {
+        meetingStatsCollector.updateMeetingStartTimeMs()
+        eventAnalyticsController.publishEvent(name: .meetingStartSucceeded)
     }
 
     private func handleStateChangeToDisconnected() {
@@ -269,6 +288,8 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
             return
         }
 
+        notifyFailed(status: newAudioStatus)
+
         DispatchQueue.global().async {
             self.audioLock.lock()
             self.audioClient.stopSession()
@@ -278,6 +299,13 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
                 observer.audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus(statusCode: newAudioStatus))
             }
         }
+    }
+
+    private func notifyFailed(status: MeetingSessionStatusCode) {
+        eventAnalyticsController.publishEvent(name: .meetingFailed,
+                                              attributes: [EventAttributeName.meetingStatus: status,
+                                                           EventAttributeName.meetingErrorMessage: String(describing: status)])
+        meetingStatsCollector.resetMeetingStats()
     }
 
     private func processAnyDictToStringEnumDict<T: RawRepresentable>(anyDict: [AnyHashable: Any]) -> [String: T] {

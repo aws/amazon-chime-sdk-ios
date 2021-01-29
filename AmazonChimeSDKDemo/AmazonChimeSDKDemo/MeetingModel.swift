@@ -25,15 +25,18 @@ class MeetingModel: NSObject {
     let selfName: String
     let callKitOption: CallKitOption
     let meetingSessionConfig: MeetingSessionConfiguration
-    lazy var currentMeetingSession = DefaultMeetingSession(configuration: meetingSessionConfig, logger: logger)
+    lazy var currentMeetingSession = DefaultMeetingSession(configuration: meetingSessionConfig,
+                                                           logger: logger)
 
     // Utils
     let logger = ConsoleLogger(name: "MeetingModel")
+    let postLogger: PostLogger
     let activeSpeakerObserverId = UUID().uuidString
 
     // Sub models
     let rosterModel = RosterModel()
-    lazy var videoModel = VideoModel(audioVideoFacade: currentMeetingSession.audioVideo)
+    lazy var videoModel = VideoModel(audioVideoFacade: currentMeetingSession.audioVideo,
+                                     eventAnalyticsController: currentMeetingSession.eventAnalyticsController)
     let metricsModel = MetricsModel()
     lazy var screenShareModel = ScreenShareModel(meetingSessionConfig: meetingSessionConfig,
                                                  contentShareController: currentMeetingSession.audioVideo)
@@ -122,6 +125,8 @@ class MeetingModel: NSObject {
         self.selfName = selfName
         self.callKitOption = callKitOption
         self.meetingSessionConfig = meetingSessionConfig
+        let url = AppConfiguration.url.hasSuffix("/") ? AppConfiguration.url : "\(AppConfiguration.url)/"
+        self.postLogger = PostLogger(name: "SDKEvents", configuration: meetingSessionConfig, url: "\(url)log_meeting_event")
         super.init()
 
         if callKitOption == .incoming {
@@ -244,6 +249,7 @@ class MeetingModel: NSObject {
         audioVideo.addActiveSpeakerObserver(policy: DefaultActiveSpeakerPolicy(),
                                             observer: self)
         audioVideo.addRealtimeDataMessageObserver(topic: "chat", observer: self)
+        audioVideo.addEventAnalyticsObserver(observer: self)
     }
 
     private func removeAudioVideoFacadeObservers() {
@@ -255,6 +261,7 @@ class MeetingModel: NSObject {
         audioVideo.removeDeviceChangeObserver(observer: self)
         audioVideo.removeActiveSpeakerObserver(observer: self)
         audioVideo.removeRealtimeDataMessageObserverFromTopic(topic: "chat")
+        audioVideo.removeEventAnalyticsObserver(observer: self)
     }
 
     private func configureAudioSession() {
@@ -507,7 +514,8 @@ extension MeetingModel: MetricsObserver {
 
 extension MeetingModel: DeviceChangeObserver {
     func audioDeviceDidChange(freshAudioDeviceList: [MediaDevice]) {
-        let deviceLabels: [String] = freshAudioDeviceList.map { device in "* \(device.label)" }
+        let deviceLabels: [String] = freshAudioDeviceList.map { device in "* \(device.label) (\(device.type))" }
+        logger.info(msg: deviceLabels.joined(separator: "\n"))
         notifyHandler?("Device availability changed:\nAvailable Devices:\n\(deviceLabels.joined(separator: "\n"))")
     }
 }
@@ -639,5 +647,41 @@ extension MeetingModel: ActiveSpeakerObserver {
 extension MeetingModel: DataMessageObserver {
     func dataMessageDidReceived(dataMessage: DataMessage) {
         chatModel.addDataMessage(dataMessage: dataMessage)
+    }
+}
+
+extension MeetingModel: EventAnalyticsObserver {
+    func eventDidReceive(name: EventName, attributes: [AnyHashable: Any]) {
+        let jsonData = try? JSONSerialization.data(withJSONObject: [
+            "name": "\(name)",
+            "attributes": toStringKeyDict(attributes.merging(currentMeetingSession.audioVideo.getCommonEventAttributes(),
+                                                             uniquingKeysWith: { (_, newVal) -> Any in
+                newVal
+            }))
+        ], options: [])
+
+        guard let data = jsonData, let msg = String(data: data, encoding: .utf8)  else {
+            logger.info(msg: "Dictionary is not in correct format to be serialized")
+            return
+        }
+        postLogger.info(msg: msg)
+
+        switch name {
+        case .meetingStartSucceeded:
+            logger.info(msg: "Meeting stared on : \(currentMeetingSession.audioVideo.getCommonEventAttributes().toJsonString())")
+        case .meetingEnded, .meetingFailed:
+            logger.info(msg: "\(currentMeetingSession.audioVideo.getMeetingHistory())")
+            postLogger.publishLog()
+        default:
+            break
+        }
+    }
+
+    func toStringKeyDict(_ attributes: [AnyHashable: Any]) -> [String: Any] {
+        var jsonDict = [String: Any]()
+        attributes.forEach { (key, value) in
+            jsonDict[String(describing: key)] = String(describing: value)
+        }
+        return jsonDict
     }
 }

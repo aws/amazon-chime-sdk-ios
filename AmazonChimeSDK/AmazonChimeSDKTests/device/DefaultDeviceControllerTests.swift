@@ -17,15 +17,18 @@ class DefaultDeviceControllerTests: XCTestCase {
     var videoClientControllerMock: VideoClientControllerMock!
     var loggerMock: LoggerMock!
     var defaultDeviceController: DefaultDeviceController!
+    var eventAnalyticsControllerMock: EventAnalyticsControllerMock!
 
     override func setUp() {
         videoClientControllerMock = mock(VideoClientController.self)
+        eventAnalyticsControllerMock = mock(EventAnalyticsController.self)
         loggerMock = mock(Logger.self)
         let route = AVAudioSession.sharedInstance().currentRoute
         audioSessionMock = mock(AudioSession.self)
         given(audioSessionMock.getCurrentRoute()).willReturn(route)
         defaultDeviceController = DefaultDeviceController(audioSession: audioSessionMock,
                                                           videoClientController: videoClientControllerMock,
+                                                          eventAnalyticsController: eventAnalyticsControllerMock,
                                                           logger: loggerMock)
     }
 

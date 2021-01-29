@@ -30,6 +30,7 @@ And review the following guides:
 * [Custom Video Sources, Processors, and Sinks](guides/custom_video.md)
 * [Video Pagination with Active Speaker-Based Policy](guides/video_pagination.md)
 * [Content Share](guides/content_share.md)
+* [Meeting Events](guides/meeting_events.md)
 
 ## Setup
 

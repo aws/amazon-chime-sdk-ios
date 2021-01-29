@@ -13,13 +13,16 @@ import AVFoundation
     let logger: Logger
     let audioSession: AudioSession
     let deviceChangeObservers = ConcurrentMutableSet()
+    let eventAnalyticsController: EventAnalyticsController
 
     public init(audioSession: AudioSession,
                 videoClientController: VideoClientController,
+                eventAnalyticsController: EventAnalyticsController,
                 logger: Logger) {
         self.videoClientController = videoClientController
         self.logger = logger
         self.audioSession = audioSession
+        self.eventAnalyticsController = eventAnalyticsController
         super.init()
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(handleSystemAudioChange),
@@ -53,6 +56,7 @@ import AVFoundation
             } else {
                 try audioSession.setPreferredInput(mediaDevice.port)
             }
+            eventAnalyticsController.pushHistory(historyEventName: .audioInputSelected)
         } catch {
             logger.error(msg: "Error on setting audio input device: \(error.localizedDescription)")
         }

@@ -16,6 +16,9 @@ import Foundation
     /// The id of the meeting the session is joining.
     public let meetingId: String
 
+    /// The external id of the meeting the session is joining. See https://docs.aws.amazon.com/chime/latest/APIReference/API_CreateMeeting.html#API_CreateMeeting_RequestSyntax for more details
+    public let externalMeetingId: String
+
     /// The credentials used to authenticate the session.
     public let credentials: MeetingSessionCredentials
 
@@ -32,10 +35,12 @@ import Foundation
     }
 
     public init(meetingId: String,
+                externalMeetingId: String,
                 credentials: MeetingSessionCredentials,
                 urls: MeetingSessionURLs,
                 urlRewriter: @escaping URLRewriter) {
         self.meetingId = meetingId
+        self.externalMeetingId = externalMeetingId
         self.credentials = credentials
         self.urls = urls
         self.urlRewriter = urlRewriter
@@ -45,6 +50,7 @@ import Foundation
                 createAttendeeResponse: CreateAttendeeResponse,
                 urlRewriter: @escaping URLRewriter) {
         self.meetingId = createMeetingResponse.meeting.meetingId
+        self.externalMeetingId = createMeetingResponse.meeting.externalMeetingId
         self.credentials = MeetingSessionCredentials(attendeeId: createAttendeeResponse.attendee.attendeeId,
                                                      externalUserId: createAttendeeResponse.attendee.externalUserId,
                                                      joinToken: createAttendeeResponse.attendee.joinToken)

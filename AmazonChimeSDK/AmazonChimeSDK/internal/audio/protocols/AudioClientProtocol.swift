@@ -43,6 +43,8 @@ import Foundation
     func isBliteNSSelected() -> Bool
 
     func setBliteNSSelected(_ bliteSelected: Bool) -> Int
+
+    var delegate: AudioClientDelegate! { get set }
 }
 
 extension AudioClient: AudioClientProtocol {}

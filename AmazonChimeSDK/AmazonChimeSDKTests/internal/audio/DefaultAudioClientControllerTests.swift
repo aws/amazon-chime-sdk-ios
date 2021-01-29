@@ -18,6 +18,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
     var audioClientObserverMock: AudioClientObserverMock!
     var audioSessionMock: AudioSessionMock!
     var audioLockMock: AudioLockMock!
+    var eventAnalyticsControllerMock: EventAnalyticsControllerMock!
+    var meetingStatsCollectorMock: MeetingStatsCollectorMock!
 
     var defaultAudioClientController: DefaultAudioClientController!
 
@@ -28,10 +30,17 @@ class DefaultAudioClientControllerTests: CommonTestCase {
         audioClientObserverMock = mock(AudioClientObserver.self)
         audioSessionMock = mock(AudioSession.self)
         audioLockMock = mock(AudioLock.self)
+        eventAnalyticsControllerMock = mock(EventAnalyticsController.self)
+        meetingStatsCollectorMock = mock(MeetingStatsCollector.self)
+
+        given(meetingStatsCollectorMock.getMeetingStats()).will { return [AnyHashable: Any]() }
+
         defaultAudioClientController = DefaultAudioClientController(audioClient: audioClientMock,
                                                                     audioClientObserver: audioClientObserverMock,
                                                                     audioSession: audioSessionMock,
-                                                                    audioClientLock: audioLockMock)
+                                                                    audioClientLock: audioLockMock,
+                                                                    eventAnalyticsController: eventAnalyticsControllerMock,
+                                                                    meetingStatsCollector: meetingStatsCollectorMock)
     }
 
     func testSetMute_stateInitialized() {
@@ -74,6 +83,22 @@ class DefaultAudioClientControllerTests: CommonTestCase {
         verify(audioLockMock.unlock()).wasCalled()
     }
 
+    func testStop_stoppedOk() {
+        DefaultAudioClientController.state = .started
+        given(audioClientMock.stopSession()).willReturn(Int(AUDIO_CLIENT_OK.rawValue))
+
+        defaultAudioClientController.stop()
+
+        let expect = eventually {
+            verify(audioLockMock.lock()).wasCalled()
+            verify(audioLockMock.unlock()).wasCalled()
+            verify(eventAnalyticsControllerMock.publishEvent(name: .meetingEnded, attributes: any())).wasCalled()
+            verify(meetingStatsCollectorMock.resetMeetingStats()).wasCalled()
+        }
+
+        wait(for: [expect], timeout: 1.0)
+    }
+
     func testStart_startedOk() {
         DefaultAudioClientController.state = .initialized
         given(audioSessionMock.getRecordPermission()).willReturn(.granted)
@@ -106,6 +131,7 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                             sessionToken: self.joinToken,
                                             audioWsUrl: self.audioFallbackUrl,
                                             callKitEnabled: false)).wasCalled()
+        verify(eventAnalyticsControllerMock.publishEvent(name: .meetingStartRequested)).wasCalled()
         XCTAssertEqual(.started, DefaultAudioClientController.state)
         verify(audioLockMock.unlock()).wasCalled()
     }

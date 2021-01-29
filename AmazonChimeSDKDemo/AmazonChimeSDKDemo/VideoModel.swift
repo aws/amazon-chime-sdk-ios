@@ -19,14 +19,16 @@ class VideoModel: NSObject {
     private var remoteVideoTileStates: [(Int, VideoTileState)] = []
     private var userPausedVideoTileIds: Set<Int> = Set()
     private let audioVideoFacade: AudioVideoFacade
+    let customSource: DefaultCameraCaptureSource
 
     var videoUpdatedHandler: (() -> Void)?
     var localVideoUpdatedHandler: (() -> Void)?
     let logger = ConsoleLogger(name: "VideoModel")
-    let customSource = DefaultCameraCaptureSource(logger: ConsoleLogger(name: "CustomCameraSource"))
 
-    init(audioVideoFacade: AudioVideoFacade) {
+    init(audioVideoFacade: AudioVideoFacade, eventAnalyticsController: EventAnalyticsController) {
         self.audioVideoFacade = audioVideoFacade
+        self.customSource = DefaultCameraCaptureSource(logger: ConsoleLogger(name: "CustomCameraSource"))
+        self.customSource.setEventAnalyticsController(eventAnalyticsController: eventAnalyticsController)
         super.init()
     }
 

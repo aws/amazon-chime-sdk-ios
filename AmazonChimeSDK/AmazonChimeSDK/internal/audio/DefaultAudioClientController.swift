@@ -20,16 +20,21 @@ class DefaultAudioClientController: NSObject {
     private let defaultMicAndSpeaker = false
     private let defaultPort = 0
     private let defaultPresenter = true
+    private let eventAnalyticsController: EventAnalyticsController
+    private let meetingStatsCollector: MeetingStatsCollector
 
     init(audioClient: AudioClientProtocol,
          audioClientObserver: AudioClientObserver,
          audioSession: AudioSession,
-         audioClientLock: AudioLock) {
+         audioClientLock: AudioLock,
+         eventAnalyticsController: EventAnalyticsController,
+         meetingStatsCollector: MeetingStatsCollector) {
         self.audioClient = audioClient
         self.audioClientObserver = audioClientObserver
         self.audioSession = audioSession
         audioLock = audioClientLock
-
+        self.eventAnalyticsController = eventAnalyticsController
+        self.meetingStatsCollector = meetingStatsCollector
         super.init()
     }
 }
@@ -68,6 +73,7 @@ extension DefaultAudioClientController: AudioClientController {
         audioClientObserver.notifyAudioClientObserver { (observer: AudioVideoObserver) in
             observer.audioSessionDidStartConnecting(reconnecting: false)
         }
+        eventAnalyticsController.publishEvent(name: .meetingStartRequested)
 
         let status = audioClient.startSession(host,
                                               basePort: port,
@@ -82,6 +88,7 @@ extension DefaultAudioClientController: AudioClientController {
         if status == AUDIO_CLIENT_OK {
             Self.state = .started
         } else {
+            eventAnalyticsController.publishEvent(name: .meetingStartFailed)
             throw MediaError.audioFailedToStart
         }
     }
@@ -99,12 +106,19 @@ extension DefaultAudioClientController: AudioClientController {
                 rawValue: UInt32(audioClientStatusCode)
             )
             self.audioLock.unlock()
+            self.notifyStop()
             self.audioClientObserver.notifyAudioClientObserver { (observer: AudioVideoObserver) in
                 observer.audioSessionDidStopWithStatus(
                     sessionStatus: MeetingSessionStatus(statusCode: meetingSessionStatusCode)
                 )
             }
         }
+    }
+
+    private func notifyStop() {
+        eventAnalyticsController.publishEvent(name: .meetingEnded,
+                                              attributes: [EventAttributeName.meetingStatus: MeetingSessionStatusCode.ok])
+        meetingStatsCollector.resetMeetingStats()
     }
 
     func setVoiceFocusEnabled(enabled: Bool) -> Bool {
