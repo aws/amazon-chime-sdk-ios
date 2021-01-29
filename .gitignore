@@ -2,6 +2,8 @@
 xcuserdata
 AmazonChimeSDKMedia.framework
 AmazonChimeSDK.framework
+AmazonChimeSDKMedia.xcframework
+AmazonChimeSDK.xcframework
 MockingbirdMocks
 MockingbirdCache
 build
