@@ -87,7 +87,13 @@
                 <a href="../Classes/DefaultDeviceController.html">DefaultDeviceController</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/DefaultEventAnalyticsController.html">DefaultEventAnalyticsController</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/DefaultMeetingSession.html">DefaultMeetingSession</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultMeetingStatsCollector.html">DefaultMeetingStatsCollector</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/DefaultModality.html">DefaultModality</a>
@@ -121,6 +127,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/Meeting.html">Meeting</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MeetingHistoryEvent.html">MeetingHistoryEvent</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/MeetingSessionConfiguration.html">MeetingSessionConfiguration</a>
@@ -182,6 +191,12 @@
                 <a href="../Enums/ContentShareStatusCode.html">ContentShareStatusCode</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Enums/EventAttributeName.html">EventAttributeName</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/EventName.html">EventName</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Enums/LogLevel.html">LogLevel</a>
               </li>
               <li class="nav-group-task">
@@ -189,6 +204,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/MediaError.html">MediaError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MeetingHistoryEventName.html">MeetingHistoryEventName</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/MeetingSessionStatusCode.html">MeetingSessionStatusCode</a>
@@ -233,6 +251,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/CMSampleBuffer.html">CMSampleBuffer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Dictionary.html">Dictionary</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSDictionary.html">NSDictionary</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions.html#/c:objc(cs)NSLock">NSLock</a>
@@ -306,10 +330,22 @@
                 <a href="../Protocols/DeviceController.html">DeviceController</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols/EventAnalyticsController.html">EventAnalyticsController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/EventAnalyticsFacade.html">EventAnalyticsFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/EventAnalyticsObserver.html">EventAnalyticsObserver</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/Logger.html">Logger</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/MeetingSession.html">MeetingSession</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/MeetingStatsCollector.html">MeetingStatsCollector</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/MetricsObserver.html">MetricsObserver</a>
@@ -388,9 +424,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AmazonChimeSDK@objc(cs)DefaultDeviceController(im)initWithAudioSession:videoClientController:logger:"></a>
-                    <a name="//apple_ref/swift/Method/init(audioSession:videoClientController:logger:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)DefaultDeviceController(im)initWithAudioSession:videoClientController:logger:">init(audioSession:<wbr>videoClientController:<wbr>logger:<wbr>)</a>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)DefaultDeviceController(im)initWithAudioSession:videoClientController:eventAnalyticsController:logger:"></a>
+                    <a name="//apple_ref/swift/Method/init(audioSession:videoClientController:eventAnalyticsController:logger:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)DefaultDeviceController(im)initWithAudioSession:videoClientController:eventAnalyticsController:logger:">init(audioSession:<wbr>videoClientController:<wbr>eventAnalyticsController:<wbr>logger:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -406,6 +442,7 @@
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">audioSession</span><span class="p">:</span> <span class="kt"><a href="../Protocols/AudioSession.html">AudioSession</a></span><span class="p">,</span>
             <span class="nv">videoClientController</span><span class="p">:</span> <span class="kt"><a href="../Protocols/VideoClientController.html">VideoClientController</a></span><span class="p">,</span>
+            <span class="nv">eventAnalyticsController</span><span class="p">:</span> <span class="kt"><a href="../Protocols/EventAnalyticsController.html">EventAnalyticsController</a></span><span class="p">,</span>
             <span class="nv">logger</span><span class="p">:</span> <span class="kt"><a href="../Protocols/Logger.html">Logger</a></span><span class="p">)</span></code></pre>
 
                         </div>
@@ -600,7 +637,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2021 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2021-01-21)</p>
+          <p>&copy; 2021 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2021-02-04)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

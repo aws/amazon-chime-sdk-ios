@@ -87,7 +87,13 @@
                 <a href="Classes/DefaultDeviceController.html">DefaultDeviceController</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/DefaultEventAnalyticsController.html">DefaultEventAnalyticsController</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/DefaultMeetingSession.html">DefaultMeetingSession</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/DefaultMeetingStatsCollector.html">DefaultMeetingStatsCollector</a>
               </li>
               <li class="nav-group-task">
                 <a href="Classes/DefaultModality.html">DefaultModality</a>
@@ -121,6 +127,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Classes/Meeting.html">Meeting</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MeetingHistoryEvent.html">MeetingHistoryEvent</a>
               </li>
               <li class="nav-group-task">
                 <a href="Classes/MeetingSessionConfiguration.html">MeetingSessionConfiguration</a>
@@ -182,6 +191,12 @@
                 <a href="Enums/ContentShareStatusCode.html">ContentShareStatusCode</a>
               </li>
               <li class="nav-group-task">
+                <a href="Enums/EventAttributeName.html">EventAttributeName</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/EventName.html">EventName</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Enums/LogLevel.html">LogLevel</a>
               </li>
               <li class="nav-group-task">
@@ -189,6 +204,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Enums/MediaError.html">MediaError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/MeetingHistoryEventName.html">MeetingHistoryEventName</a>
               </li>
               <li class="nav-group-task">
                 <a href="Enums/MeetingSessionStatusCode.html">MeetingSessionStatusCode</a>
@@ -233,6 +251,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="Extensions/CMSampleBuffer.html">CMSampleBuffer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/Dictionary.html">Dictionary</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSDictionary.html">NSDictionary</a>
               </li>
               <li class="nav-group-task">
                 <a href="Extensions.html#/c:objc(cs)NSLock">NSLock</a>
@@ -306,10 +330,22 @@
                 <a href="Protocols/DeviceController.html">DeviceController</a>
               </li>
               <li class="nav-group-task">
+                <a href="Protocols/EventAnalyticsController.html">EventAnalyticsController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/EventAnalyticsFacade.html">EventAnalyticsFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/EventAnalyticsObserver.html">EventAnalyticsObserver</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Protocols/Logger.html">Logger</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/MeetingSession.html">MeetingSession</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/MeetingStatsCollector.html">MeetingStatsCollector</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/MetricsObserver.html">MetricsObserver</a>
@@ -378,6 +414,62 @@
           <section class="section task-group-section">
             <div class="task-group">
               <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)DefaultEventAnalyticsController"></a>
+                    <a name="//apple_ref/swift/Class/DefaultEventAnalyticsController" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)DefaultEventAnalyticsController">DefaultEventAnalyticsController</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Classes/DefaultEventAnalyticsController.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">DefaultEventAnalyticsController</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt"><a href="Protocols/EventAnalyticsController.html">EventAnalyticsController</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)MeetingHistoryEvent"></a>
+                    <a name="//apple_ref/swift/Class/MeetingHistoryEvent" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)MeetingHistoryEvent">MeetingHistoryEvent</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Classes/MeetingHistoryEvent.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">MeetingHistoryEvent</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
                 <li class="item">
                   <div>
                     <code>
@@ -1077,6 +1169,34 @@ Note that <code><a href="Protocols/VideoCaptureSource.html">VideoCaptureSource</
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)DefaultMeetingStatsCollector"></a>
+                    <a name="//apple_ref/swift/Class/DefaultMeetingStatsCollector" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)DefaultMeetingStatsCollector">DefaultMeetingStatsCollector</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Classes/DefaultMeetingStatsCollector.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">DefaultMeetingStatsCollector</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt"><a href="Protocols/MeetingStatsCollector.html">MeetingStatsCollector</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(cs)DefaultContentShareVideoClientController"></a>
                     <a name="//apple_ref/swift/Class/DefaultContentShareVideoClientController" class="dashAnchor"></a>
                     <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)DefaultContentShareVideoClientController">DefaultContentShareVideoClientController</a>
@@ -1647,7 +1767,7 @@ of the participant.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2021 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2021-01-21)</p>
+          <p>&copy; 2021 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2021-02-04)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
