@@ -1,4 +1,4 @@
-## Unreleased
+## [0.15.0] - 2021-02-04
 
 ### Added
 * Added support for XCFramework. AmazonChimeSDK and AmazonChimeSDKMedia binaries now contain .xcframework format as well. See `README.md` for updated Setup instructions.

@@ -87,7 +87,13 @@
                 <a href="Classes/DefaultDeviceController.html">DefaultDeviceController</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/DefaultEventAnalyticsController.html">DefaultEventAnalyticsController</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/DefaultMeetingSession.html">DefaultMeetingSession</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/DefaultMeetingStatsCollector.html">DefaultMeetingStatsCollector</a>
               </li>
               <li class="nav-group-task">
                 <a href="Classes/DefaultModality.html">DefaultModality</a>
@@ -121,6 +127,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Classes/Meeting.html">Meeting</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/MeetingHistoryEvent.html">MeetingHistoryEvent</a>
               </li>
               <li class="nav-group-task">
                 <a href="Classes/MeetingSessionConfiguration.html">MeetingSessionConfiguration</a>
@@ -182,6 +191,12 @@
                 <a href="Enums/ContentShareStatusCode.html">ContentShareStatusCode</a>
               </li>
               <li class="nav-group-task">
+                <a href="Enums/EventAttributeName.html">EventAttributeName</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/EventName.html">EventName</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Enums/LogLevel.html">LogLevel</a>
               </li>
               <li class="nav-group-task">
@@ -189,6 +204,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Enums/MediaError.html">MediaError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/MeetingHistoryEventName.html">MeetingHistoryEventName</a>
               </li>
               <li class="nav-group-task">
                 <a href="Enums/MeetingSessionStatusCode.html">MeetingSessionStatusCode</a>
@@ -233,6 +251,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="Extensions/CMSampleBuffer.html">CMSampleBuffer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/Dictionary.html">Dictionary</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/NSDictionary.html">NSDictionary</a>
               </li>
               <li class="nav-group-task">
                 <a href="Extensions.html#/c:objc(cs)NSLock">NSLock</a>
@@ -306,10 +330,22 @@
                 <a href="Protocols/DeviceController.html">DeviceController</a>
               </li>
               <li class="nav-group-task">
+                <a href="Protocols/EventAnalyticsController.html">EventAnalyticsController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/EventAnalyticsFacade.html">EventAnalyticsFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/EventAnalyticsObserver.html">EventAnalyticsObserver</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Protocols/Logger.html">Logger</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/MeetingSession.html">MeetingSession</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/MeetingStatsCollector.html">MeetingStatsCollector</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/MetricsObserver.html">MetricsObserver</a>
@@ -381,6 +417,94 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)EventAnalyticsController"></a>
+                    <a name="//apple_ref/swift/Protocol/EventAnalyticsController" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)EventAnalyticsController">EventAnalyticsController</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>EventAnalyticsController</code> keeps track of events and notifies <code><a href="Protocols/EventAnalyticsObserver.html">EventAnalyticsObserver</a></code>.
+An event describes the success and failure conditions for the meeting session.</p>
+
+                        <a href="Protocols/EventAnalyticsController.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">EventAnalyticsController</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)EventAnalyticsFacade"></a>
+                    <a name="//apple_ref/swift/Protocol/EventAnalyticsFacade" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)EventAnalyticsFacade">EventAnalyticsFacade</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>EventAnalyticsFacade</code> exposes event analytics related function to builders</p>
+
+                        <a href="Protocols/EventAnalyticsFacade.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">EventAnalyticsFacade</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)EventAnalyticsObserver"></a>
+                    <a name="//apple_ref/swift/Protocol/EventAnalyticsObserver" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)EventAnalyticsObserver">EventAnalyticsObserver</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>EventAnalyticsObserver</code> handles events regarding to analytics.</p>
+
+                        <a href="Protocols/EventAnalyticsObserver.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">EventAnalyticsObserver</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade"></a>
                     <a name="//apple_ref/swift/Protocol/AudioVideoControllerFacade" class="dashAnchor"></a>
                     <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade">AudioVideoControllerFacade</a>
@@ -428,7 +552,11 @@
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">@objc</span>
 <span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">AudioVideoFacade</span><span class="p">:</span> <span class="kt"><a href="Protocols/AudioVideoControllerFacade.html">AudioVideoControllerFacade</a></span><span class="p">,</span> <span class="kt"><a href="Protocols/RealtimeControllerFacade.html">RealtimeControllerFacade</a></span><span class="p">,</span>
-    <span class="kt"><a href="Protocols/DeviceController.html">DeviceController</a></span><span class="p">,</span> <span class="kt"><a href="Protocols/VideoTileControllerFacade.html">VideoTileControllerFacade</a></span><span class="p">,</span> <span class="kt"><a href="Protocols/ActiveSpeakerDetectorFacade.html">ActiveSpeakerDetectorFacade</a></span><span class="p">,</span> <span class="kt"><a href="Protocols/ContentShareController.html">ContentShareController</a></span></code></pre>
+    <span class="kt"><a href="Protocols/DeviceController.html">DeviceController</a></span><span class="p">,</span>
+    <span class="kt"><a href="Protocols/VideoTileControllerFacade.html">VideoTileControllerFacade</a></span><span class="p">,</span>
+    <span class="kt"><a href="Protocols/ActiveSpeakerDetectorFacade.html">ActiveSpeakerDetectorFacade</a></span><span class="p">,</span>
+    <span class="kt"><a href="Protocols/ContentShareController.html">ContentShareController</a></span><span class="p">,</span>
+    <span class="kt"><a href="Protocols/EventAnalyticsFacade.html">EventAnalyticsFacade</a></span></code></pre>
 
                         </div>
                       </div>
@@ -1064,6 +1192,34 @@ Changes in device availability are broadcast to any registered
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)MeetingStatsCollector"></a>
+                    <a name="//apple_ref/swift/Protocol/MeetingStatsCollector" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)MeetingStatsCollector">MeetingStatsCollector</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Protocols/MeetingStatsCollector.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">MeetingStatsCollector</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioClientController"></a>
                     <a name="//apple_ref/swift/Protocol/AudioClientController" class="dashAnchor"></a>
                     <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioClientController">AudioClientController</a>
@@ -1473,7 +1629,7 @@ volume/mute/signal/attendee callbacks that can be used to render in the UI.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2021 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2021-01-21)</p>
+          <p>&copy; 2021 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2021-02-04)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>

@@ -87,7 +87,13 @@
                 <a href="../Classes/DefaultDeviceController.html">DefaultDeviceController</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/DefaultEventAnalyticsController.html">DefaultEventAnalyticsController</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/DefaultMeetingSession.html">DefaultMeetingSession</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DefaultMeetingStatsCollector.html">DefaultMeetingStatsCollector</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/DefaultModality.html">DefaultModality</a>
@@ -121,6 +127,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/Meeting.html">Meeting</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MeetingHistoryEvent.html">MeetingHistoryEvent</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/MeetingSessionConfiguration.html">MeetingSessionConfiguration</a>
@@ -182,6 +191,12 @@
                 <a href="../Enums/ContentShareStatusCode.html">ContentShareStatusCode</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Enums/EventAttributeName.html">EventAttributeName</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/EventName.html">EventName</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Enums/LogLevel.html">LogLevel</a>
               </li>
               <li class="nav-group-task">
@@ -189,6 +204,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/MediaError.html">MediaError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MeetingHistoryEventName.html">MeetingHistoryEventName</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/MeetingSessionStatusCode.html">MeetingSessionStatusCode</a>
@@ -233,6 +251,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions/CMSampleBuffer.html">CMSampleBuffer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/Dictionary.html">Dictionary</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/NSDictionary.html">NSDictionary</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Extensions.html#/c:objc(cs)NSLock">NSLock</a>
@@ -306,10 +330,22 @@
                 <a href="../Protocols/DeviceController.html">DeviceController</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols/EventAnalyticsController.html">EventAnalyticsController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/EventAnalyticsFacade.html">EventAnalyticsFacade</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/EventAnalyticsObserver.html">EventAnalyticsObserver</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/Logger.html">Logger</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/MeetingSession.html">MeetingSession</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/MeetingStatsCollector.html">MeetingStatsCollector</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/MetricsObserver.html">MetricsObserver</a>
@@ -410,6 +446,33 @@ rewrite urls given to new urls.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">meetingId</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)MeetingSessionConfiguration(py)externalMeetingId"></a>
+                    <a name="//apple_ref/swift/Property/externalMeetingId" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)MeetingSessionConfiguration(py)externalMeetingId">externalMeetingId</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The external id of the meeting the session is joining. See <a href="https://docs.aws.amazon.com/chime/latest/APIReference/API_CreateMeeting.html#API_CreateMeeting_RequestSyntax">https://docs.aws.amazon.com/chime/latest/APIReference/API_CreateMeeting.html#API_CreateMeeting_RequestSyntax</a> for more details</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">externalMeetingId</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
@@ -526,9 +589,9 @@ rewrite urls given to new urls.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AmazonChimeSDK@objc(cs)MeetingSessionConfiguration(im)initWithMeetingId:credentials:urls:urlRewriter:"></a>
-                    <a name="//apple_ref/swift/Method/init(meetingId:credentials:urls:urlRewriter:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)MeetingSessionConfiguration(im)initWithMeetingId:credentials:urls:urlRewriter:">init(meetingId:<wbr>credentials:<wbr>urls:<wbr>urlRewriter:<wbr>)</a>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)MeetingSessionConfiguration(im)initWithMeetingId:externalMeetingId:credentials:urls:urlRewriter:"></a>
+                    <a name="//apple_ref/swift/Method/init(meetingId:externalMeetingId:credentials:urls:urlRewriter:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)MeetingSessionConfiguration(im)initWithMeetingId:externalMeetingId:credentials:urls:urlRewriter:">init(meetingId:<wbr>externalMeetingId:<wbr>credentials:<wbr>urls:<wbr>urlRewriter:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -543,6 +606,7 @@ rewrite urls given to new urls.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">meetingId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+            <span class="nv">externalMeetingId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
             <span class="nv">credentials</span><span class="p">:</span> <span class="kt"><a href="../Classes/MeetingSessionCredentials.html">MeetingSessionCredentials</a></span><span class="p">,</span>
             <span class="nv">urls</span><span class="p">:</span> <span class="kt"><a href="../Classes/MeetingSessionURLs.html">MeetingSessionURLs</a></span><span class="p">,</span>
             <span class="nv">urlRewriter</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:14AmazonChimeSDK11URLRewritera">URLRewriter</a></span><span class="p">)</span></code></pre>
@@ -585,7 +649,7 @@ rewrite urls given to new urls.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2021 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2021-01-21)</p>
+          <p>&copy; 2021 <a class="link" href="" target="_blank" rel="external">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2021-02-04)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
