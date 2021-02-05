@@ -18,8 +18,11 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var joinWithoutCallKitButton: UIButton!
     @IBOutlet var joinAsIncomingCallButton: UIButton!
     @IBOutlet var joinAsOutgoingCallButton: UIButton!
+    @IBOutlet var testSettingsButton: UIButton!
 
     private let toastDisplayDuration = 2.0
+    private let meetingPresenter = MeetingPresenter.shared()
+    var model: TestSettingsModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +31,7 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
 
         setupHideKeyboardOnTap()
         versionLabel.text = "amazon-chime-sdk-ios@\(Versioning.sdkVersion())"
+        model = model ?? TestSettingsModel()
     }
 
     override func viewWillAppear(_: Bool) {
@@ -46,6 +50,13 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
 
     @IBAction func joinAsOutgoingCallButton(_: UIButton) {
         joinMeeting(callKitOption: .outgoing)
+    }
+    
+    @IBAction func testSettingsButtonClicked (_: UIButton) {
+        guard let model = model else {
+            return
+        }
+        meetingPresenter.showTestSettingsView(model: model)
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -71,8 +82,9 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
             }
             return
         }
+        let endpointUrl = model?.endpointUrl ?? ""
 
-        MeetingModule.shared().prepareMeeting(meetingId: meetingId, selfName: name, option: callKitOption) { success in
+        MeetingModule.shared().prepareMeeting(meetingId: meetingId, selfName: name, option: callKitOption, endpointUrl: endpointUrl) { success in
             DispatchQueue.main.async {
                 if !success {
                     self.view.hideToast()
