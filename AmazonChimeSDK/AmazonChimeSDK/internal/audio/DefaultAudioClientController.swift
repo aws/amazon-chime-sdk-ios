@@ -74,7 +74,7 @@ extension DefaultAudioClientController: AudioClientController {
             observer.audioSessionDidStartConnecting(reconnecting: false)
         }
         eventAnalyticsController.publishEvent(name: .meetingStartRequested)
-
+        let appInfo = DeviceUtils.getAppInfo()
         let status = audioClient.startSession(host,
                                               basePort: port,
                                               callId: meetingId,
@@ -84,7 +84,9 @@ extension DefaultAudioClientController: AudioClientController {
                                               isPresenter: defaultPresenter,
                                               sessionToken: joinToken,
                                               audioWsUrl: audioFallbackUrl,
-                                              callKitEnabled: callKitEnabled)
+                                              callKitEnabled: callKitEnabled,
+                                              appInfo: appInfo)
+
         if status == AUDIO_CLIENT_OK {
             Self.state = .started
         } else {
