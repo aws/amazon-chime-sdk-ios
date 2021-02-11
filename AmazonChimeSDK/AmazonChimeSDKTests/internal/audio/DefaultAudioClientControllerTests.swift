@@ -111,7 +111,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                            isPresenter: any(),
                                            sessionToken: any(),
                                            audioWsUrl: any(),
-                                           callKitEnabled: any())).willReturn(AUDIO_CLIENT_OK)
+                                           callKitEnabled: any(),
+                                           appInfo: any())).willReturn(AUDIO_CLIENT_OK)
 
         XCTAssertNoThrow(try defaultAudioClientController.start(audioFallbackUrl: audioFallbackUrl,
                                                                 audioHostUrl: audioHostUrlWithPort,
@@ -130,7 +131,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                             isPresenter: true,
                                             sessionToken: self.joinToken,
                                             audioWsUrl: self.audioFallbackUrl,
-                                            callKitEnabled: false)).wasCalled()
+                                            callKitEnabled: false,
+                                            appInfo: any())).wasCalled()
         verify(eventAnalyticsControllerMock.publishEvent(name: .meetingStartRequested)).wasCalled()
         XCTAssertEqual(.started, DefaultAudioClientController.state)
         verify(audioLockMock.unlock()).wasCalled()
@@ -148,7 +150,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                            isPresenter: any(),
                                            sessionToken: any(),
                                            audioWsUrl: any(),
-                                           callKitEnabled: any())).willReturn(AUDIO_CLIENT_ERR)
+                                           callKitEnabled: any(),
+                                           appInfo: any())).willReturn(AUDIO_CLIENT_ERR)
 
         XCTAssertThrowsError(try defaultAudioClientController.start(audioFallbackUrl: audioFallbackUrl,
                                                                     audioHostUrl: audioHostUrlWithPort,
@@ -167,7 +170,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                             isPresenter: true,
                                             sessionToken: self.joinToken,
                                             audioWsUrl: self.audioFallbackUrl,
-                                            callKitEnabled: false)).wasCalled()
+                                            callKitEnabled: false,
+                                            appInfo: any())).wasCalled()
         XCTAssertEqual(.initialized, DefaultAudioClientController.state)
         verify(audioLockMock.unlock()).wasCalled()
     }

@@ -20,6 +20,18 @@ import Foundation
                       isPresenter presenter: Bool,
                       sessionToken tokenString: String!,
                       audioWsUrl: String!,
+                      callKitEnabled: Bool,
+                      appInfo: AppInfo!) -> audio_client_status_t
+
+    func startSession(_ host: String!,
+                      basePort port: Int,
+                      callId: String!,
+                      profileId: String!,
+                      microphoneMute mic_mute: Bool,
+                      speakerMute spk_mute: Bool,
+                      isPresenter presenter: Bool,
+                      sessionToken tokenString: String!,
+                      audioWsUrl: String!,
                       callKitEnabled: Bool) -> audio_client_status_t
 
     func stopSession() -> Int

@@ -1,3 +1,7 @@
+## Unreleased
+### Added
+* Pass SDK metadata to Media AudioClient for metrics.
+
 ## [0.15.0] - 2021-02-04
 
 ### Added

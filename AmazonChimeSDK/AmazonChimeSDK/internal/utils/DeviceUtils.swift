@@ -31,18 +31,35 @@ import UIKit
     }
 
     static public func getDetailedInfo() -> app_detailed_info_t {
+        let info = getAppInfo()
         var appInfo = app_detailed_info_t.init()
 
-        appInfo.platform_version = UnsafePointer<Int8>((UIDevice.current.systemVersion as NSString).utf8String)
-        if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] {
-            appInfo.app_version_name = UnsafePointer<Int8>(("\(osName) \(appVersion)" as NSString).utf8String)
-            appInfo.app_version_code = UnsafePointer<Int8>(("\(appVersion)" as NSString).utf8String)
+        if (Bundle.main.infoDictionary?["CFBundleShortVersionString"]) != nil {
+            appInfo.app_version_name = UnsafePointer<Int8>((info.appVersionName as NSString).utf8String)
+            appInfo.app_version_code = UnsafePointer<Int8>((info.appVersionCode as NSString).utf8String)
         }
-        appInfo.device_model = UnsafePointer<Int8>((getModelInfo() as NSString).utf8String)
-        appInfo.platform_name = UnsafePointer<Int8>((osName as NSString).utf8String)
-        appInfo.device_make = UnsafePointer<Int8>(("apple" as NSString).utf8String)
-        appInfo.client_source = UnsafePointer<Int8>(("amazon-chime-sdk" as NSString).utf8String)
-        appInfo.chime_sdk_version = UnsafePointer<Int8>((Versioning.sdkVersion() as NSString).utf8String)
+        appInfo.device_make = UnsafePointer<Int8>((info.deviceMake as NSString).utf8String)
+        appInfo.device_model = UnsafePointer<Int8>((info.deviceModel as NSString).utf8String)
+        appInfo.platform_name = UnsafePointer<Int8>((info.platformName as NSString).utf8String)
+        appInfo.platform_version = UnsafePointer<Int8>((info.platformVersion as NSString).utf8String)
+        appInfo.client_source = UnsafePointer<Int8>((info.clientSource as NSString).utf8String)
+        appInfo.chime_sdk_version = UnsafePointer<Int8>((info.chimeSdkVersion as NSString).utf8String)
+        return appInfo
+    }
+
+    static public func getAppInfo() -> AppInfo {
+        let appInfo = AppInfo()
+
+        appInfo.platformVersion = UIDevice.current.systemVersion
+        if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] {
+            appInfo.appVersionName = "\(osName) \(appVersion)"
+            appInfo.appVersionCode = "\(appVersion)"
+        }
+        appInfo.deviceModel = getModelInfo()
+        appInfo.platformName = osName
+        appInfo.deviceMake = "apple"
+        appInfo.clientSource = "amazon-chime-sdk"
+        appInfo.chimeSdkVersion = Versioning.sdkVersion()
         return appInfo
     }
 
