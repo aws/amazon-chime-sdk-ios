@@ -54,6 +54,7 @@ extension InAppScreenCaptureModel: CaptureSourceObserver {
     func captureDidStop() {
         logger.info(msg: "InAppScreenCaptureSource did stop")
         contentShareController.stopContentShare()
+        inAppScreenCaptureSource?.removeCaptureSourceObserver(observer: self)
     }
 
     func captureDidFail(error: CaptureSourceError) {

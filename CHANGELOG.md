@@ -1,6 +1,17 @@
 ## Unreleased
+
 ### Added
 * Pass SDK metadata to Media AudioClient for metrics.
+
+### Fixed
+* Fixed few memory leaks in the SDK layer.
+  * Fixed a memory leak that occurred stopping meeting with just audio.
+  * Fixed a memory leak that occurred stopping meeting when local video was on.
+  * Fixed a memory leak that occurred stopping meeting when content share was on.
+  * `DefaultAudioClientController` takes additional parameter of `ActiveSpeakerDetectorFacade`
+  * **Breaking** `DefaultAudioVideoController` takes additional parameter of `VideoTileController`.
+  * [Demo] Demo application is updated to remove observer or sink it adds.
+  * **Breaking** `DefaultActiveSpeaker` no longer depends on `AudioClientObserver`.
 
 ## [0.15.0] - 2021-02-04
 
@@ -18,6 +29,7 @@
 * Analytics
   * Changed to take `EventAnalyticsController` as an additional parameter of `DefaultAudioClientObserver`, `DefaultAudioClientController` constructor.
   * **Breaking** Changed to take `EventAnalyticsController` as an additional parameter of `DefaultAudioVideoFacade` constructor.
+
 ## Fixed
 * Fixed data message conversion that sometimes does not handle null terminator when converting from string to c-string. (Issue #217)
 

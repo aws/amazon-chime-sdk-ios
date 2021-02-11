@@ -57,6 +57,31 @@ class VideoModel: NSObject {
         }
     }
 
+    var isEnded = false {
+        didSet(isEnded) {
+            if isEnded {
+                for tile in remoteVideoTileStates {
+                    audioVideoFacade.unbindVideoView(tileId: tile.0)
+                }
+                if isLocalVideoActive, let selfTile = selfVideoTileState {
+                    audioVideoFacade.unbindVideoView(tileId: selfTile.tileId)
+                }
+
+                if isUsingExternalVideoSource {
+                    self.customSource.removeVideoSink(sink: self.coreImageVideoProcessor)
+                    if isUsingMetalVideoProcessor, let metalProcessor = self.metalVideoProcessor {
+                        self.customSource.removeVideoSink(sink: metalProcessor)
+                    }
+                }
+
+                isLocalVideoActive = false
+
+                audioVideoFacade.stopRemoteVideo()
+                customSource.torchEnabled = false
+            }
+        }
+    }
+
     var isFrontCameraActive: Bool {
         // See comments above isUsingExternalVideoSource
         if let internalCamera = audioVideoFacade.getActiveCamera() {

@@ -17,17 +17,20 @@ import Foundation
     private let audioClientObserver: AudioClientObserver
     private let clientMetricsCollector: ClientMetricsCollector
     private var videoClientController: VideoClientController
+    private let videoTileController: VideoTileController
 
     public init(audioClientController: AudioClientController,
                 audioClientObserver: AudioClientObserver,
                 clientMetricsCollector: ClientMetricsCollector,
                 videoClientController: VideoClientController,
+                videoTileController: VideoTileController,
                 configuration: MeetingSessionConfiguration,
                 logger: Logger) {
         self.audioClientController = audioClientController
         self.audioClientObserver = audioClientObserver
         self.clientMetricsCollector = clientMetricsCollector
         self.videoClientController = videoClientController
+        self.videoTileController = videoTileController
         self.configuration = configuration
         self.logger = logger
     }
@@ -39,16 +42,13 @@ import Foundation
     }
 
     public func start(callKitEnabled: Bool) throws {
-        if let audioClientObserver = audioClientObserver as? DefaultAudioClientObserver {
-            DefaultAudioClient.shared(logger: logger).delegate = audioClientObserver
-        }
-
         try audioClientController.start(audioFallbackUrl: configuration.urls.audioFallbackUrl,
                                         audioHostUrl: configuration.urls.audioHostUrl,
                                         meetingId: configuration.meetingId,
                                         attendeeId: configuration.credentials.attendeeId,
                                         joinToken: configuration.credentials.joinToken,
                                         callKitEnabled: callKitEnabled)
+        videoClientController.subscribeToVideoTileControllerObservers(observer: videoTileController)
         videoClientController.start()
     }
 

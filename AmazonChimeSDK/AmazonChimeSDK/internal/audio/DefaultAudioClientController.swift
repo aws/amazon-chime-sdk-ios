@@ -22,19 +22,25 @@ class DefaultAudioClientController: NSObject {
     private let defaultPresenter = true
     private let eventAnalyticsController: EventAnalyticsController
     private let meetingStatsCollector: MeetingStatsCollector
+    private let activeSpeakerDetector: ActiveSpeakerDetectorFacade
+    private let logger: Logger
 
     init(audioClient: AudioClientProtocol,
          audioClientObserver: AudioClientObserver,
          audioSession: AudioSession,
          audioClientLock: AudioLock,
          eventAnalyticsController: EventAnalyticsController,
-         meetingStatsCollector: MeetingStatsCollector) {
+         meetingStatsCollector: MeetingStatsCollector,
+         activeSpeakerDetector: ActiveSpeakerDetectorFacade,
+         logger: Logger) {
         self.audioClient = audioClient
         self.audioClientObserver = audioClientObserver
         self.audioSession = audioSession
         audioLock = audioClientLock
         self.eventAnalyticsController = eventAnalyticsController
         self.meetingStatsCollector = meetingStatsCollector
+        self.activeSpeakerDetector = activeSpeakerDetector
+        self.logger = logger
         super.init()
     }
 }
@@ -66,6 +72,14 @@ extension DefaultAudioClientController: AudioClientController {
             throw MediaError.illegalState
         }
 
+        if let defaultAudioClientObserver = audioClientObserver as? DefaultAudioClientObserver {
+            DefaultAudioClient.shared(logger: logger).delegate = defaultAudioClientObserver
+        }
+
+        if let observer = activeSpeakerDetector as? RealtimeObserver {
+            audioClientObserver.subscribeToRealTimeEvents(observer: observer)
+        }
+
         let url = audioHostUrl.components(separatedBy: ":")
         let host = url[0]
         let port = url.count >= 2 ? (url[1] as NSString).integerValue - audioPortOffset : defaultPort
@@ -91,6 +105,7 @@ extension DefaultAudioClientController: AudioClientController {
             Self.state = .started
         } else {
             eventAnalyticsController.publishEvent(name: .meetingStartFailed)
+            cleanup()
             throw MediaError.audioFailedToStart
         }
     }
@@ -114,6 +129,7 @@ extension DefaultAudioClientController: AudioClientController {
                     sessionStatus: MeetingSessionStatus(statusCode: meetingSessionStatusCode)
                 )
             }
+            self.cleanup()
         }
     }
 
@@ -137,5 +153,12 @@ extension DefaultAudioClientController: AudioClientController {
         } else {
             return false
         }
+    }
+
+    private func cleanup() {
+        if let observer = self.activeSpeakerDetector as? RealtimeObserver {
+            self.audioClientObserver.unsubscribeFromRealTimeEvents(observer: observer)
+        }
+        DefaultAudioClient.shared(logger: self.logger).delegate = nil
     }
 }

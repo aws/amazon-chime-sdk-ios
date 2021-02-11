@@ -24,19 +24,15 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
     private let scoresTimers = ConcurrentDictionary<String, Scheduler>()
     private var hasBandwidthPriority = false
     private let mostRecentUpdateTimestamp = ConcurrentDictionary<AttendeeInfo, TimeInterval>()
-    private let audioClientObserver: AudioClientObserver
     private let selfAttendeeId: String
     private let policiesAndCallbacks = ConcurrentDictionary<String, (ActiveSpeakerPolicy, DetectorCallback)>()
     private var timer = IntervalScheduler(intervalMs: activityWaitIntervalMs, callback: {})
 
     public init(
-        audioClientObserver: AudioClientObserver,
         selfAttendeeId: String
     ) {
-        self.audioClientObserver = audioClientObserver
         self.selfAttendeeId = selfAttendeeId
         super.init()
-        audioClientObserver.subscribeToRealTimeEvents(observer: self)
 
         timer = IntervalScheduler(
             intervalMs: DefaultActiveSpeakerDetector.activityUpdateIntervalMs,
@@ -58,11 +54,6 @@ typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
             }
         )
         timer.start()
-    }
-
-    deinit {
-        audioClientObserver.unsubscribeFromRealTimeEvents(observer: self)
-        timer.stop()
     }
 
     private func needUpdateActiveSpeakers(attendeeInfo: AttendeeInfo) -> Bool {
