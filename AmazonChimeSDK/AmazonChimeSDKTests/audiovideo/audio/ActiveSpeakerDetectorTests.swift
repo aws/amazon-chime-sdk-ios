@@ -27,9 +27,8 @@ class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeaker
     var attendeesReceived: [AttendeeInfo] = [AttendeeInfo(attendeeId: "", externalUserId: "")]
     var scoreChangeAttendees: [AttendeeInfo: Double] = [AttendeeInfo(attendeeId: "", externalUserId: ""): 0.0]
     var scoreIndex = 0
-    var activeSpeakerDetector = DefaultActiveSpeakerDetector(
-        audioClientObserver: MockAudioClientObserver(), selfAttendeeId: ""
-    )
+    var activeSpeakerDetector = DefaultActiveSpeakerDetector(selfAttendeeId: "")
+
     private let emptyAttendeesReceivedExpectation = XCTestExpectation(
         description: "Is fulfilled when received no attendees in callback")
     private let calculateScoreExpectation = XCTestExpectation(
@@ -60,7 +59,8 @@ class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeaker
         prioritizeBandwidthExpectation.assertForOverFulfill = true
         subscribeToRealTimeEventsExpectation.assertForOverFulfill = true
         unSubscribeFromRealTimeEventsExpectation.assertForOverFulfill = true
-        activeSpeakerDetector = DefaultActiveSpeakerDetector(audioClientObserver: self, selfAttendeeId: "attendee0")
+        activeSpeakerDetector = DefaultActiveSpeakerDetector(selfAttendeeId: "attendee0")
+        self.subscribeToRealTimeEvents(observer: activeSpeakerDetector)
         activeSpeakerDetector.addActiveSpeakerObserver(policy: self, observer: self)
         activeSpeakerDetector.attendeesDidJoin(attendeeInfo: attendees)
     }
