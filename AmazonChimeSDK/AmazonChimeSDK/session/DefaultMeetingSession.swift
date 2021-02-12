@@ -39,12 +39,16 @@ import Foundation
                                                              logger: logger,
                                                              eventAnalyticsController: self.eventAnalyticsController,
                                                              meetingStatsCollector: meetingStatsCollector)
+        let activeSpeakerDetector =
+            DefaultActiveSpeakerDetector(selfAttendeeId: configuration.credentials.attendeeId)
         let audioClientController = DefaultAudioClientController(audioClient: audioClient,
                                                                  audioClientObserver: audioClientObserver,
                                                                  audioSession: audioSession,
                                                                  audioClientLock: audioClientLock,
                                                                  eventAnalyticsController: self.eventAnalyticsController,
-                                                                 meetingStatsCollector: meetingStatsCollector)
+                                                                 meetingStatsCollector: meetingStatsCollector,
+                                                                 activeSpeakerDetector: activeSpeakerDetector, 
+                                                                 logger: logger)
         let videoClientController = DefaultVideoClientController(videoClient: videoClient,
                                                                  clientMetricsCollector: clientMetricsCollector,
                                                                  configuration: configuration,
@@ -54,13 +58,9 @@ import Foundation
             DefaultVideoTileController(videoClientController: videoClientController,
                                        logger: logger,
                                        meetingStatsCollector: meetingStatsCollector)
-        videoClientController.subscribeToVideoTileControllerObservers(observer: videoTileController)
         let realtimeController = DefaultRealtimeController(audioClientController: audioClientController,
                                                            audioClientObserver: audioClientObserver,
                                                            videoClientController: videoClientController)
-        let activeSpeakerDetector =
-            DefaultActiveSpeakerDetector(audioClientObserver: audioClientObserver,
-                                         selfAttendeeId: configuration.credentials.attendeeId)
 
         let contentModality = String(DefaultModality.separator) + String(describing: ModalityType.content)
         let contentShareCredentials = MeetingSessionCredentials(
@@ -85,6 +85,7 @@ import Foundation
                                             audioClientObserver: audioClientObserver,
                                             clientMetricsCollector: clientMetricsCollector,
                                             videoClientController: videoClientController,
+                                            videoTileController: videoTileController,
                                             configuration: configuration,
                                             logger: logger),
                                     realtimeController: realtimeController,

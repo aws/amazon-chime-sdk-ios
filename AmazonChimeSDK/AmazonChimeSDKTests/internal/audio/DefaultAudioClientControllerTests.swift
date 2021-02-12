@@ -18,6 +18,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
     var audioClientObserverMock: AudioClientObserverMock!
     var audioSessionMock: AudioSessionMock!
     var audioLockMock: AudioLockMock!
+    var activeSpeakerMock: ActiveSpeakerDetectorFacadeMock!
+
     var eventAnalyticsControllerMock: EventAnalyticsControllerMock!
     var meetingStatsCollectorMock: MeetingStatsCollectorMock!
 
@@ -32,6 +34,7 @@ class DefaultAudioClientControllerTests: CommonTestCase {
         audioLockMock = mock(AudioLock.self)
         eventAnalyticsControllerMock = mock(EventAnalyticsController.self)
         meetingStatsCollectorMock = mock(MeetingStatsCollector.self)
+        activeSpeakerMock = mock(ActiveSpeakerDetectorFacade.self)
 
         given(meetingStatsCollectorMock.getMeetingStats()).will { return [AnyHashable: Any]() }
 
@@ -40,7 +43,9 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                                     audioSession: audioSessionMock,
                                                                     audioClientLock: audioLockMock,
                                                                     eventAnalyticsController: eventAnalyticsControllerMock,
-                                                                    meetingStatsCollector: meetingStatsCollectorMock)
+                                                                    meetingStatsCollector: meetingStatsCollectorMock,
+                                                                    activeSpeakerDetector: activeSpeakerMock,
+                                                                    logger: loggerMock)
     }
 
     func testSetMute_stateInitialized() {

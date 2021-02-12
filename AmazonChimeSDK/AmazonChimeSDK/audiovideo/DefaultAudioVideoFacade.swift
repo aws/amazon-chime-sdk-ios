@@ -43,6 +43,7 @@ import Foundation
 
     public func start(callKitEnabled: Bool = false) throws {
         try audioVideoController.start(callKitEnabled: callKitEnabled)
+
         trace(name: "start(callKitEnabled: \(callKitEnabled))")
     }
 

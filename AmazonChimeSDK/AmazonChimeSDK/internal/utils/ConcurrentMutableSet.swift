@@ -26,6 +26,12 @@ import Foundation
         defer { lock.unlock() }
         set.remove(object)
     }
+    
+    func removeAll() {
+        lock.lock()
+        defer { lock.unlock() }
+        set.removeAllObjects()
+    }
 
     func contains(_ object: Any) -> Bool {
         return set.contains(object)

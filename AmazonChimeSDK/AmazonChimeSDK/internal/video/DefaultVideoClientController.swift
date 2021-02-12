@@ -71,6 +71,8 @@ class DefaultVideoClientController: NSObject {
 
     private func destroyVideoClient() {
         logger.info(msg: "VideoClient is being destroyed")
+        videoTileControllerObservers.removeAll()
+        videoClient?.delegate = nil
         videoClient = nil
         videoClientState = .uninitialized
     }

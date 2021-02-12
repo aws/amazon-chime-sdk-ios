@@ -16,6 +16,7 @@ class DefaultAudioVideoControllerTests: CommonTestCase {
     var audioClientObserverMock: AudioClientObserverMock!
     var clientMetricsCollectorMock: ClientMetricsCollectorMock!
     var videoClientControllerMock: VideoClientControllerMock!
+    var videoTileControllerMock: VideoTileControllerMock!
     var defaultAudioClientMock: DefaultAudioClientMock!
     var defaultAudioVideoController: DefaultAudioVideoController!
 
@@ -26,11 +27,13 @@ class DefaultAudioVideoControllerTests: CommonTestCase {
         audioClientObserverMock = mock(AudioClientObserver.self)
         clientMetricsCollectorMock = mock(ClientMetricsCollector.self)
         videoClientControllerMock = mock(VideoClientController.self)
+        videoTileControllerMock = mock(VideoTileController.self)
 
         defaultAudioVideoController = DefaultAudioVideoController(audioClientController: audioClientControllerMock,
                                                                   audioClientObserver: audioClientObserverMock,
                                                                   clientMetricsCollector: clientMetricsCollectorMock,
                                                                   videoClientController: videoClientControllerMock,
+                                                                  videoTileController: videoTileControllerMock,
                                                                   configuration: meetingSessionConfigurationMock,
                                                                   logger: loggerMock)
     }

@@ -94,10 +94,10 @@ class MeetingModel: NSObject {
 
     private var isEnded = false {
         didSet {
+            // This will unbind current tiles.
+            videoModel.isEnded = true
             currentMeetingSession.audioVideo.stop()
             screenShareModel.stopLocalSharing()
-            videoModel.customSource.stop()
-            videoModel.customSource.torchEnabled = false
             isEndedHandler?()
         }
     }
