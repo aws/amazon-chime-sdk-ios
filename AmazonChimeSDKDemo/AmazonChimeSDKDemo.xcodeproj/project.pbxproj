@@ -56,6 +56,8 @@
 		C4A690A8255DFF4600F28BC2 /* AmazonChimeSDKDemoBroadcast.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C4A6909F255DFF4600F28BC2 /* AmazonChimeSDKDemoBroadcast.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C4A690AE255E00C100F28BC2 /* AmazonChimeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE38AD7242873FD00B234EC /* AmazonChimeSDK.framework */; };
 		C4D8E1B824A412B6005D9CF7 /* VideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D8E1B724A412B6005D9CF7 /* VideoModel.swift */; };
+		EDB5638925CCFB700096EE85 /* DebugSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB5638825CCFB700096EE85 /* DebugSettingsViewController.swift */; };
+		EDB5638C25CCFEA30096EE85 /* DebugSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB5638B25CCFEA30096EE85 /* DebugSettingsModel.swift */; };
 		F82D50DA23FC9C6C00D8F18C /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D50D923FC9C6C00D8F18C /* AppConfiguration.swift */; };
 		F8AC96232408840D0072EB04 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F8AC96222408840D0072EB04 /* AppDelegate.m */; };
 		F8AC96292408840D0072EB04 /* ViewControllerObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = F8AC96282408840D0072EB04 /* ViewControllerObjC.m */; };
@@ -184,6 +186,8 @@
 		C4B0AC9D258A7C6D00F6F13A /* AmazonChimeSDKDemoRelease.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = AmazonChimeSDKDemoRelease.entitlements; sourceTree = "<group>"; };
 		C4B0AC9F258A7CC100F6F13A /* AmazonChimeSDKDemoBroadcastRelease.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = AmazonChimeSDKDemoBroadcastRelease.entitlements; sourceTree = "<group>"; };
 		C4D8E1B724A412B6005D9CF7 /* VideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoModel.swift; sourceTree = "<group>"; };
+		EDB5638825CCFB700096EE85 /* DebugSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugSettingsViewController.swift; sourceTree = "<group>"; };
+		EDB5638B25CCFEA30096EE85 /* DebugSettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugSettingsModel.swift; sourceTree = "<group>"; };
 		F82D50D923FC9C6C00D8F18C /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		F8AC961F2408840D0072EB04 /* AmazonChimeSDKDemoObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AmazonChimeSDKDemoObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8AC96212408840D0072EB04 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -272,6 +276,7 @@
 				B4FCD85124B9330A00064C9E /* ChatMessageCell.swift */,
 				B4FCD85424B9364900064C9E /* ChatModel.swift */,
 				C4923C0524BE71D800EE866B /* MeetingModule.swift */,
+				EDB5638B25CCFEA30096EE85 /* DebugSettingsModel.swift */,
 				C4923C0924BF62FE00EE866B /* MeetingPresenter.swift */,
 				5A1582BD23C40C9B0099F8FA /* JoiningViewController.swift */,
 				00F372E923D9196E008F7CA7 /* MeetingViewController.swift */,
@@ -281,6 +286,7 @@
 				C4781FD524ABC45800300604 /* CallKitManager.swift */,
 				C43FD3CC24B533EA0080D57E /* Call.swift */,
 				C4632EBC24A57BF8009F8AF5 /* RosterModel.swift */,
+				EDB5638825CCFB700096EE85 /* DebugSettingsViewController.swift */,
 				5A81417723F2300D00560201 /* RosterTableCell.swift */,
 				C4D8E1B724A412B6005D9CF7 /* VideoModel.swift */,
 				5A16BE7924006A2A00ADAE26 /* VideoTileCell.swift */,
@@ -561,6 +567,7 @@
 				C4923BED24B8CB1B00EE866B /* MeetingModel.swift in Sources */,
 				C42A8A12253E2E4E008419A6 /* CoreImageVideoProcessor.swift in Sources */,
 				C42A8A0E253E2E22008419A6 /* DeviceSelectionViewController.swift in Sources */,
+				EDB5638925CCFB700096EE85 /* DebugSettingsViewController.swift in Sources */,
 				00F372EE23DA2BFD008F7CA7 /* RosterAttendee.swift in Sources */,
 				B4FCD85724B947FC00064C9E /* TimestampConversion.swift in Sources */,
 				C42A8A11253E2E4E008419A6 /* MetalVideoProcessor.swift in Sources */,
@@ -576,6 +583,7 @@
 				C439EA3E24B78A11005B94C4 /* JoinRequestService.swift in Sources */,
 				001FDF2625B7605000774605 /* LogRequestBody.swift in Sources */,
 				C4A3FFE6259B9AB2007CFABE /* InAppScreenCaptureModel.swift in Sources */,
+				EDB5638C25CCFEA30096EE85 /* DebugSettingsModel.swift in Sources */,
 				C4D8E1B824A412B6005D9CF7 /* VideoModel.swift in Sources */,
 				C4A3FFEA259B9AC5007CFABE /* BroadcastScreenCaptureModel.swift in Sources */,
 				5A1DE366249332870060E9C3 /* ViewControllerExtension.swift in Sources */,

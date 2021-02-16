@@ -29,13 +29,15 @@ class MeetingModule {
         return sharedInstance!
     }
 
-    func prepareMeeting(meetingId: String, selfName: String, option: CallKitOption, completion: @escaping (Bool) -> Void) {
+    func prepareMeeting(meetingId: String, selfName: String, option: CallKitOption,
+                        overriddenEndpoint: String, completion: @escaping (Bool) -> Void) {
         requestRecordPermission { success in
             guard success else {
                 completion(false)
                 return
             }
-            JoinRequestService.postJoinRequest(meetingId: meetingId, name: selfName) { meetingSessionConfig in
+            JoinRequestService.postJoinRequest(meetingId: meetingId, name: selfName,
+                                               overriddenEndpoint: overriddenEndpoint) { meetingSessionConfig in
                 guard let meetingSessionConfig = meetingSessionConfig else {
                     DispatchQueue.main.async {
                         completion(false)
