@@ -19,7 +19,7 @@ import Foundation
 /// `DefaultModality(id: contentAttendeeId).base`: "abcdefg"
 /// `DefaultModality(id: contentAttendeeId).modality`: "content"
 /// `DefaultModality(id: contentAttendeeId).isOfType(type: .content)`: true
-@objc public class DefaultModality: NSObject {
+@objcMembers public class DefaultModality: NSObject {
     public let id: String
     public let base: String
     public let modality: String?

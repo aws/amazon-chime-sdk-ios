@@ -11,7 +11,7 @@ import AVFoundation
 
 /// `VideoCaptureFormat`describes a given capture format that may be possible to apply to a `VideoCaptureSource`.
 /// Note that `VideoCaptureSource` implementations may ignore or adjust unsupported values.
-@objc public class VideoCaptureFormat: NSObject {
+@objcMembers public class VideoCaptureFormat: NSObject {
     /// Capture width in pixels.
     public let width: Int
 
