@@ -15,9 +15,9 @@ import Foundation
 public typealias URLRewriter = (_ url: String) -> String
 
 /// `URLRewriterUtils` is class that defines default Url rewrite behavior
-@objc public class URLRewriterUtils: NSObject {
+@objcMembers public class URLRewriterUtils: NSObject {
     /// The default implementation returns the original URL unchanged.
-    @objc public static let defaultUrlRewriter: URLRewriter = { url in
+    public static let defaultUrlRewriter: URLRewriter = { url in
         url
     }
 }

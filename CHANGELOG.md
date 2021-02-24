@@ -1,3 +1,8 @@
+## Unreleased
+
+### Fixed
+* Fixed an issue where `VideoCaptureFormat` and `DefaultModality` are not exposed to ObjC
+
 ## [0.16.0] - 2021-02-24
 
 ### Added
