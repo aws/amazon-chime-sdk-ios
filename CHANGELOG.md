@@ -5,6 +5,9 @@
 * Fixed a concurrency issue on `DefaultCameraCaptureSource` between `start()` and `stop()` invocations.
 * Fixed an issue where `MeetingHistoryEvent` did not expose its properties.
 
+### Changed
+* Enabled send-side bandwidth estimation in video client, which improves video quality in poor network conditions.
+
 ## [0.16.0] - 2021-02-24
 
 ### Added
