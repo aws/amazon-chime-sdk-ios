@@ -9,8 +9,8 @@
 import Foundation
 
 @objcMembers public class MeetingHistoryEvent: NSObject {
-    private let meetingHistoryEventName: MeetingHistoryEventName
-    private let timestampMs: Int64
+    public let meetingHistoryEventName: MeetingHistoryEventName
+    public let timestampMs: Int64
 
     public init(meetingHistoryEventName: MeetingHistoryEventName, timestampMs: Int64) {
         self.meetingHistoryEventName = meetingHistoryEventName

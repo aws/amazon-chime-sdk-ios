@@ -3,6 +3,7 @@
 ### Fixed
 * Fixed an issue where `VideoCaptureFormat` and `DefaultModality` are not exposed to ObjC.
 * Fixed a concurrency issue on `DefaultCameraCaptureSource` between `start()` and `stop()` invocations.
+* Fixed an issue where `MeetingHistoryEvent` did not expose its properties.
 
 ## [0.16.0] - 2021-02-24
 
