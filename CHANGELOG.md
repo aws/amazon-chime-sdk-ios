@@ -1,7 +1,8 @@
 ## Unreleased
 
 ### Fixed
-* Fixed an issue where `VideoCaptureFormat` and `DefaultModality` are not exposed to ObjC
+* Fixed an issue where `VideoCaptureFormat` and `DefaultModality` are not exposed to ObjC.
+* Fixed a concurrency issue on `DefaultCameraCaptureSource` between `start()` and `stop()` invocations.
 
 ## [0.16.0] - 2021-02-24
 
