@@ -85,7 +85,9 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
             return
         }
 
-        MeetingModule.shared().prepareMeeting(meetingId: meetingId, selfName: name, option: callKitOption,
+        MeetingModule.shared().prepareMeeting(meetingId: meetingId,
+                                              selfName: name,
+                                              option: callKitOption,
                                               overriddenEndpoint: debugSettingsModel.endpointUrl) { success in
             DispatchQueue.main.async {
                 if !success {
