@@ -14,6 +14,7 @@ import UIKit
     public var videoContentHint: VideoContentHint = .motion
 
     private let logger: Logger
+    private let cameraLock = NSLock()
     private let deviceType = AVCaptureDevice.DeviceType.builtInWideAngleCamera
     private let sinks = ConcurrentMutableSet()
     private let captureSourceObservers = ConcurrentMutableSet()
@@ -107,6 +108,9 @@ import UIKit
     }
 
     public func start() {
+        cameraLock.lock()
+        defer { cameraLock.unlock() }
+
         session = AVCaptureSession()
         guard let captureDevice = captureDevice else {
             return
@@ -147,6 +151,9 @@ import UIKit
     }
 
     public func stop() {
+        cameraLock.lock()
+        defer { cameraLock.unlock() }
+
         session.stopRunning()
 
         // If the torch was currently on, stopping the sessions
