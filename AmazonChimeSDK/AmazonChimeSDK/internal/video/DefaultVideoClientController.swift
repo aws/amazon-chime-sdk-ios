@@ -119,6 +119,7 @@ class DefaultVideoClientController: NSObject {
         videoConfig.isUsingOptimizedTwoSimulcastStreamTable = true
         videoConfig.isExcludeSelfContentInIndex = true
         videoConfig.isUsingInbandTurnCreds = true
+        videoConfig.isDisablingSimulcastP2P = true
 
         // Default to idle mode, no video but signaling connection is
         // established for messaging
