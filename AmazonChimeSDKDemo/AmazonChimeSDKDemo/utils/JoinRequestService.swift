@@ -20,8 +20,10 @@ class JoinRequestService: NSObject {
 
     static func postJoinRequest(meetingId: String,
                                 name: String,
+                                overriddenEndpoint: String,
                                 completion: @escaping (MeetingSessionConfiguration?) -> Void) {
-        let url = AppConfiguration.url.hasSuffix("/") ? AppConfiguration.url : "\(AppConfiguration.url)/"
+        var url = overriddenEndpoint.isEmpty ? AppConfiguration.url : overriddenEndpoint
+        url = url.hasSuffix("/") ? url : "\(url)/"
         let encodedURL = HttpUtils.encodeStrForURL(
             str: "\(url)join?title=\(meetingId)&name=\(name)&region=\(AppConfiguration.region)"
         )

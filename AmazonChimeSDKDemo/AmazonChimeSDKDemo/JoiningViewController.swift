@@ -18,8 +18,11 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var joinWithoutCallKitButton: UIButton!
     @IBOutlet var joinAsIncomingCallButton: UIButton!
     @IBOutlet var joinAsOutgoingCallButton: UIButton!
+    @IBOutlet var DebugSettingsButton: UIButton!
 
     private let toastDisplayDuration = 2.0
+    private let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+    var debugSettingsModel: DebugSettingsModel = DebugSettingsModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +50,16 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
     @IBAction func joinAsOutgoingCallButton(_: UIButton) {
         joinMeeting(callKitOption: .outgoing)
     }
+    
+    @IBAction func debugSettingsButtonClicked (_: UIButton) {
+        guard let debugSettingsVC = mainStoryboard.instantiateViewController(withIdentifier: "debugSettings")
+            as? DebugSettingsViewController else {
+            return
+        }
+        debugSettingsVC.modalPresentationStyle = .fullScreen
+        debugSettingsVC.model = debugSettingsModel
+        self.present(debugSettingsVC, animated: true, completion: nil)
+    }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -72,7 +85,10 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
             return
         }
 
-        MeetingModule.shared().prepareMeeting(meetingId: meetingId, selfName: name, option: callKitOption) { success in
+        MeetingModule.shared().prepareMeeting(meetingId: meetingId,
+                                              selfName: name,
+                                              option: callKitOption,
+                                              overriddenEndpoint: debugSettingsModel.endpointUrl) { success in
             DispatchQueue.main.async {
                 if !success {
                     self.view.hideToast()
