@@ -4,6 +4,8 @@
 * Fixed an issue where `VideoCaptureFormat` and `DefaultModality` are not exposed to ObjC.
 * Fixed a concurrency issue on `DefaultCameraCaptureSource` between `start()` and `stop()` invocations.
 * Fixed an issue where `MeetingHistoryEvent` did not expose its properties.
+* Fixed `CreateMeetingResponse` and `MeetingSessionConfiguration` to have nullable `externalMeetingId` since this is not required.
+* [Demo] Fixed demo application to handle null `externalMeetingId`.
 
 ### Changed
 * Enabled send-side bandwidth estimation in video client, which improves video quality in poor network conditions.

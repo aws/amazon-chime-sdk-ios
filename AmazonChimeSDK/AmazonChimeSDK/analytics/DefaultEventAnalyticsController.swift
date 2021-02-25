@@ -68,8 +68,8 @@ import Foundation
         eventAnalyticObservers.remove(observer)
     }
 
-    public func getCommonEventAttributes() -> [AnyHashable : Any] {
-        return [
+    public func getCommonEventAttributes() -> [AnyHashable: Any] {
+        var commonEventAttributes = [
             EventAttributeName.deviceName: DeviceUtils.deviceName,
             EventAttributeName.deviceManufacturer: DeviceUtils.manufacturer,
             EventAttributeName.deviceModel: DeviceUtils.deviceModel,
@@ -79,9 +79,14 @@ import Foundation
             EventAttributeName.sdkVersion: DeviceUtils.sdkVersion,
             EventAttributeName.mediaSdkVersion: DeviceUtils.mediaSDKVersion,
             EventAttributeName.meetingId: meetingSessionConfig.meetingId,
-            EventAttributeName.externalMeetingId: meetingSessionConfig.externalMeetingId,
             EventAttributeName.attendeeId: meetingSessionConfig.credentials.attendeeId,
             EventAttributeName.externalUserId: meetingSessionConfig.credentials.externalUserId
         ] as [EventAttributeName: Any]
+
+        if let externalMeetingId = meetingSessionConfig.externalMeetingId {
+            commonEventAttributes[EventAttributeName.externalMeetingId] = externalMeetingId
+        }
+
+        return commonEventAttributes
     }
 }

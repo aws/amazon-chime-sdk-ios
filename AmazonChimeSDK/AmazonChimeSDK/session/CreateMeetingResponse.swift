@@ -17,12 +17,12 @@ import Foundation
 }
 
 @objcMembers public class Meeting: NSObject {
-    let externalMeetingId: String
+    let externalMeetingId: String?
     let mediaPlacement: MediaPlacement
     let mediaRegion: String
     let meetingId: String
 
-    public init(externalMeetingId: String, mediaPlacement: MediaPlacement, mediaRegion: String, meetingId: String) {
+    public init(externalMeetingId: String?, mediaPlacement: MediaPlacement, mediaRegion: String, meetingId: String) {
         self.externalMeetingId = externalMeetingId
         self.mediaPlacement = mediaPlacement
         self.mediaRegion = mediaRegion

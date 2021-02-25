@@ -23,7 +23,7 @@ struct CreateMediaPlacementInfo: Codable {
 }
 
 struct CreateMeetingInfo: Codable {
-    var externalMeetingId: String
+    var externalMeetingId: String?
     var mediaPlacement: CreateMediaPlacementInfo
     var mediaRegion: String
     var meetingId: String
