@@ -57,6 +57,44 @@ class MeetingSessionConfigurationTests: XCTestCase {
         }
     }
 
+    func testExternalMeetingIdNilfNotProvidedThroughMeeting() {
+        if let mediaPlacement = mediaPlacement, let attendeeResponse = attendeeResponse {
+            let localMeeting = Meeting(externalMeetingId: nil,
+                              mediaPlacement: mediaPlacement,
+                              mediaRegion: mediaRegionStr,
+                              meetingId: meetingIdStr)
+            let localMeetingResponse = CreateMeetingResponse(meeting: localMeeting)
+            let localConfiguration = MeetingSessionConfiguration(createMeetingResponse: localMeetingResponse,
+                                                        createAttendeeResponse: attendeeResponse)
+            XCTAssertNil(localConfiguration.externalMeetingId)
+            return
+        }
+
+        XCTFail("Unable retrieve non null mediaPlacement or attendeeResponse")
+    }
+
+    let defaultUrlRewriter: URLRewriter = { url in
+        url
+    }
+
+    func testExternalMeetingIdNilfNotProvidedThroughConstructor() {
+        let credentials = MeetingSessionCredentials(attendeeId: attendeeIdStr,
+                                                     externalUserId: externalUserIdStr,
+                                                     joinToken: joinTokenStr)
+        let urls = MeetingSessionURLs(audioFallbackUrl: audioFallbackStr,
+                                       audioHostUrl: audioHostStr,
+                                       turnControlUrl: turnControlUrlStr,
+                                       signalingUrl: signalingUrlStr,
+                                       urlRewriter: defaultUrlRewriter)
+        
+        let localConfiguration = MeetingSessionConfiguration(meetingId: meetingIdStr,
+                                                             credentials: credentials,
+                                                             urls: urls,
+                                                             urlRewriter: defaultUrlRewriter)
+        
+        XCTAssertNil(localConfiguration.externalMeetingId)
+    }
+
     func testMediaPlacementShouldBeInitialized() {
         XCTAssertEqual(audioFallbackStr, mediaPlacement?.audioFallbackUrl)
         XCTAssertEqual(audioHostStr, mediaPlacement?.audioHostUrl)

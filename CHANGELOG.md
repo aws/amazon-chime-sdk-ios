@@ -1,5 +1,8 @@
 ## Unreleased
 
+### Added
+* Added additional constructor of `MeetingSessionConfiguration` to create it without `externalMeetingId`
+
 ### Fixed
 * Fixed an issue where `VideoCaptureFormat` and `DefaultModality` are not exposed to ObjC.
 * Fixed a concurrency issue on `DefaultCameraCaptureSource` between `start()` and `stop()` invocations.

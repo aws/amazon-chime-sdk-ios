@@ -34,6 +34,13 @@ import Foundation
                   urlRewriter: URLRewriterUtils.defaultUrlRewriter)
     }
 
+    public convenience init(meetingId: String,
+                            credentials: MeetingSessionCredentials,
+                            urls: MeetingSessionURLs,
+                            urlRewriter: @escaping URLRewriter) {
+        self.init(meetingId: meetingId, externalMeetingId: nil, credentials: credentials, urls: urls, urlRewriter: urlRewriter)
+    }
+
     public init(meetingId: String,
                 externalMeetingId: String?,
                 credentials: MeetingSessionCredentials,
