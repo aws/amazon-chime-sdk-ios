@@ -115,6 +115,7 @@ class DefaultVideoClientController: NSObject {
 
         let videoConfig: VideoConfiguration = VideoConfiguration()
         videoConfig.isUsing16by9AspectRatio = true
+        videoConfig.isUsingSendSideBwe = true
         videoConfig.isUsingPixelBufferRenderer = true
         videoConfig.isUsingOptimizedTwoSimulcastStreamTable = true
         videoConfig.isExcludeSelfContentInIndex = true
