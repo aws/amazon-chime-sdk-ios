@@ -18,7 +18,7 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var joinWithoutCallKitButton: UIButton!
     @IBOutlet var joinAsIncomingCallButton: UIButton!
     @IBOutlet var joinAsOutgoingCallButton: UIButton!
-    @IBOutlet var DebugSettingsButton: UIButton!
+    @IBOutlet var debugSettingsButton: UIButton!
 
     private let toastDisplayDuration = 2.0
     private let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)

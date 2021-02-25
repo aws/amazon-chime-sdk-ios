@@ -45,7 +45,7 @@ class BroadcastScreenCaptureModel {
             return
         }
         appGroupUserDefaults.set(meetingSessionConfig.meetingId, forKey: userDefaultsKeyMeetingId)
-        appGroupUserDefaults.set(meetingSessionConfig.externalMeetingId, forKey: userDefaultsKeyExternalMeetingId)
+        appGroupUserDefaults.set(meetingSessionConfig.externalMeetingId ?? "", forKey: userDefaultsKeyExternalMeetingId)
         let encoder = JSONEncoder()
         if let credentials = try? encoder.encode(meetingSessionConfig.credentials) {
             appGroupUserDefaults.set(credentials, forKey: userDefaultsKeyCredentials)
