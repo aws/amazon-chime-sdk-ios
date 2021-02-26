@@ -50,7 +50,7 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
     @IBAction func joinAsOutgoingCallButton(_: UIButton) {
         joinMeeting(callKitOption: .outgoing)
     }
-    
+
     @IBAction func debugSettingsButtonClicked (_: UIButton) {
         guard let debugSettingsVC = mainStoryboard.instantiateViewController(withIdentifier: "debugSettings")
             as? DebugSettingsViewController else {
