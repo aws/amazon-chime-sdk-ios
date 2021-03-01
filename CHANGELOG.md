@@ -9,6 +9,7 @@
 * Fixed an issue where `MeetingHistoryEvent` did not expose its properties.
 * Fixed `CreateMeetingResponse` and `MeetingSessionConfiguration` to have nullable `externalMeetingId` since this is not required.
 * [Demo] Fixed demo application to handle null `externalMeetingId`.
+* [Demo] Fixed demo application where `InAppScreenShare` doesn't restart due to observer not added.
 
 ### Changed
 * Enabled send-side bandwidth estimation in video client, which improves video quality in poor network conditions.

@@ -20,6 +20,7 @@ class InAppScreenCaptureModel {
                 return
             }
             if newValue {
+                inAppScreenCaptureSource?.addCaptureSourceObserver(observer: self)
                 inAppScreenCaptureSource?.start()
                 isSharingHandler?(true)
             } else {
@@ -31,9 +32,7 @@ class InAppScreenCaptureModel {
 
     lazy var inAppScreenCaptureSource: VideoCaptureSource? = {
         if #available(iOS 11.0, *) {
-            let source = InAppScreenCaptureSource(logger: logger)
-            source.addCaptureSourceObserver(observer: self)
-            return source
+            return InAppScreenCaptureSource(logger: logger)
         }
         return nil
     }()
@@ -61,5 +60,6 @@ extension InAppScreenCaptureModel: CaptureSourceObserver {
         logger.error(msg: "InAppScreenCaptureSource did fail: \(error.description)")
         isSharing = false
         contentShareController.stopContentShare()
+        inAppScreenCaptureSource?.removeCaptureSourceObserver(observer: self)
     }
 }
