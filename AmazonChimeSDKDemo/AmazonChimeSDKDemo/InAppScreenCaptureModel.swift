@@ -32,8 +32,7 @@ class InAppScreenCaptureModel {
 
     lazy var inAppScreenCaptureSource: VideoCaptureSource? = {
         if #available(iOS 11.0, *) {
-            let source = InAppScreenCaptureSource(logger: logger)
-            return source
+            return InAppScreenCaptureSource(logger: logger)
         }
         return nil
     }()
