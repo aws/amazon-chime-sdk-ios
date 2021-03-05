@@ -1,4 +1,4 @@
-## Unreleased
+## [0.16.1] - 2021-03-04
 
 ### Added
 * Added additional constructor of `MeetingSessionConfiguration` to create it without `externalMeetingId`
