@@ -2,6 +2,7 @@
 
 ### Changed
 * Disabled simulcast for P2P calls, which helps improving video quality of two-party meetings.
+* [Demo] Added support for AVAudioSession videoChat mode, which enables AirPlay mirroring in demo app
 
 ## [0.16.1] - 2021-03-04
 
