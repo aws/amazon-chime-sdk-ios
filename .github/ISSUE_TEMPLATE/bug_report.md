@@ -31,6 +31,7 @@ If applicable, add screenshots to help explain your problem.
  - OS: [e.g. iOS8.1]
  - Version AmazonChimeSDK: [e.g. 0.4.0]
  - Version AmazonChimeSDKMedia: [e.g. 0.4.0]
+ - Using bitcode supported binaries?
 
 **Additional context**
 Add any other context about the problem here.
