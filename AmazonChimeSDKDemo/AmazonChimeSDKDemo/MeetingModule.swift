@@ -193,8 +193,8 @@ class MeetingModule {
                                              options: AVAudioSession.CategoryOptions.allowBluetooth)
                 try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
             }
-            if audioSession.mode != .videoChat {
-                try audioSession.setMode(.videoChat)
+            if audioSession.mode != .voiceChat {
+                try audioSession.setMode(.voiceChat)
             }
         } catch {
             logger.error(msg: "Error configuring AVAudioSession: \(error.localizedDescription)")
