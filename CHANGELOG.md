@@ -1,4 +1,4 @@
-## [Unreleased]
+## [0.16.2] - 2021-04-14
 
 ### Changed
 * Disabled simulcast for P2P calls, which helps improving video quality of two-party meetings.
