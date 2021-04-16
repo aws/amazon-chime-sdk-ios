@@ -1,3 +1,8 @@
+## [unreleased]
+
+### Fixed
+* Fixed documentation to say `Amazon Voice Focus` instead of `voice focus`
+
 ## [0.16.2] - 2021-04-14
 
 ### Changed
@@ -95,8 +100,8 @@
 ## [0.12.0] - 2020-11-17
 
 ### Added
-* Added new APIs in `RealtimeControllerFacade` to enable/disable Voice Focus (ML-based noise suppression) and get the on/off status of Voice Focus.
-* Added Voice Focus feature in Swift demo app.
+* Added new APIs in `RealtimeControllerFacade` to enable/disable Amazon Voice Focus (ML-based noise suppression) and get the on/off status of Amazon Voice Focus.
+* Added Amazon Voice Focus feature in Swift demo app.
 * Added more verbose logging from media layer to SDK layer for builders to control log level. Set `LogLevel` to `INFO` or above for production application to not be bombarded with logs.
 * Added `getActiveAudioDevice` API in `DefaultDeviceController`.
 * Added `VideoFrame`, `VideoRotation`, `VideoContentHint`, `VideoFrameBuffer`, `VideoFramePixelBuffer` classes, enums, and interfaces to hold video frames of various raw types.
