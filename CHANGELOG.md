@@ -1,7 +1,7 @@
 ## [unreleased]
 
 ### Fixed
-* Fixed documentation to say `Amazon Voice Focus` instead of `voice focus`
+* [Documentation] Fixed documentation to say `Amazon Voice Focus` instead of `voice focus`
 
 ## [0.16.2] - 2021-04-14
 
