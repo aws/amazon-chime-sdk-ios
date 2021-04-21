@@ -175,4 +175,77 @@ The following table lists available states.
 |`videoInputSelected`|The camera was selected.
 
 ## Example
-[The Chime SDK serverless demo](https://github.com/aws/amazon-chime-sdk-js/tree/master/demos/serverless) uses Amazon CloudWatch Logs to collect, process, and analyze meeting events. For more information, see [the Meeting Dashboard section](https://github.com/aws/amazon-chime-sdk-js/tree/master/demos/serverless#meeting-dashboard) on the serverless demo page.
+
+This section includes sample code for the [Monitoring and troubleshooting with Amazon Chime SDK meeting events](https://aws.amazon.com/blogs/business-productivity/monitoring-and-troubleshooting-with-amazon-chime-sdk-meeting-events/) blog post.
+
+1. Follow the [blog post](https://aws.amazon.com/blogs/business-productivity/monitoring-and-troubleshooting-with-amazon-chime-sdk-meeting-events/) to deploy the AWS CloudFormation stack. The stack provisions all the infrastructure required to search and analyze meeting events in Amazon CloudWatch.
+2. To receive meeting events in your iOS application, add an event analytics observer to implement the `eventDidReceive` method.
+    ```
+    class MyObserver: EventAnalyticsObserver {
+        var meetingEvents = [[String: Any]]()
+        func eventDidReceive(name: EventName, attributes: [AnyHashable: Any]) {
+            var mutableAttributes = attributes
+            let meetingHistory = currentMeetingSession.audioVideo.getMeetingHistory()
+            mutableAttributes = mutableAttributes.merging(currentMeetingSession.audioVideo.getCommonEventAttributes(),
+                                                             uniquingKeysWith: { (_, newVal) -> Any in
+                newVal
+            })
+            
+            switch name {
+            case EventName.videoInputFailed,
+                 EventName.meetingStartFailed,
+                 EventName.meetingFailed:
+                    mutableAttributes = mutableAttributes.merging([
+                        EventAttributeName.meetingHistory: meetingHistory
+                    ] as [EventAttributeName: Any], uniquingKeysWith: { (_, newVal) -> Any in
+                        newVal})
+            default:
+                // TODO 
+                break
+            }
+            
+            
+            meetingEvents.append([
+                "name": "\(name)",
+                "attributes": toStringKeyDict(mutableAttributes.merging(currentMeetingSession.audioVideo.getCommonEventAttributes(),
+                                                                 uniquingKeysWith: { (_, newVal) -> Any in
+                    newVal
+                }))
+            ])
+        }
+        
+        func toStringKeyDict(_ attributes: [AnyHashable: Any]) -> [String: Any] {
+            var jsonDict = [String: Any]()
+            attributes.forEach { (key, value) in
+                jsonDict[String(describing: key)] = String(describing: value)
+            }
+            return jsonDict
+        }
+
+        meetingSession.audioVideo.addEventAnalyticsObserver(self);
+    }
+    ```
+3. When a meeting ends, upload meeting events to the endpoint that you created in the preceding section. Set the endpoint to the **MeetingEventApiEndpoint** value from the **Outputs** tab of the AWS CloudFormation console. To make a POST request, you can use our helper class [HttpUtils](https://github.com/aws/amazon-chime-sdk-ios/blob/master/AmazonChimeSDKDemo/AmazonChimeSDKDemo/utils/HttpUtils.swift) or a third-party library.
+    ```
+    class MyObserver: AudioVideoObserver {
+        func audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus) {
+            let url = /* MeetingEventApiEndpoint from the preceding section */
+
+            guard let nonNilData = try? JSONSerialization.data(withJSONObject: meetingEvents) else {
+                return
+            }
+            
+            HttpUtils.postRequest(url: url, jsonData: nonNilData) { _, error in
+                if let error = error {
+                    self.logger.error(msg: "PostLogger post request failed \(error)")
+                } else {
+                    self.logger.info(msg: "PostLogger post request succeeded")
+                    self.meetingEvents.removeAll()
+                }
+            }
+        }
+
+        meetingSession.audioVideo.addAudioVideoObserver(observer: self)
+    }
+    ```
+4. Now that your applications upload meeting events to Amazon CloudWatch. Run several test meetings to collect meeting events. For an example of how to troubleshoot with meeting events, see the [blog post](https://aws.amazon.com/blogs/business-productivity/monitoring-and-troubleshooting-with-amazon-chime-sdk-meeting-events/).
