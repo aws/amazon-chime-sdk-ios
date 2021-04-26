@@ -82,7 +82,7 @@ Deploy the serverless demo from [amazon-chime-sdk-js](https://github.com/aws/ama
 ### 4. Update Demo App
 
 * Update `AppConfiguration.swift` with the URL and region of the serverless demo.
-* (Optional) Update `AppConfiguration.swift` and `SampleHandler.swift` with the broadcast upload extension bundle ID and App Group ID if you want to test sharing device level screen capture. See [Content Share](guides/content_share.md) for more details.
+* (Optional) Update `broadcastBundleId` and `appGroupId` in **BOTH** `AppConfiguration.swift` and `SampleHandler.swift` with the broadcast upload extension bundle ID and App Group ID if you want to test sharing device level screen capture. See [Content Share](guides/content_share.md) for more details.
 
 ### 5. Use Demo App to join meeting
 
