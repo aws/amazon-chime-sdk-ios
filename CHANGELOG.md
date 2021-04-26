@@ -2,6 +2,7 @@
 
 ### Fixed
 * [Documentation] Fixed documentation to say `Amazon Voice Focus` instead of `voice focus`
+* [Documentation] Updated instruction of enabling content share in README
 
 ## [0.16.2] - 2021-04-14
 
