@@ -25,7 +25,7 @@ import UIKit
                                                                  maxFrameRate: Constants.maxSupportedVideoFrameRate)
 
     private var session = AVCaptureSession()
-    private var orientation = UIDeviceOrientation.portrait
+    private var orientation = UIInterfaceOrientation.portrait
     private var captureDevice: AVCaptureDevice?
     private var eventAnalyticsController: EventAnalyticsController?
 
@@ -189,20 +189,22 @@ import UIKit
         guard let connection = output.connection(with: AVMediaType.video) else {
             return
         }
-        orientation = UIDevice.current.orientation
 
-        switch orientation {
-        case .portrait, .unknown:
-            connection.videoOrientation = .portrait
-        case .landscapeLeft:
-            connection.videoOrientation = .landscapeRight
-        case .portraitUpsideDown:
-            connection.videoOrientation = .portraitUpsideDown
-        case .landscapeRight:
-            connection.videoOrientation = .landscapeLeft
-        default:
-            // Do not update videoOrientation when the device is laying flat
-            return
+        DispatchQueue.main.async {
+            self.orientation = UIApplication.shared.statusBarOrientation
+
+            switch self.orientation {
+            case .portrait, .unknown:
+                connection.videoOrientation = .portrait
+            case .portraitUpsideDown:
+                connection.videoOrientation = .portraitUpsideDown
+            case .landscapeLeft:
+                connection.videoOrientation = .landscapeLeft
+            case .landscapeRight:
+                connection.videoOrientation = .landscapeRight
+            @unknown default:
+                break
+            }
         }
     }
 
