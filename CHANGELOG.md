@@ -1,6 +1,7 @@
-## [unreleased]
+## 2021-05-10
 
 ### Fixed
+* [Documentation] Added sample code to the meeting event guide
 * [Documentation] Fixed documentation to say `Amazon Voice Focus` instead of `voice focus`
 * [Documentation] Updated instruction of enabling content share in README
 
