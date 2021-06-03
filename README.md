@@ -275,8 +275,10 @@ You can use the `activeSpeakerDidDetect` event to enlarge or emphasize the most 
 
 ```swift
 class MyActiveSpeakerObserver: ActiveSpeakerObserver {
+    let activeSpeakerObserverId = UUID().uuidString
+    
     var observerId: String {
-        return UUID().uuidString
+        return activeSpeakerObserverId
     }
     
     func activeSpeakerDidDetect(attendeeInfo: [AttendeeInfo]) {

@@ -1,3 +1,8 @@
+## [unreleased]
+
+### Fixed
+* [Documentation] Fixed active speaker observer example in README which if used caused a memory leak.
+
 ## 2021-05-10
 
 ### Fixed
