@@ -191,8 +191,9 @@ class VideoModel: NSObject {
         return remoteVideoStatesInCurrentPage.contains(where: { $0.0 == tileId })
     }
 
-    func updateRemoteVideoStatesBasedOnActiveSpeakers(activeSpeakers: [AttendeeInfo]) {
+    func updateRemoteVideoStatesBasedOnActiveSpeakers(activeSpeakers: [AttendeeInfo], inVideoMode: Bool = false) {
         let activeSpeakerIds = Set(activeSpeakers.map { $0.attendeeId })
+        var videoTilesOrderUpdated = false
 
         // Cast to NSArray to make sure the sorting implementation is stable
         remoteVideoTileStates = (remoteVideoTileStates as NSArray).sortedArray(options: .stable,
@@ -205,12 +206,17 @@ class VideoModel: NSObject {
             } else if lhsIsActiveSpeaker && !rhsIsActiveSpeaker {
                 return ComparisonResult.orderedAscending
             } else {
+                videoTilesOrderUpdated = true
                 return ComparisonResult.orderedDescending
             }
         }) as? [(Int, VideoTileState)] ?? []
 
         for remoteVideoTileState in remoteVideoStatesNotInCurrentPage {
             audioVideoFacade.pauseRemoteVideoTile(tileId: remoteVideoTileState.0)
+        }
+
+        if videoTilesOrderUpdated && inVideoMode {
+            videoUpdatedHandler?()
         }
     }
 

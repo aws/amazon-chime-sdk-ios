@@ -622,10 +622,7 @@ extension MeetingModel: ActiveSpeakerObserver {
     }
 
     func activeSpeakerDidDetect(attendeeInfo: [AttendeeInfo]) {
-        videoModel.updateRemoteVideoStatesBasedOnActiveSpeakers(activeSpeakers: attendeeInfo)
-        if activeMode == .video {
-            videoModel.videoUpdatedHandler?()
-        }
+        videoModel.updateRemoteVideoStatesBasedOnActiveSpeakers(activeSpeakers: attendeeInfo, inVideoMode: activeMode == .video)
 
         rosterModel.updateActiveSpeakers(attendeeInfo.map { $0.attendeeId })
         if activeMode == .roster {
