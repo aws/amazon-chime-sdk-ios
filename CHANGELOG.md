@@ -2,6 +2,7 @@
 
 ### Fixed
 * [Documentation] Fixed active speaker observer example in README which if used caused a memory leak.
+* [Demo] Fixed video flickering when active speaker updates.
 
 ## 2021-05-10
 
