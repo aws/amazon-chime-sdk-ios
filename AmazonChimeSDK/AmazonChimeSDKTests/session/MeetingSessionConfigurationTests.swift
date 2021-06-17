@@ -20,6 +20,7 @@ class MeetingSessionConfigurationTests: XCTestCase {
     private let meetingIdStr = "meetingId"
     private let signalingUrlStr = "signalingUrl"
     private let turnControlUrlStr = "turnControlUrl"
+    private let ingestionUrlStr = "ingestionUrl"
 
     private var mediaPlacement: MediaPlacement?
     private var meeting: Meeting?
@@ -33,7 +34,8 @@ class MeetingSessionConfigurationTests: XCTestCase {
         mediaPlacement = MediaPlacement(audioFallbackUrl: audioFallbackStr,
                                         audioHostUrl: audioHostStr,
                                         signalingUrl: signalingUrlStr,
-                                        turnControlUrl: turnControlUrlStr)
+                                        turnControlUrl: turnControlUrlStr,
+                                        eventIngestionUrl: ingestionUrlStr)
         if let mediaPlacement = mediaPlacement {
             meeting = Meeting(externalMeetingId: externalMeetingIdStr,
                               mediaPlacement: mediaPlacement,
@@ -86,13 +88,31 @@ class MeetingSessionConfigurationTests: XCTestCase {
                                        turnControlUrl: turnControlUrlStr,
                                        signalingUrl: signalingUrlStr,
                                        urlRewriter: defaultUrlRewriter)
-        
+
         let localConfiguration = MeetingSessionConfiguration(meetingId: meetingIdStr,
                                                              credentials: credentials,
                                                              urls: urls,
                                                              urlRewriter: defaultUrlRewriter)
-        
+
         XCTAssertNil(localConfiguration.externalMeetingId)
+    }
+
+    func testIngestionUrlNilfNotProvidedThroughConstructor() {
+        let credentials = MeetingSessionCredentials(attendeeId: attendeeIdStr,
+                                                     externalUserId: externalUserIdStr,
+                                                     joinToken: joinTokenStr)
+        let urls = MeetingSessionURLs(audioFallbackUrl: audioFallbackStr,
+                                       audioHostUrl: audioHostStr,
+                                       turnControlUrl: turnControlUrlStr,
+                                       signalingUrl: signalingUrlStr,
+                                       urlRewriter: defaultUrlRewriter)
+
+        let localConfiguration = MeetingSessionConfiguration(meetingId: meetingIdStr,
+                                                             credentials: credentials,
+                                                             urls: urls,
+                                                             urlRewriter: defaultUrlRewriter)
+
+        XCTAssertNil(localConfiguration.urls.ingestionUrl)
     }
 
     func testMediaPlacementShouldBeInitialized() {

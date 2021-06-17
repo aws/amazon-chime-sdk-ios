@@ -47,12 +47,13 @@ class DefaultAudioClientObserverTests: XCTestCase {
         loggerMock = mock(Logger.self)
 
         given(meetingStatsCollectorMock.getMeetingStats()).will { return [AnyHashable: Any]() }
-        
+
         let mediaPlacementMock: MediaPlacementMock = mock(MediaPlacement.self)
             .initialize(audioFallbackUrl: audioFallbackUrl,
                         audioHostUrl: audioHostUrl,
                         signalingUrl: signalingUrl,
-                        turnControlUrl: turnControlUrl)
+                        turnControlUrl: turnControlUrl,
+                        eventIngestionUrl: nil)
         let meetingMock: MeetingMock = mock(Meeting.self).initialize(externalMeetingId: externalMeetingId,
                                                                      mediaPlacement: mediaPlacementMock,
                                                                      mediaRegion: mediaRegion,
@@ -65,6 +66,7 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                                         joinToken: joinToken)
         let createAttendeeResponseMock: CreateAttendeeResponseMock = mock(CreateAttendeeResponse.self)
             .initialize(attendee: attendeeMock)
+        let clientConfig = MeetingEventClientConfiguration(eventClientJoinToken: joinToken, meetingId: meetingId, attendeeId: attendeeId)
 
         config = mock(MeetingSessionConfiguration.self).initialize(createMeetingResponse: createMeetingResponseMock,
                                                                    createAttendeeResponse: createAttendeeResponseMock,

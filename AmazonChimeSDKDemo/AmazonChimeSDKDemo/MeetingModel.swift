@@ -120,7 +120,6 @@ class MeetingModel: NSObject {
          meetingId: String,
          selfName: String,
          callKitOption: CallKitOption) {
-
         self.meetingId = meetingId
         self.selfName = selfName
         self.callKitOption = callKitOption

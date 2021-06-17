@@ -38,7 +38,11 @@ import Foundation
                             credentials: MeetingSessionCredentials,
                             urls: MeetingSessionURLs,
                             urlRewriter: @escaping URLRewriter) {
-        self.init(meetingId: meetingId, externalMeetingId: nil, credentials: credentials, urls: urls, urlRewriter: urlRewriter)
+        self.init(meetingId: meetingId,
+                  externalMeetingId: nil,
+                  credentials: credentials,
+                  urls: urls,
+                  urlRewriter: urlRewriter)
     }
 
     public init(meetingId: String,
@@ -65,7 +69,8 @@ import Foundation
                                        audioHostUrl: createMeetingResponse.meeting.mediaPlacement.audioHostUrl,
                                        turnControlUrl: createMeetingResponse.meeting.mediaPlacement.turnControlUrl,
                                        signalingUrl: createMeetingResponse.meeting.mediaPlacement.signalingUrl,
-                                       urlRewriter: urlRewriter)
+                                       urlRewriter: urlRewriter,
+                                       ingestionUrl: createMeetingResponse.meeting.mediaPlacement.eventIngestionUrl)
         self.urlRewriter = urlRewriter
     }
 }
