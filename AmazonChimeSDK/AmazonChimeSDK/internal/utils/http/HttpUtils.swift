@@ -29,7 +29,6 @@ class HttpUtils {
                         logger: logger,
                         headers: headers,
                         urlSession: urlSession) { data, error in
-            // success case
             if error == nil ||
                 !httpRetryPolicy.isRetryableCode(responseCode: (error as? NSError)?.code ?? 0) ||
                 httpRetryPolicy.isRetryCountLimitReached() {

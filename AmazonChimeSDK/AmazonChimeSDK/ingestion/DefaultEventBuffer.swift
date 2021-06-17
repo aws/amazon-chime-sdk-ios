@@ -43,7 +43,7 @@ import Foundation
         let meetingItem = MeetingEventItem(id: uuid,
                                            data: converter.toIngestionMeetingEvent(event: item,
                                                                                    ingestionConfiguration: ingestionConfiguration))
-        // If there is meeting failure, it is possible that people just closes, the app.
+        // If there is meeting failure, it is possible that people just close the app.
         // In order to not lose the data, we put it in the db even for immediate events
         eventDao.insertMeetingEvent(event: meetingItem)
 

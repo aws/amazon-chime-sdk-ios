@@ -19,13 +19,13 @@ import Foundation
     /// Whether ingestion is enabled or disabled.
     public let disabled: Bool
     /// Size to send to the server in a batch.
-    /// Constraints:  1 <=, <=100.
+    /// Constraints:  >= 1 and <=100.
     public let flushSize: Int
     /// Interval to continously send to the server in a batch.
     /// Constraints: >= 300 ms.
     public let flushIntervalMs: Int64
     /// Number of retries.
-    /// Constraints:  1 <=, <=3.
+    /// Constraints:  >= 1 and <= 3.
     public let retryCountLimit: Int
 
     init(clientConfiguration: EventClientConfiguration,
