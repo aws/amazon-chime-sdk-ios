@@ -10,7 +10,6 @@ import AmazonChimeSDK
 import UIKit
 
 class VideoModel: NSObject {
-    private let maxRemoteVideoTileCount = 16
     private let remoteVideoTileCountPerPage = 6
 
     private var currentRemoteVideoPageIndex = 0
@@ -146,10 +145,6 @@ class VideoModel: NSObject {
         return remoteVideoStatesInCurrentPage.count
     }
 
-    private var isMaximumRemoteVideoReached: Bool {
-        return currentRemoteVideoCount >= maxRemoteVideoTileCount
-    }
-
     private func startLocalVideo() {
         MeetingModule.shared().requestVideoPermission { success in
             if success {
@@ -224,13 +219,9 @@ class VideoModel: NSObject {
         selfVideoTileState = videoTileState
     }
 
-    func addRemoteVideoTileState(_ videoTileState: VideoTileState, completion: @escaping (Bool) -> Void) {
-        if isMaximumRemoteVideoReached {
-            completion(false)
-            return
-        }
+    func addRemoteVideoTileState(_ videoTileState: VideoTileState, completion: @escaping () -> Void) {
         remoteVideoTileStates.append((videoTileState.tileId, videoTileState))
-        completion(true)
+        completion()
     }
 
     func removeRemoteVideoTileState(_ videoTileState: VideoTileState, completion: @escaping (Bool) -> Void) {
