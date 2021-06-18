@@ -22,7 +22,10 @@ import Foundation
     let mediaRegion: String
     let meetingId: String
 
-    public init(externalMeetingId: String?, mediaPlacement: MediaPlacement, mediaRegion: String, meetingId: String) {
+    public init(externalMeetingId: String?,
+                mediaPlacement: MediaPlacement,
+                mediaRegion: String,
+                meetingId: String) {
         self.externalMeetingId = externalMeetingId
         self.mediaPlacement = mediaPlacement
         self.mediaRegion = mediaRegion
@@ -35,11 +38,25 @@ import Foundation
     let audioHostUrl: String
     let signalingUrl: String
     let turnControlUrl: String
+    let eventIngestionUrl: String?
 
-    public init(audioFallbackUrl: String, audioHostUrl: String, signalingUrl: String, turnControlUrl: String) {
+    public convenience init(audioFallbackUrl: String, audioHostUrl: String, signalingUrl: String, turnControlUrl: String) {
+        self.init(audioFallbackUrl: audioFallbackUrl,
+                  audioHostUrl: audioHostUrl,
+                  signalingUrl: signalingUrl,
+                  turnControlUrl: turnControlUrl,
+                  eventIngestionUrl: nil)
+    }
+
+    public init(audioFallbackUrl: String,
+                audioHostUrl: String,
+                signalingUrl: String,
+                turnControlUrl: String,
+                eventIngestionUrl: String?) {
         self.audioFallbackUrl = audioFallbackUrl
         self.audioHostUrl = audioHostUrl
         self.signalingUrl = signalingUrl
         self.turnControlUrl = turnControlUrl
+        self.eventIngestionUrl = eventIngestionUrl
     }
 }

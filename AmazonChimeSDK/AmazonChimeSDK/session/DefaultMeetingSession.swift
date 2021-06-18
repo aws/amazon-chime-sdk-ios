@@ -19,7 +19,8 @@ import Foundation
     private let audioSession = AVAudioSession.sharedInstance()
 
     public init(configuration: MeetingSessionConfiguration,
-                logger: Logger) {
+                logger: Logger,
+                eventReporterFactory: EventReporterFactory) {
         self.configuration = configuration
         self.logger = logger
         VideoClient.globalInitialize()
@@ -27,11 +28,13 @@ import Foundation
         let videoClient: VideoClient = DefaultVideoClient(logger: logger)
         let clientMetricsCollector = DefaultClientMetricsCollector()
         let audioClientLock = NSLock()
-        
+
         let meetingStatsCollector =  DefaultMeetingStatsCollector(logger: logger)
+
         self.eventAnalyticsController = DefaultEventAnalyticsController(meetingSessionConfig: configuration,
-                                                                       meetingStatsCollector: meetingStatsCollector,
-                                                                       logger: logger)
+                                                                        meetingStatsCollector: meetingStatsCollector,
+                                                                        logger: logger,
+                                                                        eventReporter: eventReporterFactory.createEventReporter())
         let audioClientObserver = DefaultAudioClientObserver(audioClient: audioClient,
                                                              clientMetricsCollector: clientMetricsCollector,
                                                              audioClientLock: audioClientLock,
@@ -47,7 +50,7 @@ import Foundation
                                                                  audioClientLock: audioClientLock,
                                                                  eventAnalyticsController: self.eventAnalyticsController,
                                                                  meetingStatsCollector: meetingStatsCollector,
-                                                                 activeSpeakerDetector: activeSpeakerDetector, 
+                                                                 activeSpeakerDetector: activeSpeakerDetector,
                                                                  logger: logger)
         let videoClientController = DefaultVideoClientController(videoClient: videoClient,
                                                                  clientMetricsCollector: clientMetricsCollector,
@@ -99,5 +102,19 @@ import Foundation
                                     contentShareController: contentShareController,
                                     eventAnalyticsController: self.eventAnalyticsController,
                                     meetingStatsCollector: meetingStatsCollector)
+    }
+
+    public convenience init(configuration: MeetingSessionConfiguration,
+                            logger: Logger) {
+        let ingestionConfiguration = IngestionConfigurationBuilder().build(disabled: configuration.urls.ingestionUrl?.isEmpty != false,
+                                                                           ingestionUrl: configuration.urls.ingestionUrl ?? "",
+                                                                           clientConiguration: MeetingEventClientConfiguration(eventClientJoinToken: configuration.credentials.joinToken,
+                                                                                                                               meetingId: configuration.meetingId,
+                                                                                                                               attendeeId: configuration.credentials.attendeeId)
+        )
+        self.init(configuration: configuration,
+                  logger: logger,
+                  eventReporterFactory: DefaultMeetingEventReporterFactory(ingestionConfiguration: ingestionConfiguration,
+                                                                    logger: logger))
     }
 }

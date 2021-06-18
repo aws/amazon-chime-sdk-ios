@@ -30,7 +30,7 @@ class CommonTestCase: XCTestCase {
             .initialize(audioFallbackUrl: audioFallbackUrl,
                         audioHostUrl: audioHostUrlWithPort,
                         signalingUrl: signalingUrl,
-                        turnControlUrl: turnControlUrl)
+                        turnControlUrl: turnControlUrl, eventIngestionUrl: nil)
         let meetingMock: MeetingMock = mock(Meeting.self).initialize(externalMeetingId: externalMeetingId,
                                                                      mediaPlacement: mediaPlacementMock,
                                                                      mediaRegion: mediaRegion,
@@ -43,7 +43,6 @@ class CommonTestCase: XCTestCase {
                                                                         joinToken: joinToken)
         let createAttendeeResponseMock: CreateAttendeeResponseMock = mock(CreateAttendeeResponse.self)
             .initialize(attendee: attendeeMock)
-
         meetingSessionConfigurationMock = mock(MeetingSessionConfiguration.self)
             .initialize(createMeetingResponse: createMeetingResponseMock,
                         createAttendeeResponse: createAttendeeResponseMock,

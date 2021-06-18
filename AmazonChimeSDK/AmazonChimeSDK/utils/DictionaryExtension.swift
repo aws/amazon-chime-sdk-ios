@@ -49,3 +49,13 @@ extension Dictionary where Key: Comparable, Value: Equatable {
         }
     }
 }
+
+extension Dictionary where Key: Any, Value: Any {
+    func toStringDict() -> [String: String] {
+        var jsonDict = [String: String]()
+        self.forEach { (key, value) in
+            jsonDict[String(describing: key)] = String(describing: value)
+        }
+        return jsonDict
+    }
+}

@@ -13,14 +13,28 @@ import Foundation
     private let meetingStatsCollector: MeetingStatsCollector
     private let meetingSessionConfig: MeetingSessionConfiguration
     private let logger: Logger
+    private let eventReporter: EventReporter?
 
     init(meetingSessionConfig: MeetingSessionConfiguration,
          meetingStatsCollector: MeetingStatsCollector,
-         logger: Logger) {
+         logger: Logger,
+         eventReporter: EventReporter?)
+    {
         self.meetingSessionConfig = meetingSessionConfig
         self.meetingStatsCollector = meetingStatsCollector
+        self.eventReporter = eventReporter
         self.logger = logger
         super.init()
+    }
+
+    convenience init(meetingSessionConfig: MeetingSessionConfiguration,
+                     meetingStatsCollector: MeetingStatsCollector,
+                     logger: Logger)
+    {
+        self.init(meetingSessionConfig: meetingSessionConfig,
+                  meetingStatsCollector: meetingStatsCollector,
+                  logger: logger,
+                  eventReporter: nil)
     }
 
     public func publishEvent(name: EventName, attributes: [AnyHashable: Any]) {
@@ -37,10 +51,12 @@ import Foundation
              .meetingStartFailed,
              .meetingStartSucceeded:
             let meetingStats = meetingStatsCollector.getMeetingStats()
-            mutatedAttributes.merge(meetingStats) { (_, newVal) in newVal }
+            mutatedAttributes.merge(meetingStats) { _, newVal in newVal }
         default:
             break
         }
+
+        eventReporter?.report(event: SDKEvent(eventName: name, eventAttributes: mutatedAttributes))
 
         ObserverUtils.forEach(observers: eventAnalyticObservers) { (eventAnalyticObserver: EventAnalyticsObserver) in
             eventAnalyticObserver.eventDidReceive(name: name, attributes: mutatedAttributes)
@@ -52,12 +68,17 @@ import Foundation
     }
 
     public func publishEvent(name: EventName) {
-        self.publishEvent(name: name, attributes: [AnyHashable: Any]())
+        publishEvent(name: name, attributes: [AnyHashable: Any]())
     }
 
     public func pushHistory(historyEventName: MeetingHistoryEventName) {
-        self.meetingStatsCollector.addMeetingHistoryEvent(historyEventName: historyEventName,
-                                                          timestampMs: DateUtils.getCurrentTimeStampMs())
+        let currentTimeMs = DateUtils.getCurrentTimeStampMs()
+        let attributes = [EventAttributeName.timestampMs: currentTimeMs]
+        eventReporter?.report(event: SDKEvent(meetingHistoryEventName: historyEventName,
+                                              eventAttributes: attributes))
+
+        meetingStatsCollector.addMeetingHistoryEvent(historyEventName: historyEventName,
+                                                     timestampMs: currentTimeMs)
     }
 
     public func addEventAnalyticsObserver(observer: EventAnalyticsObserver) {
@@ -69,24 +90,6 @@ import Foundation
     }
 
     public func getCommonEventAttributes() -> [AnyHashable: Any] {
-        var commonEventAttributes = [
-            EventAttributeName.deviceName: DeviceUtils.deviceName,
-            EventAttributeName.deviceManufacturer: DeviceUtils.manufacturer,
-            EventAttributeName.deviceModel: DeviceUtils.deviceModel,
-            EventAttributeName.osName: DeviceUtils.osName,
-            EventAttributeName.osVersion: DeviceUtils.osVersion,
-            EventAttributeName.sdkName: DeviceUtils.sdkName,
-            EventAttributeName.sdkVersion: DeviceUtils.sdkVersion,
-            EventAttributeName.mediaSdkVersion: DeviceUtils.mediaSDKVersion,
-            EventAttributeName.meetingId: meetingSessionConfig.meetingId,
-            EventAttributeName.attendeeId: meetingSessionConfig.credentials.attendeeId,
-            EventAttributeName.externalUserId: meetingSessionConfig.credentials.externalUserId
-        ] as [EventAttributeName: Any]
-
-        if let externalMeetingId = meetingSessionConfig.externalMeetingId {
-            commonEventAttributes[EventAttributeName.externalMeetingId] = externalMeetingId
-        }
-
-        return commonEventAttributes
+        return EventAttributeUtils.getCommonAttributes(meetingSessionConfig: meetingSessionConfig)
     }
 }

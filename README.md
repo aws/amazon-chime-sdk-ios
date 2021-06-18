@@ -31,6 +31,7 @@ And review the following guides:
 * [Video Pagination with Active Speaker-Based Policy](guides/video_pagination.md)
 * [Content Share](guides/content_share.md)
 * [Meeting Events](guides/meeting_events.md)
+* [Event Ingestion](guides/event_ingestion.md)
 
 ## Setup
 

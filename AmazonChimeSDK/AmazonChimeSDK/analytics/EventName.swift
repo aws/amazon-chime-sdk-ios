@@ -22,6 +22,8 @@ import Foundation
     case meetingFailed
     /// The meeting ended.
     case meetingEnded
+    // unknown
+    case unknown
 
     public var description: String {
         switch self {
@@ -37,6 +39,27 @@ import Foundation
             return "meetingFailed"
         case .meetingEnded:
             return "meetingEnded"
+        case .unknown:
+            return "unknown"
+        }
+    }
+
+    static func toEventName(name: String) -> EventName {
+        switch name {
+        case "videoInputFailed":
+            return .videoInputFailed
+        case "meetingStartRequested":
+            return .meetingStartRequested
+        case "meetingStartSucceeded":
+            return .meetingStartSucceeded
+        case "meetingStartFailed":
+            return .meetingStartFailed
+        case "meetingFailed":
+            return .meetingFailed
+        case "meetingEnded":
+            return .meetingEnded
+        default:
+            return .unknown
         }
     }
 }

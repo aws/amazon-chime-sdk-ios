@@ -22,14 +22,36 @@ import Foundation
     /// The signaling URL of the session
     public let signalingUrl: String
 
+    /// The event ingestion URL of the session
+    public let ingestionUrl: String?
+
+    public convenience init(audioFallbackUrl: String,
+                            audioHostUrl: String,
+                            turnControlUrl: String,
+                            signalingUrl: String,
+                            urlRewriter: URLRewriter) {
+        self.init(audioFallbackUrl: audioFallbackUrl,
+                  audioHostUrl: audioHostUrl,
+                  turnControlUrl: turnControlUrl,
+                  signalingUrl: signalingUrl,
+                  urlRewriter: urlRewriter,
+                  ingestionUrl: nil)
+    }
+
     public init(audioFallbackUrl: String,
                 audioHostUrl: String,
                 turnControlUrl: String,
                 signalingUrl: String,
-                urlRewriter: URLRewriter) {
+                urlRewriter: URLRewriter,
+                ingestionUrl: String?) {
         self.audioFallbackUrl = urlRewriter(audioFallbackUrl)
         self.audioHostUrl = urlRewriter(audioHostUrl)
         self.turnControlUrl = urlRewriter(turnControlUrl)
         self.signalingUrl = urlRewriter(signalingUrl)
+        if let ingestionUrl = ingestionUrl {
+            self.ingestionUrl = urlRewriter(ingestionUrl)
+        } else {
+            self.ingestionUrl = ingestionUrl
+        }
     }
 }

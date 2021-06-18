@@ -1,4 +1,7 @@
-## [unreleased]
+## Unreleased
+
+### Added
+* Added events ingestion to report meeting events to Amazon Chime backend.
 
 ### Fixed
 * [Documentation] Fixed active speaker observer example in README which if used caused a memory leak.
