@@ -537,20 +537,16 @@ extension MeetingModel: VideoTileObserver {
                     videoModel.localVideoUpdatedHandler?()
                 }
             } else {
-                videoModel.addRemoteVideoTileState(tileState, completion: { success in
-                    if success {
-                        if self.activeMode == .video {
-                            // If the video is not currently being displayed, pause it
-                            if !self.videoModel.isRemoteVideoDisplaying(tileId: tileState.tileId) {
-                                self.currentMeetingSession.audioVideo.pauseRemoteVideoTile(tileId: tileState.tileId)
-                            }
-                            self.videoModel.videoUpdatedHandler?()
-                        } else {
-                            // Currently not in the video view, no need to render the video tile
+                videoModel.addRemoteVideoTileState(tileState, completion: {
+                    if self.activeMode == .video {
+                        // If the video is not currently being displayed, pause it
+                        if !self.videoModel.isRemoteVideoDisplaying(tileId: tileState.tileId) {
                             self.currentMeetingSession.audioVideo.pauseRemoteVideoTile(tileId: tileState.tileId)
                         }
+                        self.videoModel.videoUpdatedHandler?()
                     } else {
-                        self.logger.info(msg: "Cannot add more video tile tileId: \(tileState.tileId)")
+                        // Currently not in the video view, no need to render the video tile
+                        self.currentMeetingSession.audioVideo.pauseRemoteVideoTile(tileId: tileState.tileId)
                     }
                 })
             }
