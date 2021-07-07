@@ -15,12 +15,6 @@ import Foundation
 
     static func globalInitialize()
 
-    static func setMediaClientConfig(_ configStr: String!)
-
-    static func devices() -> [Any]!
-
-    static func currentDevice() -> VideoDevice!
-
     func start(_ callId: String!,
                token: String!,
                sending: Bool,
@@ -35,15 +29,9 @@ import Foundation
 
     func setExternalVideoSource(_ source: VideoSourceInternal!)
 
-    func stateString() -> String!
-
     func getServiceType() -> video_client_service_type_t
 
     func setRemotePause(_ video_id: UInt32, pause: Bool)
-
-    func activeTracks() -> [Any]!
-
-    func setCurrentDevice(_ captureDevice: VideoDevice!)
 
     func videoLogCallBack(_ logLevel: video_client_loglevel_t, msg: String!)
 

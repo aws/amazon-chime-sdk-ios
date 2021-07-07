@@ -57,10 +57,6 @@ class DefaultVideoClientController: NSObject {
         }
     }
 
-    func isDeviceFrontFacing(videoDevice: VideoDevice) -> Bool {
-        return MediaDevice.fromVideoDevice(device: videoDevice).type == .videoFrontCamera
-    }
-
     private func stopVideoClient() {
         logger.info(msg: "Stopping VideoClient")
         videoClient?.stop()
@@ -75,24 +71,6 @@ class DefaultVideoClientController: NSObject {
         videoClient?.delegate = nil
         videoClient = nil
         videoClientState = .uninitialized
-    }
-
-    func setFrontCameraAsCurrentDevice() {
-        guard videoClientState != .uninitialized else {
-            logger.error(msg: "Cannot set front camera as current device because videoClientState=\(videoClientState)")
-            return
-        }
-
-        logger.info(msg: "Setting front camera as current device")
-
-        let currentDevice = VideoClient.currentDevice()
-        if currentDevice == nil || !isDeviceFrontFacing(videoDevice: currentDevice!) {
-            if let devices = (VideoClient.devices() as? [VideoDevice]) {
-                if let frontDevice = devices.first(where: isDeviceFrontFacing) {
-                    videoClient?.setCurrentDevice(frontDevice)
-                }
-            }
-        }
     }
 
     func initialize() {
