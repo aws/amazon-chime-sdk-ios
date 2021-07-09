@@ -1,3 +1,7 @@
+## Unreleased
+### Removed
+* **Breaking (internal APIs)** Removed unused and incorrect `isDeviceFrontFacing` and `setFrontCameraAsCurrentDevice` from internal `VideoClientController`.  Removed internal `VideoDevice` constructors for `MediaDevice`.
+
 ## [0.16.3] - 2021-06-24
 
 ### Added

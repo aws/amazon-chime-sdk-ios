@@ -28,12 +28,6 @@ import Foundation
         return MediaDevice(label: port.portName, port: port)
     }
 
-    /// Create `MediaDevice` for video from  `VideoDevice`.
-    /// - Parameter device: Video device that contains information about device
-    static func fromVideoDevice(device: VideoDevice?) -> MediaDevice {
-        return MediaDevice(label: device?.name ?? "unknown", videoDevice: device)
-    }
-
     /// List available video capture devices from the hardware
     public static func listVideoDevices() -> [MediaDevice] {
         let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera],
@@ -89,19 +83,10 @@ import Foundation
         self.port = nil
     }
 
-    public init(label: String, port: AVAudioSessionPortDescription? = nil, videoDevice: VideoDevice? = nil) {
+    public init(label: String, port: AVAudioSessionPortDescription? = nil) {
         self.label = label
         self.port = port
-        if let videoDevice = videoDevice {
-            let nameLowercased = videoDevice.name.lowercased()
-            if nameLowercased.contains("front") {
-                type = .videoFrontCamera
-            } else if nameLowercased.contains("back") {
-                type = .videoBackCamera
-            } else {
-                type = .other
-            }
-        } else if let port = port {
+        if let port = port {
             switch port.portType {
             case .bluetoothLE, .bluetoothHFP, .bluetoothA2DP:
                 type = .audioBluetooth
