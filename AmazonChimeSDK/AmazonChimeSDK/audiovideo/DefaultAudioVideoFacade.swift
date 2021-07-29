@@ -161,6 +161,10 @@ import Foundation
         return deviceController.getActiveCamera()
     }
 
+    public func getActiveAudioDevice() -> MediaDevice? {
+        return deviceController.getActiveAudioDevice()
+    }
+
     // MARK: VideoTileController
 
     public func bindVideoView(videoView: VideoRenderView, tileId: Int) {
@@ -198,10 +202,6 @@ import Foundation
     }
 
     public func hasBandwidthPriorityCallback(hasBandwidthPriority: Bool) {}
-
-    public func getActiveAudioDevice() -> MediaDevice? {
-        return deviceController.getActiveAudioDevice()
-    }
 
     // MARK: ContentShareController
 
