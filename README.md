@@ -569,7 +569,7 @@ Refer to [General FAQ](https://aws.github.io/amazon-chime-sdk-js/modules/faqs.ht
 ### Debugging
 
 #### How can I get Amazon Chime SDK logs for debugging?
-Applications can get logs from Chime SDK by passing instances of Logger when creating [MeetingSession](https://github.com/aws/amazon-chime-sdk-ios/blob/master/AmazonChimeSDK/AmazonChimeSDK/session/MeetingSession.swift#L13). Amazon Chime SDK has some default implementations of logger that your application can use, such as [ConsoleLogger](https://github.com/aws/amazon-chime-sdk-ios/blob/master/AmazonChimeSDK/AmazonChimeSDK/utils/logger/ConsoleLogger.swift) which logs into console. `ConsoleLogger` is set to `INFO` level as default. Therefore, in order to get all logs, including media logs, create logger by following:
+Applications can get logs from Chime SDK by passing instances of Logger when creating [MeetingSession](https://aws.github.io/amazon-chime-sdk-ios/Protocols/MeetingSession.html). Amazon Chime SDK has some default implementations of logger that your application can use, such as [ConsoleLogger](https://aws.github.io/amazon-chime-sdk-ios/Classes/ConsoleLogger.html) which logs into console. `ConsoleLogger` is set to `INFO` level as default. Therefore, in order to get all logs, including media logs, create logger by following:
 ```swift
 logger = ConsoleLogger(name: "logger", level: .DEFAULT)
 ```
