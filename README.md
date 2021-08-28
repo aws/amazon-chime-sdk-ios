@@ -80,6 +80,9 @@ Download `AmazonChimeSDKMedia` binary with bitcode support from the latest [rele
 
 Unzip and copy the `AmazonChimeSDKMedia.framework` to `AmazonChimeSDK` folder.
 
+Note: For Xcode12.3 and later, Amazon Chime SDK iOS v0.15.0 and later, you can place unzipped AmazonChimeSDKMedia.xcframework to `AmazonChimeSDK` folder. For each target, remove AmazonChimeSDKMedia.framework and add AmazonChimeSDKMedia.xcframework.
+<img src="./media/xcframework_setting.png" alt="image" width="300"/>
+
 ### 3. Deploy serverless demo
 
 Deploy the serverless demo from [amazon-chime-sdk-js](https://github.com/aws/amazon-chime-sdk-js)
