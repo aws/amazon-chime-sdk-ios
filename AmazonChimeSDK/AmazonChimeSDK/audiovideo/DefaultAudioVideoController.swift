@@ -105,8 +105,7 @@ import Foundation
     }
 
     @objc private func handleMediaServiceReset(notification: Notification) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-            [weak self] in
+        DispatchQueue.main.async { [weak self] in
             guard let strongSelf = self else {
                 return
             }
