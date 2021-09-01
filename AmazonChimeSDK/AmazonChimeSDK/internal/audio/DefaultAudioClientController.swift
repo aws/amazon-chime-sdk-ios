@@ -161,4 +161,8 @@ extension DefaultAudioClientController: AudioClientController {
         }
         DefaultAudioClient.shared(logger: self.logger).delegate = nil
     }
+    
+    func endOnHold() {
+        audioClient.endOnHold()
+    }
 }

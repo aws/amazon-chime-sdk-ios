@@ -19,4 +19,5 @@ import Foundation
     func stop()
     func setVoiceFocusEnabled(enabled: Bool) -> Bool
     func isVoiceFocusEnabled() -> Bool
+    func endOnHold()
 }

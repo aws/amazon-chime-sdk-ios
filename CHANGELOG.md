@@ -1,3 +1,8 @@
+## [Unreleased]
+
+### Fixed
+* Fixes an issue where audio session is stopped when switch between bluetooth device and speaker.
+
 ## [0.16.4] - 2021-07-21
 ### Removed
 * **Breaking (internal APIs)** Removed unused and incorrect `isDeviceFrontFacing` and `setFrontCameraAsCurrentDevice` from internal `VideoClientController`.  Removed internal `VideoDevice` constructors for `MediaDevice`.

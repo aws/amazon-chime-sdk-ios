@@ -33,6 +33,15 @@ import Foundation
         self.videoTileController = videoTileController
         self.configuration = configuration
         self.logger = logger
+        super.init()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleMediaServiceReset),
+                                               name: AVAudioSession.mediaServicesWereResetNotification,
+                                               object: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
     public func start() throws {
@@ -93,5 +102,15 @@ import Foundation
 
     public func stopRemoteVideo() {
         videoClientController.stopRemoteVideo()
+    }
+
+    @objc private func handleMediaServiceReset(notification: Notification) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+            [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.audioClientController.endOnHold()
+        }
     }
 }
