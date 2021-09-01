@@ -42,6 +42,14 @@ class DefaultAudioClientController: NSObject {
         self.activeSpeakerDetector = activeSpeakerDetector
         self.logger = logger
         super.init()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleMediaServiceReset),
+                                               name: AVAudioSession.mediaServicesWereResetNotification,
+                                               object: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -133,12 +141,6 @@ extension DefaultAudioClientController: AudioClientController {
         }
     }
 
-    private func notifyStop() {
-        eventAnalyticsController.publishEvent(name: .meetingEnded,
-                                              attributes: [EventAttributeName.meetingStatus: MeetingSessionStatusCode.ok])
-        meetingStatsCollector.resetMeetingStats()
-    }
-
     func setVoiceFocusEnabled(enabled: Bool) -> Bool {
         if Self.state == .started {
             return audioClient.setBliteNSSelected(enabled) == Int(AUDIO_CLIENT_OK.rawValue)
@@ -155,10 +157,25 @@ extension DefaultAudioClientController: AudioClientController {
         }
     }
 
+    private func notifyStop() {
+        eventAnalyticsController.publishEvent(name: .meetingEnded,
+                                              attributes: [EventAttributeName.meetingStatus: MeetingSessionStatusCode.ok])
+        meetingStatsCollector.resetMeetingStats()
+    }
+
     private func cleanup() {
         if let observer = self.activeSpeakerDetector as? RealtimeObserver {
             self.audioClientObserver.unsubscribeFromRealTimeEvents(observer: observer)
         }
         DefaultAudioClient.shared(logger: self.logger).delegate = nil
+    }
+
+    @objc private func handleMediaServiceReset(notification: Notification) {
+        DispatchQueue.main.async { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            strongSelf.audioClient.endOnHold()
+        }
     }
 }
