@@ -37,78 +37,118 @@ And review the following guides:
 * [Meeting Events](guides/meeting_events.md)
 * [Event Ingestion](guides/event_ingestion.md)
 
-## Setup
+## Include Amazon Chime SDK in Your Project
 
 To include the SDK binaries in your own project, follow these steps.
 
 For the purpose of setup, your project's root folder (where you can find your `.xcodeproj` file) will be referred to as `root`.
 
-### 1. Download binaries
+### 1. Download Binaries
 
-Download the `AmazonChimeSDK` and `AmazonChimeSDKMedia` binaries from the latest [release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
+* Download the `AmazonChimeSDK` and `AmazonChimeSDKMedia` binaries from the latest [release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
 
-Unzip and copy the `.framework`s or `.xcframework`s to `root`.
+* Unzip and copy the `.framework`s or `.xcframework`s to `root`, which depends on which framework your project uses.  For Xcode12.3 and later, please use `.xcframework` if you have compile issue. `.xcframework` is available after Amazon Chime SDK iOS v0.15.0
 
-### 2. Update project file
+### 2. Update Project File
 
-Open your `.xcodeproj` file in Xcode and click on your build target. Under `Build Settings` tab, add `$(PROJECT_DIR)` to `Framework Search Path`
+* Open your `.xcodeproj` file in Xcode and click on your build target.
 
-Under `Build Settings` tab, add `@executable_path/Frameworks` to `Runpath Search Paths`
+* Under `Build Settings` tab,
 
-Under `General` tab, look for `Frameworks, Libraries, and Embedded Content` section. Click on `+`, then `Add Others`, then `Add Files`.
-* If you are using traditional `.framework`, specify the location of `AmazonChimeSDK.framework` and `AmazonChimeSDKMedia.framework` from Step 1.
-* If you are using `.xcframework`, specify the location of `AmazonChimeSDK.xcframework` and `AmazonChimeSDKMedia.xcframework` from Step 1.
+  * add `$(PROJECT_DIR)` to `Framework Search Path`.
+  * add `@executable_path/Frameworks` to `Runpath Search Paths`.
 
-After adding the two frameworks, verify that `Embed & Sign` is selected under the `Embed` option.
+  * under `Linking` section, add the following two flags in `Other Linker Flags`:
+    * `-lc++`
+    * `-ObjC`
 
-In `Build Settings` tab, under `Linking` section, add the following two flags in `Other Linker Flags`:
+<p align="center">
+<img src="./media/build_setting.png" alt="image" width="80%"/>
+</p>
 
-* `-lc++`
-* `-ObjC`
+* Under `General` tab, look for `Frameworks, Libraries, and Embedded Content` section. Click on +, then `Add Others`, then `Add Files`.
 
-## Running the demo app
+  * If you are using traditional `.framework`, specify the location of `AmazonChimeSDK.framework` and `AmazonChimeSDKMedia.framework` from Step 1. If you have compile error while using traditional `.framework`, which occurs in Xcode 12.3 and later, please use `.xcframework` instead, which is available after Amazon Chime SDK iOS v0.15.0.
+  * If you are using `.xcframework`, specify the location of `AmazonChimeSDK.xcframework` and `AmazonChimeSDKMedia.xcframework` from Step 1.
+  * For these two frameworks, verify that `Embed & Sign` is selected under the `Embed` option.
+
+<p align="center">
+<img src="./media/xcframework_setting.png" alt="image" width="80%"/>
+</p>
+
+## Running the Demo App
 
 To run the demo application, follow these steps.
 
-### 1. Clone the Git repo
+### 1. Clone the Git Repo
 
 `git clone git@github.com:aws/amazon-chime-sdk-ios.git`
 
-### 2. Download binary
+### 2. Download Binary
 
-Download `AmazonChimeSDKMedia` binary with bitcode support from the latest [release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
+* Download `AmazonChimeSDKMedia` binary with bitcode support from the latest [release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
 
-Unzip and copy the `AmazonChimeSDKMedia.framework` to `AmazonChimeSDK` folder.
+* Unzip and copy the `AmazonChimeSDKMedia.framework` to `AmazonChimeSDK` folder.
 
-### 3. Deploy serverless demo
+### 3. Deploy Serverless Demo
 
 Deploy the serverless demo from [amazon-chime-sdk-js](https://github.com/aws/amazon-chime-sdk-js)
 
-### 4. Update Demo App
+### 4. Update AmazonChimeSDKDemo Project File
 
-* Update `AppConfiguration.swift` with the URL and region of the serverless demo.
-* (Optional) Update `broadcastBundleId` and `appGroupId` in **BOTH** `AppConfiguration.swift` and `SampleHandler.swift` with the broadcast upload extension bundle ID and App Group ID if you want to test sharing device level screen capture. See [Content Share](guides/content_share.md) for more details.
+* If set up the demo application using `.framework`, please skip the below 4 steps. If encounter compile error when using traditional `.framework`, which occurs in Xcode 12.3 and later, please use `.xcframework` instead.
 
-### 5. Use Demo App to join meeting
+  * Replace `AmazonChimeSDKMedia.framework` with `AmazonChimeSDKMedia.xcframework` under `root/AmazonChimeSDK` folder,  which is available after Amazon Chime SDK iOS v0.15.0.
+  * *For each target*, under `General` tab, look for `Frameworks, Libraries, and Embedded Content` section. Select `AmazonChimeSDKMedia.framework` and click `-` to remove it.
+  * Then click `+`, click `Add Other` drop-down list, then `Add Files`.
+  * Specify the location of `AmazonChimeSDKMedia.xcframework` and verify that `Embed & Sign` is selected under the `Embed` option.
+
+
+* `AmazonChimeDemoSDKBroadcast.appex` is a Broadcast Extension for device level screen sharing used by AmazonChimeSDKDemo, verify that `Embed without Signing` is selected under the `Embed` option. Remove it from `Frameworks, Libraries, and Embedded Content` section if you do not wish to test this.
+
+<p align="center">
+<img src="./media/xcframework_setting.png" alt="image" width="80%"/>
+</p>
+
+* For each target, under `Signing & Capabilities` tab,
+  
+  * `Signing` section, use your own Apple Developer team and Bundle Identifier.
+  * (Optional)`App Groups` section, select your own app groups if you wish to test sharing device level screen capture. See [Content Share](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/content_share.md) for more details.
+
+<p align="center">
+<img src="./media/signing_capabilities.jpeg" alt="image" width="80%"/>
+<img src="./media/app_groups.jpeg" alt="image" width="80%"/>
+</p>
+
+### 5. Update Demo App
+
+* Update server URL and region:
+
+  * For Swift demo, update `AppConfiguration.swift` with the server URL and region of the serverless demo.
+  * For ObjC demo, update `ViewControllerObjC.h` with the server URL and region of the serverless demo.
+
+* (Optional) Update `broadcastBundleId` and `appGroupId` in BOTH `AppConfiguration.swift` and `SampleHandler.swift` with the broadcast upload extension bundle ID and App Group ID if you want to test sharing device level screen capture. See [Content Share](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/content_share.md) for more details.
+
+### 6. Use Demo App to Join Meeting
 
 On the joining screen, choose to join the meeting without `CallKit` or join via `CallKit` incoming/outgoing call. Since the demo app does not have Push Notification, it delays joining via incoming call by 10 seconds to give user enough time to background the app or lock the screen to mimic the behavior.
 
-## Reporting a suspected vulnerability
+## Reporting a Suspected Vulnerability
 
 If you discover a potential security issue in this project we ask that you notify AWS/Amazon Security via our
 [vulnerability reporting page](http://aws.amazon.com/security/vulnerability-reporting/). Please do **not** create a public GitHub issue.
 
 ## Usage
-  - [Starting a session](#starting-a-session)
-  - [Device](#device)
-  - [Audio](#audio)
-  - [Video](#video)
-  - [Screen and content share](#screen-and-content-share)
-  - [Metrics](#metrics)
-  - [Data Message](#data-message)
-  - [Stopping a session](#stopping-a-session)
-  - [Amazon Voice Focus](#amazon-voice-focus)
-  - [Custom Video Source](#custom-video-source)
+- [Starting a session](#starting-a-session)
+- [Device](#device)
+- [Audio](#audio)
+- [Video](#video)
+- [Screen and content share](#screen-and-content-share)
+- [Metrics](#metrics)
+- [Data Message](#data-message)
+- [Stopping a session](#stopping-a-session)
+- [Amazon Voice Focus](#amazon-voice-focus)
+- [Custom Video Source](#custom-video-source)
 
 ### Starting a session
 
