@@ -37,8 +37,20 @@ import AVFoundation
     public func listAudioDevices() -> [MediaDevice] {
         var inputDevices: [MediaDevice] = []
         let loudSpeaker = getSpeakerMediaDevice()
-        if let availablePort = audioSession.availableInputs {
-            inputDevices = availablePort.map { port in MediaDevice.fromAVSessionPort(port: port) }
+        if let availableInputs = audioSession.availableInputs {
+            // On iOS 15, availableInputs returns two entries for bluetooth devices.
+            // All fields are identical other than uid and portType.
+            // This is a workaround to dedup the bluetooth device entry.
+            var dedupInputs: [AVAudioSessionPortDescription] = []
+            for input in availableInputs {
+                let inputExists = dedupInputs.contains { element in
+                    element.portName == input.portName
+                }
+                if !inputExists {
+                    dedupInputs.append(input)
+                }
+            }
+            inputDevices = dedupInputs.map { port in MediaDevice.fromAVSessionPort(port: port) }
         }
         // Putting loudSpeaker devices as second element is to align with
         // what apple's AVRoutePickerView will present the list of audio devices:
