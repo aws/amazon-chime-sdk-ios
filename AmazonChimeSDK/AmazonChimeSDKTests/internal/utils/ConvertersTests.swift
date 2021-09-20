@@ -157,4 +157,47 @@ class ConvertersTests: XCTestCase {
             SessionStateControllerAction.fail
         )
     }
+
+    func testTranscriptToTranscriptionStatusType() {
+        XCTAssertEqual(
+            Converters.Transcript.toTranscriptionStatusType(type: TranscriptionStatusTypeInternal.started),
+            TranscriptionStatusType.started
+        )
+        XCTAssertEqual(
+            Converters.Transcript.toTranscriptionStatusType(type: TranscriptionStatusTypeInternal.interrupted),
+            TranscriptionStatusType.interrupted
+        )
+        XCTAssertEqual(
+            Converters.Transcript.toTranscriptionStatusType(type: TranscriptionStatusTypeInternal.resumed),
+            TranscriptionStatusType.resumed
+        )
+        XCTAssertEqual(
+            Converters.Transcript.toTranscriptionStatusType(type: TranscriptionStatusTypeInternal.stopped),
+            TranscriptionStatusType.stopped
+        )
+        XCTAssertEqual(
+            Converters.Transcript.toTranscriptionStatusType(type: TranscriptionStatusTypeInternal.failed),
+            TranscriptionStatusType.failed
+        )
+    }
+
+    func testTranscriptToTranscriptItemType() {
+        XCTAssertEqual(
+            Converters.Transcript.toTranscriptItemType(type: TranscriptItemTypeInternal.pronunciation),
+            TranscriptItemType.pronunciation
+        )
+        XCTAssertEqual(
+            Converters.Transcript.toTranscriptItemType(type: TranscriptItemTypeInternal.punctuation),
+            TranscriptItemType.punctuation
+        )
+    }
+
+    func testTranscriptToTranscriptSpeaker() {
+        let attendeeId = "attendee-id"
+        let externalUserId = "external-user-id"
+        let speakerBefore = TranscriptSpeakerInternal(attendeeId: attendeeId, externalUserId: externalUserId)!
+        let speakerAfter = Converters.Transcript.toTranscriptSpeaker(speaker: speakerBefore)
+        XCTAssertEqual(speakerAfter.attendeeId, attendeeId)
+        XCTAssertEqual(speakerAfter.externalUserId, externalUserId)
+    }
 }

@@ -20,6 +20,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     private var currentAudioState = SessionStateControllerAction.initialize
     private var currentAudioStatus = MeetingSessionStatusCode.ok
     private let realtimeObservers = ConcurrentMutableSet()
+    private let transcriptEventObservers = ConcurrentMutableSet()
     private let logger: Logger
     private let eventAnalyticsController: EventAnalyticsController
     private let meetingStatsCollector: MeetingStatsCollector
@@ -197,6 +198,60 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         }
     }
 
+    public func transcriptEventsReceived(_ events: [Any]?) {
+        if events == nil {
+            return
+        }
+
+        guard let internalEvents = events as? [TranscriptEventInternal] else {
+            return
+        }
+
+        internalEvents.forEach { rawEvent in
+            ObserverUtils.forEach(observers: transcriptEventObservers) { (observer: TranscriptEventObserver) in
+                if let rawStatus = rawEvent as? TranscriptionStatusInternal {
+                    let status = TranscriptionStatus(type: Converters.Transcript.toTranscriptionStatusType(type: rawStatus.type),
+                                                     eventTimeMs: rawStatus.eventTimeMs,
+                                                     transcriptionRegion: rawStatus.transcriptionRegion,
+                                                     transcriptionConfiguration: rawStatus.transcriptionConfiguration,
+                                                     message: rawStatus.message)
+                    observer.transcriptEventDidReceive(transcriptEvent: status)
+                } else if let rawTranscript = rawEvent as? TranscriptInternal {
+                    var results: [TranscriptResult] = []
+                    rawTranscript.results.forEach { rawResult in
+                        var alternatives: [TranscriptAlternative] = []
+                        rawResult.alternatives.forEach { rawAlternative in
+                            var items: [TranscriptItem] = []
+                            rawAlternative.items.forEach { rawItem in
+                                let item = TranscriptItem(type: Converters.Transcript.toTranscriptItemType(type: rawItem.type),
+                                                          startTimeMs: rawItem.startTimeMs,
+                                                          endTimeMs: rawItem.endTimeMs,
+                                                          attendee: Converters.Transcript.toTranscriptSpeaker(speaker: rawItem.attendee),
+                                                          content: rawItem.content,
+                                                          vocabularyFilterMatch: rawItem.vocabularyFilterMatch)
+                                items.append(item)
+                            }
+                            let alternative = TranscriptAlternative(items: items, transcript: rawAlternative.transcript)
+                            alternatives.append(alternative)
+                        }
+                        let result = TranscriptResult(resultId: rawResult.resultId,
+                                                      channelId: rawResult.channelId,
+                                                      isPartial: rawResult.isPartial,
+                                                      startTimeMs: rawResult.startTimeMs,
+                                                      endTimeMs: rawResult.endTimeMs,
+                                                      alternatives: alternatives)
+                        results.append(result)
+                    }
+                    let transcript = Transcript(results: results)
+                    observer.transcriptEventDidReceive(transcriptEvent: transcript)
+                } else {
+                    self.logger.error(msg: "Received transcript event in unknown format")
+                }
+            }
+
+        }
+    }
+
     // Create AttendeeInfo based on AttendeeUpdate, fill up external ID for local attendee
     private func createAttendeeInfo(attendeeUpdate: AttendeeUpdate) -> AttendeeInfo {
         var externalUserId: String
@@ -342,5 +397,13 @@ extension DefaultAudioClientObserver: AudioClientObserver {
 
     func unsubscribeFromRealTimeEvents(observer: RealtimeObserver) {
         realtimeObservers.remove(observer)
+    }
+
+    func subscribeToTranscriptEvent(observer: TranscriptEventObserver) {
+        transcriptEventObservers.add(observer)
+    }
+
+    func unsubscribeFromTranscriptEvent(observer: TranscriptEventObserver) {
+        transcriptEventObservers.remove(observer)
     }
 }

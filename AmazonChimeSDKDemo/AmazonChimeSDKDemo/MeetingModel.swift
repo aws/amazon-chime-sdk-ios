@@ -249,6 +249,7 @@ class MeetingModel: NSObject {
                                             observer: self)
         audioVideo.addRealtimeDataMessageObserver(topic: "chat", observer: self)
         audioVideo.addEventAnalyticsObserver(observer: self)
+        audioVideo.addRealtimeTranscriptEventObserver(observer: self)
     }
 
     private func removeAudioVideoFacadeObservers() {
@@ -261,6 +262,7 @@ class MeetingModel: NSObject {
         audioVideo.removeActiveSpeakerObserver(observer: self)
         audioVideo.removeRealtimeDataMessageObserverFromTopic(topic: "chat")
         audioVideo.removeEventAnalyticsObserver(observer: self)
+        audioVideo.removeRealtimeTranscriptEventObserver(observer: self)
     }
 
     private func configureAudioSession() {
@@ -638,7 +640,10 @@ extension MeetingModel: ActiveSpeakerObserver {
 
 extension MeetingModel: DataMessageObserver {
     func dataMessageDidReceived(dataMessage: DataMessage) {
-        chatModel.addDataMessage(dataMessage: dataMessage)
+        logger.info(msg: "Received data message for '\(dataMessage.topic)', \(dataMessage.text() ?? "")")
+        if dataMessage.topic == "chat" {
+            chatModel.addDataMessage(dataMessage: dataMessage)
+        }
     }
 }
 
@@ -675,5 +680,29 @@ extension MeetingModel: EventAnalyticsObserver {
             jsonDict[String(describing: key)] = String(describing: value)
         }
         return jsonDict
+    }
+}
+
+// MARK: TranscriptEventObserver
+
+extension MeetingModel: TranscriptEventObserver {
+    func transcriptEventDidReceive(transcriptEvent: TranscriptEvent) {
+        if let status = transcriptEvent as? TranscriptionStatus {
+            let eventDate = NSDate(timeIntervalSince1970: TimeInterval(status.eventTimeMs / 1000))
+            logger.info(msg: "(Live transcription \(status.type) at \(eventDate) in \(status.transcriptionRegion) with configuration: \(status.transcriptionConfiguration))")
+        } else if let transcript = transcriptEvent as? Transcript {
+            transcript.results.forEach { result in
+                if result.isPartial {
+                    result.alternatives.forEach { alternative in
+                        logger.info(msg: "Received partial result [\(result.resultId)]: \(alternative.transcript)")
+                    }
+                } else {
+                    result.alternatives.forEach { alternative in
+                        logger.info(msg: "Received final result [\(result.resultId)]: \(alternative.transcript)")
+                    }
+                }
+
+            }
+        }
     }
 }

@@ -23,6 +23,10 @@ class DefaultAudioClientObserverTests: XCTestCase {
     let attendeeId = "attendee-id"
     let externalUserId = "externalUserId"
     let joinToken = "join-token"
+    let timestampMs: Int64 = 1632087029249
+    let transcriptionRegion = "us-east-1"
+    let transcriptionConfiguration = "transcription-configuration"
+    let failedMessage = "Internal server error"
     var audioClientMock: AudioClientProtocolMock!
     var clientMetricsCollectorMock: ClientMetricsCollectorMock!
     var audioSessionMock: AudioSessionMock!
@@ -33,6 +37,7 @@ class DefaultAudioClientObserverTests: XCTestCase {
     var mockAudioVideoObserver: AudioVideoObserverMock!
     var mockRealTimeObserver: RealtimeObserverMock!
     var meetingStatsCollectorMock: MeetingStatsCollectorMock!
+    var transcriptEventObserverMock: TranscriptEventObserverMock!
 
     let defaultTimeout = 1.0
 
@@ -44,6 +49,7 @@ class DefaultAudioClientObserverTests: XCTestCase {
         eventAnalyticsControllerMock = mock(EventAnalyticsController.self)
         audioLockMock = mock(AudioLock.self)
         meetingStatsCollectorMock = mock(MeetingStatsCollector.self)
+        transcriptEventObserverMock = mock(TranscriptEventObserver.self)
         loggerMock = mock(Logger.self)
 
         given(meetingStatsCollectorMock.getMeetingStats()).will { return [AnyHashable: Any]() }
@@ -80,6 +86,7 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                                 meetingStatsCollector: meetingStatsCollectorMock)
         defaultAudioClientObserver.subscribeToAudioClientStateChange(observer: mockAudioVideoObserver)
         defaultAudioClientObserver.subscribeToRealTimeEvents(observer: mockRealTimeObserver)
+        defaultAudioClientObserver.subscribeToTranscriptEvent(observer: transcriptEventObserverMock)
     }
 
     func testAudioClientStateChanged_Connected() {
@@ -345,4 +352,48 @@ class DefaultAudioClientObserverTests: XCTestCase {
         wait(for: [expect], timeout: defaultTimeout)
     }
 
+    func testTranscriptEventsReceived_receivedTranscriptionStatus() {
+        let statusStarted = TranscriptionStatusInternal(type: TranscriptionStatusTypeInternal.started,
+                                                        eventTimeMs: timestampMs,
+                                                        transcriptionRegion: transcriptionRegion,
+                                                        transcriptionConfiguration: transcriptionConfiguration,
+                                                        message: "")
+        let statusFailed = TranscriptionStatusInternal(type: TranscriptionStatusTypeInternal.failed,
+                                                        eventTimeMs: timestampMs,
+                                                        transcriptionRegion: transcriptionRegion,
+                                                        transcriptionConfiguration: transcriptionConfiguration,
+                                                        message: failedMessage)
+        let events = [statusStarted, statusFailed]
+        defaultAudioClientObserver.transcriptEventsReceived(events as [Any])
+        let expect = eventually {
+            verify(transcriptEventObserverMock.transcriptEventDidReceive(transcriptEvent: any())).wasCalled(2)
+        }
+
+        wait(for: [expect], timeout: defaultTimeout)
+    }
+
+    func testTranscriptEventsReceived_receivedTranscript() {
+        let item = TranscriptItemInternal(type: TranscriptItemTypeInternal.pronunciation,
+                                          startTimeMs: timestampMs,
+                                          endTimeMs: timestampMs,
+                                          attendee: TranscriptSpeakerInternal(attendeeId: "attendee-id",
+                                                                              externalUserId: "external-user-id"),
+                                          content: "test",
+                                          vocabularyFilterMatch: true)!
+        let alternative = TranscriptAlternativeInternal(items: [item], transcript: "test")!
+        let result = TranscriptResultInternal(resultId: "result-id",
+                                              channelId: "",
+                                              isPartial: true,
+                                              startTimeMs: timestampMs,
+                                              endTimeMs: timestampMs,
+                                              alternatives: [alternative])!
+        let transcript = TranscriptInternal(results: [result])
+        let events = [transcript]
+        defaultAudioClientObserver.transcriptEventsReceived(events as [Any])
+        let expect = eventually {
+            verify(transcriptEventObserverMock.transcriptEventDidReceive(transcriptEvent: any())).wasCalled()
+        }
+
+        wait(for: [expect], timeout: defaultTimeout)
+    }
 }
