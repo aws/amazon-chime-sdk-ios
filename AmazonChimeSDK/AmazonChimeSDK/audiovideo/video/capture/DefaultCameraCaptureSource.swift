@@ -12,7 +12,6 @@ import UIKit
 
 @objcMembers public class DefaultCameraCaptureSource: NSObject, CameraCaptureSource {
     public var videoContentHint: VideoContentHint = .motion
-
     private let logger: Logger
     private let cameraLock = NSLock()
     private let deviceType = AVCaptureDevice.DeviceType.builtInWideAngleCamera
@@ -80,7 +79,7 @@ import UIKit
 
     public var torchEnabled: Bool = false {
         didSet {
-            if let captureDevice = captureDevice, captureDevice.hasTorch, captureDevice.isTorchAvailable {
+            if let captureDevice = captureDevice, torchAvailable {
                 do {
                     try captureDevice.lockForConfiguration()
                     if torchEnabled {
@@ -97,6 +96,15 @@ import UIKit
                 logger.info(msg: "Torch is not available on current camera.")
             }
         }
+    }
+
+    /// Expose current capture device's torch availability
+    public var torchAvailable: Bool {
+        guard let captureDevice = captureDevice else {
+            return false
+        }
+
+        return captureDevice.hasTorch && captureDevice.isTorchAvailable
     }
 
     public func addVideoSink(sink: VideoSink) {
