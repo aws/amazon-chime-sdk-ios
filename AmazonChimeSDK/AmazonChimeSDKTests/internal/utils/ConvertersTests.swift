@@ -192,11 +192,11 @@ class ConvertersTests: XCTestCase {
         )
     }
 
-    func testTranscriptToTranscriptSpeaker() {
+    func testTranscriptToAttendeeInfo() {
         let attendeeId = "attendee-id"
         let externalUserId = "external-user-id"
-        let speakerBefore = TranscriptSpeakerInternal(attendeeId: attendeeId, externalUserId: externalUserId)!
-        let speakerAfter = Converters.Transcript.toTranscriptSpeaker(speaker: speakerBefore)
+        let speakerBefore = AttendeeInfoInternal(attendeeId: attendeeId, externalUserId: externalUserId)!
+        let speakerAfter = Converters.Transcript.toAttendeeInfo(speaker: speakerBefore)
         XCTAssertEqual(speakerAfter.attendeeId, attendeeId)
         XCTAssertEqual(speakerAfter.externalUserId, externalUserId)
     }

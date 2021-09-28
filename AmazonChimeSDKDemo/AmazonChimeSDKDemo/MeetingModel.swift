@@ -249,7 +249,7 @@ class MeetingModel: NSObject {
                                             observer: self)
         audioVideo.addRealtimeDataMessageObserver(topic: "chat", observer: self)
         audioVideo.addEventAnalyticsObserver(observer: self)
-        audioVideo.addRealtimeTranscriptEventObserver(observer: self)
+        audioVideo.addRealtimeTranscriptEventObserver?(observer: self)
     }
 
     private func removeAudioVideoFacadeObservers() {
@@ -262,7 +262,7 @@ class MeetingModel: NSObject {
         audioVideo.removeActiveSpeakerObserver(observer: self)
         audioVideo.removeRealtimeDataMessageObserverFromTopic(topic: "chat")
         audioVideo.removeEventAnalyticsObserver(observer: self)
-        audioVideo.removeRealtimeTranscriptEventObserver(observer: self)
+        audioVideo.removeRealtimeTranscriptEventObserver?(observer: self)
     }
 
     private func configureAudioSession() {

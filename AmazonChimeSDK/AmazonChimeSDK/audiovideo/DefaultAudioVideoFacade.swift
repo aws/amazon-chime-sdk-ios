@@ -136,11 +136,11 @@ import Foundation
     }
 
     public func addRealtimeTranscriptEventObserver(observer: TranscriptEventObserver) {
-        realtimeController.addRealtimeTranscriptEventObserver(observer: observer)
+        realtimeController.addRealtimeTranscriptEventObserver?(observer: observer)
     }
 
     public func removeRealtimeTranscriptEventObserver(observer: TranscriptEventObserver) {
-        realtimeController.removeRealtimeTranscriptEventObserver(observer: observer)
+        realtimeController.removeRealtimeTranscriptEventObserver?(observer: observer)
     }
 
     // MARK: DeviceController

@@ -12,14 +12,14 @@ import Foundation
     public let type: TranscriptItemType
     public let startTimeMs: Int64
     public let endTimeMs: Int64
-    public let attendee: TranscriptSpeaker
+    public let attendee: AttendeeInfo
     public let content: String
     public let vocabularyFilterMatch: Bool
 
     public init(type: TranscriptItemType,
                 startTimeMs: Int64,
                 endTimeMs: Int64,
-                attendee: TranscriptSpeaker,
+                attendee: AttendeeInfo,
                 content: String,
                 vocabularyFilterMatch: Bool) {
         self.type = type

@@ -208,47 +208,49 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         }
 
         internalEvents.forEach { rawEvent in
-            ObserverUtils.forEach(observers: transcriptEventObservers) { (observer: TranscriptEventObserver) in
-                if let rawStatus = rawEvent as? TranscriptionStatusInternal {
-                    let status = TranscriptionStatus(type: Converters.Transcript.toTranscriptionStatusType(type: rawStatus.type),
-                                                     eventTimeMs: rawStatus.eventTimeMs,
-                                                     transcriptionRegion: rawStatus.transcriptionRegion,
-                                                     transcriptionConfiguration: rawStatus.transcriptionConfiguration,
-                                                     message: rawStatus.message)
-                    observer.transcriptEventDidReceive(transcriptEvent: status)
-                } else if let rawTranscript = rawEvent as? TranscriptInternal {
-                    var results: [TranscriptResult] = []
-                    rawTranscript.results.forEach { rawResult in
-                        var alternatives: [TranscriptAlternative] = []
-                        rawResult.alternatives.forEach { rawAlternative in
-                            var items: [TranscriptItem] = []
-                            rawAlternative.items.forEach { rawItem in
-                                let item = TranscriptItem(type: Converters.Transcript.toTranscriptItemType(type: rawItem.type),
-                                                          startTimeMs: rawItem.startTimeMs,
-                                                          endTimeMs: rawItem.endTimeMs,
-                                                          attendee: Converters.Transcript.toTranscriptSpeaker(speaker: rawItem.attendee),
-                                                          content: rawItem.content,
-                                                          vocabularyFilterMatch: rawItem.vocabularyFilterMatch)
-                                items.append(item)
-                            }
-                            let alternative = TranscriptAlternative(items: items, transcript: rawAlternative.transcript)
-                            alternatives.append(alternative)
+            var event: TranscriptEvent? = nil;
+            if let rawStatus = rawEvent as? TranscriptionStatusInternal {
+                event = TranscriptionStatus(type: Converters.Transcript.toTranscriptionStatusType(type: rawStatus.type),
+                                                      eventTimeMs: rawStatus.eventTimeMs,
+                                                      transcriptionRegion: rawStatus.transcriptionRegion,
+                                                      transcriptionConfiguration: rawStatus.transcriptionConfiguration,
+                                                      message: rawStatus.message)
+            } else if let rawTranscript = rawEvent as? TranscriptInternal {
+                var results: [TranscriptResult] = []
+                rawTranscript.results.forEach { rawResult in
+                    var alternatives: [TranscriptAlternative] = []
+                    rawResult.alternatives.forEach { rawAlternative in
+                        var items: [TranscriptItem] = []
+                        rawAlternative.items.forEach { rawItem in
+                            let item = TranscriptItem(type: Converters.Transcript.toTranscriptItemType(type: rawItem.type),
+                                                      startTimeMs: rawItem.startTimeMs,
+                                                      endTimeMs: rawItem.endTimeMs,
+                                                      attendee: Converters.Transcript.toAttendeeInfo(attendeeInfo: rawItem.attendee),
+                                                      content: rawItem.content,
+                                                      vocabularyFilterMatch: rawItem.vocabularyFilterMatch)
+                            items.append(item)
                         }
-                        let result = TranscriptResult(resultId: rawResult.resultId,
-                                                      channelId: rawResult.channelId,
-                                                      isPartial: rawResult.isPartial,
-                                                      startTimeMs: rawResult.startTimeMs,
-                                                      endTimeMs: rawResult.endTimeMs,
-                                                      alternatives: alternatives)
-                        results.append(result)
+                        let alternative = TranscriptAlternative(items: items, transcript: rawAlternative.transcript)
+                        alternatives.append(alternative)
                     }
-                    let transcript = Transcript(results: results)
-                    observer.transcriptEventDidReceive(transcriptEvent: transcript)
-                } else {
-                    self.logger.error(msg: "Received transcript event in unknown format")
+                    let result = TranscriptResult(resultId: rawResult.resultId,
+                                                  channelId: rawResult.channelId,
+                                                  isPartial: rawResult.isPartial,
+                                                  startTimeMs: rawResult.startTimeMs,
+                                                  endTimeMs: rawResult.endTimeMs,
+                                                  alternatives: alternatives)
+                    results.append(result)
                 }
+                event = Transcript(results: results)
+            } else {
+                self.logger.error(msg: "Received transcript event in unknown format")
             }
 
+            if let transcriptEvent = event {
+                ObserverUtils.forEach(observers: transcriptEventObservers) { (observer: TranscriptEventObserver) in
+                        observer.transcriptEventDidReceive(transcriptEvent: transcriptEvent)
+                }
+            }
         }
     }
 

@@ -76,8 +76,8 @@ import Foundation
             return TranscriptItemType(rawValue: type.rawValue) ?? .unknown
         }
 
-        static func toTranscriptSpeaker(speaker: TranscriptSpeakerInternal) -> TranscriptSpeaker {
-            return TranscriptSpeaker(attendeeId: speaker.attendeeId, externalUserId: speaker.externalUserId)
+        static func toAttendeeInfo(attendeeInfo: AttendeeInfoInternal) -> AttendeeInfo {
+            return AttendeeInfo(attendeeId: attendeeInfo.attendeeId, externalUserId: attendeeInfo.externalUserId)
         }
     }
 }

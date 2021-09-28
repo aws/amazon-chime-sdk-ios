@@ -376,7 +376,7 @@ class DefaultAudioClientObserverTests: XCTestCase {
         let item = TranscriptItemInternal(type: TranscriptItemTypeInternal.pronunciation,
                                           startTimeMs: timestampMs,
                                           endTimeMs: timestampMs,
-                                          attendee: TranscriptSpeakerInternal(attendeeId: "attendee-id",
+                                          attendee: AttendeeInfoInternal(attendeeId: "attendee-id",
                                                                               externalUserId: "external-user-id"),
                                           content: "test",
                                           vocabularyFilterMatch: true)!
