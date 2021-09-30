@@ -14,7 +14,7 @@ import UIKit
 class DefaultVideoClientController: NSObject {
     var clientMetricsCollector: ClientMetricsCollector
     var logger: Logger
-    var videoClient: VideoClient?
+    var videoClient: VideoClientProtocol?
     var videoSourceAdapter = VideoSourceAdapter()
     var videoClientState: VideoClientState = .uninitialized
     let videoTileControllerObservers = ConcurrentMutableSet()
@@ -22,14 +22,14 @@ class DefaultVideoClientController: NSObject {
     var dataMessageObservers = [String: ConcurrentMutableSet]()
 
     private let configuration: MeetingSessionConfiguration
-    private let defaultVideoClient: VideoClient
+    private let defaultVideoClient: VideoClientProtocol
 
     // This internal camera capture source is used for `startLocalVideo()` API without parameter.
     private let internalCaptureSource: DefaultCameraCaptureSource
     private var isInternalCaptureSourceRunning = true
     private let eventAnalyticsController: EventAnalyticsController
 
-    init(videoClient: VideoClient,
+    init(videoClient: VideoClientProtocol,
          clientMetricsCollector: ClientMetricsCollector,
          configuration: MeetingSessionConfiguration,
          logger: Logger,
@@ -208,7 +208,7 @@ extension DefaultVideoClientController: VideoClientDelegate {
             if let strongSelf = self, let turnCredentials = turnCredentials {
                 let turnResponse = turnCredentials.toTURNSessionResponse(urlRewriter: strongSelf.configuration.urlRewriter,
                                                                          signalingUrl: signalingUrl)
-                strongSelf.videoClient?.updateTurnCreds(turnResponse, turn: VIDEO_CLIENT_TURN_FEATURE_ON)
+                (strongSelf.videoClient as? VideoClient)?.updateTurnCreds(turnResponse, turn: VIDEO_CLIENT_TURN_FEATURE_ON)
             }
         }
     }
@@ -382,7 +382,7 @@ extension DefaultVideoClientController: VideoClientController {
 
     public func sendDataMessage(topic: String, data: Any, lifetimeMs: Int32 = 0) throws {
         guard videoClientState == .started else {
-            logger.error(msg: "Cannot send data message because videoClientState=\(videoClientState)")
+            logger.error(msg: "Cannot send data message because videoClientState=\(videoClientState.description)")
             return
         }
 
@@ -397,6 +397,8 @@ extension DefaultVideoClientController: VideoClientController {
         var dataContainer: Data?
         if let dataAsString = data as? String {
             dataContainer = dataAsString.data(using: .utf8)
+        } else if let dataAsByteArray = data as? [UInt8] {
+            dataContainer = Data(dataAsByteArray)
         } else if JSONSerialization.isValidJSONObject(data) {
             dataContainer = try JSONSerialization.data(withJSONObject: data)
         } else {

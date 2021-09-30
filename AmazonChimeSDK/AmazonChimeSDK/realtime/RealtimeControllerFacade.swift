@@ -51,7 +51,7 @@ import Foundation
     /// Send arbitrary data to given topic with given lifetime ms (5 mins max)
     ///
     /// - Parameter topic: Topic to send
-    /// - Parameter data: Data to send, data can be either a String or JSON serializable object
+    /// - Parameter data: Data to send, data can be a String, a ByteArray, or a JSON serializable object
     /// - Parameter lifetimeMs: Message lifetime in milisecond, 5 mins max, default 0
     /// - Throws: SendDataMessageError
     func realtimeSendDataMessage(topic: String, data: Any, lifetimeMs: Int32) throws
