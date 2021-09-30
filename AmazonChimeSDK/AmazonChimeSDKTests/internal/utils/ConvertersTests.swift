@@ -196,7 +196,7 @@ class ConvertersTests: XCTestCase {
         let attendeeId = "attendee-id"
         let externalUserId = "external-user-id"
         let speakerBefore = AttendeeInfoInternal(attendeeId: attendeeId, externalUserId: externalUserId)!
-        let speakerAfter = Converters.Transcript.toAttendeeInfo(speaker: speakerBefore)
+        let speakerAfter = Converters.Transcript.toAttendeeInfo(attendeeInfo: speakerBefore)
         XCTAssertEqual(speakerAfter.attendeeId, attendeeId)
         XCTAssertEqual(speakerAfter.externalUserId, externalUserId)
     }

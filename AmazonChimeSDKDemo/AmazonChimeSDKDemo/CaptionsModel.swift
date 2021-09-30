@@ -10,6 +10,8 @@ import AmazonChimeSDK
 import UIKit
 
 class CaptionsModel: NSObject {
+    let logger = ConsoleLogger(name: "CaptionsModel")
+
     var captions = [Caption]()
     var captionIndices = [String: Int]()    // map resultId to index in captions array
     var refreshCaptionsTableHandler: (() -> Void)?
@@ -36,6 +38,9 @@ class CaptionsModel: NSObject {
                 if let firstItem = alternative.items.first {
                     speakerName = RosterModel.convertAttendeeName(from: firstItem.attendee)
                 } else {
+                    logger.debug(debugFunction: {
+                        return "Empty speaker name due to empty items array for result: \(result.resultId)"
+                    })
                     speakerName = ""
                 }
 

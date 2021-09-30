@@ -69,7 +69,13 @@ import Foundation
     /// - Returns: `true` if Amazon Voice Focus is enabled; `false` if Amazon Voice Focus is not enabled, or the audio session was not started yet
     func realtimeIsVoiceFocusEnabled() -> Bool
 
+    /// Subscribe to live transcription events with an observer
+    ///
+    /// - Parameter observer: Observer that handles live transcription events
     @objc optional func addRealtimeTranscriptEventObserver(observer: TranscriptEventObserver)
 
+    /// Unsubscribes from live transcription events by removing the specified observer
+    ///
+    /// - Parameter observer: Observer that handles live transcription events
     @objc optional func removeRealtimeTranscriptEventObserver(observer: TranscriptEventObserver)
 }

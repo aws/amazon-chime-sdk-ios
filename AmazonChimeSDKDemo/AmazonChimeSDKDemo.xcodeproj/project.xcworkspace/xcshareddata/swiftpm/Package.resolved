@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "Mockingbird",
+        "repositoryURL": "https://github.com/birdrides/mockingbird",
+        "state": {
+          "branch": null,
+          "revision": "50feb5e24587091abfc5c37b2dc9be7c1bbdd7f0",
+          "version": "0.15.0"
+        }
+      },
+      {
         "package": "Toast",
         "repositoryURL": "https://github.com/scalessec/Toast-Swift",
         "state": {

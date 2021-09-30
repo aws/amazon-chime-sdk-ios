@@ -377,7 +377,7 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                           startTimeMs: timestampMs,
                                           endTimeMs: timestampMs,
                                           attendee: AttendeeInfoInternal(attendeeId: "attendee-id",
-                                                                              externalUserId: "external-user-id"),
+                                                                         externalUserId: "external-user-id"),
                                           content: "test",
                                           vocabularyFilterMatch: true)!
         let alternative = TranscriptAlternativeInternal(items: [item], transcript: "test")!

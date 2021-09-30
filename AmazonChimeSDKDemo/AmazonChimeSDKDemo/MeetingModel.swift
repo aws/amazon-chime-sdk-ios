@@ -642,7 +642,6 @@ extension MeetingModel: ActiveSpeakerObserver {
 
 extension MeetingModel: DataMessageObserver {
     func dataMessageDidReceived(dataMessage: DataMessage) {
-        logger.info(msg: "Received data message for '\(dataMessage.topic)', \(dataMessage.text() ?? "")")
         if dataMessage.topic == "chat" {
             chatModel.addDataMessage(dataMessage: dataMessage)
         }
