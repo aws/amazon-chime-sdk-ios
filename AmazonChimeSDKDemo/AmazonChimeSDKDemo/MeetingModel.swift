@@ -16,6 +16,7 @@ class MeetingModel: NSObject {
         case chat
         case video
         case screenShare
+        case captions
         case metrics
         case callKitOnHold
     }
@@ -43,6 +44,7 @@ class MeetingModel: NSObject {
     let chatModel = ChatModel()
     lazy var deviceSelectionModel = DeviceSelectionModel(deviceController: currentMeetingSession.audioVideo,
                                                          cameraCaptureSource: videoModel.customSource)
+    let captionsModel = CaptionsModel()
     let uuid = UUID()
     var call: Call?
 
@@ -687,22 +689,6 @@ extension MeetingModel: EventAnalyticsObserver {
 
 extension MeetingModel: TranscriptEventObserver {
     func transcriptEventDidReceive(transcriptEvent: TranscriptEvent) {
-        if let status = transcriptEvent as? TranscriptionStatus {
-            let eventDate = NSDate(timeIntervalSince1970: TimeInterval(status.eventTimeMs / 1000))
-            logger.info(msg: "(Live transcription \(status.type) at \(eventDate) in \(status.transcriptionRegion) with configuration: \(status.transcriptionConfiguration))")
-        } else if let transcript = transcriptEvent as? Transcript {
-            transcript.results.forEach { result in
-                if result.isPartial {
-                    result.alternatives.forEach { alternative in
-                        logger.info(msg: "Received partial result [\(result.resultId)]: \(alternative.transcript)")
-                    }
-                } else {
-                    result.alternatives.forEach { alternative in
-                        logger.info(msg: "Received final result [\(result.resultId)]: \(alternative.transcript)")
-                    }
-                }
-
-            }
-        }
+        captionsModel.addTranscriptEvent(transcriptEvent: transcriptEvent)
     }
 }

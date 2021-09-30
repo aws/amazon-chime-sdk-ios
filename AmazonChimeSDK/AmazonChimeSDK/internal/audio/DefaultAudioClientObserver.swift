@@ -208,13 +208,13 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         }
 
         internalEvents.forEach { rawEvent in
-            var event: TranscriptEvent? = nil;
+            var event: TranscriptEvent?;
             if let rawStatus = rawEvent as? TranscriptionStatusInternal {
                 event = TranscriptionStatus(type: Converters.Transcript.toTranscriptionStatusType(type: rawStatus.type),
-                                                      eventTimeMs: rawStatus.eventTimeMs,
-                                                      transcriptionRegion: rawStatus.transcriptionRegion,
-                                                      transcriptionConfiguration: rawStatus.transcriptionConfiguration,
-                                                      message: rawStatus.message)
+                                            eventTimeMs: rawStatus.eventTimeMs,
+                                            transcriptionRegion: rawStatus.transcriptionRegion,
+                                            transcriptionConfiguration: rawStatus.transcriptionConfiguration,
+                                            message: rawStatus.message)
             } else if let rawTranscript = rawEvent as? TranscriptInternal {
                 var results: [TranscriptResult] = []
                 rawTranscript.results.forEach { rawResult in

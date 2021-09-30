@@ -13,5 +13,6 @@ enum SegmentedControlIndex: Int {
     case chat = 1
     case video = 2
     case screen = 3
-    case metrics = 4
+    case captions = 4
+    case metrics = 5
 }
