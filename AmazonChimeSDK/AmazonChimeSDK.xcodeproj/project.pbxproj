@@ -223,6 +223,22 @@
 		C60D5593246509BA00C2A278 /* Converters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60D5592246509B900C2A278 /* Converters.swift */; };
 		C60D5596246514B000C2A278 /* ConvertersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60D5595246514B000C2A278 /* ConvertersTests.swift */; };
 		C61D43222703BD9D00150F03 /* DefaultVideoClientControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D43212703BD9D00150F03 /* DefaultVideoClientControllerTests.swift */; };
+		C61475DB26EFC18400CDEC09 /* TranscriptEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61475DA26EFC18400CDEC09 /* TranscriptEvent.swift */; };
+		C61475E526EFF71500CDEC09 /* TranscriptEventObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61475E426EFF71500CDEC09 /* TranscriptEventObserver.swift */; };
+		C67E9B6C26F4F5A30084C9B4 /* Transcript.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67E9B6B26F4F5A30084C9B4 /* Transcript.swift */; };
+		C67E9B7126F4F9820084C9B4 /* TranscriptItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67E9B7026F4F9820084C9B4 /* TranscriptItemType.swift */; };
+		C67E9B7626F4FBC20084C9B4 /* TranscriptItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67E9B7526F4FBC20084C9B4 /* TranscriptItem.swift */; };
+		C67E9B7B26F50D8E0084C9B4 /* TranscriptAlternative.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67E9B7A26F50D8E0084C9B4 /* TranscriptAlternative.swift */; };
+		C67E9B8026F5126F0084C9B4 /* TranscriptResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67E9B7F26F5126F0084C9B4 /* TranscriptResult.swift */; };
+		C67E9B8526F531B40084C9B4 /* TranscriptionStatusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67E9B8426F531B40084C9B4 /* TranscriptionStatusType.swift */; };
+		C67E9B8A26F532770084C9B4 /* TranscriptionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67E9B8926F532770084C9B4 /* TranscriptionStatus.swift */; };
+		C67EA02A26F7F0EB0084C9B4 /* TranscriptItemTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67EA02926F7F0EB0084C9B4 /* TranscriptItemTypeTests.swift */; };
+		C67EA03026F7F17B0084C9B4 /* TranscriptionStatusTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67EA02F26F7F17B0084C9B4 /* TranscriptionStatusTypeTests.swift */; };
+		C67EA03A26F7F3040084C9B4 /* TranscriptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67EA03926F7F3040084C9B4 /* TranscriptTests.swift */; };
+		C67EA03E26F8356F0084C9B4 /* TranscriptResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67EA03D26F8356F0084C9B4 /* TranscriptResultTests.swift */; };
+		C67EA04226F838470084C9B4 /* TranscriptAlternativeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67EA04126F838470084C9B4 /* TranscriptAlternativeTests.swift */; };
+		C67EA04626F838FD0084C9B4 /* TranscriptItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67EA04526F838FD0084C9B4 /* TranscriptItemTests.swift */; };
+		C67EA04E26F83C0F0084C9B4 /* TranscriptionStatusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67EA04D26F83C0F0084C9B4 /* TranscriptionStatusTests.swift */; };
 		C6C2F106250BF522001678B8 /* DefaultDeviceControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C2F105250BF522001678B8 /* DefaultDeviceControllerTests.swift */; };
 		C6DA0B2024F5A9EC00028F2B /* DefaultAudioClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DA0B1F24F5A9EC00028F2B /* DefaultAudioClientTests.swift */; };
 		C6DA0B2224F6C63F00028F2B /* DefaultVideoTileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DA0B2124F6C63F00028F2B /* DefaultVideoTileTests.swift */; };
@@ -471,6 +487,22 @@
 		C60D5592246509B900C2A278 /* Converters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converters.swift; sourceTree = "<group>"; };
 		C60D5595246514B000C2A278 /* ConvertersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertersTests.swift; sourceTree = "<group>"; };
 		C61D43212703BD9D00150F03 /* DefaultVideoClientControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultVideoClientControllerTests.swift; sourceTree = "<group>"; };
+		C61475DA26EFC18400CDEC09 /* TranscriptEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptEvent.swift; sourceTree = "<group>"; };
+		C61475E426EFF71500CDEC09 /* TranscriptEventObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptEventObserver.swift; sourceTree = "<group>"; };
+		C67E9B6B26F4F5A30084C9B4 /* Transcript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transcript.swift; sourceTree = "<group>"; };
+		C67E9B7026F4F9820084C9B4 /* TranscriptItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptItemType.swift; sourceTree = "<group>"; };
+		C67E9B7526F4FBC20084C9B4 /* TranscriptItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptItem.swift; sourceTree = "<group>"; };
+		C67E9B7A26F50D8E0084C9B4 /* TranscriptAlternative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptAlternative.swift; sourceTree = "<group>"; };
+		C67E9B7F26F5126F0084C9B4 /* TranscriptResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptResult.swift; sourceTree = "<group>"; };
+		C67E9B8426F531B40084C9B4 /* TranscriptionStatusType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionStatusType.swift; sourceTree = "<group>"; };
+		C67E9B8926F532770084C9B4 /* TranscriptionStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionStatus.swift; sourceTree = "<group>"; };
+		C67EA02926F7F0EB0084C9B4 /* TranscriptItemTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptItemTypeTests.swift; sourceTree = "<group>"; };
+		C67EA02F26F7F17B0084C9B4 /* TranscriptionStatusTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionStatusTypeTests.swift; sourceTree = "<group>"; };
+		C67EA03926F7F3040084C9B4 /* TranscriptTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptTests.swift; sourceTree = "<group>"; };
+		C67EA03D26F8356F0084C9B4 /* TranscriptResultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptResultTests.swift; sourceTree = "<group>"; };
+		C67EA04126F838470084C9B4 /* TranscriptAlternativeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptAlternativeTests.swift; sourceTree = "<group>"; };
+		C67EA04526F838FD0084C9B4 /* TranscriptItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptItemTests.swift; sourceTree = "<group>"; };
+		C67EA04D26F83C0F0084C9B4 /* TranscriptionStatusTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionStatusTests.swift; sourceTree = "<group>"; };
 		C6C2F105250BF522001678B8 /* DefaultDeviceControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDeviceControllerTests.swift; sourceTree = "<group>"; };
 		C6DA0B1F24F5A9EC00028F2B /* DefaultAudioClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAudioClientTests.swift; sourceTree = "<group>"; };
 		C6DA0B2124F6C63F00028F2B /* DefaultVideoTileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultVideoTileTests.swift; sourceTree = "<group>"; };
@@ -762,6 +794,7 @@
 				0083A11323D8CFD40057027A /* RealtimeControllerFacade.swift */,
 				0024FCDF23E50A3100637414 /* RealtimeObserver.swift */,
 				B418163124B79CF100FA62BF /* DataMessageObserver.swift */,
+				C61475E426EFF71500CDEC09 /* TranscriptEventObserver.swift */,
 			);
 			path = realtime;
 			sourceTree = "<group>";
@@ -906,6 +939,7 @@
 		5A631A4724297EFE00C8DAF3 /* data */ = {
 			isa = PBXGroup;
 			children = (
+				C61475EB26F264E500CDEC09 /* transcript */,
 				5A8B9842240F69C000BA292D /* AttendeeInfo.swift */,
 				5AE121E8240F6ABF0090A2AD /* SignalUpdate.swift */,
 				5AE121D2240F6A8E0090A2AD /* VolumeUpdate.swift */,
@@ -965,6 +999,7 @@
 		5A631A4C24298D2A00C8DAF3 /* data */ = {
 			isa = PBXGroup;
 			children = (
+				C67EA02826F7F0830084C9B4 /* transcript */,
 				5AE76F2124203A76009C41FD /* AttendeeInfoTests.swift */,
 				5AE76F1D24203A63009C41FD /* SignalUpdateTests.swift */,
 				5AE76F1F24203A6E009C41FD /* VolumeUpdateTests.swift */,
@@ -1189,6 +1224,35 @@
 			path = utils;
 			sourceTree = "<group>";
 		};
+		C61475EB26F264E500CDEC09 /* transcript */ = {
+			isa = PBXGroup;
+			children = (
+				C61475DA26EFC18400CDEC09 /* TranscriptEvent.swift */,
+				C67E9B6B26F4F5A30084C9B4 /* Transcript.swift */,
+				C67E9B7026F4F9820084C9B4 /* TranscriptItemType.swift */,
+				C67E9B7526F4FBC20084C9B4 /* TranscriptItem.swift */,
+				C67E9B7A26F50D8E0084C9B4 /* TranscriptAlternative.swift */,
+				C67E9B7F26F5126F0084C9B4 /* TranscriptResult.swift */,
+				C67E9B8426F531B40084C9B4 /* TranscriptionStatusType.swift */,
+				C67E9B8926F532770084C9B4 /* TranscriptionStatus.swift */,
+			);
+			path = transcript;
+			sourceTree = "<group>";
+		};
+		C67EA02826F7F0830084C9B4 /* transcript */ = {
+			isa = PBXGroup;
+			children = (
+				C67EA02926F7F0EB0084C9B4 /* TranscriptItemTypeTests.swift */,
+				C67EA02F26F7F17B0084C9B4 /* TranscriptionStatusTypeTests.swift */,
+				C67EA03926F7F3040084C9B4 /* TranscriptTests.swift */,
+				C67EA03D26F8356F0084C9B4 /* TranscriptResultTests.swift */,
+				C67EA04126F838470084C9B4 /* TranscriptAlternativeTests.swift */,
+				C67EA04526F838FD0084C9B4 /* TranscriptItemTests.swift */,
+				C67EA04D26F83C0F0084C9B4 /* TranscriptionStatusTests.swift */,
+			);
+			path = transcript;
+			sourceTree = "<group>";
+		};
 		C6DA0B2724F71B9000028F2B /* protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -1381,6 +1445,7 @@
 				5A16B99223FCD95100ADAE26 /* AudioClientObserver.swift in Sources */,
 				000C30A325807CD500863981 /* MeetingHistoryEventName.swift in Sources */,
 				5A6F81842463665F0031AE97 /* AudioClientState.swift in Sources */,
+				C67E9B8026F5126F0084C9B4 /* TranscriptResult.swift in Sources */,
 				B418163224B79CF100FA62BF /* DataMessageObserver.swift in Sources */,
 				5A175AB323CFD27400121924 /* AudioVideoControllerFacade.swift in Sources */,
 				5A175AB723CFD28A00121924 /* AudioVideoFacade.swift in Sources */,
@@ -1421,6 +1486,7 @@
 				C42A8A1C253E3B15008419A6 /* CameraCaptureSource.swift in Sources */,
 				F8E42DEE247F9464004C8400 /* ConcurrentDictionary.swift in Sources */,
 				B4980CB523E78D1800D2DB64 /* DefaultDeviceController.swift in Sources */,
+				C67E9B7126F4F9820084C9B4 /* TranscriptItemType.swift in Sources */,
 				0064166A26295EBF00626EB8 /* MeetingEventItem.swift in Sources */,
 				002C1FAC2641C50000C9B919 /* EventAttributesUtils.swift in Sources */,
 				00D12B8B265F02130059461B /* NoopEventReporterFactory.swift in Sources */,
@@ -1451,6 +1517,7 @@
 				002307522630C3390074947E /* SQLiteDatabaseManager.swift in Sources */,
 				C4A69086255B0F1D00F28BC2 /* InAppScreenCaptureSource.swift in Sources */,
 				002C1FA4264128CE00C9B919 /* MeetingEventClientConfiguration.swift in Sources */,
+				C67E9B7B26F50D8E0084C9B4 /* TranscriptAlternative.swift in Sources */,
 				5A16BFEF2405E6A500ADAE26 /* DictionaryExtension.swift in Sources */,
 				C48339B2256836D300F011D0 /* ContentShareVideoClientController.swift in Sources */,
 				7C0D1BEB241ACC7B00280031 /* IntervalScheduler.swift in Sources */,
@@ -1461,6 +1528,7 @@
 				5AE76F34242049E0009C41FD /* MediaDeviceType.swift in Sources */,
 				C4A6F9C4252E686700455418 /* VideoContentHint.swift in Sources */,
 				5A6F8182246244C30031AE97 /* MediaError.swift in Sources */,
+				C67E9B8526F531B40084C9B4 /* TranscriptionStatusType.swift in Sources */,
 				0007BDBF26335E6A00A15BB6 /* IngestionRecord.swift in Sources */,
 				5A6A209523CB1164000C9157 /* MeetingSession.swift in Sources */,
 				5A6A209623CB1164000C9157 /* MeetingSessionConfiguration.swift in Sources */,
@@ -1474,6 +1542,7 @@
 				003B588B23E22C6E002493AB /* MeetingSessionStatusCode.swift in Sources */,
 				F8204ADC23F499410099E3D1 /* MeetingSessionTURNCredentials.swift in Sources */,
 				C4A6907E255B0EF600F28BC2 /* DefaultContentShareController.swift in Sources */,
+				C61475E526EFF71500CDEC09 /* TranscriptEventObserver.swift in Sources */,
 				C4A69072255B0E8F00F28BC2 /* ContentShareStatus.swift in Sources */,
 				5A6A209823CB1164000C9157 /* MeetingSessionURLs.swift in Sources */,
 				0007BD952633435D00A15BB6 /* EventBuffer.swift in Sources */,
@@ -1505,6 +1574,7 @@
 				5A9196FE245A4AE000E17CDE /* Versioning.swift in Sources */,
 				0064166226290C8800626EB8 /* EventSQLiteDao.swift in Sources */,
 				002C1FB0264208E100C9B919 /* BackoffRetry.swift in Sources */,
+				C67E9B7626F4FBC20084C9B4 /* TranscriptItem.swift in Sources */,
 				002F8FE625BF986800006F46 /* DefaultMeetingStatsCollector.swift in Sources */,
 				F8C0145E23F1D50E0083D478 /* VideoClientController.swift in Sources */,
 				6AA9F9492522439F00EB0644 /* DefaultCameraCaptureSource.swift in Sources */,
@@ -1513,6 +1583,7 @@
 				0095013423FF372E003260E3 /* VideoClientState.swift in Sources */,
 				5AE121D3240F6A8E0090A2AD /* VolumeUpdate.swift in Sources */,
 				6A68E79F24196773004F5A56 /* VideoPauseState.swift in Sources */,
+				C67E9B6C26F4F5A30084C9B4 /* Transcript.swift in Sources */,
 				00C9DC6123FA366F00876B41 /* VideoRenderView.swift in Sources */,
 				6AA9F9472522439F00EB0644 /* VideoSource.swift in Sources */,
 				00F20F0B26201D0B00C470E9 /* HttpUtils.swift in Sources */,
@@ -1524,9 +1595,11 @@
 				00C9DC6523FA36BE00876B41 /* VideoTileControllerFacade.swift in Sources */,
 				0073CCB425B8123A00273CB7 /* MeetingHistoryEvent.swift in Sources */,
 				00C9DC6723FA36E700876B41 /* VideoTileObserver.swift in Sources */,
+				C67E9B8A26F532770084C9B4 /* TranscriptionStatus.swift in Sources */,
 				C4A6906A255B0E2100F28BC2 /* ContentShareController.swift in Sources */,
 				C4A69096255CB00700F28BC2 /* ContentShareStatusCode.swift in Sources */,
 				00C2A91723F76250008CD687 /* VideoTileState.swift in Sources */,
+				C61475DB26EFC18400CDEC09 /* TranscriptEvent.swift in Sources */,
 				0007BDA126334BA800A15BB6 /* DefaultEventReporter.swift in Sources */,
 				F82D50D823FC752600D8F18C /* VolumeLevel.swift in Sources */,
 				0007BDBB26335E5D00A15BB6 /* IngestionEvent.swift in Sources */,
@@ -1552,24 +1625,30 @@
 				6A01CAE523F8FCAF005C5193 /* ClientMetricsCollectorTests.swift in Sources */,
 				007679FE262DFAE500BBF977 /* DirtyEventSQLiteDaoTests.swift in Sources */,
 				C4A30003259D4261007CFABE /* DefaultContentShareControllerTests.swift in Sources */,
+				C67EA02A26F7F0EB0084C9B4 /* TranscriptItemTypeTests.swift in Sources */,
 				002F8FEF25BFED6800006F46 /* DefaultMeetingStatsCollectorTests.swift in Sources */,
 				5AE1322F23EA2FB700BF5997 /* ConsoleLoggerTests.swift in Sources */,
 				5A16C0052405E83000ADAE26 /* DictionaryExtensionTests.swift in Sources */,
 				00684538260D1F1E002AB143 /* SQLiteClientFileTests.swift in Sources */,
 				C49A1C52253F41690089FEEF /* VideoRotationTests.swift in Sources */,
 				B491F3C824BFC761005CF109 /* DataMessageTests.swift in Sources */,
+				C67EA03026F7F17B0084C9B4 /* TranscriptionStatusTypeTests.swift in Sources */,
 				5AE76F2F24204387009C41FD /* LogLevelTests.swift in Sources */,
 				C4A30010259E376A007CFABE /* DefaultContentShareVideoClientControllerTests.swift in Sources */,
 				5A0E7317242EA072006636AB /* MediaDeviceTests.swift in Sources */,
 				5AE76F3624204A03009C41FD /* MediaDeviceTypeTests.swift in Sources */,
 				B4AEE47C24BE5A4600ED4B77 /* SendDataMessageErrorTests.swift in Sources */,
+				C67EA04E26F83C0F0084C9B4 /* TranscriptionStatusTests.swift in Sources */,
 				5A6F8188246379D80031AE97 /* MediaErrorTests.swift in Sources */,
 				5AE1322B23EA2ED300BF5997 /* MeetingSessionConfigurationTests.swift in Sources */,
 				5AE1322D23EA2EE400BF5997 /* MeetingSessionCredentialsTests.swift in Sources */,
+				C67EA04226F838470084C9B4 /* TranscriptAlternativeTests.swift in Sources */,
 				C60D5596246514B000C2A278 /* ConvertersTests.swift in Sources */,
 				C4A30034259E57C5007CFABE /* CommonTestCase.swift in Sources */,
 				C4A3FFFD259D41CE007CFABE /* ContentShareStatusCodeTests.swift in Sources */,
 				5AE132B823EB41B800BF5997 /* MeetingSessionStatusTests.swift in Sources */,
+				C67EA04626F838FD0084C9B4 /* TranscriptItemTests.swift in Sources */,
+				C67EA03E26F8356F0084C9B4 /* TranscriptResultTests.swift in Sources */,
 				C494800624855B4700A41FF8 /* ConcurrentMutableSetTests.swift in Sources */,
 				5A0E7319242EA283006636AB /* MeetingSessionStatusCodeTests.swift in Sources */,
 				00E198EB259BC24F00AD4DAA /* MeetingHistoryEventNameTests.swift in Sources */,
@@ -1599,6 +1678,7 @@
 				C4EDDAAC253F46FF0028264A /* VideoCaptureFormatTests.swift in Sources */,
 				0033D343263B250C00D8FA0C /* IngestionConfigurationTests.swift in Sources */,
 				0033D349263B264A00D8FA0C /* IngestionConfigurationBuilderTests.swift in Sources */,
+				C67EA03A26F7F3040084C9B4 /* TranscriptTests.swift in Sources */,
 				5A0E731B242EA39E006636AB /* VideoTileStateTests.swift in Sources */,
 				5AE76F2724203AAA009C41FD /* VolumeLevelTests.swift in Sources */,
 				5AE76F2024203A6E009C41FD /* VolumeUpdateTests.swift in Sources */,

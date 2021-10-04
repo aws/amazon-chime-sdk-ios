@@ -16,6 +16,7 @@ class MeetingModel: NSObject {
         case chat
         case video
         case screenShare
+        case captions
         case metrics
         case callKitOnHold
     }
@@ -43,6 +44,7 @@ class MeetingModel: NSObject {
     let chatModel = ChatModel()
     lazy var deviceSelectionModel = DeviceSelectionModel(deviceController: currentMeetingSession.audioVideo,
                                                          cameraCaptureSource: videoModel.customSource)
+    let captionsModel = CaptionsModel()
     let uuid = UUID()
     var call: Call?
 
@@ -249,6 +251,7 @@ class MeetingModel: NSObject {
                                             observer: self)
         audioVideo.addRealtimeDataMessageObserver(topic: "chat", observer: self)
         audioVideo.addEventAnalyticsObserver(observer: self)
+        audioVideo.addRealtimeTranscriptEventObserver?(observer: self)
     }
 
     private func removeAudioVideoFacadeObservers() {
@@ -261,6 +264,7 @@ class MeetingModel: NSObject {
         audioVideo.removeActiveSpeakerObserver(observer: self)
         audioVideo.removeRealtimeDataMessageObserverFromTopic(topic: "chat")
         audioVideo.removeEventAnalyticsObserver(observer: self)
+        audioVideo.removeRealtimeTranscriptEventObserver?(observer: self)
     }
 
     private func configureAudioSession() {
@@ -638,7 +642,9 @@ extension MeetingModel: ActiveSpeakerObserver {
 
 extension MeetingModel: DataMessageObserver {
     func dataMessageDidReceived(dataMessage: DataMessage) {
-        chatModel.addDataMessage(dataMessage: dataMessage)
+        if dataMessage.topic == "chat" {
+            chatModel.addDataMessage(dataMessage: dataMessage)
+        }
     }
 }
 
@@ -675,5 +681,13 @@ extension MeetingModel: EventAnalyticsObserver {
             jsonDict[String(describing: key)] = String(describing: value)
         }
         return jsonDict
+    }
+}
+
+// MARK: TranscriptEventObserver
+
+extension MeetingModel: TranscriptEventObserver {
+    func transcriptEventDidReceive(transcriptEvent: TranscriptEvent) {
+        captionsModel.addTranscriptEvent(transcriptEvent: transcriptEvent)
     }
 }
