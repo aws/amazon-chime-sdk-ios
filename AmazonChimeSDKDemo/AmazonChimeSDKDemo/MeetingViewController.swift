@@ -59,6 +59,9 @@ class MeetingViewController: UIViewController {
     @IBOutlet var sendMessageButton: UIButton!
     @IBOutlet var inputBoxBottomConstrain: NSLayoutConstraint!
 
+    // Captions
+    @IBOutlet var captionsTableView: UITableView!
+
     // Model
     var meetingModel: MeetingModel?
 
@@ -165,6 +168,13 @@ class MeetingViewController: UIViewController {
         meetingModel.chatModel.refreshChatTableHandler = { [weak self] in
             self?.chatMessageTable.reloadData()
         }
+
+        meetingModel.captionsModel.refreshCaptionsTableHandler = { [weak self] in
+            self?.captionsTableView.reloadData()
+            // auto scroll to bottom when new captions come in
+            let indexPath = IndexPath(row: meetingModel.captionsModel.captions.count - 1, section: 0)
+            self?.captionsTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
     }
 
     // MARK: UI functions
@@ -217,6 +227,12 @@ class MeetingViewController: UIViewController {
         chatMessageTable.separatorStyle = .none
         sendMessageButton.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
         setupHideKeyboardOnTap()
+
+        // Captions table
+        captionsTableView.delegate = meetingModel?.captionsModel
+        captionsTableView.dataSource = meetingModel?.captionsModel
+        captionsTableView.separatorStyle = .none
+
         #if !targetEnvironment(simulator)
             if #available(iOS 12.0, *) {
                 setupBroadcastPickerView()
@@ -294,6 +310,7 @@ class MeetingViewController: UIViewController {
         segmentedControl.isHidden = false
         containerView.isHidden = false
         chatView.isHidden = true
+        captionsTableView.isHidden = true
         muteButton.isEnabled = true
         additionalOptionsButton.isEnabled = true
         deviceButton.isEnabled = true
@@ -330,6 +347,9 @@ class MeetingViewController: UIViewController {
             deviceButton.isEnabled = false
             cameraButton.isEnabled = false
             additionalOptionsButton.isEnabled = false
+        case .captions:
+            captionsTableView.reloadData()
+            captionsTableView.isHidden = false
         }
     }
 
@@ -345,6 +365,8 @@ class MeetingViewController: UIViewController {
             meetingModel?.activeMode = .video
         case SegmentedControlIndex.screen.rawValue:
             meetingModel?.activeMode = .screenShare
+        case SegmentedControlIndex.captions.rawValue:
+            meetingModel?.activeMode = .captions
         case SegmentedControlIndex.metrics.rawValue:
             meetingModel?.activeMode = .metrics
         default:

@@ -66,4 +66,18 @@ import Foundation
             }
         }
     }
+
+    enum Transcript {
+        static func toTranscriptionStatusType(type: TranscriptionStatusTypeInternal) -> TranscriptionStatusType {
+            return TranscriptionStatusType(rawValue: type.rawValue) ?? .unknown
+        }
+
+        static func toTranscriptItemType(type: TranscriptItemTypeInternal) -> TranscriptItemType {
+            return TranscriptItemType(rawValue: type.rawValue) ?? .unknown
+        }
+
+        static func toAttendeeInfo(attendeeInfo: AttendeeInfoInternal) -> AttendeeInfo {
+            return AttendeeInfo(attendeeId: attendeeInfo.attendeeId, externalUserId: attendeeInfo.externalUserId)
+        }
+    }
 }

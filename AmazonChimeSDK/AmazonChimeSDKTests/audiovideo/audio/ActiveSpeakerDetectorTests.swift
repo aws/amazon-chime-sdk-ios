@@ -11,15 +11,7 @@ import Foundation
 @testable import AmazonChimeSDK
 import XCTest
 
-class MockAudioClientObserver: AudioClientObserver {
-    func notifyAudioClientObserver(observerFunction: (AudioVideoObserver) -> Void) {}
-    func subscribeToAudioClientStateChange(observer: AudioVideoObserver) {}
-    func subscribeToRealTimeEvents(observer: RealtimeObserver) {}
-    func unsubscribeFromAudioClientStateChange(observer: AudioVideoObserver) {}
-    func unsubscribeFromRealTimeEvents(observer: RealtimeObserver) {}
-}
-
-class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeakerObserver, AudioClientObserver {
+class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeakerObserver {
     let scores = [0.1, 0.2, 0.3, 0.4, 0.5]
     let volumes: [VolumeLevel] = [.muted, .notSpeaking, .low, .medium, .high]
     var attendees = [AttendeeInfo]()
@@ -35,10 +27,6 @@ class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeaker
         description: "Is fulfilled when calculateScore is called")
     private let prioritizeBandwidthExpectation = XCTestExpectation(
         description: "Is fulfilled when prioritizeVideoSendBandwidthForActiveSpeaker is called")
-    private let subscribeToRealTimeEventsExpectation = XCTestExpectation(
-        description: "Is fulfilled when subscribeToRealTimeEvents is called")
-    private let unSubscribeFromRealTimeEventsExpectation = XCTestExpectation(
-        description: "Is fulfilled when unsubscribeFromRealTimeEvents is called")
     private let activeSpeakerDidDetectExpectation = XCTestExpectation(
         description: "Is fulfilled when activeSpeakerDidDetect is called")
     private let activeSpeakerScoreDidChangeExpectation = XCTestExpectation(
@@ -57,10 +45,7 @@ class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeaker
         }
         calculateScoreExpectation.expectedFulfillmentCount = 5
         prioritizeBandwidthExpectation.assertForOverFulfill = true
-        subscribeToRealTimeEventsExpectation.assertForOverFulfill = true
-        unSubscribeFromRealTimeEventsExpectation.assertForOverFulfill = true
         activeSpeakerDetector = DefaultActiveSpeakerDetector(selfAttendeeId: "attendee0")
-        self.subscribeToRealTimeEvents(observer: activeSpeakerDetector)
         activeSpeakerDetector.addActiveSpeakerObserver(policy: self, observer: self)
         activeSpeakerDetector.attendeesDidJoin(attendeeInfo: attendees)
     }
@@ -77,9 +62,6 @@ class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeaker
         wait(for: [calculateScoreExpectation], timeout: oneMilliSecondInSeconds)
         prioritizeBandwidthExpectation.isInverted = true
         wait(for: [prioritizeBandwidthExpectation], timeout: oneMilliSecondInSeconds)
-        wait(for: [subscribeToRealTimeEventsExpectation], timeout: oneMilliSecondInSeconds)
-        unSubscribeFromRealTimeEventsExpectation.isInverted = true
-        wait(for: [unSubscribeFromRealTimeEventsExpectation], timeout: oneMilliSecondInSeconds)
         wait(for: [activeSpeakerDidDetectExpectation], timeout: oneMilliSecondInSeconds)
     }
 
@@ -88,9 +70,6 @@ class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeaker
         calculateScoreExpectation.expectedFulfillmentCount = 2
         wait(for: [calculateScoreExpectation], timeout: twoHundredMilliSecondsInSeconds)
         wait(for: [prioritizeBandwidthExpectation], timeout: oneMilliSecondInSeconds)
-        wait(for: [subscribeToRealTimeEventsExpectation], timeout: oneMilliSecondInSeconds)
-        unSubscribeFromRealTimeEventsExpectation.isInverted = true
-        wait(for: [unSubscribeFromRealTimeEventsExpectation], timeout: oneMilliSecondInSeconds)
         wait(for: [activeSpeakerDidDetectExpectation], timeout: oneMilliSecondInSeconds)
         XCTAssertEqual(attendeesReceived, attendees.reversed())
     }
@@ -138,14 +117,6 @@ class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeaker
         return true
     }
 
-    func subscribeToRealTimeEvents(observer: RealtimeObserver) {
-        subscribeToRealTimeEventsExpectation.fulfill()
-    }
-
-    func unsubscribeFromRealTimeEvents(observer: RealtimeObserver) {
-        unSubscribeFromRealTimeEventsExpectation.fulfill()
-    }
-
     var observerId: String = "fakeObserverId"
 
     func activeSpeakerDidDetect(attendeeInfo: [AttendeeInfo]) {
@@ -162,8 +133,4 @@ class ActiveSpeakerDetectorTests: XCTestCase, ActiveSpeakerPolicy, ActiveSpeaker
         activeSpeakerScoreDidChangeExpectation.fulfill()
         scoreChangeAttendees = scores
     }
-
-    func notifyAudioClientObserver(observerFunction: (AudioVideoObserver) -> Void) {}
-    func subscribeToAudioClientStateChange(observer: AudioVideoObserver) {}
-    func unsubscribeFromAudioClientStateChange(observer: AudioVideoObserver) {}
 }
