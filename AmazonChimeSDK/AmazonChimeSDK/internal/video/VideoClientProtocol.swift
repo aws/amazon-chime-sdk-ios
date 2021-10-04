@@ -19,6 +19,13 @@ import Foundation
                token: String!,
                sending: Bool,
                config: VideoConfiguration!,
+               appInfo: app_detailed_info_t,
+               signalingUrl: String!)
+
+    func start(_ callId: String!,
+               token: String!,
+               sending: Bool,
+               config: VideoConfiguration!,
                appInfo: app_detailed_info_t)
 
     func stop()

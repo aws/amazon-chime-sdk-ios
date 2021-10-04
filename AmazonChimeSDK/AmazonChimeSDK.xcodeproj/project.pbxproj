@@ -222,6 +222,7 @@
 		C4F8B6552580172200D9AE54 /* CMCampleBufferExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F8B6542580172200D9AE54 /* CMCampleBufferExtensions.swift */; };
 		C60D5593246509BA00C2A278 /* Converters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60D5592246509B900C2A278 /* Converters.swift */; };
 		C60D5596246514B000C2A278 /* ConvertersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60D5595246514B000C2A278 /* ConvertersTests.swift */; };
+		C61D43222703BD9D00150F03 /* DefaultVideoClientControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D43212703BD9D00150F03 /* DefaultVideoClientControllerTests.swift */; };
 		C6C2F106250BF522001678B8 /* DefaultDeviceControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C2F105250BF522001678B8 /* DefaultDeviceControllerTests.swift */; };
 		C6DA0B2024F5A9EC00028F2B /* DefaultAudioClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DA0B1F24F5A9EC00028F2B /* DefaultAudioClientTests.swift */; };
 		C6DA0B2224F6C63F00028F2B /* DefaultVideoTileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DA0B2124F6C63F00028F2B /* DefaultVideoTileTests.swift */; };
@@ -469,6 +470,7 @@
 		C4F8B6542580172200D9AE54 /* CMCampleBufferExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMCampleBufferExtensions.swift; sourceTree = "<group>"; };
 		C60D5592246509B900C2A278 /* Converters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converters.swift; sourceTree = "<group>"; };
 		C60D5595246514B000C2A278 /* ConvertersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertersTests.swift; sourceTree = "<group>"; };
+		C61D43212703BD9D00150F03 /* DefaultVideoClientControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultVideoClientControllerTests.swift; sourceTree = "<group>"; };
 		C6C2F105250BF522001678B8 /* DefaultDeviceControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDeviceControllerTests.swift; sourceTree = "<group>"; };
 		C6DA0B1F24F5A9EC00028F2B /* DefaultAudioClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAudioClientTests.swift; sourceTree = "<group>"; };
 		C6DA0B2124F6C63F00028F2B /* DefaultVideoTileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultVideoTileTests.swift; sourceTree = "<group>"; };
@@ -1027,6 +1029,7 @@
 			isa = PBXGroup;
 			children = (
 				5A6F818D24637BA30031AE97 /* VideoClientStateTests.swift */,
+				C61D43212703BD9D00150F03 /* DefaultVideoClientControllerTests.swift */,
 			);
 			path = video;
 			sourceTree = "<group>";
@@ -1542,6 +1545,7 @@
 				0064167F262A26E600626EB8 /* EventSQLiteDaoTests.swift in Sources */,
 				00E198FB259D164C00AD4DAA /* DefaultAudioClientObserverTests.swift in Sources */,
 				5A6F818C24637AB80031AE97 /* AudioClientStateTests.swift in Sources */,
+				C61D43222703BD9D00150F03 /* DefaultVideoClientControllerTests.swift in Sources */,
 				5A2210E524BE577E0038725B /* DefaultMeetingSessionTests.swift in Sources */,
 				00E198E1259BC0CF00AD4DAA /* EventNameTests.swift in Sources */,
 				00E198EF259BCA5A00AD4DAA /* EventAttributeNameTests.swift in Sources */,
