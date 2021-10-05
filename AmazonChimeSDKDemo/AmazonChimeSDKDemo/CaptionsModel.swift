@@ -21,7 +21,6 @@ class CaptionsModel: NSObject {
     // triggered on main thread, no synchronization needed
     public func addTranscriptEvent(transcriptEvent: TranscriptEvent) {
         if let status = transcriptEvent as? TranscriptionStatus {
-            print("status type \(status.type)")
             let formattedEventTime = TimeStampConversion.formatTimestamp(timestamp: status.eventTimeMs)
             let content = "Live transcription \(status.type) at \(formattedEventTime) in \(status.transcriptionRegion) with configuration: \(status.transcriptionConfiguration)"
             let caption = Caption(speakerName: "",
