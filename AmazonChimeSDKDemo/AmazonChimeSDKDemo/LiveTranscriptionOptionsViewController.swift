@@ -39,7 +39,8 @@ class LiveTranscriptionOptionsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        meetingId = self.model!.meetingId
+        guard let meetingId = self.model?.meetingId else {return MeetingModule.shared().dismissTranscription(self)}
+        self.meetingId = meetingId
         engineTextField.inputView = enginePickerView
         languageTextField.inputView = languagePickerView
         regionTextField.inputView = regionPickerView
@@ -121,6 +122,7 @@ extension LiveTranscriptionOptionsViewController: UIPickerViewDataSource, UIPick
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        var engineSelectedBefore = engineSelected
         switch pickerView.tag {
         case 1:
             engineTextField.text = engines[row]
@@ -138,7 +140,7 @@ extension LiveTranscriptionOptionsViewController: UIPickerViewDataSource, UIPick
             return
         }
         
-        if engineTextField.text == "transcribe_medical" {
+        if engineTextField.text == "transcribe_medical" && engineSelectedBefore == "transcribe" {
             languages = ["en-US"]
             regions = ["ap-southeast-2", "ca-central-1", "eu-west-1", "us-east-1", "us-east-2", "us-west-2"]
             languageTextField.text = "en-US"

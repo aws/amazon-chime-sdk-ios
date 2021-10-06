@@ -187,12 +187,7 @@ class MeetingModel: NSObject {
     }
     
     func setLiveTranscriptionEnabled(enabled: Bool) {
-        let action = enabled ? "enable" : "disable"
-        startOrStopTranscription(action: action)
-    }
-    
-    func startOrStopTranscription(action: String) {
-        if action == "enable" {
+        if enabled {
             MeetingModule.shared().liveTranscriptionOptionsSelected(self)
         } else {
             postStopTranscriptionRequest()
