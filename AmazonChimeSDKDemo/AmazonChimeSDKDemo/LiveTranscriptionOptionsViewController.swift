@@ -30,6 +30,12 @@ class LiveTranscriptionOptionsViewController: UIViewController {
     var languagePickerView = UIPickerView()
     var regionPickerView = UIPickerView()
     
+    private func notify(msg: String) {
+        DispatchQueue.main.async {
+            self.view?.makeToast("Transcription failed", duration: 2.0, position: .top)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -57,15 +63,21 @@ class LiveTranscriptionOptionsViewController: UIViewController {
         languagePickerView.tag = 2
         regionPickerView.tag = 3
     }
+    
     @IBAction func startTranscriptionButton(_ sender: UIButton) {
         var url = AppConfiguration.url
         url = url.hasSuffix("/") ? url : "\(url)/"
         let encodedURL = HttpUtils.encodeStrForURL(
             str: "\(url)start_transcription?title=\(meetingId)&language=\(languageSelected)&region=\(regionSelected)&engine=\(engineSelected)")
-        HttpUtils.postRequest(url: encodedURL, jsonData: nil) {_,_ in
-
+        HttpUtils.postRequest(url: encodedURL, jsonData: nil) {_, error in
+            DispatchQueue.main.async {
+                if error == nil {
+                    MeetingModule.shared().dismissTranscription(self)
+                } else {
+                    self.notify(msg: "Transcription call failed, please try again")
+                }
             }
-        MeetingModule.shared().dismissTranscription(self)
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -129,6 +141,14 @@ extension LiveTranscriptionOptionsViewController: UIPickerViewDataSource, UIPick
         if engineTextField.text == "transcribe_medical" {
             languages = ["en-US"]
             regions = ["ap-southeast-2", "ca-central-1", "eu-west-1", "us-east-1", "us-east-2", "us-west-2"]
+            languageTextField.text = "en-US"
+            languageSelected = "en-US"
+            regionTextField.text = "us-east-1"
+            regionSelected = "us-east-1"
+        }
+        if engineTextField.text == "transcribe" {
+            languages = ["es-US", "en-US", "en-GB", "en-AU", "fr-CA", "fr-FR", "it-IT", "de-DE", "pt-BR", "ja-JP", "ko-KR", "zh-CN"]
+            regions = ["us-west-2", "us-east-1", "us-east-2", "sa-east-1", "eu-west-2", "eu-west-1", "eu-central-1", "ca-central-1", "ap-southeast-2", "ap-northeast-2", "ap-northeast-1"]
         }
     }
 }

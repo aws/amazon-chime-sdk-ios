@@ -27,7 +27,9 @@ class CaptionsModel: NSObject {
                                   isPartial: false,
                                   content: content)
             captions.append(caption)
-            isLiveTranscriptionEnabled = status.type == .started
+            if status.type == .started || status.type == .stopped {
+                isLiveTranscriptionEnabled = status.type == .started
+            }
         } else if let transcript = transcriptEvent as? Transcript {
             transcript.results.forEach { result in
                 guard let alternative = result.alternatives.first else {
