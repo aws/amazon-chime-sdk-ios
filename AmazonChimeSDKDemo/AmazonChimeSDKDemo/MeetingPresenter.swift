@@ -61,7 +61,7 @@ class MeetingPresenter {
             completion(false)
             return
         }
-        liveTranscriptionVC.modalPresentationStyle = .fullScreen
+        liveTranscriptionVC.modalPresentationStyle = .pageSheet
         liveTranscriptionVC.model = meetingModel
         rootViewController.present(liveTranscriptionVC, animated: true) {
             completion(true)
@@ -69,7 +69,6 @@ class MeetingPresenter {
     }
     
     func dismissLiveTranscriptionView(_ liveTranscriptionVC: LiveTranscriptionOptionsViewController, completion: @escaping (Bool) -> Void) {
-        liveTranscriptionVC.dismiss(animated: true) {
-        }
+        liveTranscriptionVC.dismiss(animated: true) {}
     }
 }

@@ -67,7 +67,6 @@ class MeetingViewController: UIViewController {
 
     // Local var
     private let logger = ConsoleLogger(name: "MeetingViewController")
-    private var isLiveTranscriptionOn = false
     
     // MARK: Override functions
 
@@ -401,7 +400,6 @@ class MeetingViewController: UIViewController {
                                              handler: { _ in
                                                 meetingModel.setLiveTranscriptionEnabled(enabled: !isLiveTranscriptionEnabled)
                                              })
-        isLiveTranscriptionOn = !isLiveTranscriptionEnabled
         optionMenu.addAction(liveTranscriptionAction)
         
         // We can only access torch and apply filter on external video source

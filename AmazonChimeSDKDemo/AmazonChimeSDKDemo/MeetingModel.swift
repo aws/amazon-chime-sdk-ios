@@ -205,9 +205,7 @@ class MeetingModel: NSObject {
         url = url.hasSuffix("/") ? url : "\(url)/"
         let encodedURL = HttpUtils.encodeStrForURL(
                 str: "\(url)stop_transcription?title=\(meetingId)")
-        HttpUtils.postRequest(url: encodedURL, jsonData: nil) {_,_ in
-
-            }
+        HttpUtils.postRequest(url: encodedURL, jsonData: nil) {_,_ in }
         }
 
     func getVideoTileDisplayName(for indexPath: IndexPath) -> String {

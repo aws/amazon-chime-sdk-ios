@@ -38,10 +38,6 @@ class LiveTranscriptionOptionsViewController: UIViewController {
         languageTextField.inputView = languagePickerView
         regionTextField.inputView = regionPickerView
         
-//        engineTextField.placeholder = "Select Engine"
-//        languageTextField.placeholder = "Select Language"
-//        regionTextField.placeholder = "Select Region"
-        
         engineSelected = "transcribe"
         languageSelected = "en-US"
         regionSelected = "us-east-1"
@@ -49,10 +45,6 @@ class LiveTranscriptionOptionsViewController: UIViewController {
         engineTextField.text = "transcribe"
         languageTextField.text = "en-US"
         regionTextField.text = "us-east-1"
-        
-        engineTextField.textAlignment = .center
-        languageTextField.textAlignment = .center
-        regionTextField.textAlignment = .center
         
         enginePickerView.delegate = self
         languagePickerView.delegate = self
