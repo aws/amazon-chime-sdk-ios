@@ -26,6 +26,40 @@ class LiveTranscriptionOptionsViewController: UIViewController {
     var languages = ["es-US", "en-US", "en-GB", "en-AU", "fr-CA", "fr-FR", "it-IT", "de-DE", "pt-BR", "ja-JP", "ko-KR", "zh-CN"]
     var regions = ["us-west-2", "us-east-1", "us-east-2", "sa-east-1", "eu-west-2", "eu-west-1", "eu-central-1", "ca-central-1", "ap-southeast-2", "ap-northeast-2", "ap-northeast-1"]
     
+    var enginesDict = [
+        "transcribe": "Trancribe",
+        "transcribe_medical": "Transcribe Medical"
+    ]
+    
+    var languagesDict = [
+        "en-US": "US English",
+        "es-US": "US Spanish",
+        "en-GB": "British English",
+        "en-AU": "Australian English",
+        "fr-CA": "Canadian French",
+        "fr-FR": "French",
+        "it-IT": "Italian",
+        "de-DE": "German",
+        "pt-BR": "Brazilian Portuguese",
+        "ja-JP": "Japanese",
+        "ko-KR": "Korean",
+        "zh-CN": "Mandarin Chinese"
+    ]
+    
+    var regionsDict = [
+        "ap-northeast-1": "Japan (Tokyo)",
+        "ap-northeast-2": "South Korea (Seoul)",
+        "ap-southeast-2": "Australia (Sydney)",
+        "ca-central-1": "Canada",
+        "eu-central-1": "Germany (Frankfurt)",
+        "eu-west-1": "Ireland",
+        "eu-west-2": "United Kingdom (London)",
+        "sa-east-1": "Brazil (São Paulo)",
+        "us-east-1": "United States (N. Virginia)",
+        "us-east-2": "United States (Ohio)",
+        "us-west-2": "United States (Oregon)"
+    ]
+    
     var enginePickerView = UIPickerView()
     var languagePickerView = UIPickerView()
     var regionPickerView = UIPickerView()
@@ -111,11 +145,11 @@ extension LiveTranscriptionOptionsViewController: UIPickerViewDataSource, UIPick
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         switch pickerView.tag {
         case 1:
-            return engines[row]
+            return enginesDict[engines[row]]
         case 2:
-            return languages[row]
+            return languagesDict[languages[row]]
         case 3:
-            return regions[row]
+            return regionsDict[regions[row]]
         default:
             return "Data not found"
         }
