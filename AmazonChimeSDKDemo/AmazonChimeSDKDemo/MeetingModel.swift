@@ -201,10 +201,10 @@ class MeetingModel: NSObject {
     
     func postStopTranscriptionRequest() {
         notify(msg: "Live Transcription Disabled")
-            var url = AppConfiguration.url
-            url = url.hasSuffix("/") ? url : "\(url)/"
-            let encodedURL = HttpUtils.encodeStrForURL(
-                str: "\(url)stop_transcription?title=\(meetingId)"            )
+        var url = AppConfiguration.url
+        url = url.hasSuffix("/") ? url : "\(url)/"
+        let encodedURL = HttpUtils.encodeStrForURL(
+                str: "\(url)stop_transcription?title=\(meetingId)")
         HttpUtils.postRequest(url: encodedURL, jsonData: nil) {_,_ in
 
             }

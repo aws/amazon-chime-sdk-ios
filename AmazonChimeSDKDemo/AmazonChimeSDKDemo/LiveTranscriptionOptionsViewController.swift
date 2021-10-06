@@ -12,15 +12,15 @@ import UIKit
 
 class LiveTranscriptionOptionsViewController: UIViewController {
     var model: MeetingModel?
-    var meetingID = ""
+    var meetingId = ""
     var engineSelected = ""
     var languageSelected = ""
     var regionSelected = ""
     
-    @IBOutlet weak var startTranscriptionButton: UIButton!
-    @IBOutlet weak var engineTextField: UITextField!
-    @IBOutlet weak var languageTextField: UITextField!
-    @IBOutlet weak var regionTextField: UITextField!
+    @IBOutlet var startTranscriptionButton: UIButton!
+    @IBOutlet var engineTextField: UITextField!
+    @IBOutlet var languageTextField: UITextField!
+    @IBOutlet var regionTextField: UITextField!
     
     var engines = ["transcribe_medical", "transcribe"]
     var languages = ["es-US", "en-US", "en-GB", "en-AU", "fr-CA", "fr-FR", "it-IT", "de-DE", "pt-BR", "ja-JP", "ko-KR", "zh-CN"]
@@ -33,14 +33,22 @@ class LiveTranscriptionOptionsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        meetingID = self.model!.meetingId
+        meetingId = self.model!.meetingId
         engineTextField.inputView = enginePickerView
         languageTextField.inputView = languagePickerView
         regionTextField.inputView = regionPickerView
         
-        engineTextField.placeholder = "Select Engine"
-        languageTextField.placeholder = "Select Language"
-        regionTextField.placeholder = "Select Region"
+//        engineTextField.placeholder = "Select Engine"
+//        languageTextField.placeholder = "Select Language"
+//        regionTextField.placeholder = "Select Region"
+        
+        engineSelected = "transcribe"
+        languageSelected = "en-US"
+        regionSelected = "us-east-1"
+        
+        engineTextField.text = "transcribe"
+        languageTextField.text = "en-US"
+        regionTextField.text = "us-east-1"
         
         engineTextField.textAlignment = .center
         languageTextField.textAlignment = .center
@@ -61,7 +69,7 @@ class LiveTranscriptionOptionsViewController: UIViewController {
         var url = AppConfiguration.url
         url = url.hasSuffix("/") ? url : "\(url)/"
         let encodedURL = HttpUtils.encodeStrForURL(
-            str: "\(url)start_transcription?title=\(meetingID)&language=\(languageSelected)&region=\(regionSelected)&engine=\(engineSelected)")
+            str: "\(url)start_transcription?title=\(meetingId)&language=\(languageSelected)&region=\(regionSelected)&engine=\(engineSelected)")
         HttpUtils.postRequest(url: encodedURL, jsonData: nil) {_,_ in
 
             }
@@ -124,10 +132,6 @@ extension LiveTranscriptionOptionsViewController: UIPickerViewDataSource, UIPick
             regionTextField.resignFirstResponder()
         default:
             return
-        }
-        
-        if engineTextField.text != "" && languageTextField.text != "" && regionTextField.text != "" {
-            startTranscriptionButton.isEnabled = true
         }
         
         if engineTextField.text == "transcribe_medical" {
