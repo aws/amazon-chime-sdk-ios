@@ -94,7 +94,7 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
     
     let regionsDict = [
         "auto": "Auto",
-        "": "Not specified"
+        "": "Not specified",
         "ap-northeast-1": "Japan (Tokyo)",
         "ap-northeast-2": "South Korea (Seoul)",
         "ap-southeast-2": "Australia (Sydney)",
