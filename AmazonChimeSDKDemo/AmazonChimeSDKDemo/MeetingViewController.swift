@@ -50,7 +50,7 @@ class MeetingViewController: UIViewController {
 
     // Metrics
     @IBOutlet var metricsTable: UITableView!
-
+    
     // Chat View
     @IBOutlet var chatView: UIView!
     @IBOutlet var chatMessageTable: UITableView!
@@ -67,7 +67,7 @@ class MeetingViewController: UIViewController {
 
     // Local var
     private let logger = ConsoleLogger(name: "MeetingViewController")
-
+    
     // MARK: Override functions
 
     override func viewDidLoad() {
@@ -392,7 +392,16 @@ class MeetingViewController: UIViewController {
                                                 meetingModel.setVoiceFocusEnabled(enabled: !isVoiceFocusEnabled)
                                              })
         optionMenu.addAction(voiceFocusAction)
-
+        
+        let isLiveTranscriptionEnabled = meetingModel.captionsModel.isLiveTranscriptionEnabled
+        let nextLiveTranscriptionStatus = nextOnOrOff(current: isLiveTranscriptionEnabled)
+        let liveTranscriptionAction = UIAlertAction(title: "Turn \(nextLiveTranscriptionStatus) Live Transcription",
+                                             style: .default,
+                                             handler: { _ in
+                                                meetingModel.setLiveTranscriptionEnabled(enabled: !isLiveTranscriptionEnabled)
+                                             })
+        optionMenu.addAction(liveTranscriptionAction)
+        
         // We can only access torch and apply filter on external video source
         if meetingModel.videoModel.isUsingExternalVideoSource {
             let isTorchOn = meetingModel.videoModel.customSource.torchEnabled
