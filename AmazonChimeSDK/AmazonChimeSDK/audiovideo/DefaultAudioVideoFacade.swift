@@ -135,14 +135,6 @@ import Foundation
         audioVideoController.removeMetricsObserver(observer: observer)
     }
 
-    public func addRealtimeTranscriptEventObserver(observer: TranscriptEventObserver) {
-        realtimeController.addRealtimeTranscriptEventObserver?(observer: observer)
-    }
-
-    public func removeRealtimeTranscriptEventObserver(observer: TranscriptEventObserver) {
-        realtimeController.removeRealtimeTranscriptEventObserver?(observer: observer)
-    }
-
     // MARK: DeviceController
 
     public func listAudioDevices() -> [MediaDevice] {

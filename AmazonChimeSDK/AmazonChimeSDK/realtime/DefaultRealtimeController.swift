@@ -56,12 +56,4 @@ import Foundation
     public func realtimeIsVoiceFocusEnabled() -> Bool {
         return audioClientController.isVoiceFocusEnabled()
     }
-
-    public func addRealtimeTranscriptEventObserver(observer: TranscriptEventObserver) {
-        audioClientObserver.subscribeToTranscriptEvent(observer: observer)
-    }
-
-    public func removeRealtimeTranscriptEventObserver(observer: TranscriptEventObserver) {
-        audioClientObserver.unsubscribeFromTranscriptEvent(observer: observer)
-    }
 }

@@ -56,9 +56,6 @@
 		C4A690A8255DFF4600F28BC2 /* AmazonChimeSDKDemoBroadcast.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C4A6909F255DFF4600F28BC2 /* AmazonChimeSDKDemoBroadcast.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C4A690AE255E00C100F28BC2 /* AmazonChimeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE38AD7242873FD00B234EC /* AmazonChimeSDK.framework */; };
 		C4D8E1B824A412B6005D9CF7 /* VideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D8E1B724A412B6005D9CF7 /* VideoModel.swift */; };
-		C61D437027050FBF00150F03 /* CaptionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D436F27050FBF00150F03 /* CaptionsModel.swift */; };
-		C61D4377270510D200150F03 /* Caption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D4376270510D200150F03 /* Caption.swift */; };
-		C61D437A270512A100150F03 /* CaptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D4379270512A100150F03 /* CaptionCell.swift */; };
 		EDB5638925CCFB700096EE85 /* DebugSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB5638825CCFB700096EE85 /* DebugSettingsViewController.swift */; };
 		EDB5638C25CCFEA30096EE85 /* DebugSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB5638B25CCFEA30096EE85 /* DebugSettingsModel.swift */; };
 		F82D50DA23FC9C6C00D8F18C /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D50D923FC9C6C00D8F18C /* AppConfiguration.swift */; };
@@ -189,9 +186,6 @@
 		C4B0AC9D258A7C6D00F6F13A /* AmazonChimeSDKDemoRelease.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = AmazonChimeSDKDemoRelease.entitlements; sourceTree = "<group>"; };
 		C4B0AC9F258A7CC100F6F13A /* AmazonChimeSDKDemoBroadcastRelease.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = AmazonChimeSDKDemoBroadcastRelease.entitlements; sourceTree = "<group>"; };
 		C4D8E1B724A412B6005D9CF7 /* VideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoModel.swift; sourceTree = "<group>"; };
-		C61D436F27050FBF00150F03 /* CaptionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionsModel.swift; sourceTree = "<group>"; };
-		C61D4376270510D200150F03 /* Caption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Caption.swift; sourceTree = "<group>"; };
-		C61D4379270512A100150F03 /* CaptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionCell.swift; sourceTree = "<group>"; };
 		EDB5638825CCFB700096EE85 /* DebugSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugSettingsViewController.swift; sourceTree = "<group>"; };
 		EDB5638B25CCFEA30096EE85 /* DebugSettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugSettingsModel.swift; sourceTree = "<group>"; };
 		F82D50D923FC9C6C00D8F18C /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
@@ -244,7 +238,6 @@
 				003B58AE23E23E9D002493AB /* JoinMeetingResponse.swift */,
 				00F372ED23DA2BFD008F7CA7 /* RosterAttendee.swift */,
 				5A16BED724045A7100ADAE26 /* SegmentedControlIndex.swift */,
-				C61D4376270510D200150F03 /* Caption.swift */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -306,8 +299,6 @@
 				5A1582BF23C40C9B0099F8FA /* Main.storyboard */,
 				5A1582C423C40C9D0099F8FA /* LaunchScreen.storyboard */,
 				5A1582C723C40C9D0099F8FA /* Info.plist */,
-				C61D436F27050FBF00150F03 /* CaptionsModel.swift */,
-				C61D4379270512A100150F03 /* CaptionCell.swift */,
 			);
 			path = AmazonChimeSDKDemo;
 			sourceTree = "<group>";
@@ -569,7 +560,6 @@
 				00D82F1E25B2732D000496A2 /* PostLogger.swift in Sources */,
 				5A1582BA23C40C9B0099F8FA /* AppDelegate.swift in Sources */,
 				003B58B123E25032002493AB /* HttpUtils.swift in Sources */,
-				C61D4377270510D200150F03 /* Caption.swift in Sources */,
 				00D82F2425B27BD5000496A2 /* LogEntry.swift in Sources */,
 				003B58AF23E23E9D002493AB /* JoinMeetingResponse.swift in Sources */,
 				C4923C0624BE71D800EE866B /* MeetingModule.swift in Sources */,
@@ -580,14 +570,12 @@
 				EDB5638925CCFB700096EE85 /* DebugSettingsViewController.swift in Sources */,
 				00F372EE23DA2BFD008F7CA7 /* RosterAttendee.swift in Sources */,
 				B4FCD85724B947FC00064C9E /* TimestampConversion.swift in Sources */,
-				C61D437027050FBF00150F03 /* CaptionsModel.swift in Sources */,
 				C42A8A11253E2E4E008419A6 /* MetalVideoProcessor.swift in Sources */,
 				5A81417823F2300D00560201 /* RosterTableCell.swift in Sources */,
 				5A16BED824045A7100ADAE26 /* SegmentedControlIndex.swift in Sources */,
 				B4FCD85224B9330A00064C9E /* ChatMessageCell.swift in Sources */,
 				B4FCD85524B9364900064C9E /* ChatModel.swift in Sources */,
 				5A16BE7A24006A2A00ADAE26 /* VideoTileCell.swift in Sources */,
-				C61D437A270512A100150F03 /* CaptionCell.swift in Sources */,
 				C4632EBE24A57BF8009F8AF5 /* RosterModel.swift in Sources */,
 				C42A8A0D253E2E22008419A6 /* DeviceSelectionModel.swift in Sources */,
 				5A1582BE23C40C9B0099F8FA /* JoiningViewController.swift in Sources */,
@@ -801,6 +789,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.16.5;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../AmazonChimeSDK/";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
