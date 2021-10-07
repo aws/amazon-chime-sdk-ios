@@ -101,17 +101,6 @@ class MeetingModule {
             self.meetingPresenter.showMeetingView(meetingModel: activeMeeting) { _ in }
         }
     }
-    
-    func liveTranscriptionOptionsSelected(_ meetingModel: MeetingModel) {
-        guard let activeMeeting = activeMeeting else {
-            return
-        }
-        self.meetingPresenter.showLiveTranscriptionView(meetingModel: activeMeeting) { _ in }
-    }
-    
-    func dismissTranscription(_ liveTranscriptionVC: LiveTranscriptionOptionsViewController) {
-        self.meetingPresenter.dismissLiveTranscriptionView(liveTranscriptionVC) { _ in }
-    }
 
     func joinMeeting(_ meeting: MeetingModel, completion: @escaping (Bool) -> Void) {
         endActiveMeeting {

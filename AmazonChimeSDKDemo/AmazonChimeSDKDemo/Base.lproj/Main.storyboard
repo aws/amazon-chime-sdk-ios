@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -317,7 +317,7 @@
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="chatMessageCell" rowHeight="150" id="IR1-ov-bzI" customClass="ChatMessageCell" customModule="AmazonChimeSDKDemo" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="24.333333969116211" width="414" height="150"/>
+                                                        <rect key="frame" x="0.0" y="28" width="414" height="150"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IR1-ov-bzI" id="jwj-GW-jrz">
                                                             <rect key="frame" x="0.0" y="0.0" width="414" height="150"/>
@@ -422,7 +422,7 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="rosterCell" rowHeight="87" id="oOQ-i3-TjW" customClass="RosterTableCell" customModule="AmazonChimeSDKDemo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="24.333333969116211" width="414" height="87"/>
+                                                <rect key="frame" x="0.0" y="28" width="414" height="87"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oOQ-i3-TjW" id="yy8-Oi-9EV">
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="87"/>
@@ -652,7 +652,7 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="metricsCell" rowHeight="87" id="ScO-Sx-PnT" userLabel="metricsCell" customClass="MetricsTableCell" customModule="AmazonChimeSDKDemo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="24.333333969116211" width="414" height="87"/>
+                                                <rect key="frame" x="0.0" y="28" width="414" height="87"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ScO-Sx-PnT" id="XjQ-XE-b0u">
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="87"/>
@@ -698,7 +698,7 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="captionCell" id="8aS-kd-Jde" customClass="CaptionCell" customModule="AmazonChimeSDKDemo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="24.333333969116211" width="414" height="39.333332061767578"/>
+                                                <rect key="frame" x="0.0" y="28" width="414" height="39.333332061767578"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8aS-kd-Jde" id="4gI-K8-L7e">
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="39.333332061767578"/>
@@ -886,7 +886,7 @@
                                 <rect key="frame" x="0.0" y="52" width="414" height="44"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Meeting#" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DdL-aA-lof">
-                                        <rect key="frame" x="16.000000000000007" y="0.0" width="103.66666666666669" height="44"/>
+                                        <rect key="frame" x="15.999999999999993" y="0.0" width="116.33333333333331" height="44"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <accessibility key="accessibilityConfiguration">
                                             <accessibilityTraits key="traits" staticText="YES" header="YES"/>
@@ -925,7 +925,6 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="11D-ok-UAX"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="additionalOptionsButton" destination="Ief-dn-Lr8" id="3PU-5V-JQ7"/>
@@ -961,65 +960,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DDZ-DD-2dd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1853.6231884057972" y="112.5"/>
-        </scene>
-        <!--Live Transcriptions View Controller-->
-        <scene sceneID="2J4-Kn-Aok">
-            <objects>
-                <viewController storyboardIdentifier="liveTranscription" title="Live Transcriptions View Controller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="oIM-X0-54O" customClass="LiveTranscriptionOptionsViewController" customModule="AmazonChimeSDKDemo" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ogQ-aQ-X61">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HAa-I4-bUz">
-                                <rect key="frame" x="30" y="354" width="354" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="W4e-99-NSd">
-                                <rect key="frame" x="30" y="431" width="354" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xQi-rK-PWV">
-                                <rect key="frame" x="133" y="579" width="128" height="51"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Start Transcription"/>
-                                <connections>
-                                    <action selector="startTranscriptionButton:" destination="oIM-X0-54O" eventType="touchUpInside" id="7Bn-JY-jfD"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UPV-0s-G4L">
-                                <rect key="frame" x="30" y="286" width="344" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="7dQ-v6-lgr"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="W4e-99-NSd" firstAttribute="top" secondItem="HAa-I4-bUz" secondAttribute="bottom" constant="10" id="8Qj-3A-ZJq"/>
-                            <constraint firstItem="HAa-I4-bUz" firstAttribute="top" secondItem="UPV-0s-G4L" secondAttribute="bottom" constant="10" id="Iz9-KS-6jk"/>
-                            <constraint firstItem="W4e-99-NSd" firstAttribute="top" secondItem="HAa-I4-bUz" secondAttribute="bottom" constant="124" id="Mhl-c8-RZj"/>
-                            <constraint firstItem="7dQ-v6-lgr" firstAttribute="trailing" secondItem="W4e-99-NSd" secondAttribute="trailing" constant="30" id="Z9i-mE-XBR"/>
-                            <constraint firstItem="W4e-99-NSd" firstAttribute="leading" secondItem="7dQ-v6-lgr" secondAttribute="leading" constant="30" id="joS-3o-6N2"/>
-                            <constraint firstItem="W4e-99-NSd" firstAttribute="top" secondItem="HAa-I4-bUz" secondAttribute="bottom" constant="30" id="o11-4Q-n4C"/>
-                            <constraint firstItem="7dQ-v6-lgr" firstAttribute="bottom" secondItem="W4e-99-NSd" secondAttribute="bottom" constant="350" id="sOv-dF-dyv"/>
-                            <constraint firstItem="7dQ-v6-lgr" firstAttribute="trailing" secondItem="UPV-0s-G4L" secondAttribute="trailing" constant="30" id="tdx-2f-MmU"/>
-                            <constraint firstItem="UPV-0s-G4L" firstAttribute="leading" secondItem="7dQ-v6-lgr" secondAttribute="leading" constant="30" id="tyG-mf-hd8"/>
-                            <constraint firstItem="7dQ-v6-lgr" firstAttribute="trailing" secondItem="HAa-I4-bUz" secondAttribute="trailing" constant="30" id="zGQ-Ug-1V0"/>
-                            <constraint firstItem="HAa-I4-bUz" firstAttribute="leading" secondItem="7dQ-v6-lgr" secondAttribute="leading" constant="30" id="zc6-7g-W3Z"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="engineTextField" destination="UPV-0s-G4L" id="BwK-EG-N6q"/>
-                        <outlet property="languageTextField" destination="HAa-I4-bUz" id="j3N-1M-j6v"/>
-                        <outlet property="regionTextField" destination="W4e-99-NSd" id="w9D-ms-dfG"/>
-                        <outlet property="startTranscriptionButton" destination="xQi-rK-PWV" id="JLq-tz-YFS"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dXg-Dk-uIZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2713.04347826087" y="112.5"/>
         </scene>
         <!--Debug Settings View Controller-->
         <scene sceneID="zQP-fR-VYF">
