@@ -140,7 +140,7 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
         
         engineSelected = "transcribe"
         languageSelected = "en-US"
-        regionSelected = "us-east-1"
+        regionSelected = "auto"
         
         engineTextField.text = enginesDict[engineSelected]
         languageTextField.text = languagesDict[languageSelected]
