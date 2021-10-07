@@ -204,7 +204,7 @@ class MeetingModel: NSObject {
                 if error != nil {
                     self.notify(msg: "Transcription failed to stop, please try again!")
                 } else {
-                self.notify(msg: "Live Transcription Disabled")
+                    self.notify(msg: "Live Transcription Disabled")
                 }
             }
         }
