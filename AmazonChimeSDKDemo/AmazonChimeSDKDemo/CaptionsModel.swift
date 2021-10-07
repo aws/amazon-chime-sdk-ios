@@ -11,7 +11,9 @@ import UIKit
 
 class CaptionsModel: NSObject {
     let logger = ConsoleLogger(name: "CaptionsModel")
-
+    
+    var isLiveTranscriptionEnabled = false
+    
     var captions = [Caption]()
     var captionIndices = [String: Int]()    // map resultId to index in captions array
     var refreshCaptionsTableHandler: (() -> Void)?
@@ -25,6 +27,9 @@ class CaptionsModel: NSObject {
                                   isPartial: false,
                                   content: content)
             captions.append(caption)
+            if status.type == .started || status.type == .stopped {
+                isLiveTranscriptionEnabled = status.type == .started
+            }
         } else if let transcript = transcriptEvent as? Transcript {
             transcript.results.forEach { result in
                 guard let alternative = result.alternatives.first else {
