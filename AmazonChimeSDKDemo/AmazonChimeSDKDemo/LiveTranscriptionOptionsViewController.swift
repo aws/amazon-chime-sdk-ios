@@ -133,7 +133,9 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
         guard let meetingId = self.model?.meetingId else {
             return MeetingModule.shared().dismissTranscription(self)
         }
+        
         self.meetingId = meetingId
+        
         engineTextField.inputView = enginePickerView
         languageTextField.inputView = languagePickerView
         regionTextField.inputView = regionPickerView

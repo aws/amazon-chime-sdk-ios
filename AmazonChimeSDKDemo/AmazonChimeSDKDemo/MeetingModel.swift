@@ -202,7 +202,7 @@ class MeetingModel: NSObject {
         HttpUtils.postRequest(url: encodedURL, jsonData: nil) {_,error in
             if error != nil {
                 DispatchQueue.main.async {
-                    self.notify(msg: "Transcription failed to stop, please try again!")
+                    self.notify(msg: "Live Transcription failed to stop, please try again!")
                 }
             } else {
                 self.notify(msg: "Live Transcription Disabled")
