@@ -10,7 +10,7 @@ import Foundation
 import AmazonChimeSDK
 import UIKit
 
-class LiveTranscriptionOptionsViewController: UIViewController {
+class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDelegate {
     var model: MeetingModel?
     var meetingId = ""
     var engineSelected = ""
@@ -22,31 +22,38 @@ class LiveTranscriptionOptionsViewController: UIViewController {
     @IBOutlet var languageTextField: UITextField!
     @IBOutlet var regionTextField: UITextField!
     
-    var engines = ["transcribe_medical", "transcribe"]
-    var languages = ["es-US", "en-US", "en-GB", "en-AU", "fr-CA", "fr-FR", "it-IT", "de-DE", "pt-BR", "ja-JP", "ko-KR", "zh-CN"]
-    var regions = ["us-west-2", "us-east-1", "us-east-2", "sa-east-1", "eu-west-2", "eu-west-1", "eu-central-1", "ca-central-1", "ap-southeast-2", "ap-northeast-2", "ap-northeast-1"]
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        return false
+    }
+    
+    var engines: [String] = []
+    var languages: [String] = []
+    var regions: [String] = []
+    
+    let transcribeMedicalLanguage = ["en-US"]
+    let transcribeMedicalRegions = ["ap-southeast-2", "ca-central-1", "eu-west-1", "us-east-1", "us-east-2", "us-west-2"]
     
     var enginesDict = [
-        "transcribe": "Trancribe",
-        "transcribe_medical": "Transcribe Medical"
+        "transcribe": "Amazon Transcribe",
+        "transcribe_medical": "Amazon Transcribe Medical"
     ]
     
     var languagesDict = [
-        "en-US": "US English",
-        "es-US": "US Spanish",
-        "en-GB": "British English",
-        "en-AU": "Australian English",
-        "fr-CA": "Canadian French",
-        "fr-FR": "French",
-        "it-IT": "Italian",
-        "de-DE": "German",
-        "pt-BR": "Brazilian Portuguese",
-        "ja-JP": "Japanese",
-        "ko-KR": "Korean",
-        "zh-CN": "Mandarin Chinese"
+        "en-US": "US English (en-US)",
+        "es-US": "US Spanish (es-US)",
+        "en-GB": "British English (en-GB)",
+        "en-AU": "Australian English (en-AU)",
+        "fr-CA": "Canadian French (fr-CA)",
+        "fr-FR": "French (fr-FR)",
+        "it-IT": "Italian (it-IT)",
+        "de-DE": "German (de-DE)",
+        "pt-BR": "Brazilian Portuguese (pt-BR)",
+        "ja-JP": "Japanese (ja-JP)",
+        "ko-KR": "Korean (ko-KR)",
+        "zh-CN": "Mandarin Chinese - Mainland (zh-CN)"
     ]
     
-    var regionsDict = [
+    let regionsDict = [
         "ap-northeast-1": "Japan (Tokyo)",
         "ap-northeast-2": "South Korea (Seoul)",
         "ap-southeast-2": "Australia (Sydney)",
@@ -66,12 +73,21 @@ class LiveTranscriptionOptionsViewController: UIViewController {
     
     private func notify(msg: String) {
         DispatchQueue.main.async {
-            self.view?.makeToast("Transcription failed", duration: 2.0, position: .top)
+            self.view?.makeToast(msg, duration: 2.0, position: .top)
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.engines = Array(enginesDict.keys)
+        self.languages = Array(languagesDict.keys)
+        self.regions = Array(regionsDict.keys)
+
+        
+        self.engineTextField.delegate = self
+        self.languageTextField.delegate = self
+        self.regionTextField.delegate = self
         
         guard let meetingId = self.model?.meetingId else {return MeetingModule.shared().dismissTranscription(self)}
         self.meetingId = meetingId
@@ -83,9 +99,9 @@ class LiveTranscriptionOptionsViewController: UIViewController {
         languageSelected = "en-US"
         regionSelected = "us-east-1"
         
-        engineTextField.text = "transcribe"
-        languageTextField.text = "en-US"
-        regionTextField.text = "us-east-1"
+        engineTextField.text = "Amazon Transcribe"
+        languageTextField.text = "US English"
+        regionTextField.text = "United States (N. Virginia)"
         
         enginePickerView.delegate = self
         languagePickerView.delegate = self
@@ -152,35 +168,35 @@ extension LiveTranscriptionOptionsViewController: UIPickerViewDataSource, UIPick
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        var engineSelectedBefore = engineSelected
+        let engineSelectedBefore = engineSelected
         switch pickerView.tag {
         case 1:
-            engineTextField.text = engines[row]
+            engineTextField.text = enginesDict[engines[row]]
             engineSelected = engines[row]
             engineTextField.resignFirstResponder()
         case 2:
-            languageTextField.text = languages[row]
+            languageTextField.text = languagesDict[languages[row]]
             languageSelected = languages[row]
             languageTextField.resignFirstResponder()
         case 3:
-            regionTextField.text = regions[row]
+            regionTextField.text = regionsDict[regions[row]]
             regionSelected = regions[row]
             regionTextField.resignFirstResponder()
         default:
             return
         }
         
-        if engineTextField.text == "transcribe_medical" && engineSelectedBefore == "transcribe" {
-            languages = ["en-US"]
-            regions = ["ap-southeast-2", "ca-central-1", "eu-west-1", "us-east-1", "us-east-2", "us-west-2"]
-            languageTextField.text = "en-US"
+        if engineTextField.text == "Amazon Transcribe Medical" && engineSelectedBefore == "transcribe" {
+            languages = transcribeMedicalLanguage
+            regions = transcribeMedicalRegions
+            languageTextField.text = "US English"
             languageSelected = "en-US"
-            regionTextField.text = "us-east-1"
+            regionTextField.text = "United States (N. Virginia)"
             regionSelected = "us-east-1"
         }
-        if engineTextField.text == "transcribe" {
-            languages = ["es-US", "en-US", "en-GB", "en-AU", "fr-CA", "fr-FR", "it-IT", "de-DE", "pt-BR", "ja-JP", "ko-KR", "zh-CN"]
-            regions = ["us-west-2", "us-east-1", "us-east-2", "sa-east-1", "eu-west-2", "eu-west-1", "eu-central-1", "ca-central-1", "ap-southeast-2", "ap-northeast-2", "ap-northeast-1"]
+        if engineTextField.text == "Amazon Transcribe" {
+            languages = Array(languagesDict.keys)
+            regions = Array(regionsDict.keys)
         }
     }
 }
