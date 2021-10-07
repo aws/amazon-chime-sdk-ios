@@ -30,8 +30,43 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
     var languages: [String] = []
     var regions: [String] = []
     
+    let transcribeLanguage = [
+                                "en-US",
+                                "es-US",
+                                "en-GB",
+                                "en-AU",
+                                "fr-CA",
+                                "fr-FR",
+                                "it-IT",
+                                "de-DE",
+                                "pt-BR",
+                                "ja-JP",
+                                "ko-KR",
+                                "zh-CN"
+                               ]
+    let transcribeRegion = [
+                                "ap-northeast-1",
+                                "ap-northeast-2",
+                                "ap-southeast-2",
+                                "ca-central-1",
+                                "eu-central-1",
+                                "eu-west-1",
+                                "eu-west-2",
+                                "sa-east-1",
+                                "us-east-1",
+                                "us-east-2",
+                                "us-west-2"
+                            ]
+    
     let transcribeMedicalLanguage = ["en-US"]
-    let transcribeMedicalRegions = ["ap-southeast-2", "ca-central-1", "eu-west-1", "us-east-1", "us-east-2", "us-west-2"]
+    let transcribeMedicalRegions = [
+                                        "ap-southeast-2",
+                                        "ca-central-1",
+                                        "eu-west-1",
+                                        "us-east-1",
+                                        "us-east-2",
+                                        "us-west-2"
+                                    ]
     
     var enginesDict = [
         "transcribe": "Amazon Transcribe",
@@ -99,9 +134,9 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
         languageSelected = "en-US"
         regionSelected = "us-east-1"
         
-        engineTextField.text = "Amazon Transcribe"
-        languageTextField.text = "US English"
-        regionTextField.text = "United States (N. Virginia)"
+        engineTextField.text = enginesDict[engineSelected]
+        languageTextField.text = languagesDict[languageSelected]
+        regionTextField.text = regionsDict[regionSelected]
         
         enginePickerView.delegate = self
         languagePickerView.delegate = self
@@ -129,10 +164,6 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
                 }
             }
         }
-    }
-    
-    override  func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
 }
 
@@ -186,17 +217,17 @@ extension LiveTranscriptionOptionsViewController: UIPickerViewDataSource, UIPick
             return
         }
         
-        if engineTextField.text == "Amazon Transcribe Medical" && engineSelectedBefore == "transcribe" {
+        if engineSelected == "transcribe_medical" && engineSelectedBefore == "transcribe" {
             languages = transcribeMedicalLanguage
             regions = transcribeMedicalRegions
-            languageTextField.text = "US English"
             languageSelected = "en-US"
-            regionTextField.text = "United States (N. Virginia)"
+            languageTextField.text = languagesDict[languageSelected]
             regionSelected = "us-east-1"
+            regionTextField.text = regionsDict[regionSelected]
         }
-        if engineTextField.text == "Amazon Transcribe" {
-            languages = Array(languagesDict.keys)
-            regions = Array(regionsDict.keys)
+        if engineSelected == "transcribe" {
+            languages = transcribeLanguage
+            regions = transcribeRegion
         }
     }
 }
