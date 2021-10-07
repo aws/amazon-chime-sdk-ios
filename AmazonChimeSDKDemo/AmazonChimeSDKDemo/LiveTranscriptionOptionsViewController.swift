@@ -30,7 +30,7 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
     var languages: [String] = []
     var regions: [String] = []
     
-    let transcribeLanguage = [
+    let transcribeLanguages = [
                                 "en-US",
                                 "es-US",
                                 "en-GB",
@@ -44,7 +44,7 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
                                 "ko-KR",
                                 "zh-CN"
                                ]
-    let transcribeRegion = [
+    let transcribeRegions = [
                                 "ap-northeast-1",
                                 "ap-northeast-2",
                                 "ap-southeast-2",
@@ -58,7 +58,7 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
                                 "us-west-2"
                             ]
     
-    let transcribeMedicalLanguage = ["en-US"]
+    let transcribeMedicalLanguages = ["en-US"]
     let transcribeMedicalRegions = [
                                         "ap-southeast-2",
                                         "ca-central-1",
@@ -124,7 +124,9 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
         self.languageTextField.delegate = self
         self.regionTextField.delegate = self
         
-        guard let meetingId = self.model?.meetingId else {return MeetingModule.shared().dismissTranscription(self)}
+        guard let meetingId = self.model?.meetingId else {
+            return MeetingModule.shared().dismissTranscription(self)
+        }
         self.meetingId = meetingId
         engineTextField.inputView = enginePickerView
         languageTextField.inputView = languagePickerView
@@ -218,7 +220,7 @@ extension LiveTranscriptionOptionsViewController: UIPickerViewDataSource, UIPick
         }
         
         if engineSelected == "transcribe_medical" && engineSelectedBefore == "transcribe" {
-            languages = transcribeMedicalLanguage
+            languages = transcribeMedicalLanguages
             regions = transcribeMedicalRegions
             languageSelected = "en-US"
             languageTextField.text = languagesDict[languageSelected]
@@ -226,8 +228,8 @@ extension LiveTranscriptionOptionsViewController: UIPickerViewDataSource, UIPick
             regionTextField.text = regionsDict[regionSelected]
         }
         if engineSelected == "transcribe" {
-            languages = transcribeLanguage
-            regions = transcribeRegion
+            languages = transcribeLanguages
+            regions = transcribeRegions
         }
     }
 }
