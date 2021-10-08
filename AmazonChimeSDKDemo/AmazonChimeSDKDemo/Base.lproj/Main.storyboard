@@ -980,9 +980,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xQi-rK-PWV">
-                                <rect key="frame" x="133" y="579" width="128" height="51"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xQi-rK-PWV">
+                                <rect key="frame" x="30" y="772" width="354" height="30"/>
                                 <state key="normal" title="Start Transcription"/>
                                 <connections>
                                     <action selector="startTranscriptionButton:" destination="oIM-X0-54O" eventType="touchUpInside" id="7Bn-JY-jfD"/>
@@ -998,10 +997,13 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="W4e-99-NSd" firstAttribute="top" secondItem="HAa-I4-bUz" secondAttribute="bottom" constant="10" id="8Qj-3A-ZJq"/>
+                            <constraint firstItem="7dQ-v6-lgr" firstAttribute="bottom" secondItem="xQi-rK-PWV" secondAttribute="bottom" constant="60" id="EoN-n3-Onb"/>
                             <constraint firstItem="HAa-I4-bUz" firstAttribute="top" secondItem="UPV-0s-G4L" secondAttribute="bottom" constant="10" id="Iz9-KS-6jk"/>
                             <constraint firstItem="W4e-99-NSd" firstAttribute="top" secondItem="HAa-I4-bUz" secondAttribute="bottom" constant="124" id="Mhl-c8-RZj"/>
                             <constraint firstItem="7dQ-v6-lgr" firstAttribute="trailing" secondItem="W4e-99-NSd" secondAttribute="trailing" constant="30" id="Z9i-mE-XBR"/>
+                            <constraint firstItem="7dQ-v6-lgr" firstAttribute="trailing" secondItem="xQi-rK-PWV" secondAttribute="trailing" constant="30" id="iLe-Tj-0cD"/>
                             <constraint firstItem="W4e-99-NSd" firstAttribute="leading" secondItem="7dQ-v6-lgr" secondAttribute="leading" constant="30" id="joS-3o-6N2"/>
+                            <constraint firstItem="xQi-rK-PWV" firstAttribute="leading" secondItem="7dQ-v6-lgr" secondAttribute="leading" constant="30" id="nRL-ij-pc6"/>
                             <constraint firstItem="W4e-99-NSd" firstAttribute="top" secondItem="HAa-I4-bUz" secondAttribute="bottom" constant="30" id="o11-4Q-n4C"/>
                             <constraint firstItem="7dQ-v6-lgr" firstAttribute="bottom" secondItem="W4e-99-NSd" secondAttribute="bottom" constant="350" id="sOv-dF-dyv"/>
                             <constraint firstItem="7dQ-v6-lgr" firstAttribute="trailing" secondItem="UPV-0s-G4L" secondAttribute="trailing" constant="30" id="tdx-2f-MmU"/>
