@@ -230,7 +230,7 @@ extension LiveTranscriptionOptionsViewController: UIPickerViewDataSource, UIPick
             regions = transcribeMedicalRegions
             languageSelected = "en-US"
             languageTextField.text = languagesDict[languageSelected]
-            regionSelected = "us-east-1"
+            regionSelected = "auto"
             regionTextField.text = regionsDict[regionSelected]
         }
         if engineSelected == "transcribe" {
