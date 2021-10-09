@@ -20,7 +20,7 @@ class CaptionCell: UITableViewCell {
     }
 
     func updateCell(caption: Caption) {
-        self.contentView.backgroundColor = caption.speakerName.isEmpty ? .lightGray : caption.isPartial ? .yellow : .none
+        self.contentView.backgroundColor = caption.speakerName.isEmpty ? .lightGray : .none
         speakerNameLabel.text = caption.speakerName
         speakerNameLabel.accessibilityIdentifier = caption.speakerName
         captionContentLabel.text = caption.content
