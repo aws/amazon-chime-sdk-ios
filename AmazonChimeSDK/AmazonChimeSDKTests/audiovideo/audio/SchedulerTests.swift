@@ -20,13 +20,9 @@ class SchedulerTests: XCTestCase {
     private let expectedCount = 5
     private let expectedTestDurationNanos: UInt64 = 5_000_000
 
-    private let expectation = XCTestExpectation(
-        description: "Callback is called once every millisecond for 5 milliseconds")
-
-    override func setUp() {
-        super.setUp()
+    private func injectExpectation(expectation: XCTestExpectation) {
         callback = {
-            self.expectation.fulfill()
+            expectation.fulfill()
         }
         timer = IntervalScheduler(intervalMs: intervalMs, callback: callback)
         expectation.expectedFulfillmentCount = 5
@@ -34,6 +30,10 @@ class SchedulerTests: XCTestCase {
     }
 
     func testTimerShouldMakeCallback() {
+        let expectation = XCTestExpectation(
+            description: "Callback is called once every millisecond for 5 milliseconds")
+        injectExpectation(expectation: expectation)
+
         timer.start()
         let start = DispatchTime.now()
         // Must finish all executions before timeout
@@ -44,6 +44,10 @@ class SchedulerTests: XCTestCase {
     }
 
     func testTimerShouldStopMakingCallback() {
+        let expectation = XCTestExpectation(
+            description: "Callback is called once every millisecond for 5 milliseconds")
+        injectExpectation(expectation: expectation)
+
         timer.start()
         timer.stop()
         expectation.isInverted = true
@@ -51,6 +55,10 @@ class SchedulerTests: XCTestCase {
     }
 
     func testStartShouldBeIdempotent() {
+        let expectation = XCTestExpectation(
+            description: "Callback is called once every millisecond for 5 milliseconds")
+        injectExpectation(expectation: expectation)
+
         timer.start()
         timer.start()
         let start = DispatchTime.now()
@@ -62,6 +70,10 @@ class SchedulerTests: XCTestCase {
     }
 
     func testStopShouldBeIdempotent() {
+        let expectation = XCTestExpectation(
+            description: "Callback is called once every millisecond for 5 milliseconds")
+        injectExpectation(expectation: expectation)
+
         timer.start()
         timer.stop()
         timer.stop()
