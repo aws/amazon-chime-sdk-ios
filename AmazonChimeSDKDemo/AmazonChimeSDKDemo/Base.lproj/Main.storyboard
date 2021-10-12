@@ -340,7 +340,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2020-1-1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WTg-ym-C2G" userLabel="TimeStamp">
-                                                                    <rect key="frame" x="334.33333333333326" y="11" width="59.666666666666686" height="17"/>
+                                                                    <rect key="frame" x="334.33333333333331" y="11" width="59.666666666666686" height="17"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -980,7 +980,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xQi-rK-PWV">
-                                <rect key="frame" x="30" y="631" width="354" height="30"/>
+                                <rect key="frame" x="30" y="651" width="354" height="30"/>
                                 <state key="normal" title="Start Transcription"/>
                                 <connections>
                                     <action selector="startTranscriptionButton:" destination="oIM-X0-54O" eventType="touchUpInside" id="7Bn-JY-jfD"/>
@@ -1006,7 +1006,7 @@
                             <constraint firstItem="UPV-0s-G4L" firstAttribute="centerX" secondItem="ogQ-aQ-X61" secondAttribute="centerX" id="Xl3-hH-ANI"/>
                             <constraint firstItem="UPV-0s-G4L" firstAttribute="top" secondItem="7dQ-v6-lgr" secondAttribute="top" constant="100" id="nFe-B7-zBL"/>
                             <constraint firstItem="UPV-0s-G4L" firstAttribute="leading" secondItem="HAa-I4-bUz" secondAttribute="leading" id="oxn-kJ-mGS"/>
-                            <constraint firstItem="7dQ-v6-lgr" firstAttribute="bottom" secondItem="xQi-rK-PWV" secondAttribute="bottom" constant="75" id="zN0-n2-J1R"/>
+                            <constraint firstItem="7dQ-v6-lgr" firstAttribute="bottom" secondItem="xQi-rK-PWV" secondAttribute="bottom" constant="55" id="zN0-n2-J1R"/>
                         </constraints>
                     </view>
                     <connections>
@@ -1052,7 +1052,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AHd-Vp-rMm">
-                                <rect key="frame" x="181.66666666666663" y="663" width="51" height="41"/>
+                                <rect key="frame" x="181.66666666666666" y="663" width="51" height="41"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Debug Settings Save"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Save"/>
