@@ -22,6 +22,9 @@ class RosterModel: NSObject {
 
     static func convertAttendeeName(from info: AttendeeInfo) -> String {
         let externalUserIdArray = info.externalUserId.components(separatedBy: "#")
+        if externalUserIdArray.isEmpty {
+            return "<UNKNOWN>"
+        }
         let attendeeName: String = externalUserIdArray[1]
         return info.attendeeId.hasSuffix(contentDelimiter) ? "\(attendeeName) \(contentSuffix)" : attendeeName
     }
