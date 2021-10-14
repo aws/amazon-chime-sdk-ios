@@ -160,6 +160,7 @@
 		5AE76F3624204A03009C41FD /* MediaDeviceTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE76F3524204A03009C41FD /* MediaDeviceTypeTests.swift */; };
 		5AF7E00E245B6E86006C7C86 /* VersioningTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AF7E00D245B6E86006C7C86 /* VersioningTests.swift */; };
 		6A01CAE523F8FCAF005C5193 /* ClientMetricsCollectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A01CAE423F8FCAF005C5193 /* ClientMetricsCollectorTests.swift */; };
+		6A26542127E1207D00C8885F /* PrimaryMeetingPromotionObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A26542027E1207D00C8885F /* PrimaryMeetingPromotionObserver.swift */; };
 		6A68E79F24196773004F5A56 /* VideoPauseState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A68E79E24196773004F5A56 /* VideoPauseState.swift */; };
 		6AA9F93F2522438F00EB0644 /* VideoSourceAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA9F93E2522438F00EB0644 /* VideoSourceAdapter.swift */; };
 		6AA9F9462522439F00EB0644 /* VideoSink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA9F9402522439F00EB0644 /* VideoSink.swift */; };
@@ -432,8 +433,9 @@
 		5AE76F33242049E0009C41FD /* MediaDeviceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDeviceType.swift; sourceTree = "<group>"; };
 		5AE76F3524204A03009C41FD /* MediaDeviceTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDeviceTypeTests.swift; sourceTree = "<group>"; };
 		5AF7E00D245B6E86006C7C86 /* VersioningTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersioningTests.swift; sourceTree = "<group>"; };
-		5E7CEAE89DD08E6E863FC8BE /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; lastKnownFileType = sourcecode.swift; name = "AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift"; path = "MockingbirdMocks/AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift"; sourceTree = "<group>"; };
+		5E7CEAE89DD08E6E863FC8BE /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift"; path = "MockingbirdMocks/AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift"; sourceTree = "<group>"; };
 		6A01CAE423F8FCAF005C5193 /* ClientMetricsCollectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientMetricsCollectorTests.swift; sourceTree = "<group>"; };
+		6A26542027E1207D00C8885F /* PrimaryMeetingPromotionObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrimaryMeetingPromotionObserver.swift; sourceTree = "<group>"; };
 		6A68E79E24196773004F5A56 /* VideoPauseState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPauseState.swift; sourceTree = "<group>"; };
 		6AA9F93E2522438F00EB0644 /* VideoSourceAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoSourceAdapter.swift; sourceTree = "<group>"; };
 		6AA9F9402522439F00EB0644 /* VideoSink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoSink.swift; sourceTree = "<group>"; };
@@ -851,6 +853,7 @@
 				F82D50C223FC732300D8F18C /* SignalStrength.swift */,
 				F82D50C323FC732300D8F18C /* VolumeLevel.swift */,
 				8278478C27188D110071E7BE /* AudioVideoConfiguration.swift */,
+				6A26542027E1207D00C8885F /* PrimaryMeetingPromotionObserver.swift */,
 			);
 			path = audiovideo;
 			sourceTree = "<group>";
@@ -1539,6 +1542,7 @@
 				00D12B8B265F02130059461B /* NoopEventReporterFactory.swift in Sources */,
 				C4643F0625784EEB0085D51E /* DefaultModality.swift in Sources */,
 				820288D42735997100B0B5D3 /* AudioMode.swift in Sources */,
+				6A26542127E1207D00C8885F /* PrimaryMeetingPromotionObserver.swift in Sources */,
 				5A6A209923CB1164000C9157 /* DefaultMeetingSession.swift in Sources */,
 				0083A11623D8CFFD0057027A /* DefaultRealtimeController.swift in Sources */,
 				00D9DBB2241AE23F00146467 /* DefaultVideoClient.swift in Sources */,

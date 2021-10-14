@@ -72,6 +72,10 @@ import Foundation
 
     func endOnHold()
 
+    func joinPrimaryMeeting(_ attendeeId: String!, externalUserId: String!, joinToken: String!)
+
+    func leavePrimaryMeeting()
+
     var delegate: AudioClientDelegate! { get set }
 }
 

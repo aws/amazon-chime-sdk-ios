@@ -16,4 +16,5 @@ import Foundation
     func unsubscribeFromRealTimeEvents(observer: RealtimeObserver)
     func subscribeToTranscriptEvent(observer: TranscriptEventObserver)
     func unsubscribeFromTranscriptEvent(observer: TranscriptEventObserver)
+    func setPrimaryMeetingPromotionObserver(observer: PrimaryMeetingPromotionObserver)
 }

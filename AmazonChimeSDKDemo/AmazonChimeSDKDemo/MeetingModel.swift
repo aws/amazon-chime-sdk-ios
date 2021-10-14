@@ -24,6 +24,8 @@ class MeetingModel: NSObject {
     // Dependencies
     let meetingId: String
     let meetingEndpointUrl: String
+    let primaryMeetingId: String
+    let primaryExternalMeetingId: String
     let selfName: String
     var audioVideoConfig = AudioVideoConfiguration()
     let callKitOption: CallKitOption
@@ -107,6 +109,12 @@ class MeetingModel: NSObject {
         }
     }
 
+    // State for joining primary meeting will not be true until success,
+    // which is achieved asynchronously.  Managed in `MeetingViewController`.
+    var isPromotedToPrimaryMeeting = false
+    // Store to adjust content takeover behavior
+    var primaryMeetingMeetingSessionCredentials: MeetingSessionCredentials? = nil
+
     var audioDevices: [MediaDevice] {
         return currentMeetingSession.audioVideo.listAudioDevices()
     }
@@ -123,12 +131,16 @@ class MeetingModel: NSObject {
 
     init(meetingSessionConfig: MeetingSessionConfiguration,
          meetingId: String,
+         primaryMeetingId: String,
+         primaryExternalMeetingId: String,
          selfName: String,
          audioVideoConfig: AudioVideoConfiguration,
          callKitOption: CallKitOption,
          meetingEndpointUrl: String) {
         self.meetingId = meetingId
         self.meetingEndpointUrl = meetingEndpointUrl.isEmpty ? AppConfiguration.url : meetingEndpointUrl
+        self.primaryMeetingId = primaryMeetingId
+        self.primaryExternalMeetingId = primaryExternalMeetingId
         self.selfName = selfName
         self.audioVideoConfig = audioVideoConfig
         self.callKitOption = callKitOption
@@ -460,8 +472,9 @@ extension MeetingModel: AudioVideoObserver {
     func videoSessionDidStartWithStatus(sessionStatus: MeetingSessionStatus) {
         switch sessionStatus.statusCode {
         case .videoAtCapacityViewOnly:
-            notifyHandler?("Maximum concurrent video limit reached! Failed to start local video")
+            notifyHandler?("Local video is no longer possible to be enabled")
             logWithFunctionName(message: "\(sessionStatus.statusCode)")
+            videoModel.isLocalVideoActive = false
         default:
             logWithFunctionName(message: "\(sessionStatus.statusCode)")
         }
@@ -473,6 +486,7 @@ extension MeetingModel: AudioVideoObserver {
 extension MeetingModel: RealtimeObserver {
     private func isSelfAttendee(attendeeId: String) -> Bool {
         return DefaultModality(id: attendeeId).base == meetingSessionConfig.credentials.attendeeId
+            || DefaultModality(id: attendeeId).base == primaryMeetingMeetingSessionCredentials?.attendeeId
     }
 
     private func removeAttendeesAndReload(attendeeInfo: [AttendeeInfo]) {

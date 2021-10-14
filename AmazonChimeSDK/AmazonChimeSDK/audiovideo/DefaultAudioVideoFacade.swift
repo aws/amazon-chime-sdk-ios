@@ -151,6 +151,16 @@ import Foundation
         audioVideoController.updateVideoSourceSubscriptions(addedOrUpdated: addedOrUpdated, removed: removed)
     }
 
+    public func promoteToPrimaryMeeting(credentials: MeetingSessionCredentials, observer: PrimaryMeetingPromotionObserver) {
+        audioVideoController.promoteToPrimaryMeeting(credentials: credentials, observer: observer)
+    }
+
+    public func demoteFromPrimaryMeeting() {
+        audioVideoController.demoteFromPrimaryMeeting()
+        // Stop content share as well
+        contentShareController.stopContentShare()
+    }
+
     // MARK: DeviceController
 
     public func listAudioDevices() -> [MediaDevice] {

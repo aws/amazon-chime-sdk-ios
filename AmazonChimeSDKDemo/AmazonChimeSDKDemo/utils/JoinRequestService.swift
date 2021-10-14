@@ -12,69 +12,74 @@ import Foundation
 class JoinRequestService: NSObject {
     static let logger = ConsoleLogger(name: "JoiningRequestService")
 
-    private static func urlRewriter(url: String) -> String {
-        // changing url
-        // return url.replacingOccurrences(of: "example.com", with: "my.example.com")
-        return url
-    }
-
     static func postJoinRequest(meetingId: String,
                                 name: String,
                                 overriddenEndpoint: String,
-                                completion: @escaping (MeetingSessionConfiguration?) -> Void) {
+                                primaryExternalMeetingId: String,
+                                completion: @escaping (JoinMeetingResponse?) -> Void) {
         var url = overriddenEndpoint.isEmpty ? AppConfiguration.url : overriddenEndpoint
         url = url.hasSuffix("/") ? url : "\(url)/"
+        let primaryExternalMeetingIdQueryParam = primaryExternalMeetingId.isEmpty ? "" : "&primaryExternalMeetingId=\(primaryExternalMeetingId)"
         let encodedURL = HttpUtils.encodeStrForURL(
-            str: "\(url)join?title=\(meetingId)&name=\(name)&region=\(AppConfiguration.region)"
+            str: "\(url)join?title=\(meetingId)&name=\(name)&region=\(AppConfiguration.region)\(primaryExternalMeetingIdQueryParam)"
         )
         HttpUtils.postRequest(url: encodedURL, jsonData: nil, logger: logger) { data, _ in
             guard let data = data else {
                 completion(nil)
                 return
             }
-            guard let meetingSessionConfiguration = self.processJson(data: data) else {
+            guard let joinMeetingResponse = self.processJson(data: data) else {
                 completion(nil)
                 return
             }
-            completion(meetingSessionConfiguration)
+            completion(joinMeetingResponse)
         }
     }
 
-    private static func processJson(data: Data) -> MeetingSessionConfiguration? {
+    private static func processJson(data: Data) -> JoinMeetingResponse? {
         let jsonDecoder = JSONDecoder()
         do {
             let joinMeetingResponse = try jsonDecoder.decode(JoinMeetingResponse.self, from: data)
-            let meetingResp = getCreateMeetingResponse(from: joinMeetingResponse)
-            let attendeeResp = getCreateAttendeeResponse(from: joinMeetingResponse)
-            return MeetingSessionConfiguration(createMeetingResponse: meetingResp,
-                                               createAttendeeResponse: attendeeResp,
-                                               urlRewriter: urlRewriter)
+            return joinMeetingResponse
+        } catch let DecodingError.dataCorrupted(context) {
+            logger.error(msg: "Data corrupted: \(context)")
+            return nil
+        } catch let DecodingError.keyNotFound(key, context) {
+            logger.error(msg: "Key '\(key)' not found: \(context.debugDescription), codingPath: \(context.codingPath)")
+            return nil
+        } catch let DecodingError.valueNotFound(value, context) {
+            logger.error(msg: "Value '\(value)' not found: \(context.debugDescription), codingPath: \(context.codingPath)")
+            return nil
+        } catch let DecodingError.typeMismatch(type, context) {
+            logger.error(msg: "Type '\(type)' mismatch: \(context.debugDescription), codingPath: \(context.codingPath)")
+            return nil
         } catch {
-            logger.error(msg: error.localizedDescription)
+            logger.error(msg: "Other decoding error: \(error)")
             return nil
         }
     }
 
-    private static func getCreateMeetingResponse(from joinMeetingResponse: JoinMeetingResponse) -> CreateMeetingResponse {
+    static func getCreateMeetingResponse(from joinMeetingResponse: JoinMeetingResponse) -> CreateMeetingResponse {
         let meeting = joinMeetingResponse.joinInfo.meeting.meeting
         let meetingResp = CreateMeetingResponse(meeting:
             Meeting(
                 externalMeetingId: meeting.externalMeetingId,
                 mediaPlacement: MediaPlacement(
-                    audioFallbackUrl: meeting.mediaPlacement.audioFallbackUrl,
+                    audioFallbackUrl: meeting.mediaPlacement.audioFallbackUrl ?? "",
                     audioHostUrl: meeting.mediaPlacement.audioHostUrl,
                     signalingUrl: meeting.mediaPlacement.signalingUrl,
-                    turnControlUrl: meeting.mediaPlacement.turnControlUrl,
+                    turnControlUrl: meeting.mediaPlacement.turnControlUrl ?? "",
                     eventIngestionUrl: meeting.mediaPlacement.eventIngestionUrl
                 ),
                 mediaRegion: meeting.mediaRegion,
-                meetingId: meeting.meetingId
+                meetingId: meeting.meetingId,
+                primaryMeetingId: meeting.primaryMeetingId
             )
         )
         return meetingResp
     }
 
-    private static func getCreateAttendeeResponse(from joinMeetingResponse: JoinMeetingResponse) -> CreateAttendeeResponse {
+    static func getCreateAttendeeResponse(from joinMeetingResponse: JoinMeetingResponse) -> CreateAttendeeResponse {
         let attendee = joinMeetingResponse.joinInfo.attendee.attendee
         let attendeeResp = CreateAttendeeResponse(attendee:
             Attendee(attendeeId: attendee.attendeeId,

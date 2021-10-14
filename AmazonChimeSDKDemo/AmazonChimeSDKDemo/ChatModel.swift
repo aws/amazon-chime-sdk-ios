@@ -11,7 +11,8 @@ import UIKit
 
 extension DataMessage {
     func chatMessage() -> ChatMessage? {
-        let senderName = self.senderExternalUserId.components(separatedBy: "#")[1]
+        let senderNameComponents = self.senderExternalUserId.components(separatedBy: "#")
+        let senderName = senderNameComponents.count > 1 ? senderNameComponents[1] : self.senderExternalUserId
         let message = self.text()
         let timestamp = TimeStampConversion.formatTimestamp(timestamp: self.timestampMs)
         if let messageNotNull = message {

@@ -21,12 +21,13 @@ class RosterModel: NSObject {
     var rosterUpdatedHandler: (() -> Void)?
 
     static func convertAttendeeName(from info: AttendeeInfo) -> String {
+        // The JS SDK Serverless demo will prepend a UUID to provided names followed by a hash to help uniqueness
         let externalUserIdArray = info.externalUserId.components(separatedBy: "#")
         if externalUserIdArray.isEmpty {
             return "<UNKNOWN>"
         }
-        let attendeeName: String = externalUserIdArray[1]
-        return info.attendeeId.hasSuffix(contentDelimiter) ? "\(attendeeName) \(contentSuffix)" : attendeeName
+        let rosterName: String = externalUserIdArray.count == 2 ? externalUserIdArray[1] : info.externalUserId
+        return info.attendeeId.hasSuffix(contentDelimiter) ? "\(rosterName) \(contentSuffix)" : rosterName
     }
 
     func addAttendees(_ newAttendees: [RosterAttendee]) {

@@ -27,6 +27,9 @@ import Foundation
 
     public let urlRewriter: URLRewriter
 
+    /// The id of the primary meeting that this session is joining a replica to
+    public let primaryMeetingId: String?
+
     public convenience init(createMeetingResponse: CreateMeetingResponse,
                             createAttendeeResponse: CreateAttendeeResponse) {
         self.init(createMeetingResponse: createMeetingResponse,
@@ -55,6 +58,7 @@ import Foundation
         self.credentials = credentials
         self.urls = urls
         self.urlRewriter = urlRewriter
+        self.primaryMeetingId = nil
     }
 
     public init(createMeetingResponse: CreateMeetingResponse,
@@ -62,6 +66,7 @@ import Foundation
                 urlRewriter: @escaping URLRewriter) {
         self.meetingId = createMeetingResponse.meeting.meetingId
         self.externalMeetingId = createMeetingResponse.meeting.externalMeetingId
+        self.primaryMeetingId = createMeetingResponse.meeting.primaryMeetingId
         self.credentials = MeetingSessionCredentials(attendeeId: createAttendeeResponse.attendee.attendeeId,
                                                      externalUserId: createAttendeeResponse.attendee.externalUserId,
                                                      joinToken: createAttendeeResponse.attendee.joinToken)

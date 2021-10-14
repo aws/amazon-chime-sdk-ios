@@ -29,4 +29,7 @@ import Foundation
     func unsubscribeFromReceiveDataMessageFromTopic(topic: String)
     func sendDataMessage(topic: String, data: Any, lifetimeMs: Int32) throws
     func updateVideoSourceSubscriptions(addedOrUpdated: Dictionary<RemoteVideoSource, VideoSubscriptionConfiguration>, removed: Array<RemoteVideoSource>)
+    func promoteToPrimaryMeeting(credentials: MeetingSessionCredentials,
+                                 observer: PrimaryMeetingPromotionObserver)
+    func demoteFromPrimaryMeeting()
 }

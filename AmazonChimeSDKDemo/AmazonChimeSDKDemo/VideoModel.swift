@@ -183,6 +183,14 @@ class VideoModel: NSObject {
         }
     }
 
+    func promoteToPrimaryMeeting(credentials: MeetingSessionCredentials, observer: PrimaryMeetingPromotionObserver) {
+        audioVideoFacade.promoteToPrimaryMeeting(credentials: credentials, observer: observer)
+    }
+
+    func demoteFromPrimaryMeeting() {
+        audioVideoFacade.demoteFromPrimaryMeeting()
+    }
+
     func isRemoteVideoDisplaying(tileId: Int) -> Bool {
         return remoteVideoStatesInCurrentPage.contains(where: { $0.0 == tileId })
     }
