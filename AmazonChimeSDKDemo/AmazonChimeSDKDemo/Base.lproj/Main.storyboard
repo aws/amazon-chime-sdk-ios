@@ -981,6 +981,7 @@
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xQi-rK-PWV">
                                 <rect key="frame" x="30" y="651" width="354" height="30"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Start Transcription"/>
                                 <state key="normal" title="Start Transcription"/>
                                 <connections>
                                     <action selector="startTranscriptionButton:" destination="oIM-X0-54O" eventType="touchUpInside" id="7Bn-JY-jfD"/>
