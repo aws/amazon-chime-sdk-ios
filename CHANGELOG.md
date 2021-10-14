@@ -1,4 +1,4 @@
-## Unrelrease
+## [0.16.6] - 2021-10-14
 
 ### Fixed
 * Fixed an issue where sending a ByteArray through data message fails
