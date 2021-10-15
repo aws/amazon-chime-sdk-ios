@@ -79,6 +79,9 @@ class MeetingViewController: UIViewController {
         configure(meetingModel: meetingModel)
         super.viewDidLoad()
         setupUI()
+        
+        captionsTableView.accessibilityLabel = "Captions Table"
+        captionsTableView.isAccessibilityElement = true
 
         meetingModel.startMeeting()
     }
