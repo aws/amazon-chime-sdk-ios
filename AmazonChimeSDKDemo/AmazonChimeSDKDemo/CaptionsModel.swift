@@ -76,9 +76,9 @@ extension CaptionsModel: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let caption = captions[indexPath.item]
         guard let cell = tableView.dequeueReusableCell(withIdentifier: captionCellReuseIdentifier) as? CaptionCell else {
-            return CaptionCell(caption: caption)
+            return CaptionCell(caption: caption, indexPath: indexPath)
         }
-        cell.updateCell(caption: caption)
+        cell.updateCell(caption: caption, indexPath: indexPath)
         return cell
     }
 }
