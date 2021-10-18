@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// See [Using Amazon Chime SDK live transcription developer guide](https://docs.aws.amazon.com/chime/latest/dg/process-msgs.html) for more details about transcription message types and data guidelines
 @objc public enum TranscriptionStatusType: Int, Equatable, CustomStringConvertible {
     case unknown = 0
     case started = 1
