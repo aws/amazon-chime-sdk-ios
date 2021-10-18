@@ -35,8 +35,8 @@ import UIKit
         var appInfo = app_detailed_info_t.init()
 
         if (Bundle.main.infoDictionary?["CFBundleShortVersionString"]) != nil {
-            appInfo.app_version_name = UnsafePointer<Int8>((info.appVersionName as NSString).utf8String)
-            appInfo.app_version_code = UnsafePointer<Int8>((info.appVersionCode as NSString).utf8String)
+            appInfo.app_name = UnsafePointer<Int8>((info.appName as NSString).utf8String)
+            appInfo.app_version = UnsafePointer<Int8>((info.appVersion as NSString).utf8String)
         }
         appInfo.device_make = UnsafePointer<Int8>((info.deviceMake as NSString).utf8String)
         appInfo.device_model = UnsafePointer<Int8>((info.deviceModel as NSString).utf8String)
@@ -52,8 +52,8 @@ import UIKit
 
         appInfo.platformVersion = UIDevice.current.systemVersion
         if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] {
-            appInfo.appVersionName = "\(osName) \(appVersion)"
-            appInfo.appVersionCode = "\(appVersion)"
+            appInfo.appName = "\(osName)"
+            appInfo.appVersion = "\(appVersion)"
         }
         appInfo.deviceModel = getModelInfo()
         appInfo.platformName = osName
