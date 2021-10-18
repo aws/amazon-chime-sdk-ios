@@ -199,7 +199,7 @@ class MeetingModel: NSObject {
         url = url.hasSuffix("/") ? url : "\(url)/"
         let encodedURL = HttpUtils.encodeStrForURL(
                 str: "\(url)stop_transcription?title=\(meetingId)")
-        HttpUtils.postRequest(url: encodedURL, jsonData: nil) {_,error in
+        HttpUtils.postRequest(url: encodedURL, jsonData: nil) { _, error in
             DispatchQueue.main.async {
                 if error != nil {
                     self.notify(msg: "Transcription failed to stop, please try again!")
