@@ -39,14 +39,13 @@ class CaptionsModel: NSObject {
                 // for simplicity and demo purposes, assume each result only contains transcripts from
                 // the same speaker, which matches our observation with current transcription service behavior.
                 // More complicated UI logic can be achieved by iterating through each item
-                var speakerName: String
+                var speakerName: String = "<UNKNOWN>"
                 if let firstItem = alternative.items.first {
                     speakerName = RosterModel.convertAttendeeName(from: firstItem.attendee)
                 } else {
                     logger.debug(debugFunction: {
                         return "Empty speaker name due to empty items array for result: \(result.resultId)"
                     })
-                    speakerName = ""
                 }
 
                 let caption = Caption(speakerName: speakerName,
