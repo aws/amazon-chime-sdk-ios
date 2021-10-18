@@ -54,4 +54,21 @@ class MeetingPresenter {
             completion(true)
         }
     }
+    
+    func showLiveTranscriptionView(meetingModel: MeetingModel, completion: @escaping (Bool) -> Void) {
+        guard let liveTranscriptionVC = mainStoryboard.instantiateViewController(withIdentifier: "liveTranscription")
+                as? LiveTranscriptionOptionsViewController, let rootViewController = self.activeMeetingViewController else {
+            completion(false)
+            return
+        }
+        liveTranscriptionVC.modalPresentationStyle = .pageSheet
+        liveTranscriptionVC.model = meetingModel
+        rootViewController.present(liveTranscriptionVC, animated: true) {
+            completion(true)
+        }
+    }
+    
+    func dismissLiveTranscriptionView(_ liveTranscriptionVC: LiveTranscriptionOptionsViewController, completion: @escaping (Bool) -> Void) {
+        liveTranscriptionVC.dismiss(animated: true) {}
+    }
 }
