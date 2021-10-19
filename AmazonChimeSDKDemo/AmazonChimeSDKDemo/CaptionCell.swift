@@ -24,8 +24,7 @@ class CaptionCell: UITableViewCell {
         speakerNameLabel.text = caption.speakerName
         speakerNameLabel.accessibilityIdentifier = caption.speakerName
         captionContentLabel.text = caption.content
-        captionContentLabel.accessibilityIdentifier = "caption\(indexPath.row)"
-        self.accessibilityIdentifier = "cellCaption\(indexPath.row)"
+        captionContentLabel.accessibilityIdentifier = "caption-\(indexPath.row)"
     }
 
     required init?(coder: NSCoder) {
