@@ -195,15 +195,16 @@ class MeetingModel: NSObject {
     }
     
     func postStopTranscriptionRequest() {
-        notify(msg: "Live Transcription Disabled")
         var url = AppConfiguration.url
         url = url.hasSuffix("/") ? url : "\(url)/"
         let encodedURL = HttpUtils.encodeStrForURL(
                 str: "\(url)stop_transcription?title=\(meetingId)")
         HttpUtils.postRequest(url: encodedURL, jsonData: nil) { _, error in
-            if error != nil {
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                if error != nil {
                     self.notify(msg: "Transcription failed to stop, please try again!")
+                } else {
+                    self.notify(msg: "Live Transcription Disabled")
                 }
             }
         }

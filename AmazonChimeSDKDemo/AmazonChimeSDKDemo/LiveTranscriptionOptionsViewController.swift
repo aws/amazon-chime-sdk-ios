@@ -45,6 +45,8 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
                                 "zh-CN"
                                ]
     let transcribeRegions = [
+                                "auto",
+                                "",
                                 "ap-northeast-1",
                                 "ap-northeast-2",
                                 "ap-southeast-2",
@@ -60,6 +62,8 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
     
     let transcribeMedicalLanguages = ["en-US"]
     let transcribeMedicalRegions = [
+                                        "auto",
+                                        "",
                                         "ap-southeast-2",
                                         "ca-central-1",
                                         "eu-west-1",
@@ -89,6 +93,8 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
     ]
     
     let regionsDict = [
+        "auto": "Auto",
+        "": "Not specified",
         "ap-northeast-1": "Japan (Tokyo)",
         "ap-northeast-2": "South Korea (Seoul)",
         "ap-southeast-2": "Australia (Sydney)",
@@ -134,7 +140,7 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
         
         engineSelected = "transcribe"
         languageSelected = "en-US"
-        regionSelected = "us-east-1"
+        regionSelected = "auto"
         
         engineTextField.text = enginesDict[engineSelected]
         languageTextField.text = languagesDict[languageSelected]
@@ -224,7 +230,7 @@ extension LiveTranscriptionOptionsViewController: UIPickerViewDataSource, UIPick
             regions = transcribeMedicalRegions
             languageSelected = "en-US"
             languageTextField.text = languagesDict[languageSelected]
-            regionSelected = "us-east-1"
+            regionSelected = "auto"
             regionTextField.text = regionsDict[regionSelected]
         }
         if engineSelected == "transcribe" {
