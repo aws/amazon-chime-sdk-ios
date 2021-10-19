@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// See [Using Amazon Chime SDK live transcription developer guide](https://docs.aws.amazon.com/chime/latest/dg/process-msgs.html) for details about transcription message types and data guidelines
 @objcMembers public class TranscriptItem: NSObject {
     public let type: TranscriptItemType
     public let startTimeMs: Int64

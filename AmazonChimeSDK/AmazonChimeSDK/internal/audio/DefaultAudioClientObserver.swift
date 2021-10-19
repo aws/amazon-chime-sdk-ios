@@ -199,10 +199,6 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     }
 
     public func transcriptEventsReceived(_ events: [Any]?) {
-        if events == nil {
-            return
-        }
-
         guard let internalEvents = events as? [TranscriptEventInternal] else {
             return
         }
