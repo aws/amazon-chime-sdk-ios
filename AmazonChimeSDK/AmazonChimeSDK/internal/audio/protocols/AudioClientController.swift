@@ -15,7 +15,8 @@ import Foundation
                meetingId: String,
                attendeeId: String,
                joinToken: String,
-               callKitEnabled: Bool) throws
+               callKitEnabled: Bool,
+               audioMode: AudioMode) throws
     func stop()
     func setVoiceFocusEnabled(enabled: Bool) -> Bool
     func isVoiceFocusEnabled() -> Bool

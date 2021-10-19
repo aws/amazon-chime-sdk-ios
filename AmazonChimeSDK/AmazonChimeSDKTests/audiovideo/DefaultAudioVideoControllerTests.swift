@@ -47,7 +47,8 @@ class DefaultAudioVideoControllerTests: CommonTestCase {
             meetingId: self.meetingSessionConfigurationMock.meetingId,
             attendeeId: self.meetingSessionConfigurationMock.credentials.attendeeId,
             joinToken: self.meetingSessionConfigurationMock.credentials.joinToken,
-            callKitEnabled: false
+            callKitEnabled: false,
+            audioMode: .mono
         )).wasCalled()
         verify(videoClientControllerMock.start()).wasCalled()
     }
@@ -62,7 +63,38 @@ class DefaultAudioVideoControllerTests: CommonTestCase {
             meetingId: self.meetingSessionConfigurationMock.meetingId,
             attendeeId: self.meetingSessionConfigurationMock.credentials.attendeeId,
             joinToken: self.meetingSessionConfigurationMock.credentials.joinToken,
-            callKitEnabled: callKitEnabled
+            callKitEnabled: callKitEnabled,
+            audioMode: .mono
+        )).wasCalled()
+        verify(videoClientControllerMock.start()).wasCalled()
+    }
+
+    func testStart_noAudio_callKitDisabled() {
+        XCTAssertNoThrow(try defaultAudioVideoController.start(audioVideoConfiguration: AudioVideoConfiguration(audioMode: .noAudio, callKitEnabled: false)))
+
+        verify(audioClientControllerMock.start(
+            audioFallbackUrl: self.meetingSessionConfigurationMock.urls.audioFallbackUrl,
+            audioHostUrl: self.meetingSessionConfigurationMock.urls.audioHostUrl,
+            meetingId: self.meetingSessionConfigurationMock.meetingId,
+            attendeeId: self.meetingSessionConfigurationMock.credentials.attendeeId,
+            joinToken: self.meetingSessionConfigurationMock.credentials.joinToken,
+            callKitEnabled: false,
+            audioMode: .noAudio
+        )).wasCalled()
+        verify(videoClientControllerMock.start()).wasCalled()
+    }
+
+    func testStart_noAudio_callKitEnabled() {
+        XCTAssertNoThrow(try defaultAudioVideoController.start(audioVideoConfiguration: AudioVideoConfiguration(audioMode: .noAudio, callKitEnabled: true)))
+
+        verify(audioClientControllerMock.start(
+            audioFallbackUrl: self.meetingSessionConfigurationMock.urls.audioFallbackUrl,
+            audioHostUrl: self.meetingSessionConfigurationMock.urls.audioHostUrl,
+            meetingId: self.meetingSessionConfigurationMock.meetingId,
+            attendeeId: self.meetingSessionConfigurationMock.credentials.attendeeId,
+            joinToken: self.meetingSessionConfigurationMock.credentials.joinToken,
+            callKitEnabled: true,
+            audioMode: .noAudio
         )).wasCalled()
         verify(videoClientControllerMock.start()).wasCalled()
     }

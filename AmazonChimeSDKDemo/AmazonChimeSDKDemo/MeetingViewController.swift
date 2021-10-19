@@ -204,6 +204,9 @@ class MeetingViewController: UIViewController {
         prevVideoPageButton.isEnabled = false
         nextVideoPageButton.isEnabled = false
 
+        // Update Audio state i.e Mic and Speaker based on the audio mode
+        updateLocalAttendeeAudioState(audioEnabled: meetingModel?.audioVideoConfig.audioMode != .noAudio)
+
         // Segmented Controler
         segmentedControl.selectedSegmentIndex = SegmentedControlIndex.attendees.rawValue
 
@@ -238,6 +241,11 @@ class MeetingViewController: UIViewController {
                 setupBroadcastPickerView()
             }
         #endif
+    }
+
+    private func updateLocalAttendeeAudioState(audioEnabled: Bool) {
+        muteButton.isHidden = !audioEnabled
+        deviceButton.isHidden = !audioEnabled
     }
 
     // RPSystemBroadcastPickerView

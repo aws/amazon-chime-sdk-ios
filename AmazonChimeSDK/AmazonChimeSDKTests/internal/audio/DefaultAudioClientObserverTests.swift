@@ -315,12 +315,65 @@ class DefaultAudioClientObserverTests: XCTestCase {
         wait(for: [expect], timeout: defaultTimeout)
     }
 
+    func testAttendeesPresenceChanged_attendeesDidJoinWithoutAudio() {
+        let attendees = [AttendeeUpdate(profileId: attendeeId, externalUserId: externalUserId, data: 4)]
+        defaultAudioClientObserver.attendeesPresenceChanged(attendees as [Any])
+        let expect = eventually {
+            verify(mockRealTimeObserver.attendeesDidJoinWithoutAudio(attendeeInfo: any())).wasCalled()
+        }
+
+        wait(for: [expect], timeout: defaultTimeout)
+    }
+
     func testAttendeesPresenceChanged_attendeesDidJoinDuplicate() {
         let attendees = [AttendeeUpdate(profileId: attendeeId, externalUserId: externalUserId, data: 1)]
         defaultAudioClientObserver.attendeesPresenceChanged(attendees as [Any])
         defaultAudioClientObserver.attendeesPresenceChanged(attendees as [Any])
         let expect = eventually {
             verify(mockRealTimeObserver.attendeesDidJoin(attendeeInfo: any())).wasCalled(1)
+        }
+
+        wait(for: [expect], timeout: defaultTimeout)
+    }
+
+    func testAttendeesPresenceChanged_attendeesDidJoinWithoutAudioDuplicate() {
+        let attendees = [AttendeeUpdate(profileId: attendeeId, externalUserId: externalUserId, data: 4)]
+        defaultAudioClientObserver.attendeesPresenceChanged(attendees as [Any])
+        defaultAudioClientObserver.attendeesPresenceChanged(attendees as [Any])
+        let expect = eventually {
+            verify(mockRealTimeObserver.attendeesDidJoinWithoutAudio(attendeeInfo: any())).wasCalled(1)
+        }
+
+        wait(for: [expect], timeout: defaultTimeout)
+    }
+
+    func testAttendeesPresenceChanged_attendeesWithAudioRejoinedWithoutAudio() {
+        let attendeesJoinedWithAudio = [AttendeeUpdate(profileId: attendeeId, externalUserId: externalUserId, data: 1)]
+        let attendeesLeft = [AttendeeUpdate(profileId: attendeeId, externalUserId: externalUserId, data: 2)]
+        let attendeesJoinedWithoutAudio = [AttendeeUpdate(profileId: attendeeId, externalUserId: externalUserId, data: 4)]
+        defaultAudioClientObserver.attendeesPresenceChanged(attendeesJoinedWithAudio as [Any])
+        defaultAudioClientObserver.attendeesPresenceChanged(attendeesLeft as [Any])
+        defaultAudioClientObserver.attendeesPresenceChanged(attendeesJoinedWithoutAudio as [Any])
+        let expect = eventually {
+            verify(mockRealTimeObserver.attendeesDidJoin(attendeeInfo: any())).wasCalled()
+            verify(mockRealTimeObserver.attendeesDidLeave(attendeeInfo: any())).wasCalled()
+            verify(mockRealTimeObserver.attendeesDidJoinWithoutAudio(attendeeInfo: any())).wasCalled()
+        }
+
+        wait(for: [expect], timeout: defaultTimeout)
+    }
+
+    func testAttendeesPresenceChanged_attendeesWithoutAudioRejoinedWithAudio() {
+        let attendeesJoinedWithoutAudio = [AttendeeUpdate(profileId: attendeeId, externalUserId: externalUserId, data: 4)]
+        let attendeesLeft = [AttendeeUpdate(profileId: attendeeId, externalUserId: externalUserId, data: 2)]
+        let attendeesJoinedWithAudio = [AttendeeUpdate(profileId: attendeeId, externalUserId: externalUserId, data: 1)]
+        defaultAudioClientObserver.attendeesPresenceChanged(attendeesJoinedWithoutAudio as [Any])
+        defaultAudioClientObserver.attendeesPresenceChanged(attendeesLeft as [Any])
+        defaultAudioClientObserver.attendeesPresenceChanged(attendeesJoinedWithAudio as [Any])
+        let expect = eventually {
+            verify(mockRealTimeObserver.attendeesDidJoinWithoutAudio(attendeeInfo: any())).wasCalled()
+            verify(mockRealTimeObserver.attendeesDidLeave(attendeeInfo: any())).wasCalled()
+            verify(mockRealTimeObserver.attendeesDidJoin(attendeeInfo: any())).wasCalled()
         }
 
         wait(for: [expect], timeout: defaultTimeout)

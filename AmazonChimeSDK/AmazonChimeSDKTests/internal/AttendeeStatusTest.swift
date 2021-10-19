@@ -12,6 +12,7 @@ import XCTest
 class AttendeeStatusTests: XCTestCase {
     func testDescriptionShouldMatch() {
         XCTAssertEqual(AttendeeStatus.joined.description, "joined")
+        XCTAssertEqual(AttendeeStatus.joinedNoAudio.description, "joinedNoAudio")
         XCTAssertEqual(AttendeeStatus.left.description, "left")
         XCTAssertEqual(AttendeeStatus.dropped.description, "dropped")
     }
