@@ -48,7 +48,7 @@ import Foundation
     }
 
     public func start(callKitEnabled: Bool = false) throws {
-        try audioVideoController.start(audioVideoConfiguration: AudioVideoConfiguration(callKitEnabled: callKitEnabled))
+        try self.start(audioVideoConfiguration: AudioVideoConfiguration(callKitEnabled: callKitEnabled))
     }
 
     public func start() throws {

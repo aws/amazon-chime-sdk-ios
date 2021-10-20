@@ -40,7 +40,7 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
 
     override func viewWillAppear(_: Bool) {
         callKitOptionsPicker.selectRow(0, inComponent: 0, animated: false)
-        enableJoinButton(isEnabled: true)
+        joinButton.isEnabled = true
     }
 
     @IBAction func joinButton(_: UIButton) {
@@ -81,10 +81,6 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
-    }
-
-    private func enableJoinButton(isEnabled: Bool) {
-        joinButton.isEnabled = isEnabled
     }
 
     func joinMeeting(audioVideoConfig: AudioVideoConfiguration, callKitOption: CallKitOption) {
