@@ -179,6 +179,7 @@
 		7CE107642421CC7B00E209D1 /* ActiveSpeakerDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE107602421CC7B00E209D1 /* ActiveSpeakerDetectorTests.swift */; };
 		7CE107652421CC7B00E209D1 /* ActiveSpeakerPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE107612421CC7B00E209D1 /* ActiveSpeakerPolicyTests.swift */; };
 		7CE107662421CC7B00E209D1 /* SchedulerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE107632421CC7B00E209D1 /* SchedulerTests.swift */; };
+		AC865DC0271F9B4600D6A0D8 /* MockedAudioSessionPortDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC865DBF271F9B4600D6A0D8 /* MockedAudioSessionPortDescription.swift */; };
 		B418163024B79C0600FA62BF /* DataMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B418162F24B79C0600FA62BF /* DataMessage.swift */; };
 		B418163224B79CF100FA62BF /* DataMessageObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B418163124B79CF100FA62BF /* DataMessageObserver.swift */; };
 		B418164724B7EDA800FA62BF /* SendDataMessageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B418164624B7EDA800FA62BF /* SendDataMessageError.swift */; };
@@ -222,9 +223,9 @@
 		C4F8B6552580172200D9AE54 /* CMCampleBufferExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F8B6542580172200D9AE54 /* CMCampleBufferExtensions.swift */; };
 		C60D5593246509BA00C2A278 /* Converters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60D5592246509B900C2A278 /* Converters.swift */; };
 		C60D5596246514B000C2A278 /* ConvertersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60D5595246514B000C2A278 /* ConvertersTests.swift */; };
-		C61D43222703BD9D00150F03 /* DefaultVideoClientControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D43212703BD9D00150F03 /* DefaultVideoClientControllerTests.swift */; };
 		C61475DB26EFC18400CDEC09 /* TranscriptEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61475DA26EFC18400CDEC09 /* TranscriptEvent.swift */; };
 		C61475E526EFF71500CDEC09 /* TranscriptEventObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61475E426EFF71500CDEC09 /* TranscriptEventObserver.swift */; };
+		C61D43222703BD9D00150F03 /* DefaultVideoClientControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D43212703BD9D00150F03 /* DefaultVideoClientControllerTests.swift */; };
 		C67E9B6C26F4F5A30084C9B4 /* Transcript.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67E9B6B26F4F5A30084C9B4 /* Transcript.swift */; };
 		C67E9B7126F4F9820084C9B4 /* TranscriptItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67E9B7026F4F9820084C9B4 /* TranscriptItemType.swift */; };
 		C67E9B7626F4FBC20084C9B4 /* TranscriptItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67E9B7526F4FBC20084C9B4 /* TranscriptItem.swift */; };
@@ -442,6 +443,7 @@
 		7CE107602421CC7B00E209D1 /* ActiveSpeakerDetectorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveSpeakerDetectorTests.swift; sourceTree = "<group>"; };
 		7CE107612421CC7B00E209D1 /* ActiveSpeakerPolicyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveSpeakerPolicyTests.swift; sourceTree = "<group>"; };
 		7CE107632421CC7B00E209D1 /* SchedulerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchedulerTests.swift; sourceTree = "<group>"; };
+		AC865DBF271F9B4600D6A0D8 /* MockedAudioSessionPortDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockedAudioSessionPortDescription.swift; sourceTree = "<group>"; };
 		B418162F24B79C0600FA62BF /* DataMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataMessage.swift; sourceTree = "<group>"; };
 		B418163124B79CF100FA62BF /* DataMessageObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataMessageObserver.swift; sourceTree = "<group>"; };
 		B418164624B7EDA800FA62BF /* SendDataMessageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendDataMessageError.swift; sourceTree = "<group>"; };
@@ -486,9 +488,9 @@
 		C4F8B6542580172200D9AE54 /* CMCampleBufferExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMCampleBufferExtensions.swift; sourceTree = "<group>"; };
 		C60D5592246509B900C2A278 /* Converters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converters.swift; sourceTree = "<group>"; };
 		C60D5595246514B000C2A278 /* ConvertersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertersTests.swift; sourceTree = "<group>"; };
-		C61D43212703BD9D00150F03 /* DefaultVideoClientControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultVideoClientControllerTests.swift; sourceTree = "<group>"; };
 		C61475DA26EFC18400CDEC09 /* TranscriptEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptEvent.swift; sourceTree = "<group>"; };
 		C61475E426EFF71500CDEC09 /* TranscriptEventObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptEventObserver.swift; sourceTree = "<group>"; };
+		C61D43212703BD9D00150F03 /* DefaultVideoClientControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultVideoClientControllerTests.swift; sourceTree = "<group>"; };
 		C67E9B6B26F4F5A30084C9B4 /* Transcript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transcript.swift; sourceTree = "<group>"; };
 		C67E9B7026F4F9820084C9B4 /* TranscriptItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptItemType.swift; sourceTree = "<group>"; };
 		C67E9B7526F4FBC20084C9B4 /* TranscriptItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptItem.swift; sourceTree = "<group>"; };
@@ -1020,6 +1022,7 @@
 		5A631A502429936200C8DAF3 /* device */ = {
 			isa = PBXGroup;
 			children = (
+				AC865DBE271F9B1200D6A0D8 /* mock */,
 				5A0E7316242EA072006636AB /* MediaDeviceTests.swift */,
 				5AE76F3524204A03009C41FD /* MediaDeviceTypeTests.swift */,
 				C6C2F105250BF522001678B8 /* DefaultDeviceControllerTests.swift */,
@@ -1128,6 +1131,14 @@
 				7C0D1BCC241ACC7B00280031 /* Scheduler.swift */,
 			);
 			path = scheduler;
+			sourceTree = "<group>";
+		};
+		AC865DBE271F9B1200D6A0D8 /* mock */ = {
+			isa = PBXGroup;
+			children = (
+				AC865DBF271F9B4600D6A0D8 /* MockedAudioSessionPortDescription.swift */,
+			);
+			path = mock;
 			sourceTree = "<group>";
 		};
 		B2624DE0EEE7B7B1BCEB6407 /* Generated Mocks */ = {
@@ -1386,7 +1397,7 @@
 			files = (
 			);
 			inputPaths = (
-				"/tmp/Mockingbird-B1EDE39F-4758-4778-A1DD-AF045D0C65D9",
+				"/tmp/Mockingbird-6063D3E3-706D-4F7F-A3CF-55BD575CFB66",
 			);
 			name = "Generate Mockingbird Mocks";
 			outputPaths = (
@@ -1394,7 +1405,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nmockingbird generate \\\n  --targets 'AmazonChimeSDK' \\\n  --outputs \"${SRCROOT}/MockingbirdMocks/AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift\" \\\n  --support \"${SRCROOT}/MockingbirdSupport\"\n\n# Ensure mocks are generated prior to running Compile Sources\nrm -f '/tmp/Mockingbird-B1EDE39F-4758-4778-A1DD-AF045D0C65D9'\n";
+			shellScript = "set -e\n\nmockingbird generate \\\n  --targets 'AmazonChimeSDK' \\\n  --outputs \"${SRCROOT}/MockingbirdMocks/AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift\" \\\n  --support \"${SRCROOT}/MockingbirdSupport\"\n\n# Ensure mocks are generated prior to running Compile Sources\nrm -f '/tmp/Mockingbird-6063D3E3-706D-4F7F-A3CF-55BD575CFB66'\n";
 		};
 		114854BF06996650440AB080 /* Clean Mockingbird Mocks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1405,11 +1416,11 @@
 			);
 			name = "Clean Mockingbird Mocks";
 			outputPaths = (
-				"/tmp/Mockingbird-B1EDE39F-4758-4778-A1DD-AF045D0C65D9",
+				"/tmp/Mockingbird-6063D3E3-706D-4F7F-A3CF-55BD575CFB66",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo $RANDOM > '/tmp/Mockingbird-B1EDE39F-4758-4778-A1DD-AF045D0C65D9'\n";
+			shellScript = "echo $RANDOM > '/tmp/Mockingbird-6063D3E3-706D-4F7F-A3CF-55BD575CFB66'\n";
 		};
 		5A3CFC6423C52B5D00BB63B7 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1662,6 +1673,7 @@
 				5AE76F2524203AA2009C41FD /* SignalStrengthTests.swift in Sources */,
 				C49A1C50253F409C0089FEEF /* VideoContentHintTests.swift in Sources */,
 				5AE76F1E24203A63009C41FD /* SignalUpdateTests.swift in Sources */,
+				AC865DC0271F9B4600D6A0D8 /* MockedAudioSessionPortDescription.swift in Sources */,
 				00212708260BC31600ACDC62 /* SQLiteClientTests.swift in Sources */,
 				00E198DA259BBFD400AD4DAA /* DefaultEventAnalyticsControllerTests.swift in Sources */,
 				00F20F0F2620C55D00C470E9 /* HttpUtilsTests.swift in Sources */,
