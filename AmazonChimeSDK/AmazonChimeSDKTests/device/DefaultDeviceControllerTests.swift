@@ -42,6 +42,22 @@ class DefaultDeviceControllerTests: XCTestCase {
         XCTAssertEqual(audioDevices[1].label, "Built-in Speaker")
     }
 
+    func testListAudioDevicesShouldDedupe() {
+        let bt = MockedAudioSessionPortDescription(portType: AVAudioSession.Port.bluetoothHFP, portName: "BT")
+        let btUnkown = MockedAudioSessionPortDescription(portType: AVAudioSession.Port.init(rawValue: "Unkown"), portName: "BT")
+        let availableInputs = [bt, btUnkown]
+        given(audioSessionMock.getAvailableInputs()).willReturn(availableInputs)
+
+        let audioDevices = defaultDeviceController.listAudioDevices()
+        
+        // contains 1 bt and 1 loud speaker
+        XCTAssertEqual(2, audioDevices.count)
+        XCTAssertEqual(audioDevices[0].type, MediaDeviceType.audioBluetooth)
+        XCTAssertEqual(audioDevices[0].label, "BT")
+        XCTAssertEqual(audioDevices[1].type, MediaDeviceType.audioBuiltInSpeaker)
+        XCTAssertEqual(audioDevices[1].label, "Built-in Speaker")
+    }
+    
     func testChooseAudioDevice_speaker() {
         let speakerDevice = MediaDevice(label: "Built-in Speaker")
         defaultDeviceController.chooseAudioDevice(mediaDevice: speakerDevice)
@@ -78,6 +94,5 @@ class DefaultDeviceControllerTests: XCTestCase {
         verify(audioSessionMock.getCurrentRoute()).wasCalled(2)
         XCTAssertEqual(currentDevice?.label, expected?.label)
         XCTAssertEqual(currentDevice?.type, expected?.type)
-
     }
 }
