@@ -17,7 +17,7 @@ class DefaultAudioClientController: NSObject {
     private let audioClientObserver: AudioClientObserver
     private let audioSession: AudioSession
     private let audioPortOffset = 200
-    private let defaultMicAndSpeaker = false
+    private var muteMicAndSpeaker = false
     private let defaultPort = 0
     private let defaultPresenter = true
     private let eventAnalyticsController: EventAnalyticsController
@@ -67,7 +67,8 @@ extension DefaultAudioClientController: AudioClientController {
                       meetingId: String,
                       attendeeId: String,
                       joinToken: String,
-                      callKitEnabled: Bool) throws {
+                      callKitEnabled: Bool,
+                      audioMode: AudioMode) throws {
         audioLock.lock()
         defer {
             audioLock.unlock()
@@ -97,12 +98,13 @@ extension DefaultAudioClientController: AudioClientController {
         }
         eventAnalyticsController.publishEvent(name: .meetingStartRequested)
         let appInfo = DeviceUtils.getAppInfo()
+        muteMicAndSpeaker = audioMode == .noAudio
         let status = audioClient.startSession(host,
                                               basePort: port,
                                               callId: meetingId,
                                               profileId: attendeeId,
-                                              microphoneMute: defaultMicAndSpeaker,
-                                              speakerMute: defaultMicAndSpeaker,
+                                              microphoneMute: muteMicAndSpeaker,
+                                              speakerMute: muteMicAndSpeaker,
                                               isPresenter: defaultPresenter,
                                               sessionToken: joinToken,
                                               audioWsUrl: audioFallbackUrl,
