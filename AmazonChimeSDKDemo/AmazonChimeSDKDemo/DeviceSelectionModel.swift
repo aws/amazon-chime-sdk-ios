@@ -13,6 +13,7 @@ class DeviceSelectionModel {
     let audioDevices: [MediaDevice]
     let videoDevices: [MediaDevice]
     let cameraCaptureSource: DefaultCameraCaptureSource
+    let audioVideoConfig: AudioVideoConfiguration
 
     lazy var supportedVideoFormat: [[VideoCaptureFormat]] = {
         self.videoDevices.map { videoDevice in
@@ -57,11 +58,12 @@ class DeviceSelectionModel {
         return selectedVideoDevice?.type == MediaDeviceType.videoFrontCamera
     }
 
-    init(deviceController: DeviceController, cameraCaptureSource: DefaultCameraCaptureSource) {
+    init(deviceController: DeviceController, cameraCaptureSource: DefaultCameraCaptureSource, audioVideoConfig: AudioVideoConfiguration) {
         audioDevices = deviceController.listAudioDevices()
         // Reverse these so the front camera is the initial choice
         videoDevices = MediaDevice.listVideoDevices().reversed()
         self.cameraCaptureSource = cameraCaptureSource
+        self.audioVideoConfig = audioVideoConfig
         cameraCaptureSource.device = selectedVideoDevice
         guard let selectedVideoFormat = selectedVideoFormat else { return }
         cameraCaptureSource.format = selectedVideoFormat

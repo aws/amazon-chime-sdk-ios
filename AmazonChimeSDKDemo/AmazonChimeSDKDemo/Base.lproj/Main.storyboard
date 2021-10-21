@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina5_5" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -15,17 +15,17 @@
             <objects>
                 <viewController storyboardIdentifier="main" id="BYZ-38-t0r" customClass="JoiningViewController" customModule="AmazonChimeSDKDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Join a meeting" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UUz-34-lb9">
-                                <rect key="frame" x="8" y="233" width="398" height="48"/>
+                                <rect key="frame" x="8" y="313" width="398" height="48"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Your Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="osX-FD-I0Z">
-                                <rect key="frame" x="109" y="351" width="196" height="34"/>
+                                <rect key="frame" x="109" y="431" width="196" height="34"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Name Input">
                                     <bool key="isElement" value="YES"/>
                                 </accessibility>
@@ -36,7 +36,7 @@
                                 <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Meeting ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s6f-Ei-sAf">
-                                <rect key="frame" x="109" y="301" width="196" height="34"/>
+                                <rect key="frame" x="109" y="381" width="196" height="34"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Meeting Id Input">
                                     <bool key="isElement" value="YES"/>
                                 </accessibility>
@@ -47,42 +47,51 @@
                                 <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="version" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9bX-Kc-eHT">
-                                <rect key="frame" x="16" y="705.66666666666663" width="382" height="14.333333333333371"/>
+                                <rect key="frame" x="16" y="831.66666666666663" width="382" height="14.333333333333371"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" systemColor="secondaryLabelColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="U4C-4u-Vzl" userLabel="Button Stack View">
-                                <rect key="frame" x="87" y="397" width="240" height="110"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="U4C-4u-Vzl" userLabel="Join Config">
+                                <rect key="frame" x="32" y="477" width="350" height="151"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SCO-KH-TkU" userLabel="Join without CallKit Button">
-                                        <rect key="frame" x="0.0" y="0.0" width="240" height="30"/>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j1Y-t4-xgU">
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="70"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="CallKit Options">
+                                            <bool key="isElement" value="YES"/>
+                                        </accessibility>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="350" id="4Eg-u0-9f6"/>
+                                            <constraint firstAttribute="height" constant="70" id="RZy-gv-cbQ"/>
+                                        </constraints>
+                                    </pickerView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="57w-s6-L9Q" userLabel="Audio Config">
+                                        <rect key="frame" x="75.000000000000014" y="80" width="200.33333333333337" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Audio output/input" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Hk-p1-iUS">
+                                                <rect key="frame" x="0.0" y="0.0" width="141.33333333333334" height="31"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P7T-QG-xAv">
+                                                <rect key="frame" x="151.33333333333331" y="0.0" width="51" height="31"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="Audio Switch"/>
+                                            </switch>
+                                        </subviews>
+                                    </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EBv-5d-gOg">
+                                        <rect key="frame" x="130.66666666666666" y="121" width="89" height="30"/>
                                         <accessibility key="accessibilityConfiguration" identifier="Join Without CallKit"/>
-                                        <state key="normal" title="Join without CallKit"/>
+                                        <state key="normal" title="Join Meeting"/>
                                         <connections>
-                                            <action selector="joinWithoutCallKitButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zJh-Ks-Sbt"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5eE-Oj-duC" userLabel="Join with CallKit as Incoming Button">
-                                        <rect key="frame" x="0.0" y="40" width="240" height="30"/>
-                                        <accessibility key="accessibilityConfiguration" identifier="Join CallKit Incoming"/>
-                                        <state key="normal" title="Join with CallKit as Incoming in 10s"/>
-                                        <connections>
-                                            <action selector="joinAsIncomingCallButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HoE-bj-dWO"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Alk-Rp-DLi" userLabel="Join with CallKit as Outgoing Button">
-                                        <rect key="frame" x="0.0" y="80" width="240" height="30"/>
-                                        <accessibility key="accessibilityConfiguration" identifier="Join CallKit Outgoing"/>
-                                        <state key="normal" title="Join with CallKit as Outgoing"/>
-                                        <connections>
-                                            <action selector="joinAsOutgoingCallButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HJW-oH-3iN"/>
+                                            <action selector="joinButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WSb-T2-ggJ"/>
                                         </connections>
                                     </button>
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="66Y-WJ-mRM">
-                                <rect key="frame" x="268" y="16" width="106" height="30"/>
+                                <rect key="frame" x="268" y="60" width="106" height="30"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Debug Settings Button"/>
                                 <state key="normal" title="Debug Settings"/>
                                 <connections>
@@ -112,10 +121,10 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="audioSwitch" destination="P7T-QG-xAv" id="vDM-Tm-cqb"/>
+                        <outlet property="callKitOptionsPicker" destination="j1Y-t4-xgU" id="aLn-e0-4WW"/>
                         <outlet property="debugSettingsButton" destination="66Y-WJ-mRM" id="eul-Gi-QFC"/>
-                        <outlet property="joinAsIncomingCallButton" destination="5eE-Oj-duC" id="GP7-uN-Zir"/>
-                        <outlet property="joinAsOutgoingCallButton" destination="Alk-Rp-DLi" id="Jax-Of-5sG"/>
-                        <outlet property="joinWithoutCallKitButton" destination="SCO-KH-TkU" id="YnN-ti-7uX"/>
+                        <outlet property="joinButton" destination="EBv-5d-gOg" id="FfN-4U-iAy"/>
                         <outlet property="meetingIdTextField" destination="s6f-Ei-sAf" id="vmx-Lh-C7I"/>
                         <outlet property="nameTextField" destination="osX-FD-I0Z" id="lFR-t4-JOi"/>
                         <outlet property="versionLabel" destination="9bX-Kc-eHT" id="M1d-QC-GNU"/>
@@ -130,11 +139,11 @@
             <objects>
                 <viewController storyboardIdentifier="deviceSelection" id="Sfo-A7-USF" customClass="DeviceSelectionViewController" customModule="AmazonChimeSDKDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qB1-9y-yO7">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="alh-Ag-Wwk">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="GdK-eP-aSg">
                                         <rect key="frame" x="10" y="0.0" width="394" height="570"/>
@@ -276,6 +285,7 @@
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="audioDeviceLabel" destination="Jt4-1L-aqf" id="po2-eh-wum"/>
                         <outlet property="audioDevicePicker" destination="ibL-Lh-i5w" id="Ni4-3h-Ayi"/>
                         <outlet property="joinButton" destination="Qc7-Qf-8m1" id="leg-wf-FcV"/>
                         <outlet property="videoDevicePicker" destination="93n-jX-4CD" id="I7q-g4-uRR"/>
@@ -292,11 +302,11 @@
             <objects>
                 <viewController storyboardIdentifier="meeting" id="ur0-O1-pag" customClass="MeetingViewController" customModule="AmazonChimeSDKDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rf5-Vm-CUa">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BqF-z3-tHA">
-                                <rect key="frame" x="117" y="353" width="180" height="30"/>
+                                <rect key="frame" x="117" y="433" width="180" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="2eH-eX-B0v"/>
                                     <constraint firstAttribute="width" constant="180" id="eEc-sL-adM"/>
@@ -307,17 +317,17 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dQc-r8-tDl" userLabel="Main View">
-                                <rect key="frame" x="0.0" y="101" width="414" height="526"/>
+                                <rect key="frame" x="0.0" y="145" width="414" height="608"/>
                                 <subviews>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RGo-2N-w2S" userLabel="Chat View">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="526"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="608"/>
                                         <subviews>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="SDw-oV-14H" userLabel="Chat Message Table">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="482"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="564"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="chatMessageCell" rowHeight="150" id="IR1-ov-bzI" customClass="ChatMessageCell" customModule="AmazonChimeSDKDemo" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="24.333333969116211" width="414" height="150"/>
+                                                        <rect key="frame" x="0.0" y="28" width="414" height="150"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IR1-ov-bzI" id="jwj-GW-jrz">
                                                             <rect key="frame" x="0.0" y="0.0" width="414" height="150"/>
@@ -366,7 +376,7 @@
                                                 </prototypes>
                                             </tableView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EWw-5H-SAI" userLabel="InputBox">
-                                                <rect key="frame" x="0.0" y="482" width="414" height="44"/>
+                                                <rect key="frame" x="0.0" y="564" width="414" height="44"/>
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WYB-Q9-vWU" userLabel="InputText">
                                                         <rect key="frame" x="8" y="0.0" width="326" height="44"/>
@@ -418,11 +428,11 @@
                                         </constraints>
                                     </view>
                                     <tableView clipsSubviews="YES" alpha="0.89999997615814209" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Y06-YL-yNg" userLabel="RosterTableView">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="526"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="608"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="rosterCell" rowHeight="87" id="oOQ-i3-TjW" customClass="RosterTableCell" customModule="AmazonChimeSDKDemo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="24.333333969116211" width="414" height="87"/>
+                                                <rect key="frame" x="0.0" y="28" width="414" height="87"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oOQ-i3-TjW" id="yy8-Oi-9EV">
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="87"/>
@@ -472,7 +482,7 @@
                                         </prototypes>
                                     </tableView>
                                     <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="G6J-Ye-SbE">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="496"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="578"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fpZ-c9-viK">
                                             <size key="itemSize" width="313" height="161"/>
@@ -588,7 +598,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </collectionView>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="djd-pl-UBe" userLabel="VideoPaginationControlView">
-                                        <rect key="frame" x="0.0" y="496" width="414" height="30"/>
+                                        <rect key="frame" x="0.0" y="578" width="414" height="30"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="KsI-Gl-67W">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="30"/>
@@ -622,16 +632,16 @@
                                         </constraints>
                                     </view>
                                     <view hidden="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" preservesSuperviewLayoutMargins="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hHc-wX-fkV" userLabel="ScreenView">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="526"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="608"/>
                                         <subviews>
                                             <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="GTP-ih-O5E" userLabel="Screen Render View" customClass="DefaultVideoRenderView" customModule="AmazonChimeSDK">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="526"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="608"/>
                                                 <accessibility key="accessibilityConfiguration" identifier="ScreenTile">
                                                     <bool key="isElement" value="YES"/>
                                                 </accessibility>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No screen share available" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RYz-O1-Yy3">
-                                                <rect key="frame" x="95.666666666666686" y="251" width="223" height="24"/>
+                                                <rect key="frame" x="95.666666666666686" y="292" width="223" height="24"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -648,11 +658,11 @@
                                         </constraints>
                                     </view>
                                     <tableView hidden="YES" clipsSubviews="YES" alpha="0.89999997615814209" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="7W8-Lm-wB8" userLabel="MetricsTableView">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="526"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="608"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="metricsCell" rowHeight="87" id="ScO-Sx-PnT" userLabel="metricsCell" customClass="MetricsTableCell" customModule="AmazonChimeSDKDemo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="24.333333969116211" width="414" height="87"/>
+                                                <rect key="frame" x="0.0" y="28" width="414" height="87"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ScO-Sx-PnT" id="XjQ-XE-b0u">
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="87"/>
@@ -694,11 +704,11 @@
                                         </prototypes>
                                     </tableView>
                                     <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qMs-8n-X6I">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="526"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="608"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="captionCell" id="8aS-kd-Jde" customClass="CaptionCell" customModule="AmazonChimeSDKDemo" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="24.333333969116211" width="414" height="39.333332061767578"/>
+                                                <rect key="frame" x="0.0" y="28" width="414" height="39.333332061767578"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8aS-kd-Jde" id="4gI-K8-L7e">
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="39.333332061767578"/>
@@ -775,7 +785,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vyk-AZ-EWL" userLabel="Tab View">
-                                <rect key="frame" x="22" y="60" width="370" height="33"/>
+                                <rect key="frame" x="22" y="104" width="370" height="33"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" apportionsSegmentWidthsByContent="YES" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ZED-i9-VcT" userLabel="Segmented Control">
                                         <rect key="frame" x="-10" y="0.0" width="390" height="34"/>
@@ -804,7 +814,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xda-Kr-nXi" userLabel="Control View">
-                                <rect key="frame" x="4" y="635" width="406" height="44"/>
+                                <rect key="frame" x="4" y="761" width="406" height="44"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="l0A-Sg-Q3r">
                                         <rect key="frame" x="0.0" y="0.0" width="406" height="44"/>
@@ -883,10 +893,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="74m-cS-BUB" userLabel="Heading View">
-                                <rect key="frame" x="0.0" y="8" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="52" width="414" height="44"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Meeting#" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DdL-aA-lof">
-                                        <rect key="frame" x="16.000000000000007" y="0.0" width="103.66666666666669" height="44"/>
+                                        <rect key="frame" x="15.999999999999993" y="0.0" width="116.33333333333331" height="44"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <accessibility key="accessibilityConfiguration">
                                             <accessibilityTraits key="traits" staticText="YES" header="YES"/>
@@ -967,10 +977,10 @@
             <objects>
                 <viewController storyboardIdentifier="liveTranscription" title="Live Transcriptions View Controller" useStoryboardIdentifierAsRestorationIdentifier="YES" id="oIM-X0-54O" customClass="LiveTranscriptionOptionsViewController" customModule="AmazonChimeSDKDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ogQ-aQ-X61">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HAa-I4-bUz">
-                                <rect key="frame" x="30" y="164" width="354" height="34"/>
+                                <rect key="frame" x="30" y="208" width="354" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -980,7 +990,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xQi-rK-PWV">
-                                <rect key="frame" x="30" y="651" width="354" height="30"/>
+                                <rect key="frame" x="30" y="777" width="354" height="30"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Start Transcription"/>
                                 <state key="normal" title="Start Transcription"/>
                                 <connections>
@@ -988,7 +998,7 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UPV-0s-G4L">
-                                <rect key="frame" x="30" y="100" width="354" height="34"/>
+                                <rect key="frame" x="30" y="144" width="354" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -1026,18 +1036,18 @@
             <objects>
                 <viewController storyboardIdentifier="debugSettings" id="GpE-ar-Sxz" customClass="DebugSettingsViewController" customModule="AmazonChimeSDKDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="F9N-fz-NNe">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Override Meeting Endpoint" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ugh-Cp-DHh">
-                                <rect key="frame" x="104.66666666666669" y="357.66666666666669" width="205" height="21"/>
+                                <rect key="frame" x="104.66666666666669" y="437.66666666666669" width="205" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Override Meeting Endpoint Label"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Meeting Endpoint Url" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HWT-wf-Hd8">
-                                <rect key="frame" x="77" y="402.66666666666669" width="260" height="34"/>
+                                <rect key="frame" x="77" y="482.66666666666669" width="260" height="34.000000000000057"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Meeting Endpoint Url Input"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="260" id="sRN-0P-oTP"/>
@@ -1046,14 +1056,14 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Debug Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dlf-w7-2eY">
-                                <rect key="frame" x="113.66666666666669" y="283.66666666666669" width="187" height="34"/>
+                                <rect key="frame" x="113.66666666666669" y="363.66666666666669" width="187" height="34"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Debug Settings Title"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AHd-Vp-rMm">
-                                <rect key="frame" x="181.66666666666666" y="663" width="51" height="41"/>
+                                <rect key="frame" x="181.66666666666666" y="789" width="51" height="41"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Debug Settings Save"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Save"/>
