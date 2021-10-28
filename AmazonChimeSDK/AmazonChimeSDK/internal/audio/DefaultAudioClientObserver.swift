@@ -171,7 +171,6 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
 
         if let attendeesWithJoinedStatus = newAttendeeMap[AttendeeStatus.joined] {
             let attendeesJoined = attendeesWithJoinedStatus.subtracting(currentAttendeeSet)
-            logger.info(msg: "attendeesJoined: \(attendeesJoined)")
             if !attendeesJoined.isEmpty {
                 ObserverUtils.forEach(observers: realtimeObservers) { (observer: RealtimeObserver) in
                     observer.attendeesDidJoin(attendeeInfo: [AttendeeInfo](attendeesJoined))
@@ -180,20 +179,8 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
             }
         }
 
-        if let attendeesWithJoinedWithoutAudioStatus = newAttendeeMap[AttendeeStatus.joinedNoAudio] {
-            let attendeesJoinedWithoutAudio = attendeesWithJoinedWithoutAudioStatus.subtracting(currentAttendeeSet)
-            logger.info(msg: "attendeesJoinedWithoutAudio: \(attendeesJoinedWithoutAudio)")
-            if !attendeesJoinedWithoutAudio.isEmpty {
-                ObserverUtils.forEach(observers: realtimeObservers) { (observer: RealtimeObserver) in
-                    observer.attendeesDidJoinWithoutAudio?(attendeeInfo: [AttendeeInfo](attendeesJoinedWithoutAudio))
-                }
-                currentAttendeeSet = currentAttendeeSet.union(attendeesJoinedWithoutAudio)
-            }
-        }
-
         if let attendeesWithLeftStatus = newAttendeeMap[AttendeeStatus.left] {
             if !attendeesWithLeftStatus.isEmpty {
-                logger.info(msg: "attendeesLeft: \(attendeesWithLeftStatus)")
                 ObserverUtils.forEach(observers: realtimeObservers) { (observer: RealtimeObserver) in
                     observer.attendeesDidLeave(attendeeInfo: [AttendeeInfo](attendeesWithLeftStatus))
                 }
@@ -203,7 +190,6 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
 
         if let attendeesWithDroppedStatus = newAttendeeMap[AttendeeStatus.dropped] {
             if !attendeesWithDroppedStatus.isEmpty {
-                logger.info(msg: "attendeesDropped: \(attendeesWithDroppedStatus)")
                 ObserverUtils.forEach(observers: realtimeObservers) { (observer: RealtimeObserver) in
                     observer.attendeesDidDrop(attendeeInfo: [AttendeeInfo](attendeesWithDroppedStatus))
                 }

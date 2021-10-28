@@ -24,7 +24,6 @@ class MeetingModel: NSObject {
     // Dependencies
     let meetingId: String
     let selfName: String
-    var audioVideoConfig = AudioVideoConfiguration()
     let callKitOption: CallKitOption
     let meetingSessionConfig: MeetingSessionConfiguration
     lazy var currentMeetingSession = DefaultMeetingSession(configuration: meetingSessionConfig,
@@ -44,8 +43,7 @@ class MeetingModel: NSObject {
                                                  contentShareController: currentMeetingSession.audioVideo)
     let chatModel = ChatModel()
     lazy var deviceSelectionModel = DeviceSelectionModel(deviceController: currentMeetingSession.audioVideo,
-                                                         cameraCaptureSource: videoModel.customSource,
-                                                         audioVideoConfig: audioVideoConfig)
+                                                         cameraCaptureSource: videoModel.customSource)
     let captionsModel = CaptionsModel()
     let uuid = UUID()
     var call: Call?
@@ -123,11 +121,9 @@ class MeetingModel: NSObject {
     init(meetingSessionConfig: MeetingSessionConfiguration,
          meetingId: String,
          selfName: String,
-         audioVideoConfig: AudioVideoConfiguration,
          callKitOption: CallKitOption) {
         self.meetingId = meetingId
         self.selfName = selfName
-        self.audioVideoConfig = audioVideoConfig
         self.callKitOption = callKitOption
         self.meetingSessionConfig = meetingSessionConfig
         let url = AppConfiguration.url.hasSuffix("/") ? AppConfiguration.url : "\(AppConfiguration.url)/"
@@ -148,7 +144,7 @@ class MeetingModel: NSObject {
     func startMeeting() {
         if self.callKitOption == .disabled {
             self.configureAudioSession()
-            self.startAudioVideoConnection()
+            self.startAudioVideoConnection(isCallKitEnabled: false)
             self.currentMeetingSession.audioVideo.startRemoteVideo()
         }
         screenShareModel.broadcastCaptureModel.isBlocked = false
@@ -299,10 +295,10 @@ class MeetingModel: NSObject {
         MeetingModule.shared().configureAudioSession()
     }
 
-    private func startAudioVideoConnection() {
+    private func startAudioVideoConnection(isCallKitEnabled: Bool) {
         do {
             setupAudioVideoFacadeObservers()
-            try currentMeetingSession.audioVideo.start(audioVideoConfiguration: audioVideoConfig)
+            try currentMeetingSession.audioVideo.start(callKitEnabled: isCallKitEnabled)
         } catch {
             logger.error(msg: "Error starting the Meeting: \(error.localizedDescription)")
             endMeeting()
@@ -327,7 +323,7 @@ class MeetingModel: NSObject {
             self?.configureAudioSession()
         }
         call.isAudioSessionActiveHandler = { [weak self] in
-            self?.startAudioVideoConnection()
+            self?.startAudioVideoConnection(isCallKitEnabled: true)
             self?.currentMeetingSession.audioVideo.startRemoteVideo()
             if self?.isMuted ?? false {
                 _ = self?.currentMeetingSession.audioVideo.realtimeLocalMute()
@@ -446,46 +442,9 @@ extension MeetingModel: AudioVideoObserver {
 // MARK: RealtimeObserver
 
 extension MeetingModel: RealtimeObserver {
-    private func isSelfAttendee(attendeeId: String) -> Bool {
-        return DefaultModality(id: attendeeId).base == meetingSessionConfig.credentials.attendeeId
-    }
-
     private func removeAttendeesAndReload(attendeeInfo: [AttendeeInfo]) {
         let attendeeIds = attendeeInfo.map { $0.attendeeId }
         rosterModel.removeAttendees(attendeeIds)
-        if activeMode == .roster {
-            rosterModel.rosterUpdatedHandler?()
-        }
-    }
-
-    private func attendeesDidJoinWithStatus(attendeeInfo: [AttendeeInfo], status: AttendeeStatus) {
-        var newAttendees = [RosterAttendee]()
-        for currentAttendeeInfo in attendeeInfo {
-            let attendeeId = currentAttendeeInfo.attendeeId
-            if !rosterModel.contains(attendeeId: attendeeId) {
-                let attendeeName = RosterModel.convertAttendeeName(from: currentAttendeeInfo)
-                let newAttendee = RosterAttendee(attendeeId: attendeeId,
-                                                 attendeeName: attendeeName,
-                                                 volume: .notSpeaking,
-                                                 signal: .high,
-                                                 attendeeStatus: status)
-                newAttendees.append(newAttendee)
-                var action = "Joined"
-                if status == .joinedNoAudio {
-                    action = "JoinedNoAudio"
-                }
-                logger.info(msg: "attendeeId:\(currentAttendeeInfo.attendeeId) externalUserId:\(currentAttendeeInfo.externalUserId) \(action)")
-
-                // if other attendee starts sharing content, stop content sharing from current device
-                let modality = DefaultModality(id: attendeeId)
-                if modality.isOfType(type: .content),
-                   !isSelfAttendee(attendeeId: attendeeId) {
-                    screenShareModel.stopLocalSharing()
-                    notifyHandler?("\(rosterModel.getAttendeeName(for: modality.base) ?? "") took over the screen share")
-                }
-            }
-        }
-        rosterModel.addAttendees(newAttendees)
         if activeMode == .roster {
             rosterModel.rosterUpdatedHandler?()
         }
@@ -534,11 +493,31 @@ extension MeetingModel: RealtimeObserver {
     }
 
     func attendeesDidJoin(attendeeInfo: [AttendeeInfo]) {
-        attendeesDidJoinWithStatus(attendeeInfo: attendeeInfo, status: AttendeeStatus.joined)
-    }
+        var newAttendees = [RosterAttendee]()
+        for currentAttendeeInfo in attendeeInfo {
+            let attendeeId = currentAttendeeInfo.attendeeId
+            if !rosterModel.contains(attendeeId: attendeeId) {
+                let attendeeName = RosterModel.convertAttendeeName(from: currentAttendeeInfo)
+                let newAttendee = RosterAttendee(attendeeId: attendeeId,
+                                                 attendeeName: attendeeName,
+                                                 volume: .notSpeaking,
+                                                 signal: .high)
+                newAttendees.append(newAttendee)
 
-    func attendeesDidJoinWithoutAudio(attendeeInfo: [AttendeeInfo]) {
-        attendeesDidJoinWithStatus(attendeeInfo: attendeeInfo, status: AttendeeStatus.joinedNoAudio)
+                // if other attendee starts sharing content, stop content sharing from current device
+                let modality = DefaultModality(id: attendeeId)
+                if modality.isOfType(type: .content),
+                   modality.base != meetingSessionConfig.credentials.attendeeId {
+
+                    screenShareModel.stopLocalSharing()
+                    notifyHandler?("\(rosterModel.getAttendeeName(for: modality.base) ?? "") took over the screen share")
+                }
+            }
+        }
+        rosterModel.addAttendees(newAttendees)
+        if activeMode == .roster {
+            rosterModel.rosterUpdatedHandler?()
+        }
     }
 }
 

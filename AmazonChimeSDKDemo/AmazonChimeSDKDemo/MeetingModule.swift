@@ -31,7 +31,6 @@ class MeetingModule {
 
     func prepareMeeting(meetingId: String,
                         selfName: String,
-                        audioVideoConfig: AudioVideoConfiguration,
                         option: CallKitOption,
                         overriddenEndpoint: String,
                         completion: @escaping (Bool) -> Void) {
@@ -52,7 +51,6 @@ class MeetingModule {
                 let meetingModel = MeetingModel(meetingSessionConfig: meetingSessionConfig,
                                                 meetingId: meetingId,
                                                 selfName: selfName,
-                                                audioVideoConfig: audioVideoConfig,
                                                 callKitOption: option)
                 self.meetings[meetingModel.uuid] = meetingModel
 

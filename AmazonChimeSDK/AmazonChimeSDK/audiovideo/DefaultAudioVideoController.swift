@@ -38,21 +38,16 @@ import Foundation
     public func start() throws {
         // By default, start for calls without CallKit integration. Use start(callKitEnabled:)
         // to override the default behavior if the call is integrated with CallKit
-        try self.start(audioVideoConfiguration: AudioVideoConfiguration())
+        try self.start(callKitEnabled: false)
     }
 
     public func start(callKitEnabled: Bool) throws {
-        try self.start(audioVideoConfiguration: AudioVideoConfiguration(callKitEnabled: callKitEnabled))
-    }
-
-    public func start(audioVideoConfiguration: AudioVideoConfiguration) throws {
         try audioClientController.start(audioFallbackUrl: configuration.urls.audioFallbackUrl,
                                         audioHostUrl: configuration.urls.audioHostUrl,
                                         meetingId: configuration.meetingId,
                                         attendeeId: configuration.credentials.attendeeId,
                                         joinToken: configuration.credentials.joinToken,
-                                        callKitEnabled: audioVideoConfiguration.callKitEnabled,
-                                        audioMode: audioVideoConfiguration.audioMode)
+                                        callKitEnabled: callKitEnabled)
         videoClientController.subscribeToVideoTileControllerObservers(observer: videoTileController)
         videoClientController.start()
     }

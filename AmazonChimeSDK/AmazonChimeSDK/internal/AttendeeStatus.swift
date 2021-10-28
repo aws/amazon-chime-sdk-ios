@@ -19,9 +19,6 @@ import Foundation
     /// The attendee dropped due to network issues
     case dropped = 3
 
-    /// The attendee joined without audio
-    case joinedNoAudio = 4
-
     public var description: String {
         switch self {
         case .joined:
@@ -30,8 +27,6 @@ import Foundation
             return "left"
         case .dropped:
             return "dropped"
-        case .joinedNoAudio:
-            return "joinedNoAudio"
         }
     }
 }

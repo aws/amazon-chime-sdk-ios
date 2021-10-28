@@ -32,13 +32,6 @@ import Foundation
     /// - Parameter attendeeInfo: an array of AttendeeInfo added
     func attendeesDidJoin(attendeeInfo: [AttendeeInfo])
 
-    /// List attendees that are newly added without audio to the meeting
-    ///
-    /// Note: this callback will be called on main thread.
-    ///
-    /// - Parameter attendeeInfo: an array of AttendeeInfo added without audio
-    @objc optional func attendeesDidJoinWithoutAudio(attendeeInfo: [AttendeeInfo])
-
     /// List attendees that left the meeting
     ///
     /// Note: this callback will be called on main thread.

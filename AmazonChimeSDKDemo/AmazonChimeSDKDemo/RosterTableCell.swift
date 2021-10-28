@@ -39,11 +39,7 @@ class RosterTableCell: UITableViewCell {
         indicator.layer.cornerRadius = indicator.frame.size.width / 2.0
         speakLevel.tintColor = .systemGray
 
-        let audioEnabled = attendee.attendeeStatus == .joined
-        speakLevel.isHidden = !audioEnabled
-        if audioEnabled {
-            speakLevel.image = getSpeakLevelImage(signal: attendee.signal, volume: attendee.volume)
-        }
+        speakLevel.image = getSpeakLevelImage(signal: attendee.signal, volume: attendee.volume)
     }
 
     private func getSpeakLevelImage(signal: SignalStrength, volume: VolumeLevel) -> UIImage? {

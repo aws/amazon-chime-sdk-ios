@@ -41,18 +41,14 @@ import Foundation
         self.eventAnalyticsController = eventAnalyticsController
     }
 
-    public func start(audioVideoConfiguration: AudioVideoConfiguration) throws {
-        try audioVideoController.start(audioVideoConfiguration: audioVideoConfiguration)
-
-        trace(name: "start(audioVideoConfiguration: \(audioVideoConfiguration))")
-    }
-
     public func start(callKitEnabled: Bool = false) throws {
-        try self.start(audioVideoConfiguration: AudioVideoConfiguration(callKitEnabled: callKitEnabled))
+        try audioVideoController.start(callKitEnabled: callKitEnabled)
+
+        trace(name: "start(callKitEnabled: \(callKitEnabled))")
     }
 
     public func start() throws {
-        try self.start(audioVideoConfiguration: AudioVideoConfiguration())
+        try self.start(callKitEnabled: false)
     }
 
     public func stop() {

@@ -14,13 +14,11 @@ public class RosterAttendee {
     let attendeeName: String?
     var volume: VolumeLevel
     var signal: SignalStrength
-    var attendeeStatus: AttendeeStatus
 
-    init(attendeeId: String, attendeeName: String, volume: VolumeLevel, signal: SignalStrength, attendeeStatus: AttendeeStatus = AttendeeStatus.joined) {
+    init(attendeeId: String, attendeeName: String, volume: VolumeLevel, signal: SignalStrength) {
         self.attendeeId = attendeeId
         self.attendeeName = attendeeName
         self.volume = volume
         self.signal = signal
-        self.attendeeStatus = attendeeStatus
     }
 }
