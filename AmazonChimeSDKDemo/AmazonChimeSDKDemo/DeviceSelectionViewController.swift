@@ -10,6 +10,7 @@ import AmazonChimeSDK
 import UIKit
 
 class DeviceSelectionViewController: UIViewController {
+    @IBOutlet var audioDeviceLabel: UILabel!
     @IBOutlet var audioDevicePicker: UIPickerView!
     @IBOutlet var videoDevicePicker: UIPickerView!
     @IBOutlet var videoFormatPicker: UIPickerView!
@@ -27,6 +28,7 @@ class DeviceSelectionViewController: UIViewController {
         videoDevicePicker.dataSource = self
         videoFormatPicker.delegate = self
         videoFormatPicker.dataSource = self
+
         videoPreviewImageView.mirror = model?.shouldMirrorPreview ?? false
         model?.cameraCaptureSource.addVideoSink(sink: videoPreviewImageView)
         model?.cameraCaptureSource.start()
