@@ -60,6 +60,7 @@
 		C61D437027050FBF00150F03 /* CaptionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D436F27050FBF00150F03 /* CaptionsModel.swift */; };
 		C61D4377270510D200150F03 /* Caption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D4376270510D200150F03 /* Caption.swift */; };
 		C61D437A270512A100150F03 /* CaptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D4379270512A100150F03 /* CaptionCell.swift */; };
+		C63080552734F44B00547950 /* WebappViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63080542734F44B00547950 /* WebappViewController.swift */; };
 		EDB5638925CCFB700096EE85 /* DebugSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB5638825CCFB700096EE85 /* DebugSettingsViewController.swift */; };
 		EDB5638C25CCFEA30096EE85 /* DebugSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB5638B25CCFEA30096EE85 /* DebugSettingsModel.swift */; };
 		F82D50DA23FC9C6C00D8F18C /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D50D923FC9C6C00D8F18C /* AppConfiguration.swift */; };
@@ -194,6 +195,7 @@
 		C61D436F27050FBF00150F03 /* CaptionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionsModel.swift; sourceTree = "<group>"; };
 		C61D4376270510D200150F03 /* Caption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Caption.swift; sourceTree = "<group>"; };
 		C61D4379270512A100150F03 /* CaptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionCell.swift; sourceTree = "<group>"; };
+		C63080542734F44B00547950 /* WebappViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebappViewController.swift; sourceTree = "<group>"; };
 		EDB5638825CCFB700096EE85 /* DebugSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugSettingsViewController.swift; sourceTree = "<group>"; };
 		EDB5638B25CCFEA30096EE85 /* DebugSettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugSettingsModel.swift; sourceTree = "<group>"; };
 		F82D50D923FC9C6C00D8F18C /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 				5A1582C723C40C9D0099F8FA /* Info.plist */,
 				C61D436F27050FBF00150F03 /* CaptionsModel.swift */,
 				C61D4379270512A100150F03 /* CaptionCell.swift */,
+				C63080542734F44B00547950 /* WebappViewController.swift */,
 			);
 			path = AmazonChimeSDKDemo;
 			sourceTree = "<group>";
@@ -583,6 +586,7 @@
 				C42A8A0E253E2E22008419A6 /* DeviceSelectionViewController.swift in Sources */,
 				EDB5638925CCFB700096EE85 /* DebugSettingsViewController.swift in Sources */,
 				00F372EE23DA2BFD008F7CA7 /* RosterAttendee.swift in Sources */,
+				C63080552734F44B00547950 /* WebappViewController.swift in Sources */,
 				B4FCD85724B947FC00064C9E /* TimestampConversion.swift in Sources */,
 				C61D437027050FBF00150F03 /* CaptionsModel.swift in Sources */,
 				C42A8A11253E2E4E008419A6 /* MetalVideoProcessor.swift in Sources */,
