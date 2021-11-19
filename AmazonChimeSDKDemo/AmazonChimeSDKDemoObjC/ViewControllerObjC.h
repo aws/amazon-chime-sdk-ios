@@ -12,8 +12,8 @@
 
 @interface ViewControllerObjC : UIViewController <RealtimeObserver, MetricsObserver, VideoTileObserver, ActiveSpeakerObserver, EventAnalyticsObserver>
 
-#define SERVER_URL "YOUR_SERVER_URL"
-#define SERVER_REGION "YOUR_SERVER_REGION"
+#define SERVER_URL "https://hh4sazg8a5.execute-api.us-east-1.amazonaws.com/Prod/"
+#define SERVER_REGION "us-east-1"
 
 @property (weak, nonatomic) IBOutlet UIButton *joinButton;
 @property (weak, nonatomic) IBOutlet UIButton *leaveButton;

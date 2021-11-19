@@ -74,4 +74,14 @@ import Foundation
     ///
     /// - Parameter sessionStatus: The reason why the session has stopped.
     func videoSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus)
+    
+    /// Called when video sources become available.
+    ///
+    /// - Parameter sources: Array of video sources that are available
+    func remoteVideoSourcesDidBecomeAvailable(sources: [RemoteVideoSource])
+    
+    /// Called when video sources become unavailable.
+    ///
+    /// - Parameter sources: Array of video sources that are unavailable
+    func remoteVideoSourcesDidBecomeUnavailable(sources: [RemoteVideoSource])
 }

@@ -689,6 +689,7 @@ extension MeetingViewController: UICollectionViewDataSource {
                         videoTileState: videoTileState,
                         tag: indexPath.row)
         cell.delegate = meetingModel.videoModel
+        cell.viewController = self
 
         if let tileState = videoTileState {
             if tileState.isLocalTile, !tileState.isContent, meetingModel.videoModel.isFrontCameraActive {

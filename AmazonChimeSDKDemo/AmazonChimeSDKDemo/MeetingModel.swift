@@ -427,6 +427,23 @@ extension MeetingModel: AudioVideoObserver {
     func videoSessionDidStartConnecting() {
         logWithFunctionName()
     }
+    
+    func remoteVideoSourcesDidBecomeAvailable(sources: [RemoteVideoSource]) {
+        var added = [RemoteVideoSource: VideoSubscriptionConfiguration]()
+        sources.forEach { source in
+            added[source] = VideoSubscriptionConfiguration(priority: Priority.medium, resolution: Resolution.high)
+            videoModel.remoteVideoSourceConfigurations[source] = VideoSubscriptionConfiguration(priority: Priority.medium, resolution: Resolution.high)
+        }
+        // call update
+        currentMeetingSession.audioVideo.updateVideoSourceSubscriptions(addedOrUpdated: added, removed: [RemoteVideoSource]())
+    }
+    
+    func remoteVideoSourcesDidBecomeUnavailable(sources: [RemoteVideoSource]) {
+        sources.forEach { source in
+            videoModel.remoteVideoSourceConfigurations.removeValue(forKey: source)
+        }
+        currentMeetingSession.audioVideo.updateVideoSourceSubscriptions(addedOrUpdated: [RemoteVideoSource: VideoSubscriptionConfiguration](), removed: sources)
+    }
 
     func videoSessionDidStartWithStatus(sessionStatus: MeetingSessionStatus) {
         switch sessionStatus.statusCode {

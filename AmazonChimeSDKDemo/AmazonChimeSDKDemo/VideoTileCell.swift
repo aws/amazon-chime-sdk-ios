@@ -13,12 +13,14 @@ let videoTileCellReuseIdentifier = "VideoTileCell"
 
 protocol VideoTileCellDelegate: class {
     func onTileButtonClicked(tag: Int, selected: Bool)
+    func onUpdateButtonClicked(attendeeName: String, priority: Priority)
 }
 
 class VideoTileCell: UICollectionViewCell {
     @IBOutlet var attendeeName: UILabel!
     @IBOutlet var shadedView: UIView!
     @IBOutlet var onTileButton: UIButton!
+    @IBOutlet var updateButton: UIButton!
     @IBOutlet var videoDisabledImage: UIImageView!
     @IBOutlet var poorConnectionBackground: UIView!
     @IBOutlet var poorConnectionImage: UIImageView!
@@ -26,6 +28,7 @@ class VideoTileCell: UICollectionViewCell {
     @IBOutlet var videoRenderView: DefaultVideoRenderView!
 
     weak var delegate: VideoTileCellDelegate?
+    weak var viewController: UIViewController?
 
     func updateCell(name: String, isSelf: Bool, videoTileState: VideoTileState?, tag: Int) {
         let isVideoActive = videoTileState != nil
@@ -65,6 +68,51 @@ class VideoTileCell: UICollectionViewCell {
             let shouldShowPoorConnection = videoTileState?.pauseState == .pausedForPoorConnection
             renderPoorConnection(isHidden: !shouldShowPoorConnection)
         }
+        
+        // make sure updateButton doesn't show on self video
+        // add onclick events for each menu option
+        if !isSelf {
+            updateButton.setImage(UIImage(named: "more")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            updateButton.tintColor = .white
+            updateButton.isHidden = false
+            
+            updateButton.addTarget(self, action: #selector(updateMenu), for: .touchUpInside)
+        } else {
+            updateButton.isHidden = true
+        }
+    }
+    
+    @objc func updateMenu() {
+        // pass video source and new priority
+        let alertController = UIAlertController(title: "Set video priority", message: "Choose the display priority order for the selected video", preferredStyle: .alert)
+        let lowestAction = UIAlertAction(title: "Lowest", style: UIAlertAction.Style.default) {
+            UIAlertAction in
+            self.delegate?.onUpdateButtonClicked(attendeeName: self.attendeeName.text ?? "", priority: Priority.lowest)
+        }
+        let lowAction = UIAlertAction(title: "Low", style: UIAlertAction.Style.default) {
+            UIAlertAction in
+            self.delegate?.onUpdateButtonClicked(attendeeName: self.attendeeName.text ?? "", priority: Priority.low)
+        }
+        let mediumAction = UIAlertAction(title: "Medium", style: UIAlertAction.Style.default) {
+            UIAlertAction in
+            self.delegate?.onUpdateButtonClicked(attendeeName: self.attendeeName.text ?? "", priority: Priority.medium)
+        }
+        let highAction = UIAlertAction(title: "High", style: UIAlertAction.Style.default) {
+            UIAlertAction in
+            self.delegate?.onUpdateButtonClicked(attendeeName: self.attendeeName.text ?? "", priority: Priority.high)
+        }
+        let highestAction = UIAlertAction(title: "Highest", style: UIAlertAction.Style.default) {
+            UIAlertAction in
+            self.delegate?.onUpdateButtonClicked(attendeeName: self.attendeeName.text ?? "", priority: Priority.highest)
+        }
+        alertController.addAction(highestAction)
+        alertController.addAction(highAction)
+        alertController.addAction(mediumAction)
+        alertController.addAction(lowAction)
+        alertController.addAction(lowestAction)
+
+        // Present the controller
+        viewController?.present(alertController, animated: true, completion: nil)
     }
 
     override func prepareForReuse() {
@@ -74,6 +122,7 @@ class VideoTileCell: UICollectionViewCell {
         isHidden = true
 
         onTileButton.imageView?.contentMode = UIView.ContentMode.scaleAspectFill
+        updateButton.imageView?.contentMode = UIView.ContentMode.scaleAspectFill
         shadedView.isHidden = false
         videoRenderView.backgroundColor = .systemGray
         videoRenderView.isHidden = true

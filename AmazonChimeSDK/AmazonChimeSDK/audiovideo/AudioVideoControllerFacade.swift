@@ -80,4 +80,10 @@ import Foundation
     ///
     /// - Parameter observer: The observer to unsubscribe from events with
     func removeMetricsObserver(observer: MetricsObserver)
+    
+    /// Update video source subscriptions for given added, updated, and removed video sources.
+    ///
+    /// - Parameter addedOrUpdated: Dictionary of remote video sources and configurations to add/update
+    /// - Parameter removed: Array of remote video sources to reomve
+    func updateVideoSourceSubscriptions(addedOrUpdated: Dictionary<RemoteVideoSource, VideoSubscriptionConfiguration>, removed: Array<RemoteVideoSource>)
 }

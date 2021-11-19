@@ -43,6 +43,13 @@ import Foundation
     func videoLogCallBack(_ logLevel: video_client_loglevel_t, msg: String!)
 
     func sendDataMessage(_ topic: String!, data: UnsafePointer<Int8>!, lifetimeMs: Int32)
+    
+    func updateVideoSourceSubscriptions(_ addedOrUpdated: Dictionary<AnyHashable, Any>!,
+                                        removed: Array<Any>!)
+    
+    func doNothing(_ test: Dictionary<AnyHashable, Any>!, removed: Array<Any>!)
 }
 
-extension VideoClient: VideoClientProtocol {}
+extension VideoClient: VideoClientProtocol {
+    
+}
