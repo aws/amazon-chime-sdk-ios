@@ -9,7 +9,7 @@
 import Foundation
 
 @objcMembers public class RemoteVideoSource: NSObject {
-    let attendeeId: String
+    public var attendeeId: String
     
     public init(attendeeId: String) {
         self.attendeeId = attendeeId

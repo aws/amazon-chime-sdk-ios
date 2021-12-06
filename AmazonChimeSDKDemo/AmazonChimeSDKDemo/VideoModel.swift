@@ -17,7 +17,7 @@ class VideoModel: NSObject {
     private var selfVideoTileState: VideoTileState?
     private var remoteVideoTileStates: [(Int, VideoTileState)] = []
     private var userPausedVideoTileIds: Set<Int> = Set()
-    public var remoteVideoSourceConfigurations: Dictionary<RemoteVideoSource, VideoSubscriptionConfiguration> = Dictionary() 
+    public var remoteVideoSourceConfigurations: Dictionary<String, VideoSubscriptionConfiguration> = Dictionary()
     private let audioVideoFacade: AudioVideoFacade
     let customSource: DefaultCameraCaptureSource
 
@@ -314,11 +314,13 @@ extension VideoModel: VideoTileCellDelegate {
         }
     }
     
-    func onUpdateButtonClicked(attendeeName: String, priority: Priority) {
-        let source = RemoteVideoSource(attendeeId: attendeeName)
-        remoteVideoSourceConfigurations[source]?.priority = priority
-        let added = [source: remoteVideoSourceConfigurations[source]]
+    func onUpdateButtonClicked(attendeeId: String, priority: Priority) {
+        if (remoteVideoSourceConfigurations[attendeeId] == nil) {
+            remoteVideoSourceConfigurations[attendeeId] = VideoSubscriptionConfiguration(priority: Priority.highest, resolution: Resolution.high)
+        }
+        remoteVideoSourceConfigurations[attendeeId]?.priority = priority
         
-        //audioVideoFacade.updateVideoSourceSubscriptions(added, [])
+        let added = [RemoteVideoSource(attendeeId: attendeeId): remoteVideoSourceConfigurations[attendeeId]!]
+        audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: added, removed: [])
     }
 }

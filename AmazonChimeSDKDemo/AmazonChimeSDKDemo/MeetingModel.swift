@@ -225,6 +225,13 @@ class MeetingModel: NSObject {
         }
         return displayName
     }
+    
+    func getVideoTileAttendeeId(for indexPath: IndexPath) -> String {
+        if let videoTileState = videoModel.getVideoTileState(for: indexPath) {
+            return videoTileState.attendeeId
+        }
+        return ""
+    }
 
     func chooseAudioDevice(_ audioDevice: MediaDevice) {
         currentMeetingSession.audioVideo.chooseAudioDevice(mediaDevice: audioDevice)
@@ -429,18 +436,19 @@ extension MeetingModel: AudioVideoObserver {
     }
     
     func remoteVideoSourcesDidBecomeAvailable(sources: [RemoteVideoSource]) {
+        logWithFunctionName()
         var added = [RemoteVideoSource: VideoSubscriptionConfiguration]()
         sources.forEach { source in
-            added[source] = VideoSubscriptionConfiguration(priority: Priority.medium, resolution: Resolution.high)
-            videoModel.remoteVideoSourceConfigurations[source] = VideoSubscriptionConfiguration(priority: Priority.medium, resolution: Resolution.high)
+            added[source] = VideoSubscriptionConfiguration(priority: Priority.highest, resolution: Resolution.high)
+            videoModel.remoteVideoSourceConfigurations[source.attendeeId] = VideoSubscriptionConfiguration(priority: Priority.highest, resolution: Resolution.high)
         }
-        // call update
         currentMeetingSession.audioVideo.updateVideoSourceSubscriptions(addedOrUpdated: added, removed: [RemoteVideoSource]())
     }
     
     func remoteVideoSourcesDidBecomeUnavailable(sources: [RemoteVideoSource]) {
+        logWithFunctionName()
         sources.forEach { source in
-            videoModel.remoteVideoSourceConfigurations.removeValue(forKey: source)
+            videoModel.remoteVideoSourceConfigurations.removeValue(forKey: source.attendeeId)
         }
         currentMeetingSession.audioVideo.updateVideoSourceSubscriptions(addedOrUpdated: [RemoteVideoSource: VideoSubscriptionConfiguration](), removed: sources)
     }

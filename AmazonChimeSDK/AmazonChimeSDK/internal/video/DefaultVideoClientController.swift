@@ -231,14 +231,24 @@ extension DefaultVideoClientController: VideoClientDelegate {
     }
     
     public func remoteVideoSourcesDidBecomeAvailable(_ sourcesInternal: [RemoteVideoSourceInternal]) {
-        let sources = sourcesInternal.map { (source) -> RemoteVideoSource in RemoteVideoSource(attendeeId: source.attendeeId) }
+        var sources = [RemoteVideoSource]()
+        sourcesInternal.forEach { source in
+            if (source.attendeeId != nil) {
+                sources.append(RemoteVideoSource(attendeeId: source.attendeeId))
+            }
+        }
         ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
             observer.remoteVideoSourcesDidBecomeAvailable(sources: sources)
         }
     }
     
     public func remoteVideoSourcesDidBecomeUnavailable(_ sourcesInternal: [RemoteVideoSourceInternal]) {
-        let sources = sourcesInternal.map { (source) -> RemoteVideoSource in RemoteVideoSource(attendeeId: source.attendeeId) }
+        var sources = [RemoteVideoSource]()
+        sourcesInternal.forEach { source in
+            if (source.attendeeId != nil) {
+                sources.append(RemoteVideoSource(attendeeId: source.attendeeId))
+            }
+        }
         ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
             observer.remoteVideoSourcesDidBecomeUnavailable(sources: sources)
         }
@@ -384,23 +394,24 @@ extension DefaultVideoClientController: VideoClientController {
     }
     
     public func updateVideoSourceSubscriptions(addedOrUpdated: Dictionary<RemoteVideoSource, VideoSubscriptionConfiguration>, removed: Array<RemoteVideoSource>) {
-       
         guard videoClientState != .uninitialized else {
             logger.fault(msg: "VideoClient is not initialized so returning without doing anything")
             return
         }
+        logger.info(msg: "updateVideoSourceSubscriptions")
         
-        logger.info(msg: "Adding/updating video source subscriptions: \(addedOrUpdated) and removing: \(removed)")
-        
-        // convert external classes to internal
         let addedOrUpdatedInternal = Dictionary(uniqueKeysWithValues:
             addedOrUpdated.map { source, config in
                 (RemoteVideoSourceInternal(attendeeId: source.attendeeId),
                  VideoSubscriptionConfigurationInternal(priority: PriorityInternal(rawValue: UInt(config.priority.rawValue)) ?? PriorityInternal.highest, targetResolution: ResolutionInternal.init(width: Int32(config.resolution.width), height: Int32(config.resolution.height), targetBitrate: Int32(config.resolution.targetBitrate))))
         })
-        let removedInternal = removed.map { source in RemoteVideoSourceInternal(attendeeId: source.attendeeId) }
-
-        videoClient?.updateVideoSourceSubscriptions(addedOrUpdatedInternal as Dictionary<AnyHashable, Any>, removed: removedInternal as Array<Any>)
+        
+        var removedInternal = [RemoteVideoSourceInternal]()
+        removed.forEach{ source in
+            removedInternal.append(RemoteVideoSourceInternal(attendeeId: source.attendeeId))
+        }
+        
+        videoClient?.updateVideoSourceSubscriptions(addedOrUpdatedInternal as Dictionary<AnyHashable, Any>, withRemoved: removedInternal as [Any])
     }
 
     public func subscribeToReceiveDataMessage(topic: String, observer: DataMessageObserver) {

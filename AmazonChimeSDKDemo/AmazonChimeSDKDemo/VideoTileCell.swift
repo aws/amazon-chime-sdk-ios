@@ -13,7 +13,7 @@ let videoTileCellReuseIdentifier = "VideoTileCell"
 
 protocol VideoTileCellDelegate: class {
     func onTileButtonClicked(tag: Int, selected: Bool)
-    func onUpdateButtonClicked(attendeeName: String, priority: Priority)
+    func onUpdateButtonClicked(attendeeId: String, priority: Priority)
 }
 
 class VideoTileCell: UICollectionViewCell {
@@ -29,11 +29,13 @@ class VideoTileCell: UICollectionViewCell {
 
     weak var delegate: VideoTileCellDelegate?
     weak var viewController: UIViewController?
+    var attendeeId: String = ""
 
-    func updateCell(name: String, isSelf: Bool, videoTileState: VideoTileState?, tag: Int) {
+    func updateCell(id: String, name: String, isSelf: Bool, videoTileState: VideoTileState?, tag: Int) {
         let isVideoActive = videoTileState != nil
         let isVideoPausedByUser = isVideoActive && videoTileState?.pauseState == .pausedByUserRequest
 
+        attendeeId = id
         attendeeName.text = name
         backgroundColor = .systemGray
         isHidden = false
@@ -69,8 +71,6 @@ class VideoTileCell: UICollectionViewCell {
             renderPoorConnection(isHidden: !shouldShowPoorConnection)
         }
         
-        // make sure updateButton doesn't show on self video
-        // add onclick events for each menu option
         if !isSelf {
             updateButton.setImage(UIImage(named: "more")?.withRenderingMode(.alwaysTemplate), for: .normal)
             updateButton.tintColor = .white
@@ -83,27 +83,26 @@ class VideoTileCell: UICollectionViewCell {
     }
     
     @objc func updateMenu() {
-        // pass video source and new priority
         let alertController = UIAlertController(title: "Set video priority", message: "Choose the display priority order for the selected video", preferredStyle: .alert)
         let lowestAction = UIAlertAction(title: "Lowest", style: UIAlertAction.Style.default) {
             UIAlertAction in
-            self.delegate?.onUpdateButtonClicked(attendeeName: self.attendeeName.text ?? "", priority: Priority.lowest)
+            self.delegate?.onUpdateButtonClicked(attendeeId: self.attendeeId, priority: Priority.lowest)
         }
         let lowAction = UIAlertAction(title: "Low", style: UIAlertAction.Style.default) {
             UIAlertAction in
-            self.delegate?.onUpdateButtonClicked(attendeeName: self.attendeeName.text ?? "", priority: Priority.low)
+            self.delegate?.onUpdateButtonClicked(attendeeId: self.attendeeId, priority: Priority.low)
         }
         let mediumAction = UIAlertAction(title: "Medium", style: UIAlertAction.Style.default) {
             UIAlertAction in
-            self.delegate?.onUpdateButtonClicked(attendeeName: self.attendeeName.text ?? "", priority: Priority.medium)
+            self.delegate?.onUpdateButtonClicked(attendeeId: self.attendeeId, priority: Priority.medium)
         }
         let highAction = UIAlertAction(title: "High", style: UIAlertAction.Style.default) {
             UIAlertAction in
-            self.delegate?.onUpdateButtonClicked(attendeeName: self.attendeeName.text ?? "", priority: Priority.high)
+            self.delegate?.onUpdateButtonClicked(attendeeId: self.attendeeId, priority: Priority.high)
         }
         let highestAction = UIAlertAction(title: "Highest", style: UIAlertAction.Style.default) {
             UIAlertAction in
-            self.delegate?.onUpdateButtonClicked(attendeeName: self.attendeeName.text ?? "", priority: Priority.highest)
+            self.delegate?.onUpdateButtonClicked(attendeeId: self.attendeeId, priority: Priority.highest)
         }
         alertController.addAction(highestAction)
         alertController.addAction(highAction)
