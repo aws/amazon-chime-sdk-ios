@@ -51,7 +51,7 @@ class DefaultContentShareVideoClientControllerTests: CommonTestCase {
                                     sending: any(),
                                     config: any(),
                                     appInfo: any(),
-                                    signalingUrl: any())).will {_, _, _, _, _ in
+                                    signalingUrl: any())).will {_, _, _, _, _, _ in
             self.defaultContentShareVideoClientController.videoClientDidConnect(nil, controlStatus: 1)
         }
         given(videoClientMock.stop()).will {
@@ -65,7 +65,8 @@ class DefaultContentShareVideoClientControllerTests: CommonTestCase {
                                      token: self.joinToken,
                                      sending: false,
                                      config: any(),
-                                     appInfo: any())).wasCalled()
+                                     appInfo: any(),
+                                     signalingUrl: any())).wasCalled()
         verify(videoClientMock.setExternalVideoSource(any())).wasCalled(2)
         verify(videoClientMock.setSending(true)).wasCalled(2)
     }
@@ -76,7 +77,7 @@ class DefaultContentShareVideoClientControllerTests: CommonTestCase {
                                     sending: any(),
                                     config: any(),
                                     appInfo: any(),
-                                    signalingUrl: any())).will {_, _, _, _, _ in
+                                    signalingUrl: any())).will {_, _, _, _, _, _ in
             self.defaultContentShareVideoClientController.videoClientDidConnect(nil, controlStatus: 1)
         }
 
