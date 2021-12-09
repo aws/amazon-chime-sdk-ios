@@ -25,6 +25,7 @@ import Foundation
         config.isDisablingSimulcastP2P = true
         config.isUsingPixelBufferRenderer = true
         config.isContentShare = true
+        config.isUsingInbandTurnCreds = true
         return config
     }()
 
@@ -70,7 +71,8 @@ import Foundation
                           token: configuration.credentials.joinToken,
                           sending: false,
                           config: videoConfig,
-                          appInfo: DeviceUtils.getDetailedInfo())
+                          appInfo: DeviceUtils.getDetailedInfo(),
+                          signalingUrl: configuration.urls.signalingUrl)
     }
 
     private func stopVideoClient() {
