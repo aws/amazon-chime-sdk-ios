@@ -6,8 +6,8 @@
 //  SPDX-License-Identifier: Apache-2.0
 //
 
+@testable import AmazonChimeSDKMedia
 @testable import AmazonChimeSDK
-import AmazonChimeSDKMedia
 import Mockingbird
 import XCTest
 
@@ -36,7 +36,21 @@ class DefaultAudioClientControllerTests: CommonTestCase {
         meetingStatsCollectorMock = mock(MeetingStatsCollector.self)
         activeSpeakerMock = mock(ActiveSpeakerDetectorFacade.self)
 
-        given(meetingStatsCollectorMock.getMeetingStats()).will { return [AnyHashable: Any]() }
+        given(meetingStatsCollectorMock.getMeetingStats()).will { [AnyHashable: Any]() }
+
+        given(audioSessionMock.getRecordPermission()).willReturn(.granted)
+        given(audioClientMock.startSession(any(),
+                                           basePort: any(),
+                                           callId: any(),
+                                           profileId: any(),
+                                           microphoneMute: any(),
+                                           speakerMute: any(),
+                                           isPresenter: any(),
+                                           sessionToken: any(),
+                                           audioWsUrl: any(),
+                                           callKitEnabled: any(),
+                                           appInfo: any(),
+                                           audioMode: any())).willReturn(AUDIO_CLIENT_OK)
 
         defaultAudioClientController = DefaultAudioClientController(audioClient: audioClientMock,
                                                                     audioClientObserver: audioClientObserverMock,
@@ -69,7 +83,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                                     meetingId: meetingId,
                                                                     attendeeId: attendeeId,
                                                                     joinToken: joinToken,
-                                                                    callKitEnabled: callKitEnabled))
+                                                                    callKitEnabled: callKitEnabled,
+                                                                    audioMode: .stereo48K))
         verify(audioLockMock.lock()).wasCalled()
         verify(audioLockMock.unlock()).wasCalled()
     }
@@ -83,7 +98,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                                     meetingId: meetingId,
                                                                     attendeeId: attendeeId,
                                                                     joinToken: joinToken,
-                                                                    callKitEnabled: callKitEnabled))
+                                                                    callKitEnabled: callKitEnabled,
+                                                                    audioMode: .stereo48K))
         verify(audioLockMock.lock()).wasCalled()
         verify(audioLockMock.unlock()).wasCalled()
     }
@@ -106,25 +122,14 @@ class DefaultAudioClientControllerTests: CommonTestCase {
 
     func testStart_startedOk() {
         DefaultAudioClientController.state = .initialized
-        given(audioSessionMock.getRecordPermission()).willReturn(.granted)
-        given(audioClientMock.startSession(any(),
-                                           basePort: any(),
-                                           callId: any(),
-                                           profileId: any(),
-                                           microphoneMute: any(),
-                                           speakerMute: any(),
-                                           isPresenter: any(),
-                                           sessionToken: any(),
-                                           audioWsUrl: any(),
-                                           callKitEnabled: any(),
-                                           appInfo: any())).willReturn(AUDIO_CLIENT_OK)
 
         XCTAssertNoThrow(try defaultAudioClientController.start(audioFallbackUrl: audioFallbackUrl,
                                                                 audioHostUrl: audioHostUrlWithPort,
                                                                 meetingId: meetingId,
                                                                 attendeeId: attendeeId,
                                                                 joinToken: joinToken,
-                                                                callKitEnabled: callKitEnabled))
+                                                                callKitEnabled: callKitEnabled,
+                                                                audioMode: .stereo48K))
         verify(audioLockMock.lock()).wasCalled()
         verify(audioClientObserverMock.notifyAudioClientObserver(observerFunction: any())).wasCalled()
         verify(audioClientMock.startSession(self.audioHostUrl,
@@ -137,7 +142,66 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                             sessionToken: self.joinToken,
                                             audioWsUrl: self.audioFallbackUrl,
                                             callKitEnabled: false,
-                                            appInfo: any())).wasCalled()
+                                            appInfo: any(),
+                                            audioMode: .Stereo48K)).wasCalled()
+        verify(eventAnalyticsControllerMock.publishEvent(name: .meetingStartRequested)).wasCalled()
+        XCTAssertEqual(.started, DefaultAudioClientController.state)
+        verify(audioLockMock.unlock()).wasCalled()
+    }
+
+    func testStartWithMono48K_startedOk() {
+        DefaultAudioClientController.state = .initialized
+
+        XCTAssertNoThrow(try defaultAudioClientController.start(audioFallbackUrl: audioFallbackUrl,
+                                                                audioHostUrl: audioHostUrlWithPort,
+                                                                meetingId: meetingId,
+                                                                attendeeId: attendeeId,
+                                                                joinToken: joinToken,
+                                                                callKitEnabled: callKitEnabled,
+                                                                audioMode: .mono48K))
+        verify(audioLockMock.lock()).wasCalled()
+        verify(audioClientObserverMock.notifyAudioClientObserver(observerFunction: any())).wasCalled()
+        verify(audioClientMock.startSession(self.audioHostUrl,
+                                            basePort: 1820,
+                                            callId: self.meetingId,
+                                            profileId: self.attendeeId,
+                                            microphoneMute: false,
+                                            speakerMute: false,
+                                            isPresenter: true,
+                                            sessionToken: self.joinToken,
+                                            audioWsUrl: self.audioFallbackUrl,
+                                            callKitEnabled: false,
+                                            appInfo: any(),
+                                            audioMode: .Mono48K)).wasCalled()
+        verify(eventAnalyticsControllerMock.publishEvent(name: .meetingStartRequested)).wasCalled()
+        XCTAssertEqual(.started, DefaultAudioClientController.state)
+        verify(audioLockMock.unlock()).wasCalled()
+    }
+
+    func testStartWithMono16K_startedOk() {
+        DefaultAudioClientController.state = .initialized
+
+        XCTAssertNoThrow(try defaultAudioClientController.start(audioFallbackUrl: audioFallbackUrl,
+                                                                audioHostUrl: audioHostUrlWithPort,
+                                                                meetingId: meetingId,
+                                                                attendeeId: attendeeId,
+                                                                joinToken: joinToken,
+                                                                callKitEnabled: callKitEnabled,
+                                                                audioMode: .mono16K))
+        verify(audioLockMock.lock()).wasCalled()
+        verify(audioClientObserverMock.notifyAudioClientObserver(observerFunction: any())).wasCalled()
+        verify(audioClientMock.startSession(self.audioHostUrl,
+                                            basePort: 1820,
+                                            callId: self.meetingId,
+                                            profileId: self.attendeeId,
+                                            microphoneMute: false,
+                                            speakerMute: false,
+                                            isPresenter: true,
+                                            sessionToken: self.joinToken,
+                                            audioWsUrl: self.audioFallbackUrl,
+                                            callKitEnabled: false,
+                                            appInfo: any(),
+                                            audioMode: .Mono16K)).wasCalled()
         verify(eventAnalyticsControllerMock.publishEvent(name: .meetingStartRequested)).wasCalled()
         XCTAssertEqual(.started, DefaultAudioClientController.state)
         verify(audioLockMock.unlock()).wasCalled()
@@ -145,7 +209,6 @@ class DefaultAudioClientControllerTests: CommonTestCase {
 
     func testStart_failedToStart() {
         DefaultAudioClientController.state = .initialized
-        given(audioSessionMock.getRecordPermission()).willReturn(.granted)
         given(audioClientMock.startSession(any(),
                                            basePort: any(),
                                            callId: any(),
@@ -156,14 +219,16 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                            sessionToken: any(),
                                            audioWsUrl: any(),
                                            callKitEnabled: any(),
-                                           appInfo: any())).willReturn(AUDIO_CLIENT_ERR)
+                                           appInfo: any(),
+                                           audioMode: any())).willReturn(AUDIO_CLIENT_ERR)
 
         XCTAssertThrowsError(try defaultAudioClientController.start(audioFallbackUrl: audioFallbackUrl,
                                                                     audioHostUrl: audioHostUrlWithPort,
                                                                     meetingId: meetingId,
                                                                     attendeeId: attendeeId,
                                                                     joinToken: joinToken,
-                                                                    callKitEnabled: callKitEnabled))
+                                                                    callKitEnabled: callKitEnabled,
+                                                                    audioMode: .stereo48K))
         verify(audioLockMock.lock()).wasCalled()
         verify(audioClientObserverMock.notifyAudioClientObserver(observerFunction: any())).wasCalled()
         verify(audioClientMock.startSession(self.audioHostUrl,
@@ -176,7 +241,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                             sessionToken: self.joinToken,
                                             audioWsUrl: self.audioFallbackUrl,
                                             callKitEnabled: false,
-                                            appInfo: any())).wasCalled()
+                                            appInfo: any(),
+                                            audioMode: .Stereo48K)).wasCalled()
         XCTAssertEqual(.initialized, DefaultAudioClientController.state)
         verify(audioLockMock.unlock()).wasCalled()
     }
