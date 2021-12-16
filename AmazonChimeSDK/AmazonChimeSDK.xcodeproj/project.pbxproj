@@ -248,6 +248,10 @@
 		C6DA0B5B24F80BAC00028F2B /* AudioClientProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DA0B5A24F80BAC00028F2B /* AudioClientProtocol.swift */; };
 		C6DA0B5D24F8107000028F2B /* AudioLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DA0B5C24F8107000028F2B /* AudioLock.swift */; };
 		C6DA0B6224F961AA00028F2B /* DefaultAudioVideoControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DA0B6124F961AA00028F2B /* DefaultAudioVideoControllerTests.swift */; };
+		F81104AC276190AA003D17AD /* VideoPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81104A8276190A9003D17AD /* VideoPriority.swift */; };
+		F81104AD276190AA003D17AD /* RemoteVideoSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81104A9276190A9003D17AD /* RemoteVideoSource.swift */; };
+		F81104AE276190AA003D17AD /* VideoResolution.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81104AA276190A9003D17AD /* VideoResolution.swift */; };
+		F81104AF276190AA003D17AD /* VideoSubscriptionConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81104AB276190A9003D17AD /* VideoSubscriptionConfiguration.swift */; };
 		F8204ADC23F499410099E3D1 /* MeetingSessionTURNCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8204ADB23F499410099E3D1 /* MeetingSessionTURNCredentials.swift */; };
 		F82D50D723FC752600D8F18C /* SignalStrength.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D50C223FC732300D8F18C /* SignalStrength.swift */; };
 		F82D50D823FC752600D8F18C /* VolumeLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D50C323FC732300D8F18C /* VolumeLevel.swift */; };
@@ -513,6 +517,10 @@
 		C6DA0B5A24F80BAC00028F2B /* AudioClientProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioClientProtocol.swift; sourceTree = "<group>"; };
 		C6DA0B5C24F8107000028F2B /* AudioLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioLock.swift; sourceTree = "<group>"; };
 		C6DA0B6124F961AA00028F2B /* DefaultAudioVideoControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAudioVideoControllerTests.swift; sourceTree = "<group>"; };
+		F81104A8276190A9003D17AD /* VideoPriority.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPriority.swift; sourceTree = "<group>"; };
+		F81104A9276190A9003D17AD /* RemoteVideoSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteVideoSource.swift; sourceTree = "<group>"; };
+		F81104AA276190A9003D17AD /* VideoResolution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoResolution.swift; sourceTree = "<group>"; };
+		F81104AB276190A9003D17AD /* VideoSubscriptionConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoSubscriptionConfiguration.swift; sourceTree = "<group>"; };
 		F8204ADB23F499410099E3D1 /* MeetingSessionTURNCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSessionTURNCredentials.swift; sourceTree = "<group>"; };
 		F82D50C223FC732300D8F18C /* SignalStrength.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalStrength.swift; sourceTree = "<group>"; };
 		F82D50C323FC732300D8F18C /* VolumeLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeLevel.swift; sourceTree = "<group>"; };
@@ -845,6 +853,10 @@
 		5A631A4024297BB200C8DAF3 /* video */ = {
 			isa = PBXGroup;
 			children = (
+				F81104A9276190A9003D17AD /* RemoteVideoSource.swift */,
+				F81104A8276190A9003D17AD /* VideoPriority.swift */,
+				F81104AA276190A9003D17AD /* VideoResolution.swift */,
+				F81104AB276190A9003D17AD /* VideoSubscriptionConfiguration.swift */,
 				C4590E2B253E03530035F4E0 /* capture */,
 				6AA9F9422522439F00EB0644 /* VideoFrame.swift */,
 				6AA9F9452522439F00EB0644 /* VideoFrameBuffer.swift */,
@@ -1540,6 +1552,7 @@
 				C4A6F9C4252E686700455418 /* VideoContentHint.swift in Sources */,
 				5A6F8182246244C30031AE97 /* MediaError.swift in Sources */,
 				C67E9B8526F531B40084C9B4 /* TranscriptionStatusType.swift in Sources */,
+				F81104AC276190AA003D17AD /* VideoPriority.swift in Sources */,
 				0007BDBF26335E6A00A15BB6 /* IngestionRecord.swift in Sources */,
 				5A6A209523CB1164000C9157 /* MeetingSession.swift in Sources */,
 				5A6A209623CB1164000C9157 /* MeetingSessionConfiguration.swift in Sources */,
@@ -1553,6 +1566,7 @@
 				003B588B23E22C6E002493AB /* MeetingSessionStatusCode.swift in Sources */,
 				F8204ADC23F499410099E3D1 /* MeetingSessionTURNCredentials.swift in Sources */,
 				C4A6907E255B0EF600F28BC2 /* DefaultContentShareController.swift in Sources */,
+				F81104AD276190AA003D17AD /* RemoteVideoSource.swift in Sources */,
 				C61475E526EFF71500CDEC09 /* TranscriptEventObserver.swift in Sources */,
 				C4A69072255B0E8F00F28BC2 /* ContentShareStatus.swift in Sources */,
 				5A6A209823CB1164000C9157 /* MeetingSessionURLs.swift in Sources */,
@@ -1584,6 +1598,7 @@
 				002C1FA826412A5400C9B919 /* IngestionEventConverter.swift in Sources */,
 				5A9196FE245A4AE000E17CDE /* Versioning.swift in Sources */,
 				0064166226290C8800626EB8 /* EventSQLiteDao.swift in Sources */,
+				F81104AE276190AA003D17AD /* VideoResolution.swift in Sources */,
 				002C1FB0264208E100C9B919 /* BackoffRetry.swift in Sources */,
 				C67E9B7626F4FBC20084C9B4 /* TranscriptItem.swift in Sources */,
 				002F8FE625BF986800006F46 /* DefaultMeetingStatsCollector.swift in Sources */,
@@ -1610,6 +1625,7 @@
 				C4A6906A255B0E2100F28BC2 /* ContentShareController.swift in Sources */,
 				C4A69096255CB00700F28BC2 /* ContentShareStatusCode.swift in Sources */,
 				00C2A91723F76250008CD687 /* VideoTileState.swift in Sources */,
+				F81104AF276190AA003D17AD /* VideoSubscriptionConfiguration.swift in Sources */,
 				C61475DB26EFC18400CDEC09 /* TranscriptEvent.swift in Sources */,
 				0007BDA126334BA800A15BB6 /* DefaultEventReporter.swift in Sources */,
 				F82D50D823FC752600D8F18C /* VolumeLevel.swift in Sources */,
