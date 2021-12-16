@@ -18,7 +18,7 @@ class VideoModel: NSObject {
     private var remoteVideoTileStates: [(Int, VideoTileState)] = []
     private var userPausedVideoTileIds: Set<Int> = Set()
     private let audioVideoFacade: AudioVideoFacade
-    let customSource: DefaultCameraCaptureSource
+    let customSource: DualCameraSource
 
     var videoUpdatedHandler: (() -> Void)?
     var localVideoUpdatedHandler: (() -> Void)?
@@ -26,7 +26,7 @@ class VideoModel: NSObject {
 
     init(audioVideoFacade: AudioVideoFacade, eventAnalyticsController: EventAnalyticsController) {
         self.audioVideoFacade = audioVideoFacade
-        self.customSource = DefaultCameraCaptureSource(logger: ConsoleLogger(name: "CustomCameraSource"))
+        self.customSource = DualCameraSource(logger: ConsoleLogger(name: "CustomCameraSource"))
         self.customSource.setEventAnalyticsController(eventAnalyticsController: eventAnalyticsController)
         super.init()
     }
@@ -121,6 +121,21 @@ class VideoModel: NSObject {
             }
         }
     }
+    
+    var isUsingDualCameraSource = false {
+        willSet(isUsingDualCameraSource) {
+            if !isUsingDualCameraSource {
+                customSource.stop()
+                stopLocalVideo()
+            }
+        }
+        didSet {
+            if isUsingDualCameraSource {
+                customSource.start()
+                startLocalVideo()
+            }
+        }
+    }
 
     private var currentRemoteVideoCount: Int {
         return remoteVideoTileStates.count
@@ -155,14 +170,35 @@ class VideoModel: NSObject {
                     if let metalVideoProcessor = self.metalVideoProcessor {
                         customVideoSource.removeVideoSink(sink: metalVideoProcessor)
                     }
-                    if self.isUsingCoreImageVideoProcessor {
-                        customVideoSource.addVideoSink(sink: self.coreImageVideoProcessor)
-                        customVideoSource = self.coreImageVideoProcessor
-                    } else if self.isUsingMetalVideoProcessor, let metalVideoProcessor = self.metalVideoProcessor {
-                        customVideoSource.addVideoSink(sink: metalVideoProcessor)
-                        customVideoSource = metalVideoProcessor
+                    guard let frontVideoSource: VideoSource = self.customSource.frontFrameAdapter else {
+                        self.logger.error(msg: "Error: Unable to get frontVideoSource.")
+                        return
                     }
-                    self.audioVideoFacade.startLocalVideo(source: customVideoSource)
+                    guard let backVideoSource: VideoSource = self.customSource.backFrameAdapter else {
+                        self.logger.error(msg: "Error: Unable to get backVideoSource.")
+                        return
+                    }
+                    if self.isUsingDualCameraSource {
+                        self.audioVideoFacade.startLocalVideo(source: frontVideoSource)
+
+                        let contentShareSource = ContentShareSource()
+                        contentShareSource.videoSource = backVideoSource
+                        self.audioVideoFacade.startContentShare(source: contentShareSource)
+                    } else {
+                        if self.isUsingCoreImageVideoProcessor {
+                            customVideoSource.addVideoSink(sink: self.coreImageVideoProcessor)
+                            customVideoSource = self.coreImageVideoProcessor
+                        } else if self.isUsingMetalVideoProcessor, let metalVideoProcessor = self.metalVideoProcessor {
+                            customVideoSource.addVideoSink(sink: metalVideoProcessor)
+                            customVideoSource = metalVideoProcessor
+                        }
+                        if self.customSource.device?.type == .videoFrontCamera {
+                            self.audioVideoFacade.startLocalVideo(source: frontVideoSource)
+                        } else {
+                            self.audioVideoFacade.startLocalVideo(source: backVideoSource)
+                        }
+                    }
+                    
                 } else {
                     do {
                         try self.audioVideoFacade.startLocalVideo()
@@ -179,6 +215,10 @@ class VideoModel: NSObject {
         // See comments above isUsingExternalVideoSource
         if isUsingExternalVideoSource {
             customSource.stop()
+            if isUsingDualCameraSource {
+                self.audioVideoFacade.stopContentShare()
+            }
+
         }
     }
 

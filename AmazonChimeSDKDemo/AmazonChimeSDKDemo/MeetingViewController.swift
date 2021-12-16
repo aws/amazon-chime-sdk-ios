@@ -430,6 +430,15 @@ class MeetingViewController: UIViewController {
                                                     self.toggleMetalFilter(nextStatus: nextCpuFilterStatus)
                                                 })
             optionMenu.addAction(cpuFilterAction)
+            
+            let isDualCameraOn = meetingModel.videoModel.isUsingDualCameraSource
+            let nextDualCameraStatus = nextOnOrOff(current: isDualCameraOn)
+            let dualCameraAction = UIAlertAction(title: "Turn \(nextDualCameraStatus) Dual Camera",
+                                                style: .default,
+                                                handler: { _ in
+                                                    self.toggleDualCamera(nextStatus: nextDualCameraStatus)
+                                                })
+            optionMenu.addAction(dualCameraAction)
         }
 
         let nextSourceType = meetingModel.videoModel.isUsingExternalVideoSource ? "internal" : "external"
@@ -609,6 +618,18 @@ class MeetingViewController: UIViewController {
             return
         }
         meetingModel.videoModel.isUsingMetalVideoProcessor.toggle()
+    }
+    
+    @objc private func toggleDualCamera(nextStatus: String) {
+        logger.info(msg: "Turning \(nextStatus) dual camera")
+        guard let meetingModel = meetingModel else {
+            return
+        }
+        if #available(iOS 13.0, *) {
+            meetingModel.videoModel.isUsingDualCameraSource.toggle()
+        } else {
+            meetingModel.notifyHandler?("Dual Camera is only available on iOS 13+")
+        }
     }
 
     @objc private func toggleCustomCameraSource(nextSourceType: String) {

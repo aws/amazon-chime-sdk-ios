@@ -28,7 +28,9 @@ class DeviceSelectionViewController: UIViewController {
         videoFormatPicker.delegate = self
         videoFormatPicker.dataSource = self
         videoPreviewImageView.mirror = model?.shouldMirrorPreview ?? false
-        model?.cameraCaptureSource.addVideoSink(sink: videoPreviewImageView)
+        if let frontVideoSource: VideoSource = model?.cameraCaptureSource.frontFrameAdapter {
+            frontVideoSource.addVideoSink(sink: videoPreviewImageView)
+        }
         model?.cameraCaptureSource.start()
     }
 
