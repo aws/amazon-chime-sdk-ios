@@ -6,7 +6,6 @@
 //  SPDX-License-Identifier: Apache-2.0
 //
 
-import AmazonChimeSDKMedia
 import Foundation
 
 @objcMembers class Constants: NSObject {

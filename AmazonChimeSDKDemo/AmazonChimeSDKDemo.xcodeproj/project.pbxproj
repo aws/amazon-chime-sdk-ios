@@ -29,11 +29,11 @@
 		5A9E17D124A6A810002CACC5 /* AmazonChimeSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE38AD7242873FD00B234EC /* AmazonChimeSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5AE38AE02428747100B234EC /* AmazonChimeSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE38AD7242873FD00B234EC /* AmazonChimeSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		71922C3F276BDEEC00D4F1A9 /* DualCameraSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71922C3E276BDEEC00D4F1A9 /* DualCameraSource.swift */; };
-		71922C42276BED6500D4F1A9 /* AmazonChimeSDKMedia.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71922C41276BED6500D4F1A9 /* AmazonChimeSDKMedia.xcframework */; };
-		71922C43276BED6500D4F1A9 /* AmazonChimeSDKMedia.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 71922C41276BED6500D4F1A9 /* AmazonChimeSDKMedia.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		71922C44276BED8000D4F1A9 /* AmazonChimeSDKMedia.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71922C41276BED6500D4F1A9 /* AmazonChimeSDKMedia.xcframework */; };
-		71922C45276BED8000D4F1A9 /* AmazonChimeSDKMedia.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 71922C41276BED6500D4F1A9 /* AmazonChimeSDKMedia.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		71922C47276BEEE700D4F1A9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71922C46276BEEE700D4F1A9 /* Constants.swift */; };
+		71922C4C276D708500D4F1A9 /* AmazonChimeSDKMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ACB3E6F249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework */; };
+		71922C4D276D708500D4F1A9 /* AmazonChimeSDKMedia.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5ACB3E6F249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		71922C4E276D709700D4F1A9 /* AmazonChimeSDKMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ACB3E6F249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework */; };
+		71922C4F276D709700D4F1A9 /* AmazonChimeSDKMedia.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5ACB3E6F249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		ADE3CFCA27050CD800DAC586 /* LiveTranscriptionOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE3CFC927050CD800DAC586 /* LiveTranscriptionOptionsViewController.swift */; };
 		B4FCD85224B9330A00064C9E /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCD85124B9330A00064C9E /* ChatMessageCell.swift */; };
 		B4FCD85524B9364900064C9E /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCD85424B9364900064C9E /* ChatModel.swift */; };
@@ -111,8 +111,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				71922C45276BED8000D4F1A9 /* AmazonChimeSDKMedia.xcframework in Embed Frameworks */,
 				5A9E17D124A6A810002CACC5 /* AmazonChimeSDK.framework in Embed Frameworks */,
+				71922C4D276D708500D4F1A9 /* AmazonChimeSDKMedia.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -123,8 +123,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				71922C43276BED6500D4F1A9 /* AmazonChimeSDKMedia.xcframework in Embed Frameworks */,
 				5AE38AE02428747100B234EC /* AmazonChimeSDK.framework in Embed Frameworks */,
+				71922C4F276D709700D4F1A9 /* AmazonChimeSDKMedia.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -219,8 +219,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				71922C42276BED6500D4F1A9 /* AmazonChimeSDKMedia.xcframework in Frameworks */,
 				00F0F6E12411B8E20013DA25 /* Toast in Frameworks */,
+				71922C4E276D709700D4F1A9 /* AmazonChimeSDKMedia.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,8 +237,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				71922C44276BED8000D4F1A9 /* AmazonChimeSDKMedia.xcframework in Frameworks */,
 				5A9E17D024A6A810002CACC5 /* AmazonChimeSDK.framework in Frameworks */,
+				71922C4C276D708500D4F1A9 /* AmazonChimeSDKMedia.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -817,7 +817,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.17.0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 94KV3E626L;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../AmazonChimeSDK/";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -859,7 +859,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.17.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 94KV3E626L;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../AmazonChimeSDK/";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -898,7 +898,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.17.0;
-				DEVELOPMENT_TEAM = 94KV3E626L;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = AmazonChimeSDKDemoBroadcast/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -949,7 +949,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.17.0;
-				DEVELOPMENT_TEAM = 94KV3E626L;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../AmazonChimeSDK/";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -990,7 +990,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.17.0;
-				DEVELOPMENT_TEAM = 94KV3E626L;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../AmazonChimeSDK/";
 				GCC_C_LANGUAGE_STANDARD = gnu99;

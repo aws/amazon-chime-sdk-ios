@@ -431,7 +431,7 @@ class MeetingViewController: UIViewController {
                                                 })
             optionMenu.addAction(cpuFilterAction)
             
-            let isDualCameraOn = meetingModel.videoModel.isUsingDualCameraSource
+            let isDualCameraOn = meetingModel.videoModel.isUsingDualCameraCaptureSource
             let nextDualCameraStatus = nextOnOrOff(current: isDualCameraOn)
             let dualCameraAction = UIAlertAction(title: "Turn \(nextDualCameraStatus) Dual Camera",
                                                 style: .default,
@@ -626,7 +626,7 @@ class MeetingViewController: UIViewController {
             return
         }
         if #available(iOS 13.0, *) {
-            meetingModel.videoModel.isUsingDualCameraSource.toggle()
+            meetingModel.videoModel.isUsingDualCameraCaptureSource.toggle()
         } else {
             meetingModel.notifyHandler?("Dual Camera is only available on iOS 13+")
         }

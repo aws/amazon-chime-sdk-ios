@@ -18,7 +18,7 @@ class VideoModel: NSObject {
     private var remoteVideoTileStates: [(Int, VideoTileState)] = []
     private var userPausedVideoTileIds: Set<Int> = Set()
     private let audioVideoFacade: AudioVideoFacade
-    let customSource: DualCameraSource
+    let customSource: DualCameraCaptureSource
 
     var videoUpdatedHandler: (() -> Void)?
     var localVideoUpdatedHandler: (() -> Void)?
@@ -26,7 +26,7 @@ class VideoModel: NSObject {
 
     init(audioVideoFacade: AudioVideoFacade, eventAnalyticsController: EventAnalyticsController) {
         self.audioVideoFacade = audioVideoFacade
-        self.customSource = DualCameraSource(logger: ConsoleLogger(name: "CustomCameraSource"))
+        self.customSource = DualCameraCaptureSource(logger: ConsoleLogger(name: "DualCameraCaptureSource"))
         self.customSource.setEventAnalyticsController(eventAnalyticsController: eventAnalyticsController)
         super.init()
     }
@@ -122,15 +122,15 @@ class VideoModel: NSObject {
         }
     }
     
-    var isUsingDualCameraSource = false {
-        willSet(isUsingDualCameraSource) {
-            if !isUsingDualCameraSource {
+    var isUsingDualCameraCaptureSource = false {
+        willSet(isUsingDualCameraCaptureSource) {
+            if !isUsingDualCameraCaptureSource {
                 customSource.stop()
                 stopLocalVideo()
             }
         }
         didSet {
-            if isUsingDualCameraSource {
+            if isUsingDualCameraCaptureSource {
                 customSource.start()
                 startLocalVideo()
             }
@@ -178,7 +178,7 @@ class VideoModel: NSObject {
                         self.logger.error(msg: "Error: Unable to get backVideoSource.")
                         return
                     }
-                    if self.isUsingDualCameraSource {
+                    if self.isUsingDualCameraCaptureSource {
                         self.audioVideoFacade.startLocalVideo(source: frontVideoSource)
 
                         let contentShareSource = ContentShareSource()
@@ -215,7 +215,7 @@ class VideoModel: NSObject {
         // See comments above isUsingExternalVideoSource
         if isUsingExternalVideoSource {
             customSource.stop()
-            if isUsingDualCameraSource {
+            if isUsingDualCameraCaptureSource {
                 self.audioVideoFacade.stopContentShare()
             }
 

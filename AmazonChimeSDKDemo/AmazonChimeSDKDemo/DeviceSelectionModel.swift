@@ -12,7 +12,7 @@ import Foundation
 class DeviceSelectionModel {
     let audioDevices: [MediaDevice]
     let videoDevices: [MediaDevice]
-    let cameraCaptureSource: DualCameraSource
+    let cameraCaptureSource: DualCameraCaptureSource
 
     lazy var supportedVideoFormat: [[VideoCaptureFormat]] = {
         self.videoDevices.map { videoDevice in
@@ -57,7 +57,7 @@ class DeviceSelectionModel {
         return selectedVideoDevice?.type == MediaDeviceType.videoFrontCamera
     }
 
-    init(deviceController: DeviceController, cameraCaptureSource: DualCameraSource) {
+    init(deviceController: DeviceController, cameraCaptureSource: DualCameraCaptureSource) {
         audioDevices = deviceController.listAudioDevices()
         // Reverse these so the front camera is the initial choice
         videoDevices = MediaDevice.listVideoDevices().reversed()

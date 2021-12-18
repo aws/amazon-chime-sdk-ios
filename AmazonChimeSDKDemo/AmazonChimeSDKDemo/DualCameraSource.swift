@@ -1,5 +1,5 @@
 //
-//  DualCameraSource.swift
+//  DualCameraCaptureSource.swift
 //  AmazonChimeSDKDemo
 //
 //  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
@@ -15,11 +15,11 @@ import AmazonChimeSDK
 public class PassthroughVideoFrameAdapter: NSObject, VideoSource, AVCaptureVideoDataOutputSampleBufferDelegate {
     public var videoContentHint: VideoContentHint = .motion
     private let sinks = NSMutableSet()
-    private let dualCameraSource: DualCameraSource
+    private let dualCameraCaptureSource: DualCameraCaptureSource
     private let isFront: Bool
     
-    public init(dualCameraSource: DualCameraSource, isFront: Bool) {
-        self.dualCameraSource = dualCameraSource
+    public init(dualCameraCaptureSource: DualCameraCaptureSource, isFront: Bool) {
+        self.dualCameraCaptureSource = dualCameraCaptureSource
         self.isFront = isFront
     }
     
@@ -40,21 +40,19 @@ public class PassthroughVideoFrameAdapter: NSObject, VideoSource, AVCaptureVideo
         
         let videoDataOutput = output as? AVCaptureVideoDataOutput
 
-//        print("In captureoutput!!")
         sinks.forEach { item in
             guard let sink = item as? VideoSink else { return }
-//            print("In for loop sinks!!")
-            if videoDataOutput == dualCameraSource.frontCameraVideoDataOutput, isFront{
+            if videoDataOutput == dualCameraCaptureSource.frontCameraVideoDataOutput, isFront{
                 sink.onVideoFrameReceived(frame: frame)
             }
-            if videoDataOutput == dualCameraSource.backCameraVideoDataOutput, !isFront{
+            if videoDataOutput == dualCameraCaptureSource.backCameraVideoDataOutput, !isFront{
                 sink.onVideoFrameReceived(frame: frame)
             }
         }
     }
 }
 
-@objcMembers public class DualCameraSource: NSObject, VideoSource {
+public class DualCameraCaptureSource: NSObject, VideoSource {
     public var frontFrameAdapter: PassthroughVideoFrameAdapter?
     public var backFrameAdapter: PassthroughVideoFrameAdapter?
     public var videoContentHint: VideoContentHint = .motion
@@ -73,21 +71,21 @@ public class PassthroughVideoFrameAdapter: NSObject, VideoSource, AVCaptureVideo
                                                                  maxFrameRate: Constants.maxSupportedVideoFrameRate)
 
     @available(iOS 13.0, *)
-    lazy var session: AVCaptureMultiCamSession! = {
+    lazy var session: AVCaptureMultiCamSession = {
         let source = AVCaptureMultiCamSession()
         return source
     }()
     private var orientation = UIInterfaceOrientation.portrait
-    private var captureDevice: AVCaptureDevice!
-    private var frontCamera: AVCaptureDevice!
-    private var backCamera: AVCaptureDevice!
+    private var captureDevice: AVCaptureDevice?
+    private var frontCamera: AVCaptureDevice?
+    private var backCamera: AVCaptureDevice?
     private var eventAnalyticsController: EventAnalyticsController?
 
     public init(logger: Logger) {
         self.logger = logger
         super.init()
-        frontFrameAdapter = PassthroughVideoFrameAdapter(dualCameraSource: self, isFront: true)
-        backFrameAdapter = PassthroughVideoFrameAdapter(dualCameraSource: self, isFront: false)
+        frontFrameAdapter = PassthroughVideoFrameAdapter(dualCameraCaptureSource: self, isFront: true)
+        backFrameAdapter = PassthroughVideoFrameAdapter(dualCameraCaptureSource: self, isFront: false)
         device = MediaDevice.listVideoDevices().first { mediaDevice in
             mediaDevice.type == MediaDeviceType.videoFrontCamera
         }
@@ -109,21 +107,14 @@ public class PassthroughVideoFrameAdapter: NSObject, VideoSource, AVCaptureVideo
         if torchEnabled {
             torchEnabled = false
         }
-        if #available(iOS 13.0, *) {
-            if session.isRunning {
-                session.stopRunning()
-            }
-        } else {
+        guard #available(iOS 13.0, *) else {
             logger.error(msg: "Dual Camera is only available on iOS 13+")
+            return
+        }
+        if session.isRunning {
+            session.stopRunning()
         }
         NotificationCenter.default.removeObserver(self)
-    }
-
-    public var getFrontAdapter: VideoSource {
-        return frontFrameAdapter!
-    }
-    public var getBackAdapter: VideoSource {
-        return backFrameAdapter!
     }
     
     public var device: MediaDevice? = MediaDevice.listVideoDevices().first {
@@ -131,24 +122,24 @@ public class PassthroughVideoFrameAdapter: NSObject, VideoSource, AVCaptureVideo
             guard let device = device else { return }
             let isUsingFrontCamera = device.type == .videoFrontCamera
             captureDevice = isUsingFrontCamera ? frontCamera : backCamera
-            if #available(iOS 13.0, *) {
-                if session.isRunning {
-                    start() // Restart
-                }
-            } else {
+            guard #available(iOS 13.0, *) else {
                 logger.error(msg: "Dual Camera is only available on iOS 13+")
+                return
+            }
+            if session.isRunning {
+                start() // Restart
             }
         }
     }
 
     public var format: VideoCaptureFormat = defaultCaptureFormat {
         didSet {
-            if #available(iOS 13.0, *) {
-                if captureDevice != nil, session.isRunning {
-                    start() // Restart
-                }
-            } else {
+            guard #available(iOS 13.0, *) else {
                 logger.error(msg: "Dual Camera is only available on iOS 13+")
+                return
+            }
+            if captureDevice != nil, session.isRunning {
+                start() // Restart
             }
         }
     }
@@ -192,142 +183,142 @@ public class PassthroughVideoFrameAdapter: NSObject, VideoSource, AVCaptureVideo
     }
 
     private func configureBackCamera() {
-        if #available(iOS 13.0, *) {
-            session.beginConfiguration()
-            defer {
-                session.commitConfiguration()
-            }
-            
-            // Find the back camera
-            guard let backCamera = backCamera else {
-                print("Could not find the back camera")
-                return
-            }
-            
-            // Add the back camera input to the session
-            do {
-                backCameraDeviceInput = try AVCaptureDeviceInput(device: backCamera)
-                
-                guard let backCameraDeviceInput = backCameraDeviceInput,
-                    session.canAddInput(backCameraDeviceInput) else {
-                        print("Could not add back camera device input")
-                        return
-                }
-                session.addInputWithNoConnections(backCameraDeviceInput)
-            } catch {
-                print("Could not create back camera device input: \(error)")
-                return
-            }
-            
-            // Find the back camera device input's video port
-            guard let backCameraDeviceInput = backCameraDeviceInput,
-                let backCameraVideoPort = backCameraDeviceInput.ports(for: .video,
-                                                                  sourceDeviceType: backCamera.deviceType,
-                                                                  sourceDevicePosition: backCamera.position).first else {
-                                                                    print("Could not find the back camera device input's video port")
-                                                                    return
-            }
-            
-            // Add the back camera video data output
-            guard session.canAddOutput(backCameraVideoDataOutput) else {
-                print("Could not add the back camera video data output")
-                return
-            }
-            session.addOutputWithNoConnections(backCameraVideoDataOutput)
-            
-            backCameraVideoDataOutput.setSampleBufferDelegate(backFrameAdapter, queue: dataOutputQueue)
-            
-            // Connect the back camera device input to the back camera video data output
-            let backCameraVideoDataOutputConnection = AVCaptureConnection(inputPorts: [backCameraVideoPort], output: backCameraVideoDataOutput)
-            guard session.canAddConnection(backCameraVideoDataOutputConnection) else {
-                print("Could not add a connection to the back camera video data output")
-                return
-            }
-            session.addConnection(backCameraVideoDataOutputConnection)
-            backCameraVideoDataOutputConnection.videoOrientation = .portrait
-        } else {
+        guard #available(iOS 13.0, *) else {
             logger.error(msg: "Dual Camera is only available on iOS 13+")
+            return
         }
+        session.beginConfiguration()
+        defer {
+            session.commitConfiguration()
+        }
+        
+        // Find the back camera
+        guard let backCamera = backCamera else {
+            logger.error(msg: "Could not find the back camera")
+            return
+        }
+        
+        // Add the back camera input to the session
+        do {
+            backCameraDeviceInput = try AVCaptureDeviceInput(device: backCamera)
+            
+            guard let backCameraDeviceInput = backCameraDeviceInput,
+                session.canAddInput(backCameraDeviceInput) else {
+                logger.error(msg: "Could not add back camera device input")
+                    return
+            }
+            session.addInputWithNoConnections(backCameraDeviceInput)
+        } catch {
+            logger.error(msg: "Could not create back camera device input: \(error)")
+            return
+        }
+        
+        // Find the back camera device input's video port
+        guard let backCameraDeviceInput = backCameraDeviceInput,
+            let backCameraVideoPort = backCameraDeviceInput.ports(for: .video,
+                                                              sourceDeviceType: backCamera.deviceType,
+                                                              sourceDevicePosition: backCamera.position).first else {
+            logger.error(msg: "Could not find the back camera device input's video port")
+                                                                return
+        }
+        
+        // Add the back camera video data output
+        guard session.canAddOutput(backCameraVideoDataOutput) else {
+            logger.error(msg: "Could not add the back camera video data output")
+            return
+        }
+        session.addOutputWithNoConnections(backCameraVideoDataOutput)
+        
+        backCameraVideoDataOutput.setSampleBufferDelegate(backFrameAdapter, queue: dataOutputQueue)
+        
+        // Connect the back camera device input to the back camera video data output
+        let backCameraVideoDataOutputConnection = AVCaptureConnection(inputPorts: [backCameraVideoPort], output: backCameraVideoDataOutput)
+        guard session.canAddConnection(backCameraVideoDataOutputConnection) else {
+            logger.error(msg: "Could not add a connection to the back camera video data output")
+            return
+        }
+        session.addConnection(backCameraVideoDataOutputConnection)
+        backCameraVideoDataOutputConnection.videoOrientation = .portrait
         return
     }
     
     private func configureFrontCamera(){
-        if #available(iOS 13.0, *) {
-            session.beginConfiguration()
-            defer {
-                session.commitConfiguration()
-            }
-            
-            // Find the front camera
-            guard let frontCamera = frontCamera else {
-                print("Could not find the front camera")
-                return
-            }
-            
-            // Add the front camera input to the session
-            do {
-                frontCameraDeviceInput = try AVCaptureDeviceInput(device: frontCamera)
-                
-                guard let frontCameraDeviceInput = frontCameraDeviceInput,
-                    session.canAddInput(frontCameraDeviceInput) else {
-                        print("Could not add front camera device input")
-                        return
-                }
-                session.addInputWithNoConnections(frontCameraDeviceInput)
-            } catch {
-                print("Could not create front camera device input: \(error)")
-                return
-            }
-            
-            // Find the front camera device input's video port
-            guard let frontCameraDeviceInput = frontCameraDeviceInput,
-                let frontCameraVideoPort = frontCameraDeviceInput.ports(for: .video,
-                                                                        sourceDeviceType: frontCamera.deviceType,
-                                                                        sourceDevicePosition: frontCamera.position).first else {
-                                                                            print("Could not find the front camera device input's video port")
-                                                                            return
-            }
-            
-            // Add the front camera video data output
-            guard session.canAddOutput(frontCameraVideoDataOutput) else {
-                print("Could not add the front camera video data output")
-                return
-            }
-            session.addOutputWithNoConnections(frontCameraVideoDataOutput)
-
-            frontCameraVideoDataOutput.setSampleBufferDelegate(frontFrameAdapter, queue: dataOutputQueue)
-            
-            // Connect the front camera device input to the front camera video data output
-            let frontCameraVideoDataOutputConnection = AVCaptureConnection(inputPorts: [frontCameraVideoPort], output: frontCameraVideoDataOutput)
-            guard session.canAddConnection(frontCameraVideoDataOutputConnection) else {
-                print("Could not add a connection to the front camera video data output")
-                return
-            }
-            session.addConnection(frontCameraVideoDataOutputConnection)
-            
-            frontCameraVideoDataOutputConnection.videoOrientation = .portrait
-            frontCameraVideoDataOutputConnection.automaticallyAdjustsVideoMirroring = false
-            frontCameraVideoDataOutputConnection.isVideoMirrored = true
-        } else {
+        guard #available(iOS 13.0, *) else {
             logger.error(msg: "Dual Camera is only available on iOS 13+")
+            return
         }
+        session.beginConfiguration()
+        defer {
+            session.commitConfiguration()
+        }
+        
+        // Find the front camera
+        guard let frontCamera = frontCamera else {
+            logger.error(msg: "Could not find the front camera")
+            return
+        }
+        
+        // Add the front camera input to the session
+        do {
+            frontCameraDeviceInput = try AVCaptureDeviceInput(device: frontCamera)
+            
+            guard let frontCameraDeviceInput = frontCameraDeviceInput,
+                session.canAddInput(frontCameraDeviceInput) else {
+                logger.error(msg: "Could not add front camera device input")
+                    return
+            }
+            session.addInputWithNoConnections(frontCameraDeviceInput)
+        } catch {
+            logger.error(msg: "Could not create front camera device input: \(error)")
+            return
+        }
+        
+        // Find the front camera device input's video port
+        guard let frontCameraDeviceInput = frontCameraDeviceInput,
+            let frontCameraVideoPort = frontCameraDeviceInput.ports(for: .video,
+                                                                    sourceDeviceType: frontCamera.deviceType,
+                                                                    sourceDevicePosition: frontCamera.position).first else {
+            logger.error(msg: "Could not find the front camera device input's video port")
+                                                                        return
+        }
+        
+        // Add the front camera video data output
+        guard session.canAddOutput(frontCameraVideoDataOutput) else {
+            logger.error(msg: "Could not add the front camera video data output")
+            return
+        }
+        session.addOutputWithNoConnections(frontCameraVideoDataOutput)
+
+        frontCameraVideoDataOutput.setSampleBufferDelegate(frontFrameAdapter, queue: dataOutputQueue)
+        
+        // Connect the front camera device input to the front camera video data output
+        let frontCameraVideoDataOutputConnection = AVCaptureConnection(inputPorts: [frontCameraVideoPort], output: frontCameraVideoDataOutput)
+        guard session.canAddConnection(frontCameraVideoDataOutputConnection) else {
+            logger.error(msg: "Could not add a connection to the front camera video data output")
+            return
+        }
+        session.addConnection(frontCameraVideoDataOutputConnection)
+        
+        frontCameraVideoDataOutputConnection.videoOrientation = .portrait
+        frontCameraVideoDataOutputConnection.automaticallyAdjustsVideoMirroring = false
+        frontCameraVideoDataOutputConnection.isVideoMirrored = true
         return
     }
     
     public func start() {
         cameraLock.lock()
         defer { cameraLock.unlock() }
-        if #available(iOS 13.0, *) {
-            session.beginConfiguration()
-            
-            configureBackCamera()
-            configureFrontCamera()
-                
-            session.commitConfiguration()
-            session.startRunning()
-        } else {
+        guard #available(iOS 13.0, *) else {
             logger.error(msg: "Dual Camera is only available on iOS 13+")
+            return
         }
+        session.beginConfiguration()
+        
+        configureBackCamera()
+        configureFrontCamera()
+            
+        session.commitConfiguration()
+        session.startRunning()
 
         // If the torch was currently on, starting the sessions
         // would turn it off. See if we can turn it back on.
@@ -339,11 +330,11 @@ public class PassthroughVideoFrameAdapter: NSObject, VideoSource, AVCaptureVideo
         cameraLock.lock()
         defer { cameraLock.unlock() }
 
-        if #available(iOS 13.0, *) {
-            session.stopRunning()
-        } else {
+        guard #available(iOS 13.0, *) else {
             logger.error(msg: "Dual Camera is only available on iOS 13+")
+            return
         }
+        session.stopRunning()
 
         // If the torch was currently on, stopping the sessions
         // would turn it off. See if we can turn it back on.
@@ -371,7 +362,10 @@ public class PassthroughVideoFrameAdapter: NSObject, VideoSource, AVCaptureVideo
     }
 
     private func updateOrientation() {
-        guard let connection = backCameraVideoDataOutput.connection(with: AVMediaType.video) else {
+        guard let frontConnection = frontCameraVideoDataOutput.connection(with: AVMediaType.video) else {
+            return
+        }
+        guard let backConnection = backCameraVideoDataOutput.connection(with: AVMediaType.video) else {
             return
         }
 
@@ -380,13 +374,17 @@ public class PassthroughVideoFrameAdapter: NSObject, VideoSource, AVCaptureVideo
 
             switch self.orientation {
             case .portrait, .unknown:
-                connection.videoOrientation = .portrait
+                frontConnection.videoOrientation = .portrait
+                backConnection.videoOrientation = .portrait
             case .portraitUpsideDown:
-                connection.videoOrientation = .portraitUpsideDown
+                frontConnection.videoOrientation = .portraitUpsideDown
+                backConnection.videoOrientation = .portraitUpsideDown
             case .landscapeLeft:
-                connection.videoOrientation = .landscapeLeft
+                frontConnection.videoOrientation = .landscapeLeft
+                backConnection.videoOrientation = .landscapeLeft
             case .landscapeRight:
-                connection.videoOrientation = .landscapeRight
+                frontConnection.videoOrientation = .landscapeRight
+                backConnection.videoOrientation = .landscapeRight
             @unknown default:
                 break
             }
@@ -403,6 +401,3 @@ public class PassthroughVideoFrameAdapter: NSObject, VideoSource, AVCaptureVideo
         self.eventAnalyticsController = eventAnalyticsController
     }
 }
-
-
-
