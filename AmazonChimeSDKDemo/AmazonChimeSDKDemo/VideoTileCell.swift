@@ -43,6 +43,7 @@ class VideoTileCell: UICollectionViewCell {
         // Self video cell not active
         if isSelf, !isVideoActive {
             onTileButton.isHidden = true
+            updateVideoSubscriptionsButton.isHidden = true
             videoDisabledImage.image = UIImage(named: "meeting-video")?.withRenderingMode(.alwaysTemplate)
             videoDisabledImage.tintColor = .white
             videoDisabledImage.isHidden = false
@@ -58,6 +59,7 @@ class VideoTileCell: UICollectionViewCell {
         onTileButton.tag = tag
         onTileButton.addTarget(self, action: #selector(onTileButtonClicked), for: .touchUpInside)
         onTileButton.isSelected = isVideoPausedByUser
+        updateVideoSubscriptionsButton.isHidden = false
 
         if isSelf {
             onTileButton.setImage(UIImage(named: "switch-camera")?.withRenderingMode(.alwaysTemplate),
@@ -69,6 +71,10 @@ class VideoTileCell: UICollectionViewCell {
                                   for: .selected)
             let shouldShowPoorConnection = videoTileState?.pauseState == .pausedForPoorConnection
             renderPoorConnection(isHidden: !shouldShowPoorConnection)
+            
+            updateVideoSubscriptionsButton.setImage(UIImage(named: "more")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            updateVideoSubscriptionsButton.tintColor = .white
+            updateVideoSubscriptionsButton.addTarget(self, action: #selector(showUpdateVideoSubscriptionsMenu), for: .touchUpInside)
         }
         
         if !isSelf {
@@ -80,6 +86,23 @@ class VideoTileCell: UICollectionViewCell {
         } else {
             updateVideoSubscriptionsButton.isHidden = true
         }
+    }
+    
+    @objc func showUpdateVideoSubscriptionsMenu() {
+        let alertController = UIAlertController(title: "Set video priority", message: "Choose the display priority order for the selected video", preferredStyle: .alert)
+        let priorityList = [VideoPriority.lowest, VideoPriority.low, VideoPriority.medium, VideoPriority.high, VideoPriority.highest]
+        let titleList = ["Lowest", "Low", "Medium", "High", "Highest"]
+        
+        for i in 0...(priorityList.count-1) {
+            let action = UIAlertAction(title: titleList[i], style: UIAlertAction.Style.default) {
+                _UIAlertAction in
+                self.delegate?.onUpdatePriorityButtonClicked(attendeeId: self.attendeeId, priority: priorityList[i])
+            }
+            alertController.addAction(action)
+        }
+
+        // Present the controller
+        viewController?.present(alertController, animated: true, completion: nil)
     }
     
     @objc func showUpdateVideoSubscriptionsMenu() {
