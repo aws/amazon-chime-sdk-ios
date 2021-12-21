@@ -1,4 +1,4 @@
-## [Unreleased]
+## [0.18.0] - 2021-12-21
 
 ### Changed
 * Changed ContentShareController to use inbound turn credentials
