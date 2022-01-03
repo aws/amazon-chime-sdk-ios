@@ -12,6 +12,13 @@ import Foundation
 @objc public protocol AudioVideoControllerFacade {
     var configuration: MeetingSessionConfiguration { get }
     var logger: Logger { get }
+
+    /// Start AudioVideo Controller
+    ///
+    /// - Parameter audioVideoConfiguration: The configuration used for Audio & Video
+    /// - Throws: `PermissionError.audioPermissionError` if `RecordPermission` is not given
+    func start(audioVideoConfiguration: AudioVideoConfiguration) throws
+
     /// Start AudioVideo Controller
     ///
     /// - Parameter callKitEnabled: A Bool value to indicate whether the VoIP call to start has CallKit integration.

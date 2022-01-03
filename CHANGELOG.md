@@ -1,3 +1,14 @@
+## [0.18.0] - 2021-12-21
+
+### Changed
+* Changed ContentShareController to use inbound turn credentials
+
+### Added
+* Added APIs for Audio Video configuration i.e `AudioVideoConfiguration` to be used during a meeting session.
+* Added support for joining meetings using one of `AudioMode.Mono16K`, `AudioMode.Mono48K` and `AudioMode.Stereo48K` audio modes.
+* **Breaking** The `AudioMode.Stereo48K` will be set as the default audio mode if not explicitly specified when starting the audio session. Earlier, Mono/16KHz audio was the default and the only audio mode supported.
+* [Demo] Added ways to join a meeting using various audio modes.
+
 ## [0.17.0] - 2021-11-01
 
 ### Added
