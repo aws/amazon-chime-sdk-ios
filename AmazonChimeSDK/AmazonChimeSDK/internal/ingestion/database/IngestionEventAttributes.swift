@@ -12,6 +12,8 @@ class IngestionEventAttributes: Codable {
     /// Timestamp of event occurrence
     public let timestampMs: Int64?
     public let maxVideoTileCount: Int?
+    /// Duration of the meeting start process
+    public let meetingStartDurationMs: Int64?
     /// Duration of the meeting
     public let meetingDurationMs: Int64?
     /// Error message of the meeting
@@ -31,6 +33,7 @@ class IngestionEventAttributes: Codable {
 
     init(timestampMs: Int64? = nil,
          maxVideoTileCount: Int? = nil,
+         meetingStartDurationMs: Int64? = nil,
          meetingDurationMs: Int64? = nil,
          meetingErrorMessage: String? = nil,
          meetingStatus: String? = nil,
@@ -41,6 +44,7 @@ class IngestionEventAttributes: Codable {
          attendeeId: String? = nil) {
         self.timestampMs = timestampMs
         self.maxVideoTileCount = maxVideoTileCount
+        self.meetingStartDurationMs = meetingStartDurationMs
         self.meetingDurationMs = meetingDurationMs
         self.meetingErrorMessage = meetingErrorMessage
         self.meetingStatus = meetingStatus

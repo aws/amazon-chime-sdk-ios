@@ -97,6 +97,7 @@ extension DefaultAudioClientController: AudioClientController {
             observer.audioSessionDidStartConnecting(reconnecting: false)
         }
         eventAnalyticsController.publishEvent(name: .meetingStartRequested)
+        meetingStatsCollector.updateMeetingStartConnectingTimeMs()
         let appInfo = DeviceUtils.getAppInfo()
         var audioModeInternal: AudioModeInternal = .Stereo48K
         if (audioMode == .mono48K) {
