@@ -1,7 +1,7 @@
 ## Unreleased
 
-### Fixed
-* Fixed Mobile SDK metrics missing issue by adding meetingStartDurationMs event
+### Added
+* Added the meetingStartDurationMs event in ingestionEvents to record the time that elapsed between the start request and the beginning of the meeting.
 
 ## [0.18.0] - 2021-12-21
 
