@@ -30,7 +30,7 @@ import Foundation
         return [EventAttributeName.maxVideoTileCount: maxVideoTileCount,
                 EventAttributeName.retryCount: retryCount,
                 EventAttributeName.poorConnectionCount: poorConnectionCount,
-                EventAttributeName.meetingStartDurationMs: meetingStartConnectingTimeMs == 0 ?
+                EventAttributeName.meetingStartDurationMs: meetingStartTimeMs == 0 ?
                     0 : meetingStartTimeMs - meetingStartConnectingTimeMs,
                 EventAttributeName.meetingDurationMs: meetingStartTimeMs == 0 ?
                     0 : DateUtils.getCurrentTimeStampMs() - meetingStartTimeMs
