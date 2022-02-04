@@ -78,7 +78,7 @@ import Foundation
 
     func processEvents(meetingEventItems: [MeetingEventItem]) {
         eventReporterQueue.sync {
-            let ingestionRecord = self.converter.toIngestionRecord(meetingEvents: meetingEventItems)
+            let ingestionRecord = self.converter.toIngestionRecord(meetingEvents: meetingEventItems, ingestionConfiguration:ingestionConfiguration)
             if ingestionRecord.events.isEmpty {
                 return
             }
@@ -99,11 +99,11 @@ import Foundation
 
     private func shouldImmediatelySend(eventName: String, eventAttributes: [AnyHashable: Any]) -> Bool {
         if let meetingStatus = eventAttributes[EventAttributeName.meetingStatus] as? MeetingSessionStatusCode {
-            return eventName == String(describing: EventName.meetingFailed) &&
+            return (eventName == String(describing: EventName.meetingFailed) &&
                 (meetingStatus == .audioAuthenticationRejected ||
                     meetingStatus == .audioInternalServerError ||
                     meetingStatus == .audioServiceUnavailable ||
-                    meetingStatus == .audioDisconnected)
+                    meetingStatus == .audioDisconnected)) || eventName == String(describing: EventName.meetingEnded)
         }
         return false
     }
@@ -111,7 +111,7 @@ import Foundation
     private func processDirtyEvents() {
         eventReporterQueue.sync {
             let dirtyEvents = dirtyEventDao.queryDirtyMeetingEventItems(size: ingestionConfiguration.flushSize)
-            let ingestionRecord = converter.toIngestionRecord(dirtyMeetingEvents: dirtyEvents)
+            let ingestionRecord = converter.toIngestionRecord(dirtyMeetingEvents: dirtyEvents, ingestionConfiguration: ingestionConfiguration)
             if !ingestionRecord.events.isEmpty {
                 // Keep sending it until dirtyevents are emtpy
                 // if it still fails and ttl is less than current time

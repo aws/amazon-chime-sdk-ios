@@ -38,6 +38,7 @@ import Foundation
         return IngestionMeetingEvent(name: String(describing: event.name),
                                      eventAttributes: IngestionEventAttributes(timestampMs: eventAttributes[EventAttributeName.timestampMs] as? Int64,
                                                                                maxVideoTileCount: eventAttributes[EventAttributeName.maxVideoTileCount] as? Int,
+                                                                               meetingStartDurationMs: eventAttributes[EventAttributeName.meetingStartDurationMs] as? Int64,
                                                                                meetingDurationMs: eventAttributes[EventAttributeName.meetingDurationMs] as? Int64,
                                                                                meetingErrorMessage:
                                                                                eventAttributes[EventAttributeName.meetingErrorMessage] as? String,
@@ -49,7 +50,7 @@ import Foundation
                                                                                attendeeId: meetingConfig?.attendeeId))
     }
 
-    func toIngestionRecord(dirtyMeetingEvents: [DirtyMeetingEventItem]) -> IngestionRecord {
+    func toIngestionRecord(dirtyMeetingEvents: [DirtyMeetingEventItem], ingestionConfiguration: IngestionConfiguration) -> IngestionRecord {
         if dirtyMeetingEvents.isEmpty {
             return IngestionRecord(metadata: IngestionMetadata(), events: [])
         }
@@ -67,13 +68,13 @@ import Foundation
             return nil
         }
 
-        let rootMeta = toIngestionMetadata(attributes: EventAttributeUtils.getCommonAttributes())
+        let rootMeta = toIngestionMetadata(attributes: EventAttributeUtils.getCommonAttributes(ingestionConfiguration: ingestionConfiguration))
 
         return IngestionRecord(metadata: rootMeta,
                                events: ingestionEvents)
     }
 
-    func toIngestionRecord(meetingEvents: [MeetingEventItem]) -> IngestionRecord {
+    func toIngestionRecord(meetingEvents: [MeetingEventItem], ingestionConfiguration: IngestionConfiguration) -> IngestionRecord {
         if meetingEvents.isEmpty {
             return IngestionRecord(metadata: IngestionMetadata(), events: [])
         }
@@ -108,7 +109,7 @@ import Foundation
             return nil
         }
 
-        let rootMeta = toIngestionMetadata(attributes: EventAttributeUtils.getCommonAttributes())
+        let rootMeta = toIngestionMetadata(attributes: EventAttributeUtils.getCommonAttributes(ingestionConfiguration: ingestionConfiguration))
 
         return IngestionRecord(metadata: rootMeta,
                                events: ingestionEvents)
@@ -121,6 +122,7 @@ import Foundation
                                 ts: attributes.timestampMs ?? 0,
                                 id: meetingEvent.id,
                                 maxVideoTileCount: attributes.maxVideoTileCount,
+                                meetingStartDurationMs: attributes.meetingStartDurationMs,
                                 meetingDurationMs: attributes.meetingDurationMs,
                                 meetingErrorMessage: attributes.meetingErrorMessage,
                                 meetingStatus: attributes.meetingStatus,
@@ -136,6 +138,7 @@ import Foundation
                                 ts: attributes.timestampMs ?? 0,
                                 id: dirtyMeetingEvent.id,
                                 maxVideoTileCount: attributes.maxVideoTileCount,
+                                meetingStartDurationMs: attributes.meetingStartDurationMs,
                                 meetingDurationMs: attributes.meetingDurationMs,
                                 meetingErrorMessage: attributes.meetingErrorMessage,
                                 meetingStatus: attributes.meetingStatus,

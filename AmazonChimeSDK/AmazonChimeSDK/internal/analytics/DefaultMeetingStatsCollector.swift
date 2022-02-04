@@ -11,6 +11,7 @@ import Foundation
 @objcMembers public class DefaultMeetingStatsCollector: NSObject, MeetingStatsCollector {
     private let logger: Logger
     private var meetingStartTimeMs: Int64 = 0
+    private var meetingStartConnectingTimeMs: Int64 = 0
     private var retryCount: Int = 0
     private var poorConnectionCount: Int = 0
     private var maxVideoTileCount: Int = 0
@@ -29,6 +30,8 @@ import Foundation
         return [EventAttributeName.maxVideoTileCount: maxVideoTileCount,
                 EventAttributeName.retryCount: retryCount,
                 EventAttributeName.poorConnectionCount: poorConnectionCount,
+                EventAttributeName.meetingStartDurationMs: meetingStartTimeMs == 0 ?
+                    0 : meetingStartTimeMs - meetingStartConnectingTimeMs,
                 EventAttributeName.meetingDurationMs: meetingStartTimeMs == 0 ?
                     0 : DateUtils.getCurrentTimeStampMs() - meetingStartTimeMs
         ] as [EventAttributeName: Any]
@@ -51,6 +54,10 @@ import Foundation
         maxVideoTileCount = max(videoTileCount, maxVideoTileCount)
     }
 
+    public func updateMeetingStartConnectingTimeMs() {
+        meetingStartConnectingTimeMs = DateUtils.getCurrentTimeStampMs()
+    }
+    
     public func updateMeetingStartTimeMs() {
         meetingStartTimeMs = DateUtils.getCurrentTimeStampMs()
     }
@@ -60,5 +67,6 @@ import Foundation
         poorConnectionCount = 0
         maxVideoTileCount = 0
         meetingStartTimeMs = 0
+        meetingStartConnectingTimeMs = 0
     }
 }
