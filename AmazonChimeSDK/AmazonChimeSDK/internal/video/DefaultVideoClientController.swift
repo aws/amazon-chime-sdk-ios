@@ -229,6 +229,34 @@ extension DefaultVideoClientController: VideoClientDelegate {
             }
         }
     }
+    
+    public func remoteVideoSourcesDidBecomeAvailable(_ sourcesInternal: [RemoteVideoSourceInternal]) {
+        var sources = [RemoteVideoSource]()
+        sourcesInternal.forEach { source in
+            if (source.attendeeId != nil) {
+                let newSource = RemoteVideoSource()
+                newSource.attendeeId = source.attendeeId
+                sources.append(newSource)
+            }
+        }
+        ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
+            observer.remoteVideoSourcesDidBecomeAvailable(sources: sources)
+        }
+    }
+    
+    public func remoteVideoSourcesDidBecomeUnavailable(_ sourcesInternal: [RemoteVideoSourceInternal]) {
+        var sources = [RemoteVideoSource]()
+        sourcesInternal.forEach { source in
+            if (source.attendeeId != nil) {
+                let newSource = RemoteVideoSource()
+                newSource.attendeeId = source.attendeeId
+                sources.append(newSource)
+            }
+        }
+        ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
+            observer.remoteVideoSourcesDidBecomeUnavailable(sources: sources)
+        }
+    }
 
     public func videoClientTurnURIsReceived(_ uris: [String]) -> [String] {
         return uris.map(self.configuration.urlRewriter)
@@ -367,6 +395,30 @@ extension DefaultVideoClientController: VideoClientController {
     public func pauseResumeRemoteVideo(_ videoId: UInt32, pause: Bool) {
         logger.info(msg: "pauseResumeRemoteVideo")
         videoClient?.setRemotePause(videoId, pause: pause)
+    }
+    
+    public func updateVideoSourceSubscriptions(addedOrUpdated: Dictionary<RemoteVideoSource, VideoSubscriptionConfiguration>, removed: Array<RemoteVideoSource>) {
+        guard videoClientState != .uninitialized else {
+            logger.fault(msg: "VideoClient is not initialized so returning without doing anything")
+            return
+        }
+        logger.info(msg: "Updating video subscriptions")
+        
+        let addedOrUpdatedInternal = Dictionary(uniqueKeysWithValues:
+            addedOrUpdated.map { source, config in
+                (RemoteVideoSourceInternal(attendeeId: source.attendeeId),
+                 VideoSubscriptionConfigurationInternal(
+                    priority: PriorityInternal(rawValue: UInt(config.priority.rawValue)) ?? PriorityInternal.highest,
+                    targetResolution: ResolutionInternal.init(width: Int32(config.resolution.width),
+                                                              height: Int32(config.resolution.height))))
+        })
+        
+        var removedInternal = [RemoteVideoSourceInternal]()
+        removed.forEach{ source in
+            removedInternal.append(RemoteVideoSourceInternal(attendeeId: source.attendeeId))
+        }
+        
+        videoClient?.updateVideoSourceSubscriptions(addedOrUpdatedInternal as Dictionary<AnyHashable, Any>, withRemoved: removedInternal as [Any])
     }
 
     public func subscribeToReceiveDataMessage(topic: String, observer: DataMessageObserver) {

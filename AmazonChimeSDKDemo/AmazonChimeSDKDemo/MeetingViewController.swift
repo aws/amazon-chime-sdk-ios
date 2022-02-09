@@ -677,17 +677,20 @@ extension MeetingViewController: UICollectionViewDataSource {
         let isSelf = indexPath.item == 0
         let videoTileState = meetingModel.videoModel.getVideoTileState(for: indexPath)
         let displayName = meetingModel.getVideoTileDisplayName(for: indexPath)
+        let attendeeId = meetingModel.getVideoTileAttendeeId(for: indexPath)
 
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: videoTileCellReuseIdentifier,
                                                             for: indexPath) as? VideoTileCell else {
             return VideoTileCell()
         }
 
-        cell.updateCell(name: displayName,
+        cell.updateCell(id: attendeeId,
+                        name: displayName,
                         isSelf: isSelf,
                         videoTileState: videoTileState,
                         tag: indexPath.row)
         cell.delegate = meetingModel.videoModel
+        cell.viewController = self
 
         if let tileState = videoTileState {
             if tileState.isLocalTile, !tileState.isContent, meetingModel.videoModel.isFrontCameraActive {
