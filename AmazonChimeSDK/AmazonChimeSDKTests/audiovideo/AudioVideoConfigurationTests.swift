@@ -30,5 +30,9 @@ class AudioVideoConfigurationTests: XCTestCase {
         let audioVideoConfigCallkit = AudioVideoConfiguration(callKitEnabled: true)
         XCTAssertEqual(audioVideoConfigCallkit.audioMode, .stereo48K)
         XCTAssertEqual(audioVideoConfigCallkit.callKitEnabled, true)
+
+        let audioVideoConfigAudioModeNoDevice = AudioVideoConfiguration(audioMode: .nodevice)
+        XCTAssertEqual(audioVideoConfigAudioModeNoDevice.audioMode, .nodevice)
+        XCTAssertEqual(audioVideoConfigAudioModeNoDevice.callKitEnabled, false)
     }
 }
