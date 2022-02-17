@@ -441,20 +441,18 @@ extension MeetingModel: AudioVideoObserver {
     
     func remoteVideoSourcesDidBecomeAvailable(sources: [RemoteVideoSource]) {
         logWithFunctionName()
-        var added = [RemoteVideoSource: VideoSubscriptionConfiguration]()
         sources.forEach { source in
-            added[source] = VideoSubscriptionConfiguration()
-            videoModel.remoteVideoSourceConfigurations[source.attendeeId] = VideoSubscriptionConfiguration()
+            // Initialize with defaults in case we want to update through UI
+            videoModel.remoteVideoSourceConfigurations[source] = VideoSubscriptionConfiguration()
         }
-        currentMeetingSession.audioVideo.updateVideoSourceSubscriptions(addedOrUpdated: added, removed: [RemoteVideoSource]())
+        // Use default auto-subscribe behavior
     }
     
     func remoteVideoSourcesDidBecomeUnavailable(sources: [RemoteVideoSource]) {
         logWithFunctionName()
         sources.forEach { source in
-            videoModel.remoteVideoSourceConfigurations.removeValue(forKey: source.attendeeId)
+            videoModel.remoteVideoSourceConfigurations.removeValue(forKey: source)
         }
-        currentMeetingSession.audioVideo.updateVideoSourceSubscriptions(addedOrUpdated: [RemoteVideoSource: VideoSubscriptionConfiguration](), removed: sources)
     }
 
     func videoSessionDidStartWithStatus(sessionStatus: MeetingSessionStatus) {

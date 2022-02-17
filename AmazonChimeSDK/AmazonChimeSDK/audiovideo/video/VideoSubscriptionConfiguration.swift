@@ -11,5 +11,5 @@ import Foundation
 /// Remote video source initialized with attendeeId and hashed by object address.
 @objcMembers public class VideoSubscriptionConfiguration: NSObject {
     public var priority: VideoPriority = VideoPriority.high
-    public var resolution: VideoResolution = VideoResolution.high
+    public var targetResolution: VideoResolution = VideoResolution.high
 }

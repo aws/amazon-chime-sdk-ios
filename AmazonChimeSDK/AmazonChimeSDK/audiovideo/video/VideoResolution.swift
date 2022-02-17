@@ -14,19 +14,19 @@ import Foundation
     public var height: Int = 0
     
     /// Preset video resolutions.
-    static let high: VideoResolution = {
+    public static let high: VideoResolution = {
         let res = VideoResolution()
         res.width = 960
         res.height = 720
         return res
     }()
-    static let medium: VideoResolution = {
+    public static let medium: VideoResolution = {
         let res = VideoResolution()
         res.width = 640
         res.height = 480
         return res
     }()
-    static let low: VideoResolution = {
+    public static let low: VideoResolution = {
         let res = VideoResolution()
         res.width = 320
         res.height = 240

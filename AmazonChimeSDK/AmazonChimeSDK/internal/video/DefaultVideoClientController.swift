@@ -20,6 +20,9 @@ class DefaultVideoClientController: NSObject {
     let videoTileControllerObservers = ConcurrentMutableSet()
     let videoObservers = ConcurrentMutableSet()
     var dataMessageObservers = [String: ConcurrentMutableSet]()
+    // We have designed the SDK API to allow using `RemoteVideoSource` as a key in a map, e.g. for  `updateVideoSourceSubscription`.
+    // Therefore we need to map to a consistent set of sources from the internal sources, by using attendeeId as a unique identifier.
+    var cachedRemoteVideoSources = ConcurrentMutableSet()
 
     private let configuration: MeetingSessionConfiguration
     private let defaultVideoClient: VideoClientProtocol
@@ -233,11 +236,23 @@ extension DefaultVideoClientController: VideoClientDelegate {
     public func remoteVideoSourcesDidBecomeAvailable(_ sourcesInternal: [RemoteVideoSourceInternal]) {
         var sources = [RemoteVideoSource]()
         sourcesInternal.forEach { source in
-            if (source.attendeeId != nil) {
-                let newSource = RemoteVideoSource()
-                newSource.attendeeId = source.attendeeId
-                sources.append(newSource)
+            var foundCachedRemoteVideoSource = false
+            cachedRemoteVideoSources.forEach { cachedRemoteVideoSource in
+                if let cachedRemoteVideoSource = cachedRemoteVideoSource as? RemoteVideoSource {
+                    if source.attendeeId == cachedRemoteVideoSource.attendeeId {
+                        sources.append(cachedRemoteVideoSource)
+                        foundCachedRemoteVideoSource = true
+                    }
+                }
             }
+
+            if foundCachedRemoteVideoSource {
+                return
+            }
+            // Otherwise create a new one and add to cached set
+            let newSource = RemoteVideoSource()
+            newSource.attendeeId = source.attendeeId
+            sources.append(newSource)
         }
         ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
             observer.remoteVideoSourcesDidBecomeAvailable(sources: sources)
@@ -245,16 +260,21 @@ extension DefaultVideoClientController: VideoClientDelegate {
     }
     
     public func remoteVideoSourcesDidBecomeUnavailable(_ sourcesInternal: [RemoteVideoSourceInternal]) {
-        var sources = [RemoteVideoSource]()
+        var sourcesToRemove = [RemoteVideoSource]()
         sourcesInternal.forEach { source in
-            if (source.attendeeId != nil) {
-                let newSource = RemoteVideoSource()
-                newSource.attendeeId = source.attendeeId
-                sources.append(newSource)
+            cachedRemoteVideoSources.forEach { cachedRemoteVideoSource in
+                if let cachedRemoteVideoSource = cachedRemoteVideoSource as? RemoteVideoSource {
+                    if source.attendeeId == cachedRemoteVideoSource.attendeeId {
+                        sourcesToRemove.append(cachedRemoteVideoSource)
+                    }
+                }
             }
         }
+        sourcesToRemove.forEach { sourceToRemove in
+            cachedRemoteVideoSources.remove(sourceToRemove)
+        }
         ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
-            observer.remoteVideoSourcesDidBecomeUnavailable(sources: sources)
+            observer.remoteVideoSourcesDidBecomeUnavailable(sources: sourcesToRemove)
         }
     }
 
@@ -396,7 +416,7 @@ extension DefaultVideoClientController: VideoClientController {
         logger.info(msg: "pauseResumeRemoteVideo")
         videoClient?.setRemotePause(videoId, pause: pause)
     }
-    
+
     public func updateVideoSourceSubscriptions(addedOrUpdated: Dictionary<RemoteVideoSource, VideoSubscriptionConfiguration>, removed: Array<RemoteVideoSource>) {
         guard videoClientState != .uninitialized else {
             logger.fault(msg: "VideoClient is not initialized so returning without doing anything")
@@ -409,8 +429,8 @@ extension DefaultVideoClientController: VideoClientController {
                 (RemoteVideoSourceInternal(attendeeId: source.attendeeId),
                  VideoSubscriptionConfigurationInternal(
                     priority: PriorityInternal(rawValue: UInt(config.priority.rawValue)) ?? PriorityInternal.highest,
-                    targetResolution: ResolutionInternal.init(width: Int32(config.resolution.width),
-                                                              height: Int32(config.resolution.height))))
+                    targetResolution: ResolutionInternal.init(width: Int32(config.targetResolution.width),
+                                                              height: Int32(config.targetResolution.height))))
         })
         
         var removedInternal = [RemoteVideoSourceInternal]()
