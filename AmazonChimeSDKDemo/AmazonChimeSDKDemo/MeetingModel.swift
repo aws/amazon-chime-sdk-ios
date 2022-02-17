@@ -229,6 +229,13 @@ class MeetingModel: NSObject {
         }
         return displayName
     }
+    
+    func getVideoTileAttendeeId(for indexPath: IndexPath) -> String {
+        if let videoTileState = videoModel.getVideoTileState(for: indexPath) {
+            return videoTileState.attendeeId
+        }
+        return ""
+    }
 
     func chooseAudioDevice(_ audioDevice: MediaDevice) {
         currentMeetingSession.audioVideo.chooseAudioDevice(mediaDevice: audioDevice)
@@ -430,6 +437,22 @@ extension MeetingModel: AudioVideoObserver {
 
     func videoSessionDidStartConnecting() {
         logWithFunctionName()
+    }
+    
+    func remoteVideoSourcesDidBecomeAvailable(sources: [RemoteVideoSource]) {
+        logWithFunctionName()
+        sources.forEach { source in
+            // Initialize with defaults in case we want to update through UI
+            videoModel.remoteVideoSourceConfigurations[source] = VideoSubscriptionConfiguration()
+        }
+        // Use default auto-subscribe behavior
+    }
+    
+    func remoteVideoSourcesDidBecomeUnavailable(sources: [RemoteVideoSource]) {
+        logWithFunctionName()
+        sources.forEach { source in
+            videoModel.remoteVideoSourceConfigurations.removeValue(forKey: source)
+        }
     }
 
     func videoSessionDidStartWithStatus(sessionStatus: MeetingSessionStatus) {

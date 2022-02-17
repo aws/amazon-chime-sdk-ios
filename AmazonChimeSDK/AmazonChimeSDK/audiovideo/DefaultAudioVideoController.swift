@@ -99,4 +99,8 @@ import Foundation
     public func stopRemoteVideo() {
         videoClientController.stopRemoteVideo()
     }
+    
+    public func updateVideoSourceSubscriptions(addedOrUpdated: Dictionary<RemoteVideoSource, VideoSubscriptionConfiguration>, removed: Array<RemoteVideoSource>) {
+        videoClientController.updateVideoSourceSubscriptions(addedOrUpdated: addedOrUpdated, removed: removed)
+    }
 }

@@ -146,6 +146,10 @@ import Foundation
     public func removeRealtimeTranscriptEventObserver(observer: TranscriptEventObserver) {
         realtimeController.removeRealtimeTranscriptEventObserver?(observer: observer)
     }
+    
+    public func updateVideoSourceSubscriptions(addedOrUpdated: Dictionary<RemoteVideoSource, VideoSubscriptionConfiguration>, removed: Array<RemoteVideoSource>) {
+        audioVideoController.updateVideoSourceSubscriptions(addedOrUpdated: addedOrUpdated, removed: removed)
+    }
 
     // MARK: DeviceController
 

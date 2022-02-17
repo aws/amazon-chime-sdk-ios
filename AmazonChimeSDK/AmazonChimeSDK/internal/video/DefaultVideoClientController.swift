@@ -20,6 +20,9 @@ class DefaultVideoClientController: NSObject {
     let videoTileControllerObservers = ConcurrentMutableSet()
     let videoObservers = ConcurrentMutableSet()
     var dataMessageObservers = [String: ConcurrentMutableSet]()
+    // We have designed the SDK API to allow using `RemoteVideoSource` as a key in a map, e.g. for  `updateVideoSourceSubscription`.
+    // Therefore we need to map to a consistent set of sources from the internal sources, by using attendeeId as a unique identifier.
+    var cachedRemoteVideoSources = ConcurrentMutableSet()
 
     private let configuration: MeetingSessionConfiguration
     private let defaultVideoClient: VideoClientProtocol
@@ -229,6 +232,55 @@ extension DefaultVideoClientController: VideoClientDelegate {
             }
         }
     }
+    
+    public func remoteVideoSourcesDidBecomeAvailable(_ sourcesInternal: [RemoteVideoSourceInternal]) {
+        if sourcesInternal.isEmpty { return } // Don't callback for empty lists
+
+        var sources = [RemoteVideoSource]()
+        sourcesInternal.forEach { source in
+            var foundCachedRemoteVideoSource = false
+            cachedRemoteVideoSources.forEach { cachedRemoteVideoSource in
+                if let cachedRemoteVideoSource = cachedRemoteVideoSource as? RemoteVideoSource {
+                    if source.attendeeId == cachedRemoteVideoSource.attendeeId {
+                        sources.append(cachedRemoteVideoSource)
+                        foundCachedRemoteVideoSource = true
+                    }
+                }
+            }
+
+            if foundCachedRemoteVideoSource {
+                return
+            }
+            // Otherwise create a new one and add to cached set
+            let newSource = RemoteVideoSource()
+            newSource.attendeeId = source.attendeeId
+            sources.append(newSource)
+        }
+        ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
+            observer.remoteVideoSourcesDidBecomeAvailable(sources: sources)
+        }
+    }
+    
+    public func remoteVideoSourcesDidBecomeUnavailable(_ sourcesInternal: [RemoteVideoSourceInternal]) {
+        if sourcesInternal.isEmpty { return } // Don't callback for empty lists
+
+        var sourcesToRemove = [RemoteVideoSource]()
+        sourcesInternal.forEach { source in
+            cachedRemoteVideoSources.forEach { cachedRemoteVideoSource in
+                if let cachedRemoteVideoSource = cachedRemoteVideoSource as? RemoteVideoSource {
+                    if source.attendeeId == cachedRemoteVideoSource.attendeeId {
+                        sourcesToRemove.append(cachedRemoteVideoSource)
+                    }
+                }
+            }
+        }
+        sourcesToRemove.forEach { sourceToRemove in
+            cachedRemoteVideoSources.remove(sourceToRemove)
+        }
+        ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
+            observer.remoteVideoSourcesDidBecomeUnavailable(sources: sourcesToRemove)
+        }
+    }
 
     public func videoClientTurnURIsReceived(_ uris: [String]) -> [String] {
         return uris.map(self.configuration.urlRewriter)
@@ -367,6 +419,30 @@ extension DefaultVideoClientController: VideoClientController {
     public func pauseResumeRemoteVideo(_ videoId: UInt32, pause: Bool) {
         logger.info(msg: "pauseResumeRemoteVideo")
         videoClient?.setRemotePause(videoId, pause: pause)
+    }
+
+    public func updateVideoSourceSubscriptions(addedOrUpdated: Dictionary<RemoteVideoSource, VideoSubscriptionConfiguration>, removed: Array<RemoteVideoSource>) {
+        guard videoClientState != .uninitialized else {
+            logger.fault(msg: "VideoClient is not initialized so returning without doing anything")
+            return
+        }
+        logger.info(msg: "Updating video subscriptions")
+        
+        let addedOrUpdatedInternal = Dictionary(uniqueKeysWithValues:
+            addedOrUpdated.map { source, config in
+                (RemoteVideoSourceInternal(attendeeId: source.attendeeId),
+                 VideoSubscriptionConfigurationInternal(
+                    priority: PriorityInternal(rawValue: UInt(config.priority.rawValue)) ?? PriorityInternal.highest,
+                    targetResolution: ResolutionInternal.init(width: Int32(config.targetResolution.width),
+                                                              height: Int32(config.targetResolution.height))))
+        })
+        
+        var removedInternal = [RemoteVideoSourceInternal]()
+        removed.forEach{ source in
+            removedInternal.append(RemoteVideoSourceInternal(attendeeId: source.attendeeId))
+        }
+        
+        videoClient?.updateVideoSourceSubscriptions(addedOrUpdatedInternal as Dictionary<AnyHashable, Any>, withRemoved: removedInternal as [Any])
     }
 
     public func subscribeToReceiveDataMessage(topic: String, observer: DataMessageObserver) {
