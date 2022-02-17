@@ -104,6 +104,8 @@ extension DefaultAudioClientController: AudioClientController {
             audioModeInternal = .Mono48K
         } else if (audioMode == .mono16K) {
             audioModeInternal = .Mono16K
+        } else if (audioMode == .nodevice) {
+            audioModeInternal = .NoDevice
         }
         let status = audioClient.startSession(host,
                                               basePort: port,
