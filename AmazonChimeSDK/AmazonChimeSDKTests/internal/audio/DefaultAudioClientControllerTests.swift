@@ -230,7 +230,7 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                             audioWsUrl: self.audioFallbackUrl,
                                             callKitEnabled: false,
                                             appInfo: any(),
-                                            audioMode: .nodevice)).wasCalled()
+                                            audioMode: .NoDevice)).wasCalled()
         verify(eventAnalyticsControllerMock.publishEvent(name: .meetingStartRequested)).wasCalled()
         XCTAssertEqual(.started, DefaultAudioClientController.state)
         verify(audioLockMock.unlock()).wasCalled()
