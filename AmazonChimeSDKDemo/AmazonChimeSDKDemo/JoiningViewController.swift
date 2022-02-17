@@ -94,7 +94,7 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
         case 1:
             return .mono48K
         case 2:
-            return .mono16K
+            return .nodevice
         default:
             return .stereo48K
         }
