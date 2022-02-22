@@ -73,8 +73,11 @@ extension DefaultAudioClientController: AudioClientController {
         defer {
             audioLock.unlock()
         }
-        guard audioSession.recordPermission == .granted else {
-            throw PermissionError.audioPermissionError
+        
+        if audioMode != .nodevice {
+            guard audioSession.recordPermission == .granted else {
+                throw PermissionError.audioPermissionError
+            }
         }
 
         if Self.state == .started {
