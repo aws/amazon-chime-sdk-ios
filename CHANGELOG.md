@@ -1,4 +1,4 @@
-## Unreleased
+## [0.19.0] - 2022-02-24
 
 ### Added
 * Added the meetingStartDurationMs event in ingestionEvents to record the time that elapsed between the start request and the beginning of the meeting.
