@@ -171,6 +171,9 @@
                 <a href="Classes/NoopEventReporterFactory.html">NoopEventReporterFactory</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/RemoteVideoSource.html">RemoteVideoSource</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/ReplayKitSource.html">ReplayKitSource</a>
               </li>
               <li class="nav-group-task">
@@ -208,6 +211,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="Classes/VideoFramePixelBuffer.html">VideoFramePixelBuffer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/VideoResolution.html">VideoResolution</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/VideoSubscriptionConfiguration.html">VideoSubscriptionConfiguration</a>
               </li>
               <li class="nav-group-task">
                 <a href="Classes/VideoTileState.html">VideoTileState</a>
@@ -279,6 +288,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Enums/VideoPauseState.html">VideoPauseState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/VideoPriority.html">VideoPriority</a>
               </li>
               <li class="nav-group-task">
                 <a href="Enums/VideoRotation.html">VideoRotation</a>
@@ -1192,6 +1204,34 @@ For device level screen broadcast, take a look at the <code>SampleHandler</code>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)RemoteVideoSource"></a>
+                    <a name="//apple_ref/swift/Class/RemoteVideoSource" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)RemoteVideoSource">RemoteVideoSource</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Classes/RemoteVideoSource.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">RemoteVideoSource</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(cs)VideoFrame"></a>
                     <a name="//apple_ref/swift/Class/VideoFrame" class="dashAnchor"></a>
                     <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)VideoFrame">VideoFrame</a>
@@ -1242,6 +1282,64 @@ Typically produced via a <code><a href="Protocols/VideoSource.html">VideoSource<
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="kt">VideoFramePixelBuffer</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt"><a href="Protocols/VideoFrameBuffer.html">VideoFrameBuffer</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)VideoResolution"></a>
+                    <a name="//apple_ref/swift/Class/VideoResolution" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)VideoResolution">VideoResolution</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Customizable video resolution parameters for a remote video source.</p>
+
+                        <a href="Classes/VideoResolution.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">VideoResolution</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)VideoSubscriptionConfiguration"></a>
+                    <a name="//apple_ref/swift/Class/VideoSubscriptionConfiguration" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)VideoSubscriptionConfiguration">VideoSubscriptionConfiguration</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Remote video source initialized with attendeeId and hashed by object address.</p>
+
+                        <a href="Classes/VideoSubscriptionConfiguration.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">VideoSubscriptionConfiguration</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
 
                         </div>
                       </div>
@@ -2169,7 +2267,7 @@ of the participant.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2021 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2021-12-21)</p>
+          <p>&copy; 2022 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2022-02-24)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
