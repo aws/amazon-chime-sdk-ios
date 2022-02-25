@@ -16,6 +16,7 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
     var engineSelected = ""
     var languageSelected = ""
     var regionSelected = ""
+    var meetingEndpointUrl = ""
     
     @IBOutlet var startTranscriptionButton: UIButton!
     @IBOutlet var engineTextField: UITextField!
@@ -130,10 +131,11 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
         self.languageTextField.delegate = self
         self.regionTextField.delegate = self
         
-        guard let meetingId = self.model?.meetingId else {
+        guard let meetingId = self.model?.meetingId, let meetingEndpointUrl = self.model?.meetingEndpointUrl else {
             return MeetingModule.shared().dismissTranscription(self)
         }
         self.meetingId = meetingId
+        self.meetingEndpointUrl = meetingEndpointUrl
         engineTextField.inputView = enginePickerView
         languageTextField.inputView = languagePickerView
         regionTextField.inputView = regionPickerView
@@ -159,8 +161,7 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
     }
     
     @IBAction func startTranscriptionButton(_ sender: UIButton) {
-        var url = AppConfiguration.url
-        url = url.hasSuffix("/") ? url : "\(url)/"
+        let url = self.meetingEndpointUrl.hasSuffix("/") ? self.meetingEndpointUrl : "\(self.meetingEndpointUrl)/"
         let encodedURL = HttpUtils.encodeStrForURL(
             str: "\(url)start_transcription?title=\(meetingId)&language=\(languageSelected)&region=\(regionSelected)&engine=\(engineSelected)")
         HttpUtils.postRequest(url: encodedURL, jsonData: nil) {_, error in

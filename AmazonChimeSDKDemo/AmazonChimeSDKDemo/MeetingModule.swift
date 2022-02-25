@@ -53,7 +53,8 @@ class MeetingModule {
                                                 meetingId: meetingId,
                                                 selfName: selfName,
                                                 audioVideoConfig: audioVideoConfig,
-                                                callKitOption: option)
+                                                callKitOption: option,
+                                                meetingEndpointUrl: overriddenEndpoint)
                 self.meetings[meetingModel.uuid] = meetingModel
 
                 switch option {

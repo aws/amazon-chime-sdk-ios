@@ -23,6 +23,7 @@ class MeetingModel: NSObject {
 
     // Dependencies
     let meetingId: String
+    let meetingEndpointUrl: String
     let selfName: String
     var audioVideoConfig = AudioVideoConfiguration()
     let callKitOption: CallKitOption
@@ -124,8 +125,10 @@ class MeetingModel: NSObject {
          meetingId: String,
          selfName: String,
          audioVideoConfig: AudioVideoConfiguration,
-         callKitOption: CallKitOption) {
+         callKitOption: CallKitOption,
+         meetingEndpointUrl: String) {
         self.meetingId = meetingId
+        self.meetingEndpointUrl = meetingEndpointUrl.isEmpty ? AppConfiguration.url : meetingEndpointUrl
         self.selfName = selfName
         self.audioVideoConfig = audioVideoConfig
         self.callKitOption = callKitOption
@@ -199,8 +202,7 @@ class MeetingModel: NSObject {
     }
     
     func postStopTranscriptionRequest() {
-        var url = AppConfiguration.url
-        url = url.hasSuffix("/") ? url : "\(url)/"
+        let url = self.meetingEndpointUrl.hasSuffix("/") ? self.meetingEndpointUrl : "\(self.meetingEndpointUrl)/"
         let encodedURL = HttpUtils.encodeStrForURL(
                 str: "\(url)stop_transcription?title=\(meetingId)")
         HttpUtils.postRequest(url: encodedURL, jsonData: nil) { _, error in
