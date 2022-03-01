@@ -1,3 +1,8 @@
+## Unreleased
+
+### Added
+* [Demo] Added overridden endpoint url capability to live transcription API.
+
 ## [0.19.0] - 2022-02-24
 
 ### Added
