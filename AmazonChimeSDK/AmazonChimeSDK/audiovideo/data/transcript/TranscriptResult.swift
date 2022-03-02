@@ -16,18 +16,24 @@ import Foundation
     public let startTimeMs: Int64
     public let endTimeMs: Int64
     public let alternatives: [TranscriptAlternative]
+    public let languageCode: String?
+    public let languageIdentifications: [TranscriptLanguageWithScore]?
 
     public init(resultId: String,
                 channelId: String?,
                 isPartial: Bool,
                 startTimeMs: Int64,
                 endTimeMs: Int64,
-                alternatives: [TranscriptAlternative]) {
+                alternatives: [TranscriptAlternative],
+                languageCode: String?,
+                languageIdentifications: [TranscriptLanguageWithScore]?) {
         self.resultId = resultId
         self.channelId = channelId
         self.isPartial = isPartial
         self.startTimeMs = startTimeMs
         self.endTimeMs = endTimeMs
         self.alternatives = alternatives
+        self.languageCode = languageCode
+        self.languageIdentifications = languageIdentifications
     }
 }

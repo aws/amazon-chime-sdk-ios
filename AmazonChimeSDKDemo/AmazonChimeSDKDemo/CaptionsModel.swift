@@ -8,6 +8,7 @@
 
 import AmazonChimeSDK
 import UIKit
+import CoreMIDI
 
 class CaptionsModel: NSObject {
     let logger = ConsoleLogger(name: "CaptionsModel")
@@ -25,7 +26,9 @@ class CaptionsModel: NSObject {
             let content = "Live transcription \(status.type) at \(formattedEventTime) in \(status.transcriptionRegion) with configuration: \(status.transcriptionConfiguration)"
             let caption = Caption(speakerName: "",
                                   isPartial: false,
-                                  content: content)
+                                  content: content,
+                                  entities: nil,
+                                  items: nil)
             captions.append(caption)
             if status.type == .started || status.type == .stopped {
                 isLiveTranscriptionEnabled = status.type == .started
@@ -47,10 +50,20 @@ class CaptionsModel: NSObject {
                         return "Empty speaker name due to empty items array for result: \(result.resultId)"
                     })
                 }
-
+                
+                var entities = Array<String>()
+                
+                alternative.entities!.forEach({ entity in
+                    entity.content.split(separator: " ").forEach { word in
+                        entities.append(String(word))
+                    }
+                })
+                
                 let caption = Caption(speakerName: speakerName,
                                       isPartial: result.isPartial,
-                                      content: alternative.transcript)
+                                      content: alternative.transcript,
+                                      entities: entities,
+                                      items: alternative.items)
 
                 if let captionIndex = captionIndices[result.resultId] {
                     // update existing (partial) caption if exists
