@@ -101,6 +101,8 @@
 		00F20F1B2620E73E00C470E9 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F20F1A2620E73E00C470E9 /* URLSessionProtocol.swift */; };
 		00F6E60825FBEA7F006DA17D /* SQLiteClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F6E60725FBEA7F006DA17D /* SQLiteClient.swift */; };
 		32F235B3714DA0906335CC12 /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7CEAE89DD08E6E863FC8BE /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift */; };
+		5403538827D0C9E9007BABD7 /* TranscriptEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403538727D0C9E9007BABD7 /* TranscriptEntity.swift */; };
+		5403538A27D0C9F9007BABD7 /* TranscriptLanguageWithScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403538927D0C9F9007BABD7 /* TranscriptLanguageWithScore.swift */; };
 		5A0E7317242EA072006636AB /* MediaDeviceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E7316242EA072006636AB /* MediaDeviceTests.swift */; };
 		5A0E7319242EA283006636AB /* MeetingSessionStatusCodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E7318242EA283006636AB /* MeetingSessionStatusCodeTests.swift */; };
 		5A0E731B242EA39E006636AB /* VideoTileStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E731A242EA39E006636AB /* VideoTileStateTests.swift */; };
@@ -370,6 +372,8 @@
 		00F20F0E2620C55D00C470E9 /* HttpUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpUtilsTests.swift; sourceTree = "<group>"; };
 		00F20F1A2620E73E00C470E9 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		00F6E60725FBEA7F006DA17D /* SQLiteClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteClient.swift; sourceTree = "<group>"; };
+		5403538727D0C9E9007BABD7 /* TranscriptEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptEntity.swift; sourceTree = "<group>"; };
+		5403538927D0C9F9007BABD7 /* TranscriptLanguageWithScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptLanguageWithScore.swift; sourceTree = "<group>"; };
 		5A0E7316242EA072006636AB /* MediaDeviceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDeviceTests.swift; sourceTree = "<group>"; };
 		5A0E7318242EA283006636AB /* MeetingSessionStatusCodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSessionStatusCodeTests.swift; sourceTree = "<group>"; };
 		5A0E731A242EA39E006636AB /* VideoTileStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTileStateTests.swift; sourceTree = "<group>"; };
@@ -1265,6 +1269,8 @@
 		C61475EB26F264E500CDEC09 /* transcript */ = {
 			isa = PBXGroup;
 			children = (
+				5403538727D0C9E9007BABD7 /* TranscriptEntity.swift */,
+				5403538927D0C9F9007BABD7 /* TranscriptLanguageWithScore.swift */,
 				C61475DA26EFC18400CDEC09 /* TranscriptEvent.swift */,
 				C67E9B6B26F4F5A30084C9B4 /* Transcript.swift */,
 				C67E9B7026F4F9820084C9B4 /* TranscriptItemType.swift */,
@@ -1473,6 +1479,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5403538A27D0C9F9007BABD7 /* TranscriptLanguageWithScore.swift in Sources */,
+				5403538827D0C9E9007BABD7 /* TranscriptEntity.swift in Sources */,
 				002C1FEA2649D5CD00C9B919 /* EventSender.swift in Sources */,
 				7C0D1BEF241ACC7B00280031 /* ActiveSpeakerDetectorFacade.swift in Sources */,
 				C49B5424247EFD2B002829F1 /* ConcurrentMutableSet.swift in Sources */,

@@ -15,6 +15,8 @@
 		00F0F6E12411B8E20013DA25 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 00F0F6E02411B8E20013DA25 /* Toast */; };
 		00F372EA23D9196E008F7CA7 /* MeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F372E923D9196E008F7CA7 /* MeetingViewController.swift */; };
 		00F372EE23DA2BFD008F7CA7 /* RosterAttendee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F372ED23DA2BFD008F7CA7 /* RosterAttendee.swift */; };
+		5403538E27D0CBA4007BABD7 /* TranscriptionStreamParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403538C27D0CBA4007BABD7 /* TranscriptionStreamParams.swift */; };
+		5403539027D0CBCE007BABD7 /* AutomaticLanguageDetectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403538F27D0CBCE007BABD7 /* AutomaticLanguageDetectionViewController.swift */; };
 		5A1582BA23C40C9B0099F8FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1582B923C40C9B0099F8FA /* AppDelegate.swift */; };
 		5A1582BE23C40C9B0099F8FA /* JoiningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1582BD23C40C9B0099F8FA /* JoiningViewController.swift */; };
 		5A1582C123C40C9B0099F8FA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A1582BF23C40C9B0099F8FA /* Main.storyboard */; };
@@ -148,6 +150,8 @@
 		00D82F2325B27BD5000496A2 /* LogEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogEntry.swift; sourceTree = "<group>"; };
 		00F372E923D9196E008F7CA7 /* MeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingViewController.swift; sourceTree = "<group>"; };
 		00F372ED23DA2BFD008F7CA7 /* RosterAttendee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RosterAttendee.swift; sourceTree = "<group>"; };
+		5403538C27D0CBA4007BABD7 /* TranscriptionStreamParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionStreamParams.swift; sourceTree = "<group>"; };
+		5403538F27D0CBCE007BABD7 /* AutomaticLanguageDetectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomaticLanguageDetectionViewController.swift; sourceTree = "<group>"; };
 		5A1582B623C40C9B0099F8FA /* AmazonChimeSDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AmazonChimeSDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A1582B923C40C9B0099F8FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5A1582BD23C40C9B0099F8FA /* JoiningViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoiningViewController.swift; sourceTree = "<group>"; };
@@ -243,6 +247,7 @@
 		003B58AA23E2380F002493AB /* data */ = {
 			isa = PBXGroup;
 			children = (
+				5403538C27D0CBA4007BABD7 /* TranscriptionStreamParams.swift */,
 				003B58AE23E23E9D002493AB /* JoinMeetingResponse.swift */,
 				00F372ED23DA2BFD008F7CA7 /* RosterAttendee.swift */,
 				5A16BED724045A7100ADAE26 /* SegmentedControlIndex.swift */,
@@ -304,6 +309,7 @@
 				C4923BEF24B8DF1100EE866B /* ScreenShareModel.swift */,
 				C4A3FFE5259B9AB2007CFABE /* InAppScreenCaptureModel.swift */,
 				C4A3FFE9259B9AC5007CFABE /* BroadcastScreenCaptureModel.swift */,
+				5403538F27D0CBCE007BABD7 /* AutomaticLanguageDetectionViewController.swift */,
 				5A1582C223C40C9D0099F8FA /* Assets.xcassets */,
 				5A1582BF23C40C9B0099F8FA /* Main.storyboard */,
 				ADE3CFC927050CD800DAC586 /* LiveTranscriptionOptionsViewController.swift */,
@@ -564,6 +570,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5403539027D0CBCE007BABD7 /* AutomaticLanguageDetectionViewController.swift in Sources */,
+				5403538E27D0CBA4007BABD7 /* TranscriptionStreamParams.swift in Sources */,
 				C446C84924A6612500392CE5 /* MetricsTableCell.swift in Sources */,
 				F82D50DA23FC9C6C00D8F18C /* AppConfiguration.swift in Sources */,
 				C4923C0A24BF62FE00EE866B /* MeetingPresenter.swift in Sources */,
