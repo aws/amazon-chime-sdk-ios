@@ -11,7 +11,7 @@ import Foundation
 /// Configuration for a specific video configuration.
 /// The values are intentionally mutable so that a map of all current configurations can be kept and updated as needed.
 ///
-/// VideoSubscriptionConfiguration is used to contain the priority and resolution of
+/// `VideoSubscriptionConfiguration` is used to contain the priority and resolution of
 /// remote video sources and content share to be received
 @objcMembers public class VideoSubscriptionConfiguration: NSObject {
     /// - Parameters:
