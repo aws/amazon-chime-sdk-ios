@@ -73,8 +73,11 @@ extension DefaultAudioClientController: AudioClientController {
         defer {
             audioLock.unlock()
         }
-        guard audioSession.recordPermission == .granted else {
-            throw PermissionError.audioPermissionError
+        
+        if audioMode != .nodevice {
+            guard audioSession.recordPermission == .granted else {
+                throw PermissionError.audioPermissionError
+            }
         }
 
         if Self.state == .started {
@@ -97,12 +100,15 @@ extension DefaultAudioClientController: AudioClientController {
             observer.audioSessionDidStartConnecting(reconnecting: false)
         }
         eventAnalyticsController.publishEvent(name: .meetingStartRequested)
+        meetingStatsCollector.updateMeetingStartConnectingTimeMs()
         let appInfo = DeviceUtils.getAppInfo()
         var audioModeInternal: AudioModeInternal = .Stereo48K
         if (audioMode == .mono48K) {
             audioModeInternal = .Mono48K
         } else if (audioMode == .mono16K) {
             audioModeInternal = .Mono16K
+        } else if (audioMode == .nodevice) {
+            audioModeInternal = .NoDevice
         }
         let status = audioClient.startSession(host,
                                               basePort: port,

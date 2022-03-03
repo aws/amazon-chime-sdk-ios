@@ -23,6 +23,9 @@ import Foundation
     /// - Parameter videoTileCount: current video tile count
     func updateMaxVideoTile(videoTileCount: Int)
 
+    /// Update meetingStartConnectingTimeMs.
+    func updateMeetingStartConnectingTimeMs()
+    
     /// Update meetingStartTimeMs.
     func updateMeetingStartTimeMs()
 

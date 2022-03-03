@@ -13,5 +13,6 @@ class AudioModeTests: XCTestCase {
         XCTAssertEqual(AudioMode.mono16K.description, "mono16K")
         XCTAssertEqual(AudioMode.mono48K.description, "mono48K")
         XCTAssertEqual(AudioMode.stereo48K.description, "stereo48K")
+        XCTAssertEqual(AudioMode.nodevice.description, "nodevice")
     }
 }

@@ -538,14 +538,27 @@
                                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 </button>
+                                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PJ7-s8-YZq" userLabel="On Update Video Subscriptions Label">
+                                                                    <rect key="frame" x="237" y="4.3333333333333428" width="24" height="24"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="24" id="Vyu-kA-Xkx"/>
+                                                                        <constraint firstAttribute="height" constant="24" id="aYu-cK-wgJ"/>
+                                                                    </constraints>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <state key="normal" backgroundImage="more"/>
+                                                                </button>
                                                             </subviews>
                                                             <color key="backgroundColor" systemColor="secondaryLabelColor"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="trailing" secondItem="sga-dz-S8z" secondAttribute="trailing" constant="32" id="4NG-QF-Crg"/>
+                                                                <constraint firstItem="A9r-yc-76P" firstAttribute="leading" secondItem="PJ7-s8-YZq" secondAttribute="trailing" constant="5" id="AM7-5u-Bsq"/>
                                                                 <constraint firstItem="sga-dz-S8z" firstAttribute="leading" secondItem="rIq-lk-w7t" secondAttribute="leading" constant="32" id="C5O-8O-myw"/>
+                                                                <constraint firstItem="PJ7-s8-YZq" firstAttribute="top" secondItem="rIq-lk-w7t" secondAttribute="top" constant="4.3300000000000001" id="KPH-aX-J8U"/>
                                                                 <constraint firstItem="A9r-yc-76P" firstAttribute="centerY" secondItem="rIq-lk-w7t" secondAttribute="centerY" id="MUr-uI-c4Y"/>
                                                                 <constraint firstItem="sga-dz-S8z" firstAttribute="centerY" secondItem="rIq-lk-w7t" secondAttribute="centerY" id="UDV-PR-bRa"/>
                                                                 <constraint firstAttribute="height" constant="32" id="WYO-G2-zlY"/>
+                                                                <constraint firstItem="A9r-yc-76P" firstAttribute="leading" secondItem="PJ7-s8-YZq" secondAttribute="trailing" constant="20" id="bEP-aF-7NS"/>
                                                                 <constraint firstAttribute="trailing" secondItem="A9r-yc-76P" secondAttribute="trailing" constant="8" id="oMi-i7-Ib3"/>
                                                             </constraints>
                                                         </view>
@@ -597,6 +610,7 @@
                                                     <outlet property="poorConnectionImage" destination="oN8-OP-rV7" id="ycQ-wP-iIT"/>
                                                     <outlet property="poorConnectionLabel" destination="FMD-Q2-cFR" id="OLN-aX-lWc"/>
                                                     <outlet property="shadedView" destination="rIq-lk-w7t" id="wum-T3-p3b"/>
+                                                    <outlet property="updateVideoSubscriptionsButton" destination="PJ7-s8-YZq" id="u7z-9U-qwF"/>
                                                     <outlet property="videoDisabledImage" destination="tMr-mN-AG5" id="ymH-sC-Zy2"/>
                                                     <outlet property="videoRenderView" destination="80b-KU-QcI" id="AjQ-rS-6J2"/>
                                                 </connections>

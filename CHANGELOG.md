@@ -1,3 +1,14 @@
+## Unreleased
+
+### Added
+* [Demo] Added overridden endpoint url capability to live transcription API.
+
+## [0.19.0] - 2022-02-24
+
+### Added
+* Added the meetingStartDurationMs event in ingestionEvents to record the time that elapsed between the start request and the beginning of the meeting.
+* Added priority based downlink policy to control the way how a recipient subscribes to the remote video sources. i.e. `updateVideoSourceSubscriptions(_:_:)` in `VideoClientController`.
+
 ## [0.18.1] - 2022-02-10
 
 ## [0.18.0] - 2021-12-21

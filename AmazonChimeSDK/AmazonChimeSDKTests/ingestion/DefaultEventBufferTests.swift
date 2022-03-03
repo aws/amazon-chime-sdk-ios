@@ -40,8 +40,8 @@ class DefaultEventBufferTests: XCTestCase {
         dirtyEventDao = mock(DirtyEventDao.self)
         eventSender = mock(EventSender.self)
         logger = mock(Logger.self)
-        given(converter.toIngestionRecord(meetingEvents: any())).willReturn(ingestionRecord)
-        given(converter.toIngestionRecord(dirtyMeetingEvents: any())).willReturn(ingestionRecord)
+        given(converter.toIngestionRecord(meetingEvents: any(), ingestionConfiguration: any())).willReturn(ingestionRecord)
+        given(converter.toIngestionRecord(dirtyMeetingEvents: any(), ingestionConfiguration: any())).willReturn(ingestionRecord)
         given(dirtyEventDao.queryDirtyMeetingEventItems(size: any())).willReturn([DirtyMeetingEventItem(id: "aa", data: ingestionEvent, ttl: 11123)])
 
         given(converter.toIngestionMeetingEvent(event: any(), ingestionConfiguration: any())).willReturn(IngestionMeetingEvent(name: "dsfdsf", eventAttributes: IngestionEventAttributes()))
@@ -69,6 +69,6 @@ class DefaultEventBufferTests: XCTestCase {
 
         verify(eventDao.queryMeetingEventItems(size: any())).wasCalled(1)
         verify(eventSender.sendEvents(ingestionRecord: any(), completionHandler: any())).wasCalled(2)
-        verify(converter.toIngestionRecord(meetingEvents: any())).wasCalled(1)
+        verify(converter.toIngestionRecord(meetingEvents: any(), ingestionConfiguration: any())).wasCalled(1)
     }
 }

@@ -23,6 +23,7 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
     var piiContentRedactionSelected = ""
     var selectedLanguagesDetectionOptions = ""
     var preferredLanguagesDetectionOptions = ""
+    var meetingEndpointUrl = ""
     
     @IBOutlet var startTranscriptionButton: UIButton!
     @IBOutlet var engineTextField: UITextField!
@@ -214,10 +215,11 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
         self.piiContentIdentificationTextField.delegate = self
         self.piiContentRedactionTextField.delegate = self
         
-        guard let meetingId = self.model?.meetingId else {
+        guard let meetingId = self.model?.meetingId, let meetingEndpointUrl = self.model?.meetingEndpointUrl else {
             return MeetingModule.shared().dismissTranscription(self)
         }
         self.meetingId = meetingId
+        self.meetingEndpointUrl = meetingEndpointUrl
         engineTextField.inputView = enginePickerView
         languageTextField.inputView = languagePickerView
         regionTextField.inputView = regionPickerView
@@ -358,6 +360,7 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
         
         let encodedData = try? JSONEncoder().encode(transcriptionStreamParams)
         let transcriptionStreamParamsEncoded = String(data: encodedData!, encoding: .utf8)
+        let url = self.meetingEndpointUrl.hasSuffix("/") ? self.meetingEndpointUrl : "\(self.meetingEndpointUrl)/"
         let encodedURL = HttpUtils.encodeStrForURL(
             str: "\(url)start_transcription?title=\(meetingId)" +
             "&language=\(languageSelected)" +

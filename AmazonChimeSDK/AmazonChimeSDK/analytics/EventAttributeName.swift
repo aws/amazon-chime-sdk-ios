@@ -42,6 +42,8 @@ import Foundation
 
     /// Maximum number video tile shared during the meeting, including self video tile
     case maxVideoTileCount
+    /// Duration of the meeting start process
+    case meetingStartDurationMs
     /// Duration of the meeting
     case meetingDurationMs
     /// Error message of the meeting
@@ -89,6 +91,8 @@ import Foundation
             return "meetingHistory"
         case .maxVideoTileCount:
             return "maxVideoTileCount"
+        case .meetingStartDurationMs:
+            return "meetingStartDurationMs"
         case .meetingDurationMs:
             return "meetingDurationMs"
         case .meetingErrorMessage:

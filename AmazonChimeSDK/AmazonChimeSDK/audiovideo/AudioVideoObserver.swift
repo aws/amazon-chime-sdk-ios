@@ -67,11 +67,27 @@ import Foundation
     /// - Parameter sessionStatus: The status of meeting session
     func videoSessionDidStartWithStatus(sessionStatus: MeetingSessionStatus)
 
-    /// Called when the video session has stopped from a started state with the reason
-    /// provided in the status.
+    /// Called when the video session has stopped from a started state with the reason provided in the status.
     ///
     /// Note: this callback will be called on main thread.
     ///
     /// - Parameter sessionStatus: The reason why the session has stopped.
     func videoSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus)
+    
+    /// Called on the main thread when video sources become available.
+    ///
+    /// Video sources can be explicitly subscribed to through `updateVideoSourceSubscriptions`, which has more information.
+    /// See note in `updateVideoSourceSubscriptions` documentation for information on subscription behavior if
+    /// `updateVideoSourceSubscriptions` is never called.
+    ///
+    /// - Parameter sources: Array of remote video sources that are available
+    func remoteVideoSourcesDidBecomeAvailable(sources: [RemoteVideoSource])
+    
+    /// Called on the main thread when video sources become unavailable.
+    ///
+    /// Note that these sources do not need to be removed via `updateVideoSourceSubscriptions`,
+    /// as they will be automatically unsubscribed from.
+    ///
+    /// - Parameter sources: Array of video sources that are unavailable
+    func remoteVideoSourcesDidBecomeUnavailable(sources: [RemoteVideoSource])
 }

@@ -171,6 +171,9 @@
                 <a href="../Classes/NoopEventReporterFactory.html">NoopEventReporterFactory</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/RemoteVideoSource.html">RemoteVideoSource</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/ReplayKitSource.html">ReplayKitSource</a>
               </li>
               <li class="nav-group-task">
@@ -208,6 +211,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/VideoFramePixelBuffer.html">VideoFramePixelBuffer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VideoResolution.html">VideoResolution</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VideoSubscriptionConfiguration.html">VideoSubscriptionConfiguration</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/VideoTileState.html">VideoTileState</a>
@@ -279,6 +288,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/VideoPauseState.html">VideoPauseState</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/VideoPriority.html">VideoPriority</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/VideoRotation.html">VideoRotation</a>
@@ -1018,12 +1030,86 @@ If using a custom video source, this will call <code>VideoSource.removeVideoSink
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)updateVideoSourceSubscriptionsWithAddedOrUpdated:removed:"></a>
+                    <a name="//apple_ref/swift/Method/updateVideoSourceSubscriptions(addedOrUpdated:removed:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)updateVideoSourceSubscriptionsWithAddedOrUpdated:removed:">updateVideoSourceSubscriptions(addedOrUpdated:<wbr>removed:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Add, update, or remove subscriptions to remote video sources provided via <code>remoteVideoSourcesDidBecomeAvailable</code>.</p>
+
+<p>Including a <code><a href="../Classes/RemoteVideoSource.html">RemoteVideoSource</a></code> in <code>addedOrUpdated</code> which was not previously provided will result in the negotiation of media flow for that source. After negotiation has
+completed,<code>videoTileDidAdd</code> on the tile controller will be called with the <code>TileState</code> of the source, and applications
+can render the video via &lsquo;bindVideoTile&rsquo;. Reincluding a <code><a href="../Classes/RemoteVideoSource.html">RemoteVideoSource</a></code> can be done to update the provided <code><a href="../Classes/VideoSubscriptionConfiguration.html">VideoSubscriptionConfiguration</a></code>,
+but it is not necessary to continue receiving frames.</p>
+
+<p>Including a <code><a href="../Classes/RemoteVideoSource.html">RemoteVideoSource</a></code> in <code>removed</code> will stop the flow video from that source, and lead to a <code>videoTileDidRemove</code> call on the
+tile controller to indicate to the application that the tile should be unbound. To restart the flow of media, the source should be re-added by
+including in <code>addedOrUpdated</code>. Note that videos no longer available in a meeting (i.e. listed in
+<code>remoteVideoSourcesDidBecomeUnavailable</code> do not need to be removed, as they will be automatically unsubscribed from.</p>
+
+<p>Note that before this function is called for the first time, the client will automatically subscribe to all video sources.
+However this behavior will cease upon first call (e.g. if there are 10 videos in the meeting, the controller will subscribe to all 10, however if
+<code>updateVideoSourceSubscriptions</code> is called with a single video in <code>addedOrUpdated</code>, the client will unsubscribe from the other 9.
+This automatic subscription behavior may be removed in future major version updates, builders should avoid relying on the logic
+and instead explicitly call <code>updateVideoSourceSubscriptions</code> with the sources they want to receive.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">updateVideoSourceSubscriptions</span><span class="p">(</span><span class="nv">addedOrUpdated</span><span class="p">:</span> <span class="kt">Dictionary</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/RemoteVideoSource.html">RemoteVideoSource</a></span><span class="p">,</span> <span class="kt"><a href="../Classes/VideoSubscriptionConfiguration.html">VideoSubscriptionConfiguration</a></span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">removed</span><span class="p">:</span> <span class="kt">Array</span><span class="o">&lt;</span><span class="kt"><a href="../Classes/RemoteVideoSource.html">RemoteVideoSource</a></span><span class="o">&gt;</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>addedOrUpdated</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Dictionary of remote video sources to configurations to add or update</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>removed</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Array of remote video sources to remove</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2021 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2021-12-21)</p>
+          <p>&copy; 2022 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2022-02-24)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
