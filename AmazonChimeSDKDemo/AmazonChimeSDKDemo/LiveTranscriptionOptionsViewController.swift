@@ -360,7 +360,7 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
         
         let encodedData = try? JSONEncoder().encode(transcriptionStreamParams)
         let transcriptionStreamParamsEncoded = String(data: encodedData!, encoding: .utf8)
-        let url = self.meetingEndpointUrl.hasSuffix("/") ? self.meetingEndpointUrl : "\(self.meetingEndpointUrl)/"
+        url = self.meetingEndpointUrl.hasSuffix("/") ? self.meetingEndpointUrl : "\(self.meetingEndpointUrl)/"
         let encodedURL = HttpUtils.encodeStrForURL(
             str: "\(url)start_transcription?title=\(meetingId)" +
             "&language=\(languageSelected)" +

@@ -21,7 +21,6 @@ class AutomaticLanguageDetectionViewController: UIViewController, UITextFieldDel
     public var languages: [String] = []
     public var languagesDict: [String: String] = [:]
     
-   // var languageOptions: [String] = []
     var preferredLanguages = ["-- Optional --"]
     var selectedLanguages = " "
     var preferredLanguageSelected = " "
@@ -95,7 +94,7 @@ extension AutomaticLanguageDetectionViewController: UITableViewDelegate, UITable
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         preferredLanguagesTextField.text = preferredLanguages[row]
-        preferredLanguageSelected = preferredLanguages[row]
+        preferredLanguageSelected = ((languagesDict as NSDictionary).allKeys(for: preferredLanguages[row]).first as? String)!
         preferredLanguagesTextField.resignFirstResponder()
     }
     
