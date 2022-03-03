@@ -1,6 +1,6 @@
 # Configuring Remote Video Subscriptions
 
-Amazon Chime SDK allows builders to have complete control over the remote videos received by each of their application’s end-users. This can be accomplished using the API [AudioVideoFacade.updateVideoSourceSubscriptions](https://aws.github.io/amazon-chime-sdk-android/amazon-chime-sdk/com.amazonaws.services.chime.sdk.meetings.audiovideo/-default-audio-video-facade/update-video-source-subscriptions.html). This document explains how to use the the API (introduced in version 0.15.0), and how applications can take advantage of it to meet their use cases.
+Amazon Chime SDK allows builders to have complete control over the remote videos received by each of their application’s end-users. This can be accomplished using the API [AudioVideoFacade.updateVideoSourceSubscriptions](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)updateVideoSourceSubscriptionsWithAddedOrUpdated:removed:). This document explains how to use the the API (introduced in version 0.19.0), and how applications can take advantage of it to meet their use cases.
 
 ## Prerequisites
 
@@ -15,8 +15,7 @@ To utilize [AudioVideoFacade.updateVideoSourceSubscriptions](https://aws.github.
 AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)updateVideoSourceSubscriptionsWithAddedOrUpdated:removed:)
 builders must first become aware of existing remote video sources through subscription to [AudioVideoObserver.remoteVideoSourcesDidBecomeAvailable]
 (https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoObserver.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)remoteVideoSourcesDidBecomeAvailableWithSources:) and 
-[AudioVideoObserver.onRemoteVideoSourceUnavailable](https://aws.github.io/amazon-chime-sdk-android/amazon-chime-sdk/com.amazonaws.services.chime.sdk.
-meetings.audiovideo/-audio-video-observer/on-remote-video-source-unavailable.html). 
+[AudioVideoObserver.remoteVideoSourcesDidBecomeUnavailable](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoObserver.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)remoteVideoSourcesDidBecomeUnavailableWithSources:). 
 When an attendee joins a meeting for the first time, the former will be called with the complete list of remote video sources at that point of time. 
 The observers will then be called for any differential updates immediately as information is available. 
 Builder applications can use the [RemoteVideoSource](https://aws.github.io/amazon-chime-sdk-ios/Classes/RemoteVideoSource.html) objects as keys in 
@@ -36,12 +35,12 @@ Under constrained networks where simulcast is in use, the Amazon Chime SDK may l
 A typical workflow to use this SDK API would be:
 
 1. Monitor callbacks on [AudioVideoObserver.remoteVideoSourcesDidBecomeAvailable]
-(https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoObserver.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)remoteVideoSourcesDidBecomeAvailableWithSources:) / [AudioVideoObserver.onRemoteVideoSourceUnavailable](https://aws.github.io/amazon-chime-sdk-android/amazon-chime-sdk/com.amazonaws.services.chime.sdk.meetings.audiovideo/-audio-video-observer/on-remote-video-source-unavailable.html) to receive updates on available sources. *Store these sources as they must be used as keys to following function calls.*
+(https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoObserver.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)remoteVideoSourcesDidBecomeAvailableWithSources:) / [AudioVideoObserver.remoteVideoSourcesDidBecomeUnavailable](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoObserver.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)remoteVideoSourcesDidBecomeUnavailableWithSources:) to receive updates on available sources. *Store these sources as they must be used as keys to following function calls.*
 2. Create a [VideoSubscriptionConfiguration](https://aws.github.io/amazon-chime-sdk-ios/Classes/VideoSubscriptionConfiguration.html) for each video stream and then call [AudioVideoFacade.updateVideoSourceSubscriptions](https://aws.github.io/amazon-chime-sdk-ios/Protocols/
 AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)updateVideoSourceSubscriptionsWithAddedOrUpdated:removed:) , mapping the previous stored sources to configuration as desired
     
 3. Repeat step 2 as needed to update the desired receiving set of remote sources and their priorities, either due to changes indicated by [AudioVideoObserver.remoteVideoSourcesDidBecomeAvailable]
-(https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoObserver.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)remoteVideoSourcesDidBecomeAvailableWithSources:) / [AudioVideoObserver.onRemoteVideoSourceUnavailable](https://aws.github.io/amazon-chime-sdk-android/amazon-chime-sdk/com.amazonaws.services.chime.sdk.meetings.audiovideo/-audio-video-observer/on-remote-video-source-unavailable.html) (note that unavailable videos will be automatically unsubscribed from even if provided in [AudioVideoFacade.updateVideoSourceSubscriptions](https://aws.github.io/amazon-chime-sdk-ios/Protocols/
+(https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoObserver.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)remoteVideoSourcesDidBecomeAvailableWithSources:) / [AudioVideoObserver.remoteVideoSourcesDidBecomeUnavailable](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoObserver.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)remoteVideoSourcesDidBecomeUnavailableWithSources:) (note that unavailable videos will be automatically unsubscribed from even if provided in [AudioVideoFacade.updateVideoSourceSubscriptions](https://aws.github.io/amazon-chime-sdk-ios/Protocols/
 AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)updateVideoSourceSubscriptionsWithAddedOrUpdated:removed:) ) or other application events (like switching the current page of videos).
 
 See API documentation pages for specific, lower level details on each of these APIs.
@@ -51,7 +50,7 @@ See API documentation pages for specific, lower level details on each of these A
 Below, we are going to show one potential use case for a “featured video”, that can be built on top of this API. A video tile can be featured by adding a special video layout that makes one video larger then the others, but those details are not provided here. The video with highest priority will not be paused or downgraded if simulcast uplink policy being enabled on the remote side until all of the rest are also downgrading when encountering network constraints.
 
 First we can have an observer on [AudioVideoObserver.remoteVideoSourcesDidBecomeAvailable]
-(https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoObserver.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)remoteVideoSourcesDidBecomeAvailableWithSources:) / [AudioVideoObserver.onRemoteVideoSourceUnavailable](https://aws.github.io/amazon-chime-sdk-android/amazon-chime-sdk/com.amazonaws.services.chime.sdk.meetings.audiovideo/-audio-video-observer/on-remote-video-source-unavailable.html) and keep track of if which clients are publishing video and store some initial configuration, before calling [AudioVideoFacade.updateVideoSourceSubscriptions](https://aws.github.io/amazon-chime-sdk-ios/Protocols/
+(https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoObserver.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)remoteVideoSourcesDidBecomeAvailableWithSources:) / [[AudioVideoObserver.remoteVideoSourcesDidBecomeUnavailable](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoObserver.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)remoteVideoSourcesDidBecomeUnavailableWithSources:) and keep track of if which clients are publishing video and store some initial configuration, before calling [AudioVideoFacade.updateVideoSourceSubscriptions](https://aws.github.io/amazon-chime-sdk-ios/Protocols/
 AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)updateVideoSourceSubscriptionsWithAddedOrUpdated:removed:) with default configurations.
 
 

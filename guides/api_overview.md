@@ -314,4 +314,4 @@ Content share metrics will be prefixed by `contentShare`.
 
 ## 14. Configuring Remote Video Subscriptions
 
-Amazon Chime SDK allows builders to have complete control over the remote videos received by each of their application’s end-users. This can be accomplished using the API [AudioVideoFacade.updateVideoSourceSubscriptions](https://aws.github.io/amazon-chime-sdk-android/amazon-chime-sdk/com.amazonaws.services.chime.sdk.meetings.audiovideo/-default-audio-video-facade/update-video-source-subscriptions.html). See [Configuring Remote Video Subscriptions](/guides/configuring_remote_video_subscriptions.md) for more information.
+Amazon Chime SDK allows builders to have complete control over the remote videos received by each of their application’s end-users. This can be accomplished using the API [AudioVideoFacade.updateVideoSourceSubscriptions](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)updateVideoSourceSubscriptionsWithAddedOrUpdated:removed:). See [Configuring Remote Video Subscriptions](/guides/configuring_remote_video_subscriptions.md) for more information.
