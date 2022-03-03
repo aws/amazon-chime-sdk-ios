@@ -88,6 +88,7 @@ For the purpose of setup, your project's root folder (where you can find your `.
 #### 1. Download Binaries
 
 * Download the `AmazonChimeSDK` and `AmazonChimeSDKMedia` binaries from the latest [release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
+  * If you like to use background blur and background replacement, also download the `AmazonChimeSDKMachineLearning` binary. Otherwise, you can ignore all references to `AmazonChimeSDKMachineLearning` in the instructions below.
 
 * Unzip and copy the `.framework`s or `.xcframework`s to `root`, which depends on which framework your project uses.  For Xcode12.3 and later, please use `.xcframework` if you have compile issue. `.xcframework` is available after Amazon Chime SDK iOS v0.15.0
 
@@ -104,15 +105,18 @@ For the purpose of setup, your project's root folder (where you can find your `.
     * `-lc++`
     * `-ObjC`
 
+* Under `Build Phases` tab,
+  * add `selfie_segmentation_landscape.tflite` found in `AmazonChimeSDKMachineLearning.framework/selfie_segmentation_landscape.tflite` or `AmazonChimeSDKMachineLearning.xcframework/ios-arm64/AmazonChimeSDKMachineLearning.framework/selfie_segmentation_landscape.tflite` to `Copy Bundle Resources`.
+
 <p align="center">
 <img src="./media/build_setting.png" alt="image" width="80%"/>
 </p>
 
 * Under `General` tab, look for `Frameworks, Libraries, and Embedded Content` section. Click on +, then `Add Others`, then `Add Files`.
 
-  * If you are using traditional `.framework`, specify the location of `AmazonChimeSDK.framework` and `AmazonChimeSDKMedia.framework` from Step 1. If you have compile error while using traditional `.framework`, which occurs in Xcode 12.3 and later, please use `.xcframework` instead, which is available after Amazon Chime SDK iOS v0.15.0.
-  * If you are using `.xcframework`, specify the location of `AmazonChimeSDK.xcframework` and `AmazonChimeSDKMedia.xcframework` from Step 1.
-  * For these two frameworks, verify that `Embed & Sign` is selected under the `Embed` option.
+  * If you are using traditional `.framework`, specify the location of `AmazonChimeSDK.framework`, `AmazonChimeSDKMedia.framework`, and `AmazonChimeSDKMachineLearning.framework` from Step 1. If you have compile error while using traditional `.framework`, which occurs in Xcode 12.3 and later, please use `.xcframework` instead, which is available after Amazon Chime SDK iOS v0.15.0.
+  * If you are using `.xcframework`, specify the location of `AmazonChimeSDK.xcframework`, `AmazonChimeSDKMedia.xcframework`, and `AmazonChimeSDKMachineLearning.xcframework` from Step 1.
+  * For these frameworks, verify that `Embed & Sign` is selected under the `Embed` option.
 
 <p align="center">
 <img src="./media/xcframework_setting.png" alt="image" width="80%"/>
@@ -136,9 +140,9 @@ $ pod install --repo-update
 ```
 
 #### Or From Downloaded Binary
-* Download `AmazonChimeSDKMedia` binary with bitcode support from the latest [release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
+* Download `AmazonChimeSDKMedia` and `AmazonChimeSDKMachineLearning` binaries with bitcode support from the latest [release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
 
-* Unzip and copy the `AmazonChimeSDKMedia.framework` to `AmazonChimeSDK` folder.
+* Unzip and copy `AmazonChimeSDKMedia.framework` and `AmazonChimeSDKMachineLearning.framework`  to `AmazonChimeSDK` folder.
 
 ### 3. Deploy Serverless Demo
 
@@ -146,12 +150,13 @@ Deploy the serverless demo from [amazon-chime-sdk-js](https://github.com/aws/ama
 
 ### 4. Update AmazonChimeSDKDemo Project File
 
-* If set up the demo application using `.framework`, please skip the below 4 steps. If encounter compile error when using traditional `.framework`, which occurs in Xcode 12.3 and later, please use `.xcframework` instead.
+* If set up the demo application using `.framework`, please skip the below 5 steps. If encounter compile error when using traditional `.framework`, which occurs in Xcode 12.3 and later, please use `.xcframework` instead.
 
   * Replace `AmazonChimeSDKMedia.framework` with `AmazonChimeSDKMedia.xcframework` under `root/AmazonChimeSDK` folder,  which is available after Amazon Chime SDK iOS v0.15.0.
   * *For each target*, under `General` tab, look for `Frameworks, Libraries, and Embedded Content` section. Select `AmazonChimeSDKMedia.framework` and click `-` to remove it.
   * Then click `+`, click `Add Other` drop-down list, then `Add Files`.
   * Specify the location of `AmazonChimeSDKMedia.xcframework` and verify that `Embed & Sign` is selected under the `Embed` option.
+  * Do the same as above except for `AmazonChimeSDKMachineLearning` instead of `AmazonChimeSDKMedia`.
 
 
 * `AmazonChimeDemoSDKBroadcast.appex` is a Broadcast Extension for device level screen sharing used by AmazonChimeSDKDemo, verify that `Embed without Signing` is selected under the `Embed` option. Remove it from `Frameworks, Libraries, and Embedded Content` section if you do not wish to test this.
@@ -686,6 +691,8 @@ Applications can get logs from Chime SDK by passing instances of Logger when cre
 logger = ConsoleLogger(name: "logger", level: .DEFAULT)
 ```
 
+## Notice
+You and your end users are responsible for all Content (including any images) uploaded for use with background replacement, and must ensure that such Content does not violate the law, infringe or misappropriate the rights of any third party, or otherwise violate a material term of your agreement with Amazon (including the documentation, the AWS Service Terms, or the Acceptable Use Policy).
 
 ---
 

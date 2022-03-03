@@ -86,7 +86,6 @@
 		00D12B87265F00370059461B /* DefaultMeetingEventReporterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D12B86265F00370059461B /* DefaultMeetingEventReporterFactory.swift */; };
 		00D12B8B265F02130059461B /* NoopEventReporterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D12B8A265F02130059461B /* NoopEventReporterFactory.swift */; };
 		00D9DBB2241AE23F00146467 /* DefaultVideoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D9DBB1241AE23F00146467 /* DefaultVideoClient.swift */; };
-		00DCD47025AD418200F74046 /* AmazonChimeSDKMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ADEAFA024293B2700801EA5 /* AmazonChimeSDKMedia.framework */; };
 		00DCD47625AD41B000F74046 /* DeviceUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00DCD47525AD41B000F74046 /* DeviceUtils.swift */; };
 		00E198DA259BBFD400AD4DAA /* DefaultEventAnalyticsControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E198D9259BBFD400AD4DAA /* DefaultEventAnalyticsControllerTests.swift */; };
 		00E198E1259BC0CF00AD4DAA /* EventNameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E198E0259BC0CF00AD4DAA /* EventNameTests.swift */; };
@@ -256,6 +255,21 @@
 		C6DA0B5B24F80BAC00028F2B /* AudioClientProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DA0B5A24F80BAC00028F2B /* AudioClientProtocol.swift */; };
 		C6DA0B5D24F8107000028F2B /* AudioLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DA0B5C24F8107000028F2B /* AudioLock.swift */; };
 		C6DA0B6224F961AA00028F2B /* DefaultAudioVideoControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DA0B6124F961AA00028F2B /* DefaultAudioVideoControllerTests.swift */; };
+		CF4BA473280FBE72005E6DAE /* BackgroundBlurConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4BA472280FBE72005E6DAE /* BackgroundBlurConfiguration.swift */; };
+		CF5B9A13281716E600441A7D /* BackgroundReplacementConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5B9A12281716E600441A7D /* BackgroundReplacementConfiguration.swift */; };
+		CFA2A14928074E2A008FDFF5 /* SegmentationProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2A14528074E2A008FDFF5 /* SegmentationProcessor.swift */; };
+		CFA2A14A28074E2A008FDFF5 /* BackgroundBlurVideoFrameProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2A14628074E2A008FDFF5 /* BackgroundBlurVideoFrameProcessor.swift */; };
+		CFA2A14B28074E2A008FDFF5 /* BackgroundFilterProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2A14728074E2A008FDFF5 /* BackgroundFilterProcessor.swift */; };
+		CFA2A14C28074E2A008FDFF5 /* BackgroundReplacementVideoFrameProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2A14828074E2A008FDFF5 /* BackgroundReplacementVideoFrameProcessor.swift */; };
+		CFA2A14E28074F85008FDFF5 /* ImageConversionUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2A14D28074F85008FDFF5 /* ImageConversionUtils.swift */; };
+		CFA2A15028074FE7008FDFF5 /* ResourceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2A14F28074FE7008FDFF5 /* ResourceError.swift */; };
+		CFA2A1542807DAAA008FDFF5 /* BackgroundFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2A1532807DAAA008FDFF5 /* BackgroundFilter.swift */; };
+		CFA2A16328085D23008FDFF5 /* BackgroundBlurStrength.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2A16228085D23008FDFF5 /* BackgroundBlurStrength.swift */; };
+		CFA2A17028087AE8008FDFF5 /* BackgroundFilterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2A16F28087AE8008FDFF5 /* BackgroundFilterTest.swift */; };
+		CFA2A17728091499008FDFF5 /* AmazonChimeSDKMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ADEAFA024293B2700801EA5 /* AmazonChimeSDKMedia.framework */; };
+		CFD14AAC281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite in Resources */ = {isa = PBXBuildFile; fileRef = CFD14AAB281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite */; };
+		CFD14AAD281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite in Resources */ = {isa = PBXBuildFile; fileRef = CFD14AAB281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite */; };
+		CFF1553C2819C123009E257B /* background-ml-test-image.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CFF1553B2819C123009E257B /* background-ml-test-image.jpeg */; };
 		F81104AC276190AA003D17AD /* VideoPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81104A8276190A9003D17AD /* VideoPriority.swift */; };
 		F81104AD276190AA003D17AD /* RemoteVideoSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81104A9276190A9003D17AD /* RemoteVideoSource.swift */; };
 		F81104AE276190AA003D17AD /* VideoResolution.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81104AA276190A9003D17AD /* VideoResolution.swift */; };
@@ -533,6 +547,19 @@
 		C6DA0B5A24F80BAC00028F2B /* AudioClientProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioClientProtocol.swift; sourceTree = "<group>"; };
 		C6DA0B5C24F8107000028F2B /* AudioLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioLock.swift; sourceTree = "<group>"; };
 		C6DA0B6124F961AA00028F2B /* DefaultAudioVideoControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAudioVideoControllerTests.swift; sourceTree = "<group>"; };
+		CF4BA472280FBE72005E6DAE /* BackgroundBlurConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundBlurConfiguration.swift; sourceTree = "<group>"; };
+		CF5B9A12281716E600441A7D /* BackgroundReplacementConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundReplacementConfiguration.swift; sourceTree = "<group>"; };
+		CFA2A14528074E2A008FDFF5 /* SegmentationProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentationProcessor.swift; sourceTree = "<group>"; };
+		CFA2A14628074E2A008FDFF5 /* BackgroundBlurVideoFrameProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundBlurVideoFrameProcessor.swift; sourceTree = "<group>"; };
+		CFA2A14728074E2A008FDFF5 /* BackgroundFilterProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundFilterProcessor.swift; sourceTree = "<group>"; };
+		CFA2A14828074E2A008FDFF5 /* BackgroundReplacementVideoFrameProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundReplacementVideoFrameProcessor.swift; sourceTree = "<group>"; };
+		CFA2A14D28074F85008FDFF5 /* ImageConversionUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageConversionUtils.swift; sourceTree = "<group>"; };
+		CFA2A14F28074FE7008FDFF5 /* ResourceError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceError.swift; sourceTree = "<group>"; };
+		CFA2A1532807DAAA008FDFF5 /* BackgroundFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundFilter.swift; sourceTree = "<group>"; };
+		CFA2A16228085D23008FDFF5 /* BackgroundBlurStrength.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundBlurStrength.swift; sourceTree = "<group>"; };
+		CFA2A16F28087AE8008FDFF5 /* BackgroundFilterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundFilterTest.swift; sourceTree = "<group>"; };
+		CFD14AAB281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = selfie_segmentation_landscape.tflite; sourceTree = "<group>"; };
+		CFF1553B2819C123009E257B /* background-ml-test-image.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "background-ml-test-image.jpeg"; sourceTree = "<group>"; };
 		F81104A8276190A9003D17AD /* VideoPriority.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPriority.swift; sourceTree = "<group>"; };
 		F81104A9276190A9003D17AD /* RemoteVideoSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteVideoSource.swift; sourceTree = "<group>"; };
 		F81104AA276190A9003D17AD /* VideoResolution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoResolution.swift; sourceTree = "<group>"; };
@@ -552,7 +579,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00DCD47025AD418200F74046 /* AmazonChimeSDKMedia.framework in Frameworks */,
+				CFA2A17728091499008FDFF5 /* AmazonChimeSDKMedia.framework in Frameworks */,
 				5AE38AC82428728300B234EC /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -700,6 +727,7 @@
 		00825F4923D90A2D00388D08 /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				CFA2A14F28074FE7008FDFF5 /* ResourceError.swift */,
 				00825F4A23D90A5F00388D08 /* logger */,
 				5A6F8181246244C30031AE97 /* MediaError.swift */,
 				00C2509D23E217F700325841 /* PermissionError.swift */,
@@ -752,6 +780,7 @@
 		5A15821323C4020D0099F8FA = {
 			isa = PBXGroup;
 			children = (
+				CFD14AAB281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite */,
 				5A15821F23C4020D0099F8FA /* AmazonChimeSDK */,
 				5A15822A23C4020D0099F8FA /* AmazonChimeSDKTests */,
 				5A15821E23C4020D0099F8FA /* Products */,
@@ -872,6 +901,7 @@
 		5A631A4024297BB200C8DAF3 /* video */ = {
 			isa = PBXGroup;
 			children = (
+				CFA2A14428074E2A008FDFF5 /* backgroundfilter */,
 				F81104A9276190A9003D17AD /* RemoteVideoSource.swift */,
 				F81104A8276190A9003D17AD /* VideoPriority.swift */,
 				F81104AA276190A9003D17AD /* VideoResolution.swift */,
@@ -1075,6 +1105,7 @@
 		5A631A52242993AE00C8DAF3 /* video */ = {
 			isa = PBXGroup;
 			children = (
+				CFA2A15128075065008FDFF5 /* backgroundfilter */,
 				C4EDDAAA253F46E70028264A /* capture */,
 				C49A1C53253F43A50089FEEF /* VideoFrameTests.swift */,
 				C49A1C4F253F409C0089FEEF /* VideoContentHintTests.swift */,
@@ -1109,6 +1140,7 @@
 		5A9196FC245A4AC500E17CDE /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				CFA2A14D28074F85008FDFF5 /* ImageConversionUtils.swift */,
 				002C1FAB2641C50000C9B919 /* EventAttributesUtils.swift */,
 				002C1FB3264208E500C9B919 /* http */,
 				00DCD47525AD41B000F74046 /* DeviceUtils.swift */,
@@ -1312,6 +1344,54 @@
 			path = protocols;
 			sourceTree = "<group>";
 		};
+		CF5B9A14281716EF00441A7D /* backgroundblur */ = {
+			isa = PBXGroup;
+			children = (
+				CFA2A14628074E2A008FDFF5 /* BackgroundBlurVideoFrameProcessor.swift */,
+				CFA2A16228085D23008FDFF5 /* BackgroundBlurStrength.swift */,
+				CF4BA472280FBE72005E6DAE /* BackgroundBlurConfiguration.swift */,
+			);
+			path = backgroundblur;
+			sourceTree = "<group>";
+		};
+		CF5B9A15281716FB00441A7D /* backgroundreplacement */ = {
+			isa = PBXGroup;
+			children = (
+				CFA2A14828074E2A008FDFF5 /* BackgroundReplacementVideoFrameProcessor.swift */,
+				CF5B9A12281716E600441A7D /* BackgroundReplacementConfiguration.swift */,
+			);
+			path = backgroundreplacement;
+			sourceTree = "<group>";
+		};
+		CFA2A14428074E2A008FDFF5 /* backgroundfilter */ = {
+			isa = PBXGroup;
+			children = (
+				CF5B9A15281716FB00441A7D /* backgroundreplacement */,
+				CF5B9A14281716EF00441A7D /* backgroundblur */,
+				CFA2A14528074E2A008FDFF5 /* SegmentationProcessor.swift */,
+				CFA2A14728074E2A008FDFF5 /* BackgroundFilterProcessor.swift */,
+				CFA2A1532807DAAA008FDFF5 /* BackgroundFilter.swift */,
+			);
+			path = backgroundfilter;
+			sourceTree = "<group>";
+		};
+		CFA2A15128075065008FDFF5 /* backgroundfilter */ = {
+			isa = PBXGroup;
+			children = (
+				CFA2A15228075065008FDFF5 /* resources */,
+				CFA2A16F28087AE8008FDFF5 /* BackgroundFilterTest.swift */,
+			);
+			path = backgroundfilter;
+			sourceTree = "<group>";
+		};
+		CFA2A15228075065008FDFF5 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				CFF1553B2819C123009E257B /* background-ml-test-image.jpeg */,
+			);
+			path = resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1414,6 +1494,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F86CB7412411B9A6004FD82F /* exported_symbols in Resources */,
+				CFD14AAC281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1421,6 +1502,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFF1553C2819C123009E257B /* background-ml-test-image.jpeg in Resources */,
+				CFD14AAD281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1486,6 +1569,7 @@
 				5403538827D0C9E9007BABD7 /* TranscriptEntity.swift in Sources */,
 				002C1FEA2649D5CD00C9B919 /* EventSender.swift in Sources */,
 				7C0D1BEF241ACC7B00280031 /* ActiveSpeakerDetectorFacade.swift in Sources */,
+				CFA2A15028074FE7008FDFF5 /* ResourceError.swift in Sources */,
 				C49B5424247EFD2B002829F1 /* ConcurrentMutableSet.swift in Sources */,
 				7C0D1BF0241ACC7B00280031 /* ActiveSpeakerObserver.swift in Sources */,
 				C42A8A16253E35CD008419A6 /* VideoCaptureSource.swift in Sources */,
@@ -1530,6 +1614,7 @@
 				6AA9F93F2522438F00EB0644 /* VideoSourceAdapter.swift in Sources */,
 				0007BD992633453D00A15BB6 /* EventClientConfiguration.swift in Sources */,
 				C4F8B6552580172200D9AE54 /* CMCampleBufferExtensions.swift in Sources */,
+				CFA2A16328085D23008FDFF5 /* BackgroundBlurStrength.swift in Sources */,
 				5A16B9C923FDF44500ADAE26 /* DefaultClientMetricsCollector.swift in Sources */,
 				C48339B8256836E700F011D0 /* DefaultContentShareVideoClientController.swift in Sources */,
 				C42A8A1C253E3B15008419A6 /* CameraCaptureSource.swift in Sources */,
@@ -1546,6 +1631,7 @@
 				5A6A209923CB1164000C9157 /* DefaultMeetingSession.swift in Sources */,
 				0083A11623D8CFFD0057027A /* DefaultRealtimeController.swift in Sources */,
 				00D9DBB2241AE23F00146467 /* DefaultVideoClient.swift in Sources */,
+				CFA2A14A28074E2A008FDFF5 /* BackgroundBlurVideoFrameProcessor.swift in Sources */,
 				002C1FE42648920A00C9B919 /* IngestionEventAttributes.swift in Sources */,
 				C4A6908C255B529200F28BC2 /* TURNRequestService.swift in Sources */,
 				003D78D826127EC8009B2ABB /* DatabaseClient.swift in Sources */,
@@ -1566,6 +1652,7 @@
 				B4980CA123E78B9A00D2DB64 /* DeviceController.swift in Sources */,
 				0007BDB326335DE500A15BB6 /* DefaultEventBuffer.swift in Sources */,
 				C4A6906E255B0E5500F28BC2 /* ContentShareSource.swift in Sources */,
+				CFA2A14928074E2A008FDFF5 /* SegmentationProcessor.swift in Sources */,
 				002307522630C3390074947E /* SQLiteDatabaseManager.swift in Sources */,
 				C4A69086255B0F1D00F28BC2 /* InAppScreenCaptureSource.swift in Sources */,
 				002C1FA4264128CE00C9B919 /* MeetingEventClientConfiguration.swift in Sources */,
@@ -1588,6 +1675,7 @@
 				5A6A209723CB1164000C9157 /* MeetingSessionCredentials.swift in Sources */,
 				6AA9F9462522439F00EB0644 /* VideoSink.swift in Sources */,
 				B418163024B79C0600FA62BF /* DataMessage.swift in Sources */,
+				CFA2A14C28074E2A008FDFF5 /* BackgroundReplacementVideoFrameProcessor.swift in Sources */,
 				0068454926125063002AB143 /* SDKEvent.swift in Sources */,
 				002C1FB72642099F00C9B919 /* DefaultBackoffRetry.swift in Sources */,
 				003B588923E22C4F002493AB /* MeetingSessionStatus.swift in Sources */,
@@ -1596,6 +1684,7 @@
 				F8204ADC23F499410099E3D1 /* MeetingSessionTURNCredentials.swift in Sources */,
 				C4A6907E255B0EF600F28BC2 /* DefaultContentShareController.swift in Sources */,
 				F81104AD276190AA003D17AD /* RemoteVideoSource.swift in Sources */,
+				CF4BA473280FBE72005E6DAE /* BackgroundBlurConfiguration.swift in Sources */,
 				C61475E526EFF71500CDEC09 /* TranscriptEventObserver.swift in Sources */,
 				C4A69072255B0E8F00F28BC2 /* ContentShareStatus.swift in Sources */,
 				5A6A209823CB1164000C9157 /* MeetingSessionURLs.swift in Sources */,
@@ -1605,6 +1694,7 @@
 				5A16B9E323FDF45200ADAE26 /* ObservableMetric.swift in Sources */,
 				007A4478262A4CB500761A14 /* IngestionMeetingEvent.swift in Sources */,
 				00C2509E23E217F700325841 /* PermissionError.swift in Sources */,
+				CFA2A1542807DAAA008FDFF5 /* BackgroundFilter.swift in Sources */,
 				6AE9B5B3258ACBDA00DF7FF7 /* VideoFrameResender.swift in Sources */,
 				00F20F1B2620E73E00C470E9 /* URLSessionProtocol.swift in Sources */,
 				6AA9F9482522439F00EB0644 /* VideoFrame.swift in Sources */,
@@ -1622,6 +1712,7 @@
 				002F8FE225BF984B00006F46 /* MeetingStatsCollector.swift in Sources */,
 				000C307E2580558900863981 /* EventAnalyticsFacade.swift in Sources */,
 				F82D50D723FC752600D8F18C /* SignalStrength.swift in Sources */,
+				CF5B9A13281716E600441A7D /* BackgroundReplacementConfiguration.swift in Sources */,
 				5AE121E9240F6ABF0090A2AD /* SignalUpdate.swift in Sources */,
 				C6DA0B2924F71C1C00028F2B /* AudioSession.swift in Sources */,
 				002C1FA826412A5400C9B919 /* IngestionEventConverter.swift in Sources */,
@@ -1630,6 +1721,7 @@
 				F81104AE276190AA003D17AD /* VideoResolution.swift in Sources */,
 				002C1FB0264208E100C9B919 /* BackoffRetry.swift in Sources */,
 				C67E9B7626F4FBC20084C9B4 /* TranscriptItem.swift in Sources */,
+				CFA2A14E28074F85008FDFF5 /* ImageConversionUtils.swift in Sources */,
 				002F8FE625BF986800006F46 /* DefaultMeetingStatsCollector.swift in Sources */,
 				F8C0145E23F1D50E0083D478 /* VideoClientController.swift in Sources */,
 				6AA9F9492522439F00EB0644 /* DefaultCameraCaptureSource.swift in Sources */,
@@ -1644,6 +1736,7 @@
 				00F20F0B26201D0B00C470E9 /* HttpUtils.swift in Sources */,
 				002C1FE02645E24E00C9B919 /* IngestionPayload.swift in Sources */,
 				0013A4F2264A5CC00058C831 /* DefaultEventSender.swift in Sources */,
+				CFA2A14B28074E2A008FDFF5 /* BackgroundFilterProcessor.swift in Sources */,
 				00EB5F612400591800007D3E /* VideoTile.swift in Sources */,
 				00C9DC6323FA368D00876B41 /* VideoTileController.swift in Sources */,
 				002C1FDC2645DCCC00C9B919 /* IngestionMetadata.swift in Sources */,
@@ -1677,6 +1770,7 @@
 				5A6F818C24637AB80031AE97 /* AudioClientStateTests.swift in Sources */,
 				C61D43222703BD9D00150F03 /* DefaultVideoClientControllerTests.swift in Sources */,
 				5A2210E524BE577E0038725B /* DefaultMeetingSessionTests.swift in Sources */,
+				CFA2A17028087AE8008FDFF5 /* BackgroundFilterTest.swift in Sources */,
 				00E198E1259BC0CF00AD4DAA /* EventNameTests.swift in Sources */,
 				00E198EF259BCA5A00AD4DAA /* EventAttributeNameTests.swift in Sources */,
 				820288D827359A1400B0B5D3 /* AudioModeTests.swift in Sources */,
@@ -1928,6 +2022,7 @@
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",
+					"-lc++\n-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.amazonaws.services.chime.AmazonChimeSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -1985,6 +2080,7 @@
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",
+					"-lc++\n-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.amazonaws.services.chime.AmazonChimeSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";

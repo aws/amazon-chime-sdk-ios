@@ -1,3 +1,7 @@
+[Unreleased]
+### Added
+* Added background blur and background replacement features. More details [here](https://github.com/aws/amazon-chime-sdk-android/blob/master/guides/background_video_filters.md).
+
 ## [0.19.4] - 2022-04-21
 
 ## [0.19.3] - 2022-04-07

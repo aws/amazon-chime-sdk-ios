@@ -8,12 +8,14 @@
 
 import AmazonChimeSDK
 import UIKit
+import Toast
 
 let videoTileCellReuseIdentifier = "VideoTileCell"
 
 protocol VideoTileCellDelegate: class {
     func onTileButtonClicked(tag: Int, selected: Bool)
     func onUpdatePriorityButtonClicked(attendeeId: String, priority: VideoPriority)
+    func onVideoFilterButtonClicked(videoFilter: BackgroundFilter, uiView: UIViewController)
 }
 
 class VideoTileCell: UICollectionViewCell {
@@ -21,6 +23,7 @@ class VideoTileCell: UICollectionViewCell {
     @IBOutlet var shadedView: UIView!
     @IBOutlet var onTileButton: UIButton!
     @IBOutlet var updateVideoSubscriptionsButton: UIButton!
+    @IBOutlet var videoFiltersButton: UIButton!
     @IBOutlet var videoDisabledImage: UIImageView!
     @IBOutlet var poorConnectionBackground: UIView!
     @IBOutlet var poorConnectionImage: UIImageView!
@@ -60,10 +63,18 @@ class VideoTileCell: UICollectionViewCell {
         onTileButton.addTarget(self, action: #selector(onTileButtonClicked), for: .touchUpInside)
         onTileButton.isSelected = isVideoPausedByUser
         updateVideoSubscriptionsButton.isHidden = false
-
+        videoFiltersButton.isHidden = false
+        
         if isSelf {
             onTileButton.setImage(UIImage(named: "switch-camera")?.withRenderingMode(.alwaysTemplate),
                                   for: .normal)
+            
+            updateVideoSubscriptionsButton.isHidden = true
+            // If current video cell is local video then render the menu to apply the background filters.
+            videoFiltersButton.isHidden = false
+            videoFiltersButton.setImage(UIImage(named: "more")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            videoFiltersButton.tintColor = .white
+            videoFiltersButton.addTarget(self, action: #selector(showVideoFiltersMenu), for: .touchUpInside)
         } else {
             onTileButton.setImage(UIImage(named: "pause-video")?.withRenderingMode(.alwaysTemplate),
                                   for: .normal)
@@ -75,16 +86,6 @@ class VideoTileCell: UICollectionViewCell {
             updateVideoSubscriptionsButton.setImage(UIImage(named: "more")?.withRenderingMode(.alwaysTemplate), for: .normal)
             updateVideoSubscriptionsButton.tintColor = .white
             updateVideoSubscriptionsButton.addTarget(self, action: #selector(showUpdateVideoSubscriptionsMenu), for: .touchUpInside)
-        }
-        
-        if !isSelf {
-            updateVideoSubscriptionsButton.setImage(UIImage(named: "more")?.withRenderingMode(.alwaysTemplate), for: .normal)
-            updateVideoSubscriptionsButton.tintColor = .white
-            updateVideoSubscriptionsButton.isHidden = false
-            
-            updateVideoSubscriptionsButton.addTarget(self, action: #selector(showUpdateVideoSubscriptionsMenu), for: .touchUpInside)
-        } else {
-            updateVideoSubscriptionsButton.isHidden = true
         }
     }
     
@@ -102,6 +103,24 @@ class VideoTileCell: UICollectionViewCell {
 
         // Present the controller
         viewController?.present(alertController, animated: true, completion: nil)
+    }
+
+    /// Add the background filter options to be presented.
+    @objc func showVideoFiltersMenu() {
+        let videoFilterAlertController = UIAlertController(title: "Set video filter",
+                                                           message: "Choose a video filter for the selected video",
+                                                           preferredStyle: .alert)
+        let filtersList = [BackgroundFilter.none, BackgroundFilter.blur, BackgroundFilter.replacement]
+        let titleList = ["None", "Background Blur", "Background Replacement"]
+
+        for index in 0...(filtersList.count-1) {
+            let action = UIAlertAction(title: titleList[index], style: UIAlertAction.Style.default) {_ in
+                self.delegate?.onVideoFilterButtonClicked(videoFilter: filtersList[index], uiView: self.viewController!)
+            }
+            videoFilterAlertController.addAction(action)
+        }
+
+        viewController?.present(videoFilterAlertController, animated: true, completion: nil)
     }
 
     override func prepareForReuse() {

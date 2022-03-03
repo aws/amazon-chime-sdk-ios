@@ -25,10 +25,36 @@ class VideoModel: NSObject {
     var localVideoUpdatedHandler: (() -> Void)?
     let logger = ConsoleLogger(name: "VideoModel")
 
+    private let backgroundBlurProcessor: BackgroundBlurVideoFrameProcessor
+    private var backgroundReplacementProcessor: BackgroundReplacementVideoFrameProcessor
+    private var backgroundImage: UIImage?
+
     init(audioVideoFacade: AudioVideoFacade, eventAnalyticsController: EventAnalyticsController) {
         self.audioVideoFacade = audioVideoFacade
         self.customSource = DefaultCameraCaptureSource(logger: ConsoleLogger(name: "CustomCameraSource"))
         self.customSource.setEventAnalyticsController(eventAnalyticsController: eventAnalyticsController)
+
+        // Create the background replacement image.
+        let rect = CGRect(x: 0,
+                          y: 0,
+                          width: self.customSource.format.width,
+                          height: self.customSource.format.height)
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: self.customSource.format.width,
+                                                      height: self.customSource.format.height),
+                                               false, 0)
+        UIColor.blue.setFill()
+        UIRectFill(rect)
+        let backgroundReplacementImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+
+        let backgroundReplacementConfigurations = BackgroundReplacementConfiguration(logger: ConsoleLogger(name: "BackgroundReplacementProcessor"),
+                                                                                     backgroundReplacementImage: backgroundReplacementImage)
+        self.backgroundReplacementProcessor = BackgroundReplacementVideoFrameProcessor(backgroundReplacementConfiguration: backgroundReplacementConfigurations)
+        
+        let backgroundBlurConfigurations = BackgroundBlurConfiguration(logger: ConsoleLogger(name: "BackgroundBlurProcessor"),
+                                                                       blurStrength: BackgroundBlurStrength.low)
+        self.backgroundBlurProcessor = BackgroundBlurVideoFrameProcessor(backgroundBlurConfiguration: backgroundBlurConfigurations)
+
         super.init()
     }
 
@@ -69,6 +95,8 @@ class VideoModel: NSObject {
 
                 if isUsingExternalVideoSource {
                     self.customSource.removeVideoSink(sink: self.coreImageVideoProcessor)
+                    self.customSource.removeVideoSink(sink: self.backgroundBlurProcessor)
+                    self.customSource.removeVideoSink(sink: self.backgroundReplacementProcessor)
                     if isUsingMetalVideoProcessor, let metalProcessor = self.metalVideoProcessor {
                         self.customSource.removeVideoSink(sink: metalProcessor)
                     }
@@ -123,6 +151,22 @@ class VideoModel: NSObject {
         }
     }
 
+    var isUsingBackgroundBlur = false {
+        didSet {
+            if isLocalVideoActive{
+                startLocalVideo()
+            }
+        }
+    }
+    
+    var isUsingBackgroundReplacement = false {
+        didSet {
+            if isLocalVideoActive {
+                startLocalVideo()
+            }
+        }
+    }
+    
     private var currentRemoteVideoCount: Int {
         return remoteVideoTileStates.count
     }
@@ -145,7 +189,7 @@ class VideoModel: NSObject {
     private var remoteVideoCountInCurrentPage: Int {
         return remoteVideoStatesInCurrentPage.count
     }
-
+    
     private func startLocalVideo() {
         MeetingModule.shared().requestVideoPermission { success in
             if success {
@@ -153,15 +197,24 @@ class VideoModel: NSObject {
                 if self.isUsingExternalVideoSource {
                     var customVideoSource: VideoSource = self.customSource
                     customVideoSource.removeVideoSink(sink: self.coreImageVideoProcessor)
+                    customVideoSource.removeVideoSink(sink: self.backgroundBlurProcessor)
+                    customVideoSource.removeVideoSink(sink: self.backgroundReplacementProcessor)
                     if let metalVideoProcessor = self.metalVideoProcessor {
                         customVideoSource.removeVideoSink(sink: metalVideoProcessor)
                     }
+
                     if self.isUsingCoreImageVideoProcessor {
                         customVideoSource.addVideoSink(sink: self.coreImageVideoProcessor)
                         customVideoSource = self.coreImageVideoProcessor
                     } else if self.isUsingMetalVideoProcessor, let metalVideoProcessor = self.metalVideoProcessor {
                         customVideoSource.addVideoSink(sink: metalVideoProcessor)
                         customVideoSource = metalVideoProcessor
+                    } else if self.isUsingBackgroundBlur {
+                        customVideoSource.addVideoSink(sink: self.backgroundBlurProcessor)
+                        customVideoSource = self.backgroundBlurProcessor
+                    } else if self.isUsingBackgroundReplacement {
+                        customVideoSource.addVideoSink(sink: self.backgroundReplacementProcessor)
+                        customVideoSource = self.backgroundReplacementProcessor
                     }
                     self.audioVideoFacade.startLocalVideo(source: customVideoSource)
                 } else {
@@ -329,5 +382,41 @@ extension VideoModel: VideoTileCellDelegate {
             }
         }
         audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: remoteVideoSourceConfigurations, removed: [])
+    }
+
+    func onVideoFilterButtonClicked(videoFilter: BackgroundFilter, uiView: UIViewController) {
+        switch videoFilter {
+        case .none:
+            uiView.view.makeToast("Turning off background filters.")
+            if isUsingBackgroundBlur {
+                isUsingBackgroundBlur.toggle()
+            } else if isUsingBackgroundReplacement {
+                isUsingBackgroundReplacement.toggle()
+            }
+        case .blur:
+            if isUsingMetalVideoProcessor ||
+               isUsingCoreImageVideoProcessor ||
+               isUsingBackgroundReplacement {
+                
+                uiView.view.makeToast("Cannot toggle more than one filter at a time.")
+                return
+            }
+            let nextStatus = isUsingBackgroundBlur ? "off" : "on"
+            uiView.view.makeToast("Turning background \(videoFilter) \(nextStatus).")
+            isUsingBackgroundBlur.toggle()
+        case .replacement:
+            if isUsingMetalVideoProcessor ||
+               isUsingCoreImageVideoProcessor ||
+               isUsingBackgroundBlur {
+                
+                uiView.view.makeToast("Cannot toggle more than one filter at a time.")
+                return
+            }
+            let nextStatus = isUsingBackgroundReplacement ? "off" : "on"
+            uiView.view.makeToast("Turning background \(videoFilter) \(nextStatus).")
+            isUsingBackgroundReplacement.toggle()
+        @unknown default:
+            self.logger.info(msg: "Unknown background filter.")
+        }
     }
 }
