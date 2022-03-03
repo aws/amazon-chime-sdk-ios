@@ -77,9 +77,8 @@ import Foundation
     /// Called on the main thread when video sources become available.
     ///
     /// Video sources can be explicitly subscribed to through `updateVideoSourceSubscriptions`.
-    /// These should be stored and used when `updateVideoSourceSubscriptions` is called (i.e. you cannot use `RemoteVideoSource`)
-    ///
-    /// objects created manually. See `updateVideoSourceSubscriptions` for more information.
+    /// These should be stored and used when `updateVideoSourceSubscriptions` is called (i.e. you cannot use `RemoteVideoSource` objects created manually). 
+    /// See `updateVideoSourceSubscriptions` for more information.
     /// See note in `updateVideoSourceSubscriptions` documentation for information on 
     /// subscription behavior if `updateVideoSourceSubscriptions` is never called.
     ///
