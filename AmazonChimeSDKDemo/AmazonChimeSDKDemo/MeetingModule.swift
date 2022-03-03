@@ -35,11 +35,8 @@ class MeetingModule {
                         option: CallKitOption,
                         overriddenEndpoint: String,
                         completion: @escaping (Bool) -> Void) {
-        requestRecordPermission { success in
-            guard success else {
-                completion(false)
-                return
-            }
+
+        let joinRequest = {
             JoinRequestService.postJoinRequest(meetingId: meetingId,
                                                name: selfName,
                                                overriddenEndpoint: overriddenEndpoint) { meetingSessionConfig in
@@ -82,6 +79,18 @@ class MeetingModule {
                 completion(true)
             }
         }
+
+        if audioVideoConfig.audioMode == .nodevice {
+            joinRequest()
+        } else {
+            requestRecordPermission { success in
+                guard success else {
+                    completion(false)
+                    return
+                }
+                joinRequest()
+            }
+        }
     }
 
     func selectDevice(_ meeting: MeetingModel, completion: @escaping (Bool) -> Void) {
@@ -104,14 +113,14 @@ class MeetingModule {
             self.meetingPresenter.showMeetingView(meetingModel: activeMeeting) { _ in }
         }
     }
-    
+
     func liveTranscriptionOptionsSelected(_ meetingModel: MeetingModel) {
         guard let activeMeeting = activeMeeting else {
             return
         }
         self.meetingPresenter.showLiveTranscriptionView(meetingModel: activeMeeting) { _ in }
     }
-    
+
     func dismissTranscription(_ liveTranscriptionVC: LiveTranscriptionOptionsViewController) {
         self.meetingPresenter.dismissLiveTranscriptionView(liveTranscriptionVC) { _ in }
     }
