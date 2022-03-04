@@ -16,7 +16,7 @@
 		00F372EA23D9196E008F7CA7 /* MeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F372E923D9196E008F7CA7 /* MeetingViewController.swift */; };
 		00F372EE23DA2BFD008F7CA7 /* RosterAttendee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F372ED23DA2BFD008F7CA7 /* RosterAttendee.swift */; };
 		5403538E27D0CBA4007BABD7 /* TranscriptionStreamParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403538C27D0CBA4007BABD7 /* TranscriptionStreamParams.swift */; };
-		54146E0927D1E6BF001FBAE6 /* AutomaticLanguageOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54146E0827D1E6BF001FBAE6 /* AutomaticLanguageOptionsViewController.swift */; };
+		54146E1E27D1F3E2001FBAE6 /* AutomaticLanguageOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54146E1D27D1F3E2001FBAE6 /* AutomaticLanguageOptionsViewController.swift */; };
 		5A1582BA23C40C9B0099F8FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1582B923C40C9B0099F8FA /* AppDelegate.swift */; };
 		5A1582BE23C40C9B0099F8FA /* JoiningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1582BD23C40C9B0099F8FA /* JoiningViewController.swift */; };
 		5A1582C123C40C9B0099F8FA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A1582BF23C40C9B0099F8FA /* Main.storyboard */; };
@@ -152,7 +152,7 @@
 		00F372ED23DA2BFD008F7CA7 /* RosterAttendee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RosterAttendee.swift; sourceTree = "<group>"; };
 		5403538C27D0CBA4007BABD7 /* TranscriptionStreamParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionStreamParams.swift; sourceTree = "<group>"; };
 		5403538F27D0CBCE007BABD7 /* AutomaticLanguageDetectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomaticLanguageDetectionViewController.swift; sourceTree = "<group>"; };
-		54146E0827D1E6BF001FBAE6 /* AutomaticLanguageOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AutomaticLanguageOptionsViewController.swift; path = ../AmazonChimeSDK/AmazonChimeSDK/audiovideo/AutomaticLanguageOptionsViewController.swift; sourceTree = "<group>"; };
+		54146E1D27D1F3E2001FBAE6 /* AutomaticLanguageOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AutomaticLanguageOptionsViewController.swift; path = AutomaticLanguageOptionsViewController.swift; sourceTree = "<group>"; };
 		5A1582B623C40C9B0099F8FA /* AmazonChimeSDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AmazonChimeSDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A1582B923C40C9B0099F8FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5A1582BD23C40C9B0099F8FA /* JoiningViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoiningViewController.swift; sourceTree = "<group>"; };
@@ -311,7 +311,6 @@
 				C4923BEF24B8DF1100EE866B /* ScreenShareModel.swift */,
 				C4A3FFE5259B9AB2007CFABE /* InAppScreenCaptureModel.swift */,
 				C4A3FFE9259B9AC5007CFABE /* BroadcastScreenCaptureModel.swift */,
-				5403538F27D0CBCE007BABD7 /* AutomaticLanguageDetectionViewController.swift */,
 				5A1582C223C40C9D0099F8FA /* Assets.xcassets */,
 				5A1582BF23C40C9B0099F8FA /* Main.storyboard */,
 				ADE3CFC927050CD800DAC586 /* LiveTranscriptionOptionsViewController.swift */,
@@ -319,6 +318,7 @@
 				5A1582C723C40C9D0099F8FA /* Info.plist */,
 				C61D436F27050FBF00150F03 /* CaptionsModel.swift */,
 				C61D4379270512A100150F03 /* CaptionCell.swift */,
+				54146E1D27D1F3E2001FBAE6 /* AutomaticLanguageOptionsViewController.swift */,
 			);
 			path = AmazonChimeSDKDemo;
 			sourceTree = "<group>";
@@ -614,6 +614,7 @@
 				C4A3FFEA259B9AC5007CFABE /* BroadcastScreenCaptureModel.swift in Sources */,
 				5A1DE366249332870060E9C3 /* ViewControllerExtension.swift in Sources */,
 				C45B6C0824AE38D6001BE825 /* CallKitOption.swift in Sources */,
+				54146E1E27D1F3E2001FBAE6 /* AutomaticLanguageOptionsViewController.swift in Sources */,
 				C4923BF024B8DF1100EE866B /* ScreenShareModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

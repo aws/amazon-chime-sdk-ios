@@ -266,19 +266,21 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
         piiContentRedactionPickerView.tag = 6
         
         storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        languageOptionsViewController =
+
+        guard let languageOptionsViewController =
                 storyBoard?.instantiateViewController(withIdentifier: "languageOptions")
-                as? AutomaticLanguageOptionsViewController
+                as? AutomaticLanguageOptionsViewController else { return }
+        self.languageOptionsViewController = languageOptionsViewController
         
-        languageOptionsViewController?.cancellationHandler = { numberOfselectedLanguages in
+        languageOptionsViewController.cancellationHandler = { numberOfselectedLanguages in
             self.enableAutomaticLanguageIdentificationSwitch.isOn = numberOfselectedLanguages! > 1
         }
         
-        languageOptionsViewController?.selectedLanguageOptionsHandler = { selectedLanguages in
+        languageOptionsViewController.selectedLanguageOptionsHandler = { selectedLanguages in
             self.selectedLanguageOptions = selectedLanguages ?? ""
         }
         
-        languageOptionsViewController?.preferredLanguageOptionHandler = { preferredLanguage in
+        languageOptionsViewController.preferredLanguageOptionHandler = { preferredLanguage in
             self.preferredLanguageOptions = preferredLanguage ?? ""
         }
         
@@ -335,7 +337,7 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
         }
         
         if enableCustomLangugeModelTextFieldSwitch.isOn {
-            if ((customLanguageModelTextField.text?.isEmpty) != nil) {
+            if (customLanguageModelTextField.text?.isEmpty) == true {
                 self.view.makeToast("Custom language model name cannot be empty!")
                 return
             } else {
@@ -392,11 +394,16 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
     }
     
     @IBAction func showLanguageOptionsView(_ sender: UISwitch) {
+        
+        guard let languageOptionsViewController = languageOptionsViewController else {
+            return
+        }
+
         if sender.isOn {
             languageHandler?(transcribeLanguages)
             languagesDictHandler?(languagesDict)
-            languageOptionsViewController?.modalPresentationStyle = .pageSheet
-            self.present(languageOptionsViewController!, animated: true, completion: nil)
+            languageOptionsViewController.modalPresentationStyle = .pageSheet
+            self.present(languageOptionsViewController, animated: true, completion: nil)
         }
     }
     
