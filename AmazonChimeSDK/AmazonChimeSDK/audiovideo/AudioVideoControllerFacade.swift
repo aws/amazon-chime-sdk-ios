@@ -90,6 +90,9 @@ import Foundation
     
     /// Add, update, or remove subscriptions to remote video sources provided via `remoteVideoSourcesDidBecomeAvailable`.
     ///
+    /// This function requires using the `RemoteVideoSource` provided by `remoteVideoSourcesDidBecomeAvailable`, otherwise it will not update properly.
+    /// This is what allows to use the `RemoteVideoSource` objects as keys in a map.
+    ///
     /// Including a `RemoteVideoSource` in `addedOrUpdated` which was not previously provided will result in the negotiation of media flow for that source. After negotiation has
     /// completed,`videoTileDidAdd` on the tile controller will be called with the `TileState` of the source, and applications
     /// can render the video via 'bindVideoTile'. Reincluding a `RemoteVideoSource` can be done to update the provided `VideoSubscriptionConfiguration`,
