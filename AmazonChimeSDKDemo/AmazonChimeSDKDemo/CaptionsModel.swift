@@ -8,7 +8,6 @@
 
 import AmazonChimeSDK
 import UIKit
-import CoreMIDI
 
 class CaptionsModel: NSObject {
     let logger = ConsoleLogger(name: "CaptionsModel")
@@ -26,9 +25,7 @@ class CaptionsModel: NSObject {
             let content = "Live transcription \(status.type) at \(formattedEventTime) in \(status.transcriptionRegion) with configuration: \(status.transcriptionConfiguration)"
             let caption = Caption(speakerName: "",
                                   isPartial: false,
-                                  content: content,
-                                  entities: nil,
-                                  items: nil)
+                                  content: content)
             captions.append(caption)
             if status.type == .started || status.type == .stopped {
                 isLiveTranscriptionEnabled = status.type == .started
@@ -51,9 +48,9 @@ class CaptionsModel: NSObject {
                     })
                 }
                 
-                var entities = Array<String>()
+                var entities = [String]()
                 
-                alternative.entities!.forEach({ entity in
+                alternative.entities?.forEach({ entity in
                     entity.content.split(separator: " ").forEach { word in
                         entities.append(String(word))
                     }

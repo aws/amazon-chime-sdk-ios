@@ -7,10 +7,10 @@
 //
 
 import UIKit
-import simd
 import AmazonChimeSDK
 
 let captionCellReuseIdentifier = "captionCell"
+let threshold = 0.3
 
 class CaptionCell: UITableViewCell {
     @IBOutlet var speakerNameLabel: UILabel!
@@ -44,7 +44,7 @@ class CaptionCell: UITableViewCell {
         // Underline low confidence words in red. 
         caption.items?.forEach { item in
             let word = item.content
-            let hasLowConfidence = item.confidence! < 0.3 && item.confidence != 0
+            let hasLowConfidence = (item.confidence ?? 1.0) < threshold && item.confidence != 0
             let isCorrectContentType = word.first != "[" && item.type != TranscriptItemType.punctuation
             let range = (caption.content as NSString).range(of: word)
             if hasLowConfidence && isCorrectContentType && caption.content.contains(word) {

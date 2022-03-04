@@ -10,19 +10,23 @@ import Foundation
 import AmazonChimeSDK
 import UIKit
 
+let transcribeContentIdetificationType = "PII"
+let transcribeMedicalContentIdentificationType = "PHI"
+let transcribeMedicalEngine = "transcribe_medical"
+
 class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDelegate {
     var model: MeetingModel?
     var storyBoard: UIStoryboard?
-    var languageDetectionViewController: AutomaticLanguageDetectionViewController?
+    var languageOptionsViewController: AutomaticLanguageOptionsViewController?
     var meetingId = ""
     var engineSelected = ""
     var languageSelected = ""
     var regionSelected = ""
-    var partialResultsStabilizationSelected = 0
+    var partialResultsStabilizationOption = 0
     var piiContentIdentificationSelected = ""
     var piiContentRedactionSelected = ""
-    var selectedLanguagesDetectionOptions = ""
-    var preferredLanguagesDetectionOptions = ""
+    var selectedLanguageOptions = ""
+    var preferredLanguageOptions = ""
     var meetingEndpointUrl = ""
     
     @IBOutlet var startTranscriptionButton: UIButton!
@@ -37,8 +41,8 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
     @IBOutlet var enableCustomLangugeModelLabel: UILabel!
     @IBOutlet var enablePHIIdentificaitonSwitch: UISwitch!
     @IBOutlet var enablePHIIdentificationLabel: UILabel!
-    @IBOutlet var enableAutomaticLanguageDetectionLabel: UILabel!
-    @IBOutlet var enableAutomaticLanguageDetectionSwitch: UISwitch!
+    @IBOutlet var enableAutomaticLanguageIdentificationLabel: UILabel!
+    @IBOutlet var enableAutomaticLanguageIdentificationSwitch: UISwitch!
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         return false
@@ -230,14 +234,14 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
         engineSelected = "transcribe"
         languageSelected = "en-US"
         regionSelected = "auto"
-        partialResultsStabilizationSelected = 0
+        partialResultsStabilizationOption = 0
         piiContentIdentificationSelected = ""
         piiContentRedactionSelected = ""
         
         engineTextField.text = enginesDict[engineSelected]
         languageTextField.text = languagesDict[languageSelected]
         regionTextField.text = regionsDict[regionSelected]
-        partialResultsStabilizationTextField.text = partialResultsStabilizationsList[partialResultsStabilizationSelected]
+        partialResultsStabilizationTextField.text = partialResultsStabilizationsList[partialResultsStabilizationOption]
         piiContentIdentificationTextField.text = piiContentIdentificationDict[piiContentIdentificationSelected]
         piiContentRedactionTextField.text = piiContentRedactionDict[piiContentRedactionSelected]
     
@@ -262,35 +266,36 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
         piiContentRedactionPickerView.tag = 6
         
         storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        languageDetectionViewController = storyBoard!.instantiateViewController(withIdentifier: "languageDetection") as? AutomaticLanguageDetectionViewController
+        languageOptionsViewController =
+                storyBoard?.instantiateViewController(withIdentifier: "languageOptions")
+                as? AutomaticLanguageOptionsViewController
         
-        languageDetectionViewController?.cancellationHandler = { numberOfselectedLanguages in
-            self.enableAutomaticLanguageDetectionSwitch.isOn = numberOfselectedLanguages! > 1
+        languageOptionsViewController?.cancellationHandler = { numberOfselectedLanguages in
+            self.enableAutomaticLanguageIdentificationSwitch.isOn = numberOfselectedLanguages! > 1
         }
         
-        languageDetectionViewController?.selectedLanguageOptionsHandler = { selectedLanguages in
-            self.selectedLanguagesDetectionOptions = selectedLanguages!
+        languageOptionsViewController?.selectedLanguageOptionsHandler = { selectedLanguages in
+            self.selectedLanguageOptions = selectedLanguages ?? ""
         }
         
-        languageDetectionViewController?.preferredLanguageOptionHandler = { preferredLanguage in
-            self.preferredLanguagesDetectionOptions = preferredLanguage!
+        languageOptionsViewController?.preferredLanguageOptionHandler = { preferredLanguage in
+            self.preferredLanguageOptions = preferredLanguage ?? ""
         }
         
         self.languageHandler = { languageList in
-            self.languageDetectionViewController?.languages = languageList!
+            self.languageOptionsViewController?.languages = languageList ?? [String]()
         }
         
         self.languagesDictHandler = { mappings in
-            self.languageDetectionViewController?.languagesDict = mappings!
+            self.languageOptionsViewController?.languagesDict = mappings ?? [String:String]()
         }
     }
     
     @IBAction func startTranscriptionButton(_ sender: UIButton) {
-        var url = AppConfiguration.url
-        url = url.hasSuffix("/") ? url : "\(url)/"
+        let url = self.meetingEndpointUrl.hasSuffix("/") ? self.meetingEndpointUrl : "\(self.meetingEndpointUrl)/"
         
-        let contentIdentificationEnabled = piiContentIdentificationSelected != ""
-        let contentRedactionEnabled = piiContentRedactionSelected != ""
+        let contentIdentificationEnabled = !piiContentIdentificationSelected.isEmpty
+        let contentRedactionEnabled = !piiContentRedactionSelected.isEmpty
         
         var identifyLanguage: Bool?
         var enablePartialResultsStabilization: Bool?
@@ -303,34 +308,34 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
         var preferredLanguage: String?
         
         if contentIdentificationEnabled {
-            if engineSelected == "transcribe_medical" {
-                contentIdentificationType = "PHI"
+            if engineSelected == transcribeMedicalEngine {
+                contentIdentificationType = transcribeMedicalContentIdentificationType
             } else {
                 piiEntityTypes = piiContentIdentificationSelected
-                contentIdentificationType = "PII"
+                contentIdentificationType = transcribeContentIdetificationType
             }
         }
         
         if contentRedactionEnabled {
-            if engineSelected == "transcribe_medical" {
-                contentRedactionType = "PHI"
+            if engineSelected == transcribeMedicalEngine {
+                contentRedactionType = nil
             } else {
                 piiEntityTypes = piiContentRedactionSelected
-                contentRedactionType = "PII"
+                contentRedactionType = transcribeContentIdetificationType
             }
         }
         
-        if partialResultsStabilizationSelected > 0 {
+        if partialResultsStabilizationOption > 0 {
             enablePartialResultsStabilization = true
-            if partialResultsStabilizationSelected == 1 {
+            if partialResultsStabilizationOption == 1 {
                 partialResultsStabilty = ""
             } else {
-                partialResultsStabilty = partialResultsStabilizationsList[partialResultsStabilizationSelected].lowercased()
+                partialResultsStabilty = partialResultsStabilizationsList[partialResultsStabilizationOption].lowercased()
             }
         }
         
         if enableCustomLangugeModelTextFieldSwitch.isOn {
-            if customLanguageModelTextField.text!.isEmpty {
+            if ((customLanguageModelTextField.text?.isEmpty) != nil) {
                 self.view.makeToast("Custom language model name cannot be empty!")
                 return
             } else {
@@ -338,11 +343,11 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
             }
         }
         
-        if enableAutomaticLanguageDetectionSwitch.isOn {
-            if !preferredLanguagesDetectionOptions.isEmpty {
-                preferredLanguage = preferredLanguagesDetectionOptions
+        if enableAutomaticLanguageIdentificationSwitch.isOn {
+            if !preferredLanguageOptions.isEmpty {
+                preferredLanguage = preferredLanguageOptions
             }
-            languageOptions = selectedLanguagesDetectionOptions
+            languageOptions = selectedLanguageOptions
             identifyLanguage = true
             languageSelected = ""
         }
@@ -359,14 +364,14 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
             preferredLanguage: preferredLanguage)
         
         let encodedData = try? JSONEncoder().encode(transcriptionStreamParams)
-        let transcriptionStreamParamsEncoded = String(data: encodedData!, encoding: .utf8)
-        url = self.meetingEndpointUrl.hasSuffix("/") ? self.meetingEndpointUrl : "\(self.meetingEndpointUrl)/"
+        let transcriptionStreamParamsEncoded = String(data: encodedData!, encoding: .utf8) ?? "{}"
+        
         let encodedURL = HttpUtils.encodeStrForURL(
             str: "\(url)start_transcription?title=\(meetingId)" +
             "&language=\(languageSelected)" +
             "&region=\(regionSelected)" +
             "&engine=\(engineSelected)" +
-            "&transcriptionStreamParams=\(transcriptionStreamParamsEncoded!)")
+            "&transcriptionStreamParams=\(transcriptionStreamParamsEncoded)")
         HttpUtils.postRequest(url: encodedURL, jsonData: nil) {_, error in
             DispatchQueue.main.async {
                 if error == nil {
@@ -379,29 +384,19 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
     }
     
     @IBAction func toggleCustomLanguageTextField(_ enableCustomLangugeModelTextFieldSwitch: UISwitch) {
-        if enableCustomLangugeModelTextFieldSwitch.isOn {
-            customLanguageModelTextField.isHidden = false
-        } else {
-            customLanguageModelTextField.isHidden = true
-        }
+        customLanguageModelTextField.isHidden = !enableCustomLangugeModelTextFieldSwitch.isOn
     }
     
     @IBAction func enablePHIIdentificaiton(_ enablePHIIdentificaitonSwitch: UISwitch) {
-        if enablePHIIdentificaitonSwitch.isOn {
-            piiContentIdentificationSelected = "ALL"
-        } else {
-            piiContentIdentificationSelected = ""
-        }
+        piiContentIdentificationSelected = enablePHIIdentificaitonSwitch.isOn ? "ALL" : ""
     }
     
     @IBAction func showLanguageOptionsView(_ sender: UISwitch) {
-        // if its on, turn it off, return
-        // else show the other screen
         if sender.isOn {
-            languageHandler!(transcribeLanguages)
-            languagesDictHandler!(languagesDict)
-            languageDetectionViewController!.modalPresentationStyle = .pageSheet
-            self.present(languageDetectionViewController!, animated: true, completion: nil)
+            languageHandler?(transcribeLanguages)
+            languagesDictHandler?(languagesDict)
+            languageOptionsViewController?.modalPresentationStyle = .pageSheet
+            self.present(languageOptionsViewController!, animated: true, completion: nil)
         }
     }
     
@@ -467,7 +462,7 @@ extension LiveTranscriptionOptionsViewController: UIPickerViewDataSource, UIPick
             regionTextField.resignFirstResponder()
         case 4:
             partialResultsStabilizationTextField.text = partialResultsStabilizationsList[row]
-            partialResultsStabilizationSelected = row
+            partialResultsStabilizationOption = row
             partialResultsStabilizationTextField.resignFirstResponder()
         case 5:
             piiContentIdentificationTextField.text = piiContentIdentificationDict[piiContentIdentifications[row]]
@@ -477,6 +472,7 @@ extension LiveTranscriptionOptionsViewController: UIPickerViewDataSource, UIPick
             piiContentRedactionTextField.text = piiContentRedactionDict[piiContentRedactions[0]]
             piiContentRedactionSelected = piiContentRedactions[0]
             piiContentRedactionTextField.resignFirstResponder()
+            
         case 6:
             piiContentRedactionTextField.text = piiContentRedactionDict[piiContentRedactions[row]]
             piiContentRedactionSelected = piiContentRedactions[row]
@@ -497,15 +493,15 @@ extension LiveTranscriptionOptionsViewController: UIPickerViewDataSource, UIPick
             regionSelected = "auto"
             regionTextField.text = regionsDict[regionSelected]
             
-            partialResultsStabilizationSelected = 0
-            partialResultsStabilizationTextField.text = partialResultsStabilizationsList[partialResultsStabilizationSelected]
+            partialResultsStabilizationOption = 0
+            partialResultsStabilizationTextField.text = partialResultsStabilizationsList[partialResultsStabilizationOption]
             piiContentIdentificationSelected = ""
             piiContentIdentificationTextField.text = piiContentIdentificationDict[piiContentIdentificationSelected]
             piiContentRedactionSelected = ""
             piiContentIdentificationTextField.text = piiContentRedactionDict[piiContentRedactionSelected]
             customLanguageModelTextField.text = ""
-            selectedLanguagesDetectionOptions = ""
-            preferredLanguagesDetectionOptions = ""
+            selectedLanguageOptions = ""
+            preferredLanguageOptions = ""
             
             partialResultsStabilizationTextField.isHidden = true
             piiContentIdentificationTextField.isHidden = true
@@ -516,9 +512,9 @@ extension LiveTranscriptionOptionsViewController: UIPickerViewDataSource, UIPick
             customLanguageModelTextField.isHidden = true
             enablePHIIdentificaitonSwitch.isHidden = false
             enablePHIIdentificationLabel.isHidden = false
-            enableAutomaticLanguageDetectionLabel.isHidden = true
-            enableAutomaticLanguageDetectionSwitch.isHidden = true
-            enableAutomaticLanguageDetectionSwitch.isOn = false
+            enableAutomaticLanguageIdentificationLabel.isHidden = true
+            enableAutomaticLanguageIdentificationSwitch.isHidden = true
+            enableAutomaticLanguageIdentificationSwitch.isOn = false
             
         }
         if engineSelected == "transcribe" {
@@ -526,14 +522,16 @@ extension LiveTranscriptionOptionsViewController: UIPickerViewDataSource, UIPick
             regions = transcribeRegions
             piiContentIdentifications = transcribePiiContents
             piiContentRedactions = transcribePiiContents
-            piiContentIdentificationSelected = ""
+            if enablePHIIdentificaitonSwitch.isOn {
+                piiContentIdentificationSelected = ""
+            }
             partialResultsStabilizationTextField.isHidden = false
             piiContentIdentificationTextField.isHidden = false
             piiContentRedactionTextField.isHidden = false
             enableCustomLangugeModelTextFieldSwitch.isHidden = false
             enableCustomLangugeModelLabel.isHidden = false
-            enableAutomaticLanguageDetectionLabel.isHidden = false
-            enableAutomaticLanguageDetectionSwitch.isHidden = false
+            enableAutomaticLanguageIdentificationLabel.isHidden = false
+            enableAutomaticLanguageIdentificationSwitch.isHidden = false
             enablePHIIdentificaitonSwitch.isHidden = true
             enablePHIIdentificaitonSwitch.isOn = false
             enablePHIIdentificationLabel.isHidden = true
