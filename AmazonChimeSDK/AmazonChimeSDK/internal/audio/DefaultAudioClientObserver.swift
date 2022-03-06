@@ -218,7 +218,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
                 var results: [TranscriptResult] = []
                 rawTranscript.results.forEach { rawResult in
                     var alternatives: [TranscriptAlternative] = []
-                    var languageIdentifications: [TranscriptLanguageWithScore] = []
+                    var languageIdentification: [TranscriptLanguageWithScore] = []
                     rawResult.alternatives.forEach { rawAlternative in
                         var items: [TranscriptItem] = []
                         var entities: [TranscriptEntity] = []
@@ -248,9 +248,9 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
                         alternatives.append(alternative)
                     }
                     
-                    rawResult.languageIdentifications.forEach { rawLanguageWithCode in
+                    rawResult.languageIdentification.forEach { rawLanguageWithCode in
                         let languageWithCode = TranscriptLanguageWithScore(languageCode: rawLanguageWithCode.languageCode, score: rawLanguageWithCode.score)
-                        languageIdentifications.append(languageWithCode)
+                        languageIdentification.append(languageWithCode)
                     }
                     
                     
@@ -261,7 +261,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
                                                   endTimeMs: rawResult.endTimeMs,
                                                   alternatives: alternatives,
                                                   languageCode: rawResult.languageCode,
-                                                  languageIdentifications: languageIdentifications)
+                                                  languageIdentification: languageIdentification)
                     results.append(result)
                 }
                 event = Transcript(results: results)

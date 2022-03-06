@@ -43,6 +43,7 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
     @IBOutlet var enablePHIIdentificationLabel: UILabel!
     @IBOutlet var enableAutomaticLanguageIdentificationLabel: UILabel!
     @IBOutlet var enableAutomaticLanguageIdentificationSwitch: UISwitch!
+    @IBOutlet var liveTranscriptionScrollView: UIScrollView!
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         return false
@@ -204,6 +205,8 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        liveTranscriptionScrollView.contentSize = CGSize(width: self.view.frame.width, height: self.view.frame.height+100)
+        
         self.engines = Array(enginesDict.keys)
         self.languages = Array(languagesDict.keys)
         self.regions = Array(regionsDict.keys)
@@ -330,7 +333,7 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
         if partialResultsStabilizationOption > 0 {
             enablePartialResultsStabilization = true
             if partialResultsStabilizationOption == 1 {
-                partialResultsStabilty = ""
+                partialResultsStabilty = partialResultsStabilizationsList.last?.lowercased()
             } else {
                 partialResultsStabilty = partialResultsStabilizationsList[partialResultsStabilizationOption].lowercased()
             }
