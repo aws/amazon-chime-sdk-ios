@@ -63,8 +63,7 @@ func remoteVideoSourcesDidBecomeUnavailable(sources: [RemoteVideoSource]) {
 
 ```
 
-To update this code to handle the pinned user case, we can use other application code to determine if a video source is pinned, and if so increase the priority above the default. This may be easier if storing RemoteVideoSource in the UI view, or using some other mapping. The RemoteVideoSource used must be the same as the one provided in 
-[AudioVideoObserver.remoteVideoSourcesDidBecomeAvailable](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoObserver.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)remoteVideoSourcesDidBecomeAvailableWithSources:). *Do not make new `RemoteVideoSources` from scratch.* 
+To update this code to handle the pinned user case, we can use other application code to determine if a video source is pinned, and if so increase the priority above the default. This may be easier if storing RemoteVideoSource in the UI view, or using some other mapping. The RemoteVideoSource used must be the same as the one provided in [AudioVideoObserver.remoteVideoSourcesDidBecomeAvailable](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoObserver.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)remoteVideoSourcesDidBecomeAvailableWithSources:). *Do not make new `RemoteVideoSources` from scratch.* 
 
 ```
 fun pinTile(attendeeId: String) {
