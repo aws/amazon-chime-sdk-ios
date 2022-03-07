@@ -379,14 +379,18 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                           attendee: AttendeeInfoInternal(attendeeId: "attendee-id",
                                                                          externalUserId: "external-user-id"),
                                           content: "test",
-                                          vocabularyFilterMatch: true)!
-        let alternative = TranscriptAlternativeInternal(items: [item], transcript: "test")!
+                                          vocabularyFilterMatch: true,
+                                          stable: false,
+                                          confidence: 0.0)!
+        let alternative = TranscriptAlternativeInternal(items: [item], entities: [], transcript: "test")!
         let result = TranscriptResultInternal(resultId: "result-id",
                                               channelId: "",
                                               isPartial: true,
                                               startTimeMs: timestampMs,
                                               endTimeMs: timestampMs,
-                                              alternatives: [alternative])!
+                                              alternatives: [alternative],
+                                              languageCode: "en-US",
+                                              languageIdentification: [])!
         let transcript = TranscriptInternal(results: [result])
         let events = [transcript]
         defaultAudioClientObserver.transcriptEventsReceived(events as [Any])
