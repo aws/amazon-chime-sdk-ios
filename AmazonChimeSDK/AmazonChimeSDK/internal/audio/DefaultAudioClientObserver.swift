@@ -220,16 +220,14 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
                     var alternatives: [TranscriptAlternative] = []
                     var languageIdentification: [TranscriptLanguageWithScore] = []
                     rawResult.alternatives.forEach { rawAlternative in
-                        var items: [TranscriptItem] = []
-                        var entities: [TranscriptEntity] = []
-                        items = rawAlternative.items.map {
+                        let items = rawAlternative.items.map {
                             TranscriptItem(type: Converters.Transcript.toTranscriptItemType(type: $0.type), startTimeMs: $0.startTimeMs,
                                            endTimeMs: $0.endTimeMs, attendee: Converters.Transcript.toAttendeeInfo(attendeeInfo: $0.attendee),
                                            content: $0.content, vocabularyFilterMatch: $0.vocabularyFilterMatch,
                                            stable: $0.stable, confidence: $0.confidence)
                         }
                 
-                        entities = rawAlternative.entities.map {
+                        let entities = rawAlternative.entities.map {
                             TranscriptEntity(type: $0.type, content: $0.content, category: $0.category,
                                              confidence: $0.confidence, startTimeMs: $0.startTimeMs, endTimeMs: $0.endTimeMs)
                         }

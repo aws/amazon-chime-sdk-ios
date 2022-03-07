@@ -49,11 +49,11 @@ class CaptionsModel: NSObject {
                     })
                 }
                 
-                let entities = alternative.entities?.flatMap { $0.content.components(separatedBy: " ")}
+                let entities = alternative.entities?.flatMap { $0.content.components(separatedBy: " ")} ?? []
                 let caption = Caption(speakerName: speakerName,
                                       isPartial: result.isPartial,
                                       content: alternative.transcript,
-                                      entities: entities!,
+                                      entities: entities,
                                       items: alternative.items)
 
                 if let captionIndex = captionIndices[result.resultId] {
