@@ -13,14 +13,14 @@ import Foundation
     public let type: String
     public let content: String
     public let category: String
-    public let confidence: Double
+    public let confidence: Double?
     public let startTimeMs: Int64
     public let endTimeMs: Int64
 
     public init(type: String,
                 content: String,
                 category: String,
-                confidence: Double,
+                confidence: Double?,
                 startTimeMs: Int64,
                 endTimeMs: Int64) {
         self.type = type

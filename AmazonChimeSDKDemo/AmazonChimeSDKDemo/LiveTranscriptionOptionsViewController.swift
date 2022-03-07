@@ -275,24 +275,24 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
                 as? AutomaticLanguageOptionsViewController else { return }
         self.languageOptionsViewController = languageOptionsViewController
         
-        languageOptionsViewController.cancellationHandler = { numberOfselectedLanguages in
-            self.enableAutomaticLanguageIdentificationSwitch.isOn = numberOfselectedLanguages! > 1
+        languageOptionsViewController.cancellationHandler = { [weak self] numberOfselectedLanguages in
+            self?.enableAutomaticLanguageIdentificationSwitch.isOn = numberOfselectedLanguages ?? 0 > 1
         }
         
-        languageOptionsViewController.selectedLanguageOptionsHandler = { selectedLanguages in
-            self.selectedLanguageOptions = selectedLanguages ?? ""
+        languageOptionsViewController.selectedLanguageOptionsHandler = { [weak self] selectedLanguages in
+            self?.selectedLanguageOptions = selectedLanguages ?? ""
         }
         
-        languageOptionsViewController.preferredLanguageOptionHandler = { preferredLanguage in
-            self.preferredLanguageOptions = preferredLanguage ?? ""
+        languageOptionsViewController.preferredLanguageOptionHandler = { [weak self] preferredLanguage in
+            self?.preferredLanguageOptions = preferredLanguage ?? ""
         }
         
-        self.languageHandler = { languageList in
-            self.languageOptionsViewController?.languages = languageList ?? [String]()
+        self.languageHandler = { [weak self] languageList in
+            self?.languageOptionsViewController?.languages = languageList ?? [String]()
         }
         
-        self.languagesDictHandler = { mappings in
-            self.languageOptionsViewController?.languagesDict = mappings ?? [String:String]()
+        self.languagesDictHandler = { [weak self] mappings in
+            self?.languageOptionsViewController?.languagesDict = mappings ?? [String:String]()
         }
     }
     
@@ -368,8 +368,11 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
             languageOptions: languageOptions,
             preferredLanguage: preferredLanguage)
         
-        let encodedData = try? JSONEncoder().encode(transcriptionStreamParams)
-        let transcriptionStreamParamsEncoded = String(data: encodedData!, encoding: .utf8) ?? "{}"
+        var encodedData = try? JSONEncoder().encode(transcriptionStreamParams)
+        var transcriptionStreamParamsEncoded = "{}"
+        if let data = encodedData {
+            transcriptionStreamParamsEncoded = String(data: data, encoding: .utf8) ?? "{}"
+        }
         
         let encodedURL = HttpUtils.encodeStrForURL(
             str: "\(url)start_transcription?title=\(meetingId)" +

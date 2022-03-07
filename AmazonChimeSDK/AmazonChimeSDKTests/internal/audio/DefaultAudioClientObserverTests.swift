@@ -400,4 +400,62 @@ class DefaultAudioClientObserverTests: XCTestCase {
 
         wait(for: [expect], timeout: defaultTimeout)
     }
+    
+    func testTranscriptEventsReceived_receivedTranscriptWithNilEntities() {
+        let item = TranscriptItemInternal(type: TranscriptItemTypeInternal.pronunciation,
+                                          startTimeMs: timestampMs,
+                                          endTimeMs: timestampMs,
+                                          attendee: AttendeeInfoInternal(attendeeId: "attendee-id",
+                                                                         externalUserId: "external-user-id"),
+                                          content: "test",
+                                          vocabularyFilterMatch: true,
+                                          stable: false,
+                                          confidence: 0.0)!
+        let alternative = TranscriptAlternativeInternal(items: [item], entities: nil, transcript: "test")!
+        let result = TranscriptResultInternal(resultId: "result-id",
+                                              channelId: "",
+                                              isPartial: true,
+                                              startTimeMs: timestampMs,
+                                              endTimeMs: timestampMs,
+                                              alternatives: [alternative],
+                                              languageCode: "en-US",
+                                              languageIdentification: [])!
+        let transcript = TranscriptInternal(results: [result])
+        let events = [transcript]
+        defaultAudioClientObserver.transcriptEventsReceived(events as [Any])
+        let expect = eventually {
+            verify(transcriptEventObserverMock.transcriptEventDidReceive(transcriptEvent: any())).wasCalled()
+        }
+
+        wait(for: [expect], timeout: defaultTimeout)
+    }
+    
+    func testTranscriptEventsReceived_receivedTranscriptWithNilLanguageIdentification() {
+        let item = TranscriptItemInternal(type: TranscriptItemTypeInternal.pronunciation,
+                                          startTimeMs: timestampMs,
+                                          endTimeMs: timestampMs,
+                                          attendee: AttendeeInfoInternal(attendeeId: "attendee-id",
+                                                                         externalUserId: "external-user-id"),
+                                          content: "test",
+                                          vocabularyFilterMatch: true,
+                                          stable: false,
+                                          confidence: 0.0)!
+        let alternative = TranscriptAlternativeInternal(items: [item], entities: [], transcript: "test")!
+        let result = TranscriptResultInternal(resultId: "result-id",
+                                              channelId: "",
+                                              isPartial: true,
+                                              startTimeMs: timestampMs,
+                                              endTimeMs: timestampMs,
+                                              alternatives: [alternative],
+                                              languageCode: "en-US",
+                                              languageIdentification: nil)!
+        let transcript = TranscriptInternal(results: [result])
+        let events = [transcript]
+        defaultAudioClientObserver.transcriptEventsReceived(events as [Any])
+        let expect = eventually {
+            verify(transcriptEventObserverMock.transcriptEventDidReceive(transcriptEvent: any())).wasCalled()
+        }
+
+        wait(for: [expect], timeout: defaultTimeout)
+    }
 }

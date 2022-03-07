@@ -222,28 +222,18 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
                     rawResult.alternatives.forEach { rawAlternative in
                         var items: [TranscriptItem] = []
                         var entities: [TranscriptEntity] = []
-                        rawAlternative.items.forEach { rawItem in
-                            let item = TranscriptItem(type: Converters.Transcript.toTranscriptItemType(type: rawItem.type),
-                                                      startTimeMs: rawItem.startTimeMs,
-                                                      endTimeMs: rawItem.endTimeMs,
-                                                      attendee: Converters.Transcript.toAttendeeInfo(attendeeInfo: rawItem.attendee),
-                                                      content: rawItem.content,
-                                                      vocabularyFilterMatch: rawItem.vocabularyFilterMatch,
-                                                      stable: rawItem.stable,
-                                                      confidence: rawItem.confidence)
-                            items.append(item)
+                        items = rawAlternative.items.map {
+                            TranscriptItem(type: Converters.Transcript.toTranscriptItemType(type: $0.type), startTimeMs: $0.startTimeMs,
+                                           endTimeMs: $0.endTimeMs, attendee: Converters.Transcript.toAttendeeInfo(attendeeInfo: $0.attendee),
+                                           content: $0.content, vocabularyFilterMatch: $0.vocabularyFilterMatch,
+                                           stable: $0.stable, confidence: $0.confidence)
                         }
                 
-                        rawAlternative.entities.forEach { rawEntity in
-                            let entity = TranscriptEntity(type: rawEntity.type,
-                                                      content: rawEntity.content,
-                                                      category: rawEntity.category,
-                                                      confidence: rawEntity.confidence,
-                                                      startTimeMs: rawEntity.startTimeMs,
-                                                      endTimeMs: rawEntity.endTimeMs)
-                            entities.append(entity)
+                        entities = rawAlternative.entities.map {
+                            TranscriptEntity(type: $0.type, content: $0.content, category: $0.category,
+                                             confidence: $0.confidence, startTimeMs: $0.startTimeMs, endTimeMs: $0.endTimeMs)
                         }
-                    
+                       
                         let alternative = TranscriptAlternative(items: items, entities: entities, transcript: rawAlternative.transcript)
                         alternatives.append(alternative)
                     }

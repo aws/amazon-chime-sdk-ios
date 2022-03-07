@@ -7,6 +7,7 @@
 //
 
 import AmazonChimeSDK
+import Foundation
 import UIKit
 
 class CaptionsModel: NSObject {
@@ -48,18 +49,11 @@ class CaptionsModel: NSObject {
                     })
                 }
                 
-                var entities = [String]()
-                
-                alternative.entities?.forEach({ entity in
-                    entity.content.split(separator: " ").forEach { word in
-                        entities.append(String(word))
-                    }
-                })
-                
+                let entities = alternative.entities?.flatMap { $0.content.components(separatedBy: " ")}
                 let caption = Caption(speakerName: speakerName,
                                       isPartial: result.isPartial,
                                       content: alternative.transcript,
-                                      entities: entities,
+                                      entities: entities!,
                                       items: alternative.items)
 
                 if let captionIndex = captionIndices[result.resultId] {
