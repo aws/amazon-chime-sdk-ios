@@ -234,7 +234,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
                                              confidence: $0.confidence, startTimeMs: $0.startTimeMs, endTimeMs: $0.endTimeMs)
                         }
                        
-                        let alternative = TranscriptAlternative(items: items, entities: entities, transcript: rawAlternative.transcript)
+                        let alternative = TranscriptAlternative(items: items, transcript: rawAlternative.transcript, entities: entities)
                         alternatives.append(alternative)
                     }
                     

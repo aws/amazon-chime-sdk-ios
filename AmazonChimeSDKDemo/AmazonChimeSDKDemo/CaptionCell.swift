@@ -28,7 +28,7 @@ class CaptionCell: UITableViewCell {
         speakerNameLabel.accessibilityIdentifier = caption.speakerName
         captionContentLabel.accessibilityIdentifier = "caption-\(indexPath.row)"
         // Highlight identified/redacted PIIs in green.
-        let  coloredString = NSMutableAttributedString.init(string: caption.content)
+        let coloredString = NSMutableAttributedString.init(string: caption.content)
         caption.entities?.forEach { word in
             var firstOccurance = caption.content.startIndex
             while firstOccurance < caption.content.endIndex,

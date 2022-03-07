@@ -14,7 +14,7 @@ import Foundation
     public let entities: [TranscriptEntity]?
     public let transcript: String
 
-    public init(items: [TranscriptItem], entities: [TranscriptEntity]?, transcript: String) {
+    public init(items: [TranscriptItem], transcript: String, entities: [TranscriptEntity]?) {
         self.items = items
         self.entities = entities
         self.transcript = transcript
