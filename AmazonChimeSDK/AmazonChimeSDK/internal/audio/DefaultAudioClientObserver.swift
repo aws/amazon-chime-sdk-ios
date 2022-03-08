@@ -218,6 +218,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
                 var results: [TranscriptResult] = []
                 rawTranscript.results.forEach { rawResult in
                     var alternatives: [TranscriptAlternative] = []
+                    var entities: [TranscriptEntity] = []
                     var languageIdentification: [TranscriptLanguageWithScore] = []
                     rawResult.alternatives.forEach { rawAlternative in
                         let items = rawAlternative.items.map {
@@ -227,20 +228,23 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
                                            stable: $0.stable, confidence: $0.confidence)
                         }
                 
-                        let entities = rawAlternative.entities.map {
-                            TranscriptEntity(type: $0.type, content: $0.content, category: $0.category,
-                                             confidence: $0.confidence, startTimeMs: $0.startTimeMs, endTimeMs: $0.endTimeMs)
+                        if rawAlternative.entities != nil {
+                            entities = rawAlternative.entities.map {
+                                TranscriptEntity(type: $0.type, content: $0.content, category: $0.category,
+                                                 confidence: $0.confidence, startTimeMs: $0.startTimeMs, endTimeMs: $0.endTimeMs)
+                            }
                         }
                        
                         let alternative = TranscriptAlternative(items: items, transcript: rawAlternative.transcript, entities: entities)
                         alternatives.append(alternative)
                     }
                     
-                    rawResult.languageIdentification.forEach { rawLanguageWithCode in
-                        let languageWithCode = TranscriptLanguageWithScore(languageCode: rawLanguageWithCode.languageCode, score: rawLanguageWithCode.score)
-                        languageIdentification.append(languageWithCode)
-                    }
                     
+                    if rawResult.languageIdentification != nil {
+                        languageIdentification = rawResult.languageIdentification.map {
+                            TranscriptLanguageWithScore(languageCode: $0.languageCode, score: $0.score)
+                        }
+                    }
                     
                     let result = TranscriptResult(resultId: rawResult.resultId,
                                                   channelId: rawResult.channelId,
