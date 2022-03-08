@@ -411,7 +411,7 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                           vocabularyFilterMatch: true,
                                           stable: false,
                                           confidence: 0.0)!
-        let alternative = TranscriptAlternativeInternal(items: [item], entities: nil, transcript: "test")!
+        let alternative = TranscriptAlternativeInternal(items: [item], entities: nil, transcript: "test") ?? TranscriptAlternativeInternal()
         let result = TranscriptResultInternal(resultId: "result-id",
                                               channelId: "",
                                               isPartial: true,
@@ -448,7 +448,7 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                               endTimeMs: timestampMs,
                                               alternatives: [alternative],
                                               languageCode: "en-US",
-                                              languageIdentification: nil)!
+                                              languageIdentification: nil) ?? TranscriptResultInternal()
         let transcript = TranscriptInternal(results: [result])
         let events = [transcript]
         defaultAudioClientObserver.transcriptEventsReceived(events as [Any])
