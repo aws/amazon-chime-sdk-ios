@@ -7,6 +7,7 @@
 //
 
 import AmazonChimeSDK
+import Foundation
 import UIKit
 
 class CaptionsModel: NSObject {
@@ -47,10 +48,13 @@ class CaptionsModel: NSObject {
                         return "Empty speaker name due to empty items array for result: \(result.resultId)"
                     })
                 }
-
+                
+                let entities = alternative.entities?.flatMap { $0.content.components(separatedBy: " ")} ?? []
                 let caption = Caption(speakerName: speakerName,
                                       isPartial: result.isPartial,
-                                      content: alternative.transcript)
+                                      content: alternative.transcript,
+                                      entities: entities,
+                                      items: alternative.items)
 
                 if let captionIndex = captionIndices[result.resultId] {
                     // update existing (partial) caption if exists
