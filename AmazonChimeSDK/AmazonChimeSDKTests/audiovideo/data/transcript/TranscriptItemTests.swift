@@ -14,6 +14,8 @@ class TranscriptItemTests: XCTestCase {
     let endTimeMs: Int64 = 1632087029250
     let attendee = AttendeeInfo(attendeeId: "attendee-id", externalUserId: "external-user-id")
     let content = "test"
+    let stable = false
+    let confidence = 0.0
 
     func testTranscriptItemShouldInitialize() {
         let transcriptItem = TranscriptItem(type: .punctuation,
@@ -21,7 +23,9 @@ class TranscriptItemTests: XCTestCase {
                                             endTimeMs: endTimeMs,
                                             attendee: attendee,
                                             content: content,
-                                            vocabularyFilterMatch: true)
+                                            vocabularyFilterMatch: true,
+                                            stable: stable,
+                                            confidence: confidence)
 
         XCTAssertNotNil(transcriptItem)
         XCTAssertEqual(transcriptItem.type, .punctuation)
@@ -30,5 +34,7 @@ class TranscriptItemTests: XCTestCase {
         XCTAssertEqual(transcriptItem.attendee, attendee)
         XCTAssertEqual(transcriptItem.content, content)
         XCTAssertEqual(transcriptItem.vocabularyFilterMatch, true)
+        XCTAssertEqual(transcriptItem.stable, stable)
+        XCTAssertEqual(transcriptItem.confidence, confidence)
     }
 }
