@@ -1,6 +1,9 @@
 ## Unreleased
 
 ### Added
+
+* Added support to live transcription for new features including personally identifiable information content identification and redaction, partial results stabilization, custom language models, and language identification for Amazon Transcribe and PHI content identification for Amazon Transcribe Medical.
+* [Demo] Added language identification configuration for live transcription API.
 * [Demo] Added overridden endpoint url capability to live transcription API.
 
 ## [0.19.0] - 2022-02-24

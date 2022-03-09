@@ -14,6 +14,7 @@ class TranscriptResultTests: XCTestCase {
     let channelId = "channel-id"
     let startTimeMs: Int64 = 1632087029249
     let endTimeMs: Int64 = 1632087029250
+    let languageCode = "en-US"
 
     func testTranscriptResultShouldInitialize() {
         let transcriptResult = TranscriptResult(resultId: "result-id",
@@ -21,7 +22,9 @@ class TranscriptResultTests: XCTestCase {
                                                 isPartial: true,
                                                 startTimeMs: startTimeMs,
                                                 endTimeMs: endTimeMs,
-                                                alternatives: [])
+                                                alternatives: [],
+                                                languageCode: languageCode,
+                                                languageIdentification: [])
         
         XCTAssertNotNil(transcriptResult)
         XCTAssertEqual(transcriptResult.resultId, resultId)
@@ -30,5 +33,7 @@ class TranscriptResultTests: XCTestCase {
         XCTAssertEqual(transcriptResult.startTimeMs, startTimeMs)
         XCTAssertEqual(transcriptResult.endTimeMs, endTimeMs)
         XCTAssertEqual(transcriptResult.alternatives, [])
+        XCTAssertEqual(transcriptResult.languageCode, languageCode)
+        XCTAssertEqual(transcriptResult.languageIdentification, [])
     }
 }

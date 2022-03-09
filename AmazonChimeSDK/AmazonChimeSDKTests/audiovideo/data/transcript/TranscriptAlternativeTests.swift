@@ -13,10 +13,11 @@ class TranscriptAlternativeTests: XCTestCase {
     let transcript = "test"
 
     func testTranscriptAlternativeShouldInitialize() {
-        let transcriptAlternative = TranscriptAlternative(items: [], transcript: transcript)
+        let transcriptAlternative = TranscriptAlternative(items: [], transcript: transcript, entities: [])
         
         XCTAssertNotNil(transcriptAlternative)
         XCTAssertEqual(transcriptAlternative.items, [])
         XCTAssertEqual(transcriptAlternative.transcript, transcript)
+        XCTAssertEqual(transcriptAlternative.entities, [])
     }
 }

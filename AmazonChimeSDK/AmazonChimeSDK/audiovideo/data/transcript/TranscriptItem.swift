@@ -16,18 +16,24 @@ import Foundation
     public let attendee: AttendeeInfo
     public let content: String
     public let vocabularyFilterMatch: Bool
+    public let stable: Bool?
+    public let confidence: Double?
 
     public init(type: TranscriptItemType,
                 startTimeMs: Int64,
                 endTimeMs: Int64,
                 attendee: AttendeeInfo,
                 content: String,
-                vocabularyFilterMatch: Bool) {
+                vocabularyFilterMatch: Bool,
+                stable: Bool?,
+                confidence: Double?) {
         self.type = type
         self.startTimeMs = startTimeMs
         self.endTimeMs = endTimeMs
         self.attendee = attendee
         self.content = content
         self.vocabularyFilterMatch = vocabularyFilterMatch
+        self.stable = stable
+        self.confidence = confidence
     }
 }

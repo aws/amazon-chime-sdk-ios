@@ -13,10 +13,14 @@ public class Caption {
     let speakerName: String
     var isPartial: Bool
     var content: String
+    var entities: [String]?
+    var items: [TranscriptItem]?
 
-    init(speakerName: String, isPartial: Bool, content: String) {
+    init(speakerName: String, isPartial: Bool, content: String, entities: [String]? = nil, items: [TranscriptItem]? = nil) {
         self.speakerName = speakerName
         self.isPartial = isPartial
         self.content = content
+        self.entities = entities
+        self.items = items
     }
 }

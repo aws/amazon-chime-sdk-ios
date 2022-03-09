@@ -218,26 +218,42 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
                 var results: [TranscriptResult] = []
                 rawTranscript.results.forEach { rawResult in
                     var alternatives: [TranscriptAlternative] = []
+                    var entities: [TranscriptEntity] = []
+                    var languageIdentification: [TranscriptLanguageWithScore] = []
                     rawResult.alternatives.forEach { rawAlternative in
-                        var items: [TranscriptItem] = []
-                        rawAlternative.items.forEach { rawItem in
-                            let item = TranscriptItem(type: Converters.Transcript.toTranscriptItemType(type: rawItem.type),
-                                                      startTimeMs: rawItem.startTimeMs,
-                                                      endTimeMs: rawItem.endTimeMs,
-                                                      attendee: Converters.Transcript.toAttendeeInfo(attendeeInfo: rawItem.attendee),
-                                                      content: rawItem.content,
-                                                      vocabularyFilterMatch: rawItem.vocabularyFilterMatch)
-                            items.append(item)
+                        let items = rawAlternative.items.map {
+                            TranscriptItem(type: Converters.Transcript.toTranscriptItemType(type: $0.type), startTimeMs: $0.startTimeMs,
+                                           endTimeMs: $0.endTimeMs, attendee: Converters.Transcript.toAttendeeInfo(attendeeInfo: $0.attendee),
+                                           content: $0.content, vocabularyFilterMatch: $0.vocabularyFilterMatch,
+                                           stable: $0.stable, confidence: $0.confidence)
                         }
-                        let alternative = TranscriptAlternative(items: items, transcript: rawAlternative.transcript)
+                
+                        if rawAlternative.entities != nil {
+                            entities = rawAlternative.entities.map {
+                                TranscriptEntity(type: $0.type, content: $0.content, category: $0.category,
+                                                 confidence: $0.confidence, startTimeMs: $0.startTimeMs, endTimeMs: $0.endTimeMs)
+                            }
+                        }
+                       
+                        let alternative = TranscriptAlternative(items: items, transcript: rawAlternative.transcript, entities: entities)
                         alternatives.append(alternative)
                     }
+                    
+                    
+                    if rawResult.languageIdentification != nil {
+                        languageIdentification = rawResult.languageIdentification.map {
+                            TranscriptLanguageWithScore(languageCode: $0.languageCode, score: $0.score)
+                        }
+                    }
+                    
                     let result = TranscriptResult(resultId: rawResult.resultId,
                                                   channelId: rawResult.channelId,
                                                   isPartial: rawResult.isPartial,
                                                   startTimeMs: rawResult.startTimeMs,
                                                   endTimeMs: rawResult.endTimeMs,
-                                                  alternatives: alternatives)
+                                                  alternatives: alternatives,
+                                                  languageCode: rawResult.languageCode,
+                                                  languageIdentification: languageIdentification)
                     results.append(result)
                 }
                 event = Transcript(results: results)
