@@ -189,7 +189,13 @@
                 <a href="Classes/TranscriptAlternative.html">TranscriptAlternative</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/TranscriptEntity.html">TranscriptEntity</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/TranscriptItem.html">TranscriptItem</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/TranscriptLanguageWithScore.html">TranscriptLanguageWithScore</a>
               </li>
               <li class="nav-group-task">
                 <a href="Classes/TranscriptResult.html">TranscriptResult</a>
@@ -1033,6 +1039,35 @@ For device level screen broadcast, take a look at the <code>SampleHandler</code>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)TranscriptEntity"></a>
+                    <a name="//apple_ref/swift/Class/TranscriptEntity" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)TranscriptEntity">TranscriptEntity</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>See <a href="https://docs.aws.amazon.com/chime/latest/dg/process-msgs.html">Using Amazon Chime SDK live transcription developer guide</a> for details about transcription message types and data guidelines</p>
+
+                        <a href="Classes/TranscriptEntity.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">TranscriptEntity</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(cs)TranscriptItem"></a>
                     <a name="//apple_ref/swift/Class/TranscriptItem" class="dashAnchor"></a>
                     <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)TranscriptItem">TranscriptItem</a>
@@ -1053,6 +1088,35 @@ For device level screen broadcast, take a look at the <code>SampleHandler</code>
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="kt">TranscriptItem</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)TranscriptLanguageWithScore"></a>
+                    <a name="//apple_ref/swift/Class/TranscriptLanguageWithScore" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)TranscriptLanguageWithScore">TranscriptLanguageWithScore</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>See <a href="https://docs.aws.amazon.com/transcribe/latest/dg/lang-id.html">Using Amazon Chime SDK live transcription developer guide</a> for details about transcription message types and data guidelines</p>
+
+                        <a href="Classes/TranscriptLanguageWithScore.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">TranscriptLanguageWithScore</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
 
                         </div>
                       </div>
@@ -1214,7 +1278,11 @@ For device level screen broadcast, take a look at the <code>SampleHandler</code>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>A video source available in the current meeting. RemoteVideoSource need to be consistent between <code>remoteVideoSourcesDidBecomeAvailable</code>
+and <code>updateVideoSourceSubscriptions</code> as they are used as keys in maps that may be updated.
+I.e. when setting up a map for <code>updateVideoSourceSubscriptions</code> do not construct RemoteVideoSource yourselves
+or the configuration may or may not be updated.</p>
+
                         <a href="Classes/RemoteVideoSource.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
@@ -1330,7 +1398,11 @@ Typically produced via a <code><a href="Protocols/VideoSource.html">VideoSource<
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Remote video source initialized with attendeeId and hashed by object address.</p>
+                        <p>Configuration for a specific video source.
+The values are intentionally mutable so that a map of all current configurations can be kept and updated as needed.</p>
+
+<p><code>VideoSubscriptionConfiguration</code> is used to contain the priority and resolution of
+remote video sources and content share to be received</p>
 
                         <a href="Classes/VideoSubscriptionConfiguration.html" class="slightly-smaller">See more</a>
                       </div>
@@ -2267,7 +2339,7 @@ of the participant.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2022 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2022-02-24)</p>
+          <p>&copy; 2022 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2022-03-10)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>

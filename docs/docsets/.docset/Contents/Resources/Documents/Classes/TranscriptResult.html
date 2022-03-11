@@ -189,7 +189,13 @@
                 <a href="../Classes/TranscriptAlternative.html">TranscriptAlternative</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/TranscriptEntity.html">TranscriptEntity</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/TranscriptItem.html">TranscriptItem</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TranscriptLanguageWithScore.html">TranscriptLanguageWithScore</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/TranscriptResult.html">TranscriptResult</a>
@@ -617,9 +623,61 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AmazonChimeSDK@objc(cs)TranscriptResult(im)initWithResultId:channelId:isPartial:startTimeMs:endTimeMs:alternatives:"></a>
-                    <a name="//apple_ref/swift/Method/init(resultId:channelId:isPartial:startTimeMs:endTimeMs:alternatives:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)TranscriptResult(im)initWithResultId:channelId:isPartial:startTimeMs:endTimeMs:alternatives:">init(resultId:<wbr>channelId:<wbr>isPartial:<wbr>startTimeMs:<wbr>endTimeMs:<wbr>alternatives:<wbr>)</a>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)TranscriptResult(py)languageCode"></a>
+                    <a name="//apple_ref/swift/Property/languageCode" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)TranscriptResult(py)languageCode">languageCode</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">languageCode</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)TranscriptResult(py)languageIdentification"></a>
+                    <a name="//apple_ref/swift/Property/languageIdentification" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)TranscriptResult(py)languageIdentification">languageIdentification</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">languageIdentification</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/TranscriptLanguageWithScore.html">TranscriptLanguageWithScore</a></span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)TranscriptResult(im)initWithResultId:channelId:isPartial:startTimeMs:endTimeMs:alternatives:languageCode:languageIdentification:"></a>
+                    <a name="//apple_ref/swift/Method/init(resultId:channelId:isPartial:startTimeMs:endTimeMs:alternatives:languageCode:languageIdentification:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)TranscriptResult(im)initWithResultId:channelId:isPartial:startTimeMs:endTimeMs:alternatives:languageCode:languageIdentification:">init(resultId:<wbr>channelId:<wbr>isPartial:<wbr>startTimeMs:<wbr>endTimeMs:<wbr>alternatives:<wbr>languageCode:<wbr>languageIdentification:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -638,7 +696,9 @@
             <span class="nv">isPartial</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span>
             <span class="nv">startTimeMs</span><span class="p">:</span> <span class="kt">Int64</span><span class="p">,</span>
             <span class="nv">endTimeMs</span><span class="p">:</span> <span class="kt">Int64</span><span class="p">,</span>
-            <span class="nv">alternatives</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/TranscriptAlternative.html">TranscriptAlternative</a></span><span class="p">])</span></code></pre>
+            <span class="nv">alternatives</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/TranscriptAlternative.html">TranscriptAlternative</a></span><span class="p">],</span>
+            <span class="nv">languageCode</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span>
+            <span class="nv">languageIdentification</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/TranscriptLanguageWithScore.html">TranscriptLanguageWithScore</a></span><span class="p">]?)</span></code></pre>
 
                         </div>
                       </div>
@@ -650,7 +710,7 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2022 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2022-02-24)</p>
+          <p>&copy; 2022 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2022-03-10)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
