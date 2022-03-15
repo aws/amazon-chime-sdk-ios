@@ -1184,26 +1184,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Override Meeting Endpoint" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ugh-Cp-DHh">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Override Meeting Endpoint" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ugh-Cp-DHh">
                                 <rect key="frame" x="104" y="150" width="205" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Override Meeting Endpoint Label"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Meeting Endpoint Url" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HWT-wf-Hd8">
-                                <rect key="frame" x="77" y="195" width="260" height="34"/>
+                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Meeting Endpoint Url" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HWT-wf-Hd8">
+                                <rect key="frame" x="132" y="195" width="164.33333333333337" height="34"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Meeting Endpoint Url Input"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Meeting ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gob-qw-3MV">
-                                <rect key="frame" x="77" y="302" width="260" height="34"/>
+                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Meeting ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gob-qw-3MV">
+                                <rect key="frame" x="132" y="302" width="164.33333333333337" height="34"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Meeting Endpoint Url Input"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Debug Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dlf-w7-2eY">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Debug Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dlf-w7-2eY">
                                 <rect key="frame" x="113" y="76" width="187" height="34"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Debug Settings Title"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
@@ -1211,7 +1211,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AHd-Vp-rMm">
-                                <rect key="frame" x="188.66666666666666" y="819" width="51" height="41"/>
+                                <rect key="frame" x="188.66666666666666" y="853" width="51" height="41"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Debug Settings Save"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Save"/>
@@ -1219,8 +1219,8 @@
                                     <action selector="saveButtonClicked:" destination="GpE-ar-Sxz" eventType="touchUpInside" id="axH-hX-rqO"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Primary Meeting ID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JiN-Mk-dD7">
-                                <rect key="frame" x="134" y="259" width="146" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Primary Meeting ID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JiN-Mk-dD7">
+                                <rect key="frame" x="141" y="259" width="146" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Override Meeting Endpoint Label"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -1230,21 +1230,17 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="JiN-Mk-dD7" firstAttribute="top" secondItem="HWT-wf-Hd8" secondAttribute="bottom" constant="29.999999999999943" id="0Vk-2V-7Bo"/>
-                            <constraint firstItem="Dlf-w7-2eY" firstAttribute="top" secondItem="4TD-UJ-0Ke" secondAttribute="top" constant="32" id="Ajw-6r-gjw"/>
                             <constraint firstItem="Dlf-w7-2eY" firstAttribute="centerX" secondItem="ugh-Cp-DHh" secondAttribute="centerX" id="Bk7-7N-5gQ"/>
                             <constraint firstItem="HWT-wf-Hd8" firstAttribute="top" secondItem="ugh-Cp-DHh" secondAttribute="bottom" constant="24" id="DI9-KN-gys"/>
                             <constraint firstItem="ugh-Cp-DHh" firstAttribute="centerX" secondItem="HWT-wf-Hd8" secondAttribute="centerX" id="E3j-Mj-yAi"/>
                             <constraint firstItem="gob-qw-3MV" firstAttribute="centerX" secondItem="AHd-Vp-rMm" secondAttribute="centerX" id="EV2-Va-ZcJ"/>
                             <constraint firstItem="JiN-Mk-dD7" firstAttribute="centerX" secondItem="gob-qw-3MV" secondAttribute="centerX" id="LuY-FE-elb"/>
                             <constraint firstItem="gob-qw-3MV" firstAttribute="top" secondItem="JiN-Mk-dD7" secondAttribute="bottom" constant="22" id="MFd-LZ-0PO"/>
-                            <constraint firstItem="4TD-UJ-0Ke" firstAttribute="bottom" secondItem="AHd-Vp-rMm" secondAttribute="bottom" constant="32" id="Y4u-BA-9hi"/>
+                            <constraint firstAttribute="bottom" secondItem="AHd-Vp-rMm" secondAttribute="bottom" constant="32" id="Y4u-BA-9hi"/>
                             <constraint firstItem="HWT-wf-Hd8" firstAttribute="trailing" secondItem="gob-qw-3MV" secondAttribute="trailing" id="h3t-vO-T8w"/>
                             <constraint firstItem="ugh-Cp-DHh" firstAttribute="top" secondItem="Dlf-w7-2eY" secondAttribute="bottom" constant="40" id="oE6-em-IIS"/>
                             <constraint firstItem="AHd-Vp-rMm" firstAttribute="centerX" secondItem="F9N-fz-NNe" secondAttribute="centerX" id="qFv-Dz-fct"/>
                             <constraint firstItem="HWT-wf-Hd8" firstAttribute="leading" secondItem="gob-qw-3MV" secondAttribute="leading" id="u6D-ns-sjB"/>
-                            <constraint firstItem="HWT-wf-Hd8" firstAttribute="leading" secondItem="4TD-UJ-0Ke" secondAttribute="leading" constant="77" id="vJg-4G-o4b"/>
-                            <constraint firstItem="Dlf-w7-2eY" firstAttribute="leading" secondItem="4TD-UJ-0Ke" secondAttribute="leading" constant="113" id="xPc-Y6-KbO"/>
-                            <constraint firstItem="ugh-Cp-DHh" firstAttribute="leading" secondItem="4TD-UJ-0Ke" secondAttribute="leading" constant="104" id="ym4-fC-If5"/>
                         </constraints>
                     </view>
                     <connections>
