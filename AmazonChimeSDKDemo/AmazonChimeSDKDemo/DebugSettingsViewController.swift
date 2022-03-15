@@ -10,6 +10,7 @@ import UIKit
 
 class DebugSettingsViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var serverEndpointUrlTextField: UITextField!
+    @IBOutlet var primaryExternalMeetingIdTextField: UITextField!
     @IBOutlet var saveButton: UIButton!
 
     var model: DebugSettingsModel?
@@ -20,11 +21,16 @@ class DebugSettingsViewController: UIViewController, UITextFieldDelegate {
         setupHideKeyboardOnTap()
         serverEndpointUrlTextField.delegate = self
         serverEndpointUrlTextField.text = model?.endpointUrl
+        primaryExternalMeetingIdTextField.text = model?.primaryExternalMeetingId
     }
 
     @IBAction func saveButtonClicked(_: UIButton) {
         let endpointUrl = serverEndpointUrlTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         model?.endpointUrl = endpointUrl
+
+        let primaryExternalMeetingId = primaryExternalMeetingIdTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        model?.primaryExternalMeetingId = primaryExternalMeetingId
+
         self.dismiss(animated: true, completion: nil)
     }
 

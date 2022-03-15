@@ -27,6 +27,9 @@ import Foundation
 
     public let urlRewriter: URLRewriter
 
+    /// The id of the primary meeting that this session is joining a replica to
+    public let primaryMeetingId: String?
+
     public convenience init(createMeetingResponse: CreateMeetingResponse,
                             createAttendeeResponse: CreateAttendeeResponse) {
         self.init(createMeetingResponse: createMeetingResponse,
@@ -45,23 +48,40 @@ import Foundation
                   urlRewriter: urlRewriter)
     }
 
+    public convenience init(meetingId: String,
+                            externalMeetingId: String?,
+                            credentials: MeetingSessionCredentials,
+                            urls: MeetingSessionURLs,
+                            urlRewriter: @escaping URLRewriter) {
+        self.init(meetingId: meetingId,
+                  externalMeetingId: externalMeetingId,
+                  credentials: credentials,
+                  urls: urls,
+                  urlRewriter: urlRewriter,
+                  primaryMeetingId: nil)
+    }
+
     public init(meetingId: String,
                 externalMeetingId: String?,
                 credentials: MeetingSessionCredentials,
                 urls: MeetingSessionURLs,
-                urlRewriter: @escaping URLRewriter) {
+                urlRewriter: @escaping URLRewriter,
+                primaryMeetingId: String?) {
         self.meetingId = meetingId
         self.externalMeetingId = externalMeetingId
         self.credentials = credentials
         self.urls = urls
         self.urlRewriter = urlRewriter
+        self.primaryMeetingId = primaryMeetingId
     }
+    
 
     public init(createMeetingResponse: CreateMeetingResponse,
                 createAttendeeResponse: CreateAttendeeResponse,
                 urlRewriter: @escaping URLRewriter) {
         self.meetingId = createMeetingResponse.meeting.meetingId
         self.externalMeetingId = createMeetingResponse.meeting.externalMeetingId
+        self.primaryMeetingId = createMeetingResponse.meeting.primaryMeetingId
         self.credentials = MeetingSessionCredentials(attendeeId: createAttendeeResponse.attendee.attendeeId,
                                                      externalUserId: createAttendeeResponse.attendee.externalUserId,
                                                      joinToken: createAttendeeResponse.attendee.joinToken)

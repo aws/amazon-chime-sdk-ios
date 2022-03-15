@@ -961,6 +961,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="additionalOptionsButton" destination="Ief-dn-Lr8" id="3PU-5V-JQ7"/>
+                        <outlet property="broadcastButton" destination="45k-rb-bfn" id="qQI-Hs-yk2"/>
                         <outlet property="broadcastPickerContainerView" destination="45k-rb-bfn" id="DYh-zE-TBa"/>
                         <outlet property="cameraButton" destination="urn-hi-Y25" id="aXe-mE-gEa"/>
                         <outlet property="captionsTableView" destination="qMs-8n-X6I" id="2gX-qe-iRu"/>
@@ -1183,31 +1184,34 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Override Meeting Endpoint" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ugh-Cp-DHh">
-                                <rect key="frame" x="111.66666666666669" y="452.66666666666669" width="205" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Override Meeting Endpoint" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ugh-Cp-DHh">
+                                <rect key="frame" x="104" y="150" width="205" height="21"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Override Meeting Endpoint Label"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Meeting Endpoint Url" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HWT-wf-Hd8">
-                                <rect key="frame" x="84" y="497.66666666666674" width="260" height="34"/>
+                                <rect key="frame" x="132" y="195" width="164.33333333333337" height="34"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Meeting Endpoint Url Input"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="260" id="sRN-0P-oTP"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Debug Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dlf-w7-2eY">
-                                <rect key="frame" x="120.66666666666669" y="378.66666666666669" width="187" height="34"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Meeting ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gob-qw-3MV">
+                                <rect key="frame" x="132" y="302" width="164.33333333333337" height="34"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Meeting Endpoint Url Input"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Debug Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dlf-w7-2eY">
+                                <rect key="frame" x="113" y="76" width="187" height="34"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Debug Settings Title"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AHd-Vp-rMm">
-                                <rect key="frame" x="188.66666666666666" y="819" width="51" height="41"/>
+                                <rect key="frame" x="188.66666666666666" y="853" width="51" height="41"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Debug Settings Save"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" title="Save"/>
@@ -1215,20 +1219,35 @@
                                     <action selector="saveButtonClicked:" destination="GpE-ar-Sxz" eventType="touchUpInside" id="axH-hX-rqO"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Primary Meeting ID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JiN-Mk-dD7">
+                                <rect key="frame" x="141" y="259" width="146" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Override Meeting Endpoint Label"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="HWT-wf-Hd8" firstAttribute="top" secondItem="ugh-Cp-DHh" secondAttribute="bottom" constant="24" id="RKy-ut-1qs"/>
-                            <constraint firstItem="Dlf-w7-2eY" firstAttribute="centerX" secondItem="F9N-fz-NNe" secondAttribute="centerX" id="UoD-tx-rJ7"/>
-                            <constraint firstItem="HWT-wf-Hd8" firstAttribute="centerX" secondItem="F9N-fz-NNe" secondAttribute="centerX" id="Wr9-dd-9ve"/>
-                            <constraint firstItem="YQw-GI-60q" firstAttribute="top" secondItem="AHd-Vp-rMm" secondAttribute="bottom" constant="32" id="Y4u-BA-9hi"/>
-                            <constraint firstItem="ugh-Cp-DHh" firstAttribute="top" secondItem="Dlf-w7-2eY" secondAttribute="bottom" constant="40" id="gFa-1i-Ome"/>
-                            <constraint firstItem="ugh-Cp-DHh" firstAttribute="centerY" secondItem="F9N-fz-NNe" secondAttribute="centerY" id="nLw-bc-E7u"/>
-                            <constraint firstItem="ugh-Cp-DHh" firstAttribute="centerX" secondItem="F9N-fz-NNe" secondAttribute="centerX" id="q5x-e7-Q27"/>
+                            <constraint firstItem="JiN-Mk-dD7" firstAttribute="top" secondItem="HWT-wf-Hd8" secondAttribute="bottom" constant="29.999999999999943" id="0Vk-2V-7Bo"/>
+                            <constraint firstItem="Dlf-w7-2eY" firstAttribute="centerX" secondItem="ugh-Cp-DHh" secondAttribute="centerX" id="Bk7-7N-5gQ"/>
+                            <constraint firstItem="HWT-wf-Hd8" firstAttribute="top" secondItem="ugh-Cp-DHh" secondAttribute="bottom" constant="24" id="DI9-KN-gys"/>
+                            <constraint firstItem="ugh-Cp-DHh" firstAttribute="centerX" secondItem="HWT-wf-Hd8" secondAttribute="centerX" id="E3j-Mj-yAi"/>
+                            <constraint firstItem="gob-qw-3MV" firstAttribute="centerX" secondItem="AHd-Vp-rMm" secondAttribute="centerX" id="EV2-Va-ZcJ"/>
+                            <constraint firstItem="JiN-Mk-dD7" firstAttribute="centerX" secondItem="gob-qw-3MV" secondAttribute="centerX" id="LuY-FE-elb"/>
+                            <constraint firstItem="gob-qw-3MV" firstAttribute="top" secondItem="JiN-Mk-dD7" secondAttribute="bottom" constant="22" id="MFd-LZ-0PO"/>
+                            <constraint firstItem="ugh-Cp-DHh" firstAttribute="leading" secondItem="F9N-fz-NNe" secondAttribute="leadingMargin" constant="84" id="PBg-gR-DGX"/>
+                            <constraint firstItem="Dlf-w7-2eY" firstAttribute="top" secondItem="Cti-hC-3HM" secondAttribute="bottom" constant="32" id="PlT-BB-VTq"/>
+                            <constraint firstAttribute="bottom" secondItem="AHd-Vp-rMm" secondAttribute="bottom" constant="32" id="Y4u-BA-9hi"/>
+                            <constraint firstItem="Dlf-w7-2eY" firstAttribute="leading" secondItem="F9N-fz-NNe" secondAttribute="leadingMargin" constant="93" id="auF-SM-K4a"/>
+                            <constraint firstItem="HWT-wf-Hd8" firstAttribute="trailing" secondItem="gob-qw-3MV" secondAttribute="trailing" id="h3t-vO-T8w"/>
+                            <constraint firstItem="ugh-Cp-DHh" firstAttribute="top" secondItem="Dlf-w7-2eY" secondAttribute="bottom" constant="40" id="oE6-em-IIS"/>
                             <constraint firstItem="AHd-Vp-rMm" firstAttribute="centerX" secondItem="F9N-fz-NNe" secondAttribute="centerX" id="qFv-Dz-fct"/>
+                            <constraint firstItem="HWT-wf-Hd8" firstAttribute="leading" secondItem="gob-qw-3MV" secondAttribute="leading" id="u6D-ns-sjB"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="primaryExternalMeetingIdTextField" destination="gob-qw-3MV" id="8Ta-yH-R6u"/>
                         <outlet property="saveButton" destination="AHd-Vp-rMm" id="wj4-7o-d2P"/>
                         <outlet property="serverEndpointUrlTextField" destination="HWT-wf-Hd8" id="lio-80-fpD"/>
                     </connections>

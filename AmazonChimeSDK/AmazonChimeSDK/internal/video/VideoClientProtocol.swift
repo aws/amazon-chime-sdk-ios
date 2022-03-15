@@ -44,8 +44,12 @@ import Foundation
 
     func sendDataMessage(_ topic: String!, data: UnsafePointer<Int8>!, lifetimeMs: Int32)
 
-    func updateVideoSourceSubscriptions(_ addedOrUpdated: Dictionary<AnyHashable, Any>!,
-                                        withRemoved: Array<Any>!)
+    func updateVideoSourceSubscriptions(_ addedOrUpdated: [AnyHashable: Any]!,
+                                        withRemoved: [Any]!)
+
+    func promotePrimaryMeeting(_ attendeeId: String!, externalUserId: String!, joinToken: String!)
+
+    func demoteFromPrimaryMeeting()
 }
 
 extension VideoClient: VideoClientProtocol {}

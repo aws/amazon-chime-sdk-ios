@@ -9,10 +9,10 @@
 import Foundation
 
 struct CreateMediaPlacementInfo: Codable {
-    var audioFallbackUrl: String
+    var audioFallbackUrl: String?
     var audioHostUrl: String
     var signalingUrl: String
-    var turnControlUrl: String
+    var turnControlUrl: String?
     var eventIngestionUrl: String?
 
     enum CodingKeys: String, CodingKey {
@@ -26,12 +26,14 @@ struct CreateMediaPlacementInfo: Codable {
 
 struct CreateMeetingInfo: Codable {
     var externalMeetingId: String?
+    var primaryMeetingId: String?
     var mediaPlacement: CreateMediaPlacementInfo
     var mediaRegion: String
     var meetingId: String
 
     enum CodingKeys: String, CodingKey {
         case externalMeetingId = "ExternalMeetingId"
+        case primaryMeetingId = "PrimaryMeetingId"
         case mediaPlacement = "MediaPlacement"
         case mediaRegion = "MediaRegion"
         case meetingId = "MeetingId"
@@ -69,10 +71,12 @@ struct CreateAttendee: Codable {
 struct CreateJoinInfo: Codable {
     var meeting: CreateMeeting
     var attendee: CreateAttendee
+    var primaryExternalMeetingId: String?
 
     enum CodingKeys: String, CodingKey {
         case meeting = "Meeting"
         case attendee = "Attendee"
+        case primaryExternalMeetingId = "PrimaryExternalMeetingId"
     }
 }
 

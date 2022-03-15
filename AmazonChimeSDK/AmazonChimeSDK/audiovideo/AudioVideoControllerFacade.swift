@@ -112,4 +112,37 @@ import Foundation
     /// - Parameter addedOrUpdated: Dictionary of remote video sources to configurations to add or update
     /// - Parameter removed: Array of remote video sources to remove
     func updateVideoSourceSubscriptions(addedOrUpdated: Dictionary<RemoteVideoSource, VideoSubscriptionConfiguration>, removed: Array<RemoteVideoSource>)
+
+    /// Allows an attendee in a Replica meeting to immediately transition to a Primary meeting attendee
+    /// without need for reconnection.
+    ///
+    ///  `PrimaryMeetingPromotionObserver.didPromoteToPrimaryMeeting` will be called exactly once on `observer` for each call. If
+    ///  the promotion is successful,  `PrimaryMeetingPromotionObserver.didDemoteFromPrimaryMeeting` will be called exactly once
+    ///  if/when the attendee is demoted. See the observer documentation for possible status codes.
+    ///
+    /// Application code may also receive a callback on `AudioVideoObserver.videoSessionDidStartWithStatus` without
+    /// `MeetingSessionStatusCode.VideoAtCapacityViewOnly` to indicate they can begin to share video.
+    ///
+    /// `chime::DeleteAttendee` on the Primary meeting attendee will result in `PrimaryMeetingPromotionObserver.didDemoteFromPrimaryMeeting`
+    /// to indicate the attendee is no longer able to share.
+    ///
+    /// Any disconnection will trigger an automatic demotion to avoid unexpected or unwanted promotion state on reconnection.
+    /// This will also call `PrimaryMeetingPromotionObserver.didDemoteFromPrimaryMeeting`;  if the attendee still needs to be
+    /// an interactive participant in the Primary meeting, `promoteToPrimaryMeeting` should be called again with the same credentials.
+    ///
+    /// Note that given the asynchronous nature of this function, this should not be called a second time before
+    /// `PrimaryMeetingPromotionObserver.didPromoteToPrimaryMeeting` is called for the first time. Doing so may result in unexpected
+    /// behavior.
+    ///
+    /// - Parameter credentials: The credentials for the primary meeting.  This needs to be obtained out of band.
+    /// - Parameter observer: Will be called with a session status for the request and possible demotion. See possible options above.
+    func promoteToPrimaryMeeting(credentials: MeetingSessionCredentials, observer: PrimaryMeetingPromotionObserver)
+
+    /// Remove the promoted attendee from the Primary meeting. This client will stop sharing audio, video, and data messages.
+    /// This will revert the end-user to precisely the state they were before a call to `promoteToPrimaryMeeting`
+    ///
+    /// This will have no effect if there was no previous successful call to `promoteToPrimaryMeeting`. This
+    /// may result in `PrimaryMeetingPromotionObserver.didPromoteToPrimaryMeeting` but there is no need to wait for that callback
+    /// to revert UX, etc.
+    func demoteFromPrimaryMeeting()
 }

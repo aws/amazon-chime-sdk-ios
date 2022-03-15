@@ -117,7 +117,8 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
                                               selfName: name,
                                               audioVideoConfig: audioVideoConfig,
                                               option: callKitOption,
-                                              overriddenEndpoint: debugSettingsModel.endpointUrl) { success in
+                                              overriddenEndpoint: debugSettingsModel.endpointUrl,
+                                              primaryExternalMeetingId: debugSettingsModel.primaryExternalMeetingId) { success in
             DispatchQueue.main.async {
                 if !success {
                     self.view.hideToast()

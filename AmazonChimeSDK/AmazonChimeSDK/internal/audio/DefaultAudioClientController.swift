@@ -171,6 +171,26 @@ extension DefaultAudioClientController: AudioClientController {
         }
     }
 
+    func promoteToPrimaryMeeting(credentials: MeetingSessionCredentials, observer: PrimaryMeetingPromotionObserver) {
+        guard Self.state == .started else {
+            logger.error(msg: "Cannot join primary meeting because state=\(Self.state)")
+            observer.didPromoteToPrimaryMeeting(status: MeetingSessionStatus(statusCode: MeetingSessionStatusCode.audioServiceUnavailable))
+            return
+        }
+        audioClientObserver.setPrimaryMeetingPromotionObserver(observer: observer)
+        audioClient.joinPrimaryMeeting(credentials.attendeeId,
+                                        externalUserId: credentials.externalUserId,
+                                        joinToken: credentials.joinToken)
+    }
+
+    func demoteFromPrimaryMeeting() {
+        guard Self.state == .started else {
+            logger.error(msg: "Cannot leave primary meeting because state=\(Self.state)")
+            return
+        }
+        audioClient.leavePrimaryMeeting()
+    }
+
     private func notifyStop() {
         eventAnalyticsController.publishEvent(name: .meetingEnded,
                                               attributes: [EventAttributeName.meetingStatus: MeetingSessionStatusCode.ok])

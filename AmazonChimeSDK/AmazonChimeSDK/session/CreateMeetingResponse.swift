@@ -21,15 +21,30 @@ import Foundation
     let mediaPlacement: MediaPlacement
     let mediaRegion: String
     let meetingId: String
+    let primaryMeetingId: String?
+
+    public convenience init(externalMeetingId: String?,
+                            mediaPlacement: MediaPlacement,
+                            mediaRegion: String,
+                            meetingId: String) {
+        self.init(
+            externalMeetingId: externalMeetingId,
+            mediaPlacement: mediaPlacement,
+            mediaRegion: mediaRegion,
+            meetingId: meetingId,
+            primaryMeetingId: nil)
+    }
 
     public init(externalMeetingId: String?,
-                mediaPlacement: MediaPlacement,
-                mediaRegion: String,
-                meetingId: String) {
+                 mediaPlacement: MediaPlacement,
+                 mediaRegion: String,
+                 meetingId: String,
+                 primaryMeetingId: String?) {
         self.externalMeetingId = externalMeetingId
         self.mediaPlacement = mediaPlacement
         self.mediaRegion = mediaRegion
         self.meetingId = meetingId
+        self.primaryMeetingId = primaryMeetingId
     }
 }
 
