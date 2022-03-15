@@ -63,7 +63,7 @@ class DefaultAudioClientObserverTests: XCTestCase {
         let meetingMock: MeetingMock = mock(Meeting.self).initialize(externalMeetingId: externalMeetingId,
                                                                      mediaPlacement: mediaPlacementMock,
                                                                      mediaRegion: mediaRegion,
-                                                                     meetingId: meetingId
+                                                                     meetingId: meetingId,
                                                                      primaryMeetingId: nil)
         let createMeetingResponseMock: CreateMeetingResponseMock = mock(CreateMeetingResponse.self)
             .initialize(meeting: meetingMock)
