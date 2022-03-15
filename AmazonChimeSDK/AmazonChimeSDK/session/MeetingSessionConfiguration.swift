@@ -48,18 +48,33 @@ import Foundation
                   urlRewriter: urlRewriter)
     }
 
+    public convenience init(meetingId: String,
+                            externalMeetingId: String?,
+                            credentials: MeetingSessionCredentials,
+                            urls: MeetingSessionURLs,
+                            urlRewriter: @escaping URLRewriter) {
+        self.init(meetingId: meetingId,
+                  externalMeetingId: externalMeetingId,
+                  credentials: credentials,
+                  urls: urls,
+                  urlRewriter: urlRewriter,
+                  primaryMeetingId: nil)
+    }
+
     public init(meetingId: String,
                 externalMeetingId: String?,
                 credentials: MeetingSessionCredentials,
                 urls: MeetingSessionURLs,
-                urlRewriter: @escaping URLRewriter) {
+                urlRewriter: @escaping URLRewriter,
+                primaryMeetingId: String?) {
         self.meetingId = meetingId
         self.externalMeetingId = externalMeetingId
         self.credentials = credentials
         self.urls = urls
         self.urlRewriter = urlRewriter
-        self.primaryMeetingId = nil
+        self.primaryMeetingId = primaryMeetingId
     }
+    
 
     public init(createMeetingResponse: CreateMeetingResponse,
                 createAttendeeResponse: CreateAttendeeResponse,
