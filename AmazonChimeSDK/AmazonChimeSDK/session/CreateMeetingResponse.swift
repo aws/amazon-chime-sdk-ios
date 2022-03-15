@@ -28,18 +28,18 @@ import Foundation
                             mediaRegion: String,
                             meetingId: String) {
         self.init(
-            externalMeetingId: externalMeetingId, 
-            mediaPlacement: mediaPlacement, 
-            mediaRegion: mediaRegion, 
-            meetingId: meetingId, 
+            externalMeetingId: externalMeetingId,
+            mediaPlacement: mediaPlacement,
+            mediaRegion: mediaRegion,
+            meetingId: meetingId,
             primaryMeetingId: nil)
     }
 
-    public  init(externalMeetingId: String?,
-                            mediaPlacement: MediaPlacement,
-                            mediaRegion: String,
-                            meetingId: String,
-                            primaryMeetingId: String?) {
+    public init(externalMeetingId: String?,
+                 mediaPlacement: MediaPlacement,
+                 mediaRegion: String,
+                 meetingId: String,
+                 primaryMeetingId: String?) {
         self.externalMeetingId = externalMeetingId
         self.mediaPlacement = mediaPlacement
         self.mediaRegion = mediaRegion
