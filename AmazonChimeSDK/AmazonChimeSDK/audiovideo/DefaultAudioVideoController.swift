@@ -126,7 +126,7 @@ import Foundation
         var audioClientPromotionStatus: MeetingSessionStatus?
         let audioClientPromotionCallback = { (status: MeetingSessionStatus) -> Void in
             self.logger.info(
-                msg: "Video primary meeting join has completed with status \(status.statusCode.description)")
+                msg: "Audio primary meeting promotion has completed with status \(status.statusCode.description)")
             audioClientPromotionStatus = status
             group.leave()
         }

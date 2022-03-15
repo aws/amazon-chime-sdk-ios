@@ -135,14 +135,14 @@ import Foundation
     /// behavior.
     ///
     /// - Parameter credentials: The credentials for the primary meeting.  This needs to be obtained out of band.
-    /// - Returns: Promise which resolves to a session status for the request. See possible options above.
+    /// - Parameter observer: Will be called with a session status for the request and possible demotion. See possible options above.
     func promoteToPrimaryMeeting(credentials: MeetingSessionCredentials, observer: PrimaryMeetingPromotionObserver)
 
     /// Remove the promoted attendee from the Primary meeting. This client will stop sharing audio, video, and data messages.
-    /// This will revert the end-user to precisely the state they were before a call to `promoteToPrimaryMeeting`]`
+    /// This will revert the end-user to precisely the state they were before a call to `promoteToPrimaryMeeting`
     ///
-    /// This will have no effect if there was no previous successful call to `promoteToPrimaryMeeting`]`. This
-    /// may result in `PrimaryMeetingPromotionObserver.didPromoteToPrimaryMeeting`]` but there is no need to wait for that callback
+    /// This will have no effect if there was no previous successful call to `promoteToPrimaryMeeting`. This
+    /// may result in `PrimaryMeetingPromotionObserver.didPromoteToPrimaryMeeting` but there is no need to wait for that callback
     /// to revert UX, etc.
     func demoteFromPrimaryMeeting()
 }
