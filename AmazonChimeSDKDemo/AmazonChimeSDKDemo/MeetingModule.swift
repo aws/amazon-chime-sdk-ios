@@ -19,7 +19,7 @@ class MeetingModule {
     private var meetings: [UUID: MeetingModel] = [:]
     private let logger = ConsoleLogger(name: "MeetingModule")
     
-    // These need to be cached in case of primary meeting joins in the futre
+    // These need to be cached in case of primary meeting joins in the future
     var cachedOverriddenEndpoint = ""
     var cachedPrimaryExternalMeetingId = ""
 
