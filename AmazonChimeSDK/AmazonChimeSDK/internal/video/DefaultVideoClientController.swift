@@ -287,7 +287,7 @@ extension DefaultVideoClientController: VideoClientDelegate {
         return uris.map(self.configuration.urlRewriter)
     }
 
-    public func videoClientDidCompletePrimaryMeetingJoin(_ status: video_client_status_t) {
+    public func videoClientDidPromote(toPrimaryMeeting status: video_client_status_t) {
         let code: MeetingSessionStatusCode
         switch status {
         case VIDEO_CLIENT_OK:
@@ -303,7 +303,7 @@ extension DefaultVideoClientController: VideoClientDelegate {
             .didPromoteToPrimaryMeeting(status: MeetingSessionStatus.init(statusCode: code))
     }
 
-    public func videoClientPrimaryMeetingDemoted(_ status: video_client_status_t) {
+    public func videoClientDidDemote(fromPrimaryMeeting status: video_client_status_t) {
         let code: MeetingSessionStatusCode
         switch status {
         case VIDEO_CLIENT_OK:
