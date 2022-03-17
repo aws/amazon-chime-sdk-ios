@@ -10,3 +10,4 @@ build
 AmazonChimeSDK/docs
 AmazonChimeSDK/MockingbirdSupport/
 **/IDEWorkspaceChecks.plist
+Pods
