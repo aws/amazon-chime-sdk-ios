@@ -303,16 +303,30 @@ class VideoModel: NSObject {
     }
 
     func getPreviousRemoteVideoPage() {
+        var removedList: [RemoteVideoSource] = []
         for remoteVideoTileState in remoteVideoStatesInCurrentPage {
-            audioVideoFacade.pauseRemoteVideoTile(tileId: remoteVideoTileState.0)
+            //audioVideoFacade.pauseRemoteVideoTile(tileId: remoteVideoTileState.0)
+            for (key, _) in remoteVideoSourceConfigurations {
+                if(String(remoteVideoTileState.0) == key.attendeeId) {
+                    removedList.append(key)
+                }
+            }
         }
+        audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: [:], removed: removedList)
         currentRemoteVideoPageIndex -= 1
     }
 
     func getNextRemoteVideoPage() {
+        var removedList: [RemoteVideoSource] = []
         for remoteVideoTileState in remoteVideoStatesInCurrentPage {
-            audioVideoFacade.pauseRemoteVideoTile(tileId: remoteVideoTileState.0)
+            // audioVideoFacade.pauseRemoteVideoTile(tileId: remoteVideoTileState.0)
+            for (key, _) in remoteVideoSourceConfigurations {
+                if(String(remoteVideoTileState.0) == key.attendeeId) {
+                    removedList.append(key)
+                }
+            }
         }
+        audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: [:], removed: removedList)
         currentRemoteVideoPageIndex += 1
     }
 
@@ -328,6 +342,18 @@ class VideoModel: NSObject {
                 audioVideoFacade.resumeRemoteVideoTile(tileId: remoteVideoTileState.0)
             }
         }
+    }
+    
+    func updateRemoteVideoSourceInCurrentPage() {
+        var updatedSources:[RemoteVideoSource: VideoSubscriptionConfiguration] = [:]
+        for remoteVideoTileState in remoteVideoStatesInCurrentPage {
+            for (key, value) in remoteVideoSourceConfigurations {
+                if (String(remoteVideoTileState.0) == key.attendeeId) {
+                    updatedSources[key] = value
+                }
+            }
+        }
+        audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: updatedSources, removed: [])
     }
 
     func pauseAllRemoteVideos() {
@@ -420,4 +446,13 @@ extension VideoModel: VideoTileCellDelegate {
             self.logger.info(msg: "Unknown background filter.")
         }
     }
+    func onUpdateResolutionButtonClicked(attendeeId: String, resolution: VideoResolution) {
+        for(source, config) in remoteVideoSourceConfigurations {
+            if attendeeId == source.attendeeId {
+                config.targetResolution = resolution
+            }
+        }
+        audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: remoteVideoSourceConfigurations, removed: [])
+    }
+    
 }
