@@ -39,8 +39,16 @@ And review the following guides:
 * [Configuring Remote Video Subscription](guides/configuring_remote_video_subscriptions.md)
 
 ## Include Amazon Chime SDK in Your Project
+You can download and integrate the Amazon Chime iOS SDKs to your project from both CocoaPods and binaries from Github release.
 
-To include the SDK binaries in your own project, follow these steps.
+### From CocoaPods
+To obtain Amazon Chime iOS SDKs from CocoaPods, add 
+```
+pod 'AmazonChimeSDK-Bitcode'
+```
+to `Podfile`. The no bitcode version `AmazonChimeSDK-No-Bitcode` is also available in [Cocoapods](https://cocoapods.org/).
+
+### From Github Release Binaries
 
 For the purpose of setup, your project's root folder (where you can find your `.xcodeproj` file) will be referred to as `root`.
 
