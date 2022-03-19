@@ -205,6 +205,7 @@ class MeetingViewController: UIViewController {
         nextVideoPageButton.isEnabled = false
 
         if let model = meetingModel, !model.primaryExternalMeetingId.isEmpty {
+            meetingModel?.setMute(isMuted: true)
             self.enableOrDisableButtonsForReplicatedMeeting(enabled: false)
         }
 
@@ -407,15 +408,6 @@ class MeetingViewController: UIViewController {
                                                  })
             optionMenu.addAction(voiceFocusAction)
 
-            let isLiveTranscriptionEnabled = meetingModel.captionsModel.isLiveTranscriptionEnabled
-            let nextLiveTranscriptionStatus = nextOnOrOff(current: isLiveTranscriptionEnabled)
-            let liveTranscriptionAction = UIAlertAction(title: "Turn \(nextLiveTranscriptionStatus) Live Transcription",
-                                                 style: .default,
-                                                 handler: { _ in
-                                                    meetingModel.setLiveTranscriptionEnabled(enabled: !isLiveTranscriptionEnabled)
-                                                 })
-            optionMenu.addAction(liveTranscriptionAction)
-
             // We can only access torch and apply filter on external video source
             if meetingModel.videoModel.isUsingExternalVideoSource {
                 let isTorchOn = meetingModel.videoModel.customSource.torchEnabled
@@ -462,6 +454,18 @@ class MeetingViewController: UIViewController {
                                                             handler: { _ in self.toggleInAppContentShare() })
                 optionMenu.addAction(inAppContentShareAction)
             #endif
+        }
+
+        if meetingModel.primaryExternalMeetingId.isEmpty {
+            // Only show for normal or primary meeting attendees
+            let isLiveTranscriptionEnabled = meetingModel.captionsModel.isLiveTranscriptionEnabled
+            let nextLiveTranscriptionStatus = nextOnOrOff(current: isLiveTranscriptionEnabled)
+            let liveTranscriptionAction = UIAlertAction(title: "Turn \(nextLiveTranscriptionStatus) Live Transcription",
+                                                 style: .default,
+                                                 handler: { _ in
+                                                    meetingModel.setLiveTranscriptionEnabled(enabled: !isLiveTranscriptionEnabled)
+                                                 })
+            optionMenu.addAction(liveTranscriptionAction)
         }
 
 

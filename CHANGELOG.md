@@ -1,3 +1,9 @@
+## [Unreleased]
+
+### Added
+
+* Added support for use of replicated meetings to extend meeting sizes to up to 10k view only participants with glareless promotion ability. See the Chime Developer Guide and the [iOS guide](https://github.com/aws/amazon-chime-sdk-ios/blob/development/guides/video_pagination.md) for more details.
+
 ## [0.19.1] - 2022-03-10
 
 ### Fixed

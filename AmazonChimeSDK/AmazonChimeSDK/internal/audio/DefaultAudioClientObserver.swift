@@ -292,6 +292,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         case PrimaryMeetingEventTypeInternal.leave:
             self.primaryMeetingPromotionObserver?
                 .didDemoteFromPrimaryMeeting(status: MeetingSessionStatus(statusCode: code))
+            self.primaryMeetingPromotionObserver = nil
         default:
             self.logger.error(msg: "Unexpected primary meeting event type \(type)")
         }
@@ -322,6 +323,10 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
                 observer.audioSessionDidStart(reconnecting: true)
             }
+            // We will not be promoted on reconnection
+            self.primaryMeetingPromotionObserver?
+                .didDemoteFromPrimaryMeeting(status: MeetingSessionStatus.init(statusCode: MeetingSessionStatusCode.audioInternalServerError))
+            self.primaryMeetingPromotionObserver = nil
         case .finishConnecting:
             switch (newAudioStatus, currentAudioStatus) {
             case (.ok, .networkBecomePoor):
