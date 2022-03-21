@@ -98,7 +98,7 @@ class VideoTileCell: UICollectionViewCell {
 
             updateVideoResolutionButton.setImage(UIImage(named: "up")?.withRenderingMode(.alwaysTemplate), for: .normal)
             updateVideoResolutionButton.tintColor = .white
-            updateVideoResolutionButton.addTarget(self, action: #selector(showUpdateVideoSubscriptionsMenu), for: .touchUpInside)
+            updateVideoResolutionButton.addTarget(self, action: #selector(showUpdateVideoResolutionMenu), for: .touchUpInside)
         }
         
         if !isSelf {
