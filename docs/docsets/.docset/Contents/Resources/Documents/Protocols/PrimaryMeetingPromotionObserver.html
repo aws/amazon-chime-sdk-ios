@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>DefaultContentShareController Class Reference</title>
+    <title>PrimaryMeetingPromotionObserver Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -13,8 +13,8 @@
     <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
-    <a name="//apple_ref/swift/Class/DefaultContentShareController" class="dashAnchor"></a>
-    <a title="DefaultContentShareController Class Reference"></a>
+    <a name="//apple_ref/swift/Protocol/PrimaryMeetingPromotionObserver" class="dashAnchor"></a>
+    <a title="PrimaryMeetingPromotionObserver Protocol Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html"> Docs</a></p>
@@ -29,7 +29,7 @@
       <p id="breadcrumbs">
         <a href="../index.html"> Reference</a>
         <img id="carat" src="../img/carat.png" alt=""/>
-        DefaultContentShareController Class Reference
+        PrimaryMeetingPromotionObserver Protocol Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -452,16 +452,18 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>DefaultContentShareController</h1>
+            <h1>PrimaryMeetingPromotionObserver</h1>
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="kt">DefaultContentShareController</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt"><a href="../Protocols/ContentShareController.html">ContentShareController</a></span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">PrimaryMeetingPromotionObserver</span></code></pre>
 
                 </div>
               </div>
-            
+            <p><code>PrimaryMeetingPromotionObserver</code> handles events related to Primary meeting promotion.
+See <code>AudioVideoControllerFacade.promoteToPrimaryMeeting</code> for more information.</p>
+
           </section>
           <section class="section task-group-section">
             <div class="task-group">
@@ -469,9 +471,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AmazonChimeSDK@objc(cs)DefaultContentShareController(im)initWithContentShareVideoClientController:"></a>
-                    <a name="//apple_ref/swift/Method/init(contentShareVideoClientController:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)DefaultContentShareController(im)initWithContentShareVideoClientController:">init(contentShareVideoClientController:<wbr>)</a>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)PrimaryMeetingPromotionObserver(im)didPromoteToPrimaryMeetingWithStatus:"></a>
+                    <a name="//apple_ref/swift/Method/didPromoteToPrimaryMeeting(status:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)PrimaryMeetingPromotionObserver(im)didPromoteToPrimaryMeetingWithStatus:">didPromoteToPrimaryMeeting(status:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -479,15 +481,56 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Called when the <code>AudioVideoControllerFacade.promoteToPrimaryMeeting</code> completes.</p>
+
+<p><code><a href="../Classes/MeetingSessionStatus.html">MeetingSessionStatus</a></code>  that will contain a <code><a href="../Enums/MeetingSessionStatusCode.html">MeetingSessionStatusCode</a></code> of the following:</p>
+
+<ul>
+<li><code><a href="../Enums/MeetingSessionStatusCode.html#/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeOk">MeetingSessionStatusCode.ok</a></code>: The promotion was successful (i.e. session token was valid,
+there was room in the Primary meeting, etc.), audio will begin flowing
+and the attendee can begin to send data messages, and content/video if the call is not already at limit.</li>
+<li><code><a href="../Enums/MeetingSessionStatusCode.html#/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeAudioAuthenticationRejected">MeetingSessionStatusCode.audioAuthenticationRejected</a></code>: Credentials provided
+were invalid when connection attempted to Primary meeting. There may be an issue
+with your mechanism which allocates the Primary meeting attendee for the Replica
+meeting proxied promotion.  This also may indicate that this API was called in a
+non-Replica meeting.</li>
+<li><code><a href="../Enums/MeetingSessionStatusCode.html#/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeAudioCallAtCapacity">MeetingSessionStatusCode.audioCallAtCapacity</a></code>: Credentials provided were correct
+but there was no room in the Primary meeting.  Promotions to Primary meeting attendee take up a slot, just like
+regular Primary meeting attendee connections and are limited by the same mechanisms.</li>
+<li><code><a href="../Enums/MeetingSessionStatusCode.html#/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeAudioServiceUnavailable">MeetingSessionStatusCode.audioServiceUnavailable</a></code>: Media has not been connected yet so promotion is not yet possible.</li>
+<li><code><a href="../Enums/MeetingSessionStatusCode.html#/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeAudioInternalServerError">MeetingSessionStatusCode.audioInternalServerError</a></code>: Other failure, possibly due to disconnect
+or timeout. These failures are likely retryable.</li>
+</ul>
+
+<p>Note: this callback will be called on main thread.</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">contentShareVideoClientController</span><span class="p">:</span> <span class="kt">ContentShareVideoClientController</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">didPromoteToPrimaryMeeting</span><span class="p">(</span><span class="nv">status</span><span class="p">:</span> <span class="kt"><a href="../Classes/MeetingSessionStatus.html">MeetingSessionStatus</a></span><span class="p">)</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>status</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>See notes above</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -495,9 +538,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AmazonChimeSDK@objc(pl)ContentShareController(im)startContentShareWithSource:"></a>
-                    <a name="//apple_ref/swift/Method/startContentShare(source:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)ContentShareController(im)startContentShareWithSource:">startContentShare(source:<wbr>)</a>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)PrimaryMeetingPromotionObserver(im)didDemoteFromPrimaryMeetingWithStatus:"></a>
+                    <a name="//apple_ref/swift/Method/didDemoteFromPrimaryMeeting(status:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)PrimaryMeetingPromotionObserver(im)didDemoteFromPrimaryMeetingWithStatus:">didDemoteFromPrimaryMeeting(status:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -505,93 +548,50 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>This observer callback will only be called for attendees in Replica meetings that have
+been promoted to the Primary meeting via <code>AudioVideoFacade.promoteToPrimaryMeeting</code>.</p>
+
+<p>Indicates that the client is no longer authenticated to the Primary meeting
+and can no longer share media. <code>status</code> will contain a <code><a href="../Enums/MeetingSessionStatusCode.html">MeetingSessionStatusCode</a></code> of the following:</p>
+
+<ul>
+<li><code><a href="../Enums/MeetingSessionStatusCode.html#/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeOk">MeetingSessionStatusCode.ok</a></code>: <code>AudioVideoFacade.demoteFromPrimaryMeeting</code> was used to remove the attendee.</li>
+<li><code><a href="../Enums/MeetingSessionStatusCode.html#/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeAudioAuthenticationRejected">MeetingSessionStatusCode.audioAuthenticationRejected</a></code>: <code>chime::DeleteAttendee</code> was called on the Primary
+meeting attendee used in <code>AudioVideoFacade.promoteToPrimaryMeeting</code>.</li>
+<li><code><a href="../Enums/MeetingSessionStatusCode.html#/c:@M@AmazonChimeSDK@E@MeetingSessionStatusCode@MeetingSessionStatusCodeAudioInternalServerError">MeetingSessionStatusCode.audioInternalServerError</a></code>: Other failure, possibly due to disconnect
+or timeout. These failures are likely retryable. Any disconnection will trigger an automatic
+demotion to avoid unexpected or unwanted promotion state on reconnection.</li>
+</ul>
+
+<p>Note: this callback will be called on main thread.</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">startContentShare</span><span class="p">(</span><span class="nv">source</span><span class="p">:</span> <span class="kt"><a href="../Classes/ContentShareSource.html">ContentShareSource</a></span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">didDemoteFromPrimaryMeeting</span><span class="p">(</span><span class="nv">status</span><span class="p">:</span> <span class="kt"><a href="../Classes/MeetingSessionStatus.html">MeetingSessionStatus</a></span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:@M@AmazonChimeSDK@objc(pl)ContentShareController(im)stopContentShare"></a>
-                    <a name="//apple_ref/swift/Method/stopContentShare()" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)ContentShareController(im)stopContentShare">stopContentShare()</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">stopContentShare</span><span class="p">()</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:@M@AmazonChimeSDK@objc(pl)ContentShareController(im)addContentShareObserverWithObserver:"></a>
-                    <a name="//apple_ref/swift/Method/addContentShareObserver(observer:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)ContentShareController(im)addContentShareObserverWithObserver:">addContentShareObserver(observer:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">addContentShareObserver</span><span class="p">(</span><span class="nv">observer</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ContentShareObserver.html">ContentShareObserver</a></span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:@M@AmazonChimeSDK@objc(pl)ContentShareController(im)removeContentShareObserverWithObserver:"></a>
-                    <a name="//apple_ref/swift/Method/removeContentShareObserver(observer:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)ContentShareController(im)removeContentShareObserverWithObserver:">removeContentShareObserver(observer:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">removeContentShareObserver</span><span class="p">(</span><span class="nv">observer</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ContentShareObserver.html">ContentShareObserver</a></span><span class="p">)</span></code></pre>
-
-                        </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>status</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>See notes above</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
