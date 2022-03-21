@@ -1,7 +1,7 @@
 ## [0.19.2] - 2022-03-21
 
 ### Added
-* Add support for 10k video
+* Added support for media replication to link multiple WebRTC media sessions together to reach larger and global audiences. Participants connected to a replica session can be granted access to join the primary session and can switch sessions with their existing WebRTC connection.
 
 ## [0.19.1] - 2022-03-10
 
