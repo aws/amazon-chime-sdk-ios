@@ -74,11 +74,11 @@ let meetingResponse = getPrimaryMeeting()
 // Response from CreateAttendee API call against Primary
 let attendeeResponse = createPrimaryMeetingAttendee()
 let configuration = MeetingSessionConfiguration(
-    createMeetingResponse: meetingResp,
-    createAttendeeResponse: attendeeResp,
+    createMeetingResponse: meetingResponse,
+    createAttendeeResponse: attendeeResponse,
     urlRewriter: { (url: String) -> String in return url })
 // This could also be created solely through the `CreateAttendee` response
-const credentials = configuration.credentials;
+const credentials = configuration.credentials
 meetingSession.audioVideo.promoteToPrimaryMeeting(credentials: credentials, observer: self)
 ```
 
