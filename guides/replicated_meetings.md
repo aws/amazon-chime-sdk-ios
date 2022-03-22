@@ -1,6 +1,6 @@
 # Replica Meetings Attendee Behaviors and Features
 
-To allow extended scaling of meetings that expect significant portions of attendees be non-active participants (e.g. a live event or presentation), the Amazon Chime SDK supports the creation of Replica meetings with specialized behavior. For explanation of how to create Replica meetings via the [chime::CreateMeeting](https://docs.aws.amazon.com/chime/latest/APIReference/API_CreateMeeting.html) and [chime::CreateMeetingWithAttendees](https://docs.aws.amazon.com/chime/latest/APIReference/API_CreateMeetingWithAttendees.html) APIs, a high level overview of how Replica meetings work, and a walkthrough of how to incorporate this type of scaling in your applications meetings, see the section above.
+To allow extended scaling of meetings that expect significant portions of attendees be non-active participants (e.g. a live event or presentation), the Amazon Chime SDK supports the creation of Replica meetings with specialized behavior. For explanation of how to create Replica meetings via the [chime::CreateMeeting](https://docs.aws.amazon.com/chime/latest/APIReference/API_CreateMeeting.html) and [chime::CreateMeetingWithAttendees](https://docs.aws.amazon.com/chime/latest/APIReference/API_CreateMeetingWithAttendees.html) APIs, a high level overview of how Replica meetings work, and a walkthrough of how to incorporate this type of scaling in your applications meetings, see [this section of the Chime Developer Guide](https://docs.aws.amazon.com/chime/latest/dg/media-replication.html).
 
 In short, an attendee in a Replica meeting will receive remote media and metadata from the Primary meeting as if they were attendees of the Primary meeting (though they will not require authentication for the Primary meeting unless they would like to be promoted to an active participant, which is covered in a separate section below).
 
@@ -10,7 +10,7 @@ In short, an attendee in a Replica meeting will receive remote media and metadat
 * You have completed [Getting Started](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/getting_started.md) and have running application which uses the Amazon Chime SDK.
 
 Note: Deploying the serverless/browser demo and receiving traffic from the demo created in this post can incur AWS charges.
-* You have an understanding of the high level ideas around Replica meetings as covered in the [Chime Developer Guide](Link Pending).
+* You have an understanding of the high level ideas around Replica meetings as covered in the [Chime Developer Guide](https://docs.aws.amazon.com/chime/latest/dg/media-replication.html).
 
 *Note:* This guide will refer to the meeting which is replicated as a Primary meeting, however there is no difference between a Primary meeting and a normal meeting. There is additionally no difference in the behavior and features of an attendee of a Primary meeting, so builders should not need to use the SDK any differently from the way they would for non-replicated meetings for those Primary meeting attendees.
 
