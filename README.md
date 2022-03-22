@@ -39,18 +39,59 @@ And review the following guides:
 * [Configuring Remote Video Subscription](guides/configuring_remote_video_subscriptions.md)
 
 ## Include Amazon Chime SDK in Your Project
+You can integrate Amazon Chime SDK in your project from either CocoaPods or binaries through Github release.
 
-To include the SDK binaries in your own project, follow these steps.
+### From CocoaPods
+1. The Amazon Chime SDK is available through [CocoaPods](http://cocoapods.org/). If you have not installed CocoaPods, install CocoaPods by running the command:
+    ```
+    $ gem install cocoapods
+    $ pod setup
+    ```
+    Depending on your system settings, you may have to use sudo for installing cocoapods as follows:
+
+    ```
+    $ sudo gem install cocoapods
+    $ pod setup
+    ```
+2. In `AmazonChimeSDKDemo/` directory (the directory where your *.xcodeproj file is), run the following to create a Podfile in your project:
+    ```
+    $ pod init
+    ```
+3. Edit the `Podfile` to include `AmazonChimeSDK-Bitcode` into your project if you need bitcode:
+    ```
+    target 'YourTarget' do
+        pod 'AmazonChimeSDK-Bitcode'
+        ...
+    end
+    ```
+    If you don't need bitcode, you can add `AmazonChimeSDK-No-Bitcode` instead:
+    ```
+    target 'YourTarget' do
+        pod `AmazonChimeSDK-No-Bitcode`
+        ...
+    end
+    ```
+4. Then run the following command to installl pods:
+   ```
+   $ pod install --repo-update
+   ```
+5. To open your project, open the newly generated `*.xcworkspace` file in `AmazonChimeSDKDemo/` with XCode. You can do this by issuing the following command in your project folder
+   ```
+    $ xed .
+   ```
+   Note: Do *NOT* use *.xcodeproj to open project.
+
+### From Github Release Binaries
 
 For the purpose of setup, your project's root folder (where you can find your `.xcodeproj` file) will be referred to as `root`.
 
-### 1. Download Binaries
+#### 1. Download Binaries
 
 * Download the `AmazonChimeSDK` and `AmazonChimeSDKMedia` binaries from the latest [release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
 
 * Unzip and copy the `.framework`s or `.xcframework`s to `root`, which depends on which framework your project uses.  For Xcode12.3 and later, please use `.xcframework` if you have compile issue. `.xcframework` is available after Amazon Chime SDK iOS v0.15.0
 
-### 2. Update Project File
+#### 2. Update Project File
 
 * Open your `.xcodeproj` file in Xcode and click on your build target.
 
@@ -85,8 +126,13 @@ To run the demo application, follow these steps.
 
 `git clone git@github.com:aws/amazon-chime-sdk-ios.git`
 
-### 2. Download Binary
-
+### 2. Import Amazon Chime SDK
+#### From CocoaPods
+In `AmazonChimeSDKDemo/`, run the following command to install pods:
+```
+$ pod install
+```
+#### Or From Downloaded Binary
 * Download `AmazonChimeSDKMedia` binary with bitcode support from the latest [release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
 
 * Unzip and copy the `AmazonChimeSDKMedia.framework` to `AmazonChimeSDK` folder.
@@ -131,6 +177,11 @@ Deploy the serverless demo from [amazon-chime-sdk-js](https://github.com/aws/ama
 * (Optional) Update `broadcastBundleId` and `appGroupId` in BOTH `AppConfiguration.swift` and `SampleHandler.swift` with the broadcast upload extension bundle ID and App Group ID if you want to test sharing device level screen capture. See [Content Share](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/content_share.md) for more details.
 
 ### 6. Use Demo App to Join Meeting
+#### Run the AmazonChimeSDKDemoPods target with Amazon Chime SDK from CocoaPods
+After opening `*.xcworkspace` file in `AmazonChimeSDKDemo/` with XCode, select the `AmazonChimeSDKDemoPods` from the scheme dropdown list in the top bar of Xcode IDE, choose a build device and click the run button.
+
+#### Run the AmazonChimeSDKDemo target with Downloaded Amazon Chime SDK Binaries
+After opening `*.xcworkspace` file in `AmazonChimeSDKDemo/` with XCode, select the `AmazonChimeSDKDemo` from the scheme dropdown list in the top bar of Xcode IDE, choose a build device and click the run button.
 
 On the joining screen, choose to join the meeting without `CallKit` or join via `CallKit` incoming/outgoing call. Since the demo app does not have Push Notification, it delays joining via incoming call by 10 seconds to give user enough time to background the app or lock the screen to mimic the behavior.
 
