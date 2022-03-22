@@ -347,12 +347,21 @@ class VideoModel: NSObject {
     func updateRemoteVideoSourceInCurrentPage() {
         var updatedSources:[RemoteVideoSource: VideoSubscriptionConfiguration] = [:]
         for remoteVideoTileState in remoteVideoStatesInCurrentPage {
+            logger.info(msg: "1TEST!!!!!!!!!")
             for (key, value) in remoteVideoSourceConfigurations {
-                if (String(remoteVideoTileState.0) == key.attendeeId) {
+                logger.info(msg: "2TEST!!!!!!!!! key.attendeeid: \(key.attendeeId)")
+                logger.info(msg: "2TEST!!!!!!!!! remoteState.1 \(remoteVideoTileState.1.attendeeId)")
+                if (String(remoteVideoTileState.1.attendeeId) == key.attendeeId) {
+                    logger.info(msg: "3TEST!!!!!!!!! \(remoteVideoTileState.0)")
                     updatedSources[key] = value
+                    
                 }
             }
         }
+        for (key, _) in updatedSources {
+            logger.info(msg: "4TEST!!!!!!!!! \(key.attendeeId)")
+        }
+        logger.info(msg: "5TEST!!!!!!!!! \(updatedSources.count)")
         audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: updatedSources, removed: [])
     }
 

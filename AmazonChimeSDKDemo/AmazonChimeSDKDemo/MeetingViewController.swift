@@ -145,7 +145,7 @@ class MeetingViewController: UIViewController {
         }
         meetingModel.videoModel.videoUpdatedHandler = { [weak self, weak meetingModel] in
             guard let strongSelf = self, let meetingModel = meetingModel else { return }
-            meetingModel.videoModel.resumeAllRemoteVideosInCurrentPageExceptUserPausedVideos()
+            meetingModel.videoModel.updateRemoteVideoSourceInCurrentPage()
             strongSelf.prevVideoPageButton.isEnabled = meetingModel.videoModel.canGoToPrevRemoteVideoPage
             strongSelf.nextVideoPageButton.isEnabled = meetingModel.videoModel.canGoToNextRemoteVideoPage
             strongSelf.videoCollection.reloadData()
