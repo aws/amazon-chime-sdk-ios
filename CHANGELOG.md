@@ -1,8 +1,10 @@
 ## [Unreleased]
 
 ### Added
+* Added [replicated meeting guide](https://github.com/aws/amazon-chime-sdk-android/blob/master/guides/replicated_meetings.md).
 
-* Added support for use of replicated meetings to extend meeting sizes to up to 10k view only participants with glareless promotion ability. See the Chime Developer Guide and the [iOS guide](https://github.com/aws/amazon-chime-sdk-ios/blob/development/guides/replicated_meetings.md) for more details.
+### Fixed
+* Added proper call of demotion callback on audio or video disconnection.
 
 ## [0.19.1] - 2022-03-10
 

@@ -393,6 +393,9 @@
                 <a href="../Protocols/MetricsObserver.html">MetricsObserver</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Protocols/PrimaryMeetingPromotionObserver.html">PrimaryMeetingPromotionObserver</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Protocols/RealtimeControllerFacade.html">RealtimeControllerFacade</a>
               </li>
               <li class="nav-group-task">
@@ -1113,13 +1116,122 @@ and instead explicitly call <code>updateVideoSourceSubscriptions</code> with the
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)promoteToPrimaryMeetingWithCredentials:observer:"></a>
+                    <a name="//apple_ref/swift/Method/promoteToPrimaryMeeting(credentials:observer:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)promoteToPrimaryMeetingWithCredentials:observer:">promoteToPrimaryMeeting(credentials:<wbr>observer:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Allows an attendee in a Replica meeting to immediately transition to a Primary meeting attendee
+without need for reconnection.</p>
+
+<p><code>PrimaryMeetingPromotionObserver.didPromoteToPrimaryMeeting</code> will be called exactly once on <code>observer</code> for each call. If
+ the promotion is successful,  <code>PrimaryMeetingPromotionObserver.didDemoteFromPrimaryMeeting</code> will be called exactly once
+ if/when the attendee is demoted. See the observer documentation for possible status codes.</p>
+
+<p>Application code may also receive a callback on <code>AudioVideoObserver.videoSessionDidStartWithStatus</code> without
+<code>MeetingSessionStatusCode.VideoAtCapacityViewOnly</code> to indicate they can begin to share video.</p>
+
+<p><code>chime::DeleteAttendee</code> on the Primary meeting attendee will result in <code>PrimaryMeetingPromotionObserver.didDemoteFromPrimaryMeeting</code>
+to indicate the attendee is no longer able to share.</p>
+
+<p>Any disconnection will trigger an automatic demotion to avoid unexpected or unwanted promotion state on reconnection.
+This will also call <code>PrimaryMeetingPromotionObserver.didDemoteFromPrimaryMeeting</code>;  if the attendee still needs to be
+an interactive participant in the Primary meeting, <code>promoteToPrimaryMeeting</code> should be called again with the same credentials.</p>
+
+<p>Note that given the asynchronous nature of this function, this should not be called a second time before
+<code>PrimaryMeetingPromotionObserver.didPromoteToPrimaryMeeting</code> is called for the first time. Doing so may result in unexpected
+behavior.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">promoteToPrimaryMeeting</span><span class="p">(</span><span class="nv">credentials</span><span class="p">:</span> <span class="kt"><a href="../Classes/MeetingSessionCredentials.html">MeetingSessionCredentials</a></span><span class="p">,</span> <span class="nv">observer</span><span class="p">:</span> <span class="kt"><a href="../Protocols/PrimaryMeetingPromotionObserver.html">PrimaryMeetingPromotionObserver</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>credentials</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The credentials for the primary meeting.  This needs to be obtained out of band.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>observer</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Will be called with a session status for the request and possible demotion. See possible options above.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)demoteFromPrimaryMeeting"></a>
+                    <a name="//apple_ref/swift/Method/demoteFromPrimaryMeeting()" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)demoteFromPrimaryMeeting">demoteFromPrimaryMeeting()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Remove the promoted attendee from the Primary meeting. This client will stop sharing audio, video, and data messages.
+This will revert the end-user to precisely the state they were before a call to <code>promoteToPrimaryMeeting</code></p>
+
+<p>This will have no effect if there was no previous successful call to <code>promoteToPrimaryMeeting</code>. This
+may result in <code>PrimaryMeetingPromotionObserver.didPromoteToPrimaryMeeting</code> but there is no need to wait for that callback
+to revert UX, etc.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">demoteFromPrimaryMeeting</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2022 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2022-03-10)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+          <p>&copy; 2022 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2022-03-21)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
     </div>
