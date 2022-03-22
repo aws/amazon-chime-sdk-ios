@@ -1,7 +1,10 @@
-## [0.19.2] - 2022-03-21
+## [Unreleased]
 
 ### Added
-* Added support for media replication to link multiple WebRTC media sessions together to reach larger and global audiences. Participants connected to a replica session can be granted access to join the primary session and can switch sessions with their existing WebRTC connection.
+* Added [replicated meeting guide](https://github.com/aws/amazon-chime-sdk-android/blob/master/guides/replicated_meetings.md).
+
+### Fixed
+* Added proper call of demotion callback on audio or video disconnection.
 
 ## [0.19.1] - 2022-03-10
 
