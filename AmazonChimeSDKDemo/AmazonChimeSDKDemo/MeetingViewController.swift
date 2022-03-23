@@ -145,6 +145,13 @@ class MeetingViewController: UIViewController {
         }
         meetingModel.videoModel.videoUpdatedHandler = { [weak self, weak meetingModel] in
             guard let strongSelf = self, let meetingModel = meetingModel else { return }
+            meetingModel.videoModel.resumeAllRemoteVideosInCurrentPageExceptUserPausedVideos()
+            strongSelf.prevVideoPageButton.isEnabled = meetingModel.videoModel.canGoToPrevRemoteVideoPage
+            strongSelf.nextVideoPageButton.isEnabled = meetingModel.videoModel.canGoToNextRemoteVideoPage
+            strongSelf.videoCollection.reloadData()
+        }
+        meetingModel.videoModel.videoSubscriptionUpdatedHandler = { [weak self, weak meetingModel] in
+            guard let strongSelf = self, let meetingModel = meetingModel else { return }
             meetingModel.videoModel.updateRemoteVideoSourceInCurrentPage()
             strongSelf.prevVideoPageButton.isEnabled = meetingModel.videoModel.canGoToPrevRemoteVideoPage
             strongSelf.nextVideoPageButton.isEnabled = meetingModel.videoModel.canGoToNextRemoteVideoPage
@@ -548,12 +555,12 @@ class MeetingViewController: UIViewController {
 
     @IBAction func prevPageButtonClicked(_: UIButton) {
         meetingModel?.videoModel.getPreviousRemoteVideoPage()
-        meetingModel?.videoModel.videoUpdatedHandler?()
+        meetingModel?.videoModel.videoSubscriptionUpdatedHandler?()
     }
 
     @IBAction func nextPageButtonClicked(_: UIButton) {
         meetingModel?.videoModel.getNextRemoteVideoPage()
-        meetingModel?.videoModel.videoUpdatedHandler?()
+        meetingModel?.videoModel.videoSubscriptionUpdatedHandler?()
     }
 
     @objc private func keyboardShowHandler(notification: NSNotification) {

@@ -77,8 +77,6 @@ class MeetingModel: NSObject {
         didSet {
             if activeMode == .video {
                 videoModel.resumeAllRemoteVideosInCurrentPageExceptUserPausedVideos()
-            } else {
-                videoModel.pauseAllRemoteVideos()
             }
             activeModeDidSetHandler?(activeMode)
         }
@@ -619,10 +617,6 @@ extension MeetingModel: VideoTileObserver {
             } else {
                 videoModel.addRemoteVideoTileState(tileState, completion: {
                     if self.activeMode == .video {
-                        // If the video is not currently being displayed, pause it
-                        if !self.videoModel.isRemoteVideoDisplaying(tileId: tileState.tileId) {
-                            self.currentMeetingSession.audioVideo.pauseRemoteVideoTile(tileId: tileState.tileId)
-                        }
                         self.videoModel.videoUpdatedHandler?()
                     } else {
                         // Currently not in the video view, no need to render the video tile

@@ -22,6 +22,7 @@ class VideoModel: NSObject {
     let customSource: DefaultCameraCaptureSource
 
     var videoUpdatedHandler: (() -> Void)?
+    var videoSubscriptionUpdatedHandler: (() -> Void)?
     var localVideoUpdatedHandler: (() -> Void)?
     let logger = ConsoleLogger(name: "VideoModel")
 
@@ -268,10 +269,6 @@ class VideoModel: NSObject {
             }
         }) as? [(Int, VideoTileState)] ?? []
 
-        for remoteVideoTileState in remoteVideoStatesNotInCurrentPage {
-            audioVideoFacade.pauseRemoteVideoTile(tileId: remoteVideoTileState.0)
-        }
-
         if videoTilesOrderUpdated && inVideoMode {
             videoUpdatedHandler?()
         }
@@ -347,21 +344,15 @@ class VideoModel: NSObject {
     func updateRemoteVideoSourceInCurrentPage() {
         var updatedSources:[RemoteVideoSource: VideoSubscriptionConfiguration] = [:]
         for remoteVideoTileState in remoteVideoStatesInCurrentPage {
-            logger.info(msg: "1TEST!!!!!!!!!")
+            logger.info(msg: "updating Remote Video Source in current page")
             for (key, value) in remoteVideoSourceConfigurations {
-                logger.info(msg: "2TEST!!!!!!!!! key.attendeeid: \(key.attendeeId)")
-                logger.info(msg: "2TEST!!!!!!!!! remoteState.1 \(remoteVideoTileState.1.attendeeId)")
                 if (String(remoteVideoTileState.1.attendeeId) == key.attendeeId) {
-                    logger.info(msg: "3TEST!!!!!!!!! \(remoteVideoTileState.0)")
+                    logger.info(msg: "Subscribe to video source attendeeid: \(key.attendeeId)")
                     updatedSources[key] = value
                     
                 }
             }
         }
-        for (key, _) in updatedSources {
-            logger.info(msg: "4TEST!!!!!!!!! \(key.attendeeId)")
-        }
-        logger.info(msg: "5TEST!!!!!!!!! \(updatedSources.count)")
         audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: updatedSources, removed: [])
     }
 
