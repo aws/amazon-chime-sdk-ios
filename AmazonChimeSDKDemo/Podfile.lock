@@ -1,0 +1,20 @@
+PODS:
+  - AmazonChimeSDK-Bitcode (0.19.2):
+    - AmazonChimeSDKMedia-Bitcode (~> 0.15.2)
+  - AmazonChimeSDKMedia-Bitcode (0.15.2)
+
+DEPENDENCIES:
+  - AmazonChimeSDK-Bitcode (= 0.19.2)
+
+SPEC REPOS:
+  trunk:
+    - AmazonChimeSDK-Bitcode
+    - AmazonChimeSDKMedia-Bitcode
+
+SPEC CHECKSUMS:
+  AmazonChimeSDK-Bitcode: 96e4ac8a959bdf7c916e8476372c9a632cd13b84
+  AmazonChimeSDKMedia-Bitcode: da16bb8671e68e901cee9fd44b391ea50e1bd49b
+
+PODFILE CHECKSUM: b1f29b9cb6e0e56c84fde79059b4710ca09d11df
+
+COCOAPODS: 1.11.2
