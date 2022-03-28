@@ -269,6 +269,7 @@ class VideoModel: NSObject {
             }
         }) as? [(Int, VideoTileState)] ?? []
 
+        removeRemoteVideosInCurrPage()
         if videoTilesOrderUpdated && inVideoMode {
             videoUpdatedHandler?()
         }
@@ -304,7 +305,7 @@ class VideoModel: NSObject {
         for remoteVideoTileState in remoteVideoStatesInCurrentPage {
             //audioVideoFacade.pauseRemoteVideoTile(tileId: remoteVideoTileState.0)
             for (key, _) in remoteVideoSourceConfigurations {
-                if(String(remoteVideoTileState.0) == key.attendeeId) {
+                if(String(remoteVideoTileState.1.attendeeId) == key.attendeeId) {
                     removedList.append(key)
                 }
             }
@@ -318,7 +319,7 @@ class VideoModel: NSObject {
         for remoteVideoTileState in remoteVideoStatesInCurrentPage {
             // audioVideoFacade.pauseRemoteVideoTile(tileId: remoteVideoTileState.0)
             for (key, _) in remoteVideoSourceConfigurations {
-                if(String(remoteVideoTileState.0) == key.attendeeId) {
+                if(String(remoteVideoTileState.1.attendeeId) == key.attendeeId) {
                     removedList.append(key)
                 }
             }
@@ -344,10 +345,10 @@ class VideoModel: NSObject {
     func updateRemoteVideoSourceInCurrentPage() {
         var updatedSources:[RemoteVideoSource: VideoSubscriptionConfiguration] = [:]
         for remoteVideoTileState in remoteVideoStatesInCurrentPage {
-            logger.info(msg: "updating Remote Video Source in current page")
+            logger.info(msg: "Updating Remote Video Source in current page")
             for (key, value) in remoteVideoSourceConfigurations {
                 if (String(remoteVideoTileState.1.attendeeId) == key.attendeeId) {
-                    logger.info(msg: "Subscribe to video source attendeeid: \(key.attendeeId)")
+                    logger.info(msg: "Subscribing to video source attendeeId: \(key.attendeeId)")
                     updatedSources[key] = value
                     
                 }
@@ -360,6 +361,18 @@ class VideoModel: NSObject {
         for remoteVideoTileState in remoteVideoTileStates {
             audioVideoFacade.pauseRemoteVideoTile(tileId: remoteVideoTileState.0)
         }
+    }
+    
+    func removeRemoteVideosInCurrPage() {
+        var remoteVideoSourcesInCurrPage: [RemoteVideoSource] = []
+        for remoteVideoTileState in remoteVideoStatesInCurrentPage {
+            for (remoteVideoSource,_) in remoteVideoSourceConfigurations {
+                if (remoteVideoSource.attendeeId == String(remoteVideoTileState.1.attendeeId)) {
+                    remoteVideoSourcesInCurrPage.append(remoteVideoSource)
+                }
+            }
+        }
+        audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated:[:], removed:remoteVideoSourcesInCurrPage)
     }
 
     func getVideoTileState(for indexPath: IndexPath) -> VideoTileState? {

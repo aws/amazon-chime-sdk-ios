@@ -61,7 +61,7 @@ class MeetingModel: NSObject {
                 if wasLocalVideoOn {
                     videoModel.isLocalVideoActive = false
                 }
-                videoModel.pauseAllRemoteVideos()
+                videoModel.removeRemoteVideosInCurrPage()
             } else {
                 if wasLocalVideoOn {
                     videoModel.isLocalVideoActive = true
@@ -77,6 +77,8 @@ class MeetingModel: NSObject {
         didSet {
             if activeMode == .video {
                 videoModel.resumeAllRemoteVideosInCurrentPageExceptUserPausedVideos()
+            } else {
+                videoModel.removeRemoteVideosInCurrPage()
             }
             activeModeDidSetHandler?(activeMode)
         }
