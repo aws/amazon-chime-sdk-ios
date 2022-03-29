@@ -303,7 +303,6 @@ class VideoModel: NSObject {
     func getPreviousRemoteVideoPage() {
         var removedList: [RemoteVideoSource] = []
         for remoteVideoTileState in remoteVideoStatesInCurrentPage {
-            //audioVideoFacade.pauseRemoteVideoTile(tileId: remoteVideoTileState.0)
             for (key, _) in remoteVideoSourceConfigurations {
                 if(String(remoteVideoTileState.1.attendeeId) == key.attendeeId) {
                     removedList.append(key)
@@ -317,7 +316,6 @@ class VideoModel: NSObject {
     func getNextRemoteVideoPage() {
         var removedList: [RemoteVideoSource] = []
         for remoteVideoTileState in remoteVideoStatesInCurrentPage {
-            // audioVideoFacade.pauseRemoteVideoTile(tileId: remoteVideoTileState.0)
             for (key, _) in remoteVideoSourceConfigurations {
                 if(String(remoteVideoTileState.1.attendeeId) == key.attendeeId) {
                     removedList.append(key)
