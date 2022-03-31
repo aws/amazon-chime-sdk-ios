@@ -1128,7 +1128,7 @@
 				CODE_SIGN_ENTITLEMENTS = AmazonChimeSDKDemo/AmazonChimeSDKDemoDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.19.2;
+				CURRENT_PROJECT_VERSION = 0.19.3;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = YES;
@@ -1170,7 +1170,7 @@
 				CODE_SIGN_ENTITLEMENTS = AmazonChimeSDKDemo/AmazonChimeSDKDemoRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.19.2;
+				CURRENT_PROJECT_VERSION = 0.19.3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = YES;
@@ -1210,7 +1210,7 @@
 				CODE_SIGN_ENTITLEMENTS = AmazonChimeSDKDemoBroadcast/AmazonChimeSDKDemoBroadcastDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.19.2;
+				CURRENT_PROJECT_VERSION = 0.19.3;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = AmazonChimeSDKDemoBroadcast/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -1235,7 +1235,7 @@
 				CODE_SIGN_ENTITLEMENTS = AmazonChimeSDKDemoBroadcast/AmazonChimeSDKDemoBroadcastRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.19.2;
+				CURRENT_PROJECT_VERSION = 0.19.3;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = AmazonChimeSDKDemoBroadcast/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -1261,7 +1261,7 @@
 				CODE_SIGN_ENTITLEMENTS = AmazonChimeSDKDemoBroadcast/AmazonChimeSDKDemoBroadcastDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.19.1;
+				CURRENT_PROJECT_VERSION = 0.19.3;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = AmazonChimeSDKDemoBroadcast/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -1288,7 +1288,7 @@
 				CODE_SIGN_ENTITLEMENTS = AmazonChimeSDKDemoBroadcast/AmazonChimeSDKDemoBroadcastRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.19.1;
+				CURRENT_PROJECT_VERSION = 0.19.3;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = AmazonChimeSDKDemoBroadcast/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -1317,7 +1317,7 @@
 				CODE_SIGN_ENTITLEMENTS = AmazonChimeSDKDemo/AmazonChimeSDKDemoDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.19.1;
+				CURRENT_PROJECT_VERSION = 0.19.3;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = YES;
@@ -1359,7 +1359,7 @@
 				CODE_SIGN_ENTITLEMENTS = AmazonChimeSDKDemo/AmazonChimeSDKDemoRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.19.1;
+				CURRENT_PROJECT_VERSION = 0.19.3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = YES;
@@ -1400,7 +1400,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.19.2;
+				CURRENT_PROJECT_VERSION = 0.19.3;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../AmazonChimeSDK/";
@@ -1441,7 +1441,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.19.2;
+				CURRENT_PROJECT_VERSION = 0.19.3;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../AmazonChimeSDK/";
