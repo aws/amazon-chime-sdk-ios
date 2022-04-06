@@ -302,11 +302,14 @@ class VideoModel: NSObject {
 
     func getPreviousRemoteVideoPage() {
         var removedList: [RemoteVideoSource] = []
-        for remoteVideoTileState in remoteVideoStatesInCurrentPage {
-            for (key, _) in remoteVideoSourceConfigurations {
-                if(String(remoteVideoTileState.1.attendeeId) == key.attendeeId) {
-                    removedList.append(key)
-                }
+        let attendeeKeyMap = remoteVideoSourceConfigurations.keys.reduce(into: [String: RemoteVideoSource]()) {
+            $0[$1.attendeeId] = $1
+        }
+        let attendeeIds = Set(remoteVideoSourceConfigurations.keys.map { $0.attendeeId })
+        for remoteVideoTileState in remoteVideoStatesInCurrentPage{
+                let attendeeId = String(remoteVideoTileState.1.attendeeId)
+            if attendeeIds.contains(attendeeId), let key = attendeeKeyMap[attendeeId]{
+                removedList.append(key)
             }
         }
         audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: [:], removed: removedList)
@@ -315,11 +318,14 @@ class VideoModel: NSObject {
 
     func getNextRemoteVideoPage() {
         var removedList: [RemoteVideoSource] = []
-        for remoteVideoTileState in remoteVideoStatesInCurrentPage {
-            for (key, _) in remoteVideoSourceConfigurations {
-                if(String(remoteVideoTileState.1.attendeeId) == key.attendeeId) {
-                    removedList.append(key)
-                }
+        let attendeeKeyMap = remoteVideoSourceConfigurations.keys.reduce(into: [String: RemoteVideoSource]()) {
+            $0[$1.attendeeId] = $1
+        }
+        let attendeeIds = Set(remoteVideoSourceConfigurations.keys.map { $0.attendeeId })
+        for remoteVideoTileState in remoteVideoStatesInCurrentPage{
+                let attendeeId = String(remoteVideoTileState.1.attendeeId)
+            if attendeeIds.contains(attendeeId), let key = attendeeKeyMap[attendeeId]{
+                removedList.append(key)
             }
         }
         audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: [:], removed: removedList)
@@ -342,14 +348,14 @@ class VideoModel: NSObject {
     
     func addAllRemoteVideoSourceInCurrentPageExceptUserPausedVideos() {
         var updatedSources:[RemoteVideoSource: VideoSubscriptionConfiguration] = [:]
-        for remoteVideoTileState in remoteVideoStatesInCurrentPage {
-            logger.info(msg: "Updating Remote Video Source in current page")
-            for (key, value) in remoteVideoSourceConfigurations {
-                if (String(remoteVideoTileState.1.attendeeId) == key.attendeeId) {
-                    logger.info(msg: "Subscribing to video source attendeeId: \(key.attendeeId)")
-                    updatedSources[key] = value
-                    
-                }
+        let attendeeKeyMap = remoteVideoSourceConfigurations.keys.reduce(into: [String: RemoteVideoSource]()) {
+            $0[$1.attendeeId] = $1
+        }
+        let attendeeIds = Set(remoteVideoSourceConfigurations.keys.map { $0.attendeeId })
+        for remoteVideoTileState in remoteVideoStatesInCurrentPage{
+                let attendeeId = String(remoteVideoTileState.1.attendeeId)
+            if attendeeIds.contains(attendeeId), let key = attendeeKeyMap[attendeeId]{
+                updatedSources[key] = remoteVideoSourceConfigurations[key]
             }
         }
         audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: updatedSources, removed: [])
@@ -363,26 +369,32 @@ class VideoModel: NSObject {
     
     func removeAllRemoteVideos() {
         var remoteVideoSourcesInCurrPage: [RemoteVideoSource] = []
+        let attendeeKeyMap = remoteVideoSourceConfigurations.keys.reduce(into: [String: RemoteVideoSource]()) {
+            $0[$1.attendeeId] = $1
+        }
+        let attendeeIds = Set(remoteVideoSourceConfigurations.keys.map { $0.attendeeId })
         for remoteVideoTileState in remoteVideoTileStates {
-            for (remoteVideoSource,_) in remoteVideoSourceConfigurations {
-                if (remoteVideoSource.attendeeId == String(remoteVideoTileState.1.attendeeId)) {
-                    remoteVideoSourcesInCurrPage.append(remoteVideoSource)
-                }
+                let attendeeId = String(remoteVideoTileState.1.attendeeId)
+            if attendeeIds.contains(attendeeId), let key = attendeeKeyMap[attendeeId] {
+                remoteVideoSourcesInCurrPage.append(key)
             }
         }
         audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated:[:], removed:remoteVideoSourcesInCurrPage)
     }
     
     func removeRemoteVideosNotInCurrPage() {
-        var remoteVideoSourcesInCurrPage: [RemoteVideoSource] = []
+        var remoteVideoSourcesNotInCurrPage: [RemoteVideoSource] = []
+        let attendeeKeyMap = remoteVideoSourceConfigurations.keys.reduce(into: [String: RemoteVideoSource]()) {
+            $0[$1.attendeeId] = $1
+        }
+        let attendeeIds = Set(remoteVideoSourceConfigurations.keys.map { $0.attendeeId })
         for remoteVideoTileState in remoteVideoStatesNotInCurrentPage {
-            for (remoteVideoSource,_) in remoteVideoSourceConfigurations {
-                if (remoteVideoSource.attendeeId == String(remoteVideoTileState.1.attendeeId)) {
-                    remoteVideoSourcesInCurrPage.append(remoteVideoSource)
-                }
+                let attendeeId = String(remoteVideoTileState.1.attendeeId)
+            if attendeeIds.contains(attendeeId), let key = attendeeKeyMap[attendeeId] {
+                remoteVideoSourcesNotInCurrPage.append(key)
             }
         }
-        audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated:[:], removed:remoteVideoSourcesInCurrPage)
+        audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated:[:], removed:remoteVideoSourcesNotInCurrPage)
     }
 
     func getVideoTileState(for indexPath: IndexPath) -> VideoTileState? {
