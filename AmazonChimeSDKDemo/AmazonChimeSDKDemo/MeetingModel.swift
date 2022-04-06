@@ -61,12 +61,12 @@ class MeetingModel: NSObject {
                 if wasLocalVideoOn {
                     videoModel.isLocalVideoActive = false
                 }
-                videoModel.removeRemoteVideosInCurrPage()
+                videoModel.removeAllRemoteVideos()
             } else {
                 if wasLocalVideoOn {
                     videoModel.isLocalVideoActive = true
                 }
-                videoModel.resumeAllRemoteVideosInCurrentPageExceptUserPausedVideos()
+                videoModel.addAllRemoteVideoSourceInCurrentPageExceptUserPausedVideos()
             }
         }
     }
@@ -76,9 +76,9 @@ class MeetingModel: NSObject {
     var activeMode: ActiveMode = .roster {
         didSet {
             if activeMode == .video {
-                videoModel.resumeAllRemoteVideosInCurrentPageExceptUserPausedVideos()
+                videoModel.addAllRemoteVideoSourceInCurrentPageExceptUserPausedVideos()
             } else {
-                videoModel.removeRemoteVideosInCurrPage()
+                videoModel.removeAllRemoteVideos()
             }
             activeModeDidSetHandler?(activeMode)
         }
@@ -622,7 +622,7 @@ extension MeetingModel: VideoTileObserver {
                         self.videoModel.videoUpdatedHandler?()
                     } else {
                         // Currently not in the video view, no need to render the video tile
-                        self.currentMeetingSession.audioVideo.pauseRemoteVideoTile(tileId: tileState.tileId)
+                        self.videoModel.removeAllRemoteVideos()
                     }
                 })
             }

@@ -269,10 +269,10 @@ class VideoModel: NSObject {
             }
         }) as? [(Int, VideoTileState)] ?? []
 
-        removeRemoteVideosInCurrPage()
         if videoTilesOrderUpdated && inVideoMode {
-            videoUpdatedHandler?()
+            videoSubscriptionUpdatedHandler?()
         }
+        removeRemoteVideosNotInCurrPage()
     }
 
     func setSelfVideoTileState(_ videoTileState: VideoTileState?) {
@@ -340,7 +340,7 @@ class VideoModel: NSObject {
         }
     }
     
-    func updateRemoteVideoSourceInCurrentPage() {
+    func addAllRemoteVideoSourceInCurrentPageExceptUserPausedVideos() {
         var updatedSources:[RemoteVideoSource: VideoSubscriptionConfiguration] = [:]
         for remoteVideoTileState in remoteVideoStatesInCurrentPage {
             logger.info(msg: "Updating Remote Video Source in current page")
@@ -361,9 +361,21 @@ class VideoModel: NSObject {
         }
     }
     
-    func removeRemoteVideosInCurrPage() {
+    func removeAllRemoteVideos() {
         var remoteVideoSourcesInCurrPage: [RemoteVideoSource] = []
-        for remoteVideoTileState in remoteVideoStatesInCurrentPage {
+        for remoteVideoTileState in remoteVideoTileStates {
+            for (remoteVideoSource,_) in remoteVideoSourceConfigurations {
+                if (remoteVideoSource.attendeeId == String(remoteVideoTileState.1.attendeeId)) {
+                    remoteVideoSourcesInCurrPage.append(remoteVideoSource)
+                }
+            }
+        }
+        audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated:[:], removed:remoteVideoSourcesInCurrPage)
+    }
+    
+    func removeRemoteVideosNotInCurrPage() {
+        var remoteVideoSourcesInCurrPage: [RemoteVideoSource] = []
+        for remoteVideoTileState in remoteVideoStatesNotInCurrentPage {
             for (remoteVideoSource,_) in remoteVideoSourceConfigurations {
                 if (remoteVideoSource.attendeeId == String(remoteVideoTileState.1.attendeeId)) {
                     remoteVideoSourcesInCurrPage.append(remoteVideoSource)
@@ -413,12 +425,15 @@ extension VideoModel: VideoTileCellDelegate {
     }
 
     func onUpdatePriorityButtonClicked(attendeeId: String, priority: VideoPriority) {
+        var updatedSources:[RemoteVideoSource: VideoSubscriptionConfiguration] = [:]
         for (source, config) in remoteVideoSourceConfigurations {
             if attendeeId == source.attendeeId {
                 config.priority = priority
+                updatedSources[source] = config
             }
+            
         }
-        audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: remoteVideoSourceConfigurations, removed: [])
+        audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: updatedSources, removed: [])
     }
 
     func onVideoFilterButtonClicked(videoFilter: BackgroundFilter, uiView: UIViewController) {
@@ -458,12 +473,14 @@ extension VideoModel: VideoTileCellDelegate {
         }
     }
     func onUpdateResolutionButtonClicked(attendeeId: String, resolution: VideoResolution) {
+        var updatedSources:[RemoteVideoSource: VideoSubscriptionConfiguration] = [:]
         for(source, config) in remoteVideoSourceConfigurations {
             if attendeeId == source.attendeeId {
                 config.targetResolution = resolution
+                updatedSources[source] = config
             }
         }
-        audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: remoteVideoSourceConfigurations, removed: [])
+        audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: updatedSources, removed: [])
     }
     
 }
