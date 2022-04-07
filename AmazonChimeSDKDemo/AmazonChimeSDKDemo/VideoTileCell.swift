@@ -166,7 +166,7 @@ class VideoTileCell: UICollectionViewCell {
         let resolutionList = [VideoResolution.low, VideoResolution.medium, VideoResolution.high]
         let titleList = ["Low", "Medium", "High"]
         
-        for index in 0...(resolutionList.count-1) {
+        for index in 0...(resolutionList.count - 1) {
             let action = UIAlertAction(title: titleList[index], style: UIAlertAction.Style.default) {_ in
                 self.delegate?.onUpdateResolutionButtonClicked(attendeeId: self.attendeeId, resolution: resolutionList[index])
             }
