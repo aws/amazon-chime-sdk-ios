@@ -11,5 +11,4 @@ Pod::Spec.new do |s|
   s.vendored_frameworks = "AmazonChimeSDK.xcframework"
   s.swift_version    = '5.0'
   s.dependency 'AmazonChimeSDKMedia-No-Bitcode', '~> 0.15.3'
-  s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 end
