@@ -1,3 +1,9 @@
+## [0.19.4] - 2022-04-12
+
+### Fixed
+
+* [Demo] Fixed an issue where selecting multiple locations of same locale does not throw error. 
+
 ## [0.19.3] - 2022-04-07
 
 ### Added
