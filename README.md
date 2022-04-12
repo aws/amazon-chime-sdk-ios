@@ -128,10 +128,13 @@ To run the demo application, follow these steps.
 
 ### 2. Import Amazon Chime SDK
 #### From CocoaPods
-In `AmazonChimeSDKDemo/`, run the following command to install pods:
+For both targets in `/AmazonChimeSDKDemo/Podfile`, replace `AMAZON_CHIME_SDK_VERSION` with a specific SDK version, e.g. `0.19.3` or remove it if utilize the latest version of Amazon Chime SDK.
+
+Under `/AmazonChimeSDKDemo`, run the following command to install pods:
 ```
 $ pod install --repo-update
 ```
+
 #### Or From Downloaded Binary
 * Download `AmazonChimeSDKMedia` binary with bitcode support from the latest [release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
 
