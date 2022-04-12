@@ -4,11 +4,11 @@ platform :ios, '10.0'
 target 'AmazonChimeSDKDemoPods' do
   use_frameworks!
   # Pods for AmazonChimeSDKDemoPods
-  pod 'AmazonChimeSDK-Bitcode', '0.19.2'
+  pod 'AmazonChimeSDK-Bitcode', '0.19.3'
 end
 
 target 'AmazonChimeSDKDemoBroadcastPods' do
   use_frameworks!
   # Pods for AmazonChimeSDKDemoBroadcastPods
-  pod 'AmazonChimeSDK-Bitcode', '0.19.2'
+  pod 'AmazonChimeSDK-Bitcode', '0.19.3'
 end
