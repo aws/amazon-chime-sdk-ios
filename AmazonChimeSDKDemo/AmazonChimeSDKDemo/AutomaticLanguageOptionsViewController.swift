@@ -24,9 +24,9 @@ class AutomaticLanguageOptionsViewController: UIViewController, UITextFieldDeleg
     var preferredLanguageDropDown = ["-- Optional --"]
     var selectedLanguageOptions = ""
     var preferredLanguageSelected = ""
-    var duplicatedLocale = ""
+    var duplicatedLocaleSelected = ""
     var languageGroups: Set<String> = ["English", "Spanish", "French", "Italian", "German", "Portuguese", "Japanese", "Korean", "Chinese"]
-    var languageGroupCounts: [String: Int] = [:]
+    var duplicatedLocales: [String: Int] = [:]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +43,7 @@ class AutomaticLanguageOptionsViewController: UIViewController, UITextFieldDeleg
     
     @IBAction func saveLanguageOptions(_ sender: Any) {
         if !validateLanguageOptions() {
-            self.view.makeToast("Multiple language variant selected for locale: \(duplicatedLocale).\nPlease select one language locale per variant.")
+            self.view.makeToast("Multiple language variant selected for locale: \(duplicatedLocaleSelected).\nPlease select one language locale per variant.")
             return
         }
         if preferredLanguageDropDown.count < 3 {
@@ -85,9 +85,9 @@ class AutomaticLanguageOptionsViewController: UIViewController, UITextFieldDeleg
     }
     
     private func validateLanguageOptions() -> Bool {
-        for languageGroup in languageGroupCounts.keys {
-            if languageGroupCounts[languageGroup]! > 1 {
-                duplicatedLocale = languageGroup
+        for languageGroup in duplicatedLocales.keys {
+            if duplicatedLocales[languageGroup]! > 1 {
+                duplicatedLocaleSelected = languageGroup
                 return false
             }
         }
@@ -132,20 +132,20 @@ extension AutomaticLanguageOptionsViewController: UITableViewDelegate, UITableVi
         preferredLanguageDropDown.append(selectedLanguage)
         preferredLanguageSelected = ""
         preferredLanguageTextField.text = preferredLanguageDropDown[0]
-        updateLanguageGroupCounts(selectedLanguage: selectedLanguage, count: 1)
+        updateDuplicatedLocales(selectedLanguage: selectedLanguage, count: 1)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         preferredLanguageDropDown.removeAll(where: { languagesDict[languages[indexPath.row]]?.elementsEqual($0) ?? false})
         preferredLanguageSelected = ""
         preferredLanguageTextField.text = preferredLanguageDropDown[0]
-        updateLanguageGroupCounts(selectedLanguage: languagesDict[languages[indexPath.row]]!, count: -1)
+        updateDuplicatedLocales(selectedLanguage: languagesDict[languages[indexPath.row]]!, count: -1)
     }
     
-    private func updateLanguageGroupCounts(selectedLanguage: String, count: Int) {
+    private func updateDuplicatedLocales(selectedLanguage: String, count: Int) {
         for languageGroup in languageGroups {
             if selectedLanguage.contains(languageGroup) {
-                languageGroupCounts[languageGroup, default: 0] += count
+                duplicatedLocales[languageGroup, default: 0] += count
             }
         }
     }
