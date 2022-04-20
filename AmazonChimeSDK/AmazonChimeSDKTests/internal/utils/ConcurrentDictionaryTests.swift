@@ -74,7 +74,7 @@ class ConcurrentDictionaryTests: XCTestCase {
         let mainThreadEndedExpectation = XCTestExpectation(
             description: "The main thread was ended")
 
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .userInteractive).async {
             self.dict.forEach { _ in
                 sleep(2)
                 self.dict["?"] = 1

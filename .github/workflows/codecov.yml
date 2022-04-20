@@ -1,0 +1,49 @@
+name: Code Coverage Check
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on pull request events for all the branches
+  push:
+    branches: [ '**' ]
+  pull_request:
+    branches: [ '**' ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macOS-latest
+
+    steps:
+      - name: Test
+        uses: actions/checkout@v2
+
+      - name: Get AmazonChimeSDKMedia from AWS S3
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile jenkins-automated-test
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile jenkins-automated-test
+          aws \
+            --profile jenkins-automated-test \
+            s3api get-object \
+            --bucket amazon-chime-sdk-ios-internal \
+            --key master/media/latest/AmazonChimeSDKMedia.tar.gz \
+            AmazonChimeSDKMedia.tar.gz
+          tar -xzf AmazonChimeSDKMedia.tar.gz
+          cp -R ./AmazonChimeSDKMedia.framework ./AmazonChimeSDK
+
+      - name: Build and Test
+        working-directory: ./AmazonChimeSDK
+        run: |
+          wget https://github.com/birdrides/mockingbird/releases/download/0.15.0/Mockingbird.zip
+          tar -xzf Mockingbird.zip
+          ./mockingbird download starter-pack
+          ./mockingbird install --sources AmazonChimeSDK --target AmazonChimeSDKTests
+          xcodebuild test \
+            -project AmazonChimeSDK.xcodeproj \
+            -scheme AmazonChimeSDK \
+            -destination 'platform=iOS Simulator,name=iPhone 11' \
+            -skip-testing:"AmazonChimeSDKTests/SchedulerTests" \
+            -enableCodeCoverage YES \
+            build test
+
