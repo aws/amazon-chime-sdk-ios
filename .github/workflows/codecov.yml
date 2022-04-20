@@ -5,8 +5,12 @@ on:
   # Triggers the workflow on pull request events for all the branches
   push:
     branches: [ '**' ]
+    paths:
+      - '**.kt'
   pull_request:
     branches: [ '**' ]
+    paths:
+      - '**.kt'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
