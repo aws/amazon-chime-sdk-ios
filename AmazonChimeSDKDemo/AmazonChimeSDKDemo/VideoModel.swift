@@ -18,7 +18,7 @@ class VideoModel: NSObject {
     private var remoteVideoTileStates: [(Int, VideoTileState)] = []
     private var userPausedVideoTileIds: Set<Int> = Set()
     public var remoteVideoSourceConfigurations: Dictionary<RemoteVideoSource, VideoSubscriptionConfiguration> = Dictionary()
-    private let audioVideoFacade: AudioVideoFacade
+    let audioVideoFacade: AudioVideoFacade
     let customSource: DefaultCameraCaptureSource
 
     var videoUpdatedHandler: (() -> Void)?
@@ -297,6 +297,7 @@ class VideoModel: NSObject {
         if let index = remoteVideoTileStates.firstIndex(where: { $0.0 == videoTileState.tileId }) {
             remoteVideoTileStates[index] = (videoTileState.tileId, videoTileState)
             videoUpdatedHandler?()
+            videoSubscriptionUpdatedHandler?()
         }
     }
 
@@ -331,11 +332,19 @@ class VideoModel: NSObject {
         let attendeeKeyMap = remoteVideoSourceConfigurations.keys.reduce(into: [String: RemoteVideoSource]()) {
             $0[$1.attendeeId] = $1
         }
+        let videoTilesAttendeeMap = Set(remoteVideoStatesInCurrentPage.map{ $0.1.attendeeId })
+        
         let attendeeIds = Set(remoteVideoSourceConfigurations.keys.map { $0.attendeeId })
         for remoteVideoTileState in remoteVideoStatesInCurrentPage{
                 let attendeeId = String(remoteVideoTileState.1.attendeeId)
             if attendeeIds.contains(attendeeId), let key = attendeeKeyMap[attendeeId]{
                 updatedSources[key] = remoteVideoSourceConfigurations[key]
+            }
+        }
+        var remoteVideoSources: [RemoteVideoSource] = []
+        for remoteVideoSource in remoteVideoSourceConfigurations {
+            if (!videoTilesAttendeeMap.contains(remoteVideoSource.key.attendeeId)) {
+                remoteVideoSources.append(remoteVideoSource.key)
             }
         }
         audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: updatedSources, removed: [])

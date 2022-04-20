@@ -469,6 +469,7 @@ extension MeetingModel: AudioVideoObserver {
         sources.forEach { source in
             videoModel.remoteVideoSourceConfigurations.removeValue(forKey: source)
         }
+        videoModel.audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: [:], removed: sources)
     }
 
     func videoSessionDidStartWithStatus(sessionStatus: MeetingSessionStatus) {
@@ -631,6 +632,7 @@ extension MeetingModel: VideoTileObserver {
         }
     }
 
+    
     func videoTileDidRemove(tileState: VideoTileState) {
         logger.info(msg: "Attempting to remove video tile tileId: \(tileState.tileId)" +
             " attendeeId: \(tileState.attendeeId)")
@@ -652,6 +654,7 @@ extension MeetingModel: VideoTileObserver {
                     self.videoModel.revalidateRemoteVideoPageIndex()
                     if self.activeMode == .video {
                         self.videoModel.videoUpdatedHandler?()
+                        self.videoModel.videoSubscriptionUpdatedHandler?()
                     }
                 } else {
                     self.logger.error(msg: "Cannot remove unexisting remote video tile for tileId: \(tileState.tileId)")
