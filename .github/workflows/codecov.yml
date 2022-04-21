@@ -11,14 +11,19 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  # This workflow contains a single job called "build"
   build:
+    # The type of runner that the job will run on
     runs-on: macOS-latest
 
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Test
-        uses: actions/checkout@v2
+        # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
 
+      # Download amazon-chime-sdk-media binary from AWS S3
       - name: Get AmazonChimeSDKMedia from AWS S3
         run: |
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile jenkins-automated-test
@@ -32,7 +37,8 @@ jobs:
           tar -xzf AmazonChimeSDKMedia.tar.gz
           cp -R ./AmazonChimeSDKMedia.framework ./AmazonChimeSDK
 
-      - name: Build and Test
+      # Execute unit tests
+      - name: Build and Run Unit Test
         working-directory: ./AmazonChimeSDK
         run: |
           wget https://github.com/birdrides/mockingbird/releases/download/0.15.0/Mockingbird.zip

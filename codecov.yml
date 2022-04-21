@@ -1,7 +1,9 @@
+# Create pull request comments to give a quick overview of how a PR will affect the code coverage
 comment:
   layout: "reach, diff, flags, files"
   behavior: default
 
+# Set status checks to block PR if the code coverage drops by 0%. Usage: https://docs.codecov.com/docs/commit-status
 coverage:
   status:
     project:
