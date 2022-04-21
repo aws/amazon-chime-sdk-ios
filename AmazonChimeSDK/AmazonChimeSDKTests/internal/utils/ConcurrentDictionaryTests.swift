@@ -74,7 +74,8 @@ class ConcurrentDictionaryTests: XCTestCase {
         let mainThreadEndedExpectation = XCTestExpectation(
             description: "The main thread was ended")
 
-        // The quality-of-service (QoS) - '.userInteractive' has higher priority than '.background', which is performed more quickly and with more resources than lower priority work. In order to pass tests, we give them higher priority to perform quickly.
+        // The quality-of-service (QoS) - '.userInteractive' has higher priority than '.background', which is performed more quickly and with more resources than lower priority work.
+        // In order to pass tests, we give them higher priority to perform quickly.
         DispatchQueue.global(qos: .userInteractive).async {
             self.dict.forEach { _ in
                 sleep(2)
