@@ -15,15 +15,6 @@
 		00F0F6E12411B8E20013DA25 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 00F0F6E02411B8E20013DA25 /* Toast */; };
 		00F372EA23D9196E008F7CA7 /* MeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F372E923D9196E008F7CA7 /* MeetingViewController.swift */; };
 		00F372EE23DA2BFD008F7CA7 /* RosterAttendee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F372ED23DA2BFD008F7CA7 /* RosterAttendee.swift */; };
-		0B44A13327F7A37C00414EFF /* AmazonChimeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE38AD7242873FD00B234EC /* AmazonChimeSDK.framework */; };
-		0B44A13427F7A37C00414EFF /* AmazonChimeSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE38AD7242873FD00B234EC /* AmazonChimeSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0B44A1CE27FB69F700414EFF /* AmazonChimeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE38AD7242873FD00B234EC /* AmazonChimeSDK.framework */; };
-		0B74A33F2813687800C2D80A /* AmazonChimeSDKMedia.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B44A1CF27FB6A8800414EFF /* AmazonChimeSDKMedia.xcframework */; };
-		0B74A3402813687800C2D80A /* AmazonChimeSDKMedia.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0B44A1CF27FB6A8800414EFF /* AmazonChimeSDKMedia.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0B74A3412813688400C2D80A /* AmazonChimeSDKMedia.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B44A1CF27FB6A8800414EFF /* AmazonChimeSDKMedia.xcframework */; };
-		0B74A3422813688400C2D80A /* AmazonChimeSDKMedia.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0B44A1CF27FB6A8800414EFF /* AmazonChimeSDKMedia.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0B74A3432813688F00C2D80A /* AmazonChimeSDKMedia.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B44A1CF27FB6A8800414EFF /* AmazonChimeSDKMedia.xcframework */; };
-		0B74A3442813688F00C2D80A /* AmazonChimeSDKMedia.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0B44A1CF27FB6A8800414EFF /* AmazonChimeSDKMedia.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4CC2069452049F35E3B82174 /* Pods_AmazonChimeSDKDemoPods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE0AD430C91242546F74E1D8 /* Pods_AmazonChimeSDKDemoPods.framework */; };
 		5403538E27D0CBA4007BABD7 /* TranscriptionStreamParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403538C27D0CBA4007BABD7 /* TranscriptionStreamParams.swift */; };
 		54146E1E27D1F3E2001FBAE6 /* AutomaticLanguageOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54146E1D27D1F3E2001FBAE6 /* AutomaticLanguageOptionsViewController.swift */; };
@@ -39,6 +30,11 @@
 		5A81417823F2300D00560201 /* RosterTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A81417723F2300D00560201 /* RosterTableCell.swift */; };
 		5A9E17D024A6A810002CACC5 /* AmazonChimeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE38AD7242873FD00B234EC /* AmazonChimeSDK.framework */; };
 		5A9E17D124A6A810002CACC5 /* AmazonChimeSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE38AD7242873FD00B234EC /* AmazonChimeSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5ACB3E71249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ACB3E6F249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework */; };
+		5ACB3E72249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5ACB3E6F249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5ACB3E74249AEE7300FC6E1B /* AmazonChimeSDKMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ACB3E6F249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework */; };
+		5ACB3E75249AEE7300FC6E1B /* AmazonChimeSDKMedia.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5ACB3E6F249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5AE38AE02428747100B234EC /* AmazonChimeSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE38AD7242873FD00B234EC /* AmazonChimeSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77BB980531BBDCFE72BF62B6 /* Pods_AmazonChimeSDKDemoBroadcastPods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FBF914BC0C979614F44B032 /* Pods_AmazonChimeSDKDemoBroadcastPods.framework */; };
 		ADE3CFCA27050CD800DAC586 /* LiveTranscriptionOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE3CFC927050CD800DAC586 /* LiveTranscriptionOptionsViewController.swift */; };
 		B4FCD85224B9330A00064C9E /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCD85124B9330A00064C9E /* ChatMessageCell.swift */; };
@@ -131,13 +127,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		0B74A2ED28134D6200C2D80A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0B74A2D928134D6100C2D80A /* AmazonChimeSDKMedia.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9030E93A241E278F00A88574;
-			remoteInfo = AmazonChimeSDKMedia;
-		};
 		5AE38AD6242873FD00B234EC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5AE38AD1242873FD00B234EC /* AmazonChimeSDK.xcodeproj */;
@@ -151,6 +140,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 5A15822623C4020D0099F8FA;
 			remoteInfo = AmazonChimeSDKTests;
+		};
+		5AE38ADB2428741500B234EC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5AE38AD1242873FD00B234EC /* AmazonChimeSDK.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5A15821C23C4020D0099F8FA;
+			remoteInfo = AmazonChimeSDK;
 		};
 		C4A690A6255DFF4600F28BC2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -169,37 +165,26 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		0B44A13527F7A37C00414EFF /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				0B74A3402813687800C2D80A /* AmazonChimeSDKMedia.xcframework in Embed Frameworks */,
-				0B44A13427F7A37C00414EFF /* AmazonChimeSDK.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0B74A3452813689000C2D80A /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				0B74A3442813688F00C2D80A /* AmazonChimeSDKMedia.xcframework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5ACB3E73249AEE6800FC6E1B /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0B74A3422813688400C2D80A /* AmazonChimeSDKMedia.xcframework in Embed Frameworks */,
 				5A9E17D124A6A810002CACC5 /* AmazonChimeSDK.framework in Embed Frameworks */,
+				5ACB3E72249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5AE38AE12428747100B234EC /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5AE38AE02428747100B234EC /* AmazonChimeSDK.framework in Embed Frameworks */,
+				5ACB3E75249AEE7300FC6E1B /* AmazonChimeSDKMedia.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -236,8 +221,6 @@
 		00D82F2325B27BD5000496A2 /* LogEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogEntry.swift; sourceTree = "<group>"; };
 		00F372E923D9196E008F7CA7 /* MeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingViewController.swift; sourceTree = "<group>"; };
 		00F372ED23DA2BFD008F7CA7 /* RosterAttendee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RosterAttendee.swift; sourceTree = "<group>"; };
-		0B44A1CF27FB6A8800414EFF /* AmazonChimeSDKMedia.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AmazonChimeSDKMedia.xcframework; path = ../AmazonChimeSDK/AmazonChimeSDKMedia.xcframework; sourceTree = "<group>"; };
-		0B74A2D928134D6100C2D80A /* AmazonChimeSDKMedia.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AmazonChimeSDKMedia.xcodeproj; path = ../../ChimeTincan/sdk/apple/AmazonChimeSDKMedia/AmazonChimeSDKMedia.xcodeproj; sourceTree = "<group>"; };
 		5403538C27D0CBA4007BABD7 /* TranscriptionStreamParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionStreamParams.swift; sourceTree = "<group>"; };
 		54146E1D27D1F3E2001FBAE6 /* AutomaticLanguageOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomaticLanguageOptionsViewController.swift; sourceTree = "<group>"; };
 		5A1582B623C40C9B0099F8FA /* AmazonChimeSDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AmazonChimeSDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -315,9 +298,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B74A33F2813687800C2D80A /* AmazonChimeSDKMedia.xcframework in Frameworks */,
-				0B44A13327F7A37C00414EFF /* AmazonChimeSDK.framework in Frameworks */,
-				0B44A1CE27FB69F700414EFF /* AmazonChimeSDK.framework in Frameworks */,
 				00F0F6E12411B8E20013DA25 /* Toast in Frameworks */,
 				5ACB3E74249AEE7300FC6E1B /* AmazonChimeSDKMedia.framework in Frameworks */,
 				CFD14AAF281B4DAA00C8D8CA /* AmazonChimeSDKMachineLearning.xcframework in Frameworks */,
@@ -328,7 +308,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B74A3432813688F00C2D80A /* AmazonChimeSDKMedia.xcframework in Frameworks */,
 				C4A690AE255E00C100F28BC2 /* AmazonChimeSDK.framework in Frameworks */,
 				C4A690A1255DFF4600F28BC2 /* ReplayKit.framework in Frameworks */,
 			);
@@ -356,8 +335,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B74A3412813688400C2D80A /* AmazonChimeSDKMedia.xcframework in Frameworks */,
 				5A9E17D024A6A810002CACC5 /* AmazonChimeSDK.framework in Frameworks */,
+				5ACB3E71249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,18 +355,9 @@
 			path = data;
 			sourceTree = "<group>";
 		};
-		0B74A2DA28134D6100C2D80A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				0B74A2EE28134D6200C2D80A /* AmazonChimeSDKMedia.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		5A1582AD23C40C9B0099F8FA = {
 			isa = PBXGroup;
 			children = (
-				0B74A2D928134D6100C2D80A /* AmazonChimeSDKMedia.xcodeproj */,
 				5AE38AD1242873FD00B234EC /* AmazonChimeSDK.xcodeproj */,
 				5A1582B823C40C9B0099F8FA /* AmazonChimeSDKDemo */,
 				F8AC96202408840D0072EB04 /* AmazonChimeSDKDemoObjC */,
@@ -540,12 +510,13 @@
 				5A1582B423C40C9B0099F8FA /* Resources */,
 				5A1582B223C40C9B0099F8FA /* Sources */,
 				5A1582B323C40C9B0099F8FA /* Frameworks */,
+				5AE38AE12428747100B234EC /* Embed Frameworks */,
 				C4A690AC255DFF4600F28BC2 /* Embed App Extensions */,
-				0B44A13527F7A37C00414EFF /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				5AE38ADC2428741500B234EC /* PBXTargetDependency */,
 				C4A690A7255DFF4600F28BC2 /* PBXTargetDependency */,
 			);
 			name = AmazonChimeSDKDemo;
@@ -563,7 +534,6 @@
 				C4A6909B255DFF4600F28BC2 /* Sources */,
 				C4A6909C255DFF4600F28BC2 /* Frameworks */,
 				C4A6909D255DFF4600F28BC2 /* Resources */,
-				0B74A3452813689000C2D80A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -677,10 +647,6 @@
 					ProductGroup = 5AE38AD2242873FD00B234EC /* Products */;
 					ProjectRef = 5AE38AD1242873FD00B234EC /* AmazonChimeSDK.xcodeproj */;
 				},
-				{
-					ProductGroup = 0B74A2DA28134D6100C2D80A /* Products */;
-					ProjectRef = 0B74A2D928134D6100C2D80A /* AmazonChimeSDKMedia.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
@@ -694,13 +660,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		0B74A2EE28134D6200C2D80A /* AmazonChimeSDKMedia.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = AmazonChimeSDKMedia.framework;
-			remoteRef = 0B74A2ED28134D6200C2D80A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		5AE38AD7242873FD00B234EC /* AmazonChimeSDK.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -992,6 +951,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		5AE38ADC2428741500B234EC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AmazonChimeSDK;
+			targetProxy = 5AE38ADB2428741500B234EC /* PBXContainerItemProxy */;
+		};
 		C4A690A7255DFF4600F28BC2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C4A6909E255DFF4600F28BC2 /* AmazonChimeSDKDemoBroadcast */;
@@ -1170,7 +1134,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.21.0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 94KV3E626L;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../AmazonChimeSDK/";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1359,7 +1323,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.21.0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 94KV3E626L;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;

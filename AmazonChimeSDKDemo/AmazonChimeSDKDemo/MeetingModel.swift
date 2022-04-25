@@ -159,7 +159,6 @@ class MeetingModel: NSObject {
     }
 
     func bind(videoRenderView: VideoRenderView, tileId: Int) {
-        // videoModel.subscribeToCotentVideo(tileId: tileId)
         currentMeetingSession.audioVideo.bindVideoView(videoView: videoRenderView, tileId: tileId)
     }
 
@@ -650,7 +649,6 @@ extension MeetingModel: VideoTileObserver {
                 videoModel.localVideoUpdatedHandler?()
             }
         } else {
-            self.videoModel.removeAllRemoteVideos()
             videoModel.removeRemoteVideoTileState(tileState, completion: { success in
                 if success {
                     self.videoModel.revalidateRemoteVideoPageIndex()
