@@ -94,27 +94,27 @@ class ConcurrentDictionaryTests: XCTestCase {
     }
 
     
-    func testThreadSafetyShouldFailForNormalDict() {
-        var normalDict = ["?": 0]
-        let backgroundThreadEndedExpectation = XCTestExpectation(
-            description: "The background thread was ended")
-        let mainThreadEndedExpectation = XCTestExpectation(
-            description: "The main thread was ended")
-
-        DispatchQueue.global(qos: .background).async {
-            normalDict.forEach { _ in
-                sleep(2)
-                normalDict["?"] = 1
-            }
-            backgroundThreadEndedExpectation.fulfill()
-        }
-        DispatchQueue.main.async {
-            sleep(1)
-            normalDict["?"] = 2
-            mainThreadEndedExpectation.fulfill()
-        }
-
-        wait(for: [backgroundThreadEndedExpectation, mainThreadEndedExpectation], timeout: 5)
-        XCTAssertEqual(normalDict["?"], 1)
-    }
+//    func testThreadSafetyShouldFailForNormalDict() {
+//        var normalDict = ["?": 0]
+//        let backgroundThreadEndedExpectation = XCTestExpectation(
+//            description: "The background thread was ended")
+//        let mainThreadEndedExpectation = XCTestExpectation(
+//            description: "The main thread was ended")
+//
+//        DispatchQueue.global(qos: .background).async {
+//            normalDict.forEach { _ in
+//                sleep(2)
+//                normalDict["?"] = 1
+//            }
+//            backgroundThreadEndedExpectation.fulfill()
+//        }
+//        DispatchQueue.main.async {
+//            sleep(1)
+//            normalDict["?"] = 2
+//            mainThreadEndedExpectation.fulfill()
+//        }
+//
+//        wait(for: [backgroundThreadEndedExpectation, mainThreadEndedExpectation], timeout: 5)
+//        XCTAssertEqual(normalDict["?"], 1)
+//    }
 }
