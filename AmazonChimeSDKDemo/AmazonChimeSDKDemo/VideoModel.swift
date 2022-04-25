@@ -268,11 +268,12 @@ class VideoModel: NSObject {
                 return ComparisonResult.orderedDescending
             }
         }) as? [(Int, VideoTileState)] ?? []
-
+        for remoteVideoTileState in remoteVideoStatesNotInCurrentPage {
+            audioVideoFacade.pauseRemoteVideoTile(tileId: remoteVideoTileState.0)
+        }
         if videoTilesOrderUpdated && inVideoMode {
             videoSubscriptionUpdatedHandler?()
         }
-        removeRemoteVideosNotInCurrentPage()
     }
 
     func setSelfVideoTileState(_ videoTileState: VideoTileState?) {
@@ -347,7 +348,7 @@ class VideoModel: NSObject {
                 remoteVideoSources.append(remoteVideoSource.key)
             }
         }
-        audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: updatedSources, removed: [])
+        audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: updatedSources, removed: remoteVideoSources)
     }
 
     func pauseAllRemoteVideos() {
