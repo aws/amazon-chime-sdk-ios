@@ -93,6 +93,7 @@ class ConcurrentDictionaryTests: XCTestCase {
         XCTAssertEqual(self.dict["?"], 2)
     }
 
+    
     func testThreadSafetyShouldFailForNormalDict() {
         var normalDict = ["?": 0]
         let backgroundThreadEndedExpectation = XCTestExpectation(
