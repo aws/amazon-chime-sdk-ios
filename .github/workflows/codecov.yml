@@ -53,3 +53,6 @@ jobs:
             -enableCodeCoverage YES \
             build test
 
+      # Upload code coverage report to codecov to process data
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1.2.1
