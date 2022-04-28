@@ -41,6 +41,8 @@ And review the following guides:
 ## Include Amazon Chime SDK in Your Project
 You can integrate Amazon Chime SDK in your project from either CocoaPods or binaries through Github release.
 
+For the purpose of setup, your project's root folder (where you can find your `.xcodeproj` file) will be referred to as `root`.
+
 ### From CocoaPods
 1. The Amazon Chime SDK is available through [CocoaPods](http://cocoapods.org/). If you have not installed CocoaPods, install CocoaPods by running the command:
     ```
@@ -53,7 +55,7 @@ You can integrate Amazon Chime SDK in your project from either CocoaPods or bina
     $ sudo gem install cocoapods
     $ pod setup
     ```
-2. In `AmazonChimeSDKDemo/` directory (the directory where your *.xcodeproj file is), run the following to create a Podfile in your project:
+2. In root directory (the directory where your *.xcodeproj file is), run the following to create a Podfile in your project:
     ```
     $ pod init
     ```
@@ -75,15 +77,13 @@ You can integrate Amazon Chime SDK in your project from either CocoaPods or bina
    ```
    $ pod install --repo-update
    ```
-5. To open your project, open the newly generated `*.xcworkspace` file in `AmazonChimeSDKDemo/` with XCode. You can do this by issuing the following command in your project folder
+5. To open your project, open the newly generated `*.xcworkspace` file in the root directory using XCode. You can do this by issuing the following command in your project folder
    ```
     $ xed .
    ```
    Note: Do *NOT* use *.xcodeproj to open project.
 
 ### From Github Release Binaries
-
-For the purpose of setup, your project's root folder (where you can find your `.xcodeproj` file) will be referred to as `root`.
 
 #### 1. Download Binaries
 
@@ -128,10 +128,13 @@ To run the demo application, follow these steps.
 
 ### 2. Import Amazon Chime SDK
 #### From CocoaPods
-In `AmazonChimeSDKDemo/`, run the following command to install pods:
+For both targets in `/AmazonChimeSDKDemo/Podfile`, replace `AMAZON_CHIME_SDK_VERSION` with a specific SDK version, e.g. `0.19.3` or remove it if utilize the latest version of Amazon Chime SDK.
+
+Under `/AmazonChimeSDKDemo`, run the following command to install pods:
 ```
 $ pod install --repo-update
 ```
+
 #### Or From Downloaded Binary
 * Download `AmazonChimeSDKMedia` binary with bitcode support from the latest [release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
 
@@ -178,10 +181,10 @@ Deploy the serverless demo from [amazon-chime-sdk-js](https://github.com/aws/ama
 
 ### 6. Use Demo App to Join Meeting
 #### Run the AmazonChimeSDKDemoPods target with Amazon Chime SDK from CocoaPods
-After opening `*.xcworkspace` file in `AmazonChimeSDKDemo/` with XCode, select the `AmazonChimeSDKDemoPods` from the scheme dropdown list in the top bar of Xcode IDE, choose a build device and click the run button.
+Open `AmazonChimeSDKDemo.xcworkspace` file in `AmazonChimeSDKDemo/` using XCode, select the `AmazonChimeSDKDemoPods` from the scheme dropdown list in the top bar of Xcode IDE, choose a build device and click the run button.
 
 #### Run the AmazonChimeSDKDemo target with Downloaded Amazon Chime SDK Binaries
-After opening `*.xcworkspace` file in `AmazonChimeSDKDemo/` with XCode, select the `AmazonChimeSDKDemo` from the scheme dropdown list in the top bar of Xcode IDE, choose a build device and click the run button.
+Open `AmazonChimeSDKDemo.xcworkspace` file in `AmazonChimeSDKDemo/` using XCode, select the `AmazonChimeSDKDemo` from the scheme dropdown list in the top bar of Xcode IDE, choose a build device and click the run button.
 
 On the joining screen, choose to join the meeting without `CallKit` or join via `CallKit` incoming/outgoing call. Since the demo app does not have Push Notification, it delays joining via incoming call by 10 seconds to give user enough time to background the app or lock the screen to mimic the behavior.
 
