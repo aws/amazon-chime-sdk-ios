@@ -104,13 +104,13 @@ class SQLiteClientTests: XCTestCase {
         let backgroundThreadEndedExpectation2 = XCTestExpectation(
             description: "The background thread 2 was ended")
 
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .userInteractive).async {
             sleep(2)
             let inserted = self.sqliteDBClient?.write(statement: self.getInsertStatement(), params: ["Hello1", 5])
             XCTAssertEqual(inserted, true)
             backgroundThreadEndedExpectation1.fulfill()
         }
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .userInteractive).async {
             sleep(2)
             let inserted = self.sqliteDBClient?.write(statement: self.getInsertStatement(), params: ["Hello2", 2])
             XCTAssertEqual(inserted, true)
