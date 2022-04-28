@@ -58,14 +58,14 @@ class ConcurrentDictionaryTests: XCTestCase {
         XCTAssertEqual(sortedDecending[1].value, 2)
     }
 
-    func testGetShallowDictCopyShouldReturnShallowCopy() {
-        dict["1+1="] = 1
-        var dictCopy = dict.getShallowDictCopy()
-        dictCopy["1+1="] = 2
-
-        XCTAssertEqual(dict["1+1="], 1)
-        XCTAssertEqual(dictCopy["1+1="], 2)
-    }
+//    func testGetShallowDictCopyShouldReturnShallowCopy() {
+//        dict["1+1="] = 1
+//        var dictCopy = dict.getShallowDictCopy()
+//        dictCopy["1+1="] = 2
+//
+//        XCTAssertEqual(dict["1+1="], 1)
+//        XCTAssertEqual(dictCopy["1+1="], 2)
+//    }
 
 //    func testThreadSafety() {
 //        dict["?"] = 0
