@@ -49,7 +49,7 @@ jobs:
             --key master/machine-learning/latest/AmazonChimeSDKMachineLearning.tar.gz \
             AmazonChimeSDKMachineLearning.tar.gz
           tar -xzf AmazonChimeSDKMachineLearning.tar.gz
-          cp -R ./AmazonChimeSDKMachineLearning.framework ./AmazonChimeSDK
+          cp -R ./AmazonChimeSDKMachineLearning.xcframework ./AmazonChimeSDK
 
       # Execute unit tests
       - name: Build and Run Unit Test
