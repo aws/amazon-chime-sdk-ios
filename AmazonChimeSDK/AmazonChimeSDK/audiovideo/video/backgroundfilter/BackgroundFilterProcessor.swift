@@ -67,7 +67,6 @@ public class BackgroundFilterProcessor {
 
         // Update the buffer pool dimensions if the new frame does not match the previous frame dimensions.
         if bufferPool == nil || inputFrameCG.width != bufferPoolWidth || inputFrameCG.height != bufferPoolHeight {
-
             updateBufferPool(newWidth: inputFrameCG.width, newHeight: inputFrameCG.height)
             do {
                 // Initialize the segmentationProcessor if it has not been initialized.
@@ -81,15 +80,15 @@ public class BackgroundFilterProcessor {
                 return nil
             } catch {
                 logger.error(msg: "Unexpected error: \(error).")
+                return nil
             }
         }
 
         // Calculate the scale and aspect ratio factor to downscale.
         let downSampleScale = Double(segmentationProcessorHeight) / Double(inputFrameCG.height)
-        let downSampleAspectRatio = Double((Double(inputFrameCG.height)/Double(inputFrameCG.width)) /
-                                           (Double(segmentationProcessorHeight)/Double(segmentationProcessorWidth)))
+        let downSampleAspectRatio = Double((Double(inputFrameCG.height) / Double(inputFrameCG.width)) /
+                                           (Double(segmentationProcessorHeight) / Double(segmentationProcessorWidth)))
         // Down sample the image.
-
         guard let downSampleImage: CIImage = resizeImage(image: inputFrameCI,
                                                          scale: downSampleScale,
                                                          aspectRatio: downSampleAspectRatio)

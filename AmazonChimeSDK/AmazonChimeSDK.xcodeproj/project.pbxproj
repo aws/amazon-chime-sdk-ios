@@ -2022,7 +2022,7 @@
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",
-					"-lc++\n-lc++",
+					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.amazonaws.services.chime.AmazonChimeSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -2080,7 +2080,7 @@
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"$(inherited)",
-					"-lc++\n-lc++",
+					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.amazonaws.services.chime.AmazonChimeSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";

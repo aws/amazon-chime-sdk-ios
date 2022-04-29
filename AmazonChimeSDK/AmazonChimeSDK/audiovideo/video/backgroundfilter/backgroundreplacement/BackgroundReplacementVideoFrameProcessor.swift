@@ -110,7 +110,7 @@ import UIKit
         }
         CVPixelBufferPoolCreatePixelBuffer(nil, bufferPool, &mergedImageBuffer)
         guard let validMergedImageBuffer = mergedImageBuffer else {
-            backgroundFilterProcessor.logger.error(msg: "Error creating validMergedImageBuffer.")
+            backgroundFilterProcessor.logger.error(msg: "Error creating CVPixelBuffer for output image.")
             return
         }
 

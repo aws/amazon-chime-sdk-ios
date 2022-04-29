@@ -116,7 +116,7 @@ For the purpose of setup, your project's root folder (where you can find your `.
 
   * If you are using traditional `.framework`, specify the location of `AmazonChimeSDK.framework`, `AmazonChimeSDKMedia.framework`, and `AmazonChimeSDKMachineLearning.framework` from Step 1. If you have compile error while using traditional `.framework`, which occurs in Xcode 12.3 and later, please use `.xcframework` instead, which is available after Amazon Chime SDK iOS v0.15.0.
   * If you are using `.xcframework`, specify the location of `AmazonChimeSDK.xcframework`, `AmazonChimeSDKMedia.xcframework`, and `AmazonChimeSDKMachineLearning.xcframework` from Step 1.
-  * For these frameworks, verify that `Embed & Sign` is selected under the `Embed` option.
+  * For `AmazonChimeSDK.framework` `AmazonChimeSDKMedia.framework` and frameworks, verify that `Embed & Sign` is selected under the `Embed` option. For `AmazonChimeSDKMachineLearning.framework`, select `Do Not Embed`.
 
 <p align="center">
 <img src="./media/xcframework_setting.png" alt="image" width="80%"/>

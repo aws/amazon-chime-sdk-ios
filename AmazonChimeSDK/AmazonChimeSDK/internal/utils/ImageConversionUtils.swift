@@ -73,7 +73,6 @@ public class ImageConversionUtils {
         let size = height * bytesPerRow
 
         var byteArray: [UInt8] = [UInt8](repeating: 0, count: size)
-
         guard let contextRef = CGContext(data: &byteArray,
                                    width: width,
                                    height: height,
