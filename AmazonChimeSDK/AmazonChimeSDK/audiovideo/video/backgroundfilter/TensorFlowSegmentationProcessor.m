@@ -11,10 +11,6 @@
 #import "CwtEnum.h"
 #import "CwtTfLiteModel.h"
 
-// Implement SegmentationProcessor.
-@interface TensorFlowSegmentationProcessor () <SegmentationProcessor>
-@end
-
 // TensorFlowSegmentationProcessor is a wrapper class around AmazonChimeSDKMachineLearning
 // frameworks's implementation of CwtTfLiteModel, which is a TensorFlow Lite
 // implementation of a segmentation processor. Note that users of this class must

@@ -54,17 +54,7 @@ public class BackgroundFilterProcessor {
                                 "to your project.")
             segmentationProcessor = NoopSegmentationProcessor()
         } else {
-            // Unfortunately, we need to force cast here to avoid compile time errors. This seems to be
-            // because a Swift class (this one) that uses the Objective-C file (TensorFlowSegmentationProcessor.m)
-            // that adopts the Swift protocol (SegmentationProcessor) can't see that the Objective-C file
-            // (TensorFlowSegmentationProcessor.m) is adopting the protocol (SegmentationProcessor). See thread
-            // below for more details.
-            // https://stackoverflow.com/questions/24078242/importing-a-swift-protocol-in-objective-c-class#comment95832892_27626493
-            // Since we need to force cast as a workaround, we also explicitly disable and then re-enable
-            // linting below to ensure we don't get errors from swiftlint.
-            // swiftlint:disable force_cast
-            segmentationProcessor = TensorFlowSegmentationProcessor() as! SegmentationProcessor
-            // swiftlint:enable force_cast
+            segmentationProcessor = TensorFlowSegmentationProcessor()
         }
     }
 
