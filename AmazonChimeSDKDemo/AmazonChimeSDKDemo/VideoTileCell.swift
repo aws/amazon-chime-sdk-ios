@@ -112,7 +112,7 @@ class VideoTileCell: UICollectionViewCell {
                                                            preferredStyle: .alert)
         var filtersList = [BackgroundFilter.none]
         var titleList = ["None"]
-        if TensorFlowSegmentationProcessor.isAvailable() {
+        if BackgroundFilterProcessor.isAvailable() {
             filtersList.append(contentsOf: [BackgroundFilter.blur, BackgroundFilter.replacement])
             titleList.append(contentsOf: ["Background Blur", "Background Replacement"])
         }

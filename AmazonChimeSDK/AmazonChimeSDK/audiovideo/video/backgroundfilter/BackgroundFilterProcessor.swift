@@ -40,6 +40,15 @@ public class BackgroundFilterProcessor {
     /// Segmentation processor width.
     private var segmentationProcessorWidth = 144
 
+    /// Static method to check whether BackgroundFilterProcessor can be used. This verifies that the builder
+    /// has linked the necessary runtime framework (i.e. `AmazonChimeSDKMachineLearning`) to
+    /// use this class.
+    ///
+    /// - Returns: true if the class can be used, otherwise false.
+    public static func isAvailable() -> Bool {
+        return TensorFlowSegmentationProcessor.isAvailable()
+    }
+
     /// Public constructor to initialize the processor.
     ///
     /// - Parameters:

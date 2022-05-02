@@ -12,7 +12,8 @@
 #import <Foundation/Foundation.h>
 
 // Forward declare SegmentationProcessor. This protocol is declared
-// and in Swift but exposed to Objective-C runtime.
+// and in Swift but exposed to the Objective-C runtime. See
+// SegmentationProcessor.swift for more details on the interface.
 @protocol SegmentationProcessor;
 
 @interface TensorFlowSegmentationProcessor : NSObject <SegmentationProcessor>
