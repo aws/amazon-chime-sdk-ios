@@ -10,7 +10,18 @@ import Foundation
 
 /// Enum defining the different background filter options.
 @objc public enum BackgroundFilter: Int {
-    case none = 0
-    case blur = 1
-    case replacement = 2
+    case none
+    case blur
+    case replacement
+
+    public var description: String {
+        switch self {
+        case .none:
+            return "none"
+        case .blur:
+            return "blur"
+        case .replacement:
+            return "replacement"
+        }
+    }
 }
