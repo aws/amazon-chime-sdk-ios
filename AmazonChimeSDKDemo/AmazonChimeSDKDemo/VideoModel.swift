@@ -397,23 +397,21 @@ extension VideoModel: VideoTileCellDelegate {
             if isUsingMetalVideoProcessor ||
                isUsingCoreImageVideoProcessor ||
                isUsingBackgroundReplacement {
-                
                 uiView.view.makeToast("Cannot toggle more than one filter at a time.")
                 return
             }
             let nextStatus = isUsingBackgroundBlur ? "off" : "on"
-            uiView.view.makeToast("Turning background \(videoFilter) \(nextStatus).")
+            uiView.view.makeToast("Turning background \(videoFilter.description) \(nextStatus).")
             isUsingBackgroundBlur.toggle()
         case .replacement:
             if isUsingMetalVideoProcessor ||
                isUsingCoreImageVideoProcessor ||
                isUsingBackgroundBlur {
-                
                 uiView.view.makeToast("Cannot toggle more than one filter at a time.")
                 return
             }
             let nextStatus = isUsingBackgroundReplacement ? "off" : "on"
-            uiView.view.makeToast("Turning background \(videoFilter) \(nextStatus).")
+            uiView.view.makeToast("Turning background \(videoFilter.description) \(nextStatus).")
             isUsingBackgroundReplacement.toggle()
         @unknown default:
             self.logger.info(msg: "Unknown background filter.")
