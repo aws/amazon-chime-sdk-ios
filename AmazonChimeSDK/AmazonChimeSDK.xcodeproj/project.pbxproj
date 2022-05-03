@@ -267,6 +267,7 @@
 		CFA2A16328085D23008FDFF5 /* BackgroundBlurStrength.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2A16228085D23008FDFF5 /* BackgroundBlurStrength.swift */; };
 		CFA2A17028087AE8008FDFF5 /* BackgroundFilterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2A16F28087AE8008FDFF5 /* BackgroundFilterTest.swift */; };
 		CFA2A17728091499008FDFF5 /* AmazonChimeSDKMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ADEAFA024293B2700801EA5 /* AmazonChimeSDKMedia.framework */; };
+		CFA9C0A12821D158001D49DB /* AmazonChimeSDKMachineLearning.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFA9C0A02821D158001D49DB /* AmazonChimeSDKMachineLearning.xcframework */; };
 		CFD14AAC281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite in Resources */ = {isa = PBXBuildFile; fileRef = CFD14AAB281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite */; };
 		CFD14AAD281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite in Resources */ = {isa = PBXBuildFile; fileRef = CFD14AAB281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite */; };
 		CFF1553C2819C123009E257B /* background-ml-test-image.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CFF1553B2819C123009E257B /* background-ml-test-image.jpeg */; };
@@ -558,6 +559,7 @@
 		CFA2A1532807DAAA008FDFF5 /* BackgroundFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundFilter.swift; sourceTree = "<group>"; };
 		CFA2A16228085D23008FDFF5 /* BackgroundBlurStrength.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundBlurStrength.swift; sourceTree = "<group>"; };
 		CFA2A16F28087AE8008FDFF5 /* BackgroundFilterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundFilterTest.swift; sourceTree = "<group>"; };
+		CFA9C0A02821D158001D49DB /* AmazonChimeSDKMachineLearning.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = AmazonChimeSDKMachineLearning.xcframework; sourceTree = "<group>"; };
 		CFD14AAB281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = selfie_segmentation_landscape.tflite; sourceTree = "<group>"; };
 		CFF1553B2819C123009E257B /* background-ml-test-image.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "background-ml-test-image.jpeg"; sourceTree = "<group>"; };
 		F81104A8276190A9003D17AD /* VideoPriority.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPriority.swift; sourceTree = "<group>"; };
@@ -588,6 +590,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFA9C0A12821D158001D49DB /* AmazonChimeSDKMachineLearning.xcframework in Frameworks */,
 				5ADEAFA424293B5500801EA5 /* AmazonChimeSDKMedia.framework in Frameworks */,
 				5A15822723C4020D0099F8FA /* AmazonChimeSDK.framework in Frameworks */,
 				5AE76E4124200641009C41FD /* Mockingbird in Frameworks */,
@@ -835,6 +838,7 @@
 		5A1582A023C403120099F8FA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CFA9C0A02821D158001D49DB /* AmazonChimeSDKMachineLearning.xcframework */,
 				6AA9F969252243E400EB0644 /* AmazonChimeSDKMedia.framework */,
 				5ADEAFA024293B2700801EA5 /* AmazonChimeSDKMedia.framework */,
 				5AE1323823EB2C1E00BF5997 /* AVFoundation.framework */,
@@ -2130,7 +2134,10 @@
 				MARKETING_VERSION = 0.6.0;
 				MODULEMAP_FILE = "";
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.amazonaws.services.chime.AmazonChimeSDKTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2180,7 +2187,10 @@
 				MARKETING_VERSION = 0.6.0;
 				MODULEMAP_FILE = "";
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.amazonaws.services.chime.AmazonChimeSDKTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
