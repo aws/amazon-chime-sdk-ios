@@ -63,7 +63,7 @@ class VideoTileCell: UICollectionViewCell {
         onTileButton.addTarget(self, action: #selector(onTileButtonClicked), for: .touchUpInside)
         onTileButton.isSelected = isVideoPausedByUser
         updateVideoSubscriptionsButton.isHidden = false
-        videoFiltersButton.isHidden = false
+        videoFiltersButton.isHidden = true
         
         if isSelf {
             onTileButton.setImage(UIImage(named: "switch-camera")?.withRenderingMode(.alwaysTemplate),
