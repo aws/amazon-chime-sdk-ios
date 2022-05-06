@@ -20,13 +20,13 @@ class BackgroundFilterTests: XCTestCase {
     var testImage: UIImage?
 
     /// Final blur image checksum for low, medium, high respectively.
-    let expectedBlurHash = ["1bd184d8d4d5258c3cf10b5c3cab635648dd17309e88d0c837ad48bfed68d449",
-                            "611b373fa83ab3399cd56609a0f632cc91f786701bb3a87be6f7e05e2f3687f9",
-                            "aab67dfa3284521bf8274dc2920fcdea6ce540254a9365ae64452bea6a702d49"]
+    let expectedBlurHash = ["dc3e04027cca21e16b3cf32713e5bc32d39d148cf6988e7b1cbb0fdcff59138e",
+                            "5a98f494864dec0ef4cd3f61940b2068308e4f54681a0ca71589dbebfede68bd",
+                            "69c707df0dce576b6ec9424511ea0241673297454bbc088db4df73aff70f5807"]
 
     /// Final replacement image checksum using two different color generated backgrounds.
-    let expectedReplacementHash = ["24f2e180df834909f6d1146dbfb73c65839068ebf131df74929bbd11d33e760f",
-                                   "7fb7640ef9a7a748ec01a0bcb43999768476e9d0547ad4320d362fc504251f88"]
+    let expectedReplacementHash = ["48ec08db5be9fe84dde6f8545f853c3d9cc7f1664a3337fefa0d4e101ee3db5c",
+                                   "004f7fec01c742183e174bb7c404d3f50ee5940006e784b29db0cf70c73bc9f2"]
 
     let context = CIContext(options: [.cacheIntermediates: false])
 
