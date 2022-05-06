@@ -70,8 +70,13 @@ class VideoTileCell: UICollectionViewCell {
                                   for: .normal)
 
             updateVideoSubscriptionsButton.isHidden = true
-            // If current video cell is local video then render the menu to apply the background filters.
-            videoFiltersButton.isHidden = false
+            // If AmazonChimeSDKMachineLearning is not available then hide the video filter button.
+            if BackgroundFilterProcessor.isAvailable() {
+                videoFiltersButton.isHidden = false
+            } else {
+                self.viewController?.view.makeToast("AmazonChimeSDKMachineLearning is not available. " +
+                                                    "See README for more information.")
+            }
             videoFiltersButton.setImage(UIImage(named: "more")?.withRenderingMode(.alwaysTemplate), for: .normal)
             videoFiltersButton.tintColor = .white
             videoFiltersButton.addTarget(self, action: #selector(showVideoFiltersMenu), for: .touchUpInside)
@@ -124,7 +129,16 @@ class VideoTileCell: UICollectionViewCell {
             videoFilterAlertController.addAction(action)
         }
 
-        viewController?.present(videoFilterAlertController, animated: true, completion: nil)
+        viewController?.present(videoFilterAlertController, animated: true, completion: {
+            videoFilterAlertController.view.superview?.isUserInteractionEnabled = true
+            videoFilterAlertController.view.superview?.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                                                                   action: #selector(self.dismissOnTapOutside)))
+        })
+    }
+
+    // Dismiss controller if user tap outside.
+    @objc func dismissOnTapOutside() {
+        viewController?.dismiss(animated: true, completion: nil)
     }
 
     override func prepareForReuse() {
