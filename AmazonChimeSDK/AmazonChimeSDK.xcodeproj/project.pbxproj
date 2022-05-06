@@ -264,6 +264,7 @@
 		C6DA0B6224F961AA00028F2B /* DefaultAudioVideoControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6DA0B6124F961AA00028F2B /* DefaultAudioVideoControllerTests.swift */; };
 		CF4BA473280FBE72005E6DAE /* BackgroundBlurConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4BA472280FBE72005E6DAE /* BackgroundBlurConfiguration.swift */; };
 		CF5B9A13281716E600441A7D /* BackgroundReplacementConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5B9A12281716E600441A7D /* BackgroundReplacementConfiguration.swift */; };
+		CF8C8C512825D04000450757 /* AmazonChimeSDKMachineLearning.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF8C8C502825D04000450757 /* AmazonChimeSDKMachineLearning.xcframework */; };
 		CFA2A14928074E2A008FDFF5 /* SegmentationProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2A14528074E2A008FDFF5 /* SegmentationProcessor.swift */; };
 		CFA2A14A28074E2A008FDFF5 /* BackgroundBlurVideoFrameProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2A14628074E2A008FDFF5 /* BackgroundBlurVideoFrameProcessor.swift */; };
 		CFA2A14B28074E2A008FDFF5 /* BackgroundFilterProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2A14728074E2A008FDFF5 /* BackgroundFilterProcessor.swift */; };
@@ -273,7 +274,6 @@
 		CFA2A1542807DAAA008FDFF5 /* BackgroundFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2A1532807DAAA008FDFF5 /* BackgroundFilter.swift */; };
 		CFA2A16328085D23008FDFF5 /* BackgroundBlurStrength.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2A16228085D23008FDFF5 /* BackgroundBlurStrength.swift */; };
 		CFA2A17028087AE8008FDFF5 /* BackgroundFilterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2A16F28087AE8008FDFF5 /* BackgroundFilterTest.swift */; };
-		CFA2A17728091499008FDFF5 /* AmazonChimeSDKMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ADEAFA024293B2700801EA5 /* AmazonChimeSDKMedia.framework */; };
 		CFD14AAC281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite in Resources */ = {isa = PBXBuildFile; fileRef = CFD14AAB281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite */; };
 		CFD14AAD281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite in Resources */ = {isa = PBXBuildFile; fileRef = CFD14AAB281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite */; };
 		CFF1553C2819C123009E257B /* background-ml-test-image.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CFF1553B2819C123009E257B /* background-ml-test-image.jpeg */; };
@@ -465,7 +465,6 @@
 		6AA9F9432522439F00EB0644 /* DefaultCameraCaptureSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultCameraCaptureSource.swift; sourceTree = "<group>"; };
 		6AA9F9442522439F00EB0644 /* VideoFramePixelBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoFramePixelBuffer.swift; sourceTree = "<group>"; };
 		6AA9F9452522439F00EB0644 /* VideoFrameBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoFrameBuffer.swift; sourceTree = "<group>"; };
-		6AA9F969252243E400EB0644 /* AmazonChimeSDKMedia.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AmazonChimeSDKMedia.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AB4C79F23F723030038CD4B /* ClientMetricsCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientMetricsCollector.swift; sourceTree = "<group>"; };
 		6AE9B5AE258ACBAE00DF7FF7 /* ReplayKitSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplayKitSource.swift; sourceTree = "<group>"; };
 		6AE9B5B2258ACBDA00DF7FF7 /* VideoFrameResender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoFrameResender.swift; sourceTree = "<group>"; };
@@ -562,6 +561,7 @@
 		C6DA0B6124F961AA00028F2B /* DefaultAudioVideoControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAudioVideoControllerTests.swift; sourceTree = "<group>"; };
 		CF4BA472280FBE72005E6DAE /* BackgroundBlurConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundBlurConfiguration.swift; sourceTree = "<group>"; };
 		CF5B9A12281716E600441A7D /* BackgroundReplacementConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundReplacementConfiguration.swift; sourceTree = "<group>"; };
+		CF8C8C502825D04000450757 /* AmazonChimeSDKMachineLearning.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = AmazonChimeSDKMachineLearning.xcframework; sourceTree = "<group>"; };
 		CFA2A14528074E2A008FDFF5 /* SegmentationProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentationProcessor.swift; sourceTree = "<group>"; };
 		CFA2A14628074E2A008FDFF5 /* BackgroundBlurVideoFrameProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundBlurVideoFrameProcessor.swift; sourceTree = "<group>"; };
 		CFA2A14728074E2A008FDFF5 /* BackgroundFilterProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundFilterProcessor.swift; sourceTree = "<group>"; };
@@ -603,6 +603,7 @@
 			files = (
 				5ADEAFA424293B5500801EA5 /* AmazonChimeSDKMedia.framework in Frameworks */,
 				5A15822723C4020D0099F8FA /* AmazonChimeSDK.framework in Frameworks */,
+				CF8C8C512825D04000450757 /* AmazonChimeSDKMachineLearning.xcframework in Frameworks */,
 				5AE76E4124200641009C41FD /* Mockingbird in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -849,6 +850,7 @@
 		5A1582A023C403120099F8FA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CF8C8C502825D04000450757 /* AmazonChimeSDKMachineLearning.xcframework */,
 				5ADEAFA024293B2700801EA5 /* AmazonChimeSDKMedia.framework */,
 				5AE1323823EB2C1E00BF5997 /* AVFoundation.framework */,
 			);
@@ -2154,7 +2156,10 @@
 				MARKETING_VERSION = 0.6.0;
 				MODULEMAP_FILE = "";
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.amazonaws.services.chime.AmazonChimeSDKTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2204,7 +2209,10 @@
 				MARKETING_VERSION = 0.6.0;
 				MODULEMAP_FILE = "";
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.amazonaws.services.chime.AmazonChimeSDKTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
