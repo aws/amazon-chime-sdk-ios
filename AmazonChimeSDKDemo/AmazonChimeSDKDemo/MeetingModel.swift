@@ -612,6 +612,7 @@ extension MeetingModel: VideoTileObserver {
             screenShareModel.tileId = tileState.tileId
             if activeMode == .screenShare {
                 screenShareModel.viewUpdateHandler?(true)
+                videoModel.addContent(attendeeId: tileState.attendeeId)
             }
         } else {
             if tileState.isLocalTile {
@@ -654,7 +655,6 @@ extension MeetingModel: VideoTileObserver {
                     self.videoModel.revalidateRemoteVideoPageIndex()
                     if self.activeMode == .video {
                         self.videoModel.videoUpdatedHandler?()
-                        self.videoModel.videoSubscriptionUpdatedHandler?()
                     }
                 } else {
                     self.logger.error(msg: "Cannot remove unexisting remote video tile for tileId: \(tileState.tileId)")

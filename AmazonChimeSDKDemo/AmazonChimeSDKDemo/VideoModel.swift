@@ -298,7 +298,6 @@ class VideoModel: NSObject {
         if let index = remoteVideoTileStates.firstIndex(where: { $0.0 == videoTileState.tileId }) {
             remoteVideoTileStates[index] = (videoTileState.tileId, videoTileState)
             videoUpdatedHandler?()
-            videoSubscriptionUpdatedHandler?()
         }
     }
 
@@ -342,13 +341,18 @@ class VideoModel: NSObject {
                 updatedSources[key] = remoteVideoSourceConfigurations[key]
             }
         }
-        var remoteVideoSources: [RemoteVideoSource] = []
+        audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: updatedSources, removed: [])
+    }
+    
+    func addContent(attendeeId : String) {
+        var updatedSources:[RemoteVideoSource: VideoSubscriptionConfiguration] = [:]
         for remoteVideoSource in remoteVideoSourceConfigurations {
-            if (!videoTilesAttendeeMap.contains(remoteVideoSource.key.attendeeId)) {
-                remoteVideoSources.append(remoteVideoSource.key)
+            if(remoteVideoSource.key.attendeeId == attendeeId) {
+                updatedSources[remoteVideoSource.key] = remoteVideoSourceConfigurations[remoteVideoSource.key]
+                
             }
         }
-        audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: updatedSources, removed: remoteVideoSources)
+        audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: updatedSources, removed: [])
     }
 
     func pauseAllRemoteVideos() {
