@@ -27,16 +27,20 @@ import UIKit
     /// Background filter processor.
     private let backgroundFilterProcessor: BackgroundFilterProcessor
 
+    /// Logger to log any warnings or errors.
+    private let logger: Logger
+
     /// Public constructor to initialize the processor with a `BackgroundReplacementConfiguration`.
     ///
     /// - Parameters:
     ///   - backgroundReplacementConfiguration: `BackgroundReplacementConfiguration` class.
     public init(backgroundReplacementConfiguration: BackgroundReplacementConfiguration) {
         self.backgroundFilterProcessor = backgroundReplacementConfiguration.backgroundFilterProcessor
+        self.logger = backgroundReplacementConfiguration.logger
 
         guard let backgroundReplacementImage = backgroundReplacementConfiguration.backgroundReplacementImage.cgImage
         else {
-            backgroundFilterProcessor.logger.error(msg: "Faild to load CGImage of the provided background replacement image.")
+            logger.error(msg: "Faild to load CGImage of the provided background replacement image.")
             return
         }
         self.backgroundReplacementImage = CIImage(cgImage: backgroundReplacementImage)
@@ -57,7 +61,7 @@ import UIKit
 
         // Create `VideoFramePixelBuffer` of the input frame.
         guard let pixelBuffer = frame.buffer as? VideoFramePixelBuffer else {
-            backgroundFilterProcessor.logger.debug(debugFunction: {
+            logger.debug(debugFunction: {
                 return "VideoFramePixelBuffer was not found."
             })
             return
@@ -67,7 +71,7 @@ import UIKit
         let inputFrame = CIImage(cvImageBuffer: pixelBuffer.pixelBuffer)
 
         guard let inputCgFrame = context.createCGImage(inputFrame, from: inputFrame.extent) else {
-            backgroundFilterProcessor.logger.error(msg: "Error creating CGImage of input frame.")
+            logger.error(msg: "Error creating CGImage of input frame.")
             return
         }
 
@@ -79,7 +83,7 @@ import UIKit
         }
 
         guard let backgroundImage = backgroundReplacementImage else {
-            backgroundFilterProcessor.logger.error(msg: "Error retrieving the background replacement image.")
+            logger.error(msg: "Error retrieving the background replacement image.")
             return
         }
         // Create the final output image by blending the alpha mask on top of the input frame to produce
@@ -88,19 +92,19 @@ import UIKit
                                                                                           maskImage: foregroundMask,
                                                                                           backgroundImage: backgroundImage)
         else {
-            backgroundFilterProcessor.logger.error(msg: "Error producing the final output image.")
+            logger.error(msg: "Error producing the final output image.")
             return
         }
 
         // Create the final `CVPixelBuffer` for the output image.
         var mergedImageBuffer: CVPixelBuffer?
         guard let bufferPool = backgroundFilterProcessor.getBufferPool() else {
-            backgroundFilterProcessor.logger.error(msg: "Error retrieving final buffer pool.")
+            logger.error(msg: "Error retrieving final buffer pool.")
             return
         }
         CVPixelBufferPoolCreatePixelBuffer(nil, bufferPool, &mergedImageBuffer)
         guard let validMergedImageBuffer = mergedImageBuffer else {
-            backgroundFilterProcessor.logger.error(msg: "Error creating CVPixelBuffer for output image.")
+            logger.error(msg: "Error creating CVPixelBuffer for output image.")
             return
         }
 
@@ -118,7 +122,7 @@ import UIKit
     ///   - newBackgroundReplacementImage: New background replacement image.
     public func setBackgroundImage(newBackgroundReplacementImage: UIImage) {
         guard let backgroundImage = newBackgroundReplacementImage.cgImage else {
-            backgroundFilterProcessor.logger.error(msg: "Error trying to change background replacement image.")
+            logger.error(msg: "Error trying to change background replacement image.")
             return
         }
         backgroundReplacementImage = CIImage(cgImage: backgroundImage)
@@ -126,16 +130,12 @@ import UIKit
 
     /// Adds a video sink to the sinks set.
     public func addVideoSink(sink: VideoSink) {
-        if !sinks.contains(sink) {
-            sinks.add(sink)
-        }
+        sinks.add(sink)
     }
 
     /// Remove a video sink from the sinks set.
     public func removeVideoSink(sink: VideoSink) {
-        if sinks.contains(sink) {
-            sinks.remove(sink)
-        }
+        sinks.remove(sink)
     }
 
     /// Update the `VideoSink(s)` with a new frame.

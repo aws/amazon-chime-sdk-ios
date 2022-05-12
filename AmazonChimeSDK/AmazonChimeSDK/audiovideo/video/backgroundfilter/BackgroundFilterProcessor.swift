@@ -55,12 +55,12 @@ public class BackgroundFilterProcessor {
     ///   - logger: Custom logger to log events.
     public init(logger: Logger) {
         self.logger = logger
-        if !TensorFlowSegmentationProcessor.isAvailable() {
-            self.logger.error(msg:"Unable to load TensorFlowLiteSegmentationProcessor. " +
-                                "See `Update Project File` section in README for more information " +
-                                "on how to import `AmazonChimeSDKMachineLearning` framework " +
-                                "and the `selfie_segmentation_landscape.tflite` as a bundle resource " +
-                                "to your project.")
+        if !BackgroundFilterProcessor.isAvailable() {
+            self.logger.error(msg: "Unable to load TensorFlowLiteSegmentationProcessor. " +
+                              "See `Update Project File` section in README for more information " +
+                              "on how to import `AmazonChimeSDKMachineLearning` framework " +
+                              "and the `selfie_segmentation_landscape.tflite` as a bundle resource " +
+                              "to your project.")
             segmentationProcessor = NoopSegmentationProcessor()
         } else {
             segmentationProcessor = TensorFlowSegmentationProcessor()
@@ -77,7 +77,7 @@ public class BackgroundFilterProcessor {
     public func createForegroundAlphaMask(inputFrameCG: CGImage,
                                           inputFrameCI: CIImage) -> CIImage? {
         // Verify that the processor is available.
-        if !TensorFlowSegmentationProcessor.isAvailable() {
+        if !BackgroundFilterProcessor.isAvailable() {
             return nil
         }
 
@@ -90,8 +90,8 @@ public class BackgroundFilterProcessor {
             updateBufferPool(newWidth: inputFrameCG.width, newHeight: inputFrameCG.height)
             // Initialize the segmentationProcessor if it has not been initialized.
             let initializeResult: Bool = segmentationProcessor.initialize(height: segmentationProcessorHeight,
-                                                     width: segmentationProcessorWidth,
-                                                     channels: imageChannels)
+                                                                          width: segmentationProcessorWidth,
+                                                                          channels: imageChannels)
             if !initializeResult {
                 logger.error(msg: "Unable to initialize segmentation processor.")
                 return nil
@@ -106,8 +106,8 @@ public class BackgroundFilterProcessor {
 
         // Calculate the scale and aspect ratio factor to downscale.
         let downSampleScale = Double(segmentationProcessorHeight) / Double(inputFrameCG.height)
-        let downSampleAspectRatio = Double((Double(inputFrameCG.height) / Double(inputFrameCG.width)) /
-                                           (Double(segmentationProcessorHeight) / Double(segmentationProcessorWidth)))
+        let downSampleAspectRatio: Double = (Double(inputFrameCG.height) / Double(inputFrameCG.width)) /
+                                            (Double(segmentationProcessorHeight) / Double(segmentationProcessorWidth))
 
         // Down sample the image.
         guard let downSampleImage: CIImage = resizeImage(image: inputFrameCI,
@@ -157,8 +157,8 @@ public class BackgroundFilterProcessor {
 
         // Calculate the scale and aspect ratio factor to upscale.
         let upSampleScale = Double(inputFrameCG.height) / Double(segmentationProcessorHeight)
-        let upSampleAspectRatio = Double((Double(segmentationProcessorHeight)/Double(segmentationProcessorWidth)) /
-                                         (Double(inputFrameCG.height)/Double(inputFrameCG.width)))
+        let upSampleAspectRatio: Double = (Double(segmentationProcessorHeight) / Double(segmentationProcessorWidth)) /
+                                          (Double(inputFrameCG.height) / Double(inputFrameCG.width))
 
         // Upsample image back to it size.
         guard let upSampleImage = resizeImage(image: maskImageCi,

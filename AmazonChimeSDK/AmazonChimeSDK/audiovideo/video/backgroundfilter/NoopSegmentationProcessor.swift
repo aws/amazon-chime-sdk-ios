@@ -10,7 +10,7 @@ import Foundation
 
 /// `NoopSegmentationProcessor` is a processor that does nothing except pass image frames in and out.
 /// This is used as a placeholder for implementations of `SegmentationProcessor` that cannot be initialized.
-public class NoopSegmentationProcessor : SegmentationProcessor {
+public class NoopSegmentationProcessor: SegmentationProcessor {
     private var buffer: UnsafeMutablePointer<UInt8> = UnsafeMutablePointer<UInt8>.allocate(capacity: 0)
 
     public func initialize(height: Int, width: Int, channels: Int) -> Bool {

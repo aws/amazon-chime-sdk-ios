@@ -40,22 +40,17 @@ public class ImageConversionUtils {
             return nil
         }
 
-        guard let cgImage: CGImage = CGImage.init(width: frameWidth,
-                                                  height: frameHeight,
-                                                  bitsPerComponent: bitsPerComponent,
-                                                  bitsPerPixel: bytesPerPixel * bitsPerComponent,
-                                                  bytesPerRow: bytesPerRow,
-                                                  space: CGColorSpaceCreateDeviceRGB(),
-                                                  bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.last.rawValue),
-                                                  provider: cgProvider,
-                                                  decode: nil,
-                                                  shouldInterpolate: true,
-                                                  intent: CGColorRenderingIntent.defaultIntent)
-        else {
-            return nil
-        }
-
-        return cgImage
+        return CGImage.init(width: frameWidth,
+                            height: frameHeight,
+                            bitsPerComponent: bitsPerComponent,
+                            bitsPerPixel: bytesPerPixel * bitsPerComponent,
+                            bytesPerRow: bytesPerRow,
+                            space: CGColorSpaceCreateDeviceRGB(),
+                            bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.last.rawValue),
+                            provider: cgProvider,
+                            decode: nil,
+                            shouldInterpolate: true,
+                            intent: CGColorRenderingIntent.defaultIntent)
     }
 
     /// A utility function that converts a CGImage to a byte array.
@@ -75,12 +70,12 @@ public class ImageConversionUtils {
         var byteArray: [UInt8] = [UInt8](repeating: 0, count: size)
 
         guard let contextRef = CGContext(data: &byteArray,
-                                   width: width,
-                                   height: height,
-                                   bitsPerComponent: bitsPerComponent,
-                                   bytesPerRow: bytesPerRow,
-                                   space: CGColorSpaceCreateDeviceRGB(),
-                                   bitmapInfo: cgImage.bitmapInfo.rawValue)
+                                         width: width,
+                                         height: height,
+                                         bitsPerComponent: bitsPerComponent,
+                                         bytesPerRow: bytesPerRow,
+                                         space: CGColorSpaceCreateDeviceRGB(),
+                                         bitmapInfo: cgImage.bitmapInfo.rawValue)
         else {
             return nil
         }

@@ -27,6 +27,9 @@ import UIKit
     /// Background filter processor.
     private let backgroundFilterProcessor: BackgroundFilterProcessor
 
+    /// Logger to log any warnings or errors.
+    private let logger: Logger
+
     /// Public constructor to initialize the processor.
     ///
     /// - Parameters:
@@ -34,6 +37,7 @@ import UIKit
     public init(backgroundBlurConfiguration: BackgroundBlurConfiguration) {
         self.blurStrength = backgroundBlurConfiguration.blurStrength.rawValue
         self.backgroundFilterProcessor = backgroundBlurConfiguration.backgroundFilterProcessor
+        self.logger = backgroundBlurConfiguration.logger
     }
 
     /// Receive a video frame from some upstream source. The foreground is segmented and then masked
@@ -51,7 +55,7 @@ import UIKit
 
         // Create `VideoFramePixelBuffer` of the input frame.
         guard let pixelBuffer = frame.buffer as? VideoFramePixelBuffer else {
-            backgroundFilterProcessor.logger.debug(debugFunction: {
+            logger.debug(debugFunction: {
                 return "VideoFramePixelBuffer was not found."
             })
             return
@@ -61,7 +65,7 @@ import UIKit
         let inputFrame = CIImage(cvImageBuffer: pixelBuffer.pixelBuffer)
 
         guard let inputCgFrame = context.createCGImage(inputFrame, from: inputFrame.extent) else {
-            backgroundFilterProcessor.logger.error(msg: "Error creating CGImage of input frame.")
+            logger.error(msg: "Error creating CGImage of input frame.")
             return
         }
 
@@ -83,19 +87,19 @@ import UIKit
                                                                                           maskImage: foregroundMask,
                                                                                           backgroundImage: backgroundBlurredImage)
         else {
-            backgroundFilterProcessor.logger.error(msg: "Error producing the final output image.")
+            logger.error(msg: "Error producing the final output image.")
             return
         }
 
         // Create the final `CVPixelBuffer` for the output image.
         var mergedImageBuffer: CVPixelBuffer?
         guard let bufferPool = backgroundFilterProcessor.getBufferPool() else {
-            backgroundFilterProcessor.logger.error(msg: "Error retrieving final buffer pool.")
+            logger.error(msg: "Error retrieving final buffer pool.")
             return
         }
         CVPixelBufferPoolCreatePixelBuffer(nil, bufferPool, &mergedImageBuffer)
         guard let validMergedImageBuffer = mergedImageBuffer else {
-            backgroundFilterProcessor.logger.error(msg: "Error creating CVPixelBuffer for output image.")
+            logger.error(msg: "Error creating CVPixelBuffer for output image.")
             return
         }
 
@@ -117,16 +121,12 @@ import UIKit
 
     /// Adds a video sink to the sinks set.
     public func addVideoSink(sink: VideoSink) {
-        if !sinks.contains(sink) {
-            sinks.add(sink)
-        }
+        sinks.add(sink)
     }
 
     /// Remove a video sink from the sinks set.
     public func removeVideoSink(sink: VideoSink) {
-        if sinks.contains(sink) {
-            sinks.remove(sink)
-        }
+        sinks.remove(sink)
     }
 
     /// Update the `VideoSink(s)` with a new frame.

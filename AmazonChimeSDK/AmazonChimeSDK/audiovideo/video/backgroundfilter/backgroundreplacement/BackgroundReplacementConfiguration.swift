@@ -10,9 +10,9 @@ import Foundation
 import UIKit
 
 @objcMembers public class BackgroundReplacementConfiguration {
-    var backgroundReplacementImage: UIImage
-    var logger: Logger
-    var backgroundFilterProcessor: BackgroundFilterProcessor
+    let backgroundReplacementImage: UIImage
+    let logger: Logger
+    let backgroundFilterProcessor: BackgroundFilterProcessor
 
     public init(logger: Logger, backgroundReplacementImage: UIImage) {
         self.backgroundReplacementImage = backgroundReplacementImage

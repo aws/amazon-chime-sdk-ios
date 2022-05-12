@@ -9,9 +9,9 @@
 import Foundation
 
 @objcMembers public class BackgroundBlurConfiguration {
-    var blurStrength: BackgroundBlurStrength
-    var logger: Logger
-    var backgroundFilterProcessor: BackgroundFilterProcessor
+    let blurStrength: BackgroundBlurStrength
+    let logger: Logger
+    let backgroundFilterProcessor: BackgroundFilterProcessor
 
     public init(logger: Logger, blurStrength: BackgroundBlurStrength = BackgroundBlurStrength.low) {
         self.blurStrength = blurStrength
