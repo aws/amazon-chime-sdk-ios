@@ -387,11 +387,14 @@ extension VideoModel: VideoTileCellDelegate {
     func onVideoFilterButtonClicked(videoFilter: BackgroundFilter, uiView: UIViewController) {
         switch videoFilter {
         case .none:
-            uiView.view.makeToast("Turning off background filters.")
             if isUsingBackgroundBlur {
                 isUsingBackgroundBlur.toggle()
+                uiView.view.makeToast("Turning background blur off.")
             } else if isUsingBackgroundReplacement {
                 isUsingBackgroundReplacement.toggle()
+                uiView.view.makeToast("Turning background replacement off.")
+            } else {
+                uiView.view.makeToast("No video filers are on.")
             }
         case .blur:
             if isUsingMetalVideoProcessor ||
