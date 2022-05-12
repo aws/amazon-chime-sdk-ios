@@ -1,4 +1,16 @@
-## [Unreleased]
+## [0.20.0] - 2022-05-11
+
+### Added
+* Added support default initializer support for `DefaultVideoRenderView` for convenience.
+
+## [0.19.4] - 2022-04-21
+
+## [0.19.3] - 2022-04-07
+
+### Added
+* Added arm64 simulator slice
+
+## [0.19.2] - 2022-03-21
 
 ### Added
 * Added [replicated meeting guide](https://github.com/aws/amazon-chime-sdk-android/blob/master/guides/replicated_meetings.md).

@@ -1,31 +1,32 @@
-### Issue #, if available:
+## ℹ️ Description
+*provide a summary of the changes and the related issue, relevant motivation and context*
 
-### Description of changes:
+### Issue #, if available
 
-### Testing done:
+### Type of change
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] This change requires a documentation update
+    - [ ] README update
+    - [ ] CHANGELOG update
+    - [ ] guildes update
+- [ ] This change requires a dependency update
+    - [ ] Amazon Chime SDK Media
+    - [ ] Other (update corresonding legal documents)
 
-#### Manual test cases (add more as needed):
+## 🧪 How Has This Been Tested?
+*describe the tests that you ran to verify your changes, any relevant details for your test configuration*
 
-- [ ] Join meeting without CallKit
-- [ ] Join meeting with CallKit as Incoming
-- [ ] Join meeting with CallKit as Outgoing
-- [ ] Leave meeting
-- [ ] Rejoin meeting
-- [ ] See metrics
-- [ ] See attendee presence
-- [ ] Send audio
-- [ ] Receive audio
-- [ ] Mute self
-- [ ] Unmute self
-- [ ] See local mute indicator when muted
-- [ ] See remote mute indicator when other is muted
-- [ ] Enable and disable local video
-- [ ] Enable and disable remote video from remote side
-- [ ] Send local video
+### Additional Manual Test
 - [ ] Pause and resume remote video
 - [ ] Switch local camera
-- [ ] Receive remote screen share
+- [ ] Rotate screen back and forth
 
+## 📱 Screenshots, if available
+*provide screenshots/video record if there's a UI change in demo app*
+
+## ✅ Checklist
 #### Integration validation (required before release)
 
 - [ ] Unit tests pass
@@ -41,7 +42,5 @@
 - [ ] Test Demo against device with SDK.framework (release build)
 - [ ] Test DemoObjC against simulator with SDK.framework (release build)
 - [ ] Test DemoObjC against device with SDK.framework (release build)
-
-### Screenshots, if available:
 
 By submitting this pull request, I confirm that you can use, modify, copy, and redistribute this contribution, under the terms of your choice.
