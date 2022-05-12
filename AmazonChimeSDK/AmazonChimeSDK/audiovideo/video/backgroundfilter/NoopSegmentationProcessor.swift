@@ -24,7 +24,7 @@ public class NoopSegmentationProcessor: SegmentationProcessor {
     }
 
     public func getModelState() -> Int {
-        return 2 // LOADED
+        return Int(CwtModelState.LOADED.rawValue)
     }
 
     public func getInputBuffer() -> UnsafeMutablePointer<UInt8> {

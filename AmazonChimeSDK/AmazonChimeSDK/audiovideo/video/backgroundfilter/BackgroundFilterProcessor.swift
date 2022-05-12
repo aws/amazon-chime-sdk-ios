@@ -99,7 +99,7 @@ public class BackgroundFilterProcessor {
         }
 
         // Check if segmentation model has loaded.
-        if segmentationProcessor.getModelState() != 2 {
+        if segmentationProcessor.getModelState() != CwtModelState.LOADED.rawValue {
             logger.error(msg: "Segmentation processor failed to start. Unable to perform segmentation.")
             return nil
         }

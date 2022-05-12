@@ -233,7 +233,7 @@
 		C531A5C0281CC5A900086E73 /* TensorFlowSegmentationProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = C531A5BF281CC5A900086E73 /* TensorFlowSegmentationProcessor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C531A5C6281D380300086E73 /* AmazonChimeSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = C531A5C5281D37AE00086E73 /* AmazonChimeSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C5CC3E0E281EA92E002FD4CB /* CwtTfLiteModel.h in Headers */ = {isa = PBXBuildFile; fileRef = C5CC3E0C281EA92E002FD4CB /* CwtTfLiteModel.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C5CC3E0F281EA92E002FD4CB /* CwtEnum.h in Headers */ = {isa = PBXBuildFile; fileRef = C5CC3E0D281EA92E002FD4CB /* CwtEnum.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		C5CC3E0F281EA92E002FD4CB /* CwtEnum.h in Headers */ = {isa = PBXBuildFile; fileRef = C5CC3E0D281EA92E002FD4CB /* CwtEnum.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C5FBFB85281DCBAC004C85CA /* NoopSegmentationProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FBFB84281DCBAC004C85CA /* NoopSegmentationProcessor.swift */; };
 		C60D5593246509BA00C2A278 /* Converters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60D5592246509B900C2A278 /* Converters.swift */; };
 		C60D5596246514B000C2A278 /* ConvertersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60D5595246514B000C2A278 /* ConvertersTests.swift */; };

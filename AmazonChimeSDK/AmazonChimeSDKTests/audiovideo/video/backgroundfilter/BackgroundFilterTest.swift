@@ -36,7 +36,7 @@ class BackgroundFilterTests: XCTestCase {
         guard let testImage = UIImage(named: "background-ml-test-image.jpeg",
                                       in: Bundle(for: type(of: self)),
                                       compatibleWith: nil) else {
-            XCTFail("Faild to load test image.")
+            XCTFail("Failed to load test image.")
             return
         }
         self.testImage = testImage
@@ -169,7 +169,7 @@ class BackgroundFilterTests: XCTestCase {
         }
         CVPixelBufferLockBaseAddress(pixelBuffer.pixelBuffer, CVPixelBufferLockFlags.readOnly)
         guard let address = CVPixelBufferGetBaseAddress(pixelBuffer.pixelBuffer) else {
-            XCTFail("Faild to retrieve frame buffer address.")
+            XCTFail("Failed to retrieve frame buffer address.")
             return ""
         }
         let contextDataPointer: UnsafeMutablePointer<UInt8> = address.bindMemory(to: UInt8.self,

@@ -11,5 +11,6 @@
 
 // Umbrella header imports.
 #import "TensorFlowSegmentationProcessor.h"
+#import "CwtEnum.h"
 
 #endif  // AMAZON_CHIME_SDK_H

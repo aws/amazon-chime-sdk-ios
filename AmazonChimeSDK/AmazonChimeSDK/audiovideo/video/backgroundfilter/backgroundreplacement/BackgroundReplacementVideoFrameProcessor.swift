@@ -40,7 +40,7 @@ import UIKit
 
         guard let backgroundReplacementImage = backgroundReplacementConfiguration.backgroundReplacementImage.cgImage
         else {
-            logger.error(msg: "Faild to load CGImage of the provided background replacement image.")
+            logger.error(msg: "Failed to load CGImage of the provided background replacement image.")
             return
         }
         self.backgroundReplacementImage = CIImage(cgImage: backgroundReplacementImage)
