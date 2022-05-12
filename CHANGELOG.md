@@ -1,5 +1,4 @@
-
-## Unreleased
+## [0.20.0] - 2022-05-11
 
 ### Added
 * Added support default initializer support for `DefaultVideoRenderView` for convenience.
