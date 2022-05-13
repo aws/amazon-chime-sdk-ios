@@ -5,6 +5,7 @@ target 'AmazonChimeSDKDemoPods' do
   use_frameworks!
   # Pods for AmazonChimeSDKDemoPods
   pod 'AmazonChimeSDK-Bitcode', 'AMAZON_CHIME_SDK_VERSION'
+  pod 'AmazonChimeSDKMachineLearning-Bitcode', 'AMAZON_CHIME_SDK_MACHINE_LEARNING_VERSION'
 end
 
 target 'AmazonChimeSDKDemoBroadcastPods' do
