@@ -21,6 +21,11 @@
                BlueprintName = "AmazonChimeSDKTests"
                ReferencedContainer = "container:AmazonChimeSDK.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "BackgroundFilterTests">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>

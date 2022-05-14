@@ -609,8 +609,10 @@ class MeetingViewController: UIViewController {
         guard let meetingModel = meetingModel else {
             return
         }
-        if meetingModel.videoModel.isUsingMetalVideoProcessor {
-            meetingModel.notifyHandler?("Cannot toggle both filters on at same time")
+        if (meetingModel.videoModel.isUsingMetalVideoProcessor ||
+            meetingModel.videoModel.isUsingBackgroundBlur ||
+            meetingModel.videoModel.isUsingBackgroundReplacement) {
+            meetingModel.notifyHandler?("Cannot toggle more than one filter at same time")
             return
         }
 
@@ -627,8 +629,10 @@ class MeetingViewController: UIViewController {
             meetingModel.notifyHandler?("Cannot turn \(nextStatus) Metal filter because it's not available on this device")
             return
         }
-        if meetingModel.videoModel.isUsingCoreImageVideoProcessor {
-            meetingModel.notifyHandler?("Cannot toggle both filters on at same time")
+        if (meetingModel.videoModel.isUsingCoreImageVideoProcessor ||
+            meetingModel.videoModel.isUsingBackgroundBlur ||
+            meetingModel.videoModel.isUsingBackgroundReplacement) {
+            meetingModel.notifyHandler?("Cannot toggle more than one filter at same time")
             return
         }
         meetingModel.videoModel.isUsingMetalVideoProcessor.toggle()
