@@ -37,6 +37,20 @@ jobs:
           tar -xzf AmazonChimeSDKMedia.tar.gz
           cp -R ./AmazonChimeSDKMedia.framework ./AmazonChimeSDK
 
+      # Download amazon-chime-sdk-machine-learning binary from AWS S3
+      - name: Get AmazonChimeSDKMachineLearning from AWS S3
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile jenkins-automated-test
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile jenkins-automated-test
+          aws \
+            --profile jenkins-automated-test \
+            s3api get-object \
+            --bucket amazon-chime-sdk-ios-internal \
+            --key master/machine-learning/latest/AmazonChimeSDKMachineLearning.tar.gz \
+            AmazonChimeSDKMachineLearning.tar.gz
+          tar -xzf AmazonChimeSDKMachineLearning.tar.gz
+          cp -R ./AmazonChimeSDKMachineLearning.xcframework ./AmazonChimeSDK
+
       # Execute unit tests
       - name: Build and Run Unit Test
         working-directory: ./AmazonChimeSDK
