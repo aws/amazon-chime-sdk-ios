@@ -344,7 +344,7 @@ class VideoModel: NSObject {
         audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: updatedSources, removed: [])
     }
     
-    func addContent(attendeeId : String) {
+    func addContentShareVideoSource(attendeeId : String) {
         var updatedSources:[RemoteVideoSource: VideoSubscriptionConfiguration] = [:]
         for remoteVideoSource in remoteVideoSourceConfigurations {
             if(remoteVideoSource.key.attendeeId == attendeeId) {
@@ -361,7 +361,7 @@ class VideoModel: NSObject {
         }
     }
     
-    func removeAllRemoteVideos() {
+    func unsubscribeAllRemoteVideos() {
         let remoteVideoSources: [RemoteVideoSource] = getRemoteVideoSubscriptionsFromRemoteVideoTileStates(remoteVideoTileStates: remoteVideoTileStates)
         audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated:[:], removed:remoteVideoSources)
     }

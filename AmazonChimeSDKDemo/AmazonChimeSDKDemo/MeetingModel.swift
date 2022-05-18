@@ -61,7 +61,7 @@ class MeetingModel: NSObject {
                 if wasLocalVideoOn {
                     videoModel.isLocalVideoActive = false
                 }
-                videoModel.removeAllRemoteVideos()
+                videoModel.unsubscribeAllRemoteVideos()
             } else {
                 if wasLocalVideoOn {
                     videoModel.isLocalVideoActive = true
@@ -80,7 +80,7 @@ class MeetingModel: NSObject {
             if activeMode == .video {
                 videoModel.addAllRemoteVideosInCurrentPageExceptUserPausedVideos()
             } else {
-                videoModel.removeAllRemoteVideos()
+                videoModel.unsubscribeAllRemoteVideos()
             }
             activeModeDidSetHandler?(activeMode)
         }
@@ -612,7 +612,7 @@ extension MeetingModel: VideoTileObserver {
             screenShareModel.tileId = tileState.tileId
             if activeMode == .screenShare {
                 screenShareModel.viewUpdateHandler?(true)
-                videoModel.addContent(attendeeId: tileState.attendeeId)
+                videoModel.addContentShareVideoSource(attendeeId: tileState.attendeeId)
             }
         } else {
             if tileState.isLocalTile {
@@ -626,7 +626,7 @@ extension MeetingModel: VideoTileObserver {
                         self.videoModel.videoSubscriptionUpdatedHandler?()
                     } else {
                         // Currently not in the video view, no need to render the video tile
-                        self.videoModel.removeAllRemoteVideos()
+                        self.videoModel.unsubscribeAllRemoteVideos()
                     }
                 })
             }
