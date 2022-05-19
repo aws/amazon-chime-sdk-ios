@@ -48,6 +48,21 @@
                 <a href="Classes/AudioVideoConfiguration.html">AudioVideoConfiguration</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/BackgroundBlurConfiguration.html">BackgroundBlurConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/BackgroundBlurVideoFrameProcessor.html">BackgroundBlurVideoFrameProcessor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/BackgroundFilterProcessor.html">BackgroundFilterProcessor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/BackgroundReplacementConfiguration.html">BackgroundReplacementConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/BackgroundReplacementVideoFrameProcessor.html">BackgroundReplacementVideoFrameProcessor</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/ConsoleLogger.html">ConsoleLogger</a>
               </li>
               <li class="nav-group-task">
@@ -171,6 +186,9 @@
                 <a href="Classes/NoopEventReporterFactory.html">NoopEventReporterFactory</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/NoopSegmentationProcessor.html">NoopSegmentationProcessor</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/RemoteVideoSource.html">RemoteVideoSource</a>
               </li>
               <li class="nav-group-task">
@@ -239,6 +257,12 @@
                 <a href="Enums/AudioMode.html">AudioMode</a>
               </li>
               <li class="nav-group-task">
+                <a href="Enums/BackgroundBlurStrength.html">BackgroundBlurStrength</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/BackgroundFilter.html">BackgroundFilter</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Enums/CaptureSourceError.html">CaptureSourceError</a>
               </li>
               <li class="nav-group-task">
@@ -276,6 +300,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Enums/PermissionError.html">PermissionError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/ResourceError.html">ResourceError</a>
               </li>
               <li class="nav-group-task">
                 <a href="Enums/SendDataMessageError.html">SendDataMessageError</a>
@@ -403,6 +430,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/Scheduler.html">Scheduler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/SegmentationProcessor.html">SegmentationProcessor</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols.html#/c:@M@AmazonChimeSDK@objc(pl)TranscriptEvent">TranscriptEvent</a>
@@ -1453,6 +1483,182 @@ remote video sources and content share to be received</p>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:14AmazonChimeSDK25BackgroundFilterProcessorC"></a>
+                    <a name="//apple_ref/swift/Class/BackgroundFilterProcessor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14AmazonChimeSDK25BackgroundFilterProcessorC">BackgroundFilterProcessor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>BackgroundFilterProcessor</code> is a processor that uses <code><a href="Protocols/SegmentationProcessor.html">SegmentationProcessor</a></code> to process a frame by
+creating the alpha mask of the foreground image and blending the mask with the input image which is then rendered on
+top of a background image.</p>
+
+                        <a href="Classes/BackgroundFilterProcessor.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">BackgroundFilterProcessor</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14AmazonChimeSDK25NoopSegmentationProcessorC"></a>
+                    <a name="//apple_ref/swift/Class/NoopSegmentationProcessor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14AmazonChimeSDK25NoopSegmentationProcessorC">NoopSegmentationProcessor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>NoopSegmentationProcessor</code> is a processor that does nothing except pass image frames in and out.
+This is used as a placeholder for implementations of <code><a href="Protocols/SegmentationProcessor.html">SegmentationProcessor</a></code> that cannot be initialized.</p>
+
+                        <a href="Classes/NoopSegmentationProcessor.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">NoopSegmentationProcessor</span> <span class="p">:</span> <span class="kt"><a href="Protocols/SegmentationProcessor.html">SegmentationProcessor</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14AmazonChimeSDK27BackgroundBlurConfigurationC"></a>
+                    <a name="//apple_ref/swift/Class/BackgroundBlurConfiguration" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14AmazonChimeSDK27BackgroundBlurConfigurationC">BackgroundBlurConfiguration</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Classes/BackgroundBlurConfiguration.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">BackgroundBlurConfiguration</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14AmazonChimeSDK33BackgroundBlurVideoFrameProcessorC"></a>
+                    <a name="//apple_ref/swift/Class/BackgroundBlurVideoFrameProcessor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14AmazonChimeSDK33BackgroundBlurVideoFrameProcessorC">BackgroundBlurVideoFrameProcessor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>BackgroundBlurVideoFrameProcessor</code> is a processor which receives video frames via <code><a href="Protocols/VideoSource.html">VideoSource</a></code> and
+then applies Gaussian blur to each video frame and renders the foreground on top of the blurred image.
+Gaussian blur is applied using built in <code>CIGaussianBlur</code> CIFilter.</p>
+
+                        <a href="Classes/BackgroundBlurVideoFrameProcessor.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">BackgroundBlurVideoFrameProcessor</span> <span class="p">:</span> <span class="kt"><a href="Protocols/VideoSource.html">VideoSource</a></span><span class="p">,</span> <span class="kt"><a href="Protocols/VideoSink.html">VideoSink</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14AmazonChimeSDK34BackgroundReplacementConfigurationC"></a>
+                    <a name="//apple_ref/swift/Class/BackgroundReplacementConfiguration" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14AmazonChimeSDK34BackgroundReplacementConfigurationC">BackgroundReplacementConfiguration</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Classes/BackgroundReplacementConfiguration.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">BackgroundReplacementConfiguration</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:14AmazonChimeSDK40BackgroundReplacementVideoFrameProcessorC"></a>
+                    <a name="//apple_ref/swift/Class/BackgroundReplacementVideoFrameProcessor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:14AmazonChimeSDK40BackgroundReplacementVideoFrameProcessorC">BackgroundReplacementVideoFrameProcessor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p><code>BackgroundReplacementVideoFrameProcessor</code> is a processor which receives video frames via <code><a href="Protocols/VideoSource.html">VideoSource</a></code>
+ and then creates the foreground image which is rendered on top of a background image.</p>
+
+                        <a href="Classes/BackgroundReplacementVideoFrameProcessor.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">BackgroundReplacementVideoFrameProcessor</span> <span class="p">:</span> <span class="kt"><a href="Protocols/VideoSource.html">VideoSource</a></span><span class="p">,</span> <span class="kt"><a href="Protocols/VideoSink.html">VideoSink</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(cs)DefaultCameraCaptureSource"></a>
                     <a name="//apple_ref/swift/Class/DefaultCameraCaptureSource" class="dashAnchor"></a>
                     <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)DefaultCameraCaptureSource">DefaultCameraCaptureSource</a>
@@ -2342,7 +2548,7 @@ of the participant.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2022 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2022-05-11)</p>
+          <p>&copy; 2022 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2022-05-18)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
