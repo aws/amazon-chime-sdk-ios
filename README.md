@@ -81,6 +81,13 @@ For the purpose of setup, your project's root folder (where you can find your `.
       ...
     end
     ```
+    If you don't need bitcode, you can add `AmazonChimeSDKMachineLearning-No-Bitcode` instead:
+    ```
+    target 'YourTarget' do
+        pod `AmazonChimeSDKMachineLearning-No-Bitcode`
+        ...
+    end
+    ```
 5. Then run the following command to install pods:
    ```
    $ pod install --repo-update
