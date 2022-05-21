@@ -74,15 +74,34 @@ For the purpose of setup, your project's root folder (where you can find your `.
         ...
     end
     ```
-4. Then run the following command to installl pods:
+4. (Optional) If you want to use background blur and replacement features, add:
+    ```
+    target 'YourTarget' do
+      pod 'AmazonChimeSDKMachineLearning-Bitcode'
+      ...
+    end
+    ```
+    If you don't need bitcode, you can add `AmazonChimeSDKMachineLearning-No-Bitcode` instead:
+    ```
+    target 'YourTarget' do
+        pod `AmazonChimeSDKMachineLearning-No-Bitcode`
+        ...
+    end
+    ```
+5. Then run the following command to install pods:
    ```
    $ pod install --repo-update
    ```
-5. To open your project, open the newly generated `*.xcworkspace` file in the root directory using XCode. You can do this by issuing the following command in your project folder
+6. To open your project, open the newly generated `*.xcworkspace` file in the root directory using XCode. You can do this by issuing the following command in your project folder
    ```
     $ xed .
    ```
    Note: Do *NOT* use *.xcodeproj to open project.
+7. If you are using background blur and replacement features, under `Build Settings` tab, under the `Linking` section, add `-framework AmazonChimeSDKMachineLearning` to `Other Linker Flags`.
+<p align="center">
+<img src="./media/cocoapods_machine_learning.png" alt="image" width="80%"/>
+</p>
+
 
 ### From Github Release Binaries
 
