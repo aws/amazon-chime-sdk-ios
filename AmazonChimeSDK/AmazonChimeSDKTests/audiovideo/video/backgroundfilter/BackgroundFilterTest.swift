@@ -19,25 +19,14 @@ class BackgroundFilterTests: XCTestCase {
     var loggerMock: LoggerMock!
     var testImage: UIImage?
 
-    /// Final blur image checksum for low, medium, high respectively.
-    // TODO: Investigate why we multiple hashes.
-    let expectedBlurHashes = [["1bd184d8d4d5258c3cf10b5c3cab635648dd17309e88d0c837ad48bfed68d449",
-                               "dc3e04027cca21e16b3cf32713e5bc32d39d148cf6988e7b1cbb0fdcff59138e",
-                               "ed1f909a92404b448e991f8e4daf75d4892220e09691d19424b40d823fe2f737"],
-                              ["611b373fa83ab3399cd56609a0f632cc91f786701bb3a87be6f7e05e2f3687f9",
-                               "5a98f494864dec0ef4cd3f61940b2068308e4f54681a0ca71589dbebfede68bd",
-                               "1545ab1c5c025811e66bd866740fea1147d147ab58ccf93019bf78e8bb4c6d3c"],
-                              ["aab67dfa3284521bf8274dc2920fcdea6ce540254a9365ae64452bea6a702d49",
-                               "69c707df0dce576b6ec9424511ea0241673297454bbc088db4df73aff70f5807",
-                               "2289a537912f1711aceacfda68e9cd15bd748c5d1905ddf215927dd1ab1c1ef1"]]
+    /// Final blur image checksum for types of blur respectively.
+    let expectedBlurHashes = ["93c1c6b8187eac9c63241d42329f6b0e8596cc6dff3f81df06bf699da711d31e",
+                              "da145872323b9f7d4678b5cf6db7d9fd510efe6f01f353a11d2b62e44b1646db",
+                              "28f978e8ca2cbb1abc770ceaa247d42dd234c5c280e8ccaa4453a980bbb4bfa7"]
 
     /// Final replacement image checksum using two different color generated backgrounds.
-    let expectedReplacementHashes = [["24f2e180df834909f6d1146dbfb73c65839068ebf131df74929bbd11d33e760f",
-                                      "48ec08db5be9fe84dde6f8545f853c3d9cc7f1664a3337fefa0d4e101ee3db5c",
-                                      "3cb049541024fe57d30b9c17cd2e102703dc56cd801a7d2c08cc27e44d36f871"],
-                                     ["7fb7640ef9a7a748ec01a0bcb43999768476e9d0547ad4320d362fc504251f88",
-                                      "004f7fec01c742183e174bb7c404d3f50ee5940006e784b29db0cf70c73bc9f2",
-                                      "e6e6de85754fa1373aad0e61a48b5b746fdd992461beae07d870bfe4cf122879"]]
+    let expectedReplacementHashes = ["52f2bc2ae95a23990ffb9bf2393d3836802f26f749a4cdbebc2f63077192eec7",
+                                     "bc0797551caeda93c6fd90a26f4d1746027b9b3724cb868b09608e34964e2aa6"]
 
     let context = CIContext(options: [.cacheIntermediates: false])
 
@@ -62,9 +51,11 @@ class BackgroundFilterTests: XCTestCase {
 
         let videoSinkMock = mock(VideoSink.self)
         var hash = ""
+        var videoFrameReceivedExpectation: XCTestExpectation? = nil
 
-        given(videoSinkMock.onVideoFrameReceived(frame: any())) ~> { videoFrame in
+        given(videoSinkMock.onVideoFrameReceived(frame: any())) ~> { [self] videoFrame in
             hash = self.generateHash(frame: videoFrame)
+            videoFrameReceivedExpectation!.fulfill()
         }
 
         let backgroundBlurConfigurations = BackgroundBlurConfiguration(logger: ConsoleLogger(name: "BackgroundBlurProcessor"))
@@ -72,12 +63,21 @@ class BackgroundFilterTests: XCTestCase {
 
         processor.addVideoSink(sink: videoSinkMock)
 
-        // Verfiy the checksum for the three different blur strengths.
+        // Verify the checksum for the different blur strengths.
         let blurList = [BackgroundBlurStrength.low, BackgroundBlurStrength.medium, BackgroundBlurStrength.high]
         for index in 0...(blurList.count - 1) {
+            videoFrameReceivedExpectation = expectation(description: "Video frame is received for index \(index)")
+
             processor.setBlurStrength(newBlurStrength: blurList[index])
             processor.onVideoFrameReceived(frame: frame)
-            XCTAssert(expectedBlurHashes[index].contains(hash), "Failed with \(hash) received hash.")
+
+            // Wait for the image to generate before proceeding to avoid non-determinism.
+            waitForExpectations(timeout: 1) { error in
+                if let error = error {
+                    XCTFail("waitForExpectationsWithTimeout errored for index \(index): \(error)")
+                }
+            }
+            XCTAssertEqual(expectedBlurHashes[index], hash, "Failed with \(hash) received hash.")
         }
         #else
         XCTFail("AmazonChimeSDKMachineLearning could not be imported.")
@@ -93,9 +93,11 @@ class BackgroundFilterTests: XCTestCase {
 
         let videoSinkMock = mock(VideoSink.self)
         var hash = ""
+        var videoFrameReceivedExpectation: XCTestExpectation? = nil
 
         given(videoSinkMock.onVideoFrameReceived(frame: any())) ~> { videoFrame in
             hash = self.generateHash(frame: videoFrame)
+            videoFrameReceivedExpectation!.fulfill()
         }
 
         let replacementImageColors = [UIColor.blue, UIColor.red]
@@ -112,6 +114,8 @@ class BackgroundFilterTests: XCTestCase {
 
         // Loop through the different generated backgrounds images and verify checksum.
         for index in 0...replacementImageColors.count - 1 {
+            videoFrameReceivedExpectation = expectation(description: "Video frame is received for index \(index)")
+
             if index > 0 {
                 backgroundReplacementImage = generateBackgroundImage(width: frame.width,
                                                                      height: frame.height,
@@ -120,8 +124,15 @@ class BackgroundFilterTests: XCTestCase {
             }
             processor.onVideoFrameReceived(frame: frame)
 
+            // Wait for the image to generate before proceeding to avoid non-determinism.
+            waitForExpectations(timeout: 1) { error in
+                if let error = error {
+                    XCTFail("waitForExpectationsWithTimeout errored for index \(index): \(error)")
+                }
+            }
+
             // Verify checksum is as expected.
-            XCTAssert(expectedReplacementHashes[index].contains(hash), "Failed with \(hash) received hash.")
+            XCTAssertEqual(expectedReplacementHashes[index], hash, "Failed with \(hash) received hash.")
         }
         #else
         XCTFail("AmazonChimeSDKMachineLearning could not be imported.")
@@ -170,7 +181,8 @@ class BackgroundFilterTests: XCTestCase {
         return frame
     }
 
-    /// Generate the check sum of a video frame.
+    /// Generate the check sum of a video frame. This function should only be used in the context
+    /// of a test as the generated image will be attached for reference.
     ///
     /// - Parameters:
     ///   - frame: `background-ml-test-image.jpg` video frame.
@@ -189,6 +201,20 @@ class BackgroundFilterTests: XCTestCase {
         let cgProvider = CGDataProvider.init(data: imageCfData!)!
         var hashArray = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
         let nsImageData = NSData(data: (cgProvider.data as Data?)!)
+
+        // Attach images for manual testing and debugging purposes.
+        // In the test view, right click the test and use the "Jump to Report"
+        // to see the attached images.
+        let ciImage = CIImage(cvImageBuffer: pixelBuffer.pixelBuffer)
+        let context = CIContext(options: [.cacheIntermediates: false])
+        guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else {
+            XCTFail("Error creating CGImage of input frame.")
+            return ""
+        }
+        let image = UIImage(cgImage: cgImage)
+        let attachment = XCTAttachment(image: image)
+        attachment.lifetime = .keepAlways
+        self.add(attachment)
 
         CC_SHA256(nsImageData.bytes, UInt32(nsImageData.count), &hashArray)
 
