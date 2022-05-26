@@ -22,10 +22,10 @@ class BackgroundFilterTests: XCTestCase {
     var expectedReplacementImage: UIImage?
 
     /// Expected similarity match for images.
-    let expectedMatchPercentage = 0.99
+    let expectedMatchPercentage = 0.95
 
     /// Maximum pixel difference allowed when comparing similarity.
-    let expectedPixelMatchThreshold = Int(255 * 0.1)
+    let expectedPixelMatchThreshold = Int(255 * 0.05)
 
     /// Downscaled size used for testing.
     let downscaledSize = CGSize(width: 144, height: 256)
@@ -283,7 +283,7 @@ class BackgroundFilterTests: XCTestCase {
             return ("", nil)
         }
         let image = UIImage(cgImage: cgImage)
-        let attachment = XCTAttachment(image: image, quality: .original)
+        let attachment = XCTAttachment(image: image)
         attachment.lifetime = .keepAlways
         self.add(attachment)
 

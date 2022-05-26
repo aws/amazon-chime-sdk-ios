@@ -86,7 +86,6 @@ public class BackgroundFilterProcessor {
 
         // Update the buffer pool dimensions if the new frame does not match the previous frame dimensions.
         if bufferPool == nil || inputFrameCG.width != bufferPoolWidth || inputFrameCG.height != bufferPoolHeight {
-
             updateBufferPool(newWidth: inputFrameCG.width, newHeight: inputFrameCG.height)
             // Initialize the segmentationProcessor if it has not been initialized.
             let initializeResult: Bool = segmentationProcessor.initialize(height: segmentationProcessorHeight,
@@ -104,27 +103,14 @@ public class BackgroundFilterProcessor {
             return nil
         }
 
-        // Calculate the scale and aspect ratio factor to downscale.
-        let downSampleScale = Double(segmentationProcessorHeight) / Double(inputFrameCG.height)
-        let downSampleAspectRatio: Double = (Double(inputFrameCG.height) / Double(inputFrameCG.width)) /
-                                            (Double(segmentationProcessorHeight) / Double(segmentationProcessorWidth))
-
         // Down sample the image.
-        guard let downSampleImage: CIImage = resizeImage(image: inputFrameCI,
-                                                         scale: downSampleScale,
-                                                         aspectRatio: downSampleAspectRatio)
-        else {
-            return nil
-        }
-
-        guard let downSampleImageCg = context.createCGImage(downSampleImage,
-                                                            from: downSampleImage.extent)
-        else {
+        let downSize = CGSize(width: segmentationProcessorWidth, height: segmentationProcessorHeight)
+        guard let downSampleImageCG: CGImage = resizeImage(image: inputFrameCG, newSize: downSize) else {
             return nil
         }
 
         // Convert the input CGImage to a UInt8 byte array.
-        guard var byteArray: [UInt8] = ImageConversionUtils.cgImageToByteArray(cgImage: downSampleImageCg) else {
+        guard var byteArray: [UInt8] = ImageConversionUtils.cgImageToByteArray(cgImage: downSampleImageCG) else {
             logger.error(msg: "Error converting CGImage to byte array when creating the foreground mask.")
             return nil
         }
@@ -143,32 +129,24 @@ public class BackgroundFilterProcessor {
         // Retrieve the foreground mask.
         let maskOutputBuffer = segmentationProcessor.getOutputBuffer()
 
-        guard let maskImage: CGImage = ImageConversionUtils.byteArrayToCGImage(raw: maskOutputBuffer,
-                                                                               frameWidth: segmentationProcessorWidth,
-                                                                               frameHeight: segmentationProcessorHeight,
-                                                                               bytesPerPixel: imageChannels,
-                                                                               bitsPerComponent: inputFrameCG.bitsPerComponent)
-        else {
+        guard let maskImage: CGImage = ImageConversionUtils.byteArrayToCGImage(
+            raw: maskOutputBuffer,
+            frameWidth: segmentationProcessorWidth,
+            frameHeight: segmentationProcessorHeight,
+            bytesPerPixel: imageChannels,
+            bitsPerComponent: inputFrameCG.bitsPerComponent
+        ) else {
             logger.error(msg: "Error creating CGImage of the foreground mask.")
             return nil
         }
 
-        let maskImageCi = CIImage(cgImage: maskImage)
-
-        // Calculate the scale and aspect ratio factor to upscale.
-        let upSampleScale = Double(inputFrameCG.height) / Double(segmentationProcessorHeight)
-        let upSampleAspectRatio: Double = (Double(segmentationProcessorHeight) / Double(segmentationProcessorWidth)) /
-                                          (Double(inputFrameCG.height) / Double(inputFrameCG.width))
-
         // Upsample image back to it size.
-        guard let upSampleImage = resizeImage(image: maskImageCi,
-                                              scale: upSampleScale,
-                                              aspectRatio: upSampleAspectRatio)
-        else {
+        let originalSize = CGSize(width: inputFrameCG.width, height: inputFrameCG.height)
+        guard let upSampleImage = resizeImage(image: maskImage, newSize: originalSize) else {
             return nil
         }
 
-        return upSampleImage
+        return CIImage(cgImage: upSampleImage)
     }
 
     /// Blends foreground alpha mask with input image to produce a foreground image which is rendered on top
@@ -227,7 +205,7 @@ public class BackgroundFilterProcessor {
     ///   - image: Image to scale.
     ///   - scale: Scaling factor.
     ///   - aspectRatio: Aspect ratio factor.
-    func resizeImage(image: CIImage, scale: Double, aspectRatio: Double) -> CIImage? {
+    private func resizeImage(image: CIImage, scale: Double, aspectRatio: Double) -> CIImage? {
         guard let resizeFilter = CIFilter(name: "CILanczosScaleTransform") else {
             logger.error(msg: "Error creating CILanczosScaleTransform CIFilter.")
             return nil
@@ -243,5 +221,35 @@ public class BackgroundFilterProcessor {
             return nil
         }
         return outputResizedImage
+    }
+
+    /// Resize image to the given size.
+    ///
+    /// - Parameters:
+    ///   - image: Input image to resize.
+    ///   - newSize: Size of the image output.
+    ///
+    /// - Returns: Resized image.
+    private func resizeImage(image: CGImage, newSize: CGSize) -> CGImage? {
+        guard let colorSpace = image.colorSpace else {
+            return nil
+        }
+        let width = Int(newSize.width)
+        let height = Int(newSize.height)
+        let bitsPerComponent = image.bitsPerComponent
+        let bytesPerRow = image.bytesPerRow
+        let bitmapInfo = image.bitmapInfo
+
+        guard let context = CGContext(data: nil, width: width, height: height,
+                                      bitsPerComponent: bitsPerComponent,
+                                      bytesPerRow: bytesPerRow, space: colorSpace,
+                                      bitmapInfo: bitmapInfo.rawValue) else {
+            return nil
+        }
+        context.interpolationQuality = .high
+        let rect = CGRect(origin: CGPoint.zero, size: newSize)
+        context.draw(image, in: rect)
+
+        return context.makeImage()
     }
 }
