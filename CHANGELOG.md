@@ -1,3 +1,14 @@
+## [0.21.0] - 2022-05-19
+
+### Added
+* Added background blur and background replacement features. See [background video filters](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/background_video_filters.md) for more details.
+* [Demo] Adder two new video filters - background blur and replacement.
+
+## [0.20.0] - 2022-05-11
+
+### Added
+* Added support default initializer support for `DefaultVideoRenderView` for convenience.
+
 ## [0.19.4] - 2022-04-21
 
 ## [0.19.3] - 2022-04-07
