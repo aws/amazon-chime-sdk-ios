@@ -25,7 +25,7 @@ class BackgroundFilterTests: XCTestCase {
     let expectedMatchPercentage = 0.99
 
     /// Maximum pixel difference allowed when comparing similarity.
-    let expectedPixelMatchThreshold = Int(255 * 0.01)
+    let expectedPixelMatchThreshold = Int(255 * 0.1)
 
     /// Downscaled size used for testing.
     let downscaledSize = CGSize(width: 144, height: 256)
