@@ -28,7 +28,7 @@ class BackgroundFilterTests: XCTestCase {
     let expectedPixelMatchThreshold = Int(255 * 0.01)
 
     /// Downscaled size used for testing.
-    let downscaledSize = CGSize(width: 288, height: 512)
+    let downscaledSize = CGSize(width: 144, height: 256)
 
     let context = CIContext(options: [.cacheIntermediates: false])
 
