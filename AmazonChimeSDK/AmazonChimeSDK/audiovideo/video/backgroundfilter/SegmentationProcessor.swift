@@ -11,13 +11,13 @@ import CoreMedia
 import Foundation
 
 @objc public protocol SegmentationProcessor {
-    @objc func initialize(height: Int, width: Int, channels: Int) -> Bool;
+    @objc func initialize(height: Int, width: Int, channels: Int) -> Bool
 
-    @objc func predict() -> Bool;
+    @objc func predict() -> Bool
 
-    @objc func getModelState() -> Int;
+    @objc func getModelState() -> Int
 
-    @objc func getInputBuffer() -> UnsafeMutablePointer<UInt8>;
+    @objc func getInputBuffer() -> UnsafeMutablePointer<UInt8>
 
-    @objc func getOutputBuffer() -> UnsafeMutablePointer<UInt8>;
+    @objc func getOutputBuffer() -> UnsafeMutablePointer<UInt8>
 }

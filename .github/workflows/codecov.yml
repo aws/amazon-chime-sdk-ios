@@ -65,7 +65,13 @@ jobs:
             -destination 'platform=iOS Simulator,name=iPhone 11' \
             -skip-testing:"AmazonChimeSDKTests/SchedulerTests" \
             -enableCodeCoverage YES \
-            build test
+            build test || true
+
+      # Upload test artifacts (for debugging purposes).
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ios-test-results
+          path: /Users/runner/Library/Developer/Xcode/DerivedData/AmazonChimeSDK-*/Logs/Test/
 
       # Upload code coverage report to codecov to process data
       - name: Upload coverage to Codecov
