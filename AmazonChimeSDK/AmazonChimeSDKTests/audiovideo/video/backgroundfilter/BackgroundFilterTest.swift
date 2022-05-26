@@ -18,15 +18,17 @@ import CommonCrypto
 class BackgroundFilterTests: XCTestCase {
     var loggerMock: LoggerMock!
     var testImage: UIImage?
+    var expectedBlurImage: UIImage?
+    var expectedReplacementImage: UIImage?
 
-    /// Final blur image checksum for types of blur respectively.
-    let expectedBlurHashes = ["93c1c6b8187eac9c63241d42329f6b0e8596cc6dff3f81df06bf699da711d31e",
-                              "da145872323b9f7d4678b5cf6db7d9fd510efe6f01f353a11d2b62e44b1646db",
-                              "28f978e8ca2cbb1abc770ceaa247d42dd234c5c280e8ccaa4453a980bbb4bfa7"]
+    /// Expected similarity match for images.
+    let expectedMatchPercentage = 0.99
 
-    /// Final replacement image checksum using two different color generated backgrounds.
-    let expectedReplacementHashes = ["52f2bc2ae95a23990ffb9bf2393d3836802f26f749a4cdbebc2f63077192eec7",
-                                     "bc0797551caeda93c6fd90a26f4d1746027b9b3724cb868b09608e34964e2aa6"]
+    /// Maximum pixel difference allowed when comparing similarity.
+    let expectedPixelMatchThreshold = Int(255 * 0.01)
+
+    /// Downscaled size used for testing.
+    let downscaledSize = CGSize(width: 288, height: 512)
 
     let context = CIContext(options: [.cacheIntermediates: false])
 
@@ -39,7 +41,22 @@ class BackgroundFilterTests: XCTestCase {
             XCTFail("Failed to load test image.")
             return
         }
+        guard let expectedBlurImage = UIImage(named: "expected-blur-test-image.png",
+                                              in: Bundle(for: type(of: self)),
+                                              compatibleWith: nil) else {
+            XCTFail("Failed to load expected blur image.")
+            return
+        }
+        guard let expectedReplacementImage = UIImage(named: "expected-replacement-test-image.png",
+                                                     in: Bundle(for: type(of: self)),
+                                                     compatibleWith: nil) else {
+            XCTFail("Failed to load expected replacement image.")
+            return
+        }
+
         self.testImage = testImage
+        self.expectedBlurImage = expectedBlurImage
+        self.expectedReplacementImage = expectedReplacementImage
     }
 
     /// Test `BackgroundBlurVideoFrameProcessor` functionalities  on the testImage frame.
@@ -50,21 +67,23 @@ class BackgroundFilterTests: XCTestCase {
         }
 
         let videoSinkMock = mock(VideoSink.self)
-        var hash = ""
-        var videoFrameReceivedExpectation: XCTestExpectation? = nil
+        var processedImage: UIImage?
+        var videoFrameReceivedExpectation: XCTestExpectation?
 
         given(videoSinkMock.onVideoFrameReceived(frame: any())) ~> { [self] videoFrame in
-            hash = self.generateHash(frame: videoFrame)
+            let result = self.processImage(frame: videoFrame)
+            processedImage = result.image
             videoFrameReceivedExpectation!.fulfill()
         }
 
-        let backgroundBlurConfigurations = BackgroundBlurConfiguration(logger: ConsoleLogger(name: "BackgroundBlurProcessor"))
+        let backgroundBlurConfigurations = BackgroundBlurConfiguration(
+            logger: ConsoleLogger(name: "BackgroundBlurProcessor"))
         let processor = BackgroundBlurVideoFrameProcessor(backgroundBlurConfiguration: backgroundBlurConfigurations)
 
         processor.addVideoSink(sink: videoSinkMock)
 
         // Verify the checksum for the different blur strengths.
-        let blurList = [BackgroundBlurStrength.low, BackgroundBlurStrength.medium, BackgroundBlurStrength.high]
+        let blurList = [BackgroundBlurStrength.high]
         for index in 0...(blurList.count - 1) {
             videoFrameReceivedExpectation = expectation(description: "Video frame is received for index \(index)")
 
@@ -77,7 +96,31 @@ class BackgroundFilterTests: XCTestCase {
                     XCTFail("waitForExpectationsWithTimeout errored for index \(index): \(error)")
                 }
             }
-            XCTAssertEqual(expectedBlurHashes[index], hash, "Failed with \(hash) received hash.")
+
+            guard let gotCgImage = self.resize(image: processedImage!, to: downscaledSize).cgImage,
+                let gotCgImageData = gotCgImage.dataProvider?.data,
+                let gotCgImageBytes = CFDataGetBytePtr(gotCgImageData) else {
+                XCTFail("Couldn't access CGImage data")
+                return
+            }
+            guard let expectedCgImage = self.resize(image: self.expectedBlurImage!, to: downscaledSize).cgImage,
+                let expectedCgImageData = expectedCgImage.dataProvider?.data,
+                let expectedCgImageBytes = CFDataGetBytePtr(expectedCgImageData) else {
+                XCTFail("Couldn't access CGImage data")
+                return
+            }
+            XCTAssert(gotCgImage.colorSpace?.model == .rgb)
+            XCTAssert(expectedCgImage.colorSpace?.model == .rgb)
+            XCTAssertEqual(expectedCgImage.bitsPerPixel, gotCgImage.bitsPerPixel)
+            XCTAssertEqual(expectedCgImage.bitsPerComponent, gotCgImage.bitsPerComponent)
+            XCTAssertEqual(expectedCgImage.height, gotCgImage.height)
+            XCTAssertEqual(expectedCgImage.width, gotCgImage.width)
+
+            let matchPercentage = self.getCGImageMatchPercentage(
+                expectedCgImage: expectedCgImage, gotCgImage: gotCgImage,
+                expectedCgImageBytes: expectedCgImageBytes, gotCgImageBytes: gotCgImageBytes)
+            XCTAssert(matchPercentage >= expectedMatchPercentage,
+                      "Expected match percentage \(matchPercentage) to be >= \(expectedMatchPercentage)")
         }
         #else
         XCTFail("AmazonChimeSDKMachineLearning could not be imported.")
@@ -92,23 +135,27 @@ class BackgroundFilterTests: XCTestCase {
         }
 
         let videoSinkMock = mock(VideoSink.self)
-        var hash = ""
-        var videoFrameReceivedExpectation: XCTestExpectation? = nil
+        var processedImage: UIImage?
+        var videoFrameReceivedExpectation: XCTestExpectation?
 
         given(videoSinkMock.onVideoFrameReceived(frame: any())) ~> { videoFrame in
-            hash = self.generateHash(frame: videoFrame)
+            let result = self.processImage(frame: videoFrame)
+            processedImage = result.image
             videoFrameReceivedExpectation!.fulfill()
         }
 
-        let replacementImageColors = [UIColor.blue, UIColor.red]
+        let replacementImageColors = [UIColor.red]
         var backgroundReplacementImage = generateBackgroundImage(width: frame.width,
                                                                  height: frame.height,
                                                                  color: replacementImageColors[0])
         let logger = ConsoleLogger(name: "testBackgroundBlurVideoFrameProcessor")
-        let backgroundReplacementConfigurations = BackgroundReplacementConfiguration(logger: logger,
-                                                                                     backgroundReplacementImage: backgroundReplacementImage)
+        let backgroundReplacementConfigurations = BackgroundReplacementConfiguration(
+            logger: logger,
+            backgroundReplacementImage: backgroundReplacementImage
+        )
 
-        let processor = BackgroundReplacementVideoFrameProcessor(backgroundReplacementConfiguration: backgroundReplacementConfigurations)
+        let processor = BackgroundReplacementVideoFrameProcessor(
+            backgroundReplacementConfiguration: backgroundReplacementConfigurations)
 
         processor.addVideoSink(sink: videoSinkMock)
 
@@ -131,8 +178,30 @@ class BackgroundFilterTests: XCTestCase {
                 }
             }
 
-            // Verify checksum is as expected.
-            XCTAssertEqual(expectedReplacementHashes[index], hash, "Failed with \(hash) received hash.")
+            guard let gotCgImage = self.resize(image: processedImage!, to: downscaledSize).cgImage,
+                let gotCgImageData = gotCgImage.dataProvider?.data,
+                let gotCgImageBytes = CFDataGetBytePtr(gotCgImageData) else {
+                XCTFail("Couldn't access CGImage data")
+                return
+            }
+            guard let expectedCgImage = self.resize(image: self.expectedReplacementImage!, to: downscaledSize).cgImage,
+                let expectedCgImageData = expectedCgImage.dataProvider?.data,
+                let expectedCgImageBytes = CFDataGetBytePtr(expectedCgImageData) else {
+                XCTFail("Couldn't access CGImage data")
+                return
+            }
+            XCTAssert(gotCgImage.colorSpace?.model == .rgb)
+            XCTAssert(expectedCgImage.colorSpace?.model == .rgb)
+            XCTAssertEqual(expectedCgImage.bitsPerPixel, gotCgImage.bitsPerPixel)
+            XCTAssertEqual(expectedCgImage.bitsPerComponent, gotCgImage.bitsPerComponent)
+            XCTAssertEqual(expectedCgImage.height, gotCgImage.height)
+            XCTAssertEqual(expectedCgImage.width, gotCgImage.width)
+
+            let matchPercentage = self.getCGImageMatchPercentage(
+                expectedCgImage: expectedCgImage, gotCgImage: gotCgImage,
+                expectedCgImageBytes: expectedCgImageBytes, gotCgImageBytes: gotCgImageBytes)
+            XCTAssert(matchPercentage >= expectedMatchPercentage,
+                      "Expected match percentage \(matchPercentage) to be >= \(expectedMatchPercentage)")
         }
         #else
         XCTFail("AmazonChimeSDKMachineLearning could not be imported.")
@@ -181,22 +250,24 @@ class BackgroundFilterTests: XCTestCase {
         return frame
     }
 
-    /// Generate the check sum of a video frame. This function should only be used in the context
-    /// of a test as the generated image will be attached for reference.
+    /// Generate the check sum of a video frame and return processed UIImage. This function should only be used in the
+    /// context of a test as the generated image will be attached for reference.
     ///
     /// - Parameters:
     ///   - frame: `background-ml-test-image.jpg` video frame.
-    func generateHash(frame: VideoFrame) -> String {
+    func processImage(frame: VideoFrame) -> (hash: String, image: UIImage?) {
         guard let pixelBuffer = frame.buffer as? VideoFramePixelBuffer else {
-            return ""
+            return ("", nil)
         }
         CVPixelBufferLockBaseAddress(pixelBuffer.pixelBuffer, CVPixelBufferLockFlags.readOnly)
         guard let address = CVPixelBufferGetBaseAddress(pixelBuffer.pixelBuffer) else {
             XCTFail("Failed to retrieve frame buffer address.")
-            return ""
+            return ("", nil)
         }
-        let contextDataPointer: UnsafeMutablePointer<UInt8> = address.bindMemory(to: UInt8.self,
-                                                                                 capacity: frame.width * frame.height * 4)
+        let contextDataPointer: UnsafeMutablePointer<UInt8> = address.bindMemory(
+            to: UInt8.self,
+            capacity: frame.width * frame.height * 4)
+
         let imageCfData = CFDataCreate(nil, contextDataPointer, frame.width * frame.height * 4)
         let cgProvider = CGDataProvider.init(data: imageCfData!)!
         var hashArray = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
@@ -209,10 +280,10 @@ class BackgroundFilterTests: XCTestCase {
         let context = CIContext(options: [.cacheIntermediates: false])
         guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else {
             XCTFail("Error creating CGImage of input frame.")
-            return ""
+            return ("", nil)
         }
         let image = UIImage(cgImage: cgImage)
-        let attachment = XCTAttachment(image: image)
+        let attachment = XCTAttachment(image: image, quality: .original)
         attachment.lifetime = .keepAlways
         self.add(attachment)
 
@@ -230,6 +301,76 @@ class BackgroundFilterTests: XCTestCase {
 
         CVPixelBufferUnlockBaseAddress(pixelBuffer.pixelBuffer, CVPixelBufferLockFlags.readOnly)
 
-        return hexString
+        return (hexString, image)
+    }
+
+    /// Returns the match percentage associated with two CGImages and their byte pointers.
+    ///
+    /// - Parameters:
+    ///   - expectedCgImage: First image to compare against..
+    ///   - gotCgImage: Second CGImage to compare against.
+    ///   - expectedCgImageBytes: First CGImage byte pointer to compare against.
+    ///   - gotCgImageBytes: Second CGImage byte pointer to compare against
+    func getCGImageMatchPercentage(
+        expectedCgImage: CGImage, gotCgImage: CGImage,
+        expectedCgImageBytes: UnsafePointer<UInt8>, gotCgImageBytes: UnsafePointer<UInt8>
+    ) -> Double {
+        var matchCount = 0
+        let totalPixels = gotCgImage.height * gotCgImage.width
+        let bytesPerPixel = gotCgImage.bitsPerPixel / gotCgImage.bitsPerComponent
+        for row in 0 ..< gotCgImage.height {
+            for col in 0 ..< gotCgImage.width {
+                let offset = (row * gotCgImage.bytesPerRow) + (col * bytesPerPixel)
+                let match = self.getRGBMatch(offset: offset,
+                                             expectedImageBytes: expectedCgImageBytes, gotImageBytes: gotCgImageBytes)
+                if match {
+                    matchCount += 1
+                }
+            }
+        }
+        let matchPercentage = Double(matchCount) / Double(totalPixels)
+        return matchPercentage
+    }
+
+    /// Returns whether the RGB pixel value at a given offset matches for two CGImages.
+    ///
+    /// - Parameters:
+    ///   - offset: Index in the expectedImageBytes and gotImageBytes.
+    ///   - expectedImageBytes: First CGImage byte pointer to compare against.
+    ///   - gotImageBytes: Second CGImage byte pointer to compare against.
+    func getRGBMatch(
+        offset: Int,
+        expectedImageBytes: UnsafePointer<UInt8>,
+        gotImageBytes: UnsafePointer<UInt8>
+    ) -> Bool {
+        let rDiff = Int32(expectedImageBytes[offset]) - Int32(gotImageBytes[offset])
+        let gDiff = Int32(expectedImageBytes[offset+1]) - Int32(gotImageBytes[offset+1])
+        let bDiff = Int32(expectedImageBytes[offset+2]) - Int32(gotImageBytes[offset+2])
+        let rMatch = abs(rDiff) < expectedPixelMatchThreshold
+        let gMatch = abs(gDiff) < expectedPixelMatchThreshold
+        let bMatch = abs(bDiff) < expectedPixelMatchThreshold
+        return rMatch && gMatch && bMatch
+    }
+
+    /// Resize and rescale images. This is particularly useful for upsampling and downsampling.
+    ///
+    /// - Parameters:
+    ///   - image: Input image  to resize..
+    ///   - to: New size of the input image..
+    func resize(image: UIImage, to newSize: CGSize) -> UIImage {
+        return UIGraphicsImageRenderer(size: newSize).image { _ in
+            let hScale = newSize.height / image.size.height
+            let vScale = newSize.width / image.size.width
+            let scale = max(hScale, vScale)
+            let resizeSize = CGSize(width: image.size.width * scale, height: image.size.height * scale)
+            var middle = CGPoint.zero
+            if resizeSize.width > newSize.width {
+                middle.x -= (resizeSize.width - newSize.width) / 2.0
+            }
+            if resizeSize.height > newSize.height {
+                middle.y -= (resizeSize.height - newSize.height) / 2.0
+            }
+            image.draw(in: CGRect(origin: middle, size: resizeSize))
+        }
     }
 }
