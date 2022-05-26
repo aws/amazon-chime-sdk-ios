@@ -71,7 +71,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: ios-test-results
-          path: /Users/runner/Library/Developer/Xcode/DerivedData/AmazonChimeSDK-*/Logs/Test/
+          path: /Users/runner/Library/Developer/Xcode/DerivedData/AmazonChimeSDK-*/Logs/Test/*.xcresult
 
       # Upload code coverage report to codecov to process data
       - name: Upload coverage to Codecov
