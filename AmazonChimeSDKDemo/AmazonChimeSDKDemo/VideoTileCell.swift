@@ -73,7 +73,8 @@ class VideoTileCell: UICollectionViewCell {
             onTileButton.setImage(UIImage(named: "switch-camera")?.withRenderingMode(.alwaysTemplate),
                                   for: .normal)
 
-            updateVideoSubscriptionsButton.isHidden = true
+            updateVideoPriorityButton.isHidden = true
+            updateVideoResolutionButton.isHidden = true
             // If AmazonChimeSDKMachineLearning is not available then hide the video filter button.
             if BackgroundFilterProcessor.isAvailable() {
                 videoFiltersButton.isHidden = false
@@ -161,6 +162,7 @@ class VideoTileCell: UICollectionViewCell {
     // Dismiss controller if user tap outside.
     @objc func dismissOnTapOutside() {
         viewController?.dismiss(animated: true, completion: nil)
+    }
     @objc func showUpdateVideoResolutionMenu() {
         let alertController = UIAlertController(title: "Set video resolution", message: "Choose the display resolution for the selected video", preferredStyle: .alert)
         let resolutionList = [VideoResolution.low, VideoResolution.medium, VideoResolution.high]
