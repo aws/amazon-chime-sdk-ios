@@ -104,29 +104,28 @@ public class BackgroundFilterProcessor {
             return nil
         }
 
-        // Down sample the image.
-        // Calculate the scale and aspect ratio factor to downscale.
-        let downSampleScale = Double(segmentationProcessorHeight) / Double(inputFrameCG.height)
-        let downSampleAspectRatio: Double = (Double(inputFrameCG.height) / Double(inputFrameCG.width)) /
+        // Downscale the image.
+        let downscale = Double(segmentationProcessorHeight) / Double(inputFrameCG.height)
+        let downscaleAspectRatio: Double = (Double(inputFrameCG.height) / Double(inputFrameCG.width)) /
                                             (Double(segmentationProcessorHeight) / Double(segmentationProcessorWidth))
 
-        // Down sample the image.
-        guard let downSampleImage: CIImage = resizeImage(image: inputFrameCI,
-                                                         scale: downSampleScale,
-                                                         aspectRatio: downSampleAspectRatio)
+        guard let downscaledImage: CIImage = resizeImage(image: inputFrameCI,
+                                                         scale: downscale,
+                                                         aspectRatio: downscaleAspectRatio)
         else {
-            logger.error(msg: "Error downsampling input frame")
+            logger.error(msg: "Error downscaling input frame")
             return nil
         }
 
-        guard let downSampleImageCG = context.createCGImage(downSampleImage,
-                                                            from: downSampleImage.extent) else {
+        guard let downscaledImageCG = context.createCGImage(downscaledImage,
+                                                            from: downscaledImage.extent)
+        else {
             logger.error(msg: "Error creating CGImage from downsampled CIImage")
             return nil
         }
 
         // Convert the input CGImage to a UInt8 byte array.
-        guard var byteArray: [UInt8] = ImageConversionUtils.cgImageToByteArray(cgImage: downSampleImageCG) else {
+        guard var byteArray: [UInt8] = ImageConversionUtils.cgImageToByteArray(cgImage: downscaledImageCG) else {
             logger.error(msg: "Error converting CGImage to byte array when creating the foreground mask.")
             return nil
         }
@@ -156,23 +155,23 @@ public class BackgroundFilterProcessor {
             return nil
         }
 
-        // Upsample image back to it size.
+        // Upscale the image back to it size.
         let maskImageCi = CIImage(cgImage: maskImage)
 
         // Calculate the scale and aspect ratio factor to upscale.
-        let upSampleScale = Double(inputFrameCG.height) / Double(segmentationProcessorHeight)
-        let upSampleAspectRatio: Double = (Double(segmentationProcessorHeight) / Double(segmentationProcessorWidth)) /
+        let upscale = Double(inputFrameCG.height) / Double(segmentationProcessorHeight)
+        let upscaleAspectRatio: Double = (Double(segmentationProcessorHeight) / Double(segmentationProcessorWidth)) /
                                           (Double(inputFrameCG.height) / Double(inputFrameCG.width))
 
-        guard let upSampleImage = resizeImage(image: maskImageCi,
-                                              scale: upSampleScale,
-                                              aspectRatio: upSampleAspectRatio)
+        guard let upscaledMaskImage = resizeImage(image: maskImageCi,
+                                                  scale: upscale,
+                                                  aspectRatio: upscaleAspectRatio)
         else {
-            logger.error(msg: "Error upsampling segmentation mask")
+            logger.error(msg: "Error upscaling segmentation mask")
             return nil
         }
 
-        return upSampleImage
+        return upscaledMaskImage
     }
 
     /// Blends foreground alpha mask with input image to produce a foreground image which is rendered on top
