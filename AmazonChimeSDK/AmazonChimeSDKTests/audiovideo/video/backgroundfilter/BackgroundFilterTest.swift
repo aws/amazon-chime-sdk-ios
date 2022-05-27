@@ -235,17 +235,17 @@ class BackgroundFilterTests: XCTestCase {
         guard let uiImage = testImage else {
             return nil
         }
-        guard let testImageCg = uiImage.cgImage else {
+        guard let testCGImage = uiImage.cgImage else {
             return nil
         }
-        let height = testImageCg.height
-        let width = testImageCg.width
+        let height = testCGImage.height
+        let width = testCGImage.width
 
-        var cVPPixelBuffer: CVPixelBuffer?
-        CVPixelBufferCreate(kCFAllocatorDefault, width, height, kCVPixelFormatType_32ARGB, nil, &cVPPixelBuffer)
-        context.render(CIImage(cgImage: testImageCg), to: cVPPixelBuffer!)
+        var cvPixelBuffer: CVPixelBuffer?
+        CVPixelBufferCreate(kCFAllocatorDefault, width, height, kCVPixelFormatType_32ARGB, nil, &cvPixelBuffer)
+        context.render(CIImage(cgImage: testCGImage), to: cvPixelBuffer!)
 
-        let buffer = VideoFramePixelBuffer(pixelBuffer: cVPPixelBuffer!)
+        let buffer = VideoFramePixelBuffer(pixelBuffer: cvPixelBuffer!)
         let frame = VideoFrame(timestampNs: 0, rotation: .rotation0, buffer: buffer)
         return frame
     }
@@ -274,7 +274,7 @@ class BackgroundFilterTests: XCTestCase {
         let nsImageData = NSData(data: (cgProvider.data as Data?)!)
 
         // Attach images for manual testing and debugging purposes.
-        // In the test view, right click the test and use the "Jump to Report"
+        // In the test view, right click the test and use "Jump to Report"
         // to see the attached images.
         let ciImage = CIImage(cvImageBuffer: pixelBuffer.pixelBuffer)
         let context = CIContext(options: [.cacheIntermediates: false])

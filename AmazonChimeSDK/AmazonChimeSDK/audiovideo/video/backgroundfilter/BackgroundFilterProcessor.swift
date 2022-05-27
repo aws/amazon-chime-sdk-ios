@@ -86,6 +86,7 @@ public class BackgroundFilterProcessor {
 
         // Update the buffer pool dimensions if the new frame does not match the previous frame dimensions.
         if bufferPool == nil || inputFrameCG.width != bufferPoolWidth || inputFrameCG.height != bufferPoolHeight {
+            logger.info(msg: "Updating buffer pool with new sizes: \(inputFrameCG.width) x \(inputFrameCG.height)")
             updateBufferPool(newWidth: inputFrameCG.width, newHeight: inputFrameCG.height)
             // Initialize the segmentationProcessor if it has not been initialized.
             let initializeResult: Bool = segmentationProcessor.initialize(height: segmentationProcessorHeight,
@@ -106,6 +107,7 @@ public class BackgroundFilterProcessor {
         // Down sample the image.
         let downSize = CGSize(width: segmentationProcessorWidth, height: segmentationProcessorHeight)
         guard let downSampleImageCG: CGImage = resizeImage(image: inputFrameCG, newSize: downSize) else {
+            logger.error(msg: "Error downsampling input frame")
             return nil
         }
 
@@ -143,6 +145,7 @@ public class BackgroundFilterProcessor {
         // Upsample image back to it size.
         let originalSize = CGSize(width: inputFrameCG.width, height: inputFrameCG.height)
         guard let upSampleImage = resizeImage(image: maskImage, newSize: originalSize) else {
+            logger.error(msg: "Error upsampling segmentation mask")
             return nil
         }
 
@@ -232,18 +235,35 @@ public class BackgroundFilterProcessor {
     /// - Returns: Resized image.
     private func resizeImage(image: CGImage, newSize: CGSize) -> CGImage? {
         guard let colorSpace = image.colorSpace else {
+            logger.error(msg: "Unable to find color space")
             return nil
         }
+
         let width = Int(newSize.width)
         let height = Int(newSize.height)
         let bitsPerComponent = image.bitsPerComponent
-        let bytesPerRow = image.bytesPerRow
-        let bitmapInfo = image.bitmapInfo
+        let bitsPerPixel = image.bitsPerPixel
 
-        guard let context = CGContext(data: nil, width: width, height: height,
+        // Adjust bitmap info to take into account alpha info.
+        var bitmapInfo = image.bitmapInfo
+        var alphaInfo = bitmapInfo.rawValue & CGBitmapInfo.alphaInfoMask.rawValue
+
+        // Since iOS 8, we cannot create contexts with unmultiplied alpha info.
+        if alphaInfo == CGImageAlphaInfo.last.rawValue {
+            alphaInfo = CGImageAlphaInfo.premultipliedLast.rawValue
+        } else if alphaInfo == CGImageAlphaInfo.first.rawValue {
+            alphaInfo = CGImageAlphaInfo.premultipliedFirst.rawValue
+        }
+        bitmapInfo = CGBitmapInfo(rawValue: bitmapInfo.rawValue & ~CGBitmapInfo.alphaInfoMask.rawValue | alphaInfo)
+
+        guard let context = CGContext(data: nil,
+                                      width: width,
+                                      height: height,
                                       bitsPerComponent: bitsPerComponent,
-                                      bytesPerRow: bytesPerRow, space: colorSpace,
+                                      bytesPerRow: width * (bitsPerPixel / bitsPerComponent),
+                                      space: colorSpace,
                                       bitmapInfo: bitmapInfo.rawValue) else {
+            logger.error(msg: "Unable to create context when resizing image")
             return nil
         }
         context.interpolationQuality = .high
