@@ -101,20 +101,6 @@ class VideoTileCell: UICollectionViewCell {
             updateVideoResolutionButton.tintColor = .white
             updateVideoResolutionButton.addTarget(self, action: #selector(showUpdateVideoResolutionMenu), for: .touchUpInside)
         }
-        
-        if !isSelf {
-            updateVideoPriorityButton.setImage(UIImage(named: "more")?.withRenderingMode(.alwaysTemplate), for: .normal)
-            updateVideoPriorityButton.tintColor = .white
-            updateVideoPriorityButton.isHidden = false
-            updateVideoResolutionButton.setImage(UIImage(named: "up")?.withRenderingMode(.alwaysTemplate), for: .normal)
-            updateVideoResolutionButton.tintColor = .white
-            updateVideoResolutionButton.isHidden = false
-            
-            updateVideoPriorityButton.addTarget(self, action: #selector(showUpdateVideoSubscriptionsMenu), for: .touchUpInside)
-            updateVideoResolutionButton.addTarget(self, action: #selector(showUpdateVideoResolutionMenu), for: .touchUpInside)
-        } else {
-            updateVideoPriorityButton.isHidden = true
-        }
     }
     
     @objc func showUpdateVideoSubscriptionsMenu() {
