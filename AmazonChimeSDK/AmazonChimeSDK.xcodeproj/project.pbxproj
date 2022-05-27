@@ -465,7 +465,6 @@
 		6AA9F9432522439F00EB0644 /* DefaultCameraCaptureSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultCameraCaptureSource.swift; sourceTree = "<group>"; };
 		6AA9F9442522439F00EB0644 /* VideoFramePixelBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoFramePixelBuffer.swift; sourceTree = "<group>"; };
 		6AA9F9452522439F00EB0644 /* VideoFrameBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoFrameBuffer.swift; sourceTree = "<group>"; };
-		6AA9F969252243E400EB0644 /* AmazonChimeSDKMedia.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AmazonChimeSDKMedia.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AB4C79F23F723030038CD4B /* ClientMetricsCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientMetricsCollector.swift; sourceTree = "<group>"; };
 		6AE9B5AE258ACBAE00DF7FF7 /* ReplayKitSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplayKitSource.swift; sourceTree = "<group>"; };
 		6AE9B5B2258ACBDA00DF7FF7 /* VideoFrameResender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoFrameResender.swift; sourceTree = "<group>"; };
