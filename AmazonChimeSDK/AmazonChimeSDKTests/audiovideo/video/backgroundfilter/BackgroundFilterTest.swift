@@ -77,7 +77,7 @@ class BackgroundFilterTests: XCTestCase {
         }
 
         let backgroundBlurConfigurations = BackgroundBlurConfiguration(
-            logger: ConsoleLogger(name: "BackgroundBlurProcessor"))
+            logger: ConsoleLogger(name: "testBackgroundBlurVideoFrameProcessor"))
         let processor = BackgroundBlurVideoFrameProcessor(backgroundBlurConfiguration: backgroundBlurConfigurations)
 
         processor.addVideoSink(sink: videoSinkMock)
@@ -148,7 +148,7 @@ class BackgroundFilterTests: XCTestCase {
         var backgroundReplacementImage = generateBackgroundImage(width: frame.width,
                                                                  height: frame.height,
                                                                  color: replacementImageColors[0])
-        let logger = ConsoleLogger(name: "testBackgroundBlurVideoFrameProcessor")
+        let logger = ConsoleLogger(name: "testBackgroundReplacementVideoFrameProcessor")
         let backgroundReplacementConfigurations = BackgroundReplacementConfiguration(
             logger: logger,
             backgroundReplacementImage: backgroundReplacementImage
