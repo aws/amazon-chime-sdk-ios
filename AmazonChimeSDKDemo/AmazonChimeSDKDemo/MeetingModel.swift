@@ -477,7 +477,6 @@ extension MeetingModel: AudioVideoObserver {
         case .videoAtCapacityViewOnly:
             notifyHandler?("Local video is no longer possible to be enabled")
             logWithFunctionName(message: "\(sessionStatus.statusCode)")
-            videoModel.isLocalVideoActive = false
         default:
             logWithFunctionName(message: "\(sessionStatus.statusCode)")
         }

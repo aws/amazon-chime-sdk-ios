@@ -1,3 +1,8 @@
+## [Unreleased]
+
+### Fixed
+* [Demo] Fixed local video turning off when it reaches the limit.
+
 ## [0.21.0] - 2022-05-19
 
 ### Added
