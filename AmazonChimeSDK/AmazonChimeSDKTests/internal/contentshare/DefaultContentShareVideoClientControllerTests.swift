@@ -45,6 +45,14 @@ class DefaultContentShareVideoClientControllerTests: CommonTestCase {
         verify(videoClientMock.setSending(true)).wasCalled()
     }
 
+    func testStartVideoShareWithConfig() {
+        let config = LocalVideoConfiguration()
+        defaultContentShareVideoClientController.startVideoShare(source: videoSourceMock, config: config)
+
+        verify(videoClientMock.setExternalVideoSource(any())).wasCalled()
+        verify(videoClientMock.setSending(true)).wasCalled()
+    }
+
     func testStartVideoShareAfterStart() {
         given(videoClientMock.start(any(),
                                     token: any(),

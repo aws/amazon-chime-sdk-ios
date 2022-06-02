@@ -43,6 +43,12 @@ import Foundation
     }
 
     public func startVideoShare(source: VideoSource) {
+        logger.info(msg: "Starting video share with video source")
+        startVideoShare(source: source, config: LocalVideoConfiguration())
+    }
+
+    public func startVideoShare(source: VideoSource, config: LocalVideoConfiguration) {
+        // ignore LocalVideoConfiguration because contentshare does not have simulcast
         videoClientLock.lock()
         defer { videoClientLock.unlock() }
 

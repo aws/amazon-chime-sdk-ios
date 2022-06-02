@@ -13,20 +13,21 @@ import XCTest
 class DefaultContentShareControllerTests: XCTestCase {
     var contentShareVideoClientControllerMock: ContentShareVideoClientControllerMock!
     var defaultContentShareController: DefaultContentShareController!
+    var videoSourceMock: VideoSourceMock!
 
     override func setUp() {
+        videoSourceMock = mock(VideoSource.self)
         contentShareVideoClientControllerMock = mock(ContentShareVideoClientController.self)
         defaultContentShareController = DefaultContentShareController(contentShareVideoClientController: contentShareVideoClientControllerMock)
     }
 
     func testStartContentShareWithValidSource() throws {
-        let videoSourceMock: VideoSourceMock! = mock(VideoSource.self)
         let contentShareSource = ContentShareSource()
         contentShareSource.videoSource = videoSourceMock
 
         defaultContentShareController.startContentShare(source: contentShareSource)
 
-        verify(contentShareVideoClientControllerMock.startVideoShare(source: videoSourceMock)).wasCalled()
+        verify(contentShareVideoClientControllerMock.startVideoShare(source: self.videoSourceMock)).wasCalled()
     }
 
     func testStartContentShareWithInvalidSource() throws {
@@ -35,6 +36,16 @@ class DefaultContentShareControllerTests: XCTestCase {
         defaultContentShareController.startContentShare(source: contentShareSource)
 
         verify(contentShareVideoClientControllerMock.startVideoShare(source: any())).wasNeverCalled()
+    }
+
+    func testStartContentShareWithConfig() {
+        let config = LocalVideoConfiguration()
+        let contentShareSource = ContentShareSource()
+        contentShareSource.videoSource = videoSourceMock
+
+        defaultContentShareController.startContentShare(source: contentShareSource, config: config)
+
+        verify(contentShareVideoClientControllerMock.startVideoShare(source: self.videoSourceMock, config: config)).wasCalled()
     }
 
     func testStopContentShare() throws {

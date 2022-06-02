@@ -279,6 +279,7 @@
 		CFD14AAC281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite in Resources */ = {isa = PBXBuildFile; fileRef = CFD14AAB281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite */; };
 		CFD14AAD281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite in Resources */ = {isa = PBXBuildFile; fileRef = CFD14AAB281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite */; };
 		CFF1553C2819C123009E257B /* background-ml-test-image.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CFF1553B2819C123009E257B /* background-ml-test-image.jpeg */; };
+		ED300F2A284877AC00497568 /* LocalVideoConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED300F29284877AC00497568 /* LocalVideoConfiguration.swift */; };
 		F81104AC276190AA003D17AD /* VideoPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81104A8276190A9003D17AD /* VideoPriority.swift */; };
 		F81104AD276190AA003D17AD /* RemoteVideoSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81104A9276190A9003D17AD /* RemoteVideoSource.swift */; };
 		F81104AE276190AA003D17AD /* VideoResolution.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81104AA276190A9003D17AD /* VideoResolution.swift */; };
@@ -577,6 +578,7 @@
 		CFA2A16F28087AE8008FDFF5 /* BackgroundFilterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundFilterTest.swift; sourceTree = "<group>"; };
 		CFD14AAB281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = selfie_segmentation_landscape.tflite; sourceTree = "<group>"; };
 		CFF1553B2819C123009E257B /* background-ml-test-image.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "background-ml-test-image.jpeg"; sourceTree = "<group>"; };
+		ED300F29284877AC00497568 /* LocalVideoConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalVideoConfiguration.swift; sourceTree = "<group>"; };
 		F81104A8276190A9003D17AD /* VideoPriority.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPriority.swift; sourceTree = "<group>"; };
 		F81104A9276190A9003D17AD /* RemoteVideoSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteVideoSource.swift; sourceTree = "<group>"; };
 		F81104AA276190A9003D17AD /* VideoResolution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoResolution.swift; sourceTree = "<group>"; };
@@ -943,6 +945,7 @@
 				00C9DC6423FA36BE00876B41 /* VideoTileControllerFacade.swift */,
 				00C9DC6623FA36E700876B41 /* VideoTileObserver.swift */,
 				00C2A91623F76250008CD687 /* VideoTileState.swift */,
+				ED300F29284877AC00497568 /* LocalVideoConfiguration.swift */,
 			);
 			path = video;
 			sourceTree = "<group>";
@@ -1609,6 +1612,7 @@
 				5A16B94923FCC00100ADAE26 /* AudioClientController.swift in Sources */,
 				5A16B99223FCD95100ADAE26 /* AudioClientObserver.swift in Sources */,
 				000C30A325807CD500863981 /* MeetingHistoryEventName.swift in Sources */,
+				ED300F2A284877AC00497568 /* LocalVideoConfiguration.swift in Sources */,
 				5A6F81842463665F0031AE97 /* AudioClientState.swift in Sources */,
 				C67E9B8026F5126F0084C9B4 /* TranscriptResult.swift in Sources */,
 				B418163224B79CF100FA62BF /* DataMessageObserver.swift in Sources */,

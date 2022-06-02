@@ -73,4 +73,47 @@ class DefaultAudioVideoFacadeTests: CommonTestCase {
 
         verify(audioVideoControllerMock.start(audioVideoConfiguration: any(where: { $0.audioMode == .stereo48K && $0.callKitEnabled == false }))).wasCalled()
     }
+
+    func testStartLocalVideo() {
+        XCTAssertNoThrow(try defaultAudioVideoFacade.startLocalVideo())
+
+        verify(audioVideoControllerMock.startLocalVideo()).wasCalled()
+    }
+
+    func testStartLocalVideoWithConfig() {
+        let config = LocalVideoConfiguration()
+        XCTAssertNoThrow(try defaultAudioVideoFacade.startLocalVideo(config: config))
+
+        verify(audioVideoControllerMock.startLocalVideo(config: config)).wasCalled()
+    }
+
+    func testStartLocalVideoWithSource() {
+        let cameraCaptureSourceMock: CameraCaptureSourceMock = mock(CameraCaptureSource.self)
+        defaultAudioVideoFacade.startLocalVideo(source: cameraCaptureSourceMock)
+
+        verify(audioVideoControllerMock.startLocalVideo(source: cameraCaptureSourceMock)).wasCalled()
+    }
+
+    func testStartLocalVideoWithSourceAndConfig() {
+        let config = LocalVideoConfiguration()
+        let cameraCaptureSourceMock: CameraCaptureSourceMock = mock(CameraCaptureSource.self)
+        defaultAudioVideoFacade.startLocalVideo(source: cameraCaptureSourceMock, config: config)
+
+        verify(audioVideoControllerMock.startLocalVideo(source: cameraCaptureSourceMock, config: config)).wasCalled()
+    }
+
+    func testStartContentShare() {
+        let source = ContentShareSource()
+        defaultAudioVideoFacade.startContentShare(source: source)
+
+        verify(contentShareControllerMock.startContentShare(source: source)).wasCalled()
+    }
+
+    func testStartContentSharewithConfig() {
+        let source = ContentShareSource()
+        let config = LocalVideoConfiguration()
+        defaultAudioVideoFacade.startContentShare(source: source, config: config)
+
+        verify(contentShareControllerMock.startContentShare(source: source, config: config)).wasCalled()
+    }
 }

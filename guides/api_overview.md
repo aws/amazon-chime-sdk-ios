@@ -149,7 +149,10 @@ You can view content share the same way that you view a remote attendee's video.
 
 Video permissions are required for sending the local attendee's video.
 
-To start sending the local attendee's video, call meetingSession.audioVideo.[startLocalVideo()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startLocalVideoAndReturnError:).
+To start sending the local attendee's video, call meetingSession.audioVideo.[startLocalVideo()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startLocalVideoAndReturnError:). 
+
+To start sending video with a local video configuration, call meetingSession.audioVideo.startLocalVideo(config:).
+To start local video with a provided custom `VideoSource`, call meetingSession.audioVideo.startLocalVideo(source:).  
 
 To stop sending the local attendee's video, call meetingSession.audioVideo.[stopLocalVideo()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)stopLocalVideo).
 

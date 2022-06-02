@@ -23,6 +23,12 @@ import Foundation
         }
     }
 
+    public func startContentShare(source: ContentShareSource, config: LocalVideoConfiguration) {
+        if let videoSource = source.videoSource {
+            contentShareVideoClientController.startVideoShare(source: videoSource, config: config)
+        }
+    }
+
     public func stopContentShare() {
         contentShareVideoClientController.stopVideoShare()
     }
