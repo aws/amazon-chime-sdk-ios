@@ -261,6 +261,7 @@ extension DefaultVideoClientController: VideoClientDelegate {
             let newSource = RemoteVideoSource()
             newSource.attendeeId = source.attendeeId
             sources.append(newSource)
+            cachedRemoteVideoSources.add(newSource)
         }
         ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
             observer.remoteVideoSourcesDidBecomeAvailable(sources: sources)
@@ -269,7 +270,6 @@ extension DefaultVideoClientController: VideoClientDelegate {
     
     public func remoteVideoSourcesDidBecomeUnavailable(_ sourcesInternal: [RemoteVideoSourceInternal]) {
         if sourcesInternal.isEmpty { return } // Don't callback for empty lists
-
         var sourcesToRemove = [RemoteVideoSource]()
         sourcesInternal.forEach { source in
             cachedRemoteVideoSources.forEach { cachedRemoteVideoSource in

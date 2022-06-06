@@ -48,6 +48,21 @@
                 <a href="Classes/AudioVideoConfiguration.html">AudioVideoConfiguration</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/BackgroundBlurConfiguration.html">BackgroundBlurConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/BackgroundBlurVideoFrameProcessor.html">BackgroundBlurVideoFrameProcessor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/BackgroundFilterProcessor.html">BackgroundFilterProcessor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/BackgroundReplacementConfiguration.html">BackgroundReplacementConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/BackgroundReplacementVideoFrameProcessor.html">BackgroundReplacementVideoFrameProcessor</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/ConsoleLogger.html">ConsoleLogger</a>
               </li>
               <li class="nav-group-task">
@@ -171,6 +186,9 @@
                 <a href="Classes/NoopEventReporterFactory.html">NoopEventReporterFactory</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/NoopSegmentationProcessor.html">NoopSegmentationProcessor</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/RemoteVideoSource.html">RemoteVideoSource</a>
               </li>
               <li class="nav-group-task">
@@ -239,6 +257,12 @@
                 <a href="Enums/AudioMode.html">AudioMode</a>
               </li>
               <li class="nav-group-task">
+                <a href="Enums/BackgroundBlurStrength.html">BackgroundBlurStrength</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/BackgroundFilter.html">BackgroundFilter</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Enums/CaptureSourceError.html">CaptureSourceError</a>
               </li>
               <li class="nav-group-task">
@@ -276,6 +300,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Enums/PermissionError.html">PermissionError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/ResourceError.html">ResourceError</a>
               </li>
               <li class="nav-group-task">
                 <a href="Enums/SendDataMessageError.html">SendDataMessageError</a>
@@ -403,6 +430,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/Scheduler.html">Scheduler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/SegmentationProcessor.html">SegmentationProcessor</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols.html#/c:@M@AmazonChimeSDK@objc(pl)TranscriptEvent">TranscriptEvent</a>
@@ -879,6 +909,64 @@ the orientation of the sensor, this value would be <code><a href="Enums/VideoRot
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@BackgroundFilter"></a>
+                    <a name="//apple_ref/swift/Enum/BackgroundFilter" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@BackgroundFilter">BackgroundFilter</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Enum defining the different background filter options.</p>
+
+                        <a href="Enums/BackgroundFilter.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">enum</span> <span class="kt">BackgroundFilter</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@BackgroundBlurStrength"></a>
+                    <a name="//apple_ref/swift/Enum/BackgroundBlurStrength" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@BackgroundBlurStrength">BackgroundBlurStrength</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Enum defining the different background blur strength options.</p>
+
+                        <a href="Enums/BackgroundBlurStrength.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">enum</span> <span class="kt">BackgroundBlurStrength</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@M@AmazonChimeSDK@E@CaptureSourceError"></a>
                     <a name="//apple_ref/swift/Enum/CaptureSourceError" class="dashAnchor"></a>
                     <a class="token" href="#/c:@M@AmazonChimeSDK@E@CaptureSourceError">CaptureSourceError</a>
@@ -1078,6 +1166,34 @@ These can be used to trigger UI, or attempt to restart the capture source.</p>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@ResourceError"></a>
+                    <a name="//apple_ref/swift/Enum/ResourceError" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@ResourceError">ResourceError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Enums/ResourceError.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">enum</span> <span class="kt">ResourceError</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="kt">Error</span><span class="p">,</span> <span class="kt">CustomStringConvertible</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@M@AmazonChimeSDK@E@SendDataMessageError"></a>
                     <a name="//apple_ref/swift/Enum/SendDataMessageError" class="dashAnchor"></a>
                     <a class="token" href="#/c:@M@AmazonChimeSDK@E@SendDataMessageError">SendDataMessageError</a>
@@ -1136,7 +1252,7 @@ These can be used to trigger UI, or attempt to restart the capture source.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2022 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2022-03-21)</p>
+          <p>&copy; 2022 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2022-06-03)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>

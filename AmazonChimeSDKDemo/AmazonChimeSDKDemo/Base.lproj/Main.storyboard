@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_7" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -538,8 +538,18 @@
                                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 </button>
-                                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PJ7-s8-YZq" userLabel="On Update Video Subscriptions Label">
-                                                                    <rect key="frame" x="237" y="4.3333333333333428" width="24" height="24"/>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gUl-EP-O3t" userLabel="On Update Video Resolution Label">
+                                                                    <rect key="frame" x="223" y="4" width="24" height="24"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="24" id="3op-Ku-ung"/>
+                                                                        <constraint firstAttribute="width" constant="24" id="SeK-og-rvs"/>
+                                                                    </constraints>
+                                                                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                                    <state key="normal" backgroundImage="up"/>
+                                                                </button>
+                                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PJ7-s8-YZq" userLabel="On Update Video Priority Label">
+                                                                    <rect key="frame" x="252" y="4.3333333333333428" width="24" height="24"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="24" id="Vyu-kA-Xkx"/>
                                                                         <constraint firstAttribute="height" constant="24" id="aYu-cK-wgJ"/>
@@ -548,9 +558,22 @@
                                                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <state key="normal" backgroundImage="more"/>
                                                                 </button>
+                                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f8R-bN-dmg" userLabel="On Video Filters Label">
+                                                                    <rect key="frame" x="252" y="4.3333333333333428" width="24" height="24"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="24" id="h9e-n4-gNa"/>
+                                                                        <constraint firstAttribute="height" constant="24" id="xYU-Ti-WWd"/>
+                                                                    </constraints>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                                    <state key="normal" backgroundImage="more"/>
+                                                                </button>
                                                             </subviews>
                                                             <color key="backgroundColor" systemColor="secondaryLabelColor"/>
                                                             <constraints>
+                                                                <constraint firstItem="gUl-EP-O3t" firstAttribute="centerY" secondItem="rIq-lk-w7t" secondAttribute="centerY" id="0NH-aY-d94"/>
+                                                                <constraint firstItem="A9r-yc-76P" firstAttribute="leading" secondItem="f8R-bN-dmg" secondAttribute="trailing" constant="5" id="0mD-Fr-czC"/>
                                                                 <constraint firstAttribute="trailing" secondItem="sga-dz-S8z" secondAttribute="trailing" constant="32" id="4NG-QF-Crg"/>
                                                                 <constraint firstItem="A9r-yc-76P" firstAttribute="leading" secondItem="PJ7-s8-YZq" secondAttribute="trailing" constant="5" id="AM7-5u-Bsq"/>
                                                                 <constraint firstItem="sga-dz-S8z" firstAttribute="leading" secondItem="rIq-lk-w7t" secondAttribute="leading" constant="32" id="C5O-8O-myw"/>
@@ -558,7 +581,8 @@
                                                                 <constraint firstItem="A9r-yc-76P" firstAttribute="centerY" secondItem="rIq-lk-w7t" secondAttribute="centerY" id="MUr-uI-c4Y"/>
                                                                 <constraint firstItem="sga-dz-S8z" firstAttribute="centerY" secondItem="rIq-lk-w7t" secondAttribute="centerY" id="UDV-PR-bRa"/>
                                                                 <constraint firstAttribute="height" constant="32" id="WYO-G2-zlY"/>
-                                                                <constraint firstItem="A9r-yc-76P" firstAttribute="leading" secondItem="PJ7-s8-YZq" secondAttribute="trailing" constant="20" id="bEP-aF-7NS"/>
+                                                                <constraint firstItem="f8R-bN-dmg" firstAttribute="leading" secondItem="gUl-EP-O3t" secondAttribute="trailing" constant="5" id="faS-Qx-rzX"/>
+                                                                <constraint firstItem="f8R-bN-dmg" firstAttribute="top" secondItem="rIq-lk-w7t" secondAttribute="top" constant="4.333333333333333" id="j8N-Y9-Jt0"/>
                                                                 <constraint firstAttribute="trailing" secondItem="A9r-yc-76P" secondAttribute="trailing" constant="8" id="oMi-i7-Ib3"/>
                                                             </constraints>
                                                         </view>
@@ -610,8 +634,10 @@
                                                     <outlet property="poorConnectionImage" destination="oN8-OP-rV7" id="ycQ-wP-iIT"/>
                                                     <outlet property="poorConnectionLabel" destination="FMD-Q2-cFR" id="OLN-aX-lWc"/>
                                                     <outlet property="shadedView" destination="rIq-lk-w7t" id="wum-T3-p3b"/>
-                                                    <outlet property="updateVideoSubscriptionsButton" destination="PJ7-s8-YZq" id="u7z-9U-qwF"/>
+                                                    <outlet property="updateVideoPriorityButton" destination="PJ7-s8-YZq" id="1gZ-SC-c2i"/>
+                                                    <outlet property="updateVideoResolutionButton" destination="gUl-EP-O3t" id="P5T-GE-Lq1"/>
                                                     <outlet property="videoDisabledImage" destination="tMr-mN-AG5" id="ymH-sC-Zy2"/>
+                                                    <outlet property="videoFiltersButton" destination="f8R-bN-dmg" id="fmm-n6-v4M"/>
                                                     <outlet property="videoRenderView" destination="80b-KU-QcI" id="AjQ-rS-6J2"/>
                                                 </connections>
                                             </collectionViewCell>
@@ -1424,6 +1450,7 @@
         <image name="meeting-video" width="24" height="24"/>
         <image name="meeting-video-on" width="24" height="24"/>
         <image name="more" width="24" height="24"/>
+        <image name="up" width="24" height="24"/>
         <image name="up-large" width="36" height="36"/>
         <image name="volume-0" width="24" height="24"/>
         <image name="volume-muted" width="24" height="24"/>

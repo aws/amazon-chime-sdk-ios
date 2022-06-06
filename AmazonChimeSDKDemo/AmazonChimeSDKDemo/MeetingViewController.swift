@@ -150,6 +150,13 @@ class MeetingViewController: UIViewController {
             strongSelf.nextVideoPageButton.isEnabled = meetingModel.videoModel.canGoToNextRemoteVideoPage
             strongSelf.videoCollection.reloadData()
         }
+        meetingModel.videoModel.videoSubscriptionUpdatedHandler = { [weak self, weak meetingModel] in
+            guard let strongSelf = self, let meetingModel = meetingModel else { return }
+            meetingModel.videoModel.addAllRemoteVideosInCurrentPageExceptUserPausedVideos()
+            strongSelf.prevVideoPageButton.isEnabled = meetingModel.videoModel.canGoToPrevRemoteVideoPage
+            strongSelf.nextVideoPageButton.isEnabled = meetingModel.videoModel.canGoToNextRemoteVideoPage
+            strongSelf.videoCollection.reloadData()
+        }
         meetingModel.videoModel.localVideoUpdatedHandler = { [weak self] in
             self?.videoCollection?.reloadItems(at: [IndexPath(item: 0, section: 0)])
         }
@@ -548,12 +555,12 @@ class MeetingViewController: UIViewController {
 
     @IBAction func prevPageButtonClicked(_: UIButton) {
         meetingModel?.videoModel.getPreviousRemoteVideoPage()
-        meetingModel?.videoModel.videoUpdatedHandler?()
+        meetingModel?.videoModel.videoSubscriptionUpdatedHandler?()
     }
 
     @IBAction func nextPageButtonClicked(_: UIButton) {
         meetingModel?.videoModel.getNextRemoteVideoPage()
-        meetingModel?.videoModel.videoUpdatedHandler?()
+        meetingModel?.videoModel.videoSubscriptionUpdatedHandler?()
     }
 
     @objc private func keyboardShowHandler(notification: NSNotification) {
@@ -609,8 +616,10 @@ class MeetingViewController: UIViewController {
         guard let meetingModel = meetingModel else {
             return
         }
-        if meetingModel.videoModel.isUsingMetalVideoProcessor {
-            meetingModel.notifyHandler?("Cannot toggle both filters on at same time")
+        if (meetingModel.videoModel.isUsingMetalVideoProcessor ||
+            meetingModel.videoModel.isUsingBackgroundBlur ||
+            meetingModel.videoModel.isUsingBackgroundReplacement) {
+            meetingModel.notifyHandler?("Cannot toggle more than one filter at same time")
             return
         }
 
@@ -627,8 +636,10 @@ class MeetingViewController: UIViewController {
             meetingModel.notifyHandler?("Cannot turn \(nextStatus) Metal filter because it's not available on this device")
             return
         }
-        if meetingModel.videoModel.isUsingCoreImageVideoProcessor {
-            meetingModel.notifyHandler?("Cannot toggle both filters on at same time")
+        if (meetingModel.videoModel.isUsingCoreImageVideoProcessor ||
+            meetingModel.videoModel.isUsingBackgroundBlur ||
+            meetingModel.videoModel.isUsingBackgroundReplacement) {
+            meetingModel.notifyHandler?("Cannot toggle more than one filter at same time")
             return
         }
         meetingModel.videoModel.isUsingMetalVideoProcessor.toggle()

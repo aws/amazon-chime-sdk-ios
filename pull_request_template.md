@@ -8,12 +8,12 @@
 - [ ] New feature (non-breaking change which adds functionality)
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 - [ ] This change requires a documentation update
-  - [ ] README update
-  - [ ] CHANGELOG update
-  - [ ] guildes update
+    - [ ] README update
+    - [ ] CHANGELOG update
+    - [ ] guildes update
 - [ ] This change requires a dependency update
-  - [ ] Amazon Chime SDK Media
-  - [ ] Other (update corresonding legal documents)
+    - [ ] Amazon Chime SDK Media
+    - [ ] Other (update corresonding legal documents)
 
 ## 🧪 How Has This Been Tested?
 *describe the tests that you ran to verify your changes, any relevant details for your test configuration*
