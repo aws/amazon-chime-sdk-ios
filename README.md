@@ -37,20 +37,82 @@ And review the following guides:
 * [Meeting Events](guides/meeting_events.md)
 * [Event Ingestion](guides/event_ingestion.md)
 * [Configuring Remote Video Subscription](guides/configuring_remote_video_subscriptions.md)
+* [Background Video Filters](guides/background_video_filters.md)
 
 ## Include Amazon Chime SDK in Your Project
-
-To include the SDK binaries in your own project, follow these steps.
+You can integrate Amazon Chime SDK in your project from either CocoaPods or binaries through Github release.
 
 For the purpose of setup, your project's root folder (where you can find your `.xcodeproj` file) will be referred to as `root`.
 
-### 1. Download Binaries
+### From CocoaPods
+1. The Amazon Chime SDK is available through [CocoaPods](http://cocoapods.org/). If you have not installed CocoaPods, install CocoaPods by running the command:
+    ```
+    $ gem install cocoapods
+    $ pod setup
+    ```
+    Depending on your system settings, you may have to use sudo for installing cocoapods as follows:
+
+    ```
+    $ sudo gem install cocoapods
+    $ pod setup
+    ```
+2. In root directory (the directory where your *.xcodeproj file is), run the following to create a Podfile in your project:
+    ```
+    $ pod init
+    ```
+3. Edit the `Podfile` to include `AmazonChimeSDK-Bitcode` into your project if you need bitcode:
+    ```
+    target 'YourTarget' do
+        pod 'AmazonChimeSDK-Bitcode'
+        ...
+    end
+    ```
+    If you don't need bitcode, you can add `AmazonChimeSDK-No-Bitcode` instead:
+    ```
+    target 'YourTarget' do
+        pod `AmazonChimeSDK-No-Bitcode`
+        ...
+    end
+    ```
+4. (Optional) If you want to use background blur and replacement features, add:
+    ```
+    target 'YourTarget' do
+      pod 'AmazonChimeSDKMachineLearning-Bitcode'
+      ...
+    end
+    ```
+    If you don't need bitcode, you can add `AmazonChimeSDKMachineLearning-No-Bitcode` instead:
+    ```
+    target 'YourTarget' do
+        pod `AmazonChimeSDKMachineLearning-No-Bitcode`
+        ...
+    end
+    ```
+5. Then run the following command to install pods:
+   ```
+   $ pod install --repo-update
+   ```
+6. To open your project, open the newly generated `*.xcworkspace` file in the root directory using XCode. You can do this by issuing the following command in your project folder
+   ```
+    $ xed .
+   ```
+   Note: Do *NOT* use *.xcodeproj to open project.
+7. If you are using background blur and replacement features, under `Build Settings` tab, under the `Linking` section, add `-framework AmazonChimeSDKMachineLearning` to `Other Linker Flags`.
+<p align="center">
+<img src="./media/cocoapods_machine_learning.png" alt="image" width="80%"/>
+</p>
+
+
+### From Github Release Binaries
+
+#### 1. Download Binaries
 
 * Download the `AmazonChimeSDK` and `AmazonChimeSDKMedia` binaries from the latest [release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
+  * If you like to use background blur and background replacement, also download the `AmazonChimeSDKMachineLearning` binary. Otherwise, you can ignore all references to `AmazonChimeSDKMachineLearning` in the instructions below.
 
 * Unzip and copy the `.framework`s or `.xcframework`s to `root`, which depends on which framework your project uses.  For Xcode12.3 and later, please use `.xcframework` if you have compile issue. `.xcframework` is available after Amazon Chime SDK iOS v0.15.0
 
-### 2. Update Project File
+#### 2. Update Project File
 
 * Open your `.xcodeproj` file in Xcode and click on your build target.
 
@@ -69,9 +131,9 @@ For the purpose of setup, your project's root folder (where you can find your `.
 
 * Under `General` tab, look for `Frameworks, Libraries, and Embedded Content` section. Click on +, then `Add Others`, then `Add Files`.
 
-  * If you are using traditional `.framework`, specify the location of `AmazonChimeSDK.framework` and `AmazonChimeSDKMedia.framework` from Step 1. If you have compile error while using traditional `.framework`, which occurs in Xcode 12.3 and later, please use `.xcframework` instead, which is available after Amazon Chime SDK iOS v0.15.0.
-  * If you are using `.xcframework`, specify the location of `AmazonChimeSDK.xcframework` and `AmazonChimeSDKMedia.xcframework` from Step 1.
-  * For these two frameworks, verify that `Embed & Sign` is selected under the `Embed` option.
+  * If you are using traditional `.framework`, specify the location of `AmazonChimeSDK.framework`, `AmazonChimeSDKMedia.framework`, and `AmazonChimeSDKMachineLearning.framework` from Step 1. If you have compile error while using traditional `.framework`, which occurs in Xcode 12.3 and later, please use `.xcframework` instead, which is available after Amazon Chime SDK iOS v0.15.0.
+  * If you are using `.xcframework`, specify the location of `AmazonChimeSDK.xcframework`, `AmazonChimeSDKMedia.xcframework`, and `AmazonChimeSDKMachineLearning.xcframework` from Step 1.
+  * For `AmazonChimeSDK.framework` `AmazonChimeSDKMedia.framework` and frameworks, verify that `Embed & Sign` is selected under the `Embed` option. For `AmazonChimeSDKMachineLearning.framework`, select `Do Not Embed`.
 
 <p align="center">
 <img src="./media/xcframework_setting.png" alt="image" width="80%"/>
@@ -85,11 +147,19 @@ To run the demo application, follow these steps.
 
 `git clone git@github.com:aws/amazon-chime-sdk-ios.git`
 
-### 2. Download Binary
+### 2. Import Amazon Chime SDK
+#### From CocoaPods
+For both targets in `/AmazonChimeSDKDemo/Podfile`, replace `AMAZON_CHIME_SDK_VERSION` with a specific SDK version, e.g. `0.19.3` or remove it if utilize the latest version of Amazon Chime SDK.
 
-* Download `AmazonChimeSDKMedia` binary with bitcode support from the latest [release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
+Under `/AmazonChimeSDKDemo`, run the following command to install pods:
+```
+$ pod install --repo-update
+```
 
-* Unzip and copy the `AmazonChimeSDKMedia.framework` to `AmazonChimeSDK` folder.
+#### Or From Downloaded Binary
+* Download `AmazonChimeSDKMedia` and `AmazonChimeSDKMachineLearning` binaries with bitcode support from the latest [release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
+
+* Unzip and copy `AmazonChimeSDKMedia.framework` and `AmazonChimeSDKMachineLearning.framework`  to `AmazonChimeSDK` folder.
 
 ### 3. Deploy Serverless Demo
 
@@ -97,12 +167,13 @@ Deploy the serverless demo from [amazon-chime-sdk-js](https://github.com/aws/ama
 
 ### 4. Update AmazonChimeSDKDemo Project File
 
-* If set up the demo application using `.framework`, please skip the below 4 steps. If encounter compile error when using traditional `.framework`, which occurs in Xcode 12.3 and later, please use `.xcframework` instead.
+* If set up the demo application using `.framework`, please skip the below 5 steps. If encounter compile error when using traditional `.framework`, which occurs in Xcode 12.3 and later, please use `.xcframework` instead.
 
   * Replace `AmazonChimeSDKMedia.framework` with `AmazonChimeSDKMedia.xcframework` under `root/AmazonChimeSDK` folder,  which is available after Amazon Chime SDK iOS v0.15.0.
   * *For each target*, under `General` tab, look for `Frameworks, Libraries, and Embedded Content` section. Select `AmazonChimeSDKMedia.framework` and click `-` to remove it.
   * Then click `+`, click `Add Other` drop-down list, then `Add Files`.
   * Specify the location of `AmazonChimeSDKMedia.xcframework` and verify that `Embed & Sign` is selected under the `Embed` option.
+  * Do the same as above except for `AmazonChimeSDKMachineLearning` instead of `AmazonChimeSDKMedia`.
 
 
 * `AmazonChimeDemoSDKBroadcast.appex` is a Broadcast Extension for device level screen sharing used by AmazonChimeSDKDemo, verify that `Embed without Signing` is selected under the `Embed` option. Remove it from `Frameworks, Libraries, and Embedded Content` section if you do not wish to test this.
@@ -131,6 +202,11 @@ Deploy the serverless demo from [amazon-chime-sdk-js](https://github.com/aws/ama
 * (Optional) Update `broadcastBundleId` and `appGroupId` in BOTH `AppConfiguration.swift` and `SampleHandler.swift` with the broadcast upload extension bundle ID and App Group ID if you want to test sharing device level screen capture. See [Content Share](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/content_share.md) for more details.
 
 ### 6. Use Demo App to Join Meeting
+#### Run the AmazonChimeSDKDemoPods target with Amazon Chime SDK from CocoaPods
+Open `AmazonChimeSDKDemo.xcworkspace` file in `AmazonChimeSDKDemo/` using XCode, select the `AmazonChimeSDKDemoPods` from the scheme dropdown list in the top bar of Xcode IDE, choose a build device and click the run button.
+
+#### Run the AmazonChimeSDKDemo target with Downloaded Amazon Chime SDK Binaries
+Open `AmazonChimeSDKDemo.xcworkspace` file in `AmazonChimeSDKDemo/` using XCode, select the `AmazonChimeSDKDemo` from the scheme dropdown list in the top bar of Xcode IDE, choose a build device and click the run button.
 
 On the joining screen, choose to join the meeting without `CallKit` or join via `CallKit` incoming/outgoing call. Since the demo app does not have Push Notification, it delays joining via incoming call by 10 seconds to give user enough time to background the app or lock the screen to mimic the behavior.
 
@@ -632,6 +708,8 @@ Applications can get logs from Chime SDK by passing instances of Logger when cre
 logger = ConsoleLogger(name: "logger", level: .DEFAULT)
 ```
 
+## Notice
+You and your end users are responsible for all Content (including any images) uploaded for use with background replacement, and must ensure that such Content does not violate the law, infringe or misappropriate the rights of any third party, or otherwise violate a material term of your agreement with Amazon (including the documentation, the AWS Service Terms, or the Acceptable Use Policy).
 
 ---
 

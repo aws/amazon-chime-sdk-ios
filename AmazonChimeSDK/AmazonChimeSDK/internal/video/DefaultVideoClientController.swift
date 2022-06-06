@@ -191,6 +191,11 @@ extension DefaultVideoClientController: VideoClientDelegate {
         ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
             observer.videoSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus(statusCode: .ok))
         }
+
+        // We will not be promoted on reconnection
+        self.primaryMeetingPromotionObserver?
+            .didDemoteFromPrimaryMeeting(status: MeetingSessionStatus.init(statusCode: MeetingSessionStatusCode.audioInternalServerError))
+        self.primaryMeetingPromotionObserver = nil
     }
 
     public func videoClient(_ client: VideoClient?, cameraSendIsAvailable available: Bool) {
@@ -256,6 +261,7 @@ extension DefaultVideoClientController: VideoClientDelegate {
             let newSource = RemoteVideoSource()
             newSource.attendeeId = source.attendeeId
             sources.append(newSource)
+            cachedRemoteVideoSources.add(newSource)
         }
         ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
             observer.remoteVideoSourcesDidBecomeAvailable(sources: sources)
@@ -264,7 +270,6 @@ extension DefaultVideoClientController: VideoClientDelegate {
     
     public func remoteVideoSourcesDidBecomeUnavailable(_ sourcesInternal: [RemoteVideoSourceInternal]) {
         if sourcesInternal.isEmpty { return } // Don't callback for empty lists
-
         var sourcesToRemove = [RemoteVideoSource]()
         sourcesInternal.forEach { source in
             cachedRemoteVideoSources.forEach { cachedRemoteVideoSource in
@@ -315,6 +320,7 @@ extension DefaultVideoClientController: VideoClientDelegate {
         }
         self.primaryMeetingPromotionObserver?
             .didDemoteFromPrimaryMeeting(status: MeetingSessionStatus.init(statusCode: code))
+        self.primaryMeetingPromotionObserver = nil
     }
 }
 

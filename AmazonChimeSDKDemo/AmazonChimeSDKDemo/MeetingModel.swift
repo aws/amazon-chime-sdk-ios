@@ -61,12 +61,14 @@ class MeetingModel: NSObject {
                 if wasLocalVideoOn {
                     videoModel.isLocalVideoActive = false
                 }
-                videoModel.pauseAllRemoteVideos()
+                videoModel.unsubscribeAllRemoteVideos()
             } else {
                 if wasLocalVideoOn {
                     videoModel.isLocalVideoActive = true
                 }
-                videoModel.resumeAllRemoteVideosInCurrentPageExceptUserPausedVideos()
+                if activeMode == .video {
+                    videoModel.addAllRemoteVideosInCurrentPageExceptUserPausedVideos()
+                }
             }
         }
     }
@@ -76,9 +78,9 @@ class MeetingModel: NSObject {
     var activeMode: ActiveMode = .roster {
         didSet {
             if activeMode == .video {
-                videoModel.resumeAllRemoteVideosInCurrentPageExceptUserPausedVideos()
+                videoModel.addAllRemoteVideosInCurrentPageExceptUserPausedVideos()
             } else {
-                videoModel.pauseAllRemoteVideos()
+                videoModel.unsubscribeAllRemoteVideos()
             }
             activeModeDidSetHandler?(activeMode)
         }
@@ -467,6 +469,7 @@ extension MeetingModel: AudioVideoObserver {
         sources.forEach { source in
             videoModel.remoteVideoSourceConfigurations.removeValue(forKey: source)
         }
+        videoModel.audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: [:], removed: sources)
     }
 
     func videoSessionDidStartWithStatus(sessionStatus: MeetingSessionStatus) {
@@ -609,6 +612,7 @@ extension MeetingModel: VideoTileObserver {
             screenShareModel.tileId = tileState.tileId
             if activeMode == .screenShare {
                 screenShareModel.viewUpdateHandler?(true)
+                videoModel.addContentShareVideoSource(attendeeId: tileState.attendeeId)
             }
         } else {
             if tileState.isLocalTile {
@@ -619,20 +623,17 @@ extension MeetingModel: VideoTileObserver {
             } else {
                 videoModel.addRemoteVideoTileState(tileState, completion: {
                     if self.activeMode == .video {
-                        // If the video is not currently being displayed, pause it
-                        if !self.videoModel.isRemoteVideoDisplaying(tileId: tileState.tileId) {
-                            self.currentMeetingSession.audioVideo.pauseRemoteVideoTile(tileId: tileState.tileId)
-                        }
-                        self.videoModel.videoUpdatedHandler?()
+                        self.videoModel.videoSubscriptionUpdatedHandler?()
                     } else {
                         // Currently not in the video view, no need to render the video tile
-                        self.currentMeetingSession.audioVideo.pauseRemoteVideoTile(tileId: tileState.tileId)
+                        self.videoModel.unsubscribeAllRemoteVideos()
                     }
                 })
             }
         }
     }
 
+    
     func videoTileDidRemove(tileState: VideoTileState) {
         logger.info(msg: "Attempting to remove video tile tileId: \(tileState.tileId)" +
             " attendeeId: \(tileState.attendeeId)")

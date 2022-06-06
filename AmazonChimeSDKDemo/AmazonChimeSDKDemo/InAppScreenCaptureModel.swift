@@ -39,6 +39,7 @@ class InAppScreenCaptureModel {
 
     init(contentShareController: ContentShareController) {
         self.contentShareController = contentShareController
+        self.contentShareController.addContentShareObserver(observer: self)
     }
 }
 
@@ -61,5 +62,15 @@ extension InAppScreenCaptureModel: CaptureSourceObserver {
         isSharing = false
         contentShareController.stopContentShare()
         inAppScreenCaptureSource?.removeCaptureSourceObserver(observer: self)
+    }
+}
+
+extension InAppScreenCaptureModel: ContentShareObserver {
+    func contentShareDidStart() {}
+
+    func contentShareDidStop(status: ContentShareStatus) {
+        if isSharing {
+            isSharing = false
+        }
     }
 }

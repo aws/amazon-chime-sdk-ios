@@ -1,3 +1,31 @@
+## [0.21.1] - 2022-06-03
+
+## [0.21.0] - 2022-05-19
+
+### Added
+* Added background blur and background replacement features. See [background video filters](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/background_video_filters.md) for more details.
+* [Demo] Adder two new video filters - background blur and replacement.
+
+## [0.20.0] - 2022-05-11
+
+### Added
+* Added support default initializer support for `DefaultVideoRenderView` for convenience.
+
+## [0.19.4] - 2022-04-21
+
+## [0.19.3] - 2022-04-07
+
+### Added
+* Added arm64 simulator slice
+
+## [0.19.2] - 2022-03-21
+
+### Added
+* Added [replicated meeting guide](https://github.com/aws/amazon-chime-sdk-android/blob/master/guides/replicated_meetings.md).
+
+### Fixed
+* Added proper call of demotion callback on audio or video disconnection.
+
 ## [0.19.1] - 2022-03-10
 
 ### Fixed

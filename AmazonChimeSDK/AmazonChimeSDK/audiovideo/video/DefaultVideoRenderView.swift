@@ -51,6 +51,10 @@ import VideoToolbox
         initImageView()
     }
 
+    public convenience init() {
+        self.init(frame: .zero)
+    }
+
     private func initImageView() {
         addSubview(imageView)
         sendSubviewToBack(imageView)

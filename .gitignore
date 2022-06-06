@@ -1,12 +1,15 @@
 **/.DS_Store
 xcuserdata
-AmazonChimeSDKMedia.framework
 AmazonChimeSDK.framework
-AmazonChimeSDKMedia.xcframework
+AmazonChimeSDKMachineLearning.framework
+AmazonChimeSDKMedia.framework
 AmazonChimeSDK.xcframework
+AmazonChimeSDKMachineLearning.xcframework
+AmazonChimeSDKMedia.xcframework
 MockingbirdMocks
 MockingbirdCache
 build
 AmazonChimeSDK/docs
 AmazonChimeSDK/MockingbirdSupport/
 **/IDEWorkspaceChecks.plist
+Pods
