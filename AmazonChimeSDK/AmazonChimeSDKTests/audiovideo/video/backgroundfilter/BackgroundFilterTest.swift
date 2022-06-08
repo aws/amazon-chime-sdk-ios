@@ -27,7 +27,9 @@ class BackgroundFilterTests: XCTestCase {
     /// Maximum pixel difference allowed when comparing similarity.
     let expectedPixelMatchThreshold = Int(255 * 0.05)
 
-    /// Downscaled size used for testing.
+    /// Downscaled size used for testing. Note that we prefer downscaling
+    /// because it's more efficient for the test. Otherwise, we end up doing
+    /// a lot more comparisons and the test takes longer.
     let downscaledSize = CGSize(width: 144, height: 256)
 
     let context = CIContext(options: [.cacheIntermediates: false])
@@ -85,17 +87,15 @@ class BackgroundFilterTests: XCTestCase {
         // Verify the checksum for the different blur strengths.
         let blurList = [BackgroundBlurStrength.high]
         for index in 0...(blurList.count - 1) {
+            processedImage = nil
             videoFrameReceivedExpectation = expectation(description: "Video frame is received for index \(index)")
 
             processor.setBlurStrength(newBlurStrength: blurList[index])
             processor.onVideoFrameReceived(frame: frame)
 
             // Wait for the image to generate before proceeding to avoid non-determinism.
-            waitForExpectations(timeout: 1) { error in
-                if let error = error {
-                    XCTFail("waitForExpectationsWithTimeout errored for index \(index): \(error)")
-                }
-            }
+            wait(for: [videoFrameReceivedExpectation!], timeout: 1)
+            XCTAssert(processedImage != nil)
 
             guard let gotCgImage = self.resize(image: processedImage!, to: downscaledSize).cgImage,
                 let gotCgImageData = gotCgImage.dataProvider?.data,
@@ -161,6 +161,7 @@ class BackgroundFilterTests: XCTestCase {
 
         // Loop through the different generated backgrounds images and verify checksum.
         for index in 0...replacementImageColors.count - 1 {
+            processedImage = nil
             videoFrameReceivedExpectation = expectation(description: "Video frame is received for index \(index)")
 
             if index > 0 {
@@ -172,11 +173,8 @@ class BackgroundFilterTests: XCTestCase {
             processor.onVideoFrameReceived(frame: frame)
 
             // Wait for the image to generate before proceeding to avoid non-determinism.
-            waitForExpectations(timeout: 1) { error in
-                if let error = error {
-                    XCTFail("waitForExpectationsWithTimeout errored for index \(index): \(error)")
-                }
-            }
+            wait(for: [videoFrameReceivedExpectation!], timeout: 1)
+            XCTAssert(processedImage != nil)
 
             guard let gotCgImage = self.resize(image: processedImage!, to: downscaledSize).cgImage,
                 let gotCgImageData = gotCgImage.dataProvider?.data,

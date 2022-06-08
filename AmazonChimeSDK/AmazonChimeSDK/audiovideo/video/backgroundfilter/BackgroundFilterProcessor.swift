@@ -227,11 +227,33 @@ public class BackgroundFilterProcessor {
         var alphaInfo = bitmapInfo.rawValue & CGBitmapInfo.alphaInfoMask.rawValue
 
         // Since iOS 8, we cannot create contexts with unmultiplied alpha info.
+        // As a result, if we see a bitmap with an alpha channel that is set to
+        // the last, we assume that the alpha has already been premultiplied and
+        // do nothing. If the alpha channel is set to first, we similarly still
+        // assume it has already been premultiplied and do nothing. We do nothing
+        // because the value should not have been there in the first place and we
+        // prefer doing nothing over modifying the image erroneously.
         if alphaInfo == CGImageAlphaInfo.last.rawValue {
             alphaInfo = CGImageAlphaInfo.premultipliedLast.rawValue
         } else if alphaInfo == CGImageAlphaInfo.first.rawValue {
             alphaInfo = CGImageAlphaInfo.premultipliedFirst.rawValue
         }
+
+        // Set the new alpha info in case we have changed it.
+        // In order to set the value, we take the existing alpha
+        // info mask, which is used to extract the value, and invert
+        // it instead. This allows us to instead set the bit value
+        // with the `alphaInfo` bit. As an example, let's say we
+        // have
+        //    bitmapInfo    = 0010
+        //    alphaInfoMask = 0001
+        //    alphaInfo     = 0001
+        // In this case, we'd like to set the bit of `0` to the
+        // least significant bit. Inverting the `alphaInfoMask`
+        // to 1110 keeps all the other bits the same while clearing
+        // out the least significant bit for us to set it. In the case
+        // that `alphaInfo` is one (as in this case), it will be set to
+        // 1. If it was 0, it will also be set to 0 (i.e. no change).
         bitmapInfo = CGBitmapInfo(rawValue: bitmapInfo.rawValue & ~CGBitmapInfo.alphaInfoMask.rawValue | alphaInfo)
 
         guard let context = CGContext(data: nil,
