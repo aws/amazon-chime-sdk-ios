@@ -77,9 +77,7 @@ import UIKit
         }
 
         // Blur the input frame with Gaussian Blur which will be used as the background of the final output image.
-        let backgroundBlurredImage: CIImage = inputFrame.clampedToExtent()
-                                                        .applyingGaussianBlur(sigma: Double(blurStrength))
-                                                        .clamped(to: inputFrame.extent)
+        let backgroundBlurredImage: CIImage = inputFrame.applyingGaussianBlur(sigma: Double(blurStrength))
 
         // Create the final output image by blending the alpha mask on top of the input frame to produce
         // the foreground image which is placed on top of the blurred background image.

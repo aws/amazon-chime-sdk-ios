@@ -86,7 +86,7 @@ public class BackgroundFilterProcessor {
 
         // Update the buffer pool dimensions if the new frame does not match the previous frame dimensions.
         if bufferPool == nil || inputFrameCG.width != bufferPoolWidth || inputFrameCG.height != bufferPoolHeight {
-
+            logger.info(msg: "Updating buffer pool with new sizes: \(inputFrameCG.width) x \(inputFrameCG.height)")
             updateBufferPool(newWidth: inputFrameCG.width, newHeight: inputFrameCG.height)
             // Initialize the segmentationProcessor if it has not been initialized.
             let initializeResult: Bool = segmentationProcessor.initialize(height: segmentationProcessorHeight,
@@ -104,27 +104,16 @@ public class BackgroundFilterProcessor {
             return nil
         }
 
-        // Calculate the scale and aspect ratio factor to downscale.
-        let downSampleScale = Double(segmentationProcessorHeight) / Double(inputFrameCG.height)
-        let downSampleAspectRatio: Double = (Double(inputFrameCG.height) / Double(inputFrameCG.width)) /
-                                            (Double(segmentationProcessorHeight) / Double(segmentationProcessorWidth))
-
-        // Down sample the image.
-        guard let downSampleImage: CIImage = resizeImage(image: inputFrameCI,
-                                                         scale: downSampleScale,
-                                                         aspectRatio: downSampleAspectRatio)
+        // Downscale the image.
+        let downSize = CGSize(width: segmentationProcessorWidth, height: segmentationProcessorHeight)
+        guard let downscaledImageCG: CGImage = resizeImage(image: inputFrameCG, newSize: downSize)
         else {
-            return nil
-        }
-
-        guard let downSampleImageCg = context.createCGImage(downSampleImage,
-                                                            from: downSampleImage.extent)
-        else {
+            logger.error(msg: "Error downscaling input frame")
             return nil
         }
 
         // Convert the input CGImage to a UInt8 byte array.
-        guard var byteArray: [UInt8] = ImageConversionUtils.cgImageToByteArray(cgImage: downSampleImageCg) else {
+        guard var byteArray: [UInt8] = ImageConversionUtils.cgImageToByteArray(cgImage: downscaledImageCG) else {
             logger.error(msg: "Error converting CGImage to byte array when creating the foreground mask.")
             return nil
         }
@@ -143,32 +132,26 @@ public class BackgroundFilterProcessor {
         // Retrieve the foreground mask.
         let maskOutputBuffer = segmentationProcessor.getOutputBuffer()
 
-        guard let maskImage: CGImage = ImageConversionUtils.byteArrayToCGImage(raw: maskOutputBuffer,
-                                                                               frameWidth: segmentationProcessorWidth,
-                                                                               frameHeight: segmentationProcessorHeight,
-                                                                               bytesPerPixel: imageChannels,
-                                                                               bitsPerComponent: inputFrameCG.bitsPerComponent)
-        else {
+        guard let maskImage: CGImage = ImageConversionUtils.byteArrayToCGImage(
+            raw: maskOutputBuffer,
+            frameWidth: segmentationProcessorWidth,
+            frameHeight: segmentationProcessorHeight,
+            bytesPerPixel: imageChannels,
+            bitsPerComponent: inputFrameCG.bitsPerComponent
+        ) else {
             logger.error(msg: "Error creating CGImage of the foreground mask.")
             return nil
         }
 
-        let maskImageCi = CIImage(cgImage: maskImage)
-
-        // Calculate the scale and aspect ratio factor to upscale.
-        let upSampleScale = Double(inputFrameCG.height) / Double(segmentationProcessorHeight)
-        let upSampleAspectRatio: Double = (Double(segmentationProcessorHeight) / Double(segmentationProcessorWidth)) /
-                                          (Double(inputFrameCG.height) / Double(inputFrameCG.width))
-
-        // Upsample image back to it size.
-        guard let upSampleImage = resizeImage(image: maskImageCi,
-                                              scale: upSampleScale,
-                                              aspectRatio: upSampleAspectRatio)
+        // Upscale the image back to it size.
+        let originalSize = CGSize(width: inputFrameCG.width, height: inputFrameCG.height)
+        guard let upscaledMaskImage = resizeImage(image: maskImage, newSize: originalSize)
         else {
+            logger.error(msg: "Error upscaling segmentation mask")
             return nil
         }
 
-        return upSampleImage
+        return CIImage(cgImage: upscaledMaskImage)
     }
 
     /// Blends foreground alpha mask with input image to produce a foreground image which is rendered on top
@@ -221,27 +204,72 @@ public class BackgroundFilterProcessor {
         return bufferPool
     }
 
-    /// Resize an image using `CILanczosScaleTransform` CIFilter.
+    /// Resize CGImage to the given size.
     ///
     /// - Parameters:
-    ///   - image: Image to scale.
-    ///   - scale: Scaling factor.
-    ///   - aspectRatio: Aspect ratio factor.
-    func resizeImage(image: CIImage, scale: Double, aspectRatio: Double) -> CIImage? {
-        guard let resizeFilter = CIFilter(name: "CILanczosScaleTransform") else {
-            logger.error(msg: "Error creating CILanczosScaleTransform CIFilter.")
+    ///   - image: Input image to resize.
+    ///   - newSize: Size of the image output.
+    ///
+    /// - Returns: Resized image.
+    private func resizeImage(image: CGImage, newSize: CGSize) -> CGImage? {
+        guard let colorSpace = image.colorSpace else {
+            logger.error(msg: "Unable to find color space")
             return nil
         }
 
-        resizeFilter.setValue(CGFloat.init(scale), forKey: kCIInputScaleKey)
-        resizeFilter.setValue(image, forKey: kCIInputImageKey)
-        resizeFilter.setValue(CGFloat.init(aspectRatio), forKey: "inputAspectRatio")
+        let width = Int(newSize.width)
+        let height = Int(newSize.height)
+        let bitsPerComponent = image.bitsPerComponent
+        let bitsPerPixel = image.bitsPerPixel
 
-        guard let outputResizedImage = resizeFilter.outputImage
-        else {
-            logger.error(msg: "Error resizing image.")
+        // Adjust bitmap info to take into account alpha info.
+        var bitmapInfo = image.bitmapInfo
+        var alphaInfo = bitmapInfo.rawValue & CGBitmapInfo.alphaInfoMask.rawValue
+
+        // Since iOS 8, we cannot create contexts with unmultiplied alpha info.
+        // As a result, if we see a bitmap with an alpha channel that is set to
+        // the last, we assume that the alpha has already been premultiplied and
+        // do nothing. If the alpha channel is set to first, we similarly still
+        // assume it has already been premultiplied and do nothing. We do nothing
+        // because the value should not have been there in the first place and we
+        // prefer doing nothing over modifying the image erroneously.
+        if alphaInfo == CGImageAlphaInfo.last.rawValue {
+            alphaInfo = CGImageAlphaInfo.premultipliedLast.rawValue
+        } else if alphaInfo == CGImageAlphaInfo.first.rawValue {
+            alphaInfo = CGImageAlphaInfo.premultipliedFirst.rawValue
+        }
+
+        // Set the new alpha info in case we have changed it.
+        // In order to set the value, we take the existing alpha
+        // info mask, which is used to extract the value, and invert
+        // it instead. This allows us to instead set the bit value
+        // with the `alphaInfo` bit. As an example, let's say we
+        // have
+        //    bitmapInfo    = 0010
+        //    alphaInfoMask = 0001
+        //    alphaInfo     = 0001
+        // In this case, we'd like to set the bit of `0` to the
+        // least significant bit. Inverting the `alphaInfoMask`
+        // to 1110 keeps all the other bits the same while clearing
+        // out the least significant bit for us to set it. In the case
+        // that `alphaInfo` is one (as in this case), it will be set to
+        // 1. If it was 0, it will also be set to 0 (i.e. no change).
+        bitmapInfo = CGBitmapInfo(rawValue: bitmapInfo.rawValue & ~CGBitmapInfo.alphaInfoMask.rawValue | alphaInfo)
+
+        guard let context = CGContext(data: nil,
+                                      width: width,
+                                      height: height,
+                                      bitsPerComponent: bitsPerComponent,
+                                      bytesPerRow: width * (bitsPerPixel / bitsPerComponent),
+                                      space: colorSpace,
+                                      bitmapInfo: bitmapInfo.rawValue) else {
+            logger.error(msg: "Unable to create context when resizing image")
             return nil
         }
-        return outputResizedImage
+        context.interpolationQuality = .high
+        let rect = CGRect(origin: CGPoint.zero, size: newSize)
+        context.draw(image, in: rect)
+
+        return context.makeImage()
     }
 }
