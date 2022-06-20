@@ -1,3 +1,9 @@
+## [unreleased]
+### Fixed
+* [Demo] Fixed frame rate display in device selection view
+
+### Changed
+* Changed `updateDeviceCaptureFormat` to match fps after resolution
 ## [0.22.0] - 2022-07-14
 
 ### Fixed

@@ -59,6 +59,13 @@ class DefaultCameraCaptureSourceTests: XCTestCase {
         wait(for: [expect], timeout: defaultTimeout)
         AVCaptureSession.swizzleCanAddFalse()
     }
+
+    func testClosestFormat() {
+        XCTAssertEqual(defaultCameraCaptureSource.closestFormat(
+            formatA: VideoCaptureFormat(width: 1280, height: 720, maxFrameRate: 30),
+            formatB: VideoCaptureFormat(width: 1280, height: 720, maxFrameRate: 15)
+        ), true)
+    }
 }
 
 extension AVCaptureSession {
