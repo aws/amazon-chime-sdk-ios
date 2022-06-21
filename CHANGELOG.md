@@ -1,3 +1,9 @@
+## [unreleased]
+
+### Added
+* Changed `maxSupportedVideoFrameRate` to 30
+* Changed `updateDeviceCaptureFormat` to match fps after resolution
+
 ## [0.21.2] - 2022-06-17
 
 ### Fixed
