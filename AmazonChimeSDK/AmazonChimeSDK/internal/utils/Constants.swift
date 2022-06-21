@@ -22,7 +22,7 @@ import Foundation
     static let traceLevel: UInt32 = LOGGER_TRACE.rawValue
     static let dataMessageMaxDataSizeInByte = 2048
     static let dataMessageTopicRegex = "^[a-zA-Z0-9_-]{1,36}$"
-    static let maxSupportedVideoFrameRate = 30
+    static let maxSupportedVideoFrameRate = 15
     static let maxSupportedVideoHeight = 720
     static let maxSupportedVideoWidth = maxSupportedVideoHeight / 9 * 16
 }

@@ -227,9 +227,6 @@ import UIKit
             let formatB = VideoCaptureFormat.fromAVCaptureDeviceFormat(format: avFormatB)
             let diffA = abs(formatA.width - format.width) + abs(formatA.height - format.height)
             let diffB = abs(formatB.width - format.width) + abs(formatB.height - format.height)
-            if diffA == diffB {
-                return abs(formatA.maxFrameRate - format.maxFrameRate) < abs(formatB.maxFrameRate - format.maxFrameRate)
-            }
             return diffA < diffB
         }
         guard let chosenFormat = newAVFormat, chosenFormat != captureDevice.activeFormat else {
