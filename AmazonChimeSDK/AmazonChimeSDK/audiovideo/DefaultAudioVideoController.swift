@@ -85,8 +85,16 @@ import Foundation
         try videoClientController.startLocalVideo()
     }
 
+    public func startLocalVideo(config: LocalVideoConfiguration) throws {
+        try videoClientController.startLocalVideo(config: config)
+    }
+
     public func startLocalVideo(source: VideoSource) {
         videoClientController.startLocalVideo(source: source)
+    }
+
+    public func startLocalVideo(source: VideoSource, config: LocalVideoConfiguration) {
+        videoClientController.startLocalVideo(source: source, config: config)
     }
 
     public func stopLocalVideo() {
@@ -100,7 +108,7 @@ import Foundation
     public func stopRemoteVideo() {
         videoClientController.stopRemoteVideo()
     }
-    
+
     public func updateVideoSourceSubscriptions(addedOrUpdated: Dictionary<RemoteVideoSource, VideoSubscriptionConfiguration>, removed: Array<RemoteVideoSource>) {
         videoClientController.updateVideoSourceSubscriptions(addedOrUpdated: addedOrUpdated, removed: removed)
     }

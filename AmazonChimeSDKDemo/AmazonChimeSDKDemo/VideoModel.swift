@@ -217,7 +217,10 @@ class VideoModel: NSObject {
                         customVideoSource.addVideoSink(sink: self.backgroundReplacementProcessor)
                         customVideoSource = self.backgroundReplacementProcessor
                     }
-                    self.audioVideoFacade.startLocalVideo(source: customVideoSource)
+                    // customers could set simulcast here
+                    let config = LocalVideoConfiguration()
+                    self.audioVideoFacade.startLocalVideo(source: customVideoSource,
+                                                          config: config)
                 } else {
                     do {
                         try self.audioVideoFacade.startLocalVideo()

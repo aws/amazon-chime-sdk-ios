@@ -10,6 +10,7 @@ import Foundation
 
 @objc public protocol ContentShareVideoClientController {
     func startVideoShare(source: VideoSource)
+    func startVideoShare(source: VideoSource, config: LocalVideoConfiguration)
     func stopVideoShare()
     func subscribeToVideoClientStateChange(observer: ContentShareObserver)
     func unsubscribeFromVideoClientStateChange(observer: ContentShareObserver)

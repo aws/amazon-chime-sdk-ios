@@ -13,7 +13,9 @@ import Foundation
     func start()
     func stopAndDestroy()
     func startLocalVideo() throws
+    func startLocalVideo(config: LocalVideoConfiguration) throws
     func startLocalVideo(source: VideoSource)
+    func startLocalVideo(source: VideoSource, config: LocalVideoConfiguration)
     func stopLocalVideo()
     func startRemoteVideo()
     func stopRemoteVideo()

@@ -18,12 +18,14 @@ class DefaultVideoClientControllerTests: CommonTestCase {
     var videoClientMock: VideoClientProtocolMock!
     var clientMetricsCollectorMock: ClientMetricsCollectorMock!
     var eventAnalyticsControllerMock: EventAnalyticsControllerMock!
+    var videoSourceMock: VideoSourceMock!
 
     var defaultVideoClientController: DefaultVideoClientController!
 
     override func setUp() {
         super.setUp()
 
+        videoSourceMock = mock(VideoSource.self)
         videoClientMock = mock(VideoClientProtocol.self)
         clientMetricsCollectorMock = mock(ClientMetricsCollector.self)
         eventAnalyticsControllerMock = mock(EventAnalyticsController.self)
@@ -33,6 +35,7 @@ class DefaultVideoClientControllerTests: CommonTestCase {
                                                                     configuration: meetingSessionConfigurationMock,
                                                                     logger: loggerMock,
                                                                     eventAnalyticsController: eventAnalyticsControllerMock)
+        given(videoSourceMock.getVideoContentHint()).willReturn(VideoContentHint.text)
     }
 
     func testSendDataMessage_videoClientNotStarted() {
@@ -88,5 +91,41 @@ class DefaultVideoClientControllerTests: CommonTestCase {
         }
 
         verify(videoClientMock.sendDataMessage(self.topic, data: any(), lifetimeMs: 0)).wasNeverCalled()
+    }
+
+    func testSendLocalVideo() {
+        defaultVideoClientController.start()
+        XCTAssertNoThrow(try defaultVideoClientController.startLocalVideo())
+
+        verify(videoClientMock.setExternalVideoSource(any())).wasCalled()
+        verify(videoClientMock.setSending(true)).wasCalled()
+    }
+
+    func testSendLocalVideoWithConfig() {
+        defaultVideoClientController.start()
+        let config = LocalVideoConfiguration()
+        XCTAssertNoThrow(try defaultVideoClientController.startLocalVideo(config: config))
+
+        verify(videoClientMock.setExternalVideoSource(any())).wasCalled()
+        verify(videoClientMock.setSending(true)).wasCalled()
+        verify(videoClientMock.setSimulcast(true)).wasCalled()
+    }
+
+    func testSendLocalVideoWithSource() {
+        defaultVideoClientController.start()
+        defaultVideoClientController.startLocalVideo(source: videoSourceMock)
+
+        verify(videoClientMock.setExternalVideoSource(any())).wasCalled()
+        verify(videoClientMock.setSending(true)).wasCalled()
+    }
+
+    func testSendLocalVideoWithSourceAndConfig() {
+        defaultVideoClientController.start()
+        let config = LocalVideoConfiguration()
+        defaultVideoClientController.startLocalVideo(source: videoSourceMock, config: config)
+
+        verify(videoClientMock.setExternalVideoSource(any())).wasCalled()
+        verify(videoClientMock.setSending(true)).wasCalled()
+        verify(videoClientMock.setSimulcast(true)).wasCalled()
     }
 }

@@ -1,3 +1,8 @@
+## [unreleased]
+
+### Added
+* Added support to expose simulcast configuration
+
 ## [0.21.2] - 2022-06-17
 
 ### Fixed

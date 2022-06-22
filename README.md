@@ -502,6 +502,11 @@ class MyVideoTileObserver: VideoTileObserver {
 // Use internal camera capture for the local video
 meetingSession.audioVideo.startLocalVideo()
 
+// Use internal camera capture and set configuration for the video, e.g. simulcastEnabled
+// This can be called multiple times to enable/disable simulcast on the fly
+let localVideoConfig = LocalVideoConfiguration(simulcastEnabled: true)
+meetingSession.audioVideo.startLocalVideo(config: localVideoConfig)
+
 // You can switch camera to change the video input device
 meetingSession.audioVideo.switchCamera()
 

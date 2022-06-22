@@ -45,6 +45,17 @@ import Foundation
     /// - Throws: `PermissionError.videoPermissionError` if video permission of `AVCaptureDevice` is not granted
     func startLocalVideo() throws
 
+    /// Start local video with configurations and begin transmitting frames from an internally held `DefaultCameraCaptureSource`.
+    /// `stopLocalVideo` will stop the internal capture source if being used.
+    ///
+    /// Calling this after passing in a custom `VideoSource` will replace it with the internal capture source.
+    ///
+    /// This function will only have effect if `start` has already been called
+    ///
+    /// Parameter config: configurations of emitted video stream, e.g. simulcast
+    /// - Throws: `PermissionError.videoPermissionError` if video permission of `AVCaptureDevice` is not granted
+    func startLocalVideo(config: LocalVideoConfiguration) throws
+
     /// Start local video with a provided custom `VideoSource` which can be used to provide custom
     /// `VideoFrame`s to be transmitted to remote clients. This will call `VideoSource.addVideoSink`
     /// on the provided source.
@@ -57,6 +68,20 @@ import Foundation
     ///
     /// - Parameter source: The source of video frames to be sent to other clients
     func startLocalVideo(source: VideoSource)
+
+    /// Start local video with configurations and a provided custom `VideoSource` which can be used to provide custom
+    /// `VideoFrame`s to be transmitted to remote clients. This will call `VideoSource.addVideoSink`
+    /// on the provided source.
+    ///
+    /// Calling this function repeatedly will replace the previous `VideoSource` as the one being
+    /// transmitted. It will also stop and replace the internal capture source if `startLocalVideo`
+    /// was previously called with no arguments.
+    ///
+    /// This function will only have effect if `start` has already been called
+    ///
+    /// - Parameter source: The source of video frames to be sent to other clients
+    /// - Parameter config: Configurations of emitted video stream, e.g. simulcast
+    func startLocalVideo(source: VideoSource, config: LocalVideoConfiguration)
 
     /// Stops sending video for local attendee. This will additionally stop the internal capture source if being used.
     /// If using a custom video source, this will call `VideoSource.removeVideoSink` on the previously provided source.

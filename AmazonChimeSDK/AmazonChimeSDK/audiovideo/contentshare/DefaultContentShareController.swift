@@ -23,6 +23,14 @@ import Foundation
         }
     }
 
+    public func startContentShare(source: ContentShareSource, config: LocalVideoConfiguration) {
+        // ignore LocalVideoConfiguration because contentshare does not have simulcast
+        // we want to keep the API same as LocalVideo
+        if let videoSource = source.videoSource {
+            contentShareVideoClientController.startVideoShare(source: videoSource, config: config)
+        }
+    }
+
     public func stopContentShare() {
         contentShareVideoClientController.stopVideoShare()
     }

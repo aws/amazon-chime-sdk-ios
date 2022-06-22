@@ -64,8 +64,16 @@ import Foundation
         try audioVideoController.startLocalVideo()
     }
 
+    public func startLocalVideo(config: LocalVideoConfiguration) throws {
+        try audioVideoController.startLocalVideo(config: config)
+    }
+
     public func startLocalVideo(source: VideoSource) {
         audioVideoController.startLocalVideo(source: source)
+    }
+
+    public func startLocalVideo(source: VideoSource, config: LocalVideoConfiguration) {
+        audioVideoController.startLocalVideo(source: source, config: config)
     }
 
     public func stopLocalVideo() {
@@ -233,6 +241,10 @@ import Foundation
 
     public func startContentShare(source: ContentShareSource) {
         contentShareController.startContentShare(source: source)
+    }
+
+    public func startContentShare(source: ContentShareSource, config: LocalVideoConfiguration) {
+        contentShareController.startContentShare(source: source, config: config)
     }
 
     public func stopContentShare() {

@@ -50,6 +50,8 @@ import Foundation
     func promotePrimaryMeeting(_ attendeeId: String!, externalUserId: String!, joinToken: String!)
 
     func demoteFromPrimaryMeeting()
+
+    func setSimulcast(_ simulcast: Bool)
 }
 
 extension VideoClient: VideoClientProtocol {}
