@@ -12,13 +12,6 @@ import Foundation
 @objcMembers public class LocalVideoConfiguration: NSObject {
 
     /// The flag to disable/enable simulcast, default to true
-    public var simulcastEnabled: Bool
-    
-    convenience override public init() {
-        self.init(simulcastEnabled: true)
-    }
-    
-    public init(simulcastEnabled: Bool) {
-        self.simulcastEnabled = simulcastEnabled
-    }
+    /// only for localVideo, not work for content share
+    public var simulcastEnabled: Bool = true
 }
