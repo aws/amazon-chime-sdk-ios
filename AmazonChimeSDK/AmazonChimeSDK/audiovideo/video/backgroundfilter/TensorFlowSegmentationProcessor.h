@@ -10,20 +10,9 @@
 #define TENSOR_FLOW_SEGMENTATION_PROCESSOR_H
 
 #import <Foundation/Foundation.h>
+#import "SegmentationProcessor.h"
 
-// Forward declare SegmentationProcessor. This protocol is declared
-// and in Swift but exposed to the Objective-C runtime. See
-// SegmentationProcessor.swift for more details on the interface.
-// TODO(richhx): Figure out why this doesn't work in bazel.
-// For some reason, importing using apple_dynamic_framework_import
-// into another library causes the SegmentationProcessor to not be
-// visible, thereby causing compilation issues. As a workaround, we
-// simply comment this out even though this is the recommended approach
-// by Apple.
-// https://developer.apple.com/documentation/swift/importing-swift-into-objective-c
-// @protocol SegmentationProcessor;
-
-@interface TensorFlowSegmentationProcessor : NSObject
+@interface TensorFlowSegmentationProcessor : NSObject <SegmentationProcessor>
 
 + (BOOL) isAvailable;
 

@@ -93,7 +93,7 @@ public class BackgroundFilterProcessor {
             logger.info(msg: "Updating buffer pool with new sizes: \(inputFrameCG.width) x \(inputFrameCG.height)")
             updateBufferPool(newWidth: inputFrameCG.width, newHeight: inputFrameCG.height)
             // Initialize the segmentationProcessor if it has not been initialized.
-            let initializeResult: Bool = segmentationProcessor.initialize(height: segmentationProcessorHeight,
+            let initializeResult: Bool = segmentationProcessor.initialize(withHeight: segmentationProcessorHeight,
                                                                           width: segmentationProcessorWidth,
                                                                           channels: imageChannels)
             if !initializeResult {
