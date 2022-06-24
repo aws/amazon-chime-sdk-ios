@@ -63,7 +63,11 @@ public class BackgroundFilterProcessor {
                               "to your project.")
             segmentationProcessor = NoopSegmentationProcessor()
         } else {
-            segmentationProcessor = TensorFlowSegmentationProcessor()
+            // TODO(richhx): Remove force casting. See TensorFlowSegmentationProcessor.h for more details.
+            // For now, we need to force cast the protocol to the Objective-C class.
+            // swiftlint:disable force_cast
+            segmentationProcessor = TensorFlowSegmentationProcessor() as! SegmentationProcessor
+            // swiftlint:enable force_cast
         }
     }
 

@@ -10,6 +10,11 @@ import CoreImage
 import CoreMedia
 import Foundation
 
+// IMPORTANT: Any changes that you make to this protocol should be reflected in
+// TensorFlowSegmentationProcessor.h. This is because we are force casting the
+// protocol type of the TensorFlowSegmentationProcessor class in BackgroundFilterProcessor
+// due to an issue when compiling the TensorFlowSegmentationProcessor.h header file
+// through bazel. See TensorFlowSegmentationProcessor.h for more details.
 @objc public protocol SegmentationProcessor {
     @objc func initialize(height: Int, width: Int, channels: Int) -> Bool
 
