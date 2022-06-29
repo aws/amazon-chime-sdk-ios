@@ -13,8 +13,8 @@ import Foundation
 public class NoopSegmentationProcessor: SegmentationProcessor {
     private var buffer: UnsafeMutablePointer<UInt8> = UnsafeMutablePointer<UInt8>.allocate(capacity: 0)
 
-    public func initialize(withHeight: Int, width: Int, channels: Int) -> Bool {
-        let capacity = withHeight * width * Int(channels)
+    public func initialize(_ height: Int, width: Int, channels: Int) -> Bool {
+        let capacity = height * width * channels
         buffer = UnsafeMutablePointer.allocate(capacity: capacity)
         return true
     }

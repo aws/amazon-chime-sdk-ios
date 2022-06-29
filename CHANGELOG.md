@@ -3,6 +3,9 @@
 ### Added
 * Added support to expose simulcast configuration
 
+### Fixed
+* Fixed `SegmentationProcessor` protocol warnings.
+
 ## [0.21.2] - 2022-06-17
 
 ### Fixed

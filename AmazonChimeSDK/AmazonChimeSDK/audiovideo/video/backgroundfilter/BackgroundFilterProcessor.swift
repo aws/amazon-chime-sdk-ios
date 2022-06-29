@@ -63,11 +63,7 @@ public class BackgroundFilterProcessor {
                               "to your project.")
             segmentationProcessor = NoopSegmentationProcessor()
         } else {
-            // TODO(richhx): Remove force casting. See TensorFlowSegmentationProcessor.h for more details.
-            // For now, we need to force cast the protocol to the Objective-C class.
-            // swiftlint:disable force_cast
-            segmentationProcessor = TensorFlowSegmentationProcessor() as! SegmentationProcessor
-            // swiftlint:enable force_cast
+            segmentationProcessor = TensorFlowSegmentationProcessor()
         }
     }
 
@@ -93,7 +89,7 @@ public class BackgroundFilterProcessor {
             logger.info(msg: "Updating buffer pool with new sizes: \(inputFrameCG.width) x \(inputFrameCG.height)")
             updateBufferPool(newWidth: inputFrameCG.width, newHeight: inputFrameCG.height)
             // Initialize the segmentationProcessor if it has not been initialized.
-            let initializeResult: Bool = segmentationProcessor.initialize(withHeight: segmentationProcessorHeight,
+            let initializeResult: Bool = segmentationProcessor.initialize(segmentationProcessorHeight,
                                                                           width: segmentationProcessorWidth,
                                                                           channels: imageChannels)
             if !initializeResult {

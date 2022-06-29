@@ -16,7 +16,7 @@
 
 + (BOOL) isAvailable;
 
-- (BOOL) initializeWithHeight:(NSInteger)height width:(NSInteger)width channels:(NSInteger)channels;
+- (BOOL) initialize:(NSInteger)height width:(NSInteger)width channels:(NSInteger)channels;
 
 - (BOOL) predict;
 
