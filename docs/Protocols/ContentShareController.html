@@ -156,6 +156,9 @@
                 <a href="../Classes/IntervalScheduler.html">IntervalScheduler</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/LocalVideoConfiguration.html">LocalVideoConfiguration</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/MediaDevice.html">MediaDevice</a>
               </li>
               <li class="nav-group-task">
@@ -557,6 +560,73 @@ and <code><a href="../Protocols/VideoSource.html#/c:@M@AmazonChimeSDK@objc(pl)Vi
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)ContentShareController(im)startContentShareWithSource:config:"></a>
+                    <a name="//apple_ref/swift/Method/startContentShare(source:config:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)ContentShareController(im)startContentShareWithSource:config:">startContentShare(source:<wbr>config:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Start sharing the content of a given <code><a href="../Classes/ContentShareSource.html">ContentShareSource</a></code>, with configurations.</p>
+
+<p>Once sharing has started successfully, <code>ContentShareObserver.contentShareDidStart</code> will
+be notified. If sharing fails or stops, <code>ContentShareObserver.contentShareDidStop</code>
+will be invoked with <code><a href="../Classes/ContentShareStatus.html">ContentShareStatus</a></code> as the cause.</p>
+
+<p>This will call <code><a href="../Protocols/VideoSource.html#/c:@M@AmazonChimeSDK@objc(pl)VideoSource(im)addVideoSinkWithSink:">VideoSource.addVideoSink(sink:)</a></code> on the provided source
+and <code><a href="../Protocols/VideoSource.html#/c:@M@AmazonChimeSDK@objc(pl)VideoSource(im)removeVideoSinkWithSink:">VideoSource.removeVideoSink(sink:)</a></code> on the previously provided source.</p>
+
+<p>Calling this function repeatedly will replace the previous <code><a href="../Classes/ContentShareSource.html">ContentShareSource</a></code> as the one being transmitted.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">startContentShare</span><span class="p">(</span><span class="nv">source</span><span class="p">:</span> <span class="kt"><a href="../Classes/ContentShareSource.html">ContentShareSource</a></span><span class="p">,</span> <span class="nv">config</span><span class="p">:</span> <span class="kt"><a href="../Classes/LocalVideoConfiguration.html">LocalVideoConfiguration</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>source</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>source of content to be shared</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>config</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>configurations of emitted video stream, e.g simulcast</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)ContentShareController(im)stopContentShare"></a>
                     <a name="//apple_ref/swift/Method/stopContentShare()" class="dashAnchor"></a>
                     <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)ContentShareController(im)stopContentShare">stopContentShare()</a>
@@ -681,7 +751,7 @@ will be invoked with status code <code>ContentShareStatusCode.OK</code>.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2022 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2022-06-17)</p>
+          <p>&copy; 2022 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2022-06-30)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.2</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
