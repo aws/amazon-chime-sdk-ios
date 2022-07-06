@@ -206,6 +206,25 @@ class BackgroundFilterTests: XCTestCase {
         #endif
     }
 
+    /// Test `NoopSegmentationProcessor` for coverage purposes.
+    func testNoopSegmentationProcessor() {
+        let segmentationProcessor = NoopSegmentationProcessor()
+        let initializeResult = segmentationProcessor.initialize(144, width: 256, channels: 4)
+        XCTAssertTrue(initializeResult)
+
+        let predictResult = segmentationProcessor.predict()
+        XCTAssertTrue(predictResult)
+
+        let modelStateResult = segmentationProcessor.getModelState()
+        XCTAssertEqual(CwtModelState.LOADED.rawValue, UInt(modelStateResult))
+
+        let inputBuffer = segmentationProcessor.getInputBuffer()
+        XCTAssertNotNil(inputBuffer)
+
+        let outputBuffer = segmentationProcessor.getOutputBuffer()
+        XCTAssertNotNil(outputBuffer)
+    }
+
     /// Generates a blue background image used as a background replacement image
     /// for `BackgroundReplacementVideoFrameProcessor` test.
     ///

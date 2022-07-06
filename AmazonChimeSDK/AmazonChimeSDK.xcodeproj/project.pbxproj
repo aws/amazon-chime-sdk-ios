@@ -229,6 +229,7 @@
 		C4EDDAAC253F46FF0028264A /* VideoCaptureFormatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EDDAAB253F46FF0028264A /* VideoCaptureFormatTests.swift */; };
 		C4EDDAB0253F4C4B0028264A /* CaptureSourceErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EDDAAF253F4C4B0028264A /* CaptureSourceErrorTests.swift */; };
 		C4F8B6552580172200D9AE54 /* CMCampleBufferExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F8B6542580172200D9AE54 /* CMCampleBufferExtensions.swift */; };
+		C5307A1B28667BD0008C31D1 /* SegmentationProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = C5307A1A28667BD0008C31D1 /* SegmentationProcessor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C531A5BE281CC3B000086E73 /* TensorFlowSegmentationProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = C531A5BD281CC3B000086E73 /* TensorFlowSegmentationProcessor.m */; };
 		C531A5C0281CC5A900086E73 /* TensorFlowSegmentationProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = C531A5BF281CC5A900086E73 /* TensorFlowSegmentationProcessor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C531A5C6281D380300086E73 /* AmazonChimeSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = C531A5C5281D37AE00086E73 /* AmazonChimeSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -267,7 +268,6 @@
 		CF4BA473280FBE72005E6DAE /* BackgroundBlurConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4BA472280FBE72005E6DAE /* BackgroundBlurConfiguration.swift */; };
 		CF5B9A13281716E600441A7D /* BackgroundReplacementConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5B9A12281716E600441A7D /* BackgroundReplacementConfiguration.swift */; };
 		CF8C8C512825D04000450757 /* AmazonChimeSDKMachineLearning.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF8C8C502825D04000450757 /* AmazonChimeSDKMachineLearning.xcframework */; };
-		CFA2A14928074E2A008FDFF5 /* SegmentationProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2A14528074E2A008FDFF5 /* SegmentationProcessor.swift */; };
 		CFA2A14A28074E2A008FDFF5 /* BackgroundBlurVideoFrameProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2A14628074E2A008FDFF5 /* BackgroundBlurVideoFrameProcessor.swift */; };
 		CFA2A14B28074E2A008FDFF5 /* BackgroundFilterProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2A14728074E2A008FDFF5 /* BackgroundFilterProcessor.swift */; };
 		CFA2A14C28074E2A008FDFF5 /* BackgroundReplacementVideoFrameProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA2A14828074E2A008FDFF5 /* BackgroundReplacementVideoFrameProcessor.swift */; };
@@ -529,6 +529,7 @@
 		C4EDDAAB253F46FF0028264A /* VideoCaptureFormatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCaptureFormatTests.swift; sourceTree = "<group>"; };
 		C4EDDAAF253F4C4B0028264A /* CaptureSourceErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureSourceErrorTests.swift; sourceTree = "<group>"; };
 		C4F8B6542580172200D9AE54 /* CMCampleBufferExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMCampleBufferExtensions.swift; sourceTree = "<group>"; };
+		C5307A1A28667BD0008C31D1 /* SegmentationProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SegmentationProcessor.h; path = AmazonChimeSDK/audiovideo/video/backgroundfilter/SegmentationProcessor.h; sourceTree = "<group>"; };
 		C531A5BD281CC3B000086E73 /* TensorFlowSegmentationProcessor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TensorFlowSegmentationProcessor.m; sourceTree = "<group>"; };
 		C531A5BF281CC5A900086E73 /* TensorFlowSegmentationProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TensorFlowSegmentationProcessor.h; sourceTree = "<group>"; };
 		C531A5C5281D37AE00086E73 /* AmazonChimeSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AmazonChimeSDK.h; sourceTree = "<group>"; };
@@ -567,7 +568,6 @@
 		CF4BA472280FBE72005E6DAE /* BackgroundBlurConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundBlurConfiguration.swift; sourceTree = "<group>"; };
 		CF5B9A12281716E600441A7D /* BackgroundReplacementConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundReplacementConfiguration.swift; sourceTree = "<group>"; };
 		CF8C8C502825D04000450757 /* AmazonChimeSDKMachineLearning.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = AmazonChimeSDKMachineLearning.xcframework; sourceTree = "<group>"; };
-		CFA2A14528074E2A008FDFF5 /* SegmentationProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentationProcessor.swift; sourceTree = "<group>"; };
 		CFA2A14628074E2A008FDFF5 /* BackgroundBlurVideoFrameProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundBlurVideoFrameProcessor.swift; sourceTree = "<group>"; };
 		CFA2A14728074E2A008FDFF5 /* BackgroundFilterProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundFilterProcessor.swift; sourceTree = "<group>"; };
 		CFA2A14828074E2A008FDFF5 /* BackgroundReplacementVideoFrameProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundReplacementVideoFrameProcessor.swift; sourceTree = "<group>"; };
@@ -800,6 +800,7 @@
 		5A15821323C4020D0099F8FA = {
 			isa = PBXGroup;
 			children = (
+				C5307A1A28667BD0008C31D1 /* SegmentationProcessor.h */,
 				CFD14AAB281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite */,
 				5A15821F23C4020D0099F8FA /* AmazonChimeSDK */,
 				5A15822A23C4020D0099F8FA /* AmazonChimeSDKTests */,
@@ -1392,7 +1393,6 @@
 				CF5B9A14281716EF00441A7D /* backgroundblur */,
 				CFA2A14728074E2A008FDFF5 /* BackgroundFilterProcessor.swift */,
 				CFA2A1532807DAAA008FDFF5 /* BackgroundFilter.swift */,
-				CFA2A14528074E2A008FDFF5 /* SegmentationProcessor.swift */,
 				C5FBFB84281DCBAC004C85CA /* NoopSegmentationProcessor.swift */,
 				C531A5BF281CC5A900086E73 /* TensorFlowSegmentationProcessor.h */,
 				C531A5BD281CC3B000086E73 /* TensorFlowSegmentationProcessor.m */,
@@ -1429,6 +1429,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C531A5C6281D380300086E73 /* AmazonChimeSDK.h in Headers */,
+				C5307A1B28667BD0008C31D1 /* SegmentationProcessor.h in Headers */,
 				C531A5C0281CC5A900086E73 /* TensorFlowSegmentationProcessor.h in Headers */,
 				C5CC3E0F281EA92E002FD4CB /* CwtEnum.h in Headers */,
 				C5CC3E0E281EA92E002FD4CB /* CwtTfLiteModel.h in Headers */,
@@ -1688,7 +1689,6 @@
 				B4980CA123E78B9A00D2DB64 /* DeviceController.swift in Sources */,
 				0007BDB326335DE500A15BB6 /* DefaultEventBuffer.swift in Sources */,
 				C4A6906E255B0E5500F28BC2 /* ContentShareSource.swift in Sources */,
-				CFA2A14928074E2A008FDFF5 /* SegmentationProcessor.swift in Sources */,
 				002307522630C3390074947E /* SQLiteDatabaseManager.swift in Sources */,
 				C4A69086255B0F1D00F28BC2 /* InAppScreenCaptureSource.swift in Sources */,
 				002C1FA4264128CE00C9B919 /* MeetingEventClientConfiguration.swift in Sources */,

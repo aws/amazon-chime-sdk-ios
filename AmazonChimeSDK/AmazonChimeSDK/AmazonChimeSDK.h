@@ -10,6 +10,7 @@
 #define AMAZON_CHIME_SDK_H
 
 // Umbrella header imports.
+#import "SegmentationProcessor.h"
 #import "TensorFlowSegmentationProcessor.h"
 #import "CwtEnum.h"
 

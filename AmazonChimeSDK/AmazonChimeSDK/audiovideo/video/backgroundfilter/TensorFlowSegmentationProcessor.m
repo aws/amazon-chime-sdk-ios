@@ -55,7 +55,7 @@
 
 // initialize instantiates the model for the segmentation processor.
 // Returns whether able to successfully initialize.
-- (BOOL) initializeWithHeight:(NSInteger)height width:(NSInteger)width channels:(NSInteger)channels {
+- (BOOL) initialize:(NSInteger)height width:(NSInteger)width channels:(NSInteger)channels {
     NSString* bundle = [TensorFlowSegmentationProcessor getModelFromBundle];
     if (!bundle) {
         NSLog(@"Unable to find selfie segmentation model");
