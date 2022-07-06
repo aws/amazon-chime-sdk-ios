@@ -1,10 +1,14 @@
+## [Unreleased]
+
+### Fixed
+* **Breaking** Fixed `SegmentationProcessor` protocol warnings. This change migrates the `SegmentationProcessor` from Swift to Objective-C. In the process, the first named parameter `height` is removed.
+
 ## [0.21.3] - 2022-06-30
 
 ### Added
 * Added support to expose simulcast configuration
 
 ### Fixed
-* Fixed `SegmentationProcessor` protocol warnings.
 
 ## [0.21.2] - 2022-06-17
 
