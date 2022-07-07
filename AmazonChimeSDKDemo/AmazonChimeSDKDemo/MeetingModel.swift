@@ -511,7 +511,7 @@ extension MeetingModel: RealtimeObserver {
                                                  volume: .notSpeaking,
                                                  signal: .high)
                 newAttendees.append(newAttendee)
-                var action = "Joined"
+                let action = "Joined"
                 logger.info(msg: "attendeeId:\(currentAttendeeInfo.attendeeId) externalUserId:\(currentAttendeeInfo.externalUserId) \(action)")
 
                 // if other attendee starts sharing content, stop content sharing from current device

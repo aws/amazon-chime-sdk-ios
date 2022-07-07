@@ -397,7 +397,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
 
         DispatchQueue.global().async {
             self.audioLock.lock()
-            self.audioClient.stopSession()
+            _ = self.audioClient.stopSession()
             DefaultAudioClientController.state = .stopped
             self.audioLock.unlock()
             self.notifyAudioClientObserver { (observer: AudioVideoObserver) in

@@ -367,13 +367,13 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
             identifyLanguage: identifyLanguage,
             languageOptions: languageOptions,
             preferredLanguage: preferredLanguage)
-        
-        var encodedData = try? JSONEncoder().encode(transcriptionStreamParams)
+
+        let encodedData = try? JSONEncoder().encode(transcriptionStreamParams)
         var transcriptionStreamParamsEncoded = "{}"
         if let data = encodedData {
             transcriptionStreamParamsEncoded = String(data: data, encoding: .utf8) ?? "{}"
         }
-        
+
         let encodedURL = HttpUtils.encodeStrForURL(
             str: "\(url)start_transcription?title=\(meetingId)" +
             "&language=\(languageSelected)" +
@@ -390,17 +390,17 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
             }
         }
     }
-    
+
     @IBAction func toggleCustomLanguageTextField(_ enableCustomLangugeModelTextFieldSwitch: UISwitch) {
         customLanguageModelTextField.isHidden = !enableCustomLangugeModelTextFieldSwitch.isOn
     }
-    
+
     @IBAction func enablePHIIdentificaiton(_ enablePHIIdentificaitonSwitch: UISwitch) {
         piiContentIdentificationSelected = enablePHIIdentificaitonSwitch.isOn ? "ALL" : ""
     }
-    
+
     @IBAction func showLanguageOptionsView(_ sender: UISwitch) {
-        
+
         guard let languageOptionsViewController = languageOptionsViewController else {
             return
         }
@@ -412,14 +412,14 @@ class LiveTranscriptionOptionsViewController: UIViewController, UITextFieldDeleg
             self.present(languageOptionsViewController, animated: true, completion: nil)
         }
     }
-    
+
 }
 
 extension LiveTranscriptionOptionsViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch pickerView.tag {
         case 1:
@@ -438,7 +438,7 @@ extension LiveTranscriptionOptionsViewController: UIPickerViewDataSource, UIPick
             return 1
         }
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         switch pickerView.tag {
         case 1:
@@ -457,7 +457,7 @@ extension LiveTranscriptionOptionsViewController: UIPickerViewDataSource, UIPick
             return "Data not found"
         }
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let engineSelectedBefore = engineSelected
         switch pickerView.tag {
@@ -481,23 +481,23 @@ extension LiveTranscriptionOptionsViewController: UIPickerViewDataSource, UIPick
             piiContentIdentificationTextField.text = piiContentIdentificationDict[piiContentIdentifications[row]]
             piiContentIdentificationSelected = piiContentIdentifications[row]
             piiContentIdentificationTextField.resignFirstResponder()
-            
+
             piiContentRedactionTextField.text = piiContentRedactionDict[piiContentRedactions[0]]
             piiContentRedactionSelected = piiContentRedactions[0]
             piiContentRedactionTextField.resignFirstResponder()
-            
+
         case 6:
             piiContentRedactionTextField.text = piiContentRedactionDict[piiContentRedactions[row]]
             piiContentRedactionSelected = piiContentRedactions[row]
             piiContentRedactionTextField.resignFirstResponder()
-            
+
             piiContentIdentificationTextField.text = piiContentIdentificationDict[piiContentIdentifications[0]]
             piiContentIdentificationSelected = piiContentIdentifications[0]
             piiContentIdentificationTextField.resignFirstResponder()
         default:
             return
         }
-        
+
         if engineSelected == "transcribe_medical" && engineSelectedBefore == "transcribe" {
             languages = transcribeMedicalLanguages
             regions = transcribeMedicalRegions
@@ -505,7 +505,7 @@ extension LiveTranscriptionOptionsViewController: UIPickerViewDataSource, UIPick
             languageTextField.text = languagesDict[languageSelected]
             regionSelected = "auto"
             regionTextField.text = regionsDict[regionSelected]
-            
+
             partialResultsStabilizationOption = 0
             partialResultsStabilizationTextField.text = partialResultsStabilizationsList[partialResultsStabilizationOption]
             piiContentIdentificationSelected = ""
@@ -515,7 +515,7 @@ extension LiveTranscriptionOptionsViewController: UIPickerViewDataSource, UIPick
             customLanguageModelTextField.text = ""
             selectedLanguageOptions = ""
             preferredLanguageOptions = ""
-            
+
             partialResultsStabilizationTextField.isHidden = true
             piiContentIdentificationTextField.isHidden = true
             piiContentRedactionTextField.isHidden = true
@@ -528,7 +528,7 @@ extension LiveTranscriptionOptionsViewController: UIPickerViewDataSource, UIPick
             enableAutomaticLanguageIdentificationLabel.isHidden = true
             enableAutomaticLanguageIdentificationSwitch.isHidden = true
             enableAutomaticLanguageIdentificationSwitch.isOn = false
-            
+
         }
         if engineSelected == "transcribe" {
             languages = transcribeLanguages

@@ -337,7 +337,6 @@ class VideoModel: NSObject {
         let attendeeKeyMap = remoteVideoSourceConfigurations.keys.reduce(into: [String: RemoteVideoSource]()) {
             $0[$1.attendeeId] = $1
         }
-        let videoTilesAttendeeMap = Set(remoteVideoStatesInCurrentPage.map{ $0.1.attendeeId })
         
         let attendeeIds = Set(remoteVideoSourceConfigurations.keys.map { $0.attendeeId })
         for remoteVideoTileState in remoteVideoStatesInCurrentPage{
@@ -365,12 +364,12 @@ class VideoModel: NSObject {
             audioVideoFacade.pauseRemoteVideoTile(tileId: remoteVideoTileState.0)
         }
     }
-    
+
     func unsubscribeAllRemoteVideos() {
         let remoteVideoSources: [RemoteVideoSource] = getRemoteVideoSubscriptionsFromRemoteVideoTileStates(remoteVideoTileStates: remoteVideoTileStates)
         audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated:[:], removed:remoteVideoSources)
     }
-    
+
     func getRemoteVideoSubscriptionsFromRemoteVideoTileStates(remoteVideoTileStates: [(Int, VideoTileState)]) -> [RemoteVideoSource] {
         var remoteVideoSources: [RemoteVideoSource] = []
         let attendeeKeyMap = remoteVideoSourceConfigurations.keys.reduce(into: [String: RemoteVideoSource]()) {
@@ -385,7 +384,7 @@ class VideoModel: NSObject {
         }
         return remoteVideoSources
     }
-    
+
     func removeRemoteVideosNotInCurrentPage() {
         let remoteVideoSourcesNotInCurrPage: [RemoteVideoSource] = getRemoteVideoSubscriptionsFromRemoteVideoTileStates(remoteVideoTileStates: remoteVideoStatesNotInCurrentPage)
         audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated:[:], removed:remoteVideoSourcesNotInCurrPage)
@@ -437,7 +436,7 @@ extension VideoModel: VideoTileCellDelegate {
                 config.priority = priority
                 updatedSources[source] = config
             }
-            
+
         }
         audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: updatedSources, removed: [])
     }
@@ -488,5 +487,5 @@ extension VideoModel: VideoTileCellDelegate {
         }
         audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: updatedSources, removed: [])
     }
-    
+
 }
