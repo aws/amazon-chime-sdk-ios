@@ -1,4 +1,4 @@
-## [Unreleased]
+## [0.22.0] - 2022-07-14
 
 ### Fixed
 * **Breaking** Fixed `SegmentationProcessor` protocol warnings. This change migrates the `SegmentationProcessor` from Swift to Objective-C. In the process, the first named parameter `height` is removed.
