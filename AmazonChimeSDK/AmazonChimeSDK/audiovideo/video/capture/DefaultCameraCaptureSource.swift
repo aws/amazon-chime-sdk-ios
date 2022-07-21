@@ -225,9 +225,7 @@ import UIKit
         let newAVFormat = captureDevice.formats.min { avFormatA, avFormatB in
             let formatA = VideoCaptureFormat.fromAVCaptureDeviceFormat(format: avFormatA)
             let formatB = VideoCaptureFormat.fromAVCaptureDeviceFormat(format: avFormatB)
-            let diffA = abs(formatA.width - format.width) + abs(formatA.height - format.height)
-            let diffB = abs(formatB.width - format.width) + abs(formatB.height - format.height)
-            return diffA < diffB
+            return closestFormat(formatA: formatA, formatB: formatB)
         }
         guard let chosenFormat = newAVFormat, chosenFormat != captureDevice.activeFormat else {
             captureDevice.unlockForConfiguration()
@@ -237,6 +235,15 @@ import UIKit
         captureDevice.unlockForConfiguration()
     }
 
+    func closestFormat(formatA: VideoCaptureFormat, formatB: VideoCaptureFormat) -> Bool {
+        let diffA = abs(formatA.width - format.width) + abs(formatA.height - format.height)
+        let diffB = abs(formatB.width - format.width) + abs(formatB.height - format.height)
+        if diffA == diffB {
+            return abs(formatA.maxFrameRate - format.maxFrameRate) < abs(formatB.maxFrameRate - format.maxFrameRate)
+        }
+        return diffA < diffB
+    }
+    
     @objc private func deviceOrientationDidChange(notification: NSNotification) {
         captureQueue.async {
             self.updateOrientation()
