@@ -26,6 +26,8 @@ import Foundation
         config.isUsingPixelBufferRenderer = true
         config.isContentShare = true
         config.isUsingInbandTurnCreds = true
+        config.isUsingUnifiedPlan = true
+        config.isUsingNewSignalingClient = true
         return config
     }()
 

@@ -245,7 +245,7 @@ extension DefaultVideoClientController: VideoClientDelegate {
             }
         }
     }
-    
+
     public func remoteVideoSourcesDidBecomeAvailable(_ sourcesInternal: [RemoteVideoSourceInternal]) {
         if sourcesInternal.isEmpty { return } // Don't callback for empty lists
 
@@ -274,7 +274,7 @@ extension DefaultVideoClientController: VideoClientDelegate {
             observer.remoteVideoSourcesDidBecomeAvailable(sources: sources)
         }
     }
-    
+
     public func remoteVideoSourcesDidBecomeUnavailable(_ sourcesInternal: [RemoteVideoSourceInternal]) {
         if sourcesInternal.isEmpty { return } // Don't callback for empty lists
         var sourcesToRemove = [RemoteVideoSource]()
