@@ -10,10 +10,10 @@
 - [ ] This change requires a documentation update
     - [ ] README update
     - [ ] CHANGELOG update
-    - [ ] guildes update
+    - [ ] guides update
 - [ ] This change requires a dependency update
     - [ ] Amazon Chime SDK Media
-    - [ ] Other (update corresonding legal documents)
+    - [ ] Other (update corresponding legal documents)
 
 ## 🧪 How Has This Been Tested?
 *describe the tests that you ran to verify your changes, any relevant details for your test configuration*

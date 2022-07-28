@@ -1,4 +1,5 @@
-## [unreleased]
+## [0.22.1] - 2022-07-28
+
 ### Fixed
 * [Demo] Fixed frame rate display in device selection view
 
