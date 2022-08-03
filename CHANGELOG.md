@@ -12,7 +12,6 @@
 
 ### Changed
 * Changed `updateDeviceCaptureFormat` to match fps after resolution
-
 ## [0.22.0] - 2022-07-14
 
 ### Fixed
@@ -22,6 +21,8 @@
 
 ### Added
 * Added support to expose simulcast configuration
+
+### Fixed
 
 ## [0.21.2] - 2022-06-17
 

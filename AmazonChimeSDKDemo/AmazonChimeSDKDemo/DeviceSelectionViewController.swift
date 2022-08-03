@@ -32,8 +32,6 @@ class DeviceSelectionViewController: UIViewController {
         videoPreviewImageView.mirror = model?.shouldMirrorPreview ?? false
         model?.cameraCaptureSource.addVideoSink(sink: videoPreviewImageView)
         model?.cameraCaptureSource.start()
-
-        setupHideKeyboardOnTap()
     }
 
     @IBAction func joinButtonTapped(_: UIButton) {
