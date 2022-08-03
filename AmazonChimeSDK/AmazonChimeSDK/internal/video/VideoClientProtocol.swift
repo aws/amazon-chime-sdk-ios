@@ -52,6 +52,8 @@ import Foundation
     func demoteFromPrimaryMeeting()
 
     func setSimulcast(_ simulcast: Bool)
+    
+    func setMaxBitRateKbps(_ maxBitRate: UInt32)
 }
 
 extension VideoClient: VideoClientProtocol {}

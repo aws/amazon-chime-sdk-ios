@@ -59,6 +59,8 @@ class VideoModel: NSObject {
         super.init()
     }
 
+    var localVideoMaxBitRateKbps: UInt32 = 0
+
     var videoTileCount: Int {
         return remoteVideoCountInCurrentPage + 1
     }
@@ -218,7 +220,7 @@ class VideoModel: NSObject {
                         customVideoSource = self.backgroundReplacementProcessor
                     }
                     // customers could set simulcast here
-                    let config = LocalVideoConfiguration()
+                    let config = LocalVideoConfiguration(maxBitRateKbps: self.localVideoMaxBitRateKbps)
                     self.audioVideoFacade.startLocalVideo(source: customVideoSource,
                                                           config: config)
                 } else {

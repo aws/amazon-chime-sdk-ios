@@ -103,12 +103,13 @@ class DefaultVideoClientControllerTests: CommonTestCase {
 
     func testSendLocalVideoWithConfig() {
         defaultVideoClientController.start()
-        let config = LocalVideoConfiguration()
+        let config = LocalVideoConfiguration(maxBitRateKbps: 300)
         XCTAssertNoThrow(try defaultVideoClientController.startLocalVideo(config: config))
 
         verify(videoClientMock.setExternalVideoSource(any())).wasCalled()
         verify(videoClientMock.setSending(true)).wasCalled()
         verify(videoClientMock.setSimulcast(true)).wasCalled()
+        verify(videoClientMock.setMaxBitRateKbps(300)).wasCalled()
     }
 
     func testSendLocalVideoWithSource() {
@@ -121,11 +122,12 @@ class DefaultVideoClientControllerTests: CommonTestCase {
 
     func testSendLocalVideoWithSourceAndConfig() {
         defaultVideoClientController.start()
-        let config = LocalVideoConfiguration()
+        let config = LocalVideoConfiguration(maxBitRateKbps: 300)
         defaultVideoClientController.startLocalVideo(source: videoSourceMock, config: config)
 
         verify(videoClientMock.setExternalVideoSource(any())).wasCalled()
         verify(videoClientMock.setSending(true)).wasCalled()
         verify(videoClientMock.setSimulcast(true)).wasCalled()
+        verify(videoClientMock.setMaxBitRateKbps(300)).wasCalled()
     }
 }

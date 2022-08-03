@@ -453,6 +453,11 @@ class MeetingViewController: UIViewController {
                                                    })
             optionMenu.addAction(customSourceAction)
 
+            let videoConfigAction = UIAlertAction(title: "Video Configuration", style: .default) { _ in
+                self.presentVideoConfigAlertController()
+            }
+            optionMenu.addAction(videoConfigAction)
+
             #if !targetEnvironment(simulator)
                 let inAppContentShareTitle = meetingModel.screenShareModel.inAppCaptureModel.isSharing ?
                     "Stop sharing content" : "Share in app content"
@@ -474,7 +479,6 @@ class MeetingViewController: UIViewController {
                                                  })
             optionMenu.addAction(liveTranscriptionAction)
         }
-
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         optionMenu.addAction(cancelAction)
@@ -666,8 +670,7 @@ class MeetingViewController: UIViewController {
                 JoinRequestService.postJoinRequest(meetingId: meetingModel.primaryExternalMeetingId,
                                                    name: "promoted-\(meetingModel.selfName)",
                                                    overriddenEndpoint: MeetingModule.shared().cachedOverriddenEndpoint,
-                                                   primaryExternalMeetingId: "")
-                { joinMeetingResponse in
+                                                   primaryExternalMeetingId: "") { joinMeetingResponse in
                     if let joinMeetingResponse = joinMeetingResponse {
                         self.logger.info(msg: "Attempting to promote to primary meeting")
                         let meetingResp = JoinRequestService.getCreateMeetingResponse(from: joinMeetingResponse)
@@ -686,7 +689,32 @@ class MeetingViewController: UIViewController {
             meetingModel.videoModel.demoteFromPrimaryMeeting()
         }
     }
-    
+
+    @objc private func presentVideoConfigAlertController() {
+        let videoConfigAlertController = UIAlertController(title: "Video Configuration",
+                                                           message: nil,
+                                                           preferredStyle: .alert)
+        videoConfigAlertController.addTextField { textField in
+            textField.keyboardType = .numberPad
+            textField.placeholder = "Local Video Max Bitrate in kbps"
+        }
+        let doneAction = UIAlertAction(title: "Done",
+                                       style: .default) { [weak videoConfigAlertController] _ in
+            guard let textFields = videoConfigAlertController?.textFields else {
+                return
+            }
+            let maxBitRateInKbps = UInt32(textFields[0].text ?? "") ?? 0
+            if let videoModel = self.meetingModel?.videoModel {
+                videoModel.localVideoMaxBitRateKbps = maxBitRateInKbps
+                // if local video is started, restart
+                if videoModel.isLocalVideoActive {
+                    videoModel.isLocalVideoActive = true
+                }
+            }
+        }
+        videoConfigAlertController.addAction(doneAction)
+        present(videoConfigAlertController, animated: true)
+    }
     private func enableOrDisableButtonsForReplicatedMeeting(enabled: Bool) {
         muteButton.isEnabled = enabled
         cameraButton.isEnabled = enabled

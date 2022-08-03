@@ -51,8 +51,9 @@ import Foundation
     /// Calling this after passing in a custom `VideoSource` will replace it with the internal capture source.
     ///
     /// This function will only have effect if `start` has already been called
+    /// If maxBitRateKbps is not set, it will be self adjusted depending on number of users and videos in the meeting
     ///
-    /// Parameter config: configurations of emitted video stream, e.g. simulcast
+    /// Parameter config: configurations of emitted video stream, e.g. simulcast, maxBitRateKbps
     /// - Throws: `PermissionError.videoPermissionError` if video permission of `AVCaptureDevice` is not granted
     func startLocalVideo(config: LocalVideoConfiguration) throws
 
@@ -78,9 +79,10 @@ import Foundation
     /// was previously called with no arguments.
     ///
     /// This function will only have effect if `start` has already been called
+    /// If maxBitRateKbps is not set, it will be self adjusted depending on number of users and videos in the meeting
     ///
     /// - Parameter source: The source of video frames to be sent to other clients
-    /// - Parameter config: Configurations of emitted video stream, e.g. simulcast
+    /// - Parameter config: Configurations of emitted video stream, e.g. simulcast, maxBitRateKbps
     func startLocalVideo(source: VideoSource, config: LocalVideoConfiguration)
 
     /// Stops sending video for local attendee. This will additionally stop the internal capture source if being used.

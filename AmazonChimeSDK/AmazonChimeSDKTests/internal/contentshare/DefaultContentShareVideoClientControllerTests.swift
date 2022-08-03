@@ -46,11 +46,12 @@ class DefaultContentShareVideoClientControllerTests: CommonTestCase {
     }
 
     func testStartVideoShareWithConfig() {
-        let config = LocalVideoConfiguration()
+        let config = LocalVideoConfiguration(maxBitRateKbps: 300)
         defaultContentShareVideoClientController.startVideoShare(source: videoSourceMock, config: config)
 
         verify(videoClientMock.setExternalVideoSource(any())).wasCalled()
         verify(videoClientMock.setSending(true)).wasCalled()
+        verify(videoClientMock.setMaxBitRateKbps(300)).wasCalled()
     }
 
     func testStartVideoShareAfterStart() {

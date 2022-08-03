@@ -1,3 +1,10 @@
+## unreleased
+
+### Added
+* Added support to set max bit rate for local video and content share
+* [Demo] Add video configuration options to set max bit rate for local video in meeting
+
+
 ## [0.22.1] - 2022-07-28
 
 ### Fixed
@@ -5,6 +12,7 @@
 
 ### Changed
 * Changed `updateDeviceCaptureFormat` to match fps after resolution
+
 ## [0.22.0] - 2022-07-14
 
 ### Fixed
@@ -14,8 +22,6 @@
 
 ### Added
 * Added support to expose simulcast configuration
-
-### Fixed
 
 ## [0.21.2] - 2022-06-17
 

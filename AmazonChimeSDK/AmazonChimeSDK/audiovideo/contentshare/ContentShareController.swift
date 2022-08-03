@@ -38,7 +38,7 @@ import Foundation
     /// Calling this function repeatedly will replace the previous `ContentShareSource` as the one being transmitted.
     ///
     /// - Parameter source: source of content to be shared
-    /// - Parameter config: configurations of emitted video stream, e.g simulcast
+    /// - Parameter config: configurations of emitted video stream, e.g maxBitRateKbps
     func startContentShare(source: ContentShareSource, config: LocalVideoConfiguration)
 
     /// Stop sharing the content of a `ContentShareSource` that previously started.
