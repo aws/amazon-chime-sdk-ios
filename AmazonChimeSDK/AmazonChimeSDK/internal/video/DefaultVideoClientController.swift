@@ -398,10 +398,15 @@ extension DefaultVideoClientController: VideoClientController {
         videoSourceAdapter.source = source
         videoClient?.setExternalVideoSource(videoSourceAdapter)
         videoClient?.setSending(true)
-        
+
         let simulcastEnabled = config.simulcastEnabled
         logger.info(msg: "Setting simulcast")
         videoClient?.setSimulcast(simulcastEnabled)
+
+        if (config.maxBitRateKbps > 0) {
+            logger.info(msg: "Setting max bit rate in kbps for local video")
+            videoClient?.setMaxBitRateKbps(config.maxBitRateKbps)
+        }
     }
 
     public func stopLocalVideo() {

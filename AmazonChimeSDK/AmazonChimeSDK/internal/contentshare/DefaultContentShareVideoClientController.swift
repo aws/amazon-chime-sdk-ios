@@ -48,7 +48,7 @@ import Foundation
     }
 
     public func startVideoShare(source: VideoSource, config: LocalVideoConfiguration) {
-        // ignore LocalVideoConfiguration because contentshare does not have simulcast
+        // ignore simulcast in config because contentshare does not have simulcast
         videoClientLock.lock()
         defer { videoClientLock.unlock() }
 
@@ -58,6 +58,11 @@ import Foundation
         videoSourceAdapter.source = source
         videoClient.setExternalVideoSource(videoSourceAdapter)
         videoClient.setSending(true)
+
+        if config.maxBitRateKbps > 0 {
+            logger.info(msg: "Setting max bit rate in kbps for content share")
+            videoClient.setMaxBitRateKbps(config.maxBitRateKbps)
+        }
     }
 
     public func stopVideoShare() {

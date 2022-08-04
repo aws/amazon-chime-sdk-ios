@@ -49,6 +49,12 @@ func captureDidStart() {
 }
 ```
 
+Additionally, you can set configuration for content share, e.g. maxBitRateKbps. Actual quality achieved may vary throughout the call depending on what system and network can provide.
+```swift
+let contentShareConfig = LocalVideoConfiguration(maxBitRateKbps: 200)
+meetingSession.audioVideo.startContentShare(source: contentShareSource, config: contentShareConfig)
+```
+
 ### Stop Screen Share
 
 `stop()` on `InAppScreenCaptureSource` only stops `RPScreenRecorder` from capturing the screen, it is still necessary to call `stopContentShare()` on [`ContentShareController`](https://aws.github.io/amazon-chime-sdk-ios/Protocols/ContentShareController.html) to stop the peer connection for sending the screen capture data.

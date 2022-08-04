@@ -1,3 +1,10 @@
+## unreleased
+
+### Added
+* Added support to set max bit rate for local video and content share
+* [Demo] Add video configuration options to set max bit rate for local video in meeting
+
+
 ## [0.22.1] - 2022-07-28
 
 ### Fixed

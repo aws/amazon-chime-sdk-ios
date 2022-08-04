@@ -502,9 +502,10 @@ class MyVideoTileObserver: VideoTileObserver {
 // Use internal camera capture for the local video
 meetingSession.audioVideo.startLocalVideo()
 
-// Use internal camera capture and set configuration for the video, e.g. simulcastEnabled
-// This can be called multiple times to enable/disable simulcast on the fly
-let localVideoConfig = LocalVideoConfiguration(simulcastEnabled: true)
+// Use internal camera capture and set configuration for the video, e.g. simulcastEnabled, maxBitRateKbps
+// If maxBitRateKbps is not set, it will be self adjusted depending on number of users and videos in the meeting
+// This can be called multiple times to enable/disable simulcast and adjust video max bit rate on the fly
+let localVideoConfig = LocalVideoConfiguration(simulcastEnabled: true， maxBitRateKbps: 600)
 meetingSession.audioVideo.startLocalVideo(config: localVideoConfig)
 
 // You can switch camera to change the video input device
@@ -569,6 +570,11 @@ class MyContentShareObserver: ContentShareObserver {
 }
 ```
 
+You can set configuration for content share, e.g. maxBitRateKbps. Actual quality achieved may vary throughout the call depending on what system and network can provide.
+```swift
+let contentShareConfig = LocalVideoConfiguration(maxBitRateKbps: 200)
+meetingSession.audioVideo.startContentShare(source: contentShareSource, config: contentShareConfig)
+```
 See [Content Share](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/content_share.md) for more details.
 
 #### Use case 19. Stop sharing your screen or content.
@@ -691,9 +697,9 @@ Amazon Voice Focus reduces the background noise in the meeting for better meetin
 #### Use case 25. Enable/Disable Amazon Voice Focus.
 
 ```swift
-val enabled = audioVideo.realtimeSetVoiceFocusEnabled(true) // enabling Amazon Voice Focus successful
+let enabled = audioVideo.realtimeSetVoiceFocusEnabled(enabled: true) // enabling Amazon Voice Focus successful
 
-val disabled = audioVideo.realtimeSetVoiceFocusEnabled(false) // disabling Amazon Voice Focus successful
+let disabled = audioVideo.realtimeSetVoiceFocusEnabled(enabled: false) // disabling Amazon Voice Focus successful
 ```
 
 ### Custom Video Source
