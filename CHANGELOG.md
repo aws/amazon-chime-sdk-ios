@@ -1,4 +1,4 @@
-## unreleased
+## [0.22.2] - 2022-08-12
 
 ### Added
 * Added support to set max bit rate for local video and content share
