@@ -38,7 +38,7 @@ class SQLiteClient: DatabaseClient {
             logger?.fault(msg: "Sqlite3 is not thread-safe... it can cause issue when accessed in multiple threads")
         }
 
-        open(databaseName: databaseName)
+        _ = open(databaseName: databaseName)
     }
 
     /// Open database. This should create database if not exist.
@@ -62,7 +62,7 @@ class SQLiteClient: DatabaseClient {
             logger?.error(msg: "Unable to open database.")
             // Need to close if there is error
             // https://www.sqlite.org/c3ref/open.html
-            close()
+            _ = close()
             return false
         }
         return true

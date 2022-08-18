@@ -45,7 +45,7 @@ import Foundation
                                                                                    ingestionConfiguration: ingestionConfiguration))
         // If there is meeting failure, it is possible that people just close the app.
         // In order to not lose the data, we put it in the db even for immediate events
-        eventDao.insertMeetingEvent(event: meetingItem)
+        _ = eventDao.insertMeetingEvent(event: meetingItem)
 
         sendIfImmediateEvents(item: item, meetingItem: meetingItem)
     }
@@ -66,7 +66,7 @@ import Foundation
         if ids.isEmpty {
             return
         }
-        eventDao.deleteMeetingEventsByIds(ids: ids)
+        _ = eventDao.deleteMeetingEventsByIds(ids: ids)
     }
 
     private func toDirtyMeetingEventItems(items: [MeetingEventItem]) -> [DirtyMeetingEventItem] {
@@ -90,7 +90,7 @@ import Foundation
             self.eventSender.sendEvents(ingestionRecord: ingestionRecord) { isSuccess in
                 if !isSuccess {
                     self.logger.info(msg: "Unable to send http request. Putting it in dirty events")
-                    self.dirtyEventDao.insertDirtyMeetingEventItems(dirtyEvents: self.toDirtyMeetingEventItems(items: meetingEventItems))
+                    _ =  self.dirtyEventDao.insertDirtyMeetingEventItems(dirtyEvents: self.toDirtyMeetingEventItems(items: meetingEventItems))
                 }
                 self.remove(ids: idsToRemove)
             }
@@ -149,6 +149,6 @@ import Foundation
             return
         }
 
-        dirtyEventDao.deleteDirtyMeetingEventsByIds(ids: ids)
+        _ = dirtyEventDao.deleteDirtyMeetingEventsByIds(ids: ids)
     }
 }

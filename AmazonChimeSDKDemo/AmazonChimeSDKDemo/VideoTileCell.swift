@@ -12,7 +12,7 @@ import Toast
 
 let videoTileCellReuseIdentifier = "VideoTileCell"
 
-protocol VideoTileCellDelegate: class {
+protocol VideoTileCellDelegate: AnyObject {
     func onTileButtonClicked(tag: Int, selected: Bool)
     func onUpdatePriorityButtonClicked(attendeeId: String, priority: VideoPriority)
     func onVideoFilterButtonClicked(videoFilter: BackgroundFilter, uiView: UIViewController)

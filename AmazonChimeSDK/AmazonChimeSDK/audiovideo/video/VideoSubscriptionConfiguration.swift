@@ -14,7 +14,6 @@ import Foundation
 /// `VideoSubscriptionConfiguration` is used to contain the priority and resolution of
 /// remote video sources and content share to be received
 @objcMembers public class VideoSubscriptionConfiguration: NSObject {
-    /// - Parameters:
     ///   - priority: Relative priority for the subscription.
     ///   - targetResolution: A target resolution for the subscription. The actual receive resolution may vary.
     public var priority: VideoPriority = VideoPriority.high

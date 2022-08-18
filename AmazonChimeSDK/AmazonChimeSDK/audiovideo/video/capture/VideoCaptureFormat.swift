@@ -37,7 +37,7 @@ import AVFoundation
     }
 
     /// Helper function to convert `AVCaptureDevice.Format` to `VideoCaptureFormat`
-    /// - Parameter avFormat: format from the `AVCaptureDevice`
+    /// - Parameter format: format from the `AVCaptureDevice`
     public static func fromAVCaptureDeviceFormat(format: AVCaptureDevice.Format) -> VideoCaptureFormat {
         let dimensions = CMVideoFormatDescriptionGetDimensions(format.formatDescription)
         var maxFPS = Constants.maxSupportedVideoFrameRate

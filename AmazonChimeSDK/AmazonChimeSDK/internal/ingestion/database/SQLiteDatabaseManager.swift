@@ -16,7 +16,7 @@ class SQLiteDatabaseManager: DatabaseManager {
     }
 
     func clear(tableName: String) {
-        sqliteClient.write(statement: "DELETE FROM \(tableName)")
+        _ = sqliteClient.write(statement: "DELETE FROM \(tableName)")
     }
 
     func delete(tableName: String, ids: [String]) -> Bool {
@@ -27,7 +27,7 @@ class SQLiteDatabaseManager: DatabaseManager {
     }
 
     func execute(statement: String) {
-        sqliteClient.write(statement: statement)
+        _ = sqliteClient.write(statement: statement)
     }
 
     func insert(tableName: String, contentValue: [String: Any]) -> Bool {
