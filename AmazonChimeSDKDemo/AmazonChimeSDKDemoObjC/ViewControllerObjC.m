@@ -310,13 +310,13 @@
 
 - (void)signalStrengthDidChangeWithSignalUpdates:(NSArray<SignalUpdate *> * _Nonnull)signalUpdates {
     for (id currentSignalUpdate in signalUpdates) {
-        [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ signalStrength changed to %lu", [[currentSignalUpdate attendeeInfo] attendeeId], [currentSignalUpdate signalStrength]]];
+        [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ signalStrength changed to %lu", [[currentSignalUpdate attendeeInfo] attendeeId], (unsigned long) [currentSignalUpdate signalStrength]]];
     }
 }
 
 - (void)volumeDidChangeWithVolumeUpdates:(NSArray<VolumeUpdate *> * _Nonnull)volumeUpdates {
     for (id currentVolumeUpdate in volumeUpdates) {
-        [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ volumeLevel changed to %ld", [[currentVolumeUpdate attendeeInfo] attendeeId], [currentVolumeUpdate volumeLevel]]];
+        [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ volumeLevel changed to %ld", [[currentVolumeUpdate attendeeInfo] attendeeId], (unsigned long) [currentVolumeUpdate volumeLevel]]];
     }
 }
 
@@ -394,7 +394,7 @@
 
 # pragma mark - EventAnalyticObserver
 - (void)eventDidReceiveWithName:(enum EventName)name attributes:(NSDictionary *)attributes {
-    [self.logger infoWithMsg:[NSString stringWithFormat:@"%ld %@\n", name, [attributes toJsonString]]];
+    [self.logger infoWithMsg:[NSString stringWithFormat:@"%ld %@\n", (unsigned long) name, [attributes toJsonString]]];
 }
 
 @end
