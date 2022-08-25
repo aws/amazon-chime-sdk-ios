@@ -199,7 +199,12 @@ extension DefaultVideoClientController: VideoClientDelegate {
     }
 
     public func videoClient(_ client: VideoClient?, cameraSendIsAvailable available: Bool) {
-        logger.info(msg: "videoClientCameraSendIsAvailable")
+        logger.info(msg: "videoClientCameraSendIsAvailable \(available)")
+        ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
+            observer.cameraSendAvailabilityDidChange(
+                available: available
+            )
+        }
     }
 
     public func videoClientRequestTurnCreds(_ videoClient: VideoClient?) {

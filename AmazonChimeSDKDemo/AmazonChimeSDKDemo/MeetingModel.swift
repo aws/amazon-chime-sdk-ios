@@ -482,6 +482,11 @@ extension MeetingModel: AudioVideoObserver {
             logWithFunctionName(message: "\(sessionStatus.statusCode)")
         }
     }
+    
+    func cameraSendAvailabilityDidChange(available : Bool) {
+        logWithFunctionName(message: "Camera Send Available: \(available)")
+        videoModel.cameraSendIsAvailable = available
+    }
 }
 
 // MARK: RealtimeObserver
