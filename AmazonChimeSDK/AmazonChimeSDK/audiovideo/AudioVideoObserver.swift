@@ -92,4 +92,9 @@ import Foundation
     ///
     /// - Parameter sources: Array of video sources that are unavailable
     func remoteVideoSourcesDidBecomeUnavailable(sources: [RemoteVideoSource])
+    
+    /// Called on the main thread when video capacity status is updated.
+    ///
+    /// - Parameter available: True if camera send is available (due to video capacity status), False if not.
+    func cameraSendAvailabilityDidChange(available: Bool)
 }

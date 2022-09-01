@@ -524,8 +524,12 @@ class MeetingViewController: UIViewController {
     }
 
     @IBAction func cameraButtonClicked(_: UIButton) {
-        cameraButton.isSelected.toggle()
-        meetingModel?.videoModel.isLocalVideoActive = cameraButton.isSelected
+        if meetingModel?.videoModel.cameraSendIsAvailable == true || cameraButton.isSelected {
+            cameraButton.isSelected.toggle()
+            meetingModel?.videoModel.isLocalVideoActive = cameraButton.isSelected
+        } else {
+            meetingModel?.notifyHandler?("Cannot Enable Video. Meeting At Capacity.")
+        }
     }
 
     @IBAction func leaveButtonClicked(_: UIButton) {

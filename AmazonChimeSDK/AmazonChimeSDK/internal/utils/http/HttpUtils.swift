@@ -30,7 +30,7 @@ class HttpUtils {
                         headers: headers,
                         urlSession: urlSession) { data, error in
             if error == nil ||
-                !httpRetryPolicy.isRetryableCode(responseCode: (error as? NSError)?.code ?? 0) ||
+                !httpRetryPolicy.isRetryableCode(responseCode: (error as NSError?)?.code ?? 0) ||
                 httpRetryPolicy.isRetryCountLimitReached() {
                 completion(data, error)
                 return
