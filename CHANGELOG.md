@@ -1,9 +1,14 @@
+## Unreleased
+
+### Added
+* Added functionality to observe video capacity status when added or removed
+* [Demo] Updated demo to use new functionality to prevent camera from toggling at video limit
+
 ## [0.22.2] - 2022-08-12
 
 ### Added
 * Added support to set max bit rate for local video and content share
 * [Demo] Add video configuration options to set max bit rate for local video in meeting
-
 
 ## [0.22.1] - 2022-07-28
 
