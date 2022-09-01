@@ -1,3 +1,9 @@
+## Unreleased
+
+### Added
+* Added functionality to observe video capacity status when added or removed
+* [Demo] Updated demo to use new functionality to prevent camera from toggling at video limit
+
 ## [0.22.2] - 2022-08-12
 
 ### Added
