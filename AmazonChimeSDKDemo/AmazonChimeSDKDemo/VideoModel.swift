@@ -29,8 +29,8 @@ class VideoModel: NSObject {
     private let backgroundBlurProcessor: BackgroundBlurVideoFrameProcessor
     private var backgroundReplacementProcessor: BackgroundReplacementVideoFrameProcessor
     private var backgroundImage: UIImage?
-    
-    var cameraSendIsAvailable: Bool = false
+ 
+    var cameraSendIsAvailable: Bool = true
 
     init(audioVideoFacade: AudioVideoFacade, eventAnalyticsController: EventAnalyticsController) {
         self.audioVideoFacade = audioVideoFacade
