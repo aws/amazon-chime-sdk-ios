@@ -1,4 +1,4 @@
-## Unreleased
+## [0.22.3] - 2022-09-08
 
 ### Fixed
 * Fixed bugs that occured at video capacity
