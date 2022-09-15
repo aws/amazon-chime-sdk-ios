@@ -17,6 +17,8 @@ import Foundation
     ///
     /// - Parameter audioVideoConfiguration: The configuration used for Audio & Video
     /// - Throws: `PermissionError.audioPermissionError` if `RecordPermission` is not given
+    /// - Throws: `MediaError.audioFailedToStart` if audio client failed to start
+    /// - Throws: `MediaError.illegalState` if audio client is already started before calling start()
     func start(audioVideoConfiguration: AudioVideoConfiguration) throws
 
     /// Start AudioVideo Controller
@@ -25,11 +27,15 @@ import Foundation
     /// This parameter is used to determine how audio session interruptions should be handled,
     /// in scenarios such as receving another phone call during the VoIP call.
     /// - Throws: `PermissionError.audioPermissionError` if `RecordPermission` is not given
+    /// - Throws: `MediaError.audioFailedToStart` if audio client failed to start
+    /// - Throws: `MediaError.illegalState` if audio client is already started before calling start()
     func start(callKitEnabled: Bool) throws
 
     /// Start AudioVideo Controller
     ///
     /// - Throws: `PermissionError.audioPermissionError` if `RecordPermission` is not given
+    /// - Throws: `MediaError.audioFailedToStart` if audio client failed to start
+    /// - Throws: `MediaError.illegalState` if audio client is already started before calling start()
     func start() throws
 
     /// Stop AudioVideo Controller. This will exit the meeting
@@ -53,7 +59,7 @@ import Foundation
     /// This function will only have effect if `start` has already been called
     /// If maxBitRateKbps is not set, it will be self adjusted depending on number of users and videos in the meeting
     ///
-    /// Parameter config: configurations of emitted video stream, e.g. simulcast, maxBitRateKbps
+    /// - Parameter config: configurations of emitted video stream, e.g. simulcast, maxBitRateKbps
     /// - Throws: `PermissionError.videoPermissionError` if video permission of `AVCaptureDevice` is not granted
     func startLocalVideo(config: LocalVideoConfiguration) throws
 
