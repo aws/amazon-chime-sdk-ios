@@ -126,6 +126,7 @@ extension DefaultAudioClientController: AudioClientController {
         if status == AUDIO_CLIENT_OK {
             Self.state = .started
         } else {
+            logger.error(msg: "Cannot start audio client with status = \(status.rawValue)")
             eventAnalyticsController.publishEvent(name: .meetingStartFailed)
             cleanup()
             throw MediaError.audioFailedToStart
