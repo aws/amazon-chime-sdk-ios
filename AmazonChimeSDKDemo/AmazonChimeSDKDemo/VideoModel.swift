@@ -228,6 +228,7 @@ class VideoModel: NSObject {
                 } else {
                     do {
                         try self.audioVideoFacade.startLocalVideo()
+                        self.logger.info(msg: "DELETE THIS LOG")
                     } catch {
                         self.logger.error(msg: "Error starting local video: \(error.localizedDescription)")
                     }
