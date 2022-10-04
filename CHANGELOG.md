@@ -1,3 +1,8 @@
+## Unreleased
+
+### Fixed
+* Fixed data message sending non-UTF8 bytes issue
+
 ## [0.22.3] - 2022-09-08
 
 ### Fixed
