@@ -537,17 +537,21 @@ extension DefaultVideoClientController: VideoClientController {
             dataContainer = Data(dataAsByteArray)
         } else if JSONSerialization.isValidJSONObject(data) {
             dataContainer = try JSONSerialization.data(withJSONObject: data)
+        } else if let dataAsData = data as? Data {
+            dataContainer = dataAsData
         } else {
             throw SendDataMessageError.invalidData
         }
 
-        if let container = dataContainer {
+        if let container: Data = dataContainer {
             if container.count > Constants.dataMessageMaxDataSizeInByte {
                 throw SendDataMessageError.invalidDataLength
             }
-            if let str = String(data: container, encoding: .utf8) {
+            container.withUnsafeBytes { dataBytes in
+                let buffer: UnsafePointer<Int8> = dataBytes.baseAddress!.assumingMemoryBound(to: Int8.self)
+
                 videoClient?.sendDataMessage(topic,
-                                             data: (str as NSString).utf8String,
+                                             data: buffer,
                                              lifetimeMs: lifetimeMs)
             }
         } else {
