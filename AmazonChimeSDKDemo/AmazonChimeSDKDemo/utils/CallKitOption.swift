@@ -7,7 +7,6 @@
 //
 
 enum CallKitOption {
-    case disabled
     case incoming
     case outgoing
 }

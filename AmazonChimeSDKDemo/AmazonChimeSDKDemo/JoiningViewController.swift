@@ -20,12 +20,11 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var joinButton: UIButton!
     @IBOutlet var debugSettingsButton: UIButton!
 
-    var callKitOptions = ["Don't use CallKit", "CallKit as Incoming in 10s", "CallKit as Outgoing"]
+    var callKitOptions = ["CallKit as Incoming in 10s", "CallKit as Outgoing"]
     var audioModeOptions = ["Stereo/48KHz Audio", "Mono/48KHz Audio", "Mono/16KHz Audio"]
 
     private let toastDisplayDuration = 2.0
     private let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-    var debugSettingsModel: DebugSettingsModel = DebugSettingsModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +49,7 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
     @IBAction func joinButton(_: UIButton) {
         // CallKit Option
         let callKitOption = getSelectedCallKitOption()
-        if (callKitOption == .incoming) {
+        if callKitOption == .incoming {
             view.makeToast("You can background the app or lock screen while waiting",
                            duration: incomingCallKitDelayInSeconds)
         }
@@ -58,19 +57,9 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
         // Audio Mode
         let audioMode = getSelectedAudioMode()
 
-        joinMeeting(audioVideoConfig: AudioVideoConfiguration(audioMode: audioMode, callKitEnabled: callKitOption != .disabled),
+        joinMeeting(audioVideoConfig: AudioVideoConfiguration(audioMode: audioMode, callKitEnabled: true),
                     callKitOption: callKitOption
         )
-    }
-
-    @IBAction func debugSettingsButtonClicked (_: UIButton) {
-        guard let debugSettingsVC = mainStoryboard.instantiateViewController(withIdentifier: "debugSettings")
-            as? DebugSettingsViewController else {
-            return
-        }
-        debugSettingsVC.modalPresentationStyle = .fullScreen
-        debugSettingsVC.model = debugSettingsModel
-        self.present(debugSettingsVC, animated: true, completion: nil)
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -80,12 +69,12 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
 
     func getSelectedCallKitOption() -> CallKitOption {
         switch callKitOptionsPicker.selectedRow(inComponent: 0) {
-        case 1:
+        case 0:
             return .incoming
-        case 2:
+        case 1:
             return .outgoing
         default:
-            return .disabled
+            return .outgoing
         }
     }
 
@@ -117,8 +106,8 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
                                               selfName: name,
                                               audioVideoConfig: audioVideoConfig,
                                               option: callKitOption,
-                                              overriddenEndpoint: debugSettingsModel.endpointUrl,
-                                              primaryExternalMeetingId: debugSettingsModel.primaryExternalMeetingId) { success in
+                                              overriddenEndpoint: "",
+                                              primaryExternalMeetingId: "") { success in
             DispatchQueue.main.async {
                 if !success {
                     self.view.hideToast()

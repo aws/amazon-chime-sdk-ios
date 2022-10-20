@@ -35,14 +35,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        if let meeting = MeetingModule.shared().activeMeeting {
-            meeting.isAppInBackground = true
-        }
+
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        if let meeting = MeetingModule.shared().activeMeeting {
-            meeting.isAppInBackground = false
-        }
     }
 }

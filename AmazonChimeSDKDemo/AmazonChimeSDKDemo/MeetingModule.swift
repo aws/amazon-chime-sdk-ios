@@ -18,7 +18,7 @@ class MeetingModule {
     private let meetingPresenter = MeetingPresenter()
     private var meetings: [UUID: MeetingModel] = [:]
     private let logger = ConsoleLogger(name: "MeetingModule")
-    
+
     // These need to be cached in case of primary meeting joins in the future
     var cachedOverriddenEndpoint = ""
     var cachedPrimaryExternalMeetingId = ""
@@ -71,30 +71,21 @@ class MeetingModule {
                                                 callKitOption: option,
                                                 meetingEndpointUrl: overriddenEndpoint)
                 self.meetings[meetingModel.uuid] = meetingModel
-
-                switch option {
-                case .incoming:
-                    guard let call = meetingModel.call else {
-                        completion(false)
-                        return
-                    }
-                    let backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + incomingCallKitDelayInSeconds) {
-                        CallKitManager.shared().reportNewIncomingCall(with: call)
-                        UIApplication.shared.endBackgroundTask(backgroundTaskIdentifier)
-                    }
-                case .outgoing:
-                    guard let call = meetingModel.call else {
-                        completion(false)
-                        return
-                    }
-                    CallKitManager.shared().startOutgoingCall(with: call)
-                case .disabled:
-                    DispatchQueue.main.async { [weak self] in
-                        self?.selectDevice(meetingModel, completion: completion)
-                    }
+                guard let call = meetingModel.call else {
+                    completion(false)
+                    return
                 }
-                completion(true)
+                switch option {
+                    case .incoming:
+                        let backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + incomingCallKitDelayInSeconds) {
+                            CallKitManager.shared().reportNewIncomingCall(with: call)
+                            UIApplication.shared.endBackgroundTask(backgroundTaskIdentifier)
+                        }
+                    case .outgoing:
+                        CallKitManager.shared().startOutgoingCall(with: call)
+                    completion(true)
+                }
             }
         }
     }
@@ -114,27 +105,6 @@ class MeetingModule {
             }
             completion(success)
         }
-    }
-
-    func deviceSelected(_ deviceSelectionModel: DeviceSelectionModel) {
-        guard let activeMeeting = activeMeeting else {
-            return
-        }
-        activeMeeting.deviceSelectionModel = deviceSelectionModel
-        meetingPresenter.dismissActiveMeetingView {
-            self.meetingPresenter.showMeetingView(meetingModel: activeMeeting) { _ in }
-        }
-    }
-    
-    func liveTranscriptionOptionsSelected(_ meetingModel: MeetingModel) {
-        guard let activeMeeting = activeMeeting else {
-            return
-        }
-        self.meetingPresenter.showLiveTranscriptionView(meetingModel: activeMeeting) { _ in }
-    }
-    
-    func dismissTranscription(_ liveTranscriptionVC: LiveTranscriptionOptionsViewController) {
-        self.meetingPresenter.dismissLiveTranscriptionView(liveTranscriptionVC) { _ in }
     }
 
     func joinMeeting(_ meeting: MeetingModel, completion: @escaping (Bool) -> Void) {

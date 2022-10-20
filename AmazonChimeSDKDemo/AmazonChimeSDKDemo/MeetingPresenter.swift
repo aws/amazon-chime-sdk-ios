@@ -42,33 +42,15 @@ class MeetingPresenter {
     }
 
     func showDeviceSelectionView(meetingModel: MeetingModel, completion: @escaping (Bool) -> Void) {
-        guard let deviceSelectionVC = mainStoryboard.instantiateViewController(withIdentifier: "deviceSelection")
-            as? DeviceSelectionViewController, let rootViewController = self.rootViewController else {
+        guard let deviceSelectionVC = mainStoryboard.instantiateViewController(withIdentifier: "meeting")
+            as? MeetingViewController, let rootViewController = self.rootViewController else {
             completion(false)
             return
         }
-        deviceSelectionVC.modalPresentationStyle = .fullScreen
-        deviceSelectionVC.model = meetingModel.deviceSelectionModel
+
         rootViewController.present(deviceSelectionVC, animated: true) {
             self.activeMeetingViewController = deviceSelectionVC
             completion(true)
         }
-    }
-    
-    func showLiveTranscriptionView(meetingModel: MeetingModel, completion: @escaping (Bool) -> Void) {
-        guard let liveTranscriptionVC = mainStoryboard.instantiateViewController(withIdentifier: "liveTranscription")
-                as? LiveTranscriptionOptionsViewController, let rootViewController = self.activeMeetingViewController else {
-            completion(false)
-            return
-        }
-        liveTranscriptionVC.modalPresentationStyle = .pageSheet
-        liveTranscriptionVC.model = meetingModel
-        rootViewController.present(liveTranscriptionVC, animated: true) {
-            completion(true)
-        }
-    }
-    
-    func dismissLiveTranscriptionView(_ liveTranscriptionVC: LiveTranscriptionOptionsViewController, completion: @escaping (Bool) -> Void) {
-        liveTranscriptionVC.dismiss(animated: true) {}
     }
 }

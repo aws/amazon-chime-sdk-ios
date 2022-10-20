@@ -13,11 +13,6 @@ import UIKit
 class MeetingModel: NSObject {
     enum ActiveMode {
         case roster
-        case chat
-        case video
-        case screenShare
-        case captions
-        case metrics
         case callKitOnHold
     }
 
@@ -40,48 +35,15 @@ class MeetingModel: NSObject {
 
     // Sub models
     let rosterModel = RosterModel()
-    lazy var videoModel = VideoModel(audioVideoFacade: currentMeetingSession.audioVideo,
-                                     eventAnalyticsController: currentMeetingSession.eventAnalyticsController)
-    let metricsModel = MetricsModel()
-    lazy var screenShareModel = ScreenShareModel(meetingSessionConfig: meetingSessionConfig,
-                                                 contentShareController: currentMeetingSession.audioVideo)
-    let chatModel = ChatModel()
-    lazy var deviceSelectionModel = DeviceSelectionModel(deviceController: currentMeetingSession.audioVideo,
-                                                         cameraCaptureSource: videoModel.customSource,
-                                                         audioVideoConfig: audioVideoConfig)
-    let captionsModel = CaptionsModel()
+
     let uuid = UUID()
     var call: Call?
 
-    // States
-    var isAppInBackground: Bool = false {
-        didSet {
-            if isAppInBackground {
-                wasLocalVideoOn = videoModel.isLocalVideoActive
-                if wasLocalVideoOn {
-                    videoModel.isLocalVideoActive = false
-                }
-                videoModel.unsubscribeAllRemoteVideos()
-            } else {
-                if wasLocalVideoOn {
-                    videoModel.isLocalVideoActive = true
-                }
-                if activeMode == .video {
-                    videoModel.addAllRemoteVideosInCurrentPageExceptUserPausedVideos()
-                }
-            }
-        }
-    }
     private var savedModeBeforeOnHold: ActiveMode?
     private var wasLocalVideoOn: Bool = false
 
     var activeMode: ActiveMode = .roster {
         didSet {
-            if activeMode == .video {
-                videoModel.addAllRemoteVideosInCurrentPageExceptUserPausedVideos()
-            } else {
-                videoModel.unsubscribeAllRemoteVideos()
-            }
             activeModeDidSetHandler?(activeMode)
         }
     }
@@ -104,9 +66,7 @@ class MeetingModel: NSObject {
     private var isEnded = false {
         didSet {
             // This will unbind current tiles.
-            videoModel.isEnded = true
             currentMeetingSession.audioVideo.stop()
-            screenShareModel.stopLocalSharing()
             isEndedHandler?()
         }
     }
@@ -163,12 +123,6 @@ class MeetingModel: NSObject {
     }
 
     func startMeeting() {
-        if self.callKitOption == .disabled {
-            self.configureAudioSession()
-            self.startAudioVideoConnection()
-            self.currentMeetingSession.audioVideo.startRemoteVideo()
-        }
-        screenShareModel.broadcastCaptureModel.isBlocked = false
     }
 
     func resumeCallKitMeeting() {
@@ -206,80 +160,9 @@ class MeetingModel: NSObject {
     func isVoiceFocusEnabled() -> Bool {
         return currentMeetingSession.audioVideo.realtimeIsVoiceFocusEnabled()
     }
-    
-    func setLiveTranscriptionEnabled(enabled: Bool) {
-        if enabled {
-            MeetingModule.shared().liveTranscriptionOptionsSelected(self)
-        } else {
-            postStopTranscriptionRequest()
-        }
-    }
-    
-    func postStopTranscriptionRequest() {
-        let url = self.meetingEndpointUrl.hasSuffix("/") ? self.meetingEndpointUrl : "\(self.meetingEndpointUrl)/"
-        let encodedURL = HttpUtils.encodeStrForURL(
-                str: "\(url)stop_transcription?title=\(meetingId)")
-        HttpUtils.postRequest(url: encodedURL, jsonData: nil) { _, error in
-            DispatchQueue.main.async {
-                if error != nil {
-                    self.notify(msg: "Transcription failed to stop, please try again!")
-                } else {
-                    self.notify(msg: "Live Transcription Disabled")
-                }
-            }
-        }
-    }
-
-    func getVideoTileDisplayName(for indexPath: IndexPath) -> String {
-        var displayName = ""
-        if indexPath.item == 0 {
-            if videoModel.isLocalVideoActive {
-                displayName = selfName
-            } else {
-                displayName = "Turn on your video"
-            }
-        } else {
-            if let videoTileState = videoModel.getVideoTileState(for: indexPath) {
-                displayName = rosterModel.getAttendeeName(for: videoTileState.attendeeId) ?? ""
-            }
-        }
-        return displayName
-    }
-    
-    func getVideoTileAttendeeId(for indexPath: IndexPath) -> String {
-        if let videoTileState = videoModel.getVideoTileState(for: indexPath) {
-            return videoTileState.attendeeId
-        }
-        return ""
-    }
 
     func chooseAudioDevice(_ audioDevice: MediaDevice) {
         currentMeetingSession.audioVideo.chooseAudioDevice(mediaDevice: audioDevice)
-    }
-
-    func sendDataMessage(_ message: String) {
-        do {
-            try currentMeetingSession
-                .audioVideo
-                .realtimeSendDataMessage(topic: "chat",
-                                         data: message,
-                                         lifetimeMs: 1000)
-        } catch {
-            logger.error(msg: "Failed to send message!")
-            return
-        }
-
-        let currentTimestamp = NSDate().timeIntervalSince1970
-        let timestamp = TimeStampConversion.formatTimestamp(timestamp: Int64(currentTimestamp) * 1000)
-
-        chatModel
-            .addChatMessage(chatMessage:
-                ChatMessage(
-                    senderName: self.selfName,
-                    message: message,
-                    timestamp: timestamp,
-                    isSelf: true
-                ))
     }
 
     private func notify(msg: String) {
@@ -300,9 +183,6 @@ class MeetingModel: NSObject {
         audioVideo.addDeviceChangeObserver(observer: self)
         audioVideo.addActiveSpeakerObserver(policy: DefaultActiveSpeakerPolicy(),
                                             observer: self)
-        audioVideo.addRealtimeDataMessageObserver(topic: "chat", observer: self)
-        audioVideo.addEventAnalyticsObserver(observer: self)
-        audioVideo.addRealtimeTranscriptEventObserver?(observer: self)
     }
 
     private func removeAudioVideoFacadeObservers() {
@@ -313,9 +193,6 @@ class MeetingModel: NSObject {
         audioVideo.removeMetricsObserver(observer: self)
         audioVideo.removeDeviceChangeObserver(observer: self)
         audioVideo.removeActiveSpeakerObserver(observer: self)
-        audioVideo.removeRealtimeDataMessageObserverFromTopic(topic: "chat")
-        audioVideo.removeEventAnalyticsObserver(observer: self)
-        audioVideo.removeRealtimeTranscriptEventObserver?(observer: self)
     }
 
     private func configureAudioSession() {
@@ -411,11 +288,6 @@ extension MeetingModel: AudioVideoObserver {
         if !reconnecting {
             call?.isConnectedHandler?()
         }
-
-        // This selection has to be here because if there are bluetooth headset connected,
-        // selecting non-bluetooth device before audioVideo.start() will get route overwritten by bluetooth
-        // after audio session starts
-        chooseAudioDevice(deviceSelectionModel.selectedAudioDevice)
     }
 
     func audioSessionDidDrop() {
@@ -454,22 +326,14 @@ extension MeetingModel: AudioVideoObserver {
     func videoSessionDidStartConnecting() {
         logWithFunctionName()
     }
-    
+
     func remoteVideoSourcesDidBecomeAvailable(sources: [RemoteVideoSource]) {
         logWithFunctionName()
-        sources.forEach { source in
-            // Initialize with defaults in case we want to update through UI
-            videoModel.remoteVideoSourceConfigurations[source] = VideoSubscriptionConfiguration()
-        }
         // Use default auto-subscribe behavior
     }
-    
+ 
     func remoteVideoSourcesDidBecomeUnavailable(sources: [RemoteVideoSource]) {
         logWithFunctionName()
-        sources.forEach { source in
-            videoModel.remoteVideoSourceConfigurations.removeValue(forKey: source)
-        }
-        videoModel.audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: [:], removed: sources)
     }
 
     func videoSessionDidStartWithStatus(sessionStatus: MeetingSessionStatus) {
@@ -477,15 +341,13 @@ extension MeetingModel: AudioVideoObserver {
         case .videoAtCapacityViewOnly:
             notifyHandler?("Local video is no longer possible to be enabled")
             logWithFunctionName(message: "\(sessionStatus.statusCode)")
-            videoModel.isLocalVideoActive = false
         default:
             logWithFunctionName(message: "\(sessionStatus.statusCode)")
         }
     }
-    
+
     func cameraSendAvailabilityDidChange(available : Bool) {
         logWithFunctionName(message: "Camera Send Available: \(available)")
-        videoModel.cameraSendIsAvailable = available
     }
 }
 
@@ -520,12 +382,7 @@ extension MeetingModel: RealtimeObserver {
                 logger.info(msg: "attendeeId:\(currentAttendeeInfo.attendeeId) externalUserId:\(currentAttendeeInfo.externalUserId) \(action)")
 
                 // if other attendee starts sharing content, stop content sharing from current device
-                let modality = DefaultModality(id: attendeeId)
-                if modality.isOfType(type: .content),
-                   !isSelfAttendee(attendeeId: attendeeId) {
-                    screenShareModel.stopLocalSharing()
-                    notifyHandler?("\(rosterModel.getAttendeeName(for: modality.base) ?? "") took over the screen share")
-                }
+
             }
         }
         rosterModel.addAttendees(newAttendees)
@@ -589,11 +446,7 @@ extension MeetingModel: MetricsObserver {
             logger.error(msg: "The received metrics \(metrics) is not of type [ObservableMetric: Any].")
             return
         }
-        metricsModel.updateAppMetrics(metrics: metrics)
         logger.info(msg: "Media metrics have been received: \(observableMetrics)")
-        if activeMode == .metrics {
-            metricsModel.metricsUpdatedHandler?()
-        }
     }
 }
 
@@ -613,77 +466,20 @@ extension MeetingModel: VideoTileObserver {
     func videoTileDidAdd(tileState: VideoTileState) {
         logger.info(msg: "Attempting to add video tile tileId: \(tileState.tileId)" +
             " attendeeId: \(tileState.attendeeId) with size \(tileState.videoStreamContentWidth)*\(tileState.videoStreamContentHeight)")
-        if tileState.isContent {
-            screenShareModel.tileId = tileState.tileId
-            if activeMode == .screenShare {
-                screenShareModel.viewUpdateHandler?(true)
-                videoModel.addContentShareVideoSource(attendeeId: tileState.attendeeId)
-            }
-        } else {
-            if tileState.isLocalTile {
-                videoModel.setSelfVideoTileState(tileState)
-                if activeMode == .video {
-                    videoModel.localVideoUpdatedHandler?()
-                }
-            } else {
-                videoModel.addRemoteVideoTileState(tileState, completion: {
-                    if self.activeMode == .video {
-                        self.videoModel.videoSubscriptionUpdatedHandler?()
-                    } else {
-                        // Currently not in the video view, no need to render the video tile
-                        self.videoModel.unsubscribeAllRemoteVideos()
-                    }
-                })
-            }
-        }
     }
 
-    
     func videoTileDidRemove(tileState: VideoTileState) {
         logger.info(msg: "Attempting to remove video tile tileId: \(tileState.tileId)" +
             " attendeeId: \(tileState.attendeeId)")
-        currentMeetingSession.audioVideo.unbindVideoView(tileId: tileState.tileId)
-
-        if tileState.isContent {
-            screenShareModel.tileId = nil
-            if activeMode == .screenShare {
-                screenShareModel.viewUpdateHandler?(false)
-            }
-        } else if tileState.isLocalTile {
-            videoModel.setSelfVideoTileState(nil)
-            if activeMode == .video {
-                videoModel.localVideoUpdatedHandler?()
-            }
-        } else {
-            videoModel.removeRemoteVideoTileState(tileState, completion: { success in
-                if success {
-                    self.videoModel.revalidateRemoteVideoPageIndex()
-                    if self.activeMode == .video {
-                        self.videoModel.videoUpdatedHandler?()
-                    }
-                } else {
-                    self.logger.error(msg: "Cannot remove unexisting remote video tile for tileId: \(tileState.tileId)")
-                }
-            })
-        }
     }
 
     func videoTileDidPause(tileState: VideoTileState) {
-        if tileState.pauseState == .pausedForPoorConnection {
-            videoModel.updateRemoteVideoTileState(tileState)
-        } else {
-            let attendeeId = tileState.attendeeId
-            let attendeeName = rosterModel.getAttendeeName(for: attendeeId) ?? ""
-            notifyHandler?("Video for attendee \(attendeeName) " +
-                " has been paused")
-        }
     }
 
     func videoTileDidResume(tileState: VideoTileState) {
         let attendeeId = tileState.attendeeId
         let attendeeName = rosterModel.getAttendeeName(for: attendeeId) ?? ""
         notifyHandler?("Video for attendee \(attendeeName) has been unpaused")
-        videoModel.updateRemoteVideoTileState(tileState)
     }
 
     func videoTileSizeDidChange(tileState: VideoTileState) {
@@ -703,8 +499,6 @@ extension MeetingModel: ActiveSpeakerObserver {
     }
 
     func activeSpeakerDidDetect(attendeeInfo: [AttendeeInfo]) {
-        videoModel.updateRemoteVideoStatesBasedOnActiveSpeakers(activeSpeakers: attendeeInfo, inVideoMode: activeMode == .video)
-
         rosterModel.updateActiveSpeakers(attendeeInfo.map { $0.attendeeId })
         if activeMode == .roster {
             rosterModel.rosterUpdatedHandler?()
@@ -717,59 +511,5 @@ extension MeetingModel: ActiveSpeakerObserver {
             return "\(key.externalUserId): \(value)"
         }.joined(separator: ",")
         logWithFunctionName(message: "\(scoresInString)")
-    }
-}
-
-// MARK: DataMessageObserver
-
-extension MeetingModel: DataMessageObserver {
-    func dataMessageDidReceived(dataMessage: DataMessage) {
-        if dataMessage.topic == "chat" {
-            chatModel.addDataMessage(dataMessage: dataMessage)
-        }
-    }
-}
-
-extension MeetingModel: EventAnalyticsObserver {
-    func eventDidReceive(name: EventName, attributes: [AnyHashable: Any]) {
-        let jsonData = try? JSONSerialization.data(withJSONObject: [
-            "name": "\(name)",
-            "attributes": toStringKeyDict(attributes.merging(currentMeetingSession.audioVideo.getCommonEventAttributes(),
-                                                             uniquingKeysWith: { (_, newVal) -> Any in
-                newVal
-            }))
-        ], options: [])
-
-        guard let data = jsonData, let msg = String(data: data, encoding: .utf8)  else {
-            logger.info(msg: "Dictionary is not in correct format to be serialized")
-            return
-        }
-        postLogger.info(msg: msg)
-
-        switch name {
-        case .meetingStartSucceeded:
-            logger.info(msg: "Meeting stared on : \(currentMeetingSession.audioVideo.getCommonEventAttributes().toJsonString())")
-        case .meetingEnded, .meetingFailed:
-            logger.info(msg: "\(currentMeetingSession.audioVideo.getMeetingHistory())")
-            postLogger.publishLog()
-        default:
-            break
-        }
-    }
-
-    func toStringKeyDict(_ attributes: [AnyHashable: Any]) -> [String: Any] {
-        var jsonDict = [String: Any]()
-        attributes.forEach { (key, value) in
-            jsonDict[String(describing: key)] = String(describing: value)
-        }
-        return jsonDict
-    }
-}
-
-// MARK: TranscriptEventObserver
-
-extension MeetingModel: TranscriptEventObserver {
-    func transcriptEventDidReceive(transcriptEvent: TranscriptEvent) {
-        captionsModel.addTranscriptEvent(transcriptEvent: transcriptEvent)
     }
 }
