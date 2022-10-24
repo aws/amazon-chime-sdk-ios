@@ -1,8 +1,12 @@
+## Unreleased
+
+### Fixed
+* Fixed data message handling null terminator
+
 ## [0.22.4] - 2022-10-20
 
 ### Fixed
 * Fixed data message sending non-UTF8 bytes issue
-* Fixed data message handling null terminator
 
 ## [0.22.3] - 2022-09-08
 
