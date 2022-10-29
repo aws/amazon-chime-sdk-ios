@@ -77,8 +77,14 @@ class MeetingModel: NSObject {
 
     var activeMode: ActiveMode = .roster {
         didSet {
+            videoModel.unsubscribeAllRemoteVideos()
             if activeMode == .video {
+                videoModel.removeContentShareVideoSources()
+                videoModel.removeRemoteVideosNotInCurrentPage()
                 videoModel.addAllRemoteVideosInCurrentPageExceptUserPausedVideos()
+            } else if activeMode == .screenShare{
+                videoModel.removeNonContentShareVideoSources()
+                videoModel.addContentShareVideoSource()
             } else {
                 videoModel.unsubscribeAllRemoteVideos()
             }
@@ -459,15 +465,20 @@ extension MeetingModel: AudioVideoObserver {
         logWithFunctionName()
         sources.forEach { source in
             // Initialize with defaults in case we want to update through UI
-            videoModel.remoteVideoSourceConfigurations[source] = VideoSubscriptionConfiguration()
+            videoModel.addPendingVideoSource(source: source, config: VideoSubscriptionConfiguration())
         }
-        // Use default auto-subscribe behavior
+        if activeMode == .video {
+            videoModel.addAllRemoteVideosInCurrentPageExceptUserPausedVideos()
+        } else if activeMode == .screenShare {
+            videoModel.addContentShareVideoSource()
+        }
+        
     }
     
     func remoteVideoSourcesDidBecomeUnavailable(sources: [RemoteVideoSource]) {
         logWithFunctionName()
         sources.forEach { source in
-            videoModel.remoteVideoSourceConfigurations.removeValue(forKey: source)
+            videoModel.removeVideoSource(source: source)
         }
         videoModel.audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: [:], removed: sources)
     }
@@ -617,7 +628,7 @@ extension MeetingModel: VideoTileObserver {
             screenShareModel.tileId = tileState.tileId
             if activeMode == .screenShare {
                 screenShareModel.viewUpdateHandler?(true)
-                videoModel.addContentShareVideoSource(attendeeId: tileState.attendeeId)
+                videoModel.addContentShareVideoSource()
             }
         } else {
             if tileState.isLocalTile {

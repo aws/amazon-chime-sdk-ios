@@ -32,6 +32,8 @@ class VideoModel: NSObject {
     
     var cameraSendIsAvailable: Bool = false
 
+    var pendingRemoteVideoSources: Dictionary<RemoteVideoSource, VideoSubscriptionConfiguration> = Dictionary()
+
     init(audioVideoFacade: AudioVideoFacade, eventAnalyticsController: EventAnalyticsController) {
         self.audioVideoFacade = audioVideoFacade
         self.customSource = DefaultCameraCaptureSource(logger: ConsoleLogger(name: "CustomCameraSource"))
@@ -244,6 +246,20 @@ class VideoModel: NSObject {
         }
     }
 
+    private func moveVideoSourceFromPendingToNormalByAttendeeId(attendeeId: String) {
+        let pendingAttendeeKeyMap = pendingRemoteVideoSources.keys.reduce(into: [String: RemoteVideoSource]()) {
+            $0[$1.attendeeId] = $1
+        }
+
+        if let source = pendingAttendeeKeyMap[attendeeId] {
+            if pendingRemoteVideoSources[source] != nil {
+                self.logger.info(msg: "[DBG-MSG]: moving video source out of pending state \(source.attendeeId)")
+                remoteVideoSourceConfigurations[source] = pendingRemoteVideoSources[source]
+                pendingRemoteVideoSources.removeValue(forKey: source)
+            }
+        }
+    }
+
     func promoteToPrimaryMeeting(credentials: MeetingSessionCredentials, observer: PrimaryMeetingPromotionObserver) {
         audioVideoFacade.promoteToPrimaryMeeting(credentials: credentials, observer: observer)
     }
@@ -289,6 +305,7 @@ class VideoModel: NSObject {
 
     func addRemoteVideoTileState(_ videoTileState: VideoTileState, completion: @escaping () -> Void) {
         remoteVideoTileStates.append((videoTileState.tileId, videoTileState))
+        moveVideoSourceFromPendingToNormalByAttendeeId(attendeeId: videoTileState.attendeeId)
         completion()
     }
 
@@ -347,11 +364,25 @@ class VideoModel: NSObject {
                 updatedSources[key] = remoteVideoSourceConfigurations[key]
             }
         }
+
+        var videoCount:Int = remoteVideoCountInCurrentPage
+        if videoCount < remoteVideoTileCountPerPage {
+            for (source, _) in pendingRemoteVideoSources {
+                self.logger.info(msg: "[DBG-MSG]: Adding pending video source to page \(source.attendeeId)")
+                updatedSources[source] = pendingRemoteVideoSources[source]
+                videoCount += 1
+                if (videoCount == remoteVideoTileCountPerPage) {
+                    break
+                }
+            }
+        }
+
         audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: updatedSources, removed: [])
     }
     
     func addContentShareVideoSource(attendeeId : String) {
         var updatedSources:[RemoteVideoSource: VideoSubscriptionConfiguration] = [:]
+        moveVideoSourceFromPendingToNormalByAttendeeId(attendeeId: attendeeId)
         for remoteVideoSource in remoteVideoSourceConfigurations {
             if(remoteVideoSource.key.attendeeId == attendeeId) {
                 updatedSources[remoteVideoSource.key] = remoteVideoSourceConfigurations[remoteVideoSource.key]
@@ -406,6 +437,20 @@ class VideoModel: NSObject {
         let desiredState = !customSource.torchEnabled
         customSource.torchEnabled = desiredState
         return customSource.torchEnabled == desiredState
+    }
+
+    func removeVideoSource(source: RemoteVideoSource) {
+        self.logger.info(msg: "[DBG-MSG]: Removing remote video source \(source.attendeeId)")
+        remoteVideoSourceConfigurations.removeValue(forKey: source)
+        pendingRemoteVideoSources.removeValue(forKey: source)
+    }
+
+    func addPendingVideoSource(source: RemoteVideoSource, config: VideoSubscriptionConfiguration) {
+        self.logger.info(msg: "[DBG-MSG]: Adding remote video source \(source.attendeeId)")
+        if remoteVideoSourceConfigurations[source] == nil {
+            pendingRemoteVideoSources[source] = config
+            self.logger.info(msg: "[DBG-MSG]: Added remote video source \(source.attendeeId)")
+        }
     }
 }
 
