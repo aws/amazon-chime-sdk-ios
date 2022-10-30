@@ -32,7 +32,7 @@ class VideoModel: NSObject {
     
     var cameraSendIsAvailable: Bool = false
 
-    var pendingRemoteVideoSources: Dictionary<RemoteVideoSource, VideoSubscriptionConfiguration> = Dictionary()
+    var pendingRemoteVideoSourceConfigurations: Dictionary<RemoteVideoSource, VideoSubscriptionConfiguration> = Dictionary()
 
     init(audioVideoFacade: AudioVideoFacade, eventAnalyticsController: EventAnalyticsController) {
         self.audioVideoFacade = audioVideoFacade
@@ -247,17 +247,20 @@ class VideoModel: NSObject {
     }
 
     private func moveVideoSourceFromPendingToNormalByAttendeeId(attendeeId: String) {
-        let pendingAttendeeKeyMap = pendingRemoteVideoSources.keys.reduce(into: [String: RemoteVideoSource]()) {
+        let pendingAttendeeKeyMap = pendingRemoteVideoSourceConfigurations.keys.reduce(into: [String: RemoteVideoSource]()) {
             $0[$1.attendeeId] = $1
         }
 
         if let source = pendingAttendeeKeyMap[attendeeId] {
-            if pendingRemoteVideoSources[source] != nil {
-                self.logger.info(msg: "[DBG-MSG]: moving video source out of pending state \(source.attendeeId)")
-                remoteVideoSourceConfigurations[source] = pendingRemoteVideoSources[source]
-                pendingRemoteVideoSources.removeValue(forKey: source)
+            if pendingRemoteVideoSourceConfigurations[source] != nil {
+                remoteVideoSourceConfigurations[source] = pendingRemoteVideoSourceConfigurations[source]
+                pendingRemoteVideoSourceConfigurations.removeValue(forKey: source)
             }
         }
+    }
+
+    private func isAttendeeIdContentShare(attendeeId: String) -> Bool {
+        return DefaultModality(id: attendeeId).isOfType(type: .content)
     }
 
     func promoteToPrimaryMeeting(credentials: MeetingSessionCredentials, observer: PrimaryMeetingPromotionObserver) {
@@ -367,11 +370,13 @@ class VideoModel: NSObject {
 
         var videoCount:Int = remoteVideoCountInCurrentPage
         if videoCount < remoteVideoTileCountPerPage {
-            for (source, _) in pendingRemoteVideoSources {
-                self.logger.info(msg: "[DBG-MSG]: Adding pending video source to page \(source.attendeeId)")
-                updatedSources[source] = pendingRemoteVideoSources[source]
+            for (source, _) in pendingRemoteVideoSourceConfigurations {
+                if isAttendeeIdContentShare(attendeeId: source.attendeeId) {
+                    continue
+                }
+                updatedSources[source] = pendingRemoteVideoSourceConfigurations[source]
                 videoCount += 1
-                if (videoCount == remoteVideoTileCountPerPage) {
+                if videoCount == remoteVideoTileCountPerPage {
                     break
                 }
             }
@@ -380,16 +385,41 @@ class VideoModel: NSObject {
         audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: updatedSources, removed: [])
     }
     
-    func addContentShareVideoSource(attendeeId : String) {
+    func addContentShareVideoSource() {
         var updatedSources:[RemoteVideoSource: VideoSubscriptionConfiguration] = [:]
-        moveVideoSourceFromPendingToNormalByAttendeeId(attendeeId: attendeeId)
+
+        for remoteVideoSource in pendingRemoteVideoSourceConfigurations {
+            if isAttendeeIdContentShare(attendeeId: remoteVideoSource.key.attendeeId) {
+                moveVideoSourceFromPendingToNormalByAttendeeId(attendeeId: remoteVideoSource.key.attendeeId)
+            }
+        }
+
         for remoteVideoSource in remoteVideoSourceConfigurations {
-            if(remoteVideoSource.key.attendeeId == attendeeId) {
+            if isAttendeeIdContentShare(attendeeId: remoteVideoSource.key.attendeeId) {
                 updatedSources[remoteVideoSource.key] = remoteVideoSourceConfigurations[remoteVideoSource.key]
-                
             }
         }
         audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: updatedSources, removed: [])
+    }
+
+    func removeContentShareVideoSources() {
+        var removedSources:[RemoteVideoSource] = []
+        for remoteVideoSource in remoteVideoSourceConfigurations {
+            if isAttendeeIdContentShare(attendeeId: remoteVideoSource.key.attendeeId) {
+                removedSources.append(remoteVideoSource.key)
+            }
+        }
+        audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: [:], removed: removedSources)
+    }
+
+    func removeNonContentShareVideoSources() {
+        var removedSources:[RemoteVideoSource] = []
+        for remoteVideoSource in remoteVideoSourceConfigurations {
+            if !isAttendeeIdContentShare(attendeeId: remoteVideoSource.key.attendeeId) {
+                removedSources.append(remoteVideoSource.key)
+            }
+        }
+        audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated: [:], removed: removedSources)
     }
 
     func pauseAllRemoteVideos() {
@@ -399,8 +429,7 @@ class VideoModel: NSObject {
     }
 
     func unsubscribeAllRemoteVideos() {
-        let remoteVideoSources: [RemoteVideoSource] = getRemoteVideoSubscriptionsFromRemoteVideoTileStates(remoteVideoTileStates: remoteVideoTileStates)
-        audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated:[:], removed:remoteVideoSources)
+        audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated:[:], removed: Array(remoteVideoSourceConfigurations.keys))
     }
 
     func getRemoteVideoSubscriptionsFromRemoteVideoTileStates(remoteVideoTileStates: [(Int, VideoTileState)]) -> [RemoteVideoSource] {
@@ -419,6 +448,7 @@ class VideoModel: NSObject {
     }
 
     func removeRemoteVideosNotInCurrentPage() {
+        removeContentShareVideoSources()
         let remoteVideoSourcesNotInCurrPage: [RemoteVideoSource] = getRemoteVideoSubscriptionsFromRemoteVideoTileStates(remoteVideoTileStates: remoteVideoStatesNotInCurrentPage)
         audioVideoFacade.updateVideoSourceSubscriptions(addedOrUpdated:[:], removed:remoteVideoSourcesNotInCurrPage)
     }
@@ -440,16 +470,13 @@ class VideoModel: NSObject {
     }
 
     func removeVideoSource(source: RemoteVideoSource) {
-        self.logger.info(msg: "[DBG-MSG]: Removing remote video source \(source.attendeeId)")
         remoteVideoSourceConfigurations.removeValue(forKey: source)
-        pendingRemoteVideoSources.removeValue(forKey: source)
+        pendingRemoteVideoSourceConfigurations.removeValue(forKey: source)
     }
 
     func addPendingVideoSource(source: RemoteVideoSource, config: VideoSubscriptionConfiguration) {
-        self.logger.info(msg: "[DBG-MSG]: Adding remote video source \(source.attendeeId)")
         if remoteVideoSourceConfigurations[source] == nil {
-            pendingRemoteVideoSources[source] = config
-            self.logger.info(msg: "[DBG-MSG]: Added remote video source \(source.attendeeId)")
+            pendingRemoteVideoSourceConfigurations[source] = config
         }
     }
 }

@@ -79,7 +79,6 @@ class MeetingModel: NSObject {
         didSet {
             videoModel.unsubscribeAllRemoteVideos()
             if activeMode == .video {
-                videoModel.removeContentShareVideoSources()
                 videoModel.removeRemoteVideosNotInCurrentPage()
                 videoModel.addAllRemoteVideosInCurrentPageExceptUserPausedVideos()
             } else if activeMode == .screenShare{
