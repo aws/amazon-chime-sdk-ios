@@ -67,9 +67,12 @@ class MeetingModel: NSObject {
                     videoModel.isLocalVideoActive = true
                 }
                 if activeMode == .video {
-                    videoModel.addAllRemoteVideosInCurrentPageExceptUserPausedVideos()
+                    videoModel.updateAllRemoteVideosInCurrentPageExceptUserPausedVideos()
+                } else if activeMode == .screenShare{
+                    videoModel.addContentShareVideoSource()
                 }
             }
+            videoModel.updateVideoSourceSubscription()
         }
     }
     private var savedModeBeforeOnHold: ActiveMode?
@@ -77,16 +80,16 @@ class MeetingModel: NSObject {
 
     var activeMode: ActiveMode = .roster {
         didSet {
-            videoModel.unsubscribeAllRemoteVideos()
             if activeMode == .video {
                 videoModel.removeRemoteVideosNotInCurrentPage()
-                videoModel.addAllRemoteVideosInCurrentPageExceptUserPausedVideos()
+                videoModel.updateAllRemoteVideosInCurrentPageExceptUserPausedVideos()
             } else if activeMode == .screenShare{
                 videoModel.removeNonContentShareVideoSources()
                 videoModel.addContentShareVideoSource()
             } else {
                 videoModel.unsubscribeAllRemoteVideos()
             }
+            videoModel.updateVideoSourceSubscription()
             activeModeDidSetHandler?(activeMode)
         }
     }
@@ -464,14 +467,14 @@ extension MeetingModel: AudioVideoObserver {
         logWithFunctionName()
         sources.forEach { source in
             // Initialize with defaults in case we want to update through UI
-            videoModel.addPendingVideoSource(source: source, config: VideoSubscriptionConfiguration())
+            videoModel.addVideoSource(source: source, config: VideoSubscriptionConfiguration())
         }
         if activeMode == .video {
-            videoModel.addAllRemoteVideosInCurrentPageExceptUserPausedVideos()
+            videoModel.updateAllRemoteVideosInCurrentPageExceptUserPausedVideos()
         } else if activeMode == .screenShare {
             videoModel.addContentShareVideoSource()
         }
-        
+        videoModel.updateVideoSourceSubscription()
     }
     
     func remoteVideoSourcesDidBecomeUnavailable(sources: [RemoteVideoSource]) {
@@ -628,6 +631,8 @@ extension MeetingModel: VideoTileObserver {
             if activeMode == .screenShare {
                 screenShareModel.viewUpdateHandler?(true)
                 videoModel.addContentShareVideoSource()
+            } else {
+                videoModel.removeContentShareVideoSources()
             }
         } else {
             if tileState.isLocalTile {
@@ -640,12 +645,13 @@ extension MeetingModel: VideoTileObserver {
                     if self.activeMode == .video {
                         self.videoModel.videoSubscriptionUpdatedHandler?()
                     } else {
-                        // Currently not in the video view, no need to render the video tile
-                        self.videoModel.unsubscribeAllRemoteVideos()
+                        // Currently not in the video view, no need to render non content share video tiles
+                        self.videoModel.removeNonContentShareVideoSources()
                     }
                 })
             }
         }
+        videoModel.updateVideoSourceSubscription()
     }
 
     
