@@ -66,11 +66,7 @@ class MeetingModel: NSObject {
                 if wasLocalVideoOn {
                     videoModel.isLocalVideoActive = true
                 }
-                if activeMode == .video {
-                    videoModel.updateAllRemoteVideosInCurrentPageExceptUserPausedVideos()
-                } else if activeMode == .screenShare{
-                    videoModel.addContentShareVideoSource()
-                }
+                updateRemoteVideoSourceSelection()
             }
             videoModel.updateVideoSourceSubscription()
         }
@@ -80,15 +76,7 @@ class MeetingModel: NSObject {
 
     var activeMode: ActiveMode = .roster {
         didSet {
-            if activeMode == .video {
-                videoModel.removeRemoteVideosNotInCurrentPage()
-                videoModel.updateAllRemoteVideosInCurrentPageExceptUserPausedVideos()
-            } else if activeMode == .screenShare{
-                videoModel.removeNonContentShareVideoSources()
-                videoModel.addContentShareVideoSource()
-            } else {
-                videoModel.unsubscribeAllRemoteVideos()
-            }
+            updateRemoteVideoSourceSelection()
             videoModel.updateVideoSourceSubscription()
             activeModeDidSetHandler?(activeMode)
         }
@@ -384,6 +372,18 @@ class MeetingModel: NSObject {
         }
         return call
     }
+
+    private func updateRemoteVideoSourceSelection() {
+        if activeMode == .video {
+            videoModel.removeRemoteVideosNotInCurrentPage()
+            videoModel.updateAllRemoteVideosInCurrentPageExceptUserPausedVideos()
+        } else if activeMode == .screenShare {
+            videoModel.removeNonContentShareVideoSources()
+            videoModel.addContentShareVideoSource()
+        } else {
+            videoModel.unsubscribeAllRemoteVideos()
+        }
+    }
 }
 
 // MARK: AudioVideoObserver
@@ -469,11 +469,7 @@ extension MeetingModel: AudioVideoObserver {
             // Initialize with defaults in case we want to update through UI
             videoModel.addVideoSource(source: source, config: VideoSubscriptionConfiguration())
         }
-        if activeMode == .video {
-            videoModel.updateAllRemoteVideosInCurrentPageExceptUserPausedVideos()
-        } else if activeMode == .screenShare {
-            videoModel.addContentShareVideoSource()
-        }
+        updateRemoteVideoSourceSelection()
         videoModel.updateVideoSourceSubscription()
     }
     
