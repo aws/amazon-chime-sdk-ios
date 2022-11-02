@@ -1,3 +1,14 @@
+## [Unreleased]
+
+### Fixed
+* Fixed data message handling null terminator when sending
+* [Demo] Fix a few video view issue in demo app
+
+## [0.22.4] - 2022-10-20
+
+### Fixed
+* Fixed data message sending non-UTF8 bytes issue
+
 ## [0.22.3] - 2022-09-08
 
 ### Fixed

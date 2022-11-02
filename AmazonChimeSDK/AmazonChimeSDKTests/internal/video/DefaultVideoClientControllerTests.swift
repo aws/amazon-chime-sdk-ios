@@ -42,7 +42,7 @@ class DefaultVideoClientControllerTests: CommonTestCase {
         XCTAssertNoThrow(try defaultVideoClientController.sendDataMessage(topic: topic, data: testMessage))
 
         verify(loggerMock.error(msg: "Cannot send data message because videoClientState=uninitialized")).wasCalled()
-        verify(videoClientMock.sendDataMessage(any(), data: any(), lifetimeMs: any())).wasNeverCalled()
+        verify(videoClientMock.sendDataMessage(any(), data: any(), dataLen: any(), lifetimeMs: any())).wasNeverCalled()
     }
 
     func testSendDataMessage_negativeLifetimeMs() {
@@ -51,7 +51,7 @@ class DefaultVideoClientControllerTests: CommonTestCase {
             XCTAssertEqual(error as? SendDataMessageError, SendDataMessageError.negativeLifetimeParameter)
         }
 
-        verify(videoClientMock.sendDataMessage(any(), data: any(), lifetimeMs: any())).wasNeverCalled()
+        verify(videoClientMock.sendDataMessage(any(), data: any(), dataLen: any(), lifetimeMs: any())).wasNeverCalled()
     }
 
     func testSendDataMessage_invalidTopic() {
@@ -60,28 +60,28 @@ class DefaultVideoClientControllerTests: CommonTestCase {
             XCTAssertEqual(error as? SendDataMessageError, SendDataMessageError.invalidTopic)
         }
 
-        verify(videoClientMock.sendDataMessage(any(), data: any(), lifetimeMs: any())).wasNeverCalled()
+        verify(videoClientMock.sendDataMessage(any(), data: any(), dataLen: any(), lifetimeMs: any())).wasNeverCalled()
     }
 
     func testSendDataMessage_sendString() {
         defaultVideoClientController.start()
         XCTAssertNoThrow(try defaultVideoClientController.sendDataMessage(topic: topic, data: testMessage))
 
-        verify(videoClientMock.sendDataMessage(self.topic, data: any(), lifetimeMs: 0)).wasCalled()
+        verify(videoClientMock.sendDataMessage(self.topic, data: any(), dataLen: any(), lifetimeMs: 0)).wasCalled()
     }
 
     func testSendDataMessage_sendByteArray() {
         defaultVideoClientController.start()
         XCTAssertNoThrow(try defaultVideoClientController.sendDataMessage(topic: topic, data: [116, 101, 115, 116]))
 
-        verify(videoClientMock.sendDataMessage(self.topic, data: any(), lifetimeMs: 0)).wasCalled()
+        verify(videoClientMock.sendDataMessage(self.topic, data: any(), dataLen: any(), lifetimeMs: 0)).wasCalled()
     }
 
     func testSendDataMessage_sendJson() {
         defaultVideoClientController.start()
         XCTAssertNoThrow(try defaultVideoClientController.sendDataMessage(topic: topic, data: ["key": "value"]))
 
-        verify(videoClientMock.sendDataMessage(self.topic, data: any(), lifetimeMs: 0)).wasCalled()
+        verify(videoClientMock.sendDataMessage(self.topic, data: any(), dataLen: any(), lifetimeMs: 0)).wasCalled()
     }
 
     func testSendDataMessage_sendInvalidData() {
@@ -90,7 +90,7 @@ class DefaultVideoClientControllerTests: CommonTestCase {
             XCTAssertEqual(error as? SendDataMessageError, SendDataMessageError.invalidData)
         }
 
-        verify(videoClientMock.sendDataMessage(self.topic, data: any(), lifetimeMs: 0)).wasNeverCalled()
+        verify(videoClientMock.sendDataMessage(self.topic, data: any(), dataLen: any(), lifetimeMs: 0)).wasNeverCalled()
     }
 
     func testSendLocalVideo() {

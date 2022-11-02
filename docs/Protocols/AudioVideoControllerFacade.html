@@ -567,6 +567,14 @@
     <p class="aside-title">Throws</p>
     <code><a href="../Enums/PermissionError.html#/c:@M@AmazonChimeSDK@E@PermissionError@PermissionErrorAudioPermissionError">PermissionError.audioPermissionError</a></code> if <code>RecordPermission</code> is not given
 
+</div><div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    <code><a href="../Enums/MediaError.html#/c:@M@AmazonChimeSDK@E@MediaError@MediaErrorAudioFailedToStart">MediaError.audioFailedToStart</a></code> if audio client failed to start
+
+</div><div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    <code><a href="../Enums/MediaError.html#/c:@M@AmazonChimeSDK@E@MediaError@MediaErrorIllegalState">MediaError.illegalState</a></code> if audio client is already started before calling start()
+
 </div>
 
                       </div>
@@ -617,6 +625,14 @@
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     <code><a href="../Enums/PermissionError.html#/c:@M@AmazonChimeSDK@E@PermissionError@PermissionErrorAudioPermissionError">PermissionError.audioPermissionError</a></code> if <code>RecordPermission</code> is not given
+
+</div><div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    <code><a href="../Enums/MediaError.html#/c:@M@AmazonChimeSDK@E@MediaError@MediaErrorAudioFailedToStart">MediaError.audioFailedToStart</a></code> if audio client failed to start
+
+</div><div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    <code><a href="../Enums/MediaError.html#/c:@M@AmazonChimeSDK@E@MediaError@MediaErrorIllegalState">MediaError.illegalState</a></code> if audio client is already started before calling start()
 
 </div>
 
@@ -670,6 +686,14 @@ in scenarios such as receving another phone call during the VoIP call.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     <code><a href="../Enums/PermissionError.html#/c:@M@AmazonChimeSDK@E@PermissionError@PermissionErrorAudioPermissionError">PermissionError.audioPermissionError</a></code> if <code>RecordPermission</code> is not given
+
+</div><div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    <code><a href="../Enums/MediaError.html#/c:@M@AmazonChimeSDK@E@MediaError@MediaErrorAudioFailedToStart">MediaError.audioFailedToStart</a></code> if audio client failed to start
+
+</div><div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    <code><a href="../Enums/MediaError.html#/c:@M@AmazonChimeSDK@E@MediaError@MediaErrorIllegalState">MediaError.illegalState</a></code> if audio client is already started before calling start()
 
 </div>
 
@@ -769,8 +793,6 @@ in scenarios such as receving another phone call during the VoIP call.</p>
 
 <p>This function will only have effect if <code>start</code> has already been called
 If maxBitRateKbps is not set, it will be self adjusted depending on number of users and videos in the meeting</p>
-
-<p>Parameter config: configurations of emitted video stream, e.g. simulcast, maxBitRateKbps</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     <code><a href="../Enums/PermissionError.html#/c:@M@AmazonChimeSDK@E@PermissionError@PermissionErrorVideoPermissionError">PermissionError.videoPermissionError</a></code> if video permission of <code>AVCaptureDevice</code> is not granted
@@ -785,6 +807,25 @@ If maxBitRateKbps is not set, it will be self adjusted depending on number of us
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">startLocalVideo</span><span class="p">(</span><span class="nv">config</span><span class="p">:</span> <span class="kt"><a href="../Classes/LocalVideoConfiguration.html">LocalVideoConfiguration</a></span><span class="p">)</span> <span class="k">throws</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>config</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>configurations of emitted video stream, e.g. simulcast, maxBitRateKbps</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -1367,8 +1408,8 @@ to revert UX, etc.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2022 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2022-09-08)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+          <p>&copy; 2022 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2022-10-20)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
     </div>
