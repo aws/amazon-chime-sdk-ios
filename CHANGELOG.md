@@ -2,6 +2,7 @@
 
 ### Fixed
 * Fixed data message handling null terminator when sending
+* [Demo] Fix a few video view issue in demo app
 
 ## [0.22.4] - 2022-10-20
 
