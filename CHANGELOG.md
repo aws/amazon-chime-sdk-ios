@@ -1,3 +1,8 @@
+## [Unreleased]
+
+### Fixed
+* Fixed data message handling null terminator when sending
+
 ## [0.22.4] - 2022-10-20
 
 ### Fixed

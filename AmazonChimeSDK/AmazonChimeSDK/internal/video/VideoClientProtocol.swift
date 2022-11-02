@@ -42,7 +42,7 @@ import Foundation
 
     func videoLogCallBack(_ logLevel: video_client_loglevel_t, msg: String!)
 
-    func sendDataMessage(_ topic: String!, data: UnsafePointer<Int8>!, lifetimeMs: Int32)
+    func sendDataMessage(_ topic: String!, data: UnsafePointer<Int8>!, dataLen: UInt32, lifetimeMs: Int32)
 
     func updateVideoSourceSubscriptions(_ addedOrUpdated: [AnyHashable: Any]!,
                                         withRemoved: [Any]!)
@@ -52,7 +52,7 @@ import Foundation
     func demoteFromPrimaryMeeting()
 
     func setSimulcast(_ simulcast: Bool)
-    
+
     func setMaxBitRateKbps(_ maxBitRate: UInt32)
 }
 

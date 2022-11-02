@@ -552,6 +552,7 @@ extension DefaultVideoClientController: VideoClientController {
 
                 videoClient?.sendDataMessage(topic,
                                              data: buffer,
+                                             dataLen: UInt32(container.count),
                                              lifetimeMs: lifetimeMs)
             }
         } else {
