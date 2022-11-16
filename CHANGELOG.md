@@ -1,8 +1,8 @@
-## [Unreleased]
+## [0.22.5] - 2022-11-16
 
 ### Fixed
 * Fixed data message handling null terminator when sending
-* [Demo] Fix a few video view issue in demo app
+* [Demo] Fix slow video rendering issue in demo app.
 
 ## [0.22.4] - 2022-10-20
 
