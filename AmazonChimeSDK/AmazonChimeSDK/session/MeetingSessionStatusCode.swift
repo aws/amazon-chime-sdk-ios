@@ -54,6 +54,12 @@ import Foundation
     /// When maximum concurrent video channel reached
     case videoAtCapacityViewOnly = 206
 
+    /// Designated input device is not responding and timed out.
+    case audioInputDeviceNotResponding = 82
+
+    /// Designated output device is not responding and timed out.
+    case audioOutputDeviceNotResponding = 83
+
     public var description: String {
         switch self {
         case .ok:
@@ -86,6 +92,10 @@ import Foundation
             return "unknown"
         case .videoAtCapacityViewOnly:
             return "videoAtCapacityViewOnly"
+        case .audioInputDeviceNotResponding:
+            return "audioInputDeviceNotResponding"
+        case .audioOutputDeviceNotResponding:
+            return "audioOutputDeviceNotResponding"
         }
     }
 }
