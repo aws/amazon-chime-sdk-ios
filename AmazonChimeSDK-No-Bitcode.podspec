@@ -10,5 +10,5 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '10.0'
   s.vendored_frameworks = "AmazonChimeSDK.xcframework"
   s.swift_version    = '5.0'
-  s.dependency 'AmazonChimeSDKMedia-No-Bitcode', '~> 0.17.10'
+  s.dependency 'AmazonChimeSDKMedia-No-Bitcode', '0.17.10'
 end
