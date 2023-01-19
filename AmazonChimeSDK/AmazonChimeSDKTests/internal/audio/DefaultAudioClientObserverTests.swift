@@ -52,7 +52,7 @@ class DefaultAudioClientObserverTests: XCTestCase {
         transcriptEventObserverMock = mock(TranscriptEventObserver.self)
         loggerMock = mock(Logger.self)
 
-        given(meetingStatsCollectorMock.getMeetingStats()).will { return [AnyHashable: Any]() }
+        given(meetingStatsCollectorMock.getMeetingStats()).will { [AnyHashable: Any]() }
 
         let mediaPlacementMock: MediaPlacementMock = mock(MediaPlacement.self)
             .initialize(audioFallbackUrl: audioFallbackUrl,
@@ -186,6 +186,42 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.audioServerHungup.rawValue))
         let expect = eventually {
             verify(mockAudioVideoObserver.audioSessionDidStopWithStatus(sessionStatus: any())).wasCalled()
+            verify(eventAnalyticsControllerMock.publishEvent(name: .meetingFailed, attributes: any())).wasCalled()
+            verify(meetingStatsCollectorMock.resetMeetingStats()).wasCalled()
+        }
+
+        wait(for: [expect], timeout: defaultTimeout)
+    }
+
+    func testAudioClientStateChanged_NotifiesOfInputDeviceFailure() {
+        given(audioClientMock.stopSession()).willReturn(0)
+        DefaultAudioClientController.state = .started
+        let statusCode = MeetingSessionStatusCode.audioInputDeviceNotResponding.rawValue
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
+                                                           status: audio_client_status_t.init(statusCode))
+        let expect = eventually {
+            verify(mockAudioVideoObserver.audioSessionDidStopWithStatus(sessionStatus: any(MeetingSessionStatus.self,
+                                                                        where: { $0.statusCode.rawValue == statusCode }))).wasCalled()
+            verify(eventAnalyticsControllerMock.publishEvent(name: .meetingFailed, attributes: any())).wasCalled()
+            verify(meetingStatsCollectorMock.resetMeetingStats()).wasCalled()
+        }
+
+        wait(for: [expect], timeout: defaultTimeout)
+    }
+
+    func testAudioClientStateChanged_NotifiesOfOutputDeviceFailure() {
+        given(audioClientMock.stopSession()).willReturn(0)
+        DefaultAudioClientController.state = .started
+        let statusCode = MeetingSessionStatusCode.audioOutputDeviceNotResponding.rawValue
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
+                                                           status: audio_client_status_t.init(statusCode))
+        let expect = eventually {
+            verify(mockAudioVideoObserver.audioSessionDidStopWithStatus(sessionStatus: any(MeetingSessionStatus.self,
+                                                                        where: { $0.statusCode.rawValue == statusCode }))).wasCalled()
             verify(eventAnalyticsControllerMock.publishEvent(name: .meetingFailed, attributes: any())).wasCalled()
             verify(meetingStatsCollectorMock.resetMeetingStats()).wasCalled()
         }
@@ -360,10 +396,10 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                         transcriptionConfiguration: transcriptionConfiguration,
                                                         message: "")
         let statusFailed = TranscriptionStatusInternal(type: TranscriptionStatusTypeInternal.failed,
-                                                        eventTimeMs: timestampMs,
-                                                        transcriptionRegion: transcriptionRegion,
-                                                        transcriptionConfiguration: transcriptionConfiguration,
-                                                        message: failedMessage)
+                                                       eventTimeMs: timestampMs,
+                                                       transcriptionRegion: transcriptionRegion,
+                                                       transcriptionConfiguration: transcriptionConfiguration,
+                                                       message: failedMessage)
         let events = [statusStarted, statusFailed]
         defaultAudioClientObserver.transcriptEventsReceived(events as [Any])
         let expect = eventually {
@@ -401,7 +437,7 @@ class DefaultAudioClientObserverTests: XCTestCase {
 
         wait(for: [expect], timeout: defaultTimeout)
     }
-    
+
     func testTranscriptEventsReceived_receivedTranscriptWithNilEntities() {
         let item = TranscriptItemInternal(type: TranscriptItemTypeInternal.pronunciation,
                                           startTimeMs: timestampMs,
@@ -430,7 +466,7 @@ class DefaultAudioClientObserverTests: XCTestCase {
 
         wait(for: [expect], timeout: defaultTimeout)
     }
-    
+
     func testTranscriptEventsReceived_receivedTranscriptWithNilLanguageIdentification() {
         let item = TranscriptItemInternal(type: TranscriptItemTypeInternal.pronunciation,
                                           startTimeMs: timestampMs,
