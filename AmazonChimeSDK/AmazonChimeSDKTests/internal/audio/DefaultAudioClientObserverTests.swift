@@ -420,6 +420,7 @@ extension DefaultAudioClientObserverTests{
 
         wait(for: [expect], timeout: defaultTimeout)
     }
+    
     func testTranscriptEventsReceived_receivedTranscript() {
         let item = TranscriptItemInternal(type: TranscriptItemTypeInternal.pronunciation,
                                           startTimeMs: timestampMs,
