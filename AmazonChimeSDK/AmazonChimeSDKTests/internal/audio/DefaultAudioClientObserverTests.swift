@@ -252,7 +252,10 @@ class DefaultAudioClientObserverTests: XCTestCase {
         defaultAudioClientObserver.audioMetricsChanged(metrics)
         verify(clientMetricsCollectorMock.processAudioClientMetrics(metrics: any())).wasCalled()
     }
+}
 
+// MARK: - Signal Strength Tests
+extension DefaultAudioClientObserverTests{
     func testSignalStrengthChanged_signalStrengthDidChange() {
         let signals = [AttendeeUpdate(profileId: attendeeId, externalUserId: externalUserId, data: 0)]
         defaultAudioClientObserver.signalStrengthChanged(signals as [Any])
@@ -285,7 +288,10 @@ class DefaultAudioClientObserverTests: XCTestCase {
 
         wait(for: [expect], timeout: defaultTimeout)
     }
+}
 
+// MARK: - Volume State Tests
+extension DefaultAudioClientObserverTests{
     func testVolumeStateChanged_volumeDidChange() {
         let volumes = [AttendeeUpdate(profileId: attendeeId, externalUserId: externalUserId, data: 2)]
         defaultAudioClientObserver.volumeStateChanged(volumes as [Any])
@@ -341,7 +347,10 @@ class DefaultAudioClientObserverTests: XCTestCase {
 
         wait(for: [expect], timeout: defaultTimeout)
     }
+}
 
+// MARK: - Attendees Presence Tests
+extension DefaultAudioClientObserverTests{
     func testAttendeesPresenceChanged_attendeesDidJoin() {
         let attendees = [AttendeeUpdate(profileId: attendeeId, externalUserId: externalUserId, data: 1)]
         defaultAudioClientObserver.attendeesPresenceChanged(attendees as [Any])
@@ -388,7 +397,10 @@ class DefaultAudioClientObserverTests: XCTestCase {
 
         wait(for: [expect], timeout: defaultTimeout)
     }
+}
 
+// MARK: - Transcript Event Tests
+extension DefaultAudioClientObserverTests{
     func testTranscriptEventsReceived_receivedTranscriptionStatus() {
         let statusStarted = TranscriptionStatusInternal(type: TranscriptionStatusTypeInternal.started,
                                                         eventTimeMs: timestampMs,
@@ -408,7 +420,6 @@ class DefaultAudioClientObserverTests: XCTestCase {
 
         wait(for: [expect], timeout: defaultTimeout)
     }
-
     func testTranscriptEventsReceived_receivedTranscript() {
         let item = TranscriptItemInternal(type: TranscriptItemTypeInternal.pronunciation,
                                           startTimeMs: timestampMs,
