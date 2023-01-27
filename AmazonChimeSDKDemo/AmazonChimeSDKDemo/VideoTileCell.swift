@@ -8,7 +8,6 @@
 
 import AmazonChimeSDK
 import UIKit
-import Toast
 
 let videoTileCellReuseIdentifier = "VideoTileCell"
 
