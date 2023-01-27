@@ -1,4 +1,4 @@
-## Unreleased
+## [0.22.7] - 2023-01-26
 
 ### Added
 * Added additional session statuses for audio device I/O timeouts.
