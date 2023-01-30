@@ -281,6 +281,7 @@
 		D863BE3529BAD8DA00D9DE9E /* AnyCodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D863BE3429BAD8DA00D9DE9E /* AnyCodableTests.swift */; };
 		D863BE3729BAF68B00D9DE9E /* EventAttributeUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D863BE3629BAF68B00D9DE9E /* EventAttributeUtilsTests.swift */; };
 		D8FE1FE629B9232400A62E72 /* AnyCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FE1FE529B9232400A62E72 /* AnyCodable.swift */; };
+		E09CE8EB29887916001C5093 /* VideoCodecCapability.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09CE8EA29887916001C5093 /* VideoCodecCapability.swift */; };
 		ED300F2A284877AC00497568 /* LocalVideoConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED300F29284877AC00497568 /* LocalVideoConfiguration.swift */; };
 		F81104AC276190AA003D17AD /* VideoPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81104A8276190A9003D17AD /* VideoPriority.swift */; };
 		F81104AD276190AA003D17AD /* RemoteVideoSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81104A9276190A9003D17AD /* RemoteVideoSource.swift */; };
@@ -583,6 +584,7 @@
 		D863BE3429BAD8DA00D9DE9E /* AnyCodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCodableTests.swift; sourceTree = "<group>"; };
 		D863BE3629BAF68B00D9DE9E /* EventAttributeUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAttributeUtilsTests.swift; sourceTree = "<group>"; };
 		D8FE1FE529B9232400A62E72 /* AnyCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCodable.swift; sourceTree = "<group>"; };
+		E09CE8EA29887916001C5093 /* VideoCodecCapability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCodecCapability.swift; sourceTree = "<group>"; };
 		ED300F29284877AC00497568 /* LocalVideoConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalVideoConfiguration.swift; sourceTree = "<group>"; };
 		F81104A8276190A9003D17AD /* VideoPriority.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPriority.swift; sourceTree = "<group>"; };
 		F81104A9276190A9003D17AD /* RemoteVideoSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteVideoSource.swift; sourceTree = "<group>"; };
@@ -930,6 +932,7 @@
 		5A631A4024297BB200C8DAF3 /* video */ = {
 			isa = PBXGroup;
 			children = (
+				E09CE8EA29887916001C5093 /* VideoCodecCapability.swift */,
 				CFA2A14428074E2A008FDFF5 /* backgroundfilter */,
 				C4590E2B253E03530035F4E0 /* capture */,
 				F81104A9276190A9003D17AD /* RemoteVideoSource.swift */,
@@ -1753,6 +1756,7 @@
 				0023075A2630E39C0074947E /* HttpMethod.swift in Sources */,
 				B418164724B7EDA800FA62BF /* SendDataMessageError.swift in Sources */,
 				0064165D26290C3100626EB8 /* DirtyEventDao.swift in Sources */,
+				E09CE8EB29887916001C5093 /* VideoCodecCapability.swift in Sources */,
 				003B588D23E22CD6002493AB /* SessionStateControllerAction.swift in Sources */,
 				C5FBFB85281DCBAC004C85CA /* NoopSegmentationProcessor.swift in Sources */,
 				002F8FE225BF984B00006F46 /* MeetingStatsCollector.swift in Sources */,

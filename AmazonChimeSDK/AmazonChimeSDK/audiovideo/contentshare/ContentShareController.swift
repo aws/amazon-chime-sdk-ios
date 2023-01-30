@@ -56,4 +56,16 @@ import Foundation
     ///
     /// - Parameter observer: observer to be removed for events
     func removeContentShareObserver(observer: ContentShareObserver)
+    
+    /// Set codec preferences for this clients send stream in order of most preferred to least preferred. The controller will
+    /// fallback for one of two reasons
+    /// - The codec is not supported by the browser
+    /// - Another client that has joined the conference does not support receiving the video. Note that if another client does not support
+    ///   any of the codecs provided the sender will not fallback, and that client will not be able to receive from this sender.
+    ///
+    /// If there is no overlap between what is passed in and what is supported by the browser, this function
+    /// may not have any effect, and the default set of codecs for this browser will be used.
+    ///
+    /// - Parameter preferences: list of VideoCodecCapability in order of preference
+   func setVideoCodecSendPreferences(preferences: [VideoCodecCapability])
 }

@@ -490,6 +490,8 @@ extension MeetingModel: AudioVideoObserver {
         default:
             logWithFunctionName(message: "\(sessionStatus.statusCode)")
         }
+        videoModel.audioVideoFacade.setVideoCodecSendPreferences(preferences: deviceSelectionModel.selectedCodec)
+        screenShareModel.inAppCaptureModel.contentShareController.setVideoCodecSendPreferences(preferences: deviceSelectionModel.selectedCodec)
     }
     
     func cameraSendAvailabilityDidChange(available : Bool) {

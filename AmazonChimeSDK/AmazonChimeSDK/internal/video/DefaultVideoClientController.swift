@@ -579,4 +579,16 @@ extension DefaultVideoClientController: VideoClientController {
         }
         videoClient?.demoteFromPrimaryMeeting()
     }
+
+    func setVideoCodecSendPreferences(preferences: [VideoCodecCapability]) {
+        var codecCapabilties = [VideoCodecCapabilitiesInternal]()
+        preferences.forEach { preference in codecCapabilties.append(
+            VideoCodecCapabilitiesInternal(
+                name: preference.name,
+                clockRate: preference.clockRate,
+                parameters: preference.parameters as [AnyHashable: Any]
+            )
+        )}
+        videoClient?.setVideoCodecPreferences(codecCapabilties)
+    }
 }

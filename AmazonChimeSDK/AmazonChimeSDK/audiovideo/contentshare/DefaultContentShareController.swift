@@ -42,4 +42,8 @@ import Foundation
     public func removeContentShareObserver(observer: ContentShareObserver) {
         contentShareVideoClientController.unsubscribeFromVideoClientStateChange(observer: observer)
     }
+    
+    public func setVideoCodecSendPreferences(preferences: [VideoCodecCapability]) {
+        contentShareVideoClientController.setVideoCodecSendPreferences(preferences: preferences)
+    }
 }

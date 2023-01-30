@@ -34,4 +34,5 @@ import Foundation
     func promoteToPrimaryMeeting(credentials: MeetingSessionCredentials,
                                  observer: PrimaryMeetingPromotionObserver)
     func demoteFromPrimaryMeeting()
+    func setVideoCodecSendPreferences(preferences: [VideoCodecCapability])
 }

@@ -54,6 +54,8 @@ import Foundation
     func setSimulcast(_ simulcast: Bool)
 
     func setMaxBitRateKbps(_ maxBitRate: UInt32)
+
+    func setVideoCodecPreferences(_ codecPreferences: [Any]!)
 }
 
 extension VideoClient: VideoClientProtocol {}

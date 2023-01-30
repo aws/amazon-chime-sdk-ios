@@ -14,4 +14,5 @@ import Foundation
     func stopVideoShare()
     func subscribeToVideoClientStateChange(observer: ContentShareObserver)
     func unsubscribeFromVideoClientStateChange(observer: ContentShareObserver)
+    func setVideoCodecSendPreferences(preferences: [VideoCodecCapability])
 }

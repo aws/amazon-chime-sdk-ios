@@ -12,6 +12,7 @@ import Foundation
 class DeviceSelectionModel {
     let audioDevices: [MediaDevice]
     let videoDevices: [MediaDevice]
+    let codecs: [[VideoCodecCapability]]
     let cameraCaptureSource: DefaultCameraCaptureSource
     let audioVideoConfig: AudioVideoConfiguration
 
@@ -36,6 +37,10 @@ class DeviceSelectionModel {
         }
     }
 
+    var selectedCodecIndex = 0
+    var selectedCodec: [VideoCodecCapability] {
+        return codecs[selectedCodecIndex]
+    }
     var selectedAudioDevice: MediaDevice {
         return audioDevices[selectedAudioDeviceIndex]
     }
@@ -62,6 +67,10 @@ class DeviceSelectionModel {
         audioDevices = deviceController.listAudioDevices()
         // Reverse these so the front camera is the initial choice
         videoDevices = MediaDevice.listVideoDevices().reversed()
+        codecs = [
+            [VideoCodecCapability.h264ConstrainedBaselineProfile(), VideoCodecCapability.vp8()],
+            [VideoCodecCapability.vp8(), VideoCodecCapability.h264ConstrainedBaselineProfile()]
+        ]
         self.cameraCaptureSource = cameraCaptureSource
         self.audioVideoConfig = audioVideoConfig
         cameraCaptureSource.device = selectedVideoDevice
