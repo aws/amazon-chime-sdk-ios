@@ -8,7 +8,6 @@
 
 import AmazonChimeSDK
 import AVFoundation
-import Toast
 import UIKit
 
 class JoiningViewController: UIViewController, UITextFieldDelegate {
