@@ -70,7 +70,7 @@ For the purpose of setup, your project's root folder (where you can find your `.
     If you don't need bitcode, you can add `AmazonChimeSDK-No-Bitcode` instead:
     ```
     target 'YourTarget' do
-        pod `AmazonChimeSDK-No-Bitcode`
+        pod 'AmazonChimeSDK-No-Bitcode'
         ...
     end
     ```
@@ -84,7 +84,7 @@ For the purpose of setup, your project's root folder (where you can find your `.
     If you don't need bitcode, you can add `AmazonChimeSDKMachineLearning-No-Bitcode` instead:
     ```
     target 'YourTarget' do
-        pod `AmazonChimeSDKMachineLearning-No-Bitcode`
+        pod 'AmazonChimeSDKMachineLearning-No-Bitcode'
         ...
     end
     ```
