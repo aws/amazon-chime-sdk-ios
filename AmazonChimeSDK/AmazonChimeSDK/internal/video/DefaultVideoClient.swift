@@ -24,7 +24,7 @@ class DefaultVideoClient: VideoClient {
         case Constants.errorLevel, Constants.fatalLevel:
             logger.error(msg: msg)
         default:
-            logger.default(msg: msg)
+            logger.info(msg: msg)
         }
     }
 }
