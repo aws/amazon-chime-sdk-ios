@@ -1,6 +1,7 @@
 ## Unreleased
 
 ### Fixed
+* Fixed osVersion is missing in ingestion event
 * [Demo] Replaced toast-swift with custom toast implementation to fix the demo build errors
 
 ## [0.22.7] - 2023-01-26
