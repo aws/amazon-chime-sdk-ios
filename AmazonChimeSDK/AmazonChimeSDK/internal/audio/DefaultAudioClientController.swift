@@ -74,11 +74,11 @@ extension DefaultAudioClientController: AudioClientController {
             audioLock.unlock()
         }
         
-        if audioMode != .nodevice {
-            guard audioSession.recordPermission == .granted else {
-                throw PermissionError.audioPermissionError
-            }
-        }
+//        if audioMode != .nodevice {
+//            guard audioSession.recordPermission == .granted else {
+//                throw PermissionError.audioPermissionError
+//            }
+//        }
 
         if Self.state == .started {
             throw MediaError.illegalState
