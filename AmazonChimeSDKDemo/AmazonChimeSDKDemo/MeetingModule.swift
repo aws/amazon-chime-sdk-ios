@@ -176,26 +176,27 @@ class MeetingModule {
     }
 
     func requestRecordPermission(completion: @escaping (Bool) -> Void) {
-        let audioSession = AVAudioSession.sharedInstance()
-        switch audioSession.recordPermission {
-        case .denied:
-            logger.error(msg: "User did not grant audio permission, it should redirect to Settings")
-            completion(false)
-        case .undetermined:
-            audioSession.requestRecordPermission { granted in
-                if granted {
-                    completion(true)
-                } else {
-                    self.logger.error(msg: "User did not grant audio permission")
-                    completion(false)
-                }
-            }
-        case .granted:
-            completion(true)
-        @unknown default:
-            logger.error(msg: "Audio session record permission unknown case detected")
-            completion(false)
-        }
+//        let audioSession = AVAudioSession.sharedInstance()
+//        switch audioSession.recordPermission {
+//        case .denied:
+//            logger.error(msg: "User did not grant audio permission, it should redirect to Settings")
+//            completion(false)
+//        case .undetermined:
+//            audioSession.requestRecordPermission { granted in
+//                if granted {
+//                    completion(true)
+//                } else {
+//                    self.logger.error(msg: "User did not grant audio permission")
+//                    completion(false)
+//                }
+//            }
+//        case .granted:
+//            completion(true)
+//        @unknown default:
+//            logger.error(msg: "Audio session record permission unknown case detected")
+//            completion(false)
+//        }
+        completion(true)
     }
 
     func requestVideoPermission(completion: @escaping (Bool) -> Void) {
@@ -218,19 +219,21 @@ class MeetingModule {
             logger.error(msg: "AVCaptureDevice authorizationStatus unknown case detected")
             completion(false)
         }
+        completion(true)
     }
 
     func configureAudioSession() {
         let audioSession = AVAudioSession.sharedInstance()
         do {
             if audioSession.category != .playAndRecord {
-                try audioSession.setCategory(AVAudioSession.Category.playAndRecord,
+                
+                try audioSession.setCategory(AVAudioSession.Category.playback,
                                              options: AVAudioSession.CategoryOptions.allowBluetooth)
                 try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
             }
-            if audioSession.mode != .voiceChat {
-                try audioSession.setMode(.voiceChat)
-            }
+//            if audioSession.mode != .voiceChat {
+                try audioSession.setMode(.default)
+//            }
         } catch {
             logger.error(msg: "Error configuring AVAudioSession: \(error.localizedDescription)")
         }
