@@ -150,7 +150,7 @@ import Foundation
 
     private func toIngestionMetadata(attributes: [AnyHashable: Any]) -> IngestionMetadata {
         return IngestionMetadata(osName: attributes[EventAttributeName.osName] as? String,
-                                 osVersion: attributes[EventAttributeName.osName] as? String,
+                                 osVersion: attributes[EventAttributeName.osVersion] as? String,
                                  sdkVersion: attributes[EventAttributeName.sdkVersion] as? String,
                                  sdkName: attributes[EventAttributeName.sdkName] as? String,
                                  mediaSdkVersion: attributes[EventAttributeName.mediaSdkVersion] as? String,
