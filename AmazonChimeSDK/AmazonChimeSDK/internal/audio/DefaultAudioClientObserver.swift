@@ -9,6 +9,8 @@
 import AmazonChimeSDKMedia
 import Foundation
 
+// TODO: Reduce this class size to comply with SwiftLint
+// swiftlint:disable type_body_length
 class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     private var audioClient: AudioClientProtocol
     private let audioClientStateObservers = ConcurrentMutableSet()
@@ -461,3 +463,4 @@ extension DefaultAudioClientObserver: AudioClientObserver {
         primaryMeetingPromotionObserver = observer
     }
 }
+// swiftlint:enable type_body_length
