@@ -35,7 +35,7 @@ jobs:
             --key master/media/latest/AmazonChimeSDKMedia.tar.gz \
             AmazonChimeSDKMedia.tar.gz
           tar -xzf AmazonChimeSDKMedia.tar.gz
-          cp -R ./AmazonChimeSDKMedia.framework ./AmazonChimeSDK
+          cp -R ./AmazonChimeSDKMedia.xcframework ./AmazonChimeSDK
 
       # Download amazon-chime-sdk-machine-learning binary from AWS S3
       - name: Get AmazonChimeSDKMachineLearning from AWS S3
