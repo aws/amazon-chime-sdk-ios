@@ -1,5 +1,11 @@
 ## Unreleased
 
+### Added
+* Added support for building with Xcode 14.
+
+### Removed
+* **Breaking** Removed support for Xcode versions less than Xcode 14. This includes removing support for iOS versions less than iOS 11. See [Xcode 14 release notes](https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes) for all deprecations and removals of support.
+
 ### Fixed
 * Fixed osVersion is missing in ingestion event
 * [Demo] Replaced toast-swift with custom toast implementation to fix the demo build errors
