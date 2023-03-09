@@ -22,7 +22,7 @@ class DirtyEventSQLiteDaoTests: XCTestCase {
     private let uuid = UUID(uuidString: "6b1d60db-bfa3-41fd-8448-7737f961cf3d")?.uuidString
     private let mockDirtyMeetingEventItem = DirtyMeetingEventItem(id: UUID(uuidString: "6b1d60db-bfa3-41fd-8448-7737f961cf3d")!.uuidString,
                                                                   data: IngestionMeetingEvent(name: String(describing: EventName.meetingEnded),
-                                                                                              eventAttributes: IngestionEventAttributes()),
+                                                                                              eventAttributes: [:]),
                                                                   ttl: Int64(1000299292))
 
     override func setUp() {

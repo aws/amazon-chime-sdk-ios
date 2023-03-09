@@ -39,6 +39,8 @@ import Foundation
         if isStarted {
             return
         }
+        
+        isStarted = true
 
         if timer == nil {
             timer = IntervalScheduler(

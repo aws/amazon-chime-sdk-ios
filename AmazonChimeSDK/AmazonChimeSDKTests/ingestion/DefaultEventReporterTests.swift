@@ -17,10 +17,11 @@ class DefaultEventReporterTests: XCTestCase {
 
     private let clientConfigurationMock = MeetingEventClientConfiguration(eventClientJoinToken: "", meetingId: "meetingId", attendeeId: "attendeeId")
     private let ingestionUrl = "ingestionUrl"
-    private let ingestionRecord = IngestionRecord(metadata: IngestionMetadata(), events: [IngestionEvent(type: "Meet",
-                                                                                                         metadata: IngestionMetadata(),
-                                                                                                         payloads: [IngestionPayload(name: "aeeee", ts: 1232132)])])
-    private let emptyIngestionRecord = IngestionRecord(metadata: IngestionMetadata(), events: [])
+    private let ingestionRecord = IngestionRecord(metadata: [:],
+                                                  events: [IngestionEvent(type: "Meet",
+                                                                          metadata: [:],
+                                                                          payloads: [IngestionPayload(name: "aeeee", ts: 1232132)])])
+    private let emptyIngestionRecord = IngestionRecord(metadata: [:], events: [])
 
     override func setUp() {
         eventBuffer = mock(EventBuffer.self)

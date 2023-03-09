@@ -3,11 +3,17 @@
 ### Added
 * Added support for building with Xcode 14.
 
+### Changed
+* **Breaking** Updated the Ingestion related APIs / classes to support generic attributes, no changes required if not using custom `EventClientConfiguration` and the following classes.
+  * Changed `SDKEvent.eventAttributes` from `EventAttributes` to String-keyed map
+  * Added `tag`, `metadataAttributes` to `EventClientConfiguration`
+
 ### Removed
 * **Breaking** Removed support for Xcode versions less than Xcode 14. This includes removing support for iOS versions less than iOS 11. See [Xcode 14 release notes](https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes) for all deprecations and removals of support.
 
 ### Fixed
 * Fixed osVersion is missing in ingestion event
+* Fixed missing meeting status data in ingestion event
 * [Demo] Replaced toast-swift with custom toast implementation to fix the demo build errors
 
 ## [0.22.7] - 2023-01-26

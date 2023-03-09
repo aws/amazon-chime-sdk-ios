@@ -8,24 +8,26 @@
 
 import Foundation
 
+private typealias EAName = EventAttributeName
+
 /// `IngestionEventConverter` converts data from payload into `MeetingEventItem`/`DirtyEventItem`or vice versa.
 @objcMembers public class IngestionEventConverter: NSObject {
-    private let nameKey = "name"
-    private let timestampKey = "ts"
-    private let idKey = "id"
-    private let ttlKey = "ttl"
 
     public override init() {
         super.init()
     }
 
-    func toIngestionMeetingEvent(event: SDKEvent, ingestionConfiguration: IngestionConfiguration) -> IngestionMeetingEvent {
+    func toIngestionMeetingEvent(event: SDKEvent,
+                                 ingestionConfiguration: IngestionConfiguration) -> IngestionMeetingEvent {
         let eventAttributes = event.eventAttributes
         let meetingConfig = ingestionConfiguration.clientConfiguration as? MeetingEventClientConfiguration
 
         var meetingStatus: String?
         if let status = eventAttributes[EventAttributeName.meetingStatus] as? MeetingSessionStatusCode {
             meetingStatus = String(describing: status)
+        } else if let status = eventAttributes[EventAttributeName.meetingStatus] as? String {
+            // MeetingStatus is emitting as string in DefaultAudioClientObserver.notifyFailed(status: MeetingSessionStatusCode)
+            meetingStatus = status
         }
 
         var videoErrorStr: String?
@@ -33,37 +35,52 @@ import Foundation
             videoErrorStr = String(describing: videoError)
         }
 
+        var attributes = [String:AnyCodable]()
+        attributes[EAName.timestampMs.description] = AnyCodable(eventAttributes[EAName.timestampMs])
+        attributes[EAName.maxVideoTileCount.description] = AnyCodable(eventAttributes[EAName.maxVideoTileCount])
+        attributes[EAName.meetingStartDurationMs.description] = AnyCodable(
+            eventAttributes[EAName.meetingStartDurationMs]
+        )
+        attributes[EAName.meetingDurationMs.description] = AnyCodable(eventAttributes[EAName.meetingDurationMs])
+        attributes[EAName.meetingErrorMessage.description] = AnyCodable(eventAttributes[EAName.meetingErrorMessage])
+        attributes[EAName.meetingStatus.description] = AnyCodable(meetingStatus)
+        attributes[EAName.poorConnectionCount.description] = AnyCodable(eventAttributes[EAName.poorConnectionCount])
+        attributes[EAName.retryCount.description] = AnyCodable(eventAttributes[EAName.retryCount])
+        attributes[EAName.videoInputError.description] = AnyCodable(videoErrorStr)
+        
+        meetingConfig?.metadataAttributes.forEach({ (key: String, value: Any) in
+            attributes[key] = AnyCodable(value)
+        })
+        
         // Some meta data like meetingId is needed
         // Since these meta data changes from meeting to meeting
         return IngestionMeetingEvent(name: String(describing: event.name),
-                                     eventAttributes: IngestionEventAttributes(timestampMs: eventAttributes[EventAttributeName.timestampMs] as? Int64,
-                                                                               maxVideoTileCount: eventAttributes[EventAttributeName.maxVideoTileCount] as? Int,
-                                                                               meetingStartDurationMs: eventAttributes[EventAttributeName.meetingStartDurationMs] as? Int64,
-                                                                               meetingDurationMs: eventAttributes[EventAttributeName.meetingDurationMs] as? Int64,
-                                                                               meetingErrorMessage:
-                                                                               eventAttributes[EventAttributeName.meetingErrorMessage] as? String,
-                                                                               meetingStatus: meetingStatus,
-                                                                               poorConnectionCount: eventAttributes[EventAttributeName.poorConnectionCount] as? Int,
-                                                                               retryCount: eventAttributes[EventAttributeName.retryCount] as? Int,
-                                                                               videoInputError: videoErrorStr,
-                                                                               meetingId: meetingConfig?.meetingId,
-                                                                               attendeeId: meetingConfig?.attendeeId))
+                                     eventAttributes: attributes)
     }
 
     func toIngestionRecord(dirtyMeetingEvents: [DirtyMeetingEventItem], ingestionConfiguration: IngestionConfiguration) -> IngestionRecord {
         if dirtyMeetingEvents.isEmpty {
-            return IngestionRecord(metadata: IngestionMetadata(), events: [])
+            return IngestionRecord(metadata: [:], events: [])
         }
 
-        let dirtyMeetingEventsGrouped = Dictionary(grouping: dirtyMeetingEvents, by: { $0.data.eventAttributes.meetingId })
+        // TODO: Grouop by meeting ID won't work since attendees can rejoin with different attendeeIDs
+        let dirtyMeetingEventsGrouped = Dictionary(grouping: dirtyMeetingEvents, by: { $0.data.getMeetingId() })
 
+        let eventType = ingestionConfiguration.clientConfiguration.tag
+        
         let ingestionEvents = dirtyMeetingEventsGrouped.compactMap { (group) -> IngestionEvent? in
-            if let dirtyMeetingEventItem = group.value.first {
-                return IngestionEvent(type: String(describing: EventClientType.meet),
-                               metadata: toIngestionMetadata(ingestionMeetingEvent: dirtyMeetingEventItem.data),
-                               payloads: group.value.map { dirtyMeetingEvent in
-                                   toIngestionPayload(dirtyMeetingEvent: dirtyMeetingEvent)
-                               })
+            if let sampleMeetingEventItem = group.value.first {
+                // TODO: Using first event as sample for retrieveing metadata won't always work, since attendees can rejoin with different attendeeIDs
+                let metadata = toIngestionMetadata(ingestionMeetingEvent: sampleMeetingEventItem.data,
+                                                   clientConfig: ingestionConfiguration.clientConfiguration)
+                let payloads = group.value.map {
+                    toIngestionPayload(meetingEventItemId: $0.id,
+                                       meetingEvent: $0.data,
+                                       dirtyMeetingEventTtl: $0.ttl)
+                }
+                return IngestionEvent(type: eventType,
+                                      metadata: metadata,
+                                      payloads: payloads)
             }
             return nil
         }
@@ -76,11 +93,13 @@ import Foundation
 
     func toIngestionRecord(meetingEvents: [MeetingEventItem], ingestionConfiguration: IngestionConfiguration) -> IngestionRecord {
         if meetingEvents.isEmpty {
-            return IngestionRecord(metadata: IngestionMetadata(), events: [])
+            return IngestionRecord(metadata: [:], events: [])
         }
-        let meetingEventsByMeetingId = Dictionary(grouping: meetingEvents, by: { $0.data.eventAttributes.meetingId })
+        // TODO: Grouop by meeting ID won't work since attendees can rejoin with different attendeeID
+        let meetingEventsByMeetingId = Dictionary(grouping: meetingEvents,
+                                                  by: { $0.data.getMeetingId() })
 
-        let type = String(describing: EventClientType.meet)
+        let type = ingestionConfiguration.clientConfiguration.tag
 
         // When sending a batch, server accepts the data as
         // "events": [
@@ -99,12 +118,18 @@ import Foundation
         // ]
         // This is to group events so that it contains different metadata to override
         let ingestionEvents = meetingEventsByMeetingId.compactMap { (group) -> IngestionEvent? in
-            if let meetingEventItem = group.value.first {
+            if let sampleMeetingEventItem = group.value.first {
+                // TODO: Using first event as sample for retrieveing metadata won't always work, since attendees can rejoin with different attendeeIDs
+                let metadata = toIngestionMetadata(ingestionMeetingEvent: sampleMeetingEventItem.data,
+                                                   clientConfig: ingestionConfiguration.clientConfiguration)
+                let payloads = group.value.map {
+                    toIngestionPayload(meetingEventItemId: $0.id,
+                                       meetingEvent: $0.data,
+                                       dirtyMeetingEventTtl: nil)
+                }
                 return IngestionEvent(type: type,
-                                      metadata: toIngestionMetadata(ingestionMeetingEvent: meetingEventItem.data),
-                                      payloads: group.value.map { meetingEvent in
-                                          toIngestionPayload(meetingEvent: meetingEvent)
-                                      })
+                                      metadata: metadata,
+                                      payloads: payloads)
             }
             return nil
         }
@@ -115,54 +140,37 @@ import Foundation
                                events: ingestionEvents)
     }
 
-    private func toIngestionPayload(meetingEvent: MeetingEventItem) -> IngestionPayload {
-        let attributes = meetingEvent.data.eventAttributes
-
-        return IngestionPayload(name: meetingEvent.data.name,
-                                ts: attributes.timestampMs ?? 0,
-                                id: meetingEvent.id,
-                                maxVideoTileCount: attributes.maxVideoTileCount,
-                                meetingStartDurationMs: attributes.meetingStartDurationMs,
-                                meetingDurationMs: attributes.meetingDurationMs,
-                                meetingErrorMessage: attributes.meetingErrorMessage,
-                                meetingStatus: attributes.meetingStatus,
-                                poorConnectionCount: attributes.poorConnectionCount,
-                                retryCount: attributes.retryCount,
-                                videoInputErrorMessage: String(describing: attributes.videoInputError))
+    private func toIngestionPayload(meetingEventItemId: String,
+                                    meetingEvent: IngestionMeetingEvent,
+                                    dirtyMeetingEventTtl: Int64?) -> IngestionPayload {
+        return IngestionPayload(name: meetingEvent.name,
+                                ts: meetingEvent.getTimestampMs() ?? 0,
+                                id: meetingEventItemId,
+                                maxVideoTileCount: meetingEvent.getMaxVideoTileCount(),
+                                meetingStartDurationMs: meetingEvent.getMeetingStartDurationMs(),
+                                meetingDurationMs: meetingEvent.getMeetingDurationMs(),
+                                meetingErrorMessage: meetingEvent.getMeetingErrorMessage(),
+                                meetingStatus: meetingEvent.getMeetingStatus(),
+                                poorConnectionCount: meetingEvent.getPoorConnectionCount(),
+                                retryCount: meetingEvent.getRetryCount(),
+                                videoInputErrorMessage: meetingEvent.getVideoInputErrorMessage(),
+                                ttl: dirtyMeetingEventTtl)
     }
 
-    private func toIngestionPayload(dirtyMeetingEvent: DirtyMeetingEventItem) -> IngestionPayload {
-        let attributes = dirtyMeetingEvent.data.eventAttributes
-
-        return IngestionPayload(name: dirtyMeetingEvent.data.name,
-                                ts: attributes.timestampMs ?? 0,
-                                id: dirtyMeetingEvent.id,
-                                maxVideoTileCount: attributes.maxVideoTileCount,
-                                meetingStartDurationMs: attributes.meetingStartDurationMs,
-                                meetingDurationMs: attributes.meetingDurationMs,
-                                meetingErrorMessage: attributes.meetingErrorMessage,
-                                meetingStatus: attributes.meetingStatus,
-                                poorConnectionCount: attributes.poorConnectionCount,
-                                retryCount: attributes.retryCount,
-                                videoInputErrorMessage: String(describing: attributes.videoInputError),
-                                ttl: dirtyMeetingEvent.ttl)
+    private func toIngestionMetadata(attributes: [String: Any]) -> [String: AnyCodable?] {
+        var result = [String: AnyCodable]()
+        attributes.forEach { (key: String, value: Any) in
+            result[key] = AnyCodable(value)
+        }
+        return result
     }
 
-    private func toIngestionMetadata(attributes: [AnyHashable: Any]) -> IngestionMetadata {
-        return IngestionMetadata(osName: attributes[EventAttributeName.osName] as? String,
-                                 osVersion: attributes[EventAttributeName.osVersion] as? String,
-                                 sdkVersion: attributes[EventAttributeName.sdkVersion] as? String,
-                                 sdkName: attributes[EventAttributeName.sdkName] as? String,
-                                 mediaSdkVersion: attributes[EventAttributeName.mediaSdkVersion] as? String,
-                                 deviceName: attributes[EventAttributeName.deviceName] as? String,
-                                 deviceManufacturer: attributes[EventAttributeName.deviceManufacturer] as? String,
-                                 deviceModel: attributes[EventAttributeName.deviceModel] as? String,
-                                 meetingId: attributes[EventAttributeName.meetingId] as? String,
-                                 attendeeId: attributes[EventAttributeName.attendeeId] as? String)
-    }
-
-    private func toIngestionMetadata(ingestionMeetingEvent: IngestionMeetingEvent) -> IngestionMetadata {
-        return IngestionMetadata(meetingId: ingestionMeetingEvent.eventAttributes.meetingId,
-                                 attendeeId: ingestionMeetingEvent.eventAttributes.attendeeId)
+    private func toIngestionMetadata(ingestionMeetingEvent: IngestionMeetingEvent,
+                                     clientConfig: EventClientConfiguration) -> [String: AnyCodable?] {
+        var result = [String: AnyCodable]()
+        clientConfig.metadataAttributes.keys.forEach { key in
+            result[key] = ingestionMeetingEvent.eventAttributes[key] ?? nil
+        }
+        return result
     }
 }
