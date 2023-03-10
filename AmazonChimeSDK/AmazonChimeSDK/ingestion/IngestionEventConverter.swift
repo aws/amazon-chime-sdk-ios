@@ -20,14 +20,11 @@ private typealias EAName = EventAttributeName
     func toIngestionMeetingEvent(event: SDKEvent,
                                  ingestionConfiguration: IngestionConfiguration) -> IngestionMeetingEvent {
         let eventAttributes = event.eventAttributes
-        let meetingConfig = ingestionConfiguration.clientConfiguration as? MeetingEventClientConfiguration
+        let clientConfig = ingestionConfiguration.clientConfiguration
 
         var meetingStatus: String?
         if let status = eventAttributes[EventAttributeName.meetingStatus] as? MeetingSessionStatusCode {
             meetingStatus = String(describing: status)
-        } else if let status = eventAttributes[EventAttributeName.meetingStatus] as? String {
-            // MeetingStatus is emitting as string in DefaultAudioClientObserver.notifyFailed(status: MeetingSessionStatusCode)
-            meetingStatus = status
         }
 
         var videoErrorStr: String?
@@ -48,7 +45,7 @@ private typealias EAName = EventAttributeName
         attributes[EAName.retryCount.description] = AnyCodable(eventAttributes[EAName.retryCount])
         attributes[EAName.videoInputError.description] = AnyCodable(videoErrorStr)
         
-        meetingConfig?.metadataAttributes.forEach({ (key: String, value: Any) in
+        clientConfig.metadataAttributes.forEach({ (key: String, value: Any) in
             attributes[key] = AnyCodable(value)
         })
         
@@ -63,7 +60,7 @@ private typealias EAName = EventAttributeName
             return IngestionRecord(metadata: [:], events: [])
         }
 
-        // TODO: Grouop by meeting ID won't work since attendees can rejoin with different attendeeIDs
+        // TODO: Group by meeting ID won't work since attendees can rejoin with different attendeeIDs
         let dirtyMeetingEventsGrouped = Dictionary(grouping: dirtyMeetingEvents, by: { $0.data.getMeetingId() })
 
         let eventType = ingestionConfiguration.clientConfiguration.tag
@@ -95,7 +92,7 @@ private typealias EAName = EventAttributeName
         if meetingEvents.isEmpty {
             return IngestionRecord(metadata: [:], events: [])
         }
-        // TODO: Grouop by meeting ID won't work since attendees can rejoin with different attendeeID
+        // TODO: Group by meeting ID won't work since attendees can rejoin with different attendeeID
         let meetingEventsByMeetingId = Dictionary(grouping: meetingEvents,
                                                   by: { $0.data.getMeetingId() })
 

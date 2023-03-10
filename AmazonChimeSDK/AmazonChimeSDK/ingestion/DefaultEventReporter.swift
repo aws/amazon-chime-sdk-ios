@@ -61,6 +61,8 @@ import Foundation
         }
 
         timer?.stop()
+        
+        isStarted = false
     }
 
     deinit {
