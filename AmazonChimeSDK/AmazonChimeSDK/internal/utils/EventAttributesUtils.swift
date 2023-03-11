@@ -10,51 +10,39 @@ import Foundation
 
 class EventAttributeUtils {
     static var commonEventAttributes = [
-        EventAttributeName.deviceName: DeviceUtils.deviceName,
-        EventAttributeName.deviceManufacturer: DeviceUtils.manufacturer,
-        EventAttributeName.deviceModel: DeviceUtils.deviceModel,
-        EventAttributeName.osName: DeviceUtils.osName,
-        EventAttributeName.osVersion: DeviceUtils.osVersion,
-        EventAttributeName.sdkName: DeviceUtils.sdkName,
-        EventAttributeName.sdkVersion: DeviceUtils.sdkVersion,
-        EventAttributeName.mediaSdkVersion: DeviceUtils.mediaSDKVersion
-    ] as [EventAttributeName: Any]
+        EventAttributeName.deviceName.description: DeviceUtils.deviceName,
+        EventAttributeName.deviceManufacturer.description: DeviceUtils.manufacturer,
+        EventAttributeName.deviceModel.description: DeviceUtils.deviceModel,
+        EventAttributeName.osName.description: DeviceUtils.osName,
+        EventAttributeName.osVersion.description: DeviceUtils.osVersion,
+        EventAttributeName.sdkName.description: DeviceUtils.sdkName,
+        EventAttributeName.sdkVersion.description: DeviceUtils.sdkVersion,
+        EventAttributeName.mediaSdkVersion.description: DeviceUtils.mediaSDKVersion
+    ] as [String: Any]
 
-    class func getCommonAttributes() -> [AnyHashable: Any] {
-        // Create a copy and return
-        let localCommonEventAttributes = commonEventAttributes
-
-        return localCommonEventAttributes
-    }
-
-    class func getCommonAttributes(ingestionConfiguration: IngestionConfiguration) -> [AnyHashable: Any] {
+    class func getCommonAttributes(ingestionConfiguration: IngestionConfiguration) -> [String: Any] {
         var localCommonEventAttributes = commonEventAttributes
 
-        if ingestionConfiguration.clientConfiguration.type == .meet, let meetingConfig = ingestionConfiguration.clientConfiguration as? MeetingEventClientConfiguration {
-            localCommonEventAttributes = localCommonEventAttributes.merging([
-                EventAttributeName.attendeeId: meetingConfig.attendeeId,
-                EventAttributeName.meetingId: meetingConfig.meetingId
-            ], uniquingKeysWith: { (_, newVal) -> Any in
-                newVal
-            })
+        ingestionConfiguration.clientConfiguration.metadataAttributes.forEach { (key: String, value: Any) in
+            localCommonEventAttributes[key] = value
         }
 
         return localCommonEventAttributes
     }
 
-    class func getCommonAttributes(meetingSessionConfig: MeetingSessionConfiguration) -> [AnyHashable: Any] {
+    class func getCommonAttributes(meetingSessionConfig: MeetingSessionConfiguration) -> [String: Any] {
         var localCommonEventAttributes = [
-            EventAttributeName.meetingId: meetingSessionConfig.meetingId,
-            EventAttributeName.attendeeId: meetingSessionConfig.credentials.attendeeId,
-            EventAttributeName.externalUserId: meetingSessionConfig.credentials.externalUserId
-        ] as [EventAttributeName: Any]
+            EventAttributeName.meetingId.description: meetingSessionConfig.meetingId,
+            EventAttributeName.attendeeId.description: meetingSessionConfig.credentials.attendeeId,
+            EventAttributeName.externalUserId.description: meetingSessionConfig.credentials.externalUserId
+        ] as [String: Any]
 
         localCommonEventAttributes = localCommonEventAttributes.merging(commonEventAttributes, uniquingKeysWith: { (_, newItem) -> Any in
             newItem
         })
 
         if let externalMeetingId = meetingSessionConfig.externalMeetingId {
-            localCommonEventAttributes[EventAttributeName.externalMeetingId] = externalMeetingId
+            localCommonEventAttributes[EventAttributeName.externalMeetingId.description] = externalMeetingId
         }
 
         return localCommonEventAttributes

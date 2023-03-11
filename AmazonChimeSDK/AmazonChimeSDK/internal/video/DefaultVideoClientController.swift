@@ -55,7 +55,6 @@ class DefaultVideoClientController: NSObject {
             let attributes = [
                 EventAttributeName.videoInputError: PermissionError.videoPermissionError
             ]
-
             eventAnalyticsController.publishEvent(name: .videoInputFailed, attributes: attributes)
             throw PermissionError.videoPermissionError
         }

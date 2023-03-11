@@ -22,13 +22,14 @@ class DefaultEventBufferTests: XCTestCase {
     private let meetingEvent = SDKEvent(eventName: EventName.meetingEnded, eventAttributes: [EventAttributeName.poorConnectionCount: 0])
 
     private let ingestionEvent = IngestionMeetingEvent(name: String(describing: EventName.meetingEnded),
-                                                      eventAttributes: IngestionEventAttributes())
+                                                       eventAttributes: [:])
     private let meetingEventItem = MeetingEventItem(id: "sdfdf",
                                                     data: IngestionMeetingEvent(name: String(describing: EventName.meetingEnded),
-                                                                                             eventAttributes: IngestionEventAttributes()))
-    private let ingestionRecord = IngestionRecord(metadata: IngestionMetadata(), events: [IngestionEvent(type: "Meet",
-                                                                                                         metadata: IngestionMetadata(),
-                                                                                                         payloads: [IngestionPayload(name: "aeeee", ts: 1232132)])])
+                                                                                eventAttributes: [:]))
+    private let ingestionRecord = IngestionRecord(metadata: [:],
+                                                  events: [IngestionEvent(type: "Meet",
+                                                                          metadata: [:],
+                                                                          payloads: [IngestionPayload(name: "aeeee", ts: 1232132)])])
     override func setUp() {
         ingestionConfiguration = IngestionConfigurationBuilder().build(disabled: false,
                                                                        ingestionUrl: "a",
@@ -44,7 +45,7 @@ class DefaultEventBufferTests: XCTestCase {
         given(converter.toIngestionRecord(dirtyMeetingEvents: any(), ingestionConfiguration: any())).willReturn(ingestionRecord)
         given(dirtyEventDao.queryDirtyMeetingEventItems(size: any())).willReturn([DirtyMeetingEventItem(id: "aa", data: ingestionEvent, ttl: 11123)])
 
-        given(converter.toIngestionMeetingEvent(event: any(), ingestionConfiguration: any())).willReturn(IngestionMeetingEvent(name: "dsfdsf", eventAttributes: IngestionEventAttributes()))
+        given(converter.toIngestionMeetingEvent(event: any(), ingestionConfiguration: any())).willReturn(IngestionMeetingEvent(name: "dsfdsf", eventAttributes: [:]))
         eventSqliteBuffer = DefaultEventBuffer(ingestionConfiguration: ingestionConfiguration,
                                               eventDao: eventDao,
                                               dirtyEventDao: dirtyEventDao,

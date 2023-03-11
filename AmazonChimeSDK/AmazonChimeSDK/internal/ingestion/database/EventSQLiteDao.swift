@@ -26,6 +26,7 @@ class EventSQLiteDao: EventDao {
             if let id = event["id"] as? String,
                let dataStr = event["data"] as? String,
                let data = dataStr.data(using: .utf8),
+               // TODO: This will skip the item from processing by EventBuffer if decoding fails, should always return the event so that EventBuffer can delete it from database.
                let jsonSerilizedData = try? JSONDecoder().decode(IngestionMeetingEvent.self, from: data) {
                 return MeetingEventItem(id: id, data: jsonSerilizedData)
             }

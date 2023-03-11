@@ -29,6 +29,7 @@ class DirtyEventSQLiteDao: DirtyEventDao {
                let dataStr = event["data"] as? String,
                let ttl = event["ttl"] as? Int64,
                let data = dataStr.data(using: .utf8),
+               // TODO: This will skip the item from processing by EventBuffer if decoding fails, should always return the event so that EventBuffer can delete it from database.
                let jsonSerilizedData = try? JSONDecoder().decode(IngestionMeetingEvent.self, from: data) {
                 return DirtyMeetingEventItem(id: id, data: jsonSerilizedData, ttl: ttl)
             }

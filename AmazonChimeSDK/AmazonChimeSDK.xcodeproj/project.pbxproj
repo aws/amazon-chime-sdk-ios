@@ -35,9 +35,7 @@
 		002C1FB0264208E100C9B919 /* BackoffRetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002C1FAF264208E100C9B919 /* BackoffRetry.swift */; };
 		002C1FB72642099F00C9B919 /* DefaultBackoffRetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002C1FB62642099F00C9B919 /* DefaultBackoffRetry.swift */; };
 		002C1FBD2642641A00C9B919 /* DefaultEventBufferTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002C1FBC2642641A00C9B919 /* DefaultEventBufferTests.swift */; };
-		002C1FDC2645DCCC00C9B919 /* IngestionMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002C1FDB2645DCCC00C9B919 /* IngestionMetadata.swift */; };
 		002C1FE02645E24E00C9B919 /* IngestionPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002C1FDF2645E24E00C9B919 /* IngestionPayload.swift */; };
-		002C1FE42648920A00C9B919 /* IngestionEventAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002C1FE32648920A00C9B919 /* IngestionEventAttributes.swift */; };
 		002C1FEA2649D5CD00C9B919 /* EventSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002C1FE92649D5CC00C9B919 /* EventSender.swift */; };
 		002F8FE225BF984B00006F46 /* MeetingStatsCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002F8FE125BF984B00006F46 /* MeetingStatsCollector.swift */; };
 		002F8FE625BF986800006F46 /* DefaultMeetingStatsCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002F8FE525BF986800006F46 /* DefaultMeetingStatsCollector.swift */; };
@@ -279,6 +277,10 @@
 		CFD14AAC281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite in Resources */ = {isa = PBXBuildFile; fileRef = CFD14AAB281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite */; };
 		CFD14AAD281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite in Resources */ = {isa = PBXBuildFile; fileRef = CFD14AAB281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite */; };
 		CFF1553C2819C123009E257B /* background-ml-test-image.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CFF1553B2819C123009E257B /* background-ml-test-image.jpeg */; };
+		D863BE3329BAD65500D9DE9E /* MeetingEventClientConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D863BE3229BAD65500D9DE9E /* MeetingEventClientConfigurationTests.swift */; };
+		D863BE3529BAD8DA00D9DE9E /* AnyCodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D863BE3429BAD8DA00D9DE9E /* AnyCodableTests.swift */; };
+		D863BE3729BAF68B00D9DE9E /* EventAttributeUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D863BE3629BAF68B00D9DE9E /* EventAttributeUtilsTests.swift */; };
+		D8FE1FE629B9232400A62E72 /* AnyCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FE1FE529B9232400A62E72 /* AnyCodable.swift */; };
 		ED300F2A284877AC00497568 /* LocalVideoConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED300F29284877AC00497568 /* LocalVideoConfiguration.swift */; };
 		F81104AC276190AA003D17AD /* VideoPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81104A8276190A9003D17AD /* VideoPriority.swift */; };
 		F81104AD276190AA003D17AD /* RemoteVideoSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81104A9276190A9003D17AD /* RemoteVideoSource.swift */; };
@@ -333,9 +335,7 @@
 		002C1FAF264208E100C9B919 /* BackoffRetry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackoffRetry.swift; sourceTree = "<group>"; };
 		002C1FB62642099F00C9B919 /* DefaultBackoffRetry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultBackoffRetry.swift; sourceTree = "<group>"; };
 		002C1FBC2642641A00C9B919 /* DefaultEventBufferTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultEventBufferTests.swift; sourceTree = "<group>"; };
-		002C1FDB2645DCCC00C9B919 /* IngestionMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngestionMetadata.swift; sourceTree = "<group>"; };
 		002C1FDF2645E24E00C9B919 /* IngestionPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngestionPayload.swift; sourceTree = "<group>"; };
-		002C1FE32648920A00C9B919 /* IngestionEventAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngestionEventAttributes.swift; sourceTree = "<group>"; };
 		002C1FE92649D5CC00C9B919 /* EventSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSender.swift; sourceTree = "<group>"; };
 		002F8FE125BF984B00006F46 /* MeetingStatsCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingStatsCollector.swift; sourceTree = "<group>"; };
 		002F8FE525BF986800006F46 /* DefaultMeetingStatsCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultMeetingStatsCollector.swift; sourceTree = "<group>"; };
@@ -579,6 +579,10 @@
 		CFA2A16F28087AE8008FDFF5 /* BackgroundFilterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundFilterTest.swift; sourceTree = "<group>"; };
 		CFD14AAB281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = selfie_segmentation_landscape.tflite; sourceTree = "<group>"; };
 		CFF1553B2819C123009E257B /* background-ml-test-image.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "background-ml-test-image.jpeg"; sourceTree = "<group>"; };
+		D863BE3229BAD65500D9DE9E /* MeetingEventClientConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingEventClientConfigurationTests.swift; sourceTree = "<group>"; };
+		D863BE3429BAD8DA00D9DE9E /* AnyCodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCodableTests.swift; sourceTree = "<group>"; };
+		D863BE3629BAF68B00D9DE9E /* EventAttributeUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAttributeUtilsTests.swift; sourceTree = "<group>"; };
+		D8FE1FE529B9232400A62E72 /* AnyCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCodable.swift; sourceTree = "<group>"; };
 		ED300F29284877AC00497568 /* LocalVideoConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalVideoConfiguration.swift; sourceTree = "<group>"; };
 		F81104A8276190A9003D17AD /* VideoPriority.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPriority.swift; sourceTree = "<group>"; };
 		F81104A9276190A9003D17AD /* RemoteVideoSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteVideoSource.swift; sourceTree = "<group>"; };
@@ -632,7 +636,6 @@
 				004A855826372E8700746654 /* IngestionConfigurationBuilder.swift */,
 				002C1FA3264128CE00C9B919 /* MeetingEventClientConfiguration.swift */,
 				002C1FA726412A5400C9B919 /* IngestionEventConverter.swift */,
-				002C1FDB2645DCCC00C9B919 /* IngestionMetadata.swift */,
 				002C1FDF2645E24E00C9B919 /* IngestionPayload.swift */,
 				002C1FE92649D5CC00C9B919 /* EventSender.swift */,
 				0013A4F1264A5CC00058C831 /* DefaultEventSender.swift */,
@@ -678,6 +681,7 @@
 				0033D348263B264A00D8FA0C /* IngestionConfigurationBuilderTests.swift */,
 				0033D34C263B2E5F00D8FA0C /* DefaultEventReporterTests.swift */,
 				002C1FBC2642641A00C9B919 /* DefaultEventBufferTests.swift */,
+				D863BE3229BAD65500D9DE9E /* MeetingEventClientConfigurationTests.swift */,
 			);
 			path = ingestion;
 			sourceTree = "<group>";
@@ -697,6 +701,7 @@
 				007F27B0264B435100E20F0E /* database */,
 				0064165826290BDB00626EB8 /* EventDao.swift */,
 				0064165C26290C3100626EB8 /* DirtyEventDao.swift */,
+				D8FE1FE529B9232400A62E72 /* AnyCodable.swift */,
 			);
 			path = ingestion;
 			sourceTree = "<group>";
@@ -707,6 +712,7 @@
 				0064167E262A26E600626EB8 /* EventSQLiteDaoTests.swift */,
 				007679FD262DFAE500BBF977 /* DirtyEventSQLiteDaoTests.swift */,
 				00230765263201EC0074947E /* SQLiteDatabaseManagerTests.swift */,
+				D863BE3429BAD8DA00D9DE9E /* AnyCodableTests.swift */,
 			);
 			path = ingestion;
 			sourceTree = "<group>";
@@ -720,7 +726,6 @@
 				003D78D726127EC8009B2ABB /* DatabaseClient.swift */,
 				0064166926295EBF00626EB8 /* MeetingEventItem.swift */,
 				0033D339263B1E5B00D8FA0C /* DirtyMeetingEventItem.swift */,
-				002C1FE32648920A00C9B919 /* IngestionEventAttributes.swift */,
 				002307472630BF4C0074947E /* DatabaseManager.swift */,
 				007A4477262A4CB500761A14 /* IngestionMeetingEvent.swift */,
 				002307512630C3390074947E /* SQLiteDatabaseManager.swift */,
@@ -1322,6 +1327,7 @@
 				00212707260BC31600ACDC62 /* SQLiteClientTests.swift */,
 				00684537260D1F1E002AB143 /* SQLiteClientFileTests.swift */,
 				00F20F0E2620C55D00C470E9 /* HttpUtilsTests.swift */,
+				D863BE3629BAF68B00D9DE9E /* EventAttributeUtilsTests.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -1630,6 +1636,7 @@
 				F83F53702452757700614913 /* ObserverUtils.swift in Sources */,
 				00F6E60825FBEA7F006DA17D /* SQLiteClient.swift in Sources */,
 				0007631D2412E3C2001D598A /* Constants.swift in Sources */,
+				D8FE1FE629B9232400A62E72 /* AnyCodable.swift in Sources */,
 				C4643F0C2578776E0085D51E /* ModalityType.swift in Sources */,
 				5A6A209B23CB1164000C9157 /* CreateAttendeeResponse.swift in Sources */,
 				00C35B5F246A015800EA186F /* URLRewriter.swift in Sources */,
@@ -1671,7 +1678,6 @@
 				0083A11623D8CFFD0057027A /* DefaultRealtimeController.swift in Sources */,
 				00D9DBB2241AE23F00146467 /* DefaultVideoClient.swift in Sources */,
 				CFA2A14A28074E2A008FDFF5 /* BackgroundBlurVideoFrameProcessor.swift in Sources */,
-				002C1FE42648920A00C9B919 /* IngestionEventAttributes.swift in Sources */,
 				C4A6908C255B529200F28BC2 /* TURNRequestService.swift in Sources */,
 				003D78D826127EC8009B2ABB /* DatabaseClient.swift in Sources */,
 				C4A6F9CD252F718200455418 /* VideoRotation.swift in Sources */,
@@ -1779,7 +1785,6 @@
 				CFA2A14B28074E2A008FDFF5 /* BackgroundFilterProcessor.swift in Sources */,
 				00EB5F612400591800007D3E /* VideoTile.swift in Sources */,
 				00C9DC6323FA368D00876B41 /* VideoTileController.swift in Sources */,
-				002C1FDC2645DCCC00C9B919 /* IngestionMetadata.swift in Sources */,
 				00C9DC6523FA36BE00876B41 /* VideoTileControllerFacade.swift in Sources */,
 				0073CCB425B8123A00273CB7 /* MeetingHistoryEvent.swift in Sources */,
 				00C9DC6723FA36E700876B41 /* VideoTileObserver.swift in Sources */,
@@ -1842,6 +1847,7 @@
 				5AE132B823EB41B800BF5997 /* MeetingSessionStatusTests.swift in Sources */,
 				C67EA04626F838FD0084C9B4 /* TranscriptItemTests.swift in Sources */,
 				C67EA03E26F8356F0084C9B4 /* TranscriptResultTests.swift in Sources */,
+				D863BE3529BAD8DA00D9DE9E /* AnyCodableTests.swift in Sources */,
 				C494800624855B4700A41FF8 /* ConcurrentMutableSetTests.swift in Sources */,
 				5A0E7319242EA283006636AB /* MeetingSessionStatusCodeTests.swift in Sources */,
 				00E198EB259BC24F00AD4DAA /* MeetingHistoryEventNameTests.swift in Sources */,
@@ -1868,6 +1874,7 @@
 				5A6F818E24637BA30031AE97 /* VideoClientStateTests.swift in Sources */,
 				F8E42DF0247FD86B004C8400 /* ConcurrentDictionaryTests.swift in Sources */,
 				006894F8246B481D00611C75 /* AttendeeStatusTest.swift in Sources */,
+				D863BE3329BAD65500D9DE9E /* MeetingEventClientConfigurationTests.swift in Sources */,
 				5AE76F2D24203AEF009C41FD /* VideoPauseStateTests.swift in Sources */,
 				C4EDDAAC253F46FF0028264A /* VideoCaptureFormatTests.swift in Sources */,
 				0033D343263B250C00D8FA0C /* IngestionConfigurationTests.swift in Sources */,
@@ -1876,6 +1883,7 @@
 				5A0E731B242EA39E006636AB /* VideoTileStateTests.swift in Sources */,
 				5AE76F2724203AAA009C41FD /* VolumeLevelTests.swift in Sources */,
 				5AE76F2024203A6E009C41FD /* VolumeUpdateTests.swift in Sources */,
+				D863BE3729BAF68B00D9DE9E /* EventAttributeUtilsTests.swift in Sources */,
 				00E19905259E575C00AD4DAA /* DefautCameraCaptureSourceTests.swift in Sources */,
 				00E19905259E575C00AD4DAA /* DefautCameraCaptureSourceTests.swift in Sources */,
 				32F235B3714DA0906335CC12 /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift in Sources */,

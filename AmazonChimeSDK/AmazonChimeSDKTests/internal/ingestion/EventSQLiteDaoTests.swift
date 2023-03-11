@@ -21,7 +21,7 @@ class EventSQLiteDaoTests: XCTestCase {
     private let uuid = UUID(uuidString: "6b1d60db-bfa3-41fd-8448-7737f961cf3d")?.uuidString
     private let mockMeetingEventItem = MeetingEventItem(id: UUID(uuidString: "6b1d60db-bfa3-41fd-8448-7737f961cf3d")!.uuidString,
                                                         data: IngestionMeetingEvent(name: String(describing: EventName.meetingEnded),
-                                                                                    eventAttributes: IngestionEventAttributes()))
+                                                                                    eventAttributes: [:]))
     override func setUp() {
         sqliteManagerMock = mock(DatabaseManager.self)
         let loggerMock = mock(Logger.self)

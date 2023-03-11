@@ -13,13 +13,16 @@ import Foundation
 @objcMembers public class MeetingEventClientConfiguration: NSObject, EventClientConfiguration {
     public let type: EventClientType
     public let eventClientJoinToken: String
-    public let meetingId: String
-    public let attendeeId: String
+    public var tag: String
+    public var metadataAttributes: [String : Any]
 
     public init(eventClientJoinToken: String, meetingId: String, attendeeId: String) {
         self.type = .meet
         self.eventClientJoinToken = eventClientJoinToken
-        self.meetingId = meetingId
-        self.attendeeId = attendeeId
+        self.tag = EventClientType.meet.description
+        self.metadataAttributes = [
+            EventAttributeName.meetingId.description: meetingId,
+            EventAttributeName.attendeeId.description: attendeeId
+        ]
     }
 }
