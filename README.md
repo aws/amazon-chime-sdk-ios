@@ -159,22 +159,13 @@ $ pod install --repo-update
 #### Or From Downloaded Binary
 * Download `AmazonChimeSDKMedia` and `AmazonChimeSDKMachineLearning` binaries with bitcode support from the latest [release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
 
-* Unzip and copy `AmazonChimeSDKMedia.framework` to `amazon-chime-sdk-ios/AmazonChimeSDK` folder and `AmazonChimeSDKMachineLearning.xcframework`  to `amazon-chime-sdk-ios/AmazonChimeSDKDemo` folder.
+* Unzip and copy `AmazonChimeSDKMedia.xcframework` to `amazon-chime-sdk-ios/AmazonChimeSDK` folder and `AmazonChimeSDKMachineLearning.xcframework`  to `amazon-chime-sdk-ios/AmazonChimeSDKDemo` folder.
 
 ### 3. Deploy Serverless Demo
 
 Deploy the serverless demo from [amazon-chime-sdk-js](https://github.com/aws/amazon-chime-sdk-js)
 
 ### 4. Update AmazonChimeSDKDemo Project File
-
-* If set up the demo application using `.framework`, please skip the below 5 steps. If encounter compile error when using traditional `.framework`, which occurs in Xcode 12.3 and later, please use `.xcframework` instead.
-
-  * Replace `AmazonChimeSDKMedia.framework` with `AmazonChimeSDKMedia.xcframework` under `root/AmazonChimeSDK` folder,  which is available after Amazon Chime SDK iOS v0.15.0.
-  * *For each target*, under `General` tab, look for `Frameworks, Libraries, and Embedded Content` section. Select `AmazonChimeSDKMedia.framework` and click `-` to remove it.
-  * Then click `+`, click `Add Other` drop-down list, then `Add Files`.
-  * Specify the location of `AmazonChimeSDKMedia.xcframework` and verify that `Embed & Sign` is selected under the `Embed` option.
-  * Do the same as above except for `AmazonChimeSDKMachineLearning` instead of `AmazonChimeSDKMedia`.
-
 
 * `AmazonChimeDemoSDKBroadcast.appex` is a Broadcast Extension for device level screen sharing used by AmazonChimeSDKDemo, verify that `Embed without Signing` is selected under the `Embed` option. Remove it from `Frameworks, Libraries, and Embedded Content` section if you do not wish to test this.
 
