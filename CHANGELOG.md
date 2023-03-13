@@ -8,6 +8,8 @@
   * Changed `SDKEvent.eventAttributes` from `EventAttributes` to String-keyed map
   * Added `tag`, `metadataAttributes` to `EventClientConfiguration`
   * Replaced class `IngestionMetadata` with Dictionary `[String: AnyCodable?]`
+* Use xcframework for `AmazonChimeSDKMedia` dependency by default.
+* [Documentation] Updated Readme to reflect `AmazonChimeSDKMedia` dependency used is an xcframework by default.
 
 ### Removed
 * **Breaking** Removed support for Xcode versions less than Xcode 14. This includes removing support for iOS versions less than iOS 11. See [Xcode 14 release notes](https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes) for all deprecations and removals of support.
