@@ -1,4 +1,4 @@
-## Unreleased
+## [0.23.0] - 2023-03-16
 
 ### Added
 * Added support for building with Xcode 14.
