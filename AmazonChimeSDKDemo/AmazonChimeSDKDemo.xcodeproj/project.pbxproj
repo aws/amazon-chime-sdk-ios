@@ -119,6 +119,10 @@
 		EDA766DF27E2B57E006B3C48 /* ScreenShareModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4923BEF24B8DF1100EE866B /* ScreenShareModel.swift */; };
 		EDB5638925CCFB700096EE85 /* DebugSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB5638825CCFB700096EE85 /* DebugSettingsViewController.swift */; };
 		EDB5638C25CCFEA30096EE85 /* DebugSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB5638B25CCFEA30096EE85 /* DebugSettingsModel.swift */; };
+		F8054F8829CA2ED00006BEB6 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89046E529834C8B00373566 /* Toast.swift */; };
+		F8054F8929CA2ED00006BEB6 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89046EC2983C32400373566 /* ToastView.swift */; };
+		F8054F8A29CA2ED00006BEB6 /* ToastPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89046E729834D5400373566 /* ToastPosition.swift */; };
+		F8054F8B29CA2ED00006BEB6 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89046EA2983BC9800373566 /* PaddingLabel.swift */; };
 		F82D50DA23FC9C6C00D8F18C /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D50D923FC9C6C00D8F18C /* AppConfiguration.swift */; };
 		F8AC96232408840D0072EB04 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F8AC96222408840D0072EB04 /* AppDelegate.m */; };
 		F8AC96292408840D0072EB04 /* ViewControllerObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = F8AC96282408840D0072EB04 /* ViewControllerObjC.m */; };
@@ -911,6 +915,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8054F8829CA2ED00006BEB6 /* Toast.swift in Sources */,
+				F8054F8929CA2ED00006BEB6 /* ToastView.swift in Sources */,
+				F8054F8A29CA2ED00006BEB6 /* ToastPosition.swift in Sources */,
+				F8054F8B29CA2ED00006BEB6 /* PaddingLabel.swift in Sources */,
 				EDA766B527E2B57E006B3C48 /* TranscriptionStreamParams.swift in Sources */,
 				EDA766B627E2B57E006B3C48 /* MetricsTableCell.swift in Sources */,
 				EDA766B727E2B57E006B3C48 /* AppConfiguration.swift in Sources */,
@@ -1296,7 +1304,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.23.0;
 				DEVELOPMENT_TEAM = "";
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = AmazonChimeSDKDemoBroadcast/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1326,7 +1334,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.23.0;
 				DEVELOPMENT_TEAM = "";
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = AmazonChimeSDKDemoBroadcast/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1359,7 +1367,7 @@
 				CURRENT_PROJECT_VERSION = 0.23.0;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_CPP_RTTI = YES;
@@ -1405,7 +1413,7 @@
 				CURRENT_PROJECT_VERSION = 0.23.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_CPP_RTTI = YES;
