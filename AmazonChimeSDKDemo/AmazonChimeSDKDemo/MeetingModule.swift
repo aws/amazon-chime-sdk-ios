@@ -225,14 +225,13 @@ class MeetingModule {
     func configureAudioSession() {
         let audioSession = AVAudioSession.sharedInstance()
         do {
-            if audioSession.category != .playAndRecord {
+//            if audioSession.category != .playAndRecord {
                 
-                try audioSession.setCategory(AVAudioSession.Category.playback,
-                                             options: AVAudioSession.CategoryOptions.allowBluetooth)
+                try audioSession.setCategory(AVAudioSession.Category.playback)
                 try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
-            }
+//            }
 //            if audioSession.mode != .voiceChat {
-                try audioSession.setMode(.default)
+//                try audioSession.setMode(.default)
 //            }
         } catch {
             logger.error(msg: "Error configuring AVAudioSession: \(error.localizedDescription)")

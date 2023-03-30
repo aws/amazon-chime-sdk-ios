@@ -65,11 +65,12 @@ import AVFoundation
 
     public func chooseAudioDevice(mediaDevice: MediaDevice) {
         do {
-            if mediaDevice.port == nil {
-                try audioSession.overrideOutputAudioPort(.speaker)
-            } else {
-                try audioSession.setPreferredInput(mediaDevice.port)
-            }
+//            if mediaDevice.port == nil {
+//                try audioSession.overrideOutputAudioPort(.speaker)
+//            } else {
+//                try audioSession.setPreferredInput(mediaDevice.port)
+//            }
+            try audioSession.overrideOutputAudioPort(.speaker)
             eventAnalyticsController.pushHistory(historyEventName: .audioInputSelected)
         } catch {
             logger.error(msg: "Error on setting audio input device: \(error.localizedDescription)")
