@@ -61,11 +61,7 @@ import UIKit
         appInfo.deviceMake = "apple"
         appInfo.clientSource = "amazon-chime-sdk"
         appInfo.chimeSdkVersion = Versioning.sdkVersion()
-<<<<<<< Updated upstream
-        appInfo.clientUtcOffset = TimezoneUtils.getClientUtcOffset(offsetSeconds: TimeZone.current.secondsFromGMT())
-=======
         appInfo.clientUtcOffset = DateUtils.getFormattedUtcOffset(offsetSeconds: TimeZone.current.secondsFromGMT())
->>>>>>> Stashed changes
         return appInfo
     }
 
