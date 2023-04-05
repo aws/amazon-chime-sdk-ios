@@ -1,0 +1,10 @@
+//
+//  AmazonChimeSDKMedia.modulemap
+//  AmazonChimeSDKMedia
+//
+//  Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+//
+
+framework module AmazonChimeSDKMedia {
+  umbrella header "AmazonChimeSDKMedia.h"
+}

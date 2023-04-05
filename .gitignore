@@ -1,8 +1,5 @@
 **/.DS_Store
 xcuserdata
-AmazonChimeSDK.framework
-AmazonChimeSDKMachineLearning.framework
-AmazonChimeSDKMedia.framework
 MockingbirdMocks
 MockingbirdCache
 build

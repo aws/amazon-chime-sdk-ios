@@ -1,0 +1,5 @@
+framework module AmazonChimeSDKMachineLearning {
+  umbrella header "cwt.h"
+  export *
+  module * { export * }
+}

@@ -1,0 +1,11 @@
+framework module AmazonChimeSDK {
+  umbrella header "AmazonChimeSDK.h"
+
+  export *
+  module * { export * }
+}
+
+module AmazonChimeSDK.Swift {
+  header "AmazonChimeSDK-Swift.h"
+  requires objc
+}
