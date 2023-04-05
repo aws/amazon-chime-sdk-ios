@@ -61,16 +61,12 @@ import UIKit
         appInfo.deviceMake = "apple"
         appInfo.clientSource = "amazon-chime-sdk"
         appInfo.chimeSdkVersion = Versioning.sdkVersion()
-        appInfo.clientUtcOffset = getClientUtcOffset()
+<<<<<<< Updated upstream
+        appInfo.clientUtcOffset = TimezoneUtils.getClientUtcOffset(offsetSeconds: TimeZone.current.secondsFromGMT())
+=======
+        appInfo.clientUtcOffset = DateUtils.getFormattedUtcOffset(offsetSeconds: TimeZone.current.secondsFromGMT())
+>>>>>>> Stashed changes
         return appInfo
-    }
-
-    static private func getClientUtcOffset() -> String {
-        let seconds = TimeZone.current.secondsFromGMT()
-        let hours = seconds/3600
-        let minutes = abs(seconds/60) % 60
-        let tz = String(format: "%+.2d:%.2d", hours, minutes)
-        return tz
     }
 
     private static func mediaLibInfo() -> String {
