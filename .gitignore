@@ -3,9 +3,6 @@ xcuserdata
 AmazonChimeSDK.framework
 AmazonChimeSDKMachineLearning.framework
 AmazonChimeSDKMedia.framework
-AmazonChimeSDK.xcframework
-AmazonChimeSDKMachineLearning.xcframework
-AmazonChimeSDKMedia.xcframework
 MockingbirdMocks
 MockingbirdCache
 build
