@@ -97,6 +97,7 @@
 		00F20F0F2620C55D00C470E9 /* HttpUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F20F0E2620C55D00C470E9 /* HttpUtilsTests.swift */; };
 		00F20F1B2620E73E00C470E9 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F20F1A2620E73E00C470E9 /* URLSessionProtocol.swift */; };
 		00F6E60825FBEA7F006DA17D /* SQLiteClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F6E60725FBEA7F006DA17D /* SQLiteClient.swift */; };
+		26CB31D729DD257000991409 /* DateUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26CB31D629DD257000991409 /* DateUtilsTests.swift */; };
 		32F235B3714DA0906335CC12 /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7CEAE89DD08E6E863FC8BE /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift */; };
 		5403538827D0C9E9007BABD7 /* TranscriptEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403538727D0C9E9007BABD7 /* TranscriptEntity.swift */; };
 		5403538A27D0C9F9007BABD7 /* TranscriptLanguageWithScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403538927D0C9F9007BABD7 /* TranscriptLanguageWithScore.swift */; };
@@ -397,6 +398,7 @@
 		00F20F0E2620C55D00C470E9 /* HttpUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpUtilsTests.swift; sourceTree = "<group>"; };
 		00F20F1A2620E73E00C470E9 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		00F6E60725FBEA7F006DA17D /* SQLiteClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteClient.swift; sourceTree = "<group>"; };
+		26CB31D629DD257000991409 /* DateUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtilsTests.swift; sourceTree = "<group>"; };
 		5403538727D0C9E9007BABD7 /* TranscriptEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptEntity.swift; sourceTree = "<group>"; };
 		5403538927D0C9F9007BABD7 /* TranscriptLanguageWithScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptLanguageWithScore.swift; sourceTree = "<group>"; };
 		5A0E7316242EA072006636AB /* MediaDeviceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDeviceTests.swift; sourceTree = "<group>"; };
@@ -1328,6 +1330,7 @@
 				00684537260D1F1E002AB143 /* SQLiteClientFileTests.swift */,
 				00F20F0E2620C55D00C470E9 /* HttpUtilsTests.swift */,
 				D863BE3629BAF68B00D9DE9E /* EventAttributeUtilsTests.swift */,
+				26CB31D629DD257000991409 /* DateUtilsTests.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -1865,6 +1868,7 @@
 				00212708260BC31600ACDC62 /* SQLiteClientTests.swift in Sources */,
 				00E198DA259BBFD400AD4DAA /* DefaultEventAnalyticsControllerTests.swift in Sources */,
 				00F20F0F2620C55D00C470E9 /* HttpUtilsTests.swift in Sources */,
+				26CB31D729DD257000991409 /* DateUtilsTests.swift in Sources */,
 				C4EDDAB0253F4C4B0028264A /* CaptureSourceErrorTests.swift in Sources */,
 				7CE107662421CC7B00E209D1 /* SchedulerTests.swift in Sources */,
 				C6C2F106250BF522001678B8 /* DefaultDeviceControllerTests.swift in Sources */,
