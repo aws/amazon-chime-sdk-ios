@@ -44,6 +44,7 @@ import UIKit
         appInfo.platform_version = UnsafePointer<Int8>((info.platformVersion as NSString).utf8String)
         appInfo.client_source = UnsafePointer<Int8>((info.clientSource as NSString).utf8String)
         appInfo.chime_sdk_version = UnsafePointer<Int8>((info.chimeSdkVersion as NSString).utf8String)
+        appInfo.client_utc_offset = UnsafePointer<Int8>((info.clientUtcOffset as NSString).utf8String)
         return appInfo
     }
 
@@ -60,6 +61,7 @@ import UIKit
         appInfo.deviceMake = "apple"
         appInfo.clientSource = "amazon-chime-sdk"
         appInfo.chimeSdkVersion = Versioning.sdkVersion()
+        appInfo.clientUtcOffset = DateUtils.getFormattedUtcOffset(offsetSeconds: TimeZone.current.secondsFromGMT())
         return appInfo
     }
 

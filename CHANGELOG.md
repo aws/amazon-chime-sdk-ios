@@ -1,3 +1,8 @@
+## Unreleased
+
+### Added
+* Pass client UTC offset to audio and video client for metrics.
+
 ## [0.23.0] - 2023-03-16
 
 ### Added
