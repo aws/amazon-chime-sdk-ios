@@ -65,7 +65,7 @@ class CoreImageVideoProcessor: VideoSource, VideoSink {
         attributes[kCVPixelBufferPixelFormatTypeKey] = NSNumber(value: Int(kCVPixelFormatType_32BGRA))
         attributes[kCVPixelBufferWidthKey] = NSNumber(value: newWidth)
         attributes[kCVPixelBufferHeightKey] = NSNumber(value: newHeight)
-        attributes[kCVPixelBufferIOSurfacePropertiesKey] = [:] as NSObject
+        attributes[kCVPixelBufferIOSurfacePropertiesKey] = [AnyHashable: Any]() as NSObject
         CVPixelBufferPoolCreate(nil, nil, attributes as CFDictionary?, &bufferPool)
 
         bufferPoolWidth = newWidth

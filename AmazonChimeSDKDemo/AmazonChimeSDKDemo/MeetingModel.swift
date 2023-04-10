@@ -750,7 +750,7 @@ extension MeetingModel: EventAnalyticsObserver {
                                                              uniquingKeysWith: { (_, newVal) -> Any in
                 newVal
             }))
-        ], options: [])
+        ] as [String : Any], options: [])
 
         guard let data = jsonData, let msg = String(data: data, encoding: .utf8)  else {
             logger.info(msg: "Dictionary is not in correct format to be serialized")
