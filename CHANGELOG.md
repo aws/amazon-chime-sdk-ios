@@ -3,6 +3,9 @@
 ### Added
 * Pass client UTC offset to audio and video client for metrics.
 
+### Fixed
+* Give explicit type for empty dictionary to fix Xcode 14.3 compile error.
+
 ## [0.23.0] - 2023-03-16
 
 ### Added
