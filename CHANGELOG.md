@@ -1,12 +1,8 @@
-## Unreleased
-
-### Added
-* Pass client UTC offset to audio and video client for metrics.
-
 ## [0.23.0] - 2023-03-16
 
 ### Added
 * Added support for building with Xcode 14.
+* **Breaking** Pass client UTC offset to audio and video client for metrics.
 
 ### Changed
 * **Breaking** Updated the Ingestion related APIs / classes to support generic attributes, no changes required if not using custom `EventClientConfiguration` and the following classes.
