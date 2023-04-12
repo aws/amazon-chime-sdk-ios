@@ -110,6 +110,8 @@ For the purpose of setup, your project's root folder (where you can find your `.
 * Download the `AmazonChimeSDK` and `AmazonChimeSDKMedia` binaries from the latest [release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
   * If you like to use background blur and background replacement, also download the `AmazonChimeSDKMachineLearning` binary. Otherwise, you can ignore all references to `AmazonChimeSDKMachineLearning` in the instructions below.
 
+**NOTE: We do not support mixing and matching binaries from different releases.**
+
 * Unzip and copy the `.framework`s or `.xcframework`s to `root`, which depends on which framework your project uses.  For Xcode12.3 and later, please use `.xcframework` if you have compile issue. `.xcframework` is available after Amazon Chime SDK iOS v0.15.0
 
 #### 2. Update Project File
