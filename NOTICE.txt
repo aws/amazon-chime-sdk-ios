@@ -1,2 +1,0 @@
-Amazon Chime SDK for iOS (amazon-chime-sdk-ios)
-Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved. 

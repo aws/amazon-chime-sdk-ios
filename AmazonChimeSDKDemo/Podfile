@@ -1,15 +1,9 @@
 # Uncomment the next line to define a global platform for your project
 platform :ios, '11.0'
 
-target 'AmazonChimeSDKDemoPods' do
+target 'AmazonChimeSDKSimpleDemo' do
   use_frameworks!
   # Pods for AmazonChimeSDKDemoPods
-  pod 'AmazonChimeSDK-Bitcode', 'AMAZON_CHIME_SDK_VERSION'
-  pod 'AmazonChimeSDKMachineLearning-Bitcode', 'AMAZON_CHIME_SDK_MACHINE_LEARNING_VERSION'
-end
-
-target 'AmazonChimeSDKDemoBroadcastPods' do
-  use_frameworks!
-  # Pods for AmazonChimeSDKDemoBroadcastPods
-  pod 'AmazonChimeSDK-Bitcode', 'AMAZON_CHIME_SDK_VERSION'
+  pod 'AmazonChimeSDK-No-Bitcode', '0.23.0'
+  pod 'AmazonChimeSDKMachineLearning-No-Bitcode', '0.2.0'
 end
