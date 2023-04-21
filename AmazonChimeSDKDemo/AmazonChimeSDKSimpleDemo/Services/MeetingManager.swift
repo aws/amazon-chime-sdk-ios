@@ -64,7 +64,7 @@ class MeetingManager {
             failed(Errors.failedToJoinMeeting)
             return
         }
-        self.sessionStateStore.localAttendeeId = joinMeetingResp.joinInfo.attendee.attendeeId
+        self.sessionStateStore.localAttendeeId = joinMeetingResp.joinInfo.attendee.attendee.attendeeId
         
         let meetingResp = JoinRequestService.getCreateMeetingResponse(from: joinMeetingResp)
         let attendeeResp = JoinRequestService.getCreateAttendeeResponse(from: joinMeetingResp)

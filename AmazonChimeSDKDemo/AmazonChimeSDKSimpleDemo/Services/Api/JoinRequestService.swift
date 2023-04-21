@@ -60,7 +60,7 @@ class JoinRequestService: NSObject {
     }
 
     static func getCreateMeetingResponse(from joinMeetingResponse: JoinMeetingResponse) -> CreateMeetingResponse {
-        let meeting = joinMeetingResponse.joinInfo.meeting
+        let meeting = joinMeetingResponse.joinInfo.meeting.meeting
         let meetingResp = CreateMeetingResponse(meeting:
             Meeting(
                 externalMeetingId: meeting.externalMeetingId,
@@ -80,7 +80,7 @@ class JoinRequestService: NSObject {
     }
 
     static func getCreateAttendeeResponse(from joinMeetingResponse: JoinMeetingResponse) -> CreateAttendeeResponse {
-        let attendee = joinMeetingResponse.joinInfo.attendee
+        let attendee = joinMeetingResponse.joinInfo.attendee.attendee
         let attendeeResp = CreateAttendeeResponse(attendee:
             Attendee(attendeeId: attendee.attendeeId,
                      externalUserId: attendee.externalUserId,

@@ -52,9 +52,25 @@ struct CreateAttendeeInfo: Codable {
     }
 }
 
-struct CreateJoinInfo: Codable {
+struct CreateMeeting: Codable {
     var meeting: CreateMeetingInfo
+
+    enum CodingKeys: String, CodingKey {
+        case meeting = "Meeting"
+    }
+}
+
+struct CreateAttendee: Codable {
     var attendee: CreateAttendeeInfo
+
+    enum CodingKeys: String, CodingKey {
+        case attendee = "Attendee"
+    }
+}
+
+struct CreateJoinInfo: Codable {
+    var meeting: CreateMeeting
+    var attendee: CreateAttendee
     var primaryExternalMeetingId: String?
 
     enum CodingKeys: String, CodingKey {
