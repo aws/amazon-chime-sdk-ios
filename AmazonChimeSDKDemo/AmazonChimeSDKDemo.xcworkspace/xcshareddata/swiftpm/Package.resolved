@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "amazon-chime-sdk-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/aws/amazon-chime-sdk-ios",
+      "state" : {
+        "branch" : "spm-dingyshe",
+        "revision" : "39c92f75a67b4d4529bb4df77aff831bc3c1eb20"
+      }
+    },
+    {
+      "identity" : "mockingbird",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/birdrides/mockingbird",
+      "state" : {
+        "revision" : "50feb5e24587091abfc5c37b2dc9be7c1bbdd7f0",
+        "version" : "0.15.0"
+      }
+    }
+  ],
+  "version" : 2
+}
