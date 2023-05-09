@@ -74,7 +74,7 @@ extension DefaultAudioClientController: AudioClientController {
             audioLock.unlock()
         }
         
-        if audioMode != .nodevice {
+        if audioMode != .nodevice && audioMode != .nomic {
             guard audioSession.recordPermission == .granted else {
                 throw PermissionError.audioPermissionError
             }
@@ -109,6 +109,8 @@ extension DefaultAudioClientController: AudioClientController {
             audioModeInternal = .Mono16K
         } else if (audioMode == .nodevice) {
             audioModeInternal = .NoDevice
+        } else if (audioMode == .nomic) {
+            audioModeInternal = .NoMic
         }
         let status = audioClient.startSession(host,
                                               basePort: port,

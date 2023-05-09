@@ -20,7 +20,7 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var debugSettingsButton: UIButton!
 
     var callKitOptions = ["Don't use CallKit", "CallKit as Incoming in 10s", "CallKit as Outgoing"]
-    var audioModeOptions = ["Stereo/48KHz Audio", "Mono/48KHz Audio", "Mono/16KHz Audio"]
+    var audioModeOptions = ["Stereo/48KHz Audio", "Mono/48KHz Audio", "Mono/16KHz Audio", "NoDevice", "NoMic"]
 
     private let toastDisplayDuration = 2.0
     private let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -94,6 +94,10 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
             return .mono48K
         case 2:
             return .mono16K
+        case 3:
+            return .nodevice
+        case 4:
+            return .nomic
         default:
             return .stereo48K
         }

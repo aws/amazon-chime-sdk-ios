@@ -40,7 +40,7 @@ class MeetingModule {
                         overriddenEndpoint: String,
                         primaryExternalMeetingId: String,
                         completion: @escaping (Bool) -> Void) {
-        requestRecordPermission { success in
+        requestRecordPermission(audioMode: audioVideoConfig.audioMode) { success in
             guard success else {
                 completion(false)
                 return
@@ -175,19 +175,21 @@ class MeetingModule {
         }
     }
 
-    func requestRecordPermission(completion: @escaping (Bool) -> Void) {
+    func requestRecordPermission(audioMode: AudioMode, completion: @escaping (Bool) -> Void) {
         let audioSession = AVAudioSession.sharedInstance()
         switch audioSession.recordPermission {
         case .denied:
             logger.error(msg: "User did not grant audio permission, it should redirect to Settings")
             completion(false)
         case .undetermined:
-            audioSession.requestRecordPermission { granted in
-                if granted {
-                    completion(true)
-                } else {
-                    self.logger.error(msg: "User did not grant audio permission")
-                    completion(false)
+            if audioMode != .nodevice && audioMode != .nomic {
+                audioSession.requestRecordPermission { granted in
+                    if granted {
+                        completion(true)
+                    } else {
+                        self.logger.error(msg: "User did not grant audio permission")
+                        completion(false)
+                    }
                 }
             }
         case .granted:
