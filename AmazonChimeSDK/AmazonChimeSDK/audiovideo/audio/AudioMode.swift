@@ -21,6 +21,8 @@ import Foundation
 
     case nodevice = 4
 
+    case nomic = 5
+
     public var description: String {
         switch self {
         case .mono16K:
@@ -31,6 +33,8 @@ import Foundation
             return "stereo48K"
         case .nodevice:
             return "nodevice"
+        case .nomic:
+            return "nomic"
         }
     }
 }
