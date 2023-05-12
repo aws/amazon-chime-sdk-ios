@@ -19,7 +19,11 @@ import Foundation
     /// The stereo audio mode with two audio channels for speaker, and single audio channel for microphone, both with 48KHz sampling rate.
     case stereo48K = 3
 
+    /// Microphone and speaker device connections are not opened. Muted packets are sent to the server.
     case nodevice = 4
+
+    /// Microphone device connection is not opened. Muted packets are sent to the server.
+    case nomic = 5
 
     public var description: String {
         switch self {
@@ -31,6 +35,8 @@ import Foundation
             return "stereo48K"
         case .nodevice:
             return "nodevice"
+        case .nomic:
+            return "nomic"
         }
     }
 }
