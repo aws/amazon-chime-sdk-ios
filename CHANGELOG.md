@@ -1,4 +1,4 @@
-## [0.23.1] - 2023-05-15
+## [0.23.1] - 2023-05-16
 
 ### Added
 * Pass client UTC offset to audio and video client for metrics.
