@@ -40,7 +40,7 @@ And review the following guides:
 * [Background Video Filters](guides/background_video_filters.md)
 
 ## Include Amazon Chime SDK in Your Project
-You can integrate Amazon Chime SDK in your project from either CocoaPods or binaries through Github release.
+You can integrate Amazon Chime SDK in your project from SPM, CocoaPods or binaries through Github release.
 
 For the purpose of setup, your project's root folder (where you can find your `.xcodeproj` file) will be referred to as `root`.
 
