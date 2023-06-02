@@ -40,7 +40,7 @@ And review the following guides:
 * [Background Video Filters](guides/background_video_filters.md)
 
 ## Include Amazon Chime SDK in Your Project
-You can integrate Amazon Chime SDK in your project from either CocoaPods or binaries through Github release.
+You can integrate Amazon Chime SDK in your project from SPM, CocoaPods or binaries through Github release.
 
 For the purpose of setup, your project's root folder (where you can find your `.xcodeproj` file) will be referred to as `root`.
 
@@ -101,6 +101,19 @@ For the purpose of setup, your project's root folder (where you can find your `.
 <p align="center">
 <img src="./media/cocoapods_machine_learning.png" alt="image" width="80%"/>
 </p>
+
+### From SPM
+The Amazon Chime SDK is available through [SPM](https://github.com/aws/amazon-chime-sdk-ios-spm). 
+
+1. Open your project in Xcode
+
+2. Go to **File** > **Swift Packages** > **Add Package Dependency...**
+
+3. In the field **Enter package repository URL**, enter "https://github.com/aws/amazon-chime-sdk-ios-spm"
+
+4. Enter the latest version(e.g. `0.23.1`) and click **Next**.
+
+5. Choose the packages required for your project and click **Finish**
 
 
 ### From Github Release Binaries
