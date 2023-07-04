@@ -22,6 +22,14 @@ import ReplayKit
 
     private let logger: Logger
     private let sinks = ConcurrentMutableSet()
+   
+    private let resolutionMinConstraint: Int = 1080
+    private let resolutionMaxConstraint: Int = 1920
+    private var context:CIContext? = nil
+    private var resizeFilter: CIFilter? = nil
+    private var bufferPool: CVPixelBufferPool? = nil
+    private var bufferPoolWidth: Int = 0
+    private var bufferPoolHeight: Int = 0
 
     private let nanoSec2Ms: Int64 = 1000000
     private var prevTimeStamp: Int64 = 0
@@ -72,7 +80,7 @@ import ReplayKit
         }
     }
 
-	// create buffer with given dimension
+    // create buffer with given dimension
     private func createBufferPool(newWidth: Int, newHeight: Int) {
         var bufferPool: CVPixelBufferPool?
         var attributes: [NSString: NSObject] = [:]
@@ -94,7 +102,6 @@ import ReplayKit
 
     // compute target resolution using input resolution and constraints
     private func computeTargetSize(inputWidth: Int, inputHeight: Int) -> CGSize {
-
         let minVal = min(inputWidth, inputHeight)
         let maxVal = max(inputWidth, inputHeight)
         let targetMinVal = resolutionMinConstraint
@@ -184,7 +191,6 @@ import ReplayKit
             logger.error(msg: "processVideo : could not run scaling")
             return
         }
-
         filter.setValue(sourceImage, forKey: kCIInputImageKey)
         filter.setValue(scale, forKey: kCIInputScaleKey)
         filter.setValue(aspectRatio, forKey: kCIInputAspectRatioKey)
@@ -234,11 +240,11 @@ import ReplayKit
         }
     }
 
-	private func sendVideoFrame(frame: VideoFrame) {
-		sinks.forEach { item in
-			guard let sink = item as? VideoSink else { return }
-			sink.onVideoFrameReceived(frame: frame)
-		}
-		videoFrameResender.frameDidSend(videoFrame: frame)
+    private func sendVideoFrame(frame: VideoFrame) {
+	sinks.forEach { item in
+		guard let sink = item as? VideoSink else { return }
+		sink.onVideoFrameReceived(frame: frame)
 	}
+	videoFrameResender.frameDidSend(videoFrame: frame)
+    }
 }
