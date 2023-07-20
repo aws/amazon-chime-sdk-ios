@@ -12,7 +12,7 @@ import UIKit
 /// `BackgroundBlurVideoFrameProcessor` is a processor which receives video frames via `VideoSource` and
 /// then applies Gaussian blur to each video frame and renders the foreground on top of the blurred image.
 /// Gaussian blur is applied using built in `CIGaussianBlur` CIFilter.
-@objcMembers public class BackgroundBlurVideoFrameProcessor: VideoSource, VideoSink {
+@objcMembers public class BackgroundBlurVideoFrameProcessor: NSObject, VideoSource, VideoSink {
     public var videoContentHint = VideoContentHint.motion
 
     /// Context used for processing and rendering the final output image.

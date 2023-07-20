@@ -10,12 +10,20 @@
 
 @interface ViewControllerObjC ()
 
+@property bool isBgBlurEnabled;
+
+@property (weak, nonatomic) IBOutlet UIView *bgBlurContainerView;
+@property (weak, nonatomic) IBOutlet UISwitch *bgBlurSwitch;
+
 @end
 
 @implementation ViewControllerObjC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.isBgBlurEnabled = false;
+    
     [self updateUIWithMeetingStarted:NO];
     self.logger = [[ConsoleLogger alloc] initWithName:@"ViewControllerObjC"
                                                 level:LogLevelINFO];
@@ -25,14 +33,15 @@
 - (IBAction)joinMeeting:(id)sender {
     NSString* meetingId = [self formatInput:self.meetingIDText.text];
     NSString* name = [self formatInput:self.nameText.text];
-
+    self.isBgBlurEnabled = self.bgBlurSwitch.isOn;
+    
     if (!meetingId.length || !name.length) {
         [self showAlertIn:self withMessage:@"MeetingID and Name cannot be empty." withDelay:0];
         return;
     }
 
     [self.joinButton setEnabled:NO];
-
+    
     NSCharacterSet *set = [NSCharacterSet URLQueryAllowedCharacterSet];
     NSString *url = [[NSString stringWithFormat:@"%sjoin?title=%@&name=%@&region=%s", SERVER_URL, meetingId, name, SERVER_REGION] stringByAddingPercentEncodingWithAllowedCharacters:set];
     [self makeHttpRequest:url withMethod:@"POST" withData:nil withCompletionBlock:^(NSData *data, NSError *error) {
@@ -167,7 +176,7 @@
     [self.logger infoWithMsg:@"Remote video was started successfully"];
 
     NSError* error = nil;
-    BOOL started = [self.meetingSession.audioVideo startLocalVideoAndReturnError:&error];
+    BOOL started = [self startLocalVideo:&error];
     if (started && error == nil) {
         [self.logger infoWithMsg:@"Self video was started successfully"];
     } else {
@@ -206,6 +215,26 @@
     }
 }
 
+-(BOOL)startLocalVideo:(NSError **)error {
+    if(self.isBgBlurEnabled) {
+        BackgroundBlurConfiguration *config = [[BackgroundBlurConfiguration alloc]
+                                               initWithLogger:_logger
+                                               blurStrength:BackgroundBlurStrengthLow];
+        BackgroundBlurVideoFrameProcessor *processor = [[BackgroundBlurVideoFrameProcessor alloc] initWithBackgroundBlurConfiguration:config];
+        
+        DefaultCameraCaptureSource *customSource = [[DefaultCameraCaptureSource alloc] initWithLogger:_logger];
+        
+        [customSource addVideoSinkWithSink:processor];
+        
+        [self.meetingSession.audioVideo startLocalVideoWithSource:customSource];
+        
+        return true;
+        
+    } else {
+        return [self.meetingSession.audioVideo startLocalVideoAndReturnError:error];
+    }
+}
+
 - (IBAction)leaveMeeting:(id)sender {
     [self.meetingSession.audioVideo removeRealtimeObserverWithObserver:self];
     [self.meetingSession.audioVideo removeMetricsObserverWithObserver:self];
@@ -225,6 +254,7 @@
         [self.leaveButton setHidden:!started];
         [self.selfVideoView setHidden:!started];
         [self.remoteVideoView setHidden:!started];
+        [self.bgBlurSwitch setEnabled:!started];
     });
 }
 
