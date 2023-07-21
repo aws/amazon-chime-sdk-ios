@@ -1,3 +1,12 @@
+## Unreleased
+
+### Fixed
+* Fixed Obj-C support for BackgroundBlurVideoFrameProcessor and BackgroundBlurConfiguration
+
+### Added
+* [Demo] Re-arranged meeting screen layout
+* [Demo] Added background blur option for video
+
 ## [0.23.2] - 2023-06-27
 
 ### Added

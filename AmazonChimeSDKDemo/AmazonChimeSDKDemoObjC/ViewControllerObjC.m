@@ -11,9 +11,11 @@
 @interface ViewControllerObjC ()
 
 @property bool isBgBlurEnabled;
+@property DefaultCameraCaptureSource * customSource;
+@property BackgroundBlurVideoFrameProcessor *bgBlurProcessor;
 
-@property (weak, nonatomic) IBOutlet UIView *bgBlurContainerView;
-@property (weak, nonatomic) IBOutlet UISwitch *bgBlurSwitch;
+@property (weak, nonatomic) IBOutlet UIView *joinView;
+@property (weak, nonatomic) IBOutlet UIView *meetingView;
 
 @end
 
@@ -23,17 +25,23 @@
     [super viewDidLoad];
     
     self.isBgBlurEnabled = false;
-    
     [self updateUIWithMeetingStarted:NO];
     self.logger = [[ConsoleLogger alloc] initWithName:@"ViewControllerObjC"
                                                 level:LogLevelINFO];
     self.versionLabel.text = [NSString stringWithFormat:@"amazon-chime-sdk-ios@%@", [Versioning sdkVersion]];
+    BackgroundBlurConfiguration *config = [[BackgroundBlurConfiguration alloc]
+                                           initWithLogger:_logger
+                                           blurStrength:BackgroundBlurStrengthHigh];
+    BackgroundBlurVideoFrameProcessor *processor = [[BackgroundBlurVideoFrameProcessor alloc] initWithBackgroundBlurConfiguration:config];
+    self.bgBlurProcessor = processor;
+    
+    DefaultCameraCaptureSource *customSource = [[DefaultCameraCaptureSource alloc] initWithLogger:_logger];
+    self.customSource = customSource;
 }
 
 - (IBAction)joinMeeting:(id)sender {
     NSString* meetingId = [self formatInput:self.meetingIDText.text];
     NSString* name = [self formatInput:self.nameText.text];
-    self.isBgBlurEnabled = self.bgBlurSwitch.isOn;
     
     if (!meetingId.length || !name.length) {
         [self showAlertIn:self withMessage:@"MeetingID and Name cannot be empty." withDelay:0];
@@ -217,23 +225,44 @@
 
 -(BOOL)startLocalVideo:(NSError **)error {
     if(self.isBgBlurEnabled) {
-        BackgroundBlurConfiguration *config = [[BackgroundBlurConfiguration alloc]
-                                               initWithLogger:_logger
-                                               blurStrength:BackgroundBlurStrengthLow];
-        BackgroundBlurVideoFrameProcessor *processor = [[BackgroundBlurVideoFrameProcessor alloc] initWithBackgroundBlurConfiguration:config];
-        
-        DefaultCameraCaptureSource *customSource = [[DefaultCameraCaptureSource alloc] initWithLogger:_logger];
-        
-        [customSource addVideoSinkWithSink:processor];
-        
-        [self.meetingSession.audioVideo startLocalVideoWithSource:customSource];
-        
+        [self.customSource start];
+        [self.customSource addVideoSinkWithSink:self.bgBlurProcessor];
+        [self.meetingSession.audioVideo startLocalVideoWithSource:self.bgBlurProcessor];
         return true;
-        
     } else {
+        [self.customSource removeVideoSinkWithSink:self.bgBlurProcessor];
         return [self.meetingSession.audioVideo startLocalVideoAndReturnError:error];
     }
 }
+
+- (IBAction)bgBlurButtonPressed:(id)sender {
+    UIAlertController *alert = [UIAlertController
+                                alertControllerWithTitle:@"Set video filter"
+                                message:@"Choose a video filter for the selected video"
+                                preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *noFilter = [UIAlertAction
+                               actionWithTitle:@"None"
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * _Nonnull action) {
+        self.isBgBlurEnabled = false;
+        [self startLocalVideo:nil];
+    }];
+    
+    UIAlertAction *bgBlurFilter = [UIAlertAction
+                               actionWithTitle:@"Background Blur"
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * _Nonnull action) {
+        self.isBgBlurEnabled = true;
+        [self startLocalVideo:nil];
+    }];
+    
+    [alert addAction:noFilter];
+    [alert addAction:bgBlurFilter];
+    
+    [self presentViewController:alert animated:true completion:nil];
+}
+
 
 - (IBAction)leaveMeeting:(id)sender {
     [self.meetingSession.audioVideo removeRealtimeObserverWithObserver:self];
@@ -241,20 +270,21 @@
     [self.meetingSession.audioVideo removeVideoTileObserverWithObserver:self];
     [self.meetingSession.audioVideo removeActiveSpeakerObserverWithObserver:self];
     [self.meetingSession.audioVideo removeEventAnalyticsObserverWithObserver:self];
+    if(self.isBgBlurEnabled) {
+        self.isBgBlurEnabled = false;
+        [self.customSource stop];
+    }
     [self.meetingSession.audioVideo stop];
     [self updateUIWithMeetingStarted:NO];
 }
 
 - (void)updateUIWithMeetingStarted:(BOOL) started {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.titleLabel setText:started ? @"Meeting started" : @"Join a meeting"];
-        [self.meetingIDText setEnabled:!started];
-        [self.nameText setEnabled:!started];
-        [self.joinButton setHidden:started];
-        [self.leaveButton setHidden:!started];
-        [self.selfVideoView setHidden:!started];
-        [self.remoteVideoView setHidden:!started];
-        [self.bgBlurSwitch setEnabled:!started];
+        [self.joinView setHidden:started];
+        [self.joinView endEditing:true];
+        
+        [self.meetingView setHidden:!started];
+        [self.meetingView endEditing:true];
     });
 }
 
