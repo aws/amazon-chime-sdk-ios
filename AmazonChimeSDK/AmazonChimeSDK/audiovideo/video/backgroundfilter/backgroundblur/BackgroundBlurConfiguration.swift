@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objcMembers public class BackgroundBlurConfiguration {
+@objcMembers public class BackgroundBlurConfiguration: NSObject {
     let blurStrength: BackgroundBlurStrength
     let logger: Logger
     let backgroundFilterProcessor: BackgroundFilterProcessor

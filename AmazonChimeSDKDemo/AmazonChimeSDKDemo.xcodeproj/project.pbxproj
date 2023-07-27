@@ -125,6 +125,8 @@
 		D89046E829834D5400373566 /* ToastPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89046E729834D5400373566 /* ToastPosition.swift */; };
 		D89046EB2983BC9800373566 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89046EA2983BC9800373566 /* PaddingLabel.swift */; };
 		D89046ED2983C32400373566 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89046EC2983C32400373566 /* ToastView.swift */; };
+		D8F9CA312A6B0FB100956B53 /* AmazonChimeSDKMachineLearning.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFD14AAE281B4DAA00C8D8CA /* AmazonChimeSDKMachineLearning.xcframework */; };
+		D8F9CA372A6B117600956B53 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A1582C223C40C9D0099F8FA /* Assets.xcassets */; };
 		ED150C0727E2E88E003E3061 /* SampleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A690A3255DFF4600F28BC2 /* SampleHandler.swift */; };
 		ED150C0A27E2E88E003E3061 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4A690A0255DFF4600F28BC2 /* ReplayKit.framework */; };
 		ED36C8B727E319C70061E150 /* AmazonChimeSDKDemoBroadcastPods.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = ED150C0F27E2E88E003E3061 /* AmazonChimeSDKDemoBroadcastPods.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -444,6 +446,7 @@
 			files = (
 				5A9E17D024A6A810002CACC5 /* AmazonChimeSDK.framework in Frameworks */,
 				5ACB3E71249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework in Frameworks */,
+				D8F9CA312A6B0FB100956B53 /* AmazonChimeSDKMachineLearning.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -903,6 +906,7 @@
 			files = (
 				F8AC962E2408840E0072EB04 /* Assets.xcassets in Resources */,
 				F8AC96312408840E0072EB04 /* LaunchScreen.storyboard in Resources */,
+				D8F9CA372A6B117600956B53 /* Assets.xcassets in Resources */,
 				F8AC962C2408840D0072EB04 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
