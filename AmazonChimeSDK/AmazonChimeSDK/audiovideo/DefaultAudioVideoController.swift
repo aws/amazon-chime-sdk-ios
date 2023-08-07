@@ -53,7 +53,8 @@ import Foundation
                                         attendeeId: configuration.credentials.attendeeId,
                                         joinToken: configuration.credentials.joinToken,
                                         callKitEnabled: audioVideoConfiguration.callKitEnabled,
-                                        audioMode: audioVideoConfiguration.audioMode)
+                                        audioMode: audioVideoConfiguration.audioMode,
+                                        enableAudioRedundancy: audioVideoConfiguration.enableAudioRedundancy)
         videoClientController.subscribeToVideoTileControllerObservers(observer: videoTileController)
         videoClientController.start()
     }

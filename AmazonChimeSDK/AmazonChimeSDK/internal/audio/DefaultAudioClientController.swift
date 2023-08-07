@@ -68,7 +68,8 @@ extension DefaultAudioClientController: AudioClientController {
                       attendeeId: String,
                       joinToken: String,
                       callKitEnabled: Bool,
-                      audioMode: AudioMode) throws {
+                      audioMode: AudioMode,
+                      enableAudioRedundancy: Bool) throws {
         audioLock.lock()
         defer {
             audioLock.unlock()
@@ -121,7 +122,8 @@ extension DefaultAudioClientController: AudioClientController {
                                               audioWsUrl: audioFallbackUrl,
                                               callKitEnabled: callKitEnabled,
                                               appInfo: appInfo,
-                                              audioMode: audioModeInternal)
+                                              audioMode: audioModeInternal,
+                                              enableAudioRedundancy: enableAudioRedundancy)
 
         if status == AUDIO_CLIENT_OK {
             Self.state = .started

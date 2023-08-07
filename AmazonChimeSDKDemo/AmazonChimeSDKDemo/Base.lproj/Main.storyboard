@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_72" orientation="portrait" appearance="dark"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -55,7 +56,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="U4C-4u-Vzl" userLabel="Join Config">
-                                <rect key="frame" x="40" y="495" width="350" height="190"/>
+                                <rect key="frame" x="40" y="495" width="350" height="230"/>
                                 <subviews>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j1Y-t4-xgU">
                                         <rect key="frame" x="0.0" y="0.0" width="350" height="70"/>
@@ -77,14 +78,16 @@
                                             <constraint firstAttribute="height" constant="70" id="tMM-3b-C9y"/>
                                         </constraints>
                                     </pickerView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EBv-5d-gOg">
-                                        <rect key="frame" x="130.66666666666666" y="160" width="89" height="30"/>
-                                        <accessibility key="accessibilityConfiguration" identifier="Join Without CallKit"/>
-                                        <state key="normal" title="Join Meeting"/>
-                                        <connections>
-                                            <action selector="joinButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WSb-T2-ggJ"/>
-                                        </connections>
-                                    </button>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ixI-4Z-RcQ">
+                                        <rect key="frame" x="0.0" y="160" width="350" height="70"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="AudioMode Options">
+                                            <bool key="isElement" value="YES"/>
+                                        </accessibility>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="350" id="mXT-5W-XRT"/>
+                                            <constraint firstAttribute="height" constant="70" id="zz3-Wz-wlw"/>
+                                        </constraints>
+                                    </pickerView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="PzT-6X-6dW" firstAttribute="top" secondItem="j1Y-t4-xgU" secondAttribute="bottom" id="34a-7D-gy6"/>
@@ -98,6 +101,15 @@
                                 <state key="normal" title="Debug Settings"/>
                                 <connections>
                                     <action selector="debugSettingsButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Vn9-h0-gPv"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EBv-5d-gOg">
+                                <rect key="frame" x="171" y="730" width="89" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Join Without CallKit"/>
+                                <state key="normal" title="Join Meeting"/>
+                                <connections>
+                                    <action selector="joinButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WSb-T2-ggJ"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -123,6 +135,7 @@
                     </view>
                     <connections>
                         <outlet property="audioModeOptionsPicker" destination="PzT-6X-6dW" id="rS6-Jg-cyu"/>
+                        <outlet property="audioRedundancyOptionsPicker" destination="ixI-4Z-RcQ" id="HrP-eD-eG0"/>
                         <outlet property="callKitOptionsPicker" destination="j1Y-t4-xgU" id="aLn-e0-4WW"/>
                         <outlet property="debugSettingsButton" destination="66Y-WJ-mRM" id="eul-Gi-QFC"/>
                         <outlet property="joinButton" destination="EBv-5d-gOg" id="FfN-4U-iAy"/>

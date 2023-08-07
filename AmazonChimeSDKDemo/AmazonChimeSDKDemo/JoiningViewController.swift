@@ -16,11 +16,13 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var versionLabel: UILabel!
     @IBOutlet var callKitOptionsPicker: UIPickerView!
     @IBOutlet var audioModeOptionsPicker: UIPickerView!
+    @IBOutlet var audioRedundancyOptionsPicker: UIPickerView!
     @IBOutlet var joinButton: UIButton!
     @IBOutlet var debugSettingsButton: UIButton!
 
     var callKitOptions = ["Don't use CallKit", "CallKit as Incoming in 10s", "CallKit as Outgoing"]
     var audioModeOptions = ["Stereo/48KHz Audio", "Mono/48KHz Audio", "Mono/16KHz Audio"]
+    var audioRedundancyOptions = ["Enable Audio Redundancy", "Disable Audio Redundancy"]
 
     private let toastDisplayDuration = 2.0
     private let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -36,6 +38,9 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
 
         audioModeOptionsPicker.delegate = self
         audioModeOptionsPicker.dataSource = self
+
+        audioRedundancyOptionsPicker.delegate = self
+        audioRedundancyOptionsPicker.dataSource = self
 
         setupHideKeyboardOnTap()
         versionLabel.text = "amazon-chime-sdk-ios@\(Versioning.sdkVersion())"
@@ -57,7 +62,9 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
         // Audio Mode
         let audioMode = getSelectedAudioMode()
 
-        joinMeeting(audioVideoConfig: AudioVideoConfiguration(audioMode: audioMode, callKitEnabled: callKitOption != .disabled),
+        let enableAudioRedundancy = getAudioRedundancySetting()
+
+        joinMeeting(audioVideoConfig: AudioVideoConfiguration(audioMode: audioMode, callKitEnabled: callKitOption != .disabled, enableAudioRedundancy: enableAudioRedundancy),
                     callKitOption: callKitOption
         )
     }
@@ -96,6 +103,15 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
             return .mono16K
         default:
             return .stereo48K
+        }
+    }
+
+    func getAudioRedundancySetting() -> Bool {
+        switch audioRedundancyOptionsPicker.selectedRow(inComponent: 0) {
+        case 1:
+            return false
+        default:
+            return true
         }
     }
 
@@ -141,6 +157,11 @@ extension JoiningViewController: UIPickerViewDelegate {
                 return nil
             }
             return audioModeOptions[row]
+        } else if pickerView == audioRedundancyOptionsPicker {
+            if row >= audioRedundancyOptions.count {
+                return nil
+            }
+            return audioRedundancyOptions[row]
         } else {
             return nil
         }
@@ -157,6 +178,8 @@ extension JoiningViewController: UIPickerViewDataSource {
             return callKitOptions.count
         } else if pickerView == audioModeOptionsPicker {
             return audioModeOptions.count
+        } else if pickerView == audioRedundancyOptionsPicker {
+            return audioRedundancyOptions.count
         } else {
             return 0
         }
