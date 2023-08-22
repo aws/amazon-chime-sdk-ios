@@ -13,7 +13,6 @@ class InAppScreenCaptureModel {
     let logger = ConsoleLogger(name: "InAppScreenCaptureModel")
     let contentShareController: ContentShareController
     var isSharingHandler: ((Bool) -> Void)?
-
     var isSharing = false {
         willSet(newValue) {
             if newValue == isSharing {
@@ -32,7 +31,7 @@ class InAppScreenCaptureModel {
 
     lazy var inAppScreenCaptureSource: VideoCaptureSource? = {
         if #available(iOS 11.0, *) {
-            return InAppScreenCaptureSource(logger: logger)
+            return InAppCustomScreenCaptureSource(logger: logger)
         }
         return nil
     }()
