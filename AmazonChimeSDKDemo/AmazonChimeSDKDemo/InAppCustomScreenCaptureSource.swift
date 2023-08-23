@@ -47,16 +47,14 @@ import ReplayKit
     }
     
     @objc func appDidEnterForeground() {
-        if (self.playing) {
+        // If it failed to restart or was playing try to restart
+        if (self.playing || self.restarting) {
             restart()
         }
     }
     
     private func restart() {
-        // Already restarting... so skip
-        if (self.restarting) {
-            return
-        }
+        print("Logging_RPScreenRecorder restarting...")
         self.restarting = true
         self.stop()
     }
@@ -80,10 +78,16 @@ import ReplayKit
             if let error = error {
                 print("Logging_RPScreenRecorder start failed: \(error.localizedDescription)")
                 self.logger.error(msg: "RPScreenRecorder start failed: \(error.localizedDescription)" )
+
+                if self.restarting {
+                    // Since it is restarting, we can background and foreground to start again so don't stop content share completely.
+                    return
+                }
                 ObserverUtils.forEach(observers: self.observers) { (observer: CaptureSourceObserver) in
                     observer.captureDidFail(error: .systemFailure)
                 }
             } else {
+                self.restarting = false
                 self.playing = true
                 print("Logging_RPScreenRecorder start succeeded.")
                 self.logger.info(msg: "RPScreenRecorder start succeeded.")
@@ -96,8 +100,14 @@ import ReplayKit
 
     public func stop() {
         if !screenRecorder.isRecording {
+            self.playing = false
             print("Logging_RPScreenRecorder not recording, so skipping stop.")
             logger.info(msg: "RPScreenRecorder not recording, so skipping stop")
+            if self.restarting {
+                logger.info(msg: "RPScreenRecorder not recording, so skipping stop")
+                self.start()
+                return
+            }
             self.notifyRecordingStopped()
             return
         }
@@ -106,7 +116,6 @@ import ReplayKit
             self.playing = false
             
             if self.restarting {
-                self.restarting = false
                 self.start()
                 return
             }
