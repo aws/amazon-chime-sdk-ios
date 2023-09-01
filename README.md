@@ -243,10 +243,15 @@ You need to start the meeting session to start sending and receiving audio. Make
 meetingSession.audioVideo.start()
 ```
 
-The default audio format is Stereo/48KHz i.e Stereo Audio with 48KHz sampling rate (stereo48K). Other supported audio formats include Mono/48KHz (mono48K) or Mono/16KHz (mono16K). You can specify a non-default audio mode in `AudioVideoConfiguration`, and then start the meeting session.
+The default configurations are:
+* audio format is Stereo/48KHz i.e Stereo Audio with 48KHz sampling rate (stereo48K)
+* call kit disabled
+* audio redundancy enabled
+
+You can specify non-default options in `AudioVideoConfiguration`, and then start the meeting session.
 
 ```swift
-var audioVideoConfig = AudioVideoConfiguration()
+var audioVideoConfig = AudioVideoConfiguration(audioMode: .mono48k, callKitEnabled: true, enableAudioRedundancy: false)
 meetingSession.audioVideo.start(audioVideoConfiguration: audioVideoConfig)
 ```
 
@@ -349,7 +354,7 @@ let activeAudioDevice = meetingSession.audioVideo.getActiveAudioDevice()
 > When joining a meeting, *Mono/16KHz*, *Mono/48KHz* and *Stereo/48KHz* are supported. *Stereo/48KHz* will be set as the default audio mode if not explicitly specified when starting the audio session.
 
 ```swift
-meetingSession.audioVideo.start() // starts the audio video session with Stereo/48KHz audio and callkit disabled
+meetingSession.audioVideo.start() // starts the audio video session with Stereo/48KHz audio, callkit disabled and audio redundancy enabled
 
 meetingSession.audioVideo.start(audioVideoConfiguration) // starts the audio video session with the specified [AudioVideoConfiguration]
 ```
@@ -711,6 +716,23 @@ let disabled = audioVideo.realtimeSetVoiceFocusEnabled(enabled: false) // disabl
 ### Custom Video Source
 
 Custom video source allows you to control the video, such as applying a video filter. For more details, see [Custom Video](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/custom_video.md).
+
+### Redundant Audio
+
+Starting from version 0.23.3, the SDK starts sending redundant audio data to our servers on detecting packet loss
+to help reduce its effect on audio quality. Redundant audio packets are only sent out for packets containing active
+audio, i.e. speech or music. This may increase the bandwidth consumed by audio to up to 3 times the normal amount
+depending on the amount of packet loss detected. The SDK will automatically stop sending redundant data if it hasn't
+detected any packet loss for 5 minutes.
+
+If you need to disable this feature, you can do so through the AudioVideoConfiguration before starting the session.
+
+```swift
+meetingSession.audioVideo.start(AudioVideoConfiguration(enableAudioRedundancy: false))
+```
+
+While there is an option to disable the feature, we recommend keeping it enabled for improved audio quality.
+One possible reason to disable it might be if your customers have very strict bandwidth limitations.
 
 
 ## Frequently Asked Questions
