@@ -260,7 +260,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                            audioWsUrl: any(),
                                            callKitEnabled: any(),
                                            appInfo: any(),
-                                           audioMode: any())).willReturn(AUDIO_CLIENT_ERR)
+                                           audioMode: any(),
+                                           enableAudioRedundancy: any())).willReturn(AUDIO_CLIENT_ERR)
 
         XCTAssertThrowsError(try defaultAudioClientController.start(audioFallbackUrl: audioFallbackUrl,
                                                                     audioHostUrl: audioHostUrlWithPort,
