@@ -19,33 +19,31 @@ class AudioVideoConfigurationTests: XCTestCase {
         let audioVideoConfigAudioMode = AudioVideoConfiguration(audioMode: .stereo48K)
         XCTAssertEqual(audioVideoConfigAudioMode.audioMode, .stereo48K)
         XCTAssertEqual(audioVideoConfigAudioMode.callKitEnabled, false)
-        XCTAssertEqual(audioVideoConfig.enableAudioRedundancy, true)
+        XCTAssertEqual(audioVideoConfigAudioMode.enableAudioRedundancy, true)
 
         let audioVideoConfigAudioModeMono48K = AudioVideoConfiguration(audioMode: .mono48K)
         XCTAssertEqual(audioVideoConfigAudioModeMono48K.audioMode, .mono48K)
         XCTAssertEqual(audioVideoConfigAudioModeMono48K.callKitEnabled, false)
-        XCTAssertEqual(audioVideoConfig.enableAudioRedundancy, true)
+        XCTAssertEqual(audioVideoConfigAudioModeMono48K.enableAudioRedundancy, true)
 
         let audioVideoConfigAudioModeMono16K = AudioVideoConfiguration(audioMode: .mono16K)
         XCTAssertEqual(audioVideoConfigAudioModeMono16K.audioMode, .mono16K)
         XCTAssertEqual(audioVideoConfigAudioModeMono16K.callKitEnabled, false)
-        XCTAssertEqual(audioVideoConfig.enableAudioRedundancy, true)
+        XCTAssertEqual(audioVideoConfigAudioModeMono16K.enableAudioRedundancy, true)
 
         let audioVideoConfigCallkit = AudioVideoConfiguration(callKitEnabled: true)
         XCTAssertEqual(audioVideoConfigCallkit.audioMode, .stereo48K)
         XCTAssertEqual(audioVideoConfigCallkit.callKitEnabled, true)
-        XCTAssertEqual(audioVideoConfig.enableAudioRedundancy, true)
+        XCTAssertEqual(audioVideoConfigCallkit.enableAudioRedundancy, true)
 
         let audioVideoConfigAudioModeNoDevice = AudioVideoConfiguration(audioMode: .nodevice)
         XCTAssertEqual(audioVideoConfigAudioModeNoDevice.audioMode, .nodevice)
         XCTAssertEqual(audioVideoConfigAudioModeNoDevice.callKitEnabled, false)
-        XCTAssertEqual(audioVideoConfig.enableAudioRedundancy, true)
+        XCTAssertEqual(audioVideoConfigAudioModeNoDevice.enableAudioRedundancy, true)
 
-        let audioVideoConfigAudioModeNoDevice = AudioVideoConfiguration(enableAudioRedundancy: false)
-        XCTAssertEqual(audioVideoConfigAudioModeNoDevice.audioMode, .stereo48K)
-        XCTAssertEqual(audioVideoConfigAudioModeNoDevice.callKitEnabled, false)
-        XCTAssertEqual(audioVideoConfig.enableAudioRedundancy, false)
-
-
+        let audioVideoConfigRedundancyDisabled = AudioVideoConfiguration(enableAudioRedundancy: false)
+        XCTAssertEqual(audioVideoConfigRedundancyDisabled.audioMode, .stereo48K)
+        XCTAssertEqual(audioVideoConfigRedundancyDisabled.callKitEnabled, false)
+        XCTAssertEqual(audioVideoConfigRedundancyDisabled.enableAudioRedundancy, false)
     }
 }
