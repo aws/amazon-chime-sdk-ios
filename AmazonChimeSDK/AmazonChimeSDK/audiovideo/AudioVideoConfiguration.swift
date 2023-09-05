@@ -30,6 +30,10 @@ import Foundation
          self.init(audioMode: .stereo48K, callKitEnabled: false, enableAudioRedundancy: enableAudioRedundancy)
     }
 
+    convenience public init(audioMode: AudioMode, callKitEnabled: Bool) {
+         self.init(audioMode: audioMode, callKitEnabled: callKitEnabled, enableAudioRedundancy: true)
+    }
+
     public init(audioMode: AudioMode, callKitEnabled: Bool, enableAudioRedundancy: Bool) {
         self.audioMode = audioMode
         self.callKitEnabled = callKitEnabled
