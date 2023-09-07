@@ -12,21 +12,31 @@ import Foundation
 @objcMembers public class AudioVideoConfiguration: NSObject {
     public let audioMode: AudioMode
     public let callKitEnabled: Bool
+    public let enableAudioRedundancy: Bool
 
     convenience override public init() {
-        self.init(audioMode: .stereo48K, callKitEnabled: false)
+        self.init(audioMode: .stereo48K, callKitEnabled: false, enableAudioRedundancy: true)
     }
 
     convenience public init(audioMode: AudioMode) {
-        self.init(audioMode: audioMode, callKitEnabled: false)
+        self.init(audioMode: audioMode, callKitEnabled: false, enableAudioRedundancy: true)
     }
 
     convenience public init(callKitEnabled: Bool) {
-        self.init(audioMode: .stereo48K, callKitEnabled: callKitEnabled)
+        self.init(audioMode: .stereo48K, callKitEnabled: callKitEnabled, enableAudioRedundancy: true)
     }
 
-    public init(audioMode: AudioMode, callKitEnabled: Bool) {
+    convenience public init(enableAudioRedundancy: Bool) {
+         self.init(audioMode: .stereo48K, callKitEnabled: false, enableAudioRedundancy: enableAudioRedundancy)
+    }
+
+    convenience public init(audioMode: AudioMode, callKitEnabled: Bool) {
+         self.init(audioMode: audioMode, callKitEnabled: callKitEnabled, enableAudioRedundancy: true)
+    }
+
+    public init(audioMode: AudioMode, callKitEnabled: Bool, enableAudioRedundancy: Bool) {
         self.audioMode = audioMode
         self.callKitEnabled = callKitEnabled
+        self.enableAudioRedundancy = enableAudioRedundancy
     }
 }

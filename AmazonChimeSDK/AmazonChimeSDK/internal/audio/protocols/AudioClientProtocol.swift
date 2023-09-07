@@ -20,6 +20,18 @@ import Foundation
                       isPresenter presenter: Bool,
                       sessionToken tokenString: String!,
                       audioWsUrl: String!,
+                      callKitEnabled: Bool) -> audio_client_status_t
+
+    // swiftlint:disable function_parameter_count variable_name
+    func startSession(_ host: String!,
+                      basePort port: Int,
+                      callId: String!,
+                      profileId: String!,
+                      microphoneMute mic_mute: Bool,
+                      speakerMute spk_mute: Bool,
+                      isPresenter presenter: Bool,
+                      sessionToken tokenString: String!,
+                      audioWsUrl: String!,
                       callKitEnabled: Bool,
                       appInfo: AppInfo!) -> audio_client_status_t
 
@@ -37,6 +49,7 @@ import Foundation
                       appInfo: AppInfo!,
                       audioMode: AudioModeInternal) -> audio_client_status_t
 
+    // swiftlint:disable function_parameter_count variable_name
     func startSession(_ host: String!,
                       basePort port: Int,
                       callId: String!,
@@ -46,7 +59,10 @@ import Foundation
                       isPresenter presenter: Bool,
                       sessionToken tokenString: String!,
                       audioWsUrl: String!,
-                      callKitEnabled: Bool) -> audio_client_status_t
+                      callKitEnabled: Bool,
+                      appInfo: AppInfo!,
+                      audioMode: AudioModeInternal,
+                      enableAudioRedundancy: Bool) -> audio_client_status_t
 
     func stopSession() -> Int
 

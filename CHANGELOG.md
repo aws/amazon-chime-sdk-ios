@@ -6,6 +6,8 @@
 ### Added
 * [Demo] Re-arranged meeting screen layout
 * [Demo] Added background blur option for video
+* Support sending and receiving redundant audio data to help reduce the effects of packet loss on audio quality. See README for more details.
+* [Demo] Added picker in join screen to enable and disable audio redundancy
 
 ## [0.23.2] - 2023-06-27
 

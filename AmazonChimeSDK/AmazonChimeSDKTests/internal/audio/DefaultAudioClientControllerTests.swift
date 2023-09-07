@@ -50,7 +50,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                            audioWsUrl: any(),
                                            callKitEnabled: any(),
                                            appInfo: any(),
-                                           audioMode: any())).willReturn(AUDIO_CLIENT_OK)
+                                           audioMode: any(),
+                                           enableAudioRedundancy: any())).willReturn(AUDIO_CLIENT_OK)
 
         defaultAudioClientController = DefaultAudioClientController(audioClient: audioClientMock,
                                                                     audioClientObserver: audioClientObserverMock,
@@ -84,7 +85,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                                     attendeeId: attendeeId,
                                                                     joinToken: joinToken,
                                                                     callKitEnabled: callKitEnabled,
-                                                                    audioMode: .stereo48K))
+                                                                    audioMode: .stereo48K,
+                                                                    enableAudioRedundancy: true))
         verify(audioLockMock.lock()).wasCalled()
         verify(audioLockMock.unlock()).wasCalled()
     }
@@ -99,7 +101,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                                     attendeeId: attendeeId,
                                                                     joinToken: joinToken,
                                                                     callKitEnabled: callKitEnabled,
-                                                                    audioMode: .stereo48K))
+                                                                    audioMode: .stereo48K,
+                                                                    enableAudioRedundancy: true))
         verify(audioLockMock.lock()).wasCalled()
         verify(audioLockMock.unlock()).wasCalled()
     }
@@ -129,7 +132,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                                 attendeeId: attendeeId,
                                                                 joinToken: joinToken,
                                                                 callKitEnabled: callKitEnabled,
-                                                                audioMode: .stereo48K))
+                                                                audioMode: .stereo48K,
+                                                                enableAudioRedundancy: true))
         verify(audioLockMock.lock()).wasCalled()
         verify(audioClientObserverMock.notifyAudioClientObserver(observerFunction: any())).wasCalled()
         verify(audioClientMock.startSession(self.audioHostUrl,
@@ -143,7 +147,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                             audioWsUrl: self.audioFallbackUrl,
                                             callKitEnabled: false,
                                             appInfo: any(),
-                                            audioMode: .Stereo48K)).wasCalled()
+                                            audioMode: .Stereo48K,
+                                            enableAudioRedundancy: true)).wasCalled()
         verify(eventAnalyticsControllerMock.publishEvent(name: .meetingStartRequested)).wasCalled()
         XCTAssertEqual(.started, DefaultAudioClientController.state)
         verify(audioLockMock.unlock()).wasCalled()
@@ -158,7 +163,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                                 attendeeId: attendeeId,
                                                                 joinToken: joinToken,
                                                                 callKitEnabled: callKitEnabled,
-                                                                audioMode: .mono48K))
+                                                                audioMode: .mono48K,
+                                                                enableAudioRedundancy: true))
         verify(audioLockMock.lock()).wasCalled()
         verify(audioClientObserverMock.notifyAudioClientObserver(observerFunction: any())).wasCalled()
         verify(audioClientMock.startSession(self.audioHostUrl,
@@ -172,7 +178,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                             audioWsUrl: self.audioFallbackUrl,
                                             callKitEnabled: false,
                                             appInfo: any(),
-                                            audioMode: .Mono48K)).wasCalled()
+                                            audioMode: .Mono48K,
+                                            enableAudioRedundancy: true)).wasCalled()
         verify(eventAnalyticsControllerMock.publishEvent(name: .meetingStartRequested)).wasCalled()
         XCTAssertEqual(.started, DefaultAudioClientController.state)
         verify(audioLockMock.unlock()).wasCalled()
@@ -187,7 +194,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                                 attendeeId: attendeeId,
                                                                 joinToken: joinToken,
                                                                 callKitEnabled: callKitEnabled,
-                                                                audioMode: .mono16K))
+                                                                audioMode: .mono16K,
+                                                                enableAudioRedundancy: true))
         verify(audioLockMock.lock()).wasCalled()
         verify(audioClientObserverMock.notifyAudioClientObserver(observerFunction: any())).wasCalled()
         verify(audioClientMock.startSession(self.audioHostUrl,
@@ -201,7 +209,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                             audioWsUrl: self.audioFallbackUrl,
                                             callKitEnabled: false,
                                             appInfo: any(),
-                                            audioMode: .Mono16K)).wasCalled()
+                                            audioMode: .Mono16K,
+                                            enableAudioRedundancy: true)).wasCalled()
         verify(eventAnalyticsControllerMock.publishEvent(name: .meetingStartRequested)).wasCalled()
         XCTAssertEqual(.started, DefaultAudioClientController.state)
         verify(audioLockMock.unlock()).wasCalled()
@@ -216,7 +225,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                                 attendeeId: attendeeId,
                                                                 joinToken: joinToken,
                                                                 callKitEnabled: callKitEnabled,
-                                                                audioMode: .nodevice))
+                                                                audioMode: .nodevice,
+                                                                enableAudioRedundancy: true))
         verify(audioLockMock.lock()).wasCalled()
         verify(audioClientObserverMock.notifyAudioClientObserver(observerFunction: any())).wasCalled()
         verify(audioClientMock.startSession(self.audioHostUrl,
@@ -230,7 +240,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                             audioWsUrl: self.audioFallbackUrl,
                                             callKitEnabled: false,
                                             appInfo: any(),
-                                            audioMode: .NoDevice)).wasCalled()
+                                            audioMode: .NoDevice,
+                                            enableAudioRedundancy: true)).wasCalled()
         verify(eventAnalyticsControllerMock.publishEvent(name: .meetingStartRequested)).wasCalled()
         XCTAssertEqual(.started, DefaultAudioClientController.state)
         verify(audioLockMock.unlock()).wasCalled()
@@ -249,7 +260,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                            audioWsUrl: any(),
                                            callKitEnabled: any(),
                                            appInfo: any(),
-                                           audioMode: any())).willReturn(AUDIO_CLIENT_ERR)
+                                           audioMode: any(),
+                                           enableAudioRedundancy: any())).willReturn(AUDIO_CLIENT_ERR)
 
         XCTAssertThrowsError(try defaultAudioClientController.start(audioFallbackUrl: audioFallbackUrl,
                                                                     audioHostUrl: audioHostUrlWithPort,
@@ -257,7 +269,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                                     attendeeId: attendeeId,
                                                                     joinToken: joinToken,
                                                                     callKitEnabled: callKitEnabled,
-                                                                    audioMode: .stereo48K))
+                                                                    audioMode: .stereo48K,
+                                                                    enableAudioRedundancy: true))
         verify(audioLockMock.lock()).wasCalled()
         verify(audioClientObserverMock.notifyAudioClientObserver(observerFunction: any())).wasCalled()
         verify(audioClientMock.startSession(self.audioHostUrl,
@@ -271,7 +284,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                             audioWsUrl: self.audioFallbackUrl,
                                             callKitEnabled: false,
                                             appInfo: any(),
-                                            audioMode: .Stereo48K)).wasCalled()
+                                            audioMode: .Stereo48K,
+                                            enableAudioRedundancy: true)).wasCalled()
         XCTAssertEqual(.initialized, DefaultAudioClientController.state)
         verify(audioLockMock.unlock()).wasCalled()
     }
