@@ -39,4 +39,8 @@ import Foundation
         self.callKitEnabled = callKitEnabled
         self.enableAudioRedundancy = enableAudioRedundancy
     }
+
+    override public var description: String {
+        return "audioMode: \(self.audioMode.description), callKitEnabled: \(self.callKitEnabled), enableAudioRedundancy: \(self.enableAudioRedundancy)"
+    }
 }

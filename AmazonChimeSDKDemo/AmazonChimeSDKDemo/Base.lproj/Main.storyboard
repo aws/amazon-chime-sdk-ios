@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_72" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -56,7 +56,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="U4C-4u-Vzl" userLabel="Join Config">
-                                <rect key="frame" x="40" y="495" width="350" height="230"/>
+                                <rect key="frame" x="40" y="495" width="350" height="150"/>
                                 <subviews>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j1Y-t4-xgU">
                                         <rect key="frame" x="0.0" y="0.0" width="350" height="70"/>
@@ -78,16 +78,6 @@
                                             <constraint firstAttribute="height" constant="70" id="tMM-3b-C9y"/>
                                         </constraints>
                                     </pickerView>
-                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ixI-4Z-RcQ">
-                                        <rect key="frame" x="0.0" y="160" width="350" height="70"/>
-                                        <accessibility key="accessibilityConfiguration" identifier="AudioMode Options">
-                                            <bool key="isElement" value="YES"/>
-                                        </accessibility>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="350" id="mXT-5W-XRT"/>
-                                            <constraint firstAttribute="height" constant="70" id="zz3-Wz-wlw"/>
-                                        </constraints>
-                                    </pickerView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="PzT-6X-6dW" firstAttribute="top" secondItem="j1Y-t4-xgU" secondAttribute="bottom" id="34a-7D-gy6"/>
@@ -103,23 +93,33 @@
                                     <action selector="debugSettingsButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Vn9-h0-gPv"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EBv-5d-gOg">
-                                <rect key="frame" x="171" y="730" width="89" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EBv-5d-gOg">
+                                <rect key="frame" x="170.66666666666666" y="700.33333333333337" width="88.999999999999972" height="30"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Join Without CallKit"/>
                                 <state key="normal" title="Join Meeting"/>
                                 <connections>
                                     <action selector="joinButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WSb-T2-ggJ"/>
                                 </connections>
                             </button>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="do3-GA-U6X">
+                                <rect key="frame" x="84.666666666666686" y="655" width="51" height="31"/>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Audio Redundancy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zus-QP-nBN">
+                                <rect key="frame" x="143.66666666666666" y="660" width="142.99999999999997" height="20.333333333333371"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="osX-FD-I0Z" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="14S-aX-21S"/>
                             <constraint firstItem="UUz-34-lb9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="2R9-AX-Dow"/>
+                            <constraint firstItem="Zus-QP-nBN" firstAttribute="top" secondItem="U4C-4u-Vzl" secondAttribute="bottom" constant="15" id="4jh-Uu-Mhz"/>
                             <constraint firstAttribute="trailing" secondItem="9bX-Kc-eHT" secondAttribute="trailing" constant="16" id="CFu-s4-gUV"/>
                             <constraint firstItem="UUz-34-lb9" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="8" id="FH0-Ls-emL"/>
                             <constraint firstItem="9bX-Kc-eHT" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="JE3-ga-xUR"/>
+                            <constraint firstItem="Zus-QP-nBN" firstAttribute="leading" secondItem="do3-GA-U6X" secondAttribute="trailing" constant="10" id="JE6-zg-OGM"/>
                             <constraint firstItem="U4C-4u-Vzl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="MOu-0K-Cvo"/>
                             <constraint firstItem="s6f-Ei-sAf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="O7I-Dv-H8c"/>
                             <constraint firstAttribute="trailingMargin" secondItem="66Y-WJ-mRM" secondAttribute="trailing" constant="20" id="PKd-ia-QK7"/>
@@ -127,7 +127,11 @@
                             <constraint firstItem="U4C-4u-Vzl" firstAttribute="top" secondItem="osX-FD-I0Z" secondAttribute="bottom" constant="12" id="WNP-Nc-bRq"/>
                             <constraint firstItem="9bX-Kc-eHT" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XMh-wo-ho8"/>
                             <constraint firstItem="osX-FD-I0Z" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="bfI-1B-dC2"/>
+                            <constraint firstItem="EBv-5d-gOg" firstAttribute="top" secondItem="Zus-QP-nBN" secondAttribute="bottom" constant="20" id="bkv-lH-Q5E"/>
+                            <constraint firstItem="EBv-5d-gOg" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="d3W-eX-k85"/>
+                            <constraint firstItem="Zus-QP-nBN" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fOH-Js-PlG"/>
                             <constraint firstItem="66Y-WJ-mRM" firstAttribute="top" secondItem="ygx-0K-pGD" secondAttribute="bottom" constant="16" id="n8X-Df-UNb"/>
+                            <constraint firstItem="do3-GA-U6X" firstAttribute="top" secondItem="U4C-4u-Vzl" secondAttribute="bottom" constant="10" id="rj0-9x-NfM"/>
                             <constraint firstItem="s6f-Ei-sAf" firstAttribute="top" secondItem="UUz-34-lb9" secondAttribute="bottom" constant="20" id="sqC-ky-MjB"/>
                             <constraint firstAttribute="trailing" secondItem="UUz-34-lb9" secondAttribute="trailing" constant="8" id="xEu-O0-RsD"/>
                             <constraint firstItem="osX-FD-I0Z" firstAttribute="top" secondItem="s6f-Ei-sAf" secondAttribute="bottom" constant="16" id="zh1-pn-qLH"/>
@@ -135,7 +139,7 @@
                     </view>
                     <connections>
                         <outlet property="audioModeOptionsPicker" destination="PzT-6X-6dW" id="rS6-Jg-cyu"/>
-                        <outlet property="audioRedundancyOptionsPicker" destination="ixI-4Z-RcQ" id="HrP-eD-eG0"/>
+                        <outlet property="audioRedundancySwitch" destination="do3-GA-U6X" id="ita-Cs-VpF"/>
                         <outlet property="callKitOptionsPicker" destination="j1Y-t4-xgU" id="aLn-e0-4WW"/>
                         <outlet property="debugSettingsButton" destination="66Y-WJ-mRM" id="eul-Gi-QFC"/>
                         <outlet property="joinButton" destination="EBv-5d-gOg" id="FfN-4U-iAy"/>
