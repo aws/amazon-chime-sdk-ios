@@ -44,7 +44,7 @@ import Foundation
     public func start(audioVideoConfiguration: AudioVideoConfiguration) throws {
         try audioVideoController.start(audioVideoConfiguration: audioVideoConfiguration)
 
-        trace(name: "start(audioVideoConfiguration: \(audioVideoConfiguration))")
+        trace(name: "start(audioVideoConfiguration: \(audioVideoConfiguration.description))")
     }
 
     public func start(callKitEnabled: Bool = false) throws {
