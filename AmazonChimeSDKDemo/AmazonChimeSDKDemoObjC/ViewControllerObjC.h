@@ -16,6 +16,7 @@
 #define SERVER_REGION "YOUR_SERVER_REGION"
 
 @property (weak, nonatomic) IBOutlet UIButton *joinButton;
+@property (weak, nonatomic) IBOutlet UIButton *leaveButton;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 @property (weak, nonatomic) IBOutlet UITextField *meetingIDText;
