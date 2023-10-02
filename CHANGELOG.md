@@ -1,4 +1,4 @@
-## Unreleased
+## [0.23.3] - 2023-09-28
 
 ### Fixed
 * Fixed Obj-C support for BackgroundBlurVideoFrameProcessor and BackgroundBlurConfiguration
