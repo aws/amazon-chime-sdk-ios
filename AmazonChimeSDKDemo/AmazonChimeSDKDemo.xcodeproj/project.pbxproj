@@ -14,6 +14,8 @@
 		00D82F2425B27BD5000496A2 /* LogEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D82F2325B27BD5000496A2 /* LogEntry.swift */; };
 		00F372EA23D9196E008F7CA7 /* MeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F372E923D9196E008F7CA7 /* MeetingViewController.swift */; };
 		00F372EE23DA2BFD008F7CA7 /* RosterAttendee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F372ED23DA2BFD008F7CA7 /* RosterAttendee.swift */; };
+		07B9983D2B186CD9002F5E7F /* AmazonChimeSDKSoftwareVideoCodecs.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07B9983C2B186CD9002F5E7F /* AmazonChimeSDKSoftwareVideoCodecs.xcframework */; };
+		07B9983E2B186CD9002F5E7F /* AmazonChimeSDKSoftwareVideoCodecs.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 07B9983C2B186CD9002F5E7F /* AmazonChimeSDKSoftwareVideoCodecs.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4CC2069452049F35E3B82174 /* Pods_AmazonChimeSDKDemoPods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE0AD430C91242546F74E1D8 /* Pods_AmazonChimeSDKDemoPods.framework */; };
 		5403538E27D0CBA4007BABD7 /* TranscriptionStreamParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403538C27D0CBA4007BABD7 /* TranscriptionStreamParams.swift */; };
 		54146E1E27D1F3E2001FBAE6 /* AutomaticLanguageOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54146E1D27D1F3E2001FBAE6 /* AutomaticLanguageOptionsViewController.swift */; };
@@ -254,6 +256,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				7C42A00729A4522A00B25E50 /* AmazonChimeSDKMedia.xcframework in Embed Frameworks */,
+				07B9983E2B186CD9002F5E7F /* AmazonChimeSDKSoftwareVideoCodecs.xcframework in Embed Frameworks */,
 				5AE38AE02428747100B234EC /* AmazonChimeSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -302,6 +305,7 @@
 		00D82F2325B27BD5000496A2 /* LogEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogEntry.swift; sourceTree = "<group>"; };
 		00F372E923D9196E008F7CA7 /* MeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingViewController.swift; sourceTree = "<group>"; };
 		00F372ED23DA2BFD008F7CA7 /* RosterAttendee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RosterAttendee.swift; sourceTree = "<group>"; };
+		07B9983C2B186CD9002F5E7F /* AmazonChimeSDKSoftwareVideoCodecs.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = AmazonChimeSDKSoftwareVideoCodecs.xcframework; sourceTree = "<group>"; };
 		5403538C27D0CBA4007BABD7 /* TranscriptionStreamParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionStreamParams.swift; sourceTree = "<group>"; };
 		54146E1D27D1F3E2001FBAE6 /* AutomaticLanguageOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomaticLanguageOptionsViewController.swift; sourceTree = "<group>"; };
 		5A1582B623C40C9B0099F8FA /* AmazonChimeSDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AmazonChimeSDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -389,6 +393,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C42A00629A4522A00B25E50 /* AmazonChimeSDKMedia.xcframework in Frameworks */,
+				07B9983D2B186CD9002F5E7F /* AmazonChimeSDKSoftwareVideoCodecs.xcframework in Frameworks */,
 				CFD14AAF281B4DAA00C8D8CA /* AmazonChimeSDKMachineLearning.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -547,6 +552,7 @@
 		5FC5287C24209FE4009EC37F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				07B9983C2B186CD9002F5E7F /* AmazonChimeSDKSoftwareVideoCodecs.xcframework */,
 				7C42A00529A4522900B25E50 /* AmazonChimeSDKMedia.xcframework */,
 				CFD14AAE281B4DAA00C8D8CA /* AmazonChimeSDKMachineLearning.xcframework */,
 				5ACB3E6F249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework */,
