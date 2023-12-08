@@ -71,6 +71,10 @@ class JoinRequestService: NSObject {
                     turnControlUrl: meeting.mediaPlacement.turnControlUrl ?? "",
                     eventIngestionUrl: meeting.mediaPlacement.eventIngestionUrl
                 ),
+                meetingFeatures: MeetingFeatures(
+                    video: meeting.meetingFeatures?.video?.maxResolution,
+                    content: meeting.meetingFeatures?.content?.maxResolution
+                ),
                 mediaRegion: meeting.mediaRegion,
                 meetingId: meeting.meetingId,
                 primaryMeetingId: meeting.primaryMeetingId

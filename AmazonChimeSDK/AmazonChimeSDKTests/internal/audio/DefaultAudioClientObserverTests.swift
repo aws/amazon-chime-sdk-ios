@@ -60,8 +60,12 @@ class DefaultAudioClientObserverTests: XCTestCase {
                         signalingUrl: signalingUrl,
                         turnControlUrl: turnControlUrl,
                         eventIngestionUrl: nil)
+        let meetingFeaturesMock: MeetingFeaturesMock = mock(MeetingFeatures.self)
+            .initialize(videoMaxResolution: VideoResolution.videoResolutionHD,
+                        contentMaxResolution: VideoResolution.videoResolutionFHD)
         let meetingMock: MeetingMock = mock(Meeting.self).initialize(externalMeetingId: externalMeetingId,
                                                                      mediaPlacement: mediaPlacementMock,
+                                                                     meetingFeatures: meetingFeaturesMock,
                                                                      mediaRegion: mediaRegion,
                                                                      meetingId: meetingId,
                                                                      primaryMeetingId: nil)

@@ -48,6 +48,14 @@ import Foundation
     /// This methods returns an empty array for `MediaDevice` that's not used for video.
     /// - Parameter mediaDevice: Video capture device to query
     public static func listSupportedVideoCaptureFormats(mediaDevice: MediaDevice) -> [VideoCaptureFormat] {
+        let resolution = VideoResolution(width: Constants.maxSupportedVideoWidth, height: Constants.maxSupportedVideoHeight)
+        return listSupportedVideoCaptureFormats(mediaDevice: mediaDevice, videoMaxResolution: resolution)
+    }
+
+    /// List available `VideoCaptureFormat` from the video capture device.
+    /// This methods returns an empty array for `MediaDevice` that's not used for video.
+    /// - Parameter mediaDevice: Video capture device to query
+    public static func listSupportedVideoCaptureFormats(mediaDevice: MediaDevice, videoMaxResolution: VideoResolution) -> [VideoCaptureFormat] {
         guard mediaDevice.type == .videoFrontCamera || mediaDevice.type == .videoBackCamera else {
             return []
         }
@@ -59,10 +67,11 @@ import Foundation
             return []
         }
         var supportedFormats: [VideoCaptureFormat] = []
+
         for avFormat in device.formats {
             var format = VideoCaptureFormat.fromAVCaptureDeviceFormat(format: avFormat)
-            if format.height > Constants.maxSupportedVideoHeight
-                || format.width > Constants.maxSupportedVideoWidth {
+            if format.height > videoMaxResolution.height
+                || format.width > videoMaxResolution.width {
                 continue
             }
             if format.maxFrameRate > Constants.maxSupportedVideoFrameRate {

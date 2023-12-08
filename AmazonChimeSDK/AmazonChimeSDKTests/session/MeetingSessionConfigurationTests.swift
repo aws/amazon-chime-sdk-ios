@@ -115,6 +115,119 @@ class MeetingSessionConfigurationTests: XCTestCase {
         XCTAssertNil(localConfiguration.urls.ingestionUrl)
     }
 
+    func testMeetingFeaturesShouldBeInitializedThroughConstructor() {
+        let credentials = MeetingSessionCredentials(attendeeId: attendeeIdStr,
+                                                     externalUserId: externalUserIdStr,
+                                                     joinToken: joinTokenStr)
+        let urls = MeetingSessionURLs(audioFallbackUrl: audioFallbackStr,
+                                       audioHostUrl: audioHostStr,
+                                       turnControlUrl: turnControlUrlStr,
+                                       signalingUrl: signalingUrlStr,
+                                       urlRewriter: defaultUrlRewriter)
+        let features = MeetingFeatures(videoMaxResolution: VideoResolution.videoResolutionHD,
+                                             contentMaxResolution: VideoResolution.videoResolutionFHD)
+
+        let localConfiguration = MeetingSessionConfiguration(meetingId: meetingIdStr,
+                                                             externalMeetingId: nil,
+                                                             credentials: credentials,
+                                                             urls: urls,
+                                                             urlRewriter: defaultUrlRewriter,
+                                                             meetingFeatures: features)
+
+        XCTAssertNil(localConfiguration.urls.ingestionUrl)
+        XCTAssertEqual(localConfiguration.meetingFeatures.videoMaxResolution, VideoResolution.videoResolutionHD)
+        XCTAssertEqual(localConfiguration.meetingFeatures.contentMaxResolution, VideoResolution.videoResolutionFHD)
+    }
+
+    func testMeetingFeaturesThroughConstructor() {
+        let credentials = MeetingSessionCredentials(attendeeId: attendeeIdStr,
+                                                     externalUserId: externalUserIdStr,
+                                                     joinToken: joinTokenStr)
+        let urls = MeetingSessionURLs(audioFallbackUrl: audioFallbackStr,
+                                       audioHostUrl: audioHostStr,
+                                       turnControlUrl: turnControlUrlStr,
+                                       signalingUrl: signalingUrlStr,
+                                       urlRewriter: defaultUrlRewriter)
+        let localConfiguration = MeetingSessionConfiguration(meetingId: meetingIdStr,
+                                                             externalMeetingId: nil,
+                                                             credentials: credentials,
+                                                             urls: urls,
+                                                             urlRewriter: defaultUrlRewriter,
+                                                             primaryMeetingId: nil)
+
+        XCTAssertNil(localConfiguration.urls.ingestionUrl)
+        XCTAssertEqual(localConfiguration.meetingFeatures.videoMaxResolution, VideoResolution.videoResolutionHD)
+        XCTAssertEqual(localConfiguration.meetingFeatures.contentMaxResolution, VideoResolution.videoResolutionFHD)
+    }
+
+    func testMeetingFeaturesHighShouldBeInitializedThroughConstructor() {
+        let credentials = MeetingSessionCredentials(attendeeId: attendeeIdStr,
+                                                     externalUserId: externalUserIdStr,
+                                                     joinToken: joinTokenStr)
+        let urls = MeetingSessionURLs(audioFallbackUrl: audioFallbackStr,
+                                       audioHostUrl: audioHostStr,
+                                       turnControlUrl: turnControlUrlStr,
+                                       signalingUrl: signalingUrlStr,
+                                       urlRewriter: defaultUrlRewriter)
+        let features = MeetingFeatures(videoMaxResolution: VideoResolution.videoResolutionFHD,
+                                             contentMaxResolution: VideoResolution.videoResolutionUHD)
+
+        let localConfiguration = MeetingSessionConfiguration(meetingId: meetingIdStr,
+                                                             externalMeetingId: nil,
+                                                             credentials: credentials,
+                                                             urls: urls,
+                                                             urlRewriter: defaultUrlRewriter,
+                                                             meetingFeatures: features)
+
+        XCTAssertNil(localConfiguration.urls.ingestionUrl)
+        XCTAssertEqual(localConfiguration.meetingFeatures.videoMaxResolution, VideoResolution.videoResolutionFHD)
+        XCTAssertEqual(localConfiguration.meetingFeatures.contentMaxResolution, VideoResolution.videoResolutionUHD)
+    }
+
+    func testMeetingFeaturesNoneShouldBeInitializedThroughConstructor() {
+        let credentials = MeetingSessionCredentials(attendeeId: attendeeIdStr,
+                                                     externalUserId: externalUserIdStr,
+                                                     joinToken: joinTokenStr)
+        let urls = MeetingSessionURLs(audioFallbackUrl: audioFallbackStr,
+                                       audioHostUrl: audioHostStr,
+                                       turnControlUrl: turnControlUrlStr,
+                                       signalingUrl: signalingUrlStr,
+                                       urlRewriter: defaultUrlRewriter)
+        let features = MeetingFeatures(videoMaxResolution: VideoResolution.videoDisabled,
+                                             contentMaxResolution: VideoResolution.videoDisabled)
+
+        let localConfiguration = MeetingSessionConfiguration(meetingId: meetingIdStr,
+                                                             externalMeetingId: nil,
+                                                             credentials: credentials,
+                                                             urls: urls,
+                                                             urlRewriter: defaultUrlRewriter,
+                                                             meetingFeatures: features)
+
+        XCTAssertNil(localConfiguration.urls.ingestionUrl)
+        XCTAssertEqual(localConfiguration.meetingFeatures.videoMaxResolution, VideoResolution.videoDisabled)
+        XCTAssertEqual(localConfiguration.meetingFeatures.contentMaxResolution, VideoResolution.videoDisabled)
+    }
+
+    func testDefaultMeetingFeaturesShouldBeInitialized() {
+        let credentials = MeetingSessionCredentials(attendeeId: attendeeIdStr,
+                                                     externalUserId: externalUserIdStr,
+                                                     joinToken: joinTokenStr)
+        let urls = MeetingSessionURLs(audioFallbackUrl: audioFallbackStr,
+                                       audioHostUrl: audioHostStr,
+                                       turnControlUrl: turnControlUrlStr,
+                                       signalingUrl: signalingUrlStr,
+                                       urlRewriter: defaultUrlRewriter)
+
+        let localConfiguration = MeetingSessionConfiguration(meetingId: meetingIdStr,
+                                                             credentials: credentials,
+                                                             urls: urls,
+                                                             urlRewriter: defaultUrlRewriter)
+
+        XCTAssertNil(localConfiguration.urls.ingestionUrl)
+        XCTAssertEqual(localConfiguration.meetingFeatures.videoMaxResolution, VideoResolution.videoResolutionHD)
+        XCTAssertEqual(localConfiguration.meetingFeatures.contentMaxResolution, VideoResolution.videoResolutionFHD)
+    }
+
     func testMediaPlacementShouldBeInitialized() {
         XCTAssertEqual(audioFallbackStr, mediaPlacement?.audioFallbackUrl)
         XCTAssertEqual(audioHostStr, mediaPlacement?.audioHostUrl)

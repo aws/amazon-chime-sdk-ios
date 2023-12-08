@@ -21,6 +21,8 @@ class DefaultVideoClientControllerTests: CommonTestCase {
     var videoSourceMock: VideoSourceMock!
 
     var defaultVideoClientController: DefaultVideoClientController!
+    var defaultVideoClientControllerNone: DefaultVideoClientController!
+    var defaultVideoClientControllerHigh: DefaultVideoClientController!
 
     override func setUp() {
         super.setUp()
@@ -33,6 +35,16 @@ class DefaultVideoClientControllerTests: CommonTestCase {
         defaultVideoClientController = DefaultVideoClientController(videoClient: videoClientMock,
                                                                     clientMetricsCollector: clientMetricsCollectorMock,
                                                                     configuration: meetingSessionConfigurationMock,
+                                                                    logger: loggerMock,
+                                                                    eventAnalyticsController: eventAnalyticsControllerMock)
+        defaultVideoClientControllerNone = DefaultVideoClientController(videoClient: videoClientMock,
+                                                                    clientMetricsCollector: clientMetricsCollectorMock,
+                                                                    configuration: meetingSessionConfigurationMockNone,
+                                                                    logger: loggerMock,
+                                                                    eventAnalyticsController: eventAnalyticsControllerMock)
+        defaultVideoClientControllerHigh = DefaultVideoClientController(videoClient: videoClientMock,
+                                                                    clientMetricsCollector: clientMetricsCollectorMock,
+                                                                    configuration: meetingSessionConfigurationMockHigh,
                                                                     logger: loggerMock,
                                                                     eventAnalyticsController: eventAnalyticsControllerMock)
         given(videoSourceMock.getVideoContentHint()).willReturn(VideoContentHint.text)
@@ -98,6 +110,23 @@ class DefaultVideoClientControllerTests: CommonTestCase {
         XCTAssertNoThrow(try defaultVideoClientController.startLocalVideo())
 
         verify(videoClientMock.setExternalVideoSource(any())).wasCalled()
+        verify(videoClientMock.setSending(true)).wasCalled()
+    }
+
+    func testSendLocalVideoNone() {
+        defaultVideoClientControllerNone.start()
+        XCTAssertNoThrow(try defaultVideoClientControllerNone.startLocalVideo())
+
+        verify(videoClientMock.setExternalVideoSource(any())).wasNeverCalled()
+        verify(videoClientMock.setSending(true)).wasNeverCalled()
+    }
+
+    func testSendLocalVideoHigh() {
+        defaultVideoClientControllerHigh.start()
+        XCTAssertNoThrow(try defaultVideoClientControllerHigh.startLocalVideo())
+
+        verify(videoClientMock.setExternalVideoSource(any())).wasCalled()
+        verify(videoClientMock.setMaxBitRateKbps(VideoBitrateConstants().videoHighResolutionBitrateKbps)).wasCalled()
         verify(videoClientMock.setSending(true)).wasCalled()
     }
 
