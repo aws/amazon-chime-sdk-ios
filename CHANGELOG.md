@@ -6,6 +6,7 @@
 ### Added
 * Support sending and receiving redundant audio data to help reduce the effects of packet loss on audio quality. See README for more details.
 * [Demo] Added picker in join screen to enable and disable audio redundancy
+* Support feature-based meeting
 
 ## [0.23.2] - 2023-06-27
 

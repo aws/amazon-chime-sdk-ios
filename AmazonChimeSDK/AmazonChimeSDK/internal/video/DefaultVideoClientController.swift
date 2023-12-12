@@ -367,6 +367,11 @@ extension DefaultVideoClientController: VideoClientController {
     }
 
     public func startLocalVideo(config: LocalVideoConfiguration) throws {
+        if (self.configuration.meetingFeatures.videoMaxResolution == VideoResolution.videoDisabled) {
+            logger.info(msg: "Could not start camera video because camere video max resolution was set to disabled")
+            return
+        }
+
         try checkVideoPermission()
         logger.info(msg: "Starting local video with internal source and config")
         setVideoSource(source: internalCaptureSource, config: config)
@@ -380,6 +385,11 @@ extension DefaultVideoClientController: VideoClientController {
     }
 
     public func startLocalVideo(source: VideoSource, config: LocalVideoConfiguration) {
+        if (self.configuration.meetingFeatures.videoMaxResolution == VideoResolution.videoDisabled) {
+            logger.info(msg: "Could not start camera video because camere video max resolution was set to disabled")
+            return
+        }
+
         stopInternalCaptureSourceIfRunning()
         setVideoSource(source: source, config: config)
 
@@ -410,6 +420,11 @@ extension DefaultVideoClientController: VideoClientController {
         if (config.maxBitRateKbps > 0) {
             logger.info(msg: "Setting max bit rate in kbps for local video")
             videoClient?.setMaxBitRateKbps(config.maxBitRateKbps)
+        }
+
+        if (self.configuration.meetingFeatures.videoMaxResolution == VideoResolution.videoResolutionFHD) {
+            logger.info(msg: "Setting max bit rate in kbps for local video FHD (2500kbps)")
+            videoClient?.setMaxBitRateKbps(VideoBitrateConstants().videoHighResolutionBitrateKbps)
         }
     }
 

@@ -27,9 +27,9 @@ class MeetingModel: NSObject {
     let primaryMeetingId: String
     let primaryExternalMeetingId: String
     let selfName: String
-    var audioVideoConfig = AudioVideoConfiguration()
     let callKitOption: CallKitOption
     let meetingSessionConfig: MeetingSessionConfiguration
+    let audioVideoConfig: AudioVideoConfiguration
     lazy var currentMeetingSession = DefaultMeetingSession(configuration: meetingSessionConfig,
                                                            logger: logger)
 
@@ -140,9 +140,16 @@ class MeetingModel: NSObject {
         self.primaryMeetingId = primaryMeetingId
         self.primaryExternalMeetingId = primaryExternalMeetingId
         self.selfName = selfName
-        self.audioVideoConfig = audioVideoConfig
         self.callKitOption = callKitOption
         self.meetingSessionConfig = meetingSessionConfig
+        if (meetingSessionConfig.meetingFeatures.videoMaxResolution == VideoResolution.videoDisabled) {
+            self.audioVideoConfig = AudioVideoConfiguration(videoMaxResolution: VideoResolution.videoDisabled)
+        } else if (meetingSessionConfig.meetingFeatures.videoMaxResolution == VideoResolution.videoResolutionHD) {
+            self.audioVideoConfig = AudioVideoConfiguration(videoMaxResolution: VideoResolution.videoResolutionHD)
+        } else {
+            self.audioVideoConfig = AudioVideoConfiguration(videoMaxResolution: VideoResolution.videoResolutionFHD)
+        }
+
         let url = AppConfiguration.url.hasSuffix("/") ? AppConfiguration.url : "\(AppConfiguration.url)/"
         self.postLogger = PostLogger(name: "SDKEvents", configuration: meetingSessionConfig, url: "\(url)log_meeting_event")
         super.init()

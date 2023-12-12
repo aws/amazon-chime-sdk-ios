@@ -64,6 +64,12 @@
             NSString *turnControlUrl = [mediaPlacementDict objectForKey:@"TurnControlUrl"];
             NSString *signalingUrl = [mediaPlacementDict objectForKey:@"SignalingUrl"];
 
+            NSDictionary *meetingFeaturesDict = [meetingInfoDict objectForKey:@"MeetingFeatures"];
+            NSDictionary *videoFeaturesDict = [meetingFeaturesDict objectForKey:@"Video"];
+            NSString     *videoMaxResolution = [videoFeaturesDict objectForKey:@"MaxResolution"];
+            NSDictionary *contentFeaturesDict = [meetingFeaturesDict objectForKey:@"Content"];
+            NSString     *contentMaxResolution = [contentFeaturesDict objectForKey:@"MaxResolution"];
+
             NSDictionary *attendeeInfoDict = [[joinInfoDict objectForKey:@"Attendee"] objectForKey:@"Attendee"];
             NSString *attendeeId = [attendeeInfoDict objectForKey:@"AttendeeId"];
             NSString *externalUserId = [attendeeInfoDict objectForKey:@"ExternalUserId"];
@@ -75,10 +81,14 @@
                                                                                  signalingUrl:signalingUrl
                                                                                turnControlUrl:turnControlUrl];
 
+            MeetingFeatures *meetingFeatures= [[MeetingFeatures alloc] initWithvideo:videoMaxResolution
+                                                                             content:contentMaxResolution];
             Meeting *meeting = [[Meeting alloc] initWithExternalMeetingId:externalMeetingId
                                                            mediaPlacement:mediaPlacement
+                                                          meetingFeatures:meetingFeatures
                                                               mediaRegion:mediaRegion
-                                                                meetingId:meetingId];
+                                                                meetingId:meetingId
+                                                         primaryMeetingId:nil];
             CreateMeetingResponse *createMeetingResponse = [[CreateMeetingResponse alloc] initWithMeeting:meeting];
             Attendee *attendee = [[Attendee alloc] initWithAttendeeId:attendeeId
                                                        externalUserId:externalUserId

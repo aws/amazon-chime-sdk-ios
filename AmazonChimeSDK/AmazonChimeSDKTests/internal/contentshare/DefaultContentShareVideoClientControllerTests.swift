@@ -15,6 +15,8 @@ class DefaultContentShareVideoClientControllerTests: CommonTestCase {
     var videoSourceMock: VideoSourceMock!
     var clientMetricsLollectorMock: ClientMetricsCollectorMock!
     var defaultContentShareVideoClientController: DefaultContentShareVideoClientController!
+    var defaultContentShareVideoClientControllerNone: DefaultContentShareVideoClientController!
+    var defaultContentShareVideoClientControllerHigh: DefaultContentShareVideoClientController!
 
     override func setUp() {
         super.setUp()
@@ -28,8 +30,46 @@ class DefaultContentShareVideoClientControllerTests: CommonTestCase {
                                                      configuration: meetingSessionConfigurationMock,
                                                      logger: loggerMock,
                                                      clientMetricsCollector: clientMetricsLollectorMock)
+        defaultContentShareVideoClientControllerNone =
+            DefaultContentShareVideoClientController(videoClient: videoClientMock,
+                                                     configuration: meetingSessionConfigurationMockNone,
+                                                     logger: loggerMock,
+                                                     clientMetricsCollector: clientMetricsLollectorMock)
+        defaultContentShareVideoClientControllerHigh =
+            DefaultContentShareVideoClientController(videoClient: videoClientMock,
+                                                     configuration: meetingSessionConfigurationMockHigh,
+                                                     logger: loggerMock,
+                                                     clientMetricsCollector: clientMetricsLollectorMock)
 
         given(videoSourceMock.getVideoContentHint()).willReturn(VideoContentHint.text)
+    }
+
+    func testStartVideoShareWithContentMaxResolutionNone() {
+        defaultContentShareVideoClientControllerNone.startVideoShare(source: videoSourceMock)
+
+        verify(videoClientMock.start(self.meetingId,
+                                     token: self.joinToken,
+                                     sending: false,
+                                     config: any(),
+                                     appInfo: any(),
+                                     signalingUrl: any())).wasNeverCalled()
+        verify(videoClientMock.setExternalVideoSource(any())).wasNeverCalled()
+        verify(videoClientMock.setSending(true)).wasNeverCalled()
+    }
+
+    func testStartVideoShareWithContentMaxResolutionUHD() {
+        defaultContentShareVideoClientControllerHigh.startVideoShare(source: videoSourceMock)
+
+        verify(videoClientMock.start(self.meetingId,
+                                     token: self.joinToken,
+                                     sending: false,
+                                     config: any(),
+                                     appInfo: any(),
+                                     signalingUrl: any())).wasCalled()
+        verify(videoClientMock.setExternalVideoSource(any())).wasCalled()
+        verify(videoClientMock.setMaxBitRateKbps(VideoBitrateConstants().contentHighResolutionBitrateKbps)).wasCalled()
+        verify(videoClientMock.setContentMaxResolutionUHD(true)).wasCalled()
+        verify(videoClientMock.setSending(true)).wasCalled()
     }
 
     func testStartVideoShareFirstTime() {

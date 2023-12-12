@@ -27,6 +27,8 @@ import Foundation
 
     public let urlRewriter: URLRewriter
 
+    public let meetingFeatures: MeetingFeatures
+
     /// The id of the primary meeting that this session is joining a replica to
     public let primaryMeetingId: String?
 
@@ -52,6 +54,21 @@ import Foundation
                             externalMeetingId: String?,
                             credentials: MeetingSessionCredentials,
                             urls: MeetingSessionURLs,
+                            urlRewriter: @escaping URLRewriter,
+                            meetingFeatures: MeetingFeatures) {
+        self.init(meetingId: meetingId,
+                  externalMeetingId: externalMeetingId,
+                  credentials: credentials,
+                  urls: urls,
+                  urlRewriter: urlRewriter,
+                  primaryMeetingId: nil,
+                  meetingFeatures: meetingFeatures)
+    }
+
+    public convenience init(meetingId: String,
+                            externalMeetingId: String?,
+                            credentials: MeetingSessionCredentials,
+                            urls: MeetingSessionURLs,
                             urlRewriter: @escaping URLRewriter) {
         self.init(meetingId: meetingId,
                   externalMeetingId: externalMeetingId,
@@ -61,21 +78,38 @@ import Foundation
                   primaryMeetingId: nil)
     }
 
-    public init(meetingId: String,
+    public convenience init(meetingId: String,
                 externalMeetingId: String?,
                 credentials: MeetingSessionCredentials,
                 urls: MeetingSessionURLs,
                 urlRewriter: @escaping URLRewriter,
                 primaryMeetingId: String?) {
+        self.init(meetingId: meetingId,
+                  externalMeetingId: externalMeetingId,
+                  credentials: credentials,
+                  urls: urls,
+                  urlRewriter: urlRewriter,
+                  primaryMeetingId: primaryMeetingId,
+                  meetingFeatures: MeetingFeatures())
+    }
+
+    public init(meetingId: String,
+                externalMeetingId: String?,
+                credentials: MeetingSessionCredentials,
+                urls: MeetingSessionURLs,
+                urlRewriter: @escaping URLRewriter,
+                primaryMeetingId: String?,
+                meetingFeatures: MeetingFeatures
+    ) {
         self.meetingId = meetingId
         self.externalMeetingId = externalMeetingId
         self.credentials = credentials
         self.urls = urls
         self.urlRewriter = urlRewriter
         self.primaryMeetingId = primaryMeetingId
+        self.meetingFeatures = meetingFeatures
     }
     
-
     public init(createMeetingResponse: CreateMeetingResponse,
                 createAttendeeResponse: CreateAttendeeResponse,
                 urlRewriter: @escaping URLRewriter) {
@@ -92,5 +126,6 @@ import Foundation
                                        urlRewriter: urlRewriter,
                                        ingestionUrl: createMeetingResponse.meeting.mediaPlacement.eventIngestionUrl)
         self.urlRewriter = urlRewriter
+        self.meetingFeatures = createMeetingResponse.meeting.meetingFeatures
     }
 }
