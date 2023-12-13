@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'AmazonChimeSDKMediaNoVideoCodecs-Bitcode'
-  s.version          = '0.18.3'
+  s.version          = '0.19.0'
   s.summary          = 'Amazon Chime SDK Media for iOS with Bitcode support.'
   s.description      = 'An iOS client library for integrating multi-party communications powered by the Amazon Chime service.'
   s.homepage         = 'https://github.com/aws/amazon-chime-sdk-ios'
