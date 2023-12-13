@@ -74,6 +74,13 @@ For the purpose of setup, your project's root folder (where you can find your `.
         ...
     end
     ```
+    If you don't need to use any video features in the application, you can use `AmazonChimeSDKNoVideoCodecs-Bitcode` for bitcode support or `AmazonChimeSDKNoVideoCodecs-No-Bitcode`:
+    ```
+    target 'YourTarget' do
+        pod 'AmazonChimeSDKNoVideoCodecs-Bitcode'
+        ...
+    end
+    ```
 4. (Optional) If you want to use background blur and replacement features, add:
     ```
     target 'YourTarget' do
@@ -113,7 +120,7 @@ The Amazon Chime SDK is available through [SPM](https://github.com/aws/amazon-ch
 
 4. Enter the latest version(e.g. `0.23.1`) and click **Next**.
 
-5. Choose the packages required for your project and click **Finish**
+5. Choose packages for your project and click **Finish**. `AmazonChimeSDK` and `AmazonChimeSDKMedia` are required. You can check `AmazonChimeSDKNoVideoCodecs` instead of `AmazonChimeSDKMedia` if you don't need to use any video features in the application. Check `AmazonChimeSDKMachineLearning` if you'd like to use background blur and background replacement. 
 
 
 ### From Github Release Binaries
@@ -121,7 +128,8 @@ The Amazon Chime SDK is available through [SPM](https://github.com/aws/amazon-ch
 #### 1. Download Binaries
 
 * Download the `AmazonChimeSDK` and `AmazonChimeSDKMedia` binaries from the latest [release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
-  * If you like to use background blur and background replacement, also download the `AmazonChimeSDKMachineLearning` binary. Otherwise, you can ignore all references to `AmazonChimeSDKMachineLearning` in the instructions below.
+  * If you'd like to use background blur and background replacement, also download the `AmazonChimeSDKMachineLearning` binary. Otherwise, you can ignore all references to `AmazonChimeSDKMachineLearning` in the instructions below.
+  * If you don't need to use any video features, you could use `AmazonChimeSDKNoVideoCodecs` binary instead of `AmazonChimeSDKMedia` and treat all references to `AmazonChimeSDKMedia` as `AmazonChimeSDKNoVideoCodecs` in the instructions below.
 
 **NOTE: We do not support mixing and matching binaries from different releases.**
 
