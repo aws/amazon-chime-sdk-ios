@@ -18,7 +18,7 @@ class DeviceSelectionModel {
     lazy var supportedVideoFormat: [[VideoCaptureFormat]] = {
         self.videoDevices.map { videoDevice in
             // Reverse these so the highest resolutions are first
-            MediaDevice.listSupportedVideoCaptureFormats(mediaDevice: videoDevice).reversed()
+            MediaDevice.listSupportedVideoCaptureFormats(mediaDevice: videoDevice, videoMaxResolution: audioVideoConfig.videoMaxResolution).reversed()
         }
     }()
 
@@ -48,9 +48,6 @@ class DeviceSelectionModel {
     }
 
     var selectedVideoFormat: VideoCaptureFormat? {
-        if videoDevices.count == 0 {
-            return nil
-        }
         return supportedVideoFormat[selectedVideoDeviceIndex][selectedVideoFormatIndex]
     }
 
@@ -65,6 +62,9 @@ class DeviceSelectionModel {
         self.cameraCaptureSource = cameraCaptureSource
         self.audioVideoConfig = audioVideoConfig
         cameraCaptureSource.device = selectedVideoDevice
+        if (audioVideoConfig.videoMaxResolution == VideoResolution.videoDisabled) {
+            return
+        }
         guard let selectedVideoFormat = selectedVideoFormat else { return }
         cameraCaptureSource.format = selectedVideoFormat
     }

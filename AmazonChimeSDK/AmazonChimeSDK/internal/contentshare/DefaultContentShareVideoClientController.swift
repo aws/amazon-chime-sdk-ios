@@ -48,6 +48,10 @@ import Foundation
     }
 
     public func startVideoShare(source: VideoSource, config: LocalVideoConfiguration) {
+        if (self.configuration.meetingFeatures.contentMaxResolution == VideoResolution.videoDisabled) {
+            logger.info(msg: "Could not start content share because content max resolution is set to disabled")
+            return
+        }
         // ignore simulcast in config because contentshare does not have simulcast
         videoClientLock.lock()
         defer { videoClientLock.unlock() }
@@ -56,12 +60,20 @@ import Foundation
             startVideoClient()
         }
         videoSourceAdapter.source = source
+        let isContentResolutionUHD: Bool = (configuration.meetingFeatures.contentMaxResolution == VideoResolution.videoResolutionUHD)
+
+        videoClient.setContentMaxResolutionUHD(isContentResolutionUHD)
         videoClient.setExternalVideoSource(videoSourceAdapter)
         videoClient.setSending(true)
 
         if config.maxBitRateKbps > 0 {
             logger.info(msg: "Setting max bit rate in kbps for content share")
             videoClient.setMaxBitRateKbps(config.maxBitRateKbps)
+        }
+
+        if (isContentResolutionUHD) {
+            logger.info(msg: "Setting max bit rate in kbps for content share UHD (2500kbps)")
+            videoClient.setMaxBitRateKbps(VideoBitrateConstants().contentHighResolutionBitrateKbps)
         }
     }
 

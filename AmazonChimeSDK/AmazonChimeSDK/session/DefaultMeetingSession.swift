@@ -74,7 +74,8 @@ import Foundation
                                                                     externalMeetingId: configuration.externalMeetingId,
                                                                     credentials: contentShareCredentials,
                                                                     urls: configuration.urls,
-                                                                    urlRewriter: configuration.urlRewriter)
+                                                                    urlRewriter: configuration.urlRewriter,
+                                                                    meetingFeatures: configuration.meetingFeatures)
         let contentShareVideoClient = DefaultVideoClient(logger: logger)
         let contentShareVideoClientController = DefaultContentShareVideoClientController(videoClient: contentShareVideoClient,
                                                                                          configuration: contentShareConfiguration,

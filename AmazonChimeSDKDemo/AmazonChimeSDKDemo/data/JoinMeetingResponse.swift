@@ -24,10 +24,47 @@ struct CreateMediaPlacementInfo: Codable {
     }
 }
 
+// meeting features
+struct AudioFeatures: Codable {
+    var echoReduction: String?
+    enum CodingKeys: String, CodingKey {
+        case echoReduction = "EchoReduction"
+    }
+}
+
+struct VideoFeatures: Codable {
+    var maxResolution: String?
+    enum CodingKeys: String, CodingKey {
+        case maxResolution = "MaxResolution"
+    }
+}
+
+struct AttendeeFeatures: Codable {
+    var maxCount: Int?
+    enum CodingKeys: String, CodingKey {
+        case maxCount = "MaxCount"
+    }
+}
+
+struct CreateMeetingFeatures: Codable {
+    var audio: AudioFeatures?
+    var video: VideoFeatures?
+    var content: VideoFeatures?
+    var attendee: AttendeeFeatures?
+
+    enum CodingKeys: String, CodingKey {
+        case audio = "Audio"
+        case video = "Video"
+        case content = "Content"
+        case attendee = "Attendee"
+    }
+}
+
 struct CreateMeetingInfo: Codable {
     var externalMeetingId: String?
     var primaryMeetingId: String?
     var mediaPlacement: CreateMediaPlacementInfo
+    var meetingFeatures: CreateMeetingFeatures?
     var mediaRegion: String
     var meetingId: String
 
@@ -35,6 +72,7 @@ struct CreateMeetingInfo: Codable {
         case externalMeetingId = "ExternalMeetingId"
         case primaryMeetingId = "PrimaryMeetingId"
         case mediaPlacement = "MediaPlacement"
+        case meetingFeatures = "MeetingFeatures"
         case mediaRegion = "MediaRegion"
         case meetingId = "MeetingId"
     }
