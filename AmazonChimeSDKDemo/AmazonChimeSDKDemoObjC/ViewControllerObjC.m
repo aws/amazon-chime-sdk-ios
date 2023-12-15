@@ -81,7 +81,7 @@
                                                                                  signalingUrl:signalingUrl
                                                                                turnControlUrl:turnControlUrl];
 
-            MeetingFeatures *meetingFeatures= [[MeetingFeatures alloc] initWithvideo:videoMaxResolution
+            MeetingFeatures *meetingFeatures= [[MeetingFeatures alloc] initWithVideo:videoMaxResolution
                                                                              content:contentMaxResolution];
             Meeting *meeting = [[Meeting alloc] initWithExternalMeetingId:externalMeetingId
                                                            mediaPlacement:mediaPlacement
