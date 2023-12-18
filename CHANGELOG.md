@@ -1,3 +1,9 @@
+## [0.24.0] - 2023-12-19
+
+### Added
+* Add support for high-definition WebRTC sessions with 1080p webcam video and 4K screen share, and decode support for VP9. Developers can choose video encoding bitrates up to 2.5Mbps, frame rates up to 30fps.
+* Add a new alternative media binary `AmazonChimeSDKMediaNoVideoCodecs` that excludes software video codecs. This can be used to replace `AmazonChimeSDKMedia` if developers do not need video and content share functionality, or software video codec support.
+
 ## [0.23.3] - 2023-09-28
 
 ### Fixed
@@ -6,7 +12,6 @@
 ### Added
 * Support sending and receiving redundant audio data to help reduce the effects of packet loss on audio quality. See README for more details.
 * [Demo] Added picker in join screen to enable and disable audio redundancy
-* Support feature-based meeting
 
 ## [0.23.2] - 2023-06-27
 
