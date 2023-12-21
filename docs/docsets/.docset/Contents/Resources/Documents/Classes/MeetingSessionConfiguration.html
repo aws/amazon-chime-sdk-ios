@@ -168,6 +168,9 @@
                 <a href="../Classes/MeetingEventClientConfiguration.html">MeetingEventClientConfiguration</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/MeetingFeatures.html">MeetingFeatures</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/MeetingHistoryEvent.html">MeetingHistoryEvent</a>
               </li>
               <li class="nav-group-task">
@@ -226,6 +229,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/Versioning.html">Versioning</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/VideoBitrateConstants.html">VideoBitrateConstants</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Classes/VideoCaptureFormat.html">VideoCaptureFormat</a>
@@ -634,6 +640,32 @@ rewrite urls given to new urls.</p>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)MeetingSessionConfiguration(py)meetingFeatures"></a>
+                    <a name="//apple_ref/swift/Property/meetingFeatures" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)MeetingSessionConfiguration(py)meetingFeatures">meetingFeatures</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">meetingFeatures</span><span class="p">:</span> <span class="kt"><a href="../Classes/MeetingFeatures.html">MeetingFeatures</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(cs)MeetingSessionConfiguration(py)primaryMeetingId"></a>
                     <a name="//apple_ref/swift/Property/primaryMeetingId" class="dashAnchor"></a>
                     <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)MeetingSessionConfiguration(py)primaryMeetingId">primaryMeetingId</a>
@@ -717,6 +749,37 @@ rewrite urls given to new urls.</p>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)MeetingSessionConfiguration(im)initWithMeetingId:externalMeetingId:credentials:urls:urlRewriter:meetingFeatures:"></a>
+                    <a name="//apple_ref/swift/Method/init(meetingId:externalMeetingId:credentials:urls:urlRewriter:meetingFeatures:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)MeetingSessionConfiguration(im)initWithMeetingId:externalMeetingId:credentials:urls:urlRewriter:meetingFeatures:">init(meetingId:<wbr>externalMeetingId:<wbr>credentials:<wbr>urls:<wbr>urlRewriter:<wbr>meetingFeatures:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">meetingId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                        <span class="nv">externalMeetingId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span>
+                        <span class="nv">credentials</span><span class="p">:</span> <span class="kt"><a href="../Classes/MeetingSessionCredentials.html">MeetingSessionCredentials</a></span><span class="p">,</span>
+                        <span class="nv">urls</span><span class="p">:</span> <span class="kt"><a href="../Classes/MeetingSessionURLs.html">MeetingSessionURLs</a></span><span class="p">,</span>
+                        <span class="nv">urlRewriter</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:14AmazonChimeSDK11URLRewritera">URLRewriter</a></span><span class="p">,</span>
+                        <span class="nv">meetingFeatures</span><span class="p">:</span> <span class="kt"><a href="../Classes/MeetingFeatures.html">MeetingFeatures</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(cs)MeetingSessionConfiguration(im)initWithMeetingId:externalMeetingId:credentials:urls:urlRewriter:"></a>
                     <a name="//apple_ref/swift/Method/init(meetingId:externalMeetingId:credentials:urls:urlRewriter:)" class="dashAnchor"></a>
                     <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)MeetingSessionConfiguration(im)initWithMeetingId:externalMeetingId:credentials:urls:urlRewriter:">init(meetingId:<wbr>externalMeetingId:<wbr>credentials:<wbr>urls:<wbr>urlRewriter:<wbr>)</a>
@@ -763,12 +826,45 @@ rewrite urls given to new urls.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">meetingId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">meetingId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
             <span class="nv">externalMeetingId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span>
             <span class="nv">credentials</span><span class="p">:</span> <span class="kt"><a href="../Classes/MeetingSessionCredentials.html">MeetingSessionCredentials</a></span><span class="p">,</span>
             <span class="nv">urls</span><span class="p">:</span> <span class="kt"><a href="../Classes/MeetingSessionURLs.html">MeetingSessionURLs</a></span><span class="p">,</span>
             <span class="nv">urlRewriter</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:14AmazonChimeSDK11URLRewritera">URLRewriter</a></span><span class="p">,</span>
             <span class="nv">primaryMeetingId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)MeetingSessionConfiguration(im)initWithMeetingId:externalMeetingId:credentials:urls:urlRewriter:primaryMeetingId:meetingFeatures:"></a>
+                    <a name="//apple_ref/swift/Method/init(meetingId:externalMeetingId:credentials:urls:urlRewriter:primaryMeetingId:meetingFeatures:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)MeetingSessionConfiguration(im)initWithMeetingId:externalMeetingId:credentials:urls:urlRewriter:primaryMeetingId:meetingFeatures:">init(meetingId:<wbr>externalMeetingId:<wbr>credentials:<wbr>urls:<wbr>urlRewriter:<wbr>primaryMeetingId:<wbr>meetingFeatures:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">meetingId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+            <span class="nv">externalMeetingId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span>
+            <span class="nv">credentials</span><span class="p">:</span> <span class="kt"><a href="../Classes/MeetingSessionCredentials.html">MeetingSessionCredentials</a></span><span class="p">,</span>
+            <span class="nv">urls</span><span class="p">:</span> <span class="kt"><a href="../Classes/MeetingSessionURLs.html">MeetingSessionURLs</a></span><span class="p">,</span>
+            <span class="nv">urlRewriter</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Typealiases.html#/s:14AmazonChimeSDK11URLRewritera">URLRewriter</a></span><span class="p">,</span>
+            <span class="nv">primaryMeetingId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span>
+            <span class="nv">meetingFeatures</span><span class="p">:</span> <span class="kt"><a href="../Classes/MeetingFeatures.html">MeetingFeatures</a></span>
+<span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -808,7 +904,7 @@ rewrite urls given to new urls.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2023 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2023-10-02)</p>
+          <p>&copy; 2023 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2023-12-20)</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.4</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
