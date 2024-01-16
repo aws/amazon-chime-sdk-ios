@@ -48,6 +48,10 @@ class DeviceSelectionModel {
     }
 
     var selectedVideoFormat: VideoCaptureFormat? {
+        let supportedVideoFormat = self.supportedVideoFormat
+        guard supportedVideoFormat.count >= selectedVideoDeviceIndex + 1 else {
+            return nil
+        }
         return supportedVideoFormat[selectedVideoDeviceIndex][selectedVideoFormatIndex]
     }
 
