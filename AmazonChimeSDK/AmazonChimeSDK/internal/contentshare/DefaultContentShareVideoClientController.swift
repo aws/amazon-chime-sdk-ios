@@ -100,6 +100,7 @@ import Foundation
 
     private func stopVideoClient() {
         videoClient.stop()
+        videoClient.delegate = nil
     }
 
     public func subscribeToVideoClientStateChange(observer: ContentShareObserver) {

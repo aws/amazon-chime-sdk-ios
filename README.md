@@ -180,7 +180,7 @@ $ pod install --repo-update
 ```
 
 #### Or From Downloaded Binary
-* Download `AmazonChimeSDKMedia` and `AmazonChimeSDKMachineLearning` binaries from the latest [release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
+* Download `AmazonChimeSDKMedia` and `AmazonChimeSDKMachineLearning` binaries with bitcode support from the latest [release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
 
 * Unzip and copy `AmazonChimeSDKMedia.xcframework` to `amazon-chime-sdk-ios/AmazonChimeSDK` folder and `AmazonChimeSDKMachineLearning.xcframework`  to `amazon-chime-sdk-ios/AmazonChimeSDKDemo` folder.
 
