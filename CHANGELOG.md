@@ -1,3 +1,11 @@
+## Unreleased
+
+### Fixed
+* Fixed content share doesn't resume correctly after auto reconnection
+
+### Changed
+* [Demo] Changed the Podfile to use last SDKs by default
+
 ## [0.24.0] - 2023-12-20
 
 ### Added
