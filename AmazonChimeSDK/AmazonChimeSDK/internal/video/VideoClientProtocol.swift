@@ -11,7 +11,7 @@ import AmazonChimeSDKMedia
 import Foundation
 
 @objc public protocol VideoClientProtocol {
-    var delegate: VideoClientDelegate! { get set }
+    weak var delegate: VideoClientDelegate! { get set }
 
     static func globalInitialize()
 
