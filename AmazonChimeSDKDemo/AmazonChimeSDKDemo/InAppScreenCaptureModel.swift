@@ -66,11 +66,13 @@ extension InAppScreenCaptureModel: CaptureSourceObserver {
 }
 
 extension InAppScreenCaptureModel: ContentShareObserver {
-    func contentShareDidStart() {}
+    func contentShareDidStart() {
+        logger.info(msg: "InAppScreenCaptureSource: contentShareDidStart")
+        isSharing = true
+    }
 
     func contentShareDidStop(status: ContentShareStatus) {
-        if isSharing {
-            isSharing = false
-        }
+        logger.info(msg: "InAppScreenCaptureSource: contentShareDidStop")
+        isSharing = false
     }
 }

@@ -1,3 +1,8 @@
+## Unreleased
+
+### Fixed
+* Fixed content share doesn't resume correctly after auto reconnection
+
 ## [0.24.0] - 2023-12-20
 
 ### Added
