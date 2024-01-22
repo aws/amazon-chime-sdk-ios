@@ -43,6 +43,13 @@ import Foundation
         self.init(audioMode: audioMode, callKitEnabled: callKitEnabled, enableAudioRedundancy: enableAudioRedundancy, videoMaxResolution: VideoResolution.videoResolutionHD)
     }
 
+    convenience public init(audioVideoConfig: AudioVideoConfiguration, videoMaxResolution: VideoResolution) {
+        self.init(audioMode: audioVideoConfig.audioMode,
+                  callKitEnabled: audioVideoConfig.callKitEnabled,
+                  enableAudioRedundancy: audioVideoConfig.enableAudioRedundancy,
+                  videoMaxResolution: videoMaxResolution)
+    }
+
     public init(audioMode: AudioMode, callKitEnabled: Bool, enableAudioRedundancy: Bool, videoMaxResolution: VideoResolution) {
         self.audioMode = audioMode
         self.callKitEnabled = callKitEnabled

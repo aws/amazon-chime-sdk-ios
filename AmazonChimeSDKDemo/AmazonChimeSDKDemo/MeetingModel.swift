@@ -142,12 +142,17 @@ class MeetingModel: NSObject {
         self.selfName = selfName
         self.callKitOption = callKitOption
         self.meetingSessionConfig = meetingSessionConfig
-        if (meetingSessionConfig.meetingFeatures.videoMaxResolution == VideoResolution.videoDisabled) {
-            self.audioVideoConfig = AudioVideoConfiguration(videoMaxResolution: VideoResolution.videoDisabled)
-        } else if (meetingSessionConfig.meetingFeatures.videoMaxResolution == VideoResolution.videoResolutionHD) {
-            self.audioVideoConfig = AudioVideoConfiguration(videoMaxResolution: VideoResolution.videoResolutionHD)
+        if (meetingSessionConfig.meetingFeatures.videoMaxResolution == VideoResolution.videoDisabled
+            || meetingSessionConfig.meetingFeatures.videoMaxResolution == VideoResolution.videoResolutionHD
+            || meetingSessionConfig.meetingFeatures.videoMaxResolution == VideoResolution.videoResolutionFHD
+        ) {
+            self.audioVideoConfig = AudioVideoConfiguration(
+                audioVideoConfig: audioVideoConfig,
+                videoMaxResolution: meetingSessionConfig.meetingFeatures.videoMaxResolution)
         } else {
-            self.audioVideoConfig = AudioVideoConfiguration(videoMaxResolution: VideoResolution.videoResolutionFHD)
+            self.audioVideoConfig = AudioVideoConfiguration(
+                audioVideoConfig: audioVideoConfig,
+                videoMaxResolution: VideoResolution.videoResolutionHD)
         }
 
         let url = AppConfiguration.url.hasSuffix("/") ? AppConfiguration.url : "\(AppConfiguration.url)/"
