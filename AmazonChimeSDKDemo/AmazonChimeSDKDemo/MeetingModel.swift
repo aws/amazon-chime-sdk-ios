@@ -143,12 +143,6 @@ class MeetingModel: NSObject {
         self.callKitOption = callKitOption
         self.meetingSessionConfig = meetingSessionConfig
         self.audioVideoConfig = audioVideoConfig
-        if (meetingSessionConfig.meetingFeatures.videoMaxResolution == VideoResolution.videoDisabled
-            || meetingSessionConfig.meetingFeatures.videoMaxResolution == VideoResolution.videoResolutionHD
-            || meetingSessionConfig.meetingFeatures.videoMaxResolution == VideoResolution.videoResolutionFHD
-        ) {
-            self.audioVideoConfig.videoMaxResolution = meetingSessionConfig.meetingFeatures.videoMaxResolution
-        }
 
         let url = AppConfiguration.url.hasSuffix("/") ? AppConfiguration.url : "\(AppConfiguration.url)/"
         self.postLogger = PostLogger(name: "SDKEvents", configuration: meetingSessionConfig, url: "\(url)log_meeting_event")

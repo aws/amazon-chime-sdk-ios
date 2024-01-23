@@ -13,7 +13,7 @@ import Foundation
     public let audioMode: AudioMode
     public let callKitEnabled: Bool
     public let enableAudioRedundancy: Bool
-    public var videoMaxResolution: VideoResolution
+    public let videoMaxResolution: VideoResolution
 
     convenience override public init() {
         self.init(audioMode: .stereo48K, callKitEnabled: false, enableAudioRedundancy: true, videoMaxResolution: VideoResolution.videoResolutionHD)
