@@ -13,6 +13,7 @@ import UIKit
 
 class CallKitManager: NSObject {
     private static var sharedInstance: CallKitManager?
+    private var  audioVideoSessionModeAtHold: AVAudioSession.Mode
 
     private let logger = ConsoleLogger(name: "CallKitManager")
     private let callController = CXCallController()
@@ -33,6 +34,7 @@ class CallKitManager: NSObject {
         configuration.supportedHandleTypes = [.generic]
         configuration.iconTemplateImageData = UIImage(named: "callkit-icon")?.pngData()
         provider = CXProvider(configuration: configuration)
+        audioVideoSessionModeAtHold = .default
         super.init()
         provider.setDelegate(self, queue: nil)
     }
@@ -186,6 +188,17 @@ extension CallKitManager: CXProviderDelegate {
 
     func provider(_: CXProvider, perform action: CXSetHeldCallAction) {
         if let meeting = MeetingModule.shared().getMeeting(with: action.callUUID), let call = meeting.call {
+            let audioSession = AVAudioSession.sharedInstance()
+            do {
+                if (action.isOnHold) {
+                    self.audioVideoSessionModeAtHold = audioSession.mode
+                    try audioSession.setMode(.voiceChat)
+                } else {
+                    try audioSession.setMode(self.audioVideoSessionModeAtHold)
+                }
+            } catch {
+                self.logger.error(msg: "Failed to switch audio session mode to \(audioSession.mode) when switching on hold to \(action.isOnHold)")
+            }
             call.isOnHold = action.isOnHold
             action.fulfill()
         } else {
