@@ -100,6 +100,7 @@ import Foundation
 
     private func stopVideoClient() {
         videoClient.stop()
+        isSharing = false
         videoClient.delegate = nil
     }
 
