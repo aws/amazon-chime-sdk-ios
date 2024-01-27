@@ -35,8 +35,9 @@ class MeetingModule {
 
     func prepareMeeting(meetingId: String,
                         selfName: String,
-                        audioVideoConfig: AudioVideoConfiguration,
-                        option: CallKitOption,
+                        audioMode: AudioMode,
+                        callKitOption: CallKitOption,
+                        enableAudioRedundancy: Bool,
                         overriddenEndpoint: String,
                         primaryExternalMeetingId: String,
                         completion: @escaping (Bool) -> Void) {
@@ -62,17 +63,33 @@ class MeetingModule {
                 let meetingSessionConfiguration = MeetingSessionConfiguration(createMeetingResponse: meetingResp,
                                                    createAttendeeResponse: attendeeResp,
                                                    urlRewriter: self.urlRewriter)
+                
+                let audioVideoConfig: AudioVideoConfiguration
+                if (meetingSessionConfiguration.meetingFeatures.videoMaxResolution == VideoResolution.videoDisabled
+                    || meetingSessionConfiguration.meetingFeatures.videoMaxResolution == VideoResolution.videoResolutionHD
+                    || meetingSessionConfiguration.meetingFeatures.videoMaxResolution == VideoResolution.videoResolutionFHD
+                ) {
+                    audioVideoConfig = AudioVideoConfiguration(audioMode: audioMode,
+                                                               callKitEnabled: callKitOption != .disabled,
+                                                               enableAudioRedundancy: enableAudioRedundancy,
+                                                               videoMaxResolution: meetingSessionConfiguration.meetingFeatures.videoMaxResolution)
+                } else {
+                    audioVideoConfig = AudioVideoConfiguration(audioMode: audioMode,
+                                                               callKitEnabled: callKitOption != .disabled,
+                                                               enableAudioRedundancy: enableAudioRedundancy)
+                }
+                
                 let meetingModel = MeetingModel(meetingSessionConfig: meetingSessionConfiguration,
                                                 meetingId: meetingId,
                                                 primaryMeetingId: meetingSessionConfiguration.primaryMeetingId ?? "",
                                                 primaryExternalMeetingId: joinMeetingResponse.joinInfo.primaryExternalMeetingId ?? "",
                                                 selfName: selfName,
                                                 audioVideoConfig: audioVideoConfig,
-                                                callKitOption: option,
+                                                callKitOption: callKitOption,
                                                 meetingEndpointUrl: overriddenEndpoint)
                 self.meetings[meetingModel.uuid] = meetingModel
 
-                switch option {
+                switch callKitOption {
                 case .incoming:
                     guard let call = meetingModel.call else {
                         completion(false)

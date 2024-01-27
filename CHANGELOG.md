@@ -2,6 +2,7 @@
 
 ### Fixed
 * Fixed content share doesn't resume correctly after auto reconnection
+* [Demo] Fix audio video config propagation
 
 ## [0.24.0] - 2023-12-20
 
