@@ -62,9 +62,7 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
 
         let enableAudioRedundancy = audioRedundancySwitch.isOn
 
-        joinMeeting(audioVideoConfig: AudioVideoConfiguration(audioMode: audioMode, callKitEnabled: callKitOption != .disabled, enableAudioRedundancy: enableAudioRedundancy),
-                    callKitOption: callKitOption
-        )
+        joinMeeting(audioMode: audioMode, callKitOption: callKitOption, enableAudioRedundancy: enableAudioRedundancy)
     }
 
     @IBAction func debugSettingsButtonClicked (_: UIButton) {
@@ -104,7 +102,7 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    func joinMeeting(audioVideoConfig: AudioVideoConfiguration, callKitOption: CallKitOption) {
+    func joinMeeting(audioMode: AudioMode, callKitOption: CallKitOption, enableAudioRedundancy: Bool) {
         view.endEditing(true)
         let meetingId = meetingIdTextField.text ?? ""
         let name = nameTextField.text ?? ""
@@ -119,8 +117,9 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
 
         MeetingModule.shared().prepareMeeting(meetingId: meetingId,
                                               selfName: name,
-                                              audioVideoConfig: audioVideoConfig,
-                                              option: callKitOption,
+                                              audioMode: audioMode,
+                                              callKitOption: callKitOption,
+                                              enableAudioRedundancy: enableAudioRedundancy,
                                               overriddenEndpoint: debugSettingsModel.endpointUrl,
                                               primaryExternalMeetingId: debugSettingsModel.primaryExternalMeetingId) { success in
             DispatchQueue.main.async {
