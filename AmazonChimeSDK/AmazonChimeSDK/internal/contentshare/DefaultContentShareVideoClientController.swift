@@ -100,7 +100,6 @@ import Foundation
 
     private func stopVideoClient() {
         videoClient.stop()
-        videoClient.delegate = nil
     }
 
     public func subscribeToVideoClientStateChange(observer: ContentShareObserver) {
@@ -151,6 +150,7 @@ extension DefaultContentShareVideoClientController: VideoClientDelegate {
             observer.contentShareDidStop(status: ContentShareStatus(statusCode: .videoServiceFailed))
         }
         isSharing = false
+        cleanUp()
     }
 
     public func videoClientDidStop(_ client: VideoClient?) {
@@ -160,6 +160,7 @@ extension DefaultContentShareVideoClientController: VideoClientDelegate {
             observer.contentShareDidStop(status: ContentShareStatus(statusCode: .ok))
         }
         isSharing = false
+        cleanUp()
     }
 
     public func videoClientMetricsReceived(_ metrics: [AnyHashable: Any]?) {
@@ -169,5 +170,9 @@ extension DefaultContentShareVideoClientController: VideoClientDelegate {
 
     private func resetContentShareVideoClientMetrics() {
         clientMetricsCollector.processContentShareVideoClientMetrics(metrics: [:])
+    }
+    
+    private func cleanUp() {
+        videoClient.delegate = nil
     }
 }

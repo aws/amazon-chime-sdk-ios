@@ -600,7 +600,7 @@ extension MeetingModel: MetricsObserver {
             return
         }
         metricsModel.updateAppMetrics(metrics: metrics)
-        logger.debug(debugFunction: { return "Media metrics have been received: \(observableMetrics)"})
+        logger.info(msg: "Media metrics have been received: \(observableMetrics)")
         if activeMode == .metrics {
             metricsModel.metricsUpdatedHandler?()
         }
