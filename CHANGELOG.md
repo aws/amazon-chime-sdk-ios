@@ -5,6 +5,7 @@
 
 ### Added
 * Added privacy manifest files for media and machine learning dependencies.
+* Added code signatures to iOS SDK as well as media and machine learning dependencies.
 
 ## [0.24.0] - 2023-12-20
 
