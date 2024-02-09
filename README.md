@@ -110,17 +110,17 @@ For the purpose of setup, your project's root folder (where you can find your `.
 </p>
 
 ### From SPM
-The Amazon Chime SDK is available through [SPM](https://github.com/aws/amazon-chime-sdk-ios-spm). 
+The Amazon Chime SDK is available through [SPM](https://github.com/aws/amazon-chime-sdk-ios-spm). If you don't need video and content share functionality, or software video codec support, you could choose to use [no video codecs SPM](https://github.com/aws/amazon-chime-sdk-ios-no-video-codecs-spm) instead.
 
 1. Open your project in Xcode
 
 2. Go to **File** > **Swift Packages** > **Add Package Dependency...**
 
-3. In the field **Enter package repository URL**, enter "https://github.com/aws/amazon-chime-sdk-ios-spm"
+3. In the field **Enter package repository URL**, enter "https://github.com/aws/amazon-chime-sdk-ios-spm". To use no video codecs media module instead, enter "https://github.com/aws/amazon-chime-sdk-ios-no-video-codecs-spm".
 
 4. Enter the latest version(e.g. `0.23.1`) and click **Next**.
 
-5. Choose packages for your project and click **Finish**. `AmazonChimeSDK` and `AmazonChimeSDKMedia` are required. You can check `AmazonChimeSDKMediaNoVideoCodecs` instead of `AmazonChimeSDKMedia` if you don't need video and content share functionality, or software video codec support. Check `AmazonChimeSDKMachineLearning` if you'd like to use background blur and background replacement. 
+5. Choose packages for your project and click **Finish**. `AmazonChimeSDK` and `AmazonChimeSDKMedia` are required. Check `AmazonChimeSDKMachineLearning` if you'd like to use background blur and background replacement. 
 
 
 ### From Github Release Binaries
