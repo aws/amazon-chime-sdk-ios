@@ -3,6 +3,8 @@
 ### Fixed
 * Fixed content share doesn't resume correctly after auto reconnection
 
+### Added
+* Added privacy manifest files for media and machine learning dependencies.
 
 ## [0.24.0] - 2023-12-20
 
