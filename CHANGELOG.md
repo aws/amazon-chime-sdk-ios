@@ -1,3 +1,25 @@
+Unreleased
+ 
+### Added
+* Added support for building with Xcode 15.
+* Added privacy manifest files to media and machine learning dependencies.
+* Added code signatures to iOS SDK as well as media and machine learning dependencies.
+ 
+### Fixed
+* Fixing a race condition in the SDK layer when SDK is built with Xcode 15.
+* Fixed a SIGABRT crash in the machine learning dependency when SDK is built with Xcode 15.
+ 
+### Removed
+* **Breaking** Removed support for Bitcode as Xcode 15 has removed support for Bitcode.
+  * Migration Guide:
+    * If previously building an app with Bitcode, build without bitcode enabled or build with Xcode 15.
+    * If downloading binaries from Github, there should be no change in the name of the binary, but note there will only be one binary available for download and it will not contain Bitcode.
+    * If downloading directly from the link address used on Github and were previously not using Bitcode, remove the string `-without-bitcode` from your url strings.
+    * If using Cocopods, edit your Podfile to remove `-Bitcode` and `-No-Bitcode` from all Amazon Chime SDK pod names.
+    * If using SPM, no changes are required.
+ 
+* **Breaking** Removed support for iOS 11. Apps building with the Amazon Chime SDK must target iOS 12 or above.
+
 ## [0.24.1] - 2024-02-15
 
 ### Fixed
