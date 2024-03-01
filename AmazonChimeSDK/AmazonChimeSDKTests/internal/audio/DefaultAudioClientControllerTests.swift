@@ -90,6 +90,38 @@ class DefaultAudioClientControllerTests: CommonTestCase {
         verify(audioLockMock.lock()).wasCalled()
         verify(audioLockMock.unlock()).wasCalled()
     }
+    
+    func testStart_emptyAudioHostUrl() {
+        DefaultAudioClientController.state = .stopped
+        given(audioSessionMock.getRecordPermission()).willReturn(.granted)
+
+        XCTAssertThrowsError(try defaultAudioClientController.start(audioFallbackUrl: audioFallbackUrl,
+                                                                    audioHostUrl: "",
+                                                                    meetingId: meetingId,
+                                                                    attendeeId: attendeeId,
+                                                                    joinToken: joinToken,
+                                                                    callKitEnabled: callKitEnabled,
+                                                                    audioMode: .stereo48K,
+                                                                    enableAudioRedundancy: true))
+        verify(audioLockMock.lock()).wasCalled()
+        verify(audioLockMock.unlock()).wasCalled()
+    }
+    
+    func testStart_emptyAudioFallbackUrl() {
+        DefaultAudioClientController.state = .stopped
+        given(audioSessionMock.getRecordPermission()).willReturn(.granted)
+
+        XCTAssertThrowsError(try defaultAudioClientController.start(audioFallbackUrl: "",
+                                                                    audioHostUrl: audioHostUrlWithPort,
+                                                                    meetingId: meetingId,
+                                                                    attendeeId: attendeeId,
+                                                                    joinToken: joinToken,
+                                                                    callKitEnabled: callKitEnabled,
+                                                                    audioMode: .stereo48K,
+                                                                    enableAudioRedundancy: true))
+        verify(audioLockMock.lock()).wasCalled()
+        verify(audioLockMock.unlock()).wasCalled()
+    }
 
     func testStart_alreadyStarted() {
         DefaultAudioClientController.state = .started

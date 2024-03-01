@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -97,7 +97,7 @@
 		00F20F0F2620C55D00C470E9 /* HttpUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F20F0E2620C55D00C470E9 /* HttpUtilsTests.swift */; };
 		00F20F1B2620E73E00C470E9 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F20F1A2620E73E00C470E9 /* URLSessionProtocol.swift */; };
 		00F6E60825FBEA7F006DA17D /* SQLiteClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F6E60725FBEA7F006DA17D /* SQLiteClient.swift */; };
-                0DC04F772ACCEBFD003C4848 /* VideoBitrateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC04F762ACCEBFD003C4848 /* VideoBitrateConstants.swift */; };
+		0DC04F772ACCEBFD003C4848 /* VideoBitrateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC04F762ACCEBFD003C4848 /* VideoBitrateConstants.swift */; };
 		26CB31D729DD257000991409 /* DateUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26CB31D629DD257000991409 /* DateUtilsTests.swift */; };
 		32F235B3714DA0906335CC12 /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7CEAE89DD08E6E863FC8BE /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift */; };
 		5403538827D0C9E9007BABD7 /* TranscriptEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403538727D0C9E9007BABD7 /* TranscriptEntity.swift */; };
@@ -282,6 +282,8 @@
 		D863BE3329BAD65500D9DE9E /* MeetingEventClientConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D863BE3229BAD65500D9DE9E /* MeetingEventClientConfigurationTests.swift */; };
 		D863BE3529BAD8DA00D9DE9E /* AnyCodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D863BE3429BAD8DA00D9DE9E /* AnyCodableTests.swift */; };
 		D863BE3729BAF68B00D9DE9E /* EventAttributeUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D863BE3629BAF68B00D9DE9E /* EventAttributeUtilsTests.swift */; };
+		D8D8D9102B91579C00ECE0EE /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D8D90F2B91579C00ECE0EE /* StringExtension.swift */; };
+		D8D8D9122B915B0D00ECE0EE /* StringExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D8D9112B915B0D00ECE0EE /* StringExtensionTests.swift */; };
 		D8FE1FE629B9232400A62E72 /* AnyCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FE1FE529B9232400A62E72 /* AnyCodable.swift */; };
 		ED300F2A284877AC00497568 /* LocalVideoConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED300F29284877AC00497568 /* LocalVideoConfiguration.swift */; };
 		F81104AC276190AA003D17AD /* VideoPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81104A8276190A9003D17AD /* VideoPriority.swift */; };
@@ -399,7 +401,7 @@
 		00F20F0E2620C55D00C470E9 /* HttpUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpUtilsTests.swift; sourceTree = "<group>"; };
 		00F20F1A2620E73E00C470E9 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		00F6E60725FBEA7F006DA17D /* SQLiteClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteClient.swift; sourceTree = "<group>"; };
-                0DC04F762ACCEBFD003C4848 /* VideoBitrateConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoBitrateConstants.swift; sourceTree = "<group>"; };
+		0DC04F762ACCEBFD003C4848 /* VideoBitrateConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoBitrateConstants.swift; sourceTree = "<group>"; };
 		26CB31D629DD257000991409 /* DateUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtilsTests.swift; sourceTree = "<group>"; };
 		5403538727D0C9E9007BABD7 /* TranscriptEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptEntity.swift; sourceTree = "<group>"; };
 		5403538927D0C9F9007BABD7 /* TranscriptLanguageWithScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptLanguageWithScore.swift; sourceTree = "<group>"; };
@@ -586,6 +588,8 @@
 		D863BE3229BAD65500D9DE9E /* MeetingEventClientConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingEventClientConfigurationTests.swift; sourceTree = "<group>"; };
 		D863BE3429BAD8DA00D9DE9E /* AnyCodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCodableTests.swift; sourceTree = "<group>"; };
 		D863BE3629BAF68B00D9DE9E /* EventAttributeUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAttributeUtilsTests.swift; sourceTree = "<group>"; };
+		D8D8D90F2B91579C00ECE0EE /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		D8D8D9112B915B0D00ECE0EE /* StringExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensionTests.swift; sourceTree = "<group>"; };
 		D8FE1FE529B9232400A62E72 /* AnyCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCodable.swift; sourceTree = "<group>"; };
 		ED300F29284877AC00497568 /* LocalVideoConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalVideoConfiguration.swift; sourceTree = "<group>"; };
 		F81104A8276190A9003D17AD /* VideoPriority.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPriority.swift; sourceTree = "<group>"; };
@@ -766,6 +770,7 @@
 				B418164624B7EDA800FA62BF /* SendDataMessageError.swift */,
 				C4643F0525784EEB0085D51E /* DefaultModality.swift */,
 				C4643F0B2578776E0085D51E /* ModalityType.swift */,
+				D8D8D90F2B91579C00ECE0EE /* StringExtension.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -946,7 +951,7 @@
 				6AA9F9402522439F00EB0644 /* VideoSink.swift */,
 				6AA9F9412522439F00EB0644 /* VideoSource.swift */,
 				C4A6F9C3252E686700455418 /* VideoContentHint.swift */,
-                                0DC04F762ACCEBFD003C4848 /* VideoBitrateConstants.swift */,
+				0DC04F762ACCEBFD003C4848 /* VideoBitrateConstants.swift */,
 				C4A6F9CC252F718200455418 /* VideoRotation.swift */,
 				00C9DC6823FA377000876B41 /* DefaultVideoRenderView.swift */,
 				00C2A91423F76154008CD687 /* DefaultVideoTile.swift */,
@@ -1221,6 +1226,7 @@
 				5AE76F31242044A6009C41FD /* PermissionErrorTests.swift */,
 				5AF7E00D245B6E86006C7C86 /* VersioningTests.swift */,
 				B4AEE47B24BE5A4600ED4B77 /* SendDataMessageErrorTests.swift */,
+				D8D8D9112B915B0D00ECE0EE /* StringExtensionTests.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -1566,7 +1572,7 @@
 			files = (
 			);
 			inputPaths = (
-				"/tmp/Mockingbird-843A55A6-F172-40F8-AD36-AE309CDDCACD",
+				"/tmp/Mockingbird-4EADEE4F-EDAA-43E2-8425-154ED8F58B03",
 			);
 			name = "Generate Mockingbird Mocks";
 			outputPaths = (
@@ -1574,7 +1580,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nmockingbird generate \\\n  --targets 'AmazonChimeSDK' \\\n  --outputs \"${SRCROOT}/MockingbirdMocks/AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift\" \\\n  --support \"${SRCROOT}/MockingbirdSupport\"\n\n# Ensure mocks are generated prior to running Compile Sources\nrm -f '/tmp/Mockingbird-843A55A6-F172-40F8-AD36-AE309CDDCACD'\n";
+			shellScript = "set -e\n\nmockingbird generate \\\n  --targets 'AmazonChimeSDK' \\\n  --outputs \"${SRCROOT}/MockingbirdMocks/AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift\" \\\n  --support \"${SRCROOT}/MockingbirdSupport\"\n\n# Ensure mocks are generated prior to running Compile Sources\nrm -f '/tmp/Mockingbird-4EADEE4F-EDAA-43E2-8425-154ED8F58B03'\n";
 		};
 		114854BF06996650440AB080 /* Clean Mockingbird Mocks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1585,11 +1591,11 @@
 			);
 			name = "Clean Mockingbird Mocks";
 			outputPaths = (
-				"/tmp/Mockingbird-843A55A6-F172-40F8-AD36-AE309CDDCACD",
+				"/tmp/Mockingbird-4EADEE4F-EDAA-43E2-8425-154ED8F58B03",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo $RANDOM > '/tmp/Mockingbird-843A55A6-F172-40F8-AD36-AE309CDDCACD'\n";
+			shellScript = "echo $RANDOM > '/tmp/Mockingbird-4EADEE4F-EDAA-43E2-8425-154ED8F58B03'\n";
 		};
 		5A3CFC6423C52B5D00BB63B7 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1707,6 +1713,7 @@
 				C4A69086255B0F1D00F28BC2 /* InAppScreenCaptureSource.swift in Sources */,
 				002C1FA4264128CE00C9B919 /* MeetingEventClientConfiguration.swift in Sources */,
 				C67E9B7B26F50D8E0084C9B4 /* TranscriptAlternative.swift in Sources */,
+				D8D8D9102B91579C00ECE0EE /* StringExtension.swift in Sources */,
 				5A16BFEF2405E6A500ADAE26 /* DictionaryExtension.swift in Sources */,
 				C48339B2256836D300F011D0 /* ContentShareVideoClientController.swift in Sources */,
 				7C0D1BEB241ACC7B00280031 /* IntervalScheduler.swift in Sources */,
@@ -1763,7 +1770,7 @@
 				C5FBFB85281DCBAC004C85CA /* NoopSegmentationProcessor.swift in Sources */,
 				002F8FE225BF984B00006F46 /* MeetingStatsCollector.swift in Sources */,
 				000C307E2580558900863981 /* EventAnalyticsFacade.swift in Sources */,
-                                0DC04F772ACCEBFD003C4848 /* VideoBitrateConstants.swift in Sources */,
+				0DC04F772ACCEBFD003C4848 /* VideoBitrateConstants.swift in Sources */,
 				F82D50D723FC752600D8F18C /* SignalStrength.swift in Sources */,
 				CF5B9A13281716E600441A7D /* BackgroundReplacementConfiguration.swift in Sources */,
 				5AE121E9240F6ABF0090A2AD /* SignalUpdate.swift in Sources */,
@@ -1819,6 +1826,7 @@
 				5AE76F2224203A76009C41FD /* AttendeeInfoTests.swift in Sources */,
 				0064167F262A26E600626EB8 /* EventSQLiteDaoTests.swift in Sources */,
 				00E198FB259D164C00AD4DAA /* DefaultAudioClientObserverTests.swift in Sources */,
+				D8D8D9122B915B0D00ECE0EE /* StringExtensionTests.swift in Sources */,
 				5A6F818C24637AB80031AE97 /* AudioClientStateTests.swift in Sources */,
 				C61D43222703BD9D00150F03 /* DefaultVideoClientControllerTests.swift in Sources */,
 				5A2210E524BE577E0038725B /* DefaultMeetingSessionTests.swift in Sources */,
