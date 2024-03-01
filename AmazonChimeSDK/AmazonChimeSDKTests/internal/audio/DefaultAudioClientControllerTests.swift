@@ -102,7 +102,9 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                                     joinToken: joinToken,
                                                                     callKitEnabled: callKitEnabled,
                                                                     audioMode: .stereo48K,
-                                                                    enableAudioRedundancy: true))
+                                                                    enableAudioRedundancy: true),
+                             MediaError.audioFailedToStart.description)
+        
         verify(audioLockMock.lock()).wasCalled()
         verify(audioLockMock.unlock()).wasCalled()
     }
@@ -118,7 +120,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                                     joinToken: joinToken,
                                                                     callKitEnabled: callKitEnabled,
                                                                     audioMode: .stereo48K,
-                                                                    enableAudioRedundancy: true))
+                                                                    enableAudioRedundancy: true),
+                             MediaError.audioFailedToStart.description)
         verify(audioLockMock.lock()).wasCalled()
         verify(audioLockMock.unlock()).wasCalled()
     }
