@@ -84,6 +84,11 @@ extension DefaultAudioClientController: AudioClientController {
         if Self.state == .started {
             throw MediaError.illegalState
         }
+        
+        if audioHostUrl.isBlank || audioFallbackUrl.isBlank {
+            logger.error(msg: "`audioHostUrl` or `audioFallbackUrl` is empty")
+            throw MediaError.audioFailedToStart
+        }
 
         if let defaultAudioClientObserver = audioClientObserver as? DefaultAudioClientObserver {
             DefaultAudioClient.shared(logger: logger).delegate = defaultAudioClientObserver
