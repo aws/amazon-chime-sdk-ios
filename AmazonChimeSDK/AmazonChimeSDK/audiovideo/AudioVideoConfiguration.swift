@@ -11,46 +11,29 @@ import Foundation
 /// `AudioVideoConfiguration` represents the configuration to be used for audio and video during a meeting session.
 @objcMembers public class AudioVideoConfiguration: NSObject {
     public let audioMode: AudioMode
+    public let audioDeviceCapabilities: AudioDeviceCapabilities
     public let callKitEnabled: Bool
     public let enableAudioRedundancy: Bool
     public let videoMaxResolution: VideoResolution
 
-    convenience override public init() {
-        self.init(audioMode: .stereo48K, callKitEnabled: false, enableAudioRedundancy: true, videoMaxResolution: VideoResolution.videoResolutionHD)
-    }
-
-    convenience public init(audioMode: AudioMode) {
-        self.init(audioMode: audioMode, callKitEnabled: false, enableAudioRedundancy: true, videoMaxResolution: VideoResolution.videoResolutionHD)
-    }
-
-    convenience public init(callKitEnabled: Bool) {
-        self.init(audioMode: .stereo48K, callKitEnabled: callKitEnabled, enableAudioRedundancy: true, videoMaxResolution: VideoResolution.videoResolutionHD)
-    }
-
-    convenience public init(enableAudioRedundancy: Bool) {
-         self.init(audioMode: .stereo48K, callKitEnabled: false, enableAudioRedundancy: enableAudioRedundancy, videoMaxResolution: VideoResolution.videoResolutionHD)
-    }
-
-    convenience public init(videoMaxResolution: VideoResolution) {
-        self.init(audioMode: .stereo48K, callKitEnabled: false, enableAudioRedundancy: true, videoMaxResolution: videoMaxResolution)
-    }
-
-    convenience public init(audioMode: AudioMode, callKitEnabled: Bool) {
-        self.init(audioMode: audioMode, callKitEnabled: callKitEnabled, enableAudioRedundancy: true, videoMaxResolution: VideoResolution.videoResolutionHD)
-    }
-
-    convenience public init(audioMode: AudioMode, callKitEnabled: Bool, enableAudioRedundancy: Bool) {
-        self.init(audioMode: audioMode, callKitEnabled: callKitEnabled, enableAudioRedundancy: enableAudioRedundancy, videoMaxResolution: VideoResolution.videoResolutionHD)
-    }
-
-    public init(audioMode: AudioMode, callKitEnabled: Bool, enableAudioRedundancy: Bool, videoMaxResolution: VideoResolution) {
+    public init(audioMode: AudioMode = .stereo48K,
+                audioDeviceCapabilities: AudioDeviceCapabilities = .inputAndOutput,
+                callKitEnabled: Bool = false,
+                enableAudioRedundancy: Bool = true,
+                videoMaxResolution: VideoResolution = .videoResolutionHD) {
         self.audioMode = audioMode
+        self.audioDeviceCapabilities = audioDeviceCapabilities
         self.callKitEnabled = callKitEnabled
         self.enableAudioRedundancy = enableAudioRedundancy
         self.videoMaxResolution = videoMaxResolution
     }
 
     override public var description: String {
-        return "audioMode: \(self.audioMode.description), callKitEnabled: \(self.callKitEnabled), enableAudioRedundancy: \(self.enableAudioRedundancy)"
+        return [
+            "audioMode: \(self.audioMode.description)",
+            "audioDeviceCapabilities: \(self.audioDeviceCapabilities.description)",
+            "callKitEnabled: \(self.callKitEnabled)",
+            "enableAudioRedundancy: \(self.enableAudioRedundancy)"
+        ].joined(separator: ", ")
     }
 }

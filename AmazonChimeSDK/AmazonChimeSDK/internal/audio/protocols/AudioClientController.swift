@@ -10,6 +10,7 @@ import Foundation
 
 @objc public protocol AudioClientController {
     func setMute(mute: Bool) -> Bool
+    // swiftlint:disable function_parameter_count
     func start(audioFallbackUrl: String,
                audioHostUrl: String,
                meetingId: String,
@@ -17,6 +18,7 @@ import Foundation
                joinToken: String,
                callKitEnabled: Bool,
                audioMode: AudioMode,
+               audioDeviceCapabilities: AudioDeviceCapabilities,
                enableAudioRedundancy: Bool) throws
     func stop()
     func setVoiceFocusEnabled(enabled: Bool) -> Bool

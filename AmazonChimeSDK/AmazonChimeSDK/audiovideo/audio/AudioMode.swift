@@ -19,8 +19,6 @@ import Foundation
     /// The stereo audio mode with two audio channels for speaker, and single audio channel for microphone, both with 48KHz sampling rate.
     case stereo48K = 3
 
-    case nodevice = 4
-
     public var description: String {
         switch self {
         case .mono16K:
@@ -29,8 +27,6 @@ import Foundation
             return "mono48K"
         case .stereo48K:
             return "stereo48K"
-        case .nodevice:
-            return "nodevice"
         }
     }
 }

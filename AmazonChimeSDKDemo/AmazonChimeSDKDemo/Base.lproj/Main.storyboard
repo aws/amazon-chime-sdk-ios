@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_72" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -56,7 +56,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="U4C-4u-Vzl" userLabel="Join Config">
-                                <rect key="frame" x="40" y="495" width="350" height="150"/>
+                                <rect key="frame" x="40" y="495" width="350" height="230"/>
                                 <subviews>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j1Y-t4-xgU">
                                         <rect key="frame" x="0.0" y="0.0" width="350" height="70"/>
@@ -78,6 +78,16 @@
                                             <constraint firstAttribute="height" constant="70" id="tMM-3b-C9y"/>
                                         </constraints>
                                     </pickerView>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ppB-Bu-V4u">
+                                        <rect key="frame" x="0.0" y="160" width="350" height="70"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="AudioDeviceCapabilities Options">
+                                            <bool key="isElement" value="YES"/>
+                                        </accessibility>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="350" id="Eg8-5L-5Am"/>
+                                            <constraint firstAttribute="height" constant="70" id="x8m-r2-DcM"/>
+                                        </constraints>
+                                    </pickerView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="PzT-6X-6dW" firstAttribute="top" secondItem="j1Y-t4-xgU" secondAttribute="bottom" id="34a-7D-gy6"/>
@@ -93,19 +103,19 @@
                                     <action selector="debugSettingsButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Vn9-h0-gPv"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EBv-5d-gOg">
-                                <rect key="frame" x="170.66666666666666" y="700.33333333333337" width="88.999999999999972" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EBv-5d-gOg">
+                                <rect key="frame" x="173" y="779" width="88.999999999999972" height="30"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Join Without CallKit"/>
                                 <state key="normal" title="Join Meeting"/>
                                 <connections>
                                     <action selector="joinButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WSb-T2-ggJ"/>
                                 </connections>
                             </button>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="do3-GA-U6X">
-                                <rect key="frame" x="84.666666666666686" y="655" width="51" height="31"/>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="do3-GA-U6X">
+                                <rect key="frame" x="87" y="733" width="51.000000000000014" height="31"/>
                             </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Audio Redundancy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zus-QP-nBN">
-                                <rect key="frame" x="143.66666666666666" y="660" width="142.99999999999997" height="20.333333333333371"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Audio Redundancy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zus-QP-nBN">
+                                <rect key="frame" x="146" y="738" width="142.99999999999997" height="20.333333333333371"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -138,6 +148,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="audioDeviceCapabilitiesPicker" destination="ppB-Bu-V4u" id="DOm-sA-vQk"/>
                         <outlet property="audioModeOptionsPicker" destination="PzT-6X-6dW" id="rS6-Jg-cyu"/>
                         <outlet property="audioRedundancySwitch" destination="do3-GA-U6X" id="ita-Cs-VpF"/>
                         <outlet property="callKitOptionsPicker" destination="j1Y-t4-xgU" id="aLn-e0-4WW"/>
@@ -1489,7 +1500,7 @@
         <image name="volume-0" width="24" height="24"/>
         <image name="volume-muted" width="24" height="24"/>
         <systemColor name="scrollViewTexturedBackgroundColor">
-            <color red="0.43529411764705878" green="0.44313725490196082" blue="0.47450980392156861" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.43529411764705883" green="0.44313725490196076" blue="0.47450980392156861" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>

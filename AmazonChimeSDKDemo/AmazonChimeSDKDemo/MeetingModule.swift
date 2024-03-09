@@ -36,12 +36,13 @@ class MeetingModule {
     func prepareMeeting(meetingId: String,
                         selfName: String,
                         audioMode: AudioMode,
+                        audioDeviceCapabilities: AudioDeviceCapabilities,
                         callKitOption: CallKitOption,
                         enableAudioRedundancy: Bool,
                         overriddenEndpoint: String,
                         primaryExternalMeetingId: String,
                         completion: @escaping (Bool) -> Void) {
-        requestRecordPermission { success in
+        requestRecordPermission(audioDeviceCapabilities: audioDeviceCapabilities) { success in
             guard success else {
                 completion(false)
                 return
@@ -70,11 +71,13 @@ class MeetingModule {
                     || meetingSessionConfiguration.meetingFeatures.videoMaxResolution == VideoResolution.videoResolutionFHD
                 ) {
                     audioVideoConfig = AudioVideoConfiguration(audioMode: audioMode,
+                                                               audioDeviceCapabilities: audioDeviceCapabilities,
                                                                callKitEnabled: callKitOption != .disabled,
                                                                enableAudioRedundancy: enableAudioRedundancy,
                                                                videoMaxResolution: meetingSessionConfiguration.meetingFeatures.videoMaxResolution)
                 } else {
                     audioVideoConfig = AudioVideoConfiguration(audioMode: audioMode,
+                                                               audioDeviceCapabilities: audioDeviceCapabilities,
                                                                callKitEnabled: callKitOption != .disabled,
                                                                enableAudioRedundancy: enableAudioRedundancy)
                 }
@@ -192,7 +195,11 @@ class MeetingModule {
         }
     }
 
-    func requestRecordPermission(completion: @escaping (Bool) -> Void) {
+    func requestRecordPermission(audioDeviceCapabilities: AudioDeviceCapabilities, completion: @escaping (Bool) -> Void) {
+        if audioDeviceCapabilities == .none || audioDeviceCapabilities == .outputOnly {
+            completion(true)
+            return
+        }
         let audioSession = AVAudioSession.sharedInstance()
         switch audioSession.recordPermission {
         case .denied:

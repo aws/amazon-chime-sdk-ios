@@ -4,6 +4,9 @@ Unreleased
 * Added support for building with Xcode 15.
 * Added privacy manifest files to media and machine learning dependencies.
 * Added code signatures to iOS SDK as well as media and machine learning dependencies.
+* Added `AudioDeviceCapabilities` to `AudioVideoConfiguration`, which allows configuring whether the audio input and output devices are enabled or disabled before starting a meeting.
+  * Audio recording permissions will only be required when using `AudioDeviceCapabilities.inputAndOutput`
+  * [Demo] Added picker to join screen to configure the audio device capabilities
  
 ### Fixed
 * Fixing a race condition in the SDK layer when SDK is built with Xcode 15.
@@ -19,6 +22,7 @@ Unreleased
     * If using SPM, no changes are required.
  
 * **Breaking** Removed support for iOS 11. Apps building with the Amazon Chime SDK must target iOS 12 or above.
+* **Breaking** Removed `AudioMode.noDevice`, which is now replaced by `AudioDeviceCapabilities.none`. Apps which previously used `AudioMode.noDevice` can achieve the same functionality by using `AudioDeviceCapabilities.none` when constructing an `AudioVideoConfiguration`, e.g. `AudioVideoConfiguration(audioDeviceCapabilities: .none)`.
 
 ## [0.24.1] - 2024-02-15
 
