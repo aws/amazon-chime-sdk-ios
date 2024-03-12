@@ -263,8 +263,9 @@ class DefaultAudioClientControllerTests: CommonTestCase {
     }
 
     func testStartWithAudioDeviceCapabilities_startedOk() {
-        var count = 1
+        var count = 0
         for capabilities in AudioDeviceCapabilities.allCases {
+            count += 1
             DefaultAudioClientController.state = .initialized
             XCTAssertNoThrow(try defaultAudioClientController.start(audioFallbackUrl: audioFallbackUrl,
                                                                     audioHostUrl: audioHostUrlWithPort,
