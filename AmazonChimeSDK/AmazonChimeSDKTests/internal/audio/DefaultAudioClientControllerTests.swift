@@ -263,6 +263,7 @@ class DefaultAudioClientControllerTests: CommonTestCase {
     }
 
     func testStartWithAudioDeviceCapabilities_startedOk() {
+        var count = 1
         for capabilities in AudioDeviceCapabilities.allCases {
             DefaultAudioClientController.state = .initialized
             XCTAssertNoThrow(try defaultAudioClientController.start(audioFallbackUrl: audioFallbackUrl,
@@ -274,8 +275,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                                     audioMode: .stereo48K,
                                                                     audioDeviceCapabilities: capabilities,
                                                                     enableAudioRedundancy: true))
-            verify(audioLockMock.lock()).wasCalled()
-            verify(audioClientObserverMock.notifyAudioClientObserver(observerFunction: any())).wasCalled()
+            verify(audioLockMock.lock()).wasCalled(count)
+            verify(audioClientObserverMock.notifyAudioClientObserver(observerFunction: any())).wasCalled(count)
             var capabilitiesInternal: AudioDeviceCapabilitiesInternal = .InputAndOutput
             if (capabilities == .none) {
                 capabilitiesInternal = .None
@@ -296,10 +297,10 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                 audioMode: .Stereo48K,
                                                 audioDeviceCapabilities: capabilitiesInternal,
                                                 enableAudioRedundancy: true)).wasCalled()
-            verify(eventAnalyticsControllerMock.publishEvent(name: .meetingStartRequested)).wasCalled()
+            verify(eventAnalyticsControllerMock.publishEvent(name: .meetingStartRequested)).wasCalled(count)
             XCTAssertEqual(.started, DefaultAudioClientController.state)
-            verify(audioLockMock.unlock()).wasCalled()
-        }   
+            verify(audioLockMock.unlock()).wasCalled(count)
+        }
     }
 
     func testStart_failedToStart() {
