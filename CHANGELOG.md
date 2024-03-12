@@ -22,7 +22,7 @@ Unreleased
     * If using SPM, no changes are required.
  
 * **Breaking** Removed support for iOS 11. Apps building with the Amazon Chime SDK must target iOS 12 or above.
-* **Breaking** Removed `AudioMode.noDevice`, which is now replaced by `AudioDeviceCapabilities.none`. Apps which previously used `AudioMode.noDevice` can achieve the same functionality by using `AudioDeviceCapabilities.none` when constructing an `AudioVideoConfiguration`, e.g. `AudioVideoConfiguration(audioDeviceCapabilities: .none)`.
+* **Breaking** Removed `AudioMode.nodevice`, which is now replaced by `AudioDeviceCapabilities.none`. Apps which previously used `AudioMode.nodevice` can achieve the same functionality by using `AudioDeviceCapabilities.none` when constructing an `AudioVideoConfiguration`, e.g. `AudioVideoConfiguration(audioDeviceCapabilities: .none)`.
 
 ## [0.24.1] - 2024-02-15
 
