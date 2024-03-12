@@ -55,10 +55,10 @@ jobs:
       - name: Build and Run Unit Test
         working-directory: ./AmazonChimeSDK
         run: |
-          wget https://github.com/birdrides/mockingbird/releases/download/0.15.0/Mockingbird.zip
+          wget https://github.com/birdrides/mockingbird/releases/download/0.20.0/Mockingbird.zip
           tar -xzf Mockingbird.zip
-          ./mockingbird download starter-pack
-          ./mockingbird install --sources AmazonChimeSDK --target AmazonChimeSDKTests
+          ./Mockingbird/mockingbird version
+          ./Mockingbird/mockingbird configure AmazonChimeSDKTests -- --targets AmazonChimeSDK
           xcodebuild test \
             -project AmazonChimeSDK.xcodeproj \
             -scheme AmazonChimeSDK \

@@ -19,11 +19,14 @@ class SchedulerTests: XCTestCase {
     private let testTimeoutSecs = 0.01
     private let expectedCount = 5
     private let expectedTestDurationNanos: UInt64 = 5_000_000
+    private let lock = NSRecursiveLock()
 
     private let expectation = XCTestExpectation(
         description: "Callback is called once every millisecond for 5 milliseconds")
 
     override func setUp() {
+        lock.lock()
+        defer { lock.unlock() }
         super.setUp()
         callback = {
             self.expectation.fulfill()

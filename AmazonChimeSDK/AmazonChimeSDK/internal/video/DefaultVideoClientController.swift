@@ -19,7 +19,7 @@ class DefaultVideoClientController: NSObject {
     var videoClientState: VideoClientState = .uninitialized
     let videoTileControllerObservers = ConcurrentMutableSet()
     let videoObservers = ConcurrentMutableSet()
-    var dataMessageObservers = [String: ConcurrentMutableSet]()
+    var dataMessageObservers = ConcurrentDictionary<String, NSMutableSet>()
     // We have designed the SDK API to allow using `RemoteVideoSource` as a key in a map, e.g. for  `updateVideoSourceSubscription`.
     // Therefore we need to map to a consistent set of sources from the internal sources, by using attendeeId as a unique identifier.
     var cachedRemoteVideoSources = ConcurrentMutableSet()
@@ -521,13 +521,13 @@ extension DefaultVideoClientController: VideoClientController {
 
     public func subscribeToReceiveDataMessage(topic: String, observer: DataMessageObserver) {
         if dataMessageObservers[topic] == nil {
-            dataMessageObservers[topic] = ConcurrentMutableSet()
+            dataMessageObservers[topic] = NSMutableSet()
         }
         dataMessageObservers[topic]?.add(observer)
     }
 
     public func unsubscribeFromReceiveDataMessageFromTopic(topic: String) {
-        dataMessageObservers.removeValue(forKey: topic)
+        dataMessageObservers[topic] = nil
     }
 
     public func sendDataMessage(topic: String, data: Any, lifetimeMs: Int32 = 0) throws {

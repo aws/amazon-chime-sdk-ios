@@ -60,39 +60,25 @@ For the purpose of setup, your project's root folder (where you can find your `.
     ```
     $ pod init
     ```
-3. Edit the `Podfile` to include `AmazonChimeSDK-Bitcode` into your project if you need bitcode:
+3. Edit the `Podfile` to include `AmazonChimeSDK` into your project:
     ```
     target 'YourTarget' do
-        pod 'AmazonChimeSDK-Bitcode'
+        pod 'AmazonChimeSDK'
         ...
     end
     ```
-    If you don't need bitcode, you can add `AmazonChimeSDK-No-Bitcode` instead:
+    If you don't need video and content share functionality, or software video codec support, you can use `AmazonChimeSDKMediaNoVideoCodecs` to reduce size:
     ```
     target 'YourTarget' do
-        pod 'AmazonChimeSDK-No-Bitcode'
-        ...
-    end
-    ```
-    If you don't need video and content share functionality, or software video codec support, you can use `AmazonChimeSDKMediaNoVideoCodecs-Bitcode` for bitcode support or `AmazonChimeSDKMediaNoVideoCodecs-No-Bitcode` to reduce size:
-    ```
-    target 'YourTarget' do
-        pod 'AmazonChimeSDKMediaNoVideoCodecs-Bitcode'
+        pod 'AmazonChimeSDKMediaNoVideoCodecs'
         ...
     end
     ```
 4. (Optional) If you want to use background blur and replacement features, add:
     ```
     target 'YourTarget' do
-      pod 'AmazonChimeSDKMachineLearning-Bitcode'
+      pod 'AmazonChimeSDKMachineLearning'
       ...
-    end
-    ```
-    If you don't need bitcode, you can add `AmazonChimeSDKMachineLearning-No-Bitcode` instead:
-    ```
-    target 'YourTarget' do
-        pod 'AmazonChimeSDKMachineLearning-No-Bitcode'
-        ...
     end
     ```
 5. Then run the following command to install pods:
@@ -180,7 +166,7 @@ $ pod install --repo-update
 ```
 
 #### Or From Downloaded Binary
-* Download `AmazonChimeSDKMedia` and `AmazonChimeSDKMachineLearning` binaries with bitcode support from the latest [release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
+* Download `AmazonChimeSDKMedia` and `AmazonChimeSDKMachineLearning` binaries from the latest [release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
 
 * Unzip and copy `AmazonChimeSDKMedia.xcframework` to `amazon-chime-sdk-ios/AmazonChimeSDK` folder and `AmazonChimeSDKMachineLearning.xcframework`  to `amazon-chime-sdk-ios/AmazonChimeSDKDemo` folder.
 

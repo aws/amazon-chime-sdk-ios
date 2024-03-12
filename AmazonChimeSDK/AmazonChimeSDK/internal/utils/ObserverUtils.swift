@@ -21,4 +21,16 @@ import Foundation
             }
         }
     }
+    public static func forEach<T>(
+        observers: NSMutableSet,
+        observerFunction: @escaping (_ observer: T) -> Void
+    ) {
+        DispatchQueue.main.async {
+            observers.forEach { observer in
+                if let observer = observer as? T {
+                    observerFunction(observer)
+                }
+            }
+        }
+    }
 }
