@@ -104,6 +104,7 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                                     joinToken: joinToken,
                                                                     callKitEnabled: callKitEnabled,
                                                                     audioMode: .stereo48K,
+                                                                    audioDeviceCapabilities: .inputAndOutput,
                                                                     enableAudioRedundancy: true),
                              MediaError.audioFailedToStart.description)
         
@@ -122,6 +123,7 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                                     joinToken: joinToken,
                                                                     callKitEnabled: callKitEnabled,
                                                                     audioMode: .stereo48K,
+                                                                    audioDeviceCapabilities: .inputAndOutput,
                                                                     enableAudioRedundancy: true),
                              MediaError.audioFailedToStart.description)
         verify(audioLockMock.lock()).wasCalled()
