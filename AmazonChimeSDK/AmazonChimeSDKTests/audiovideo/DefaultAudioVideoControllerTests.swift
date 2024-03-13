@@ -141,7 +141,9 @@ class DefaultAudioVideoControllerTests: CommonTestCase {
     }
 
     func testStart_audioDeviceCapabilities() {
+        var count = 0
         for capabilities in AudioDeviceCapabilities.allCases {
+            count += 1
             XCTAssertNoThrow(try defaultAudioVideoController.start(audioVideoConfiguration: AudioVideoConfiguration(audioDeviceCapabilities: capabilities)))
 
             verify(audioClientControllerMock.start(
@@ -155,7 +157,7 @@ class DefaultAudioVideoControllerTests: CommonTestCase {
                 audioDeviceCapabilities: capabilities,
                 enableAudioRedundancy: true
             )).wasCalled()
-            verify(videoClientControllerMock.start()).wasCalled()
+            verify(videoClientControllerMock.start()).wasCalled(count)
         }
     }
 
