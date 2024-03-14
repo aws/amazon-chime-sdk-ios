@@ -38,7 +38,10 @@ import Foundation
 
     /// The `nodevice` audio mode is obsolete. and is replaced by `AudioDeviceCapabilities.none`. To achieve the same functionality as `nodevice`, pass
     /// `AudioDeviceCapabilities.none` into the `AudioVideoConfiguration` constructor instead, e.g. `AudioVideoConfiguration(audioDeviceCapabilities: .none)`
-    @available(swift, obsoleted: 1, message: "To achieve the same functionality as .nodevice, pass AudioDeviceCapabilities.none into the AudioVideoConfiguration constructor instead, e.g. AudioVideoConfiguration(audioDeviceCapabilities: .none)")
+    @available(swift, obsoleted: 1, message: """
+    To achieve the same functionality as .nodevice, pass AudioDeviceCapabilities.none into the
+    AudioVideoConfiguration constructor instead, e.g. AudioVideoConfiguration(audioDeviceCapabilities: .none)
+    """)
     case nodevice = 4
 
     public var description: String {
