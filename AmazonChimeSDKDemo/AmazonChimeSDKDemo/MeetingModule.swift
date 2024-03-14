@@ -79,7 +79,8 @@ class MeetingModule {
                     audioVideoConfig = AudioVideoConfiguration(audioMode: audioMode,
                                                                audioDeviceCapabilities: audioDeviceCapabilities,
                                                                callKitEnabled: callKitOption != .disabled,
-                                                               enableAudioRedundancy: enableAudioRedundancy)
+                                                               enableAudioRedundancy: enableAudioRedundancy,
+                                                               videoMaxResolution: AudioVideoConfiguration.defaultVideoMaxResolution)
                 }
                 
                 let meetingModel = MeetingModel(meetingSessionConfig: meetingSessionConfiguration,
