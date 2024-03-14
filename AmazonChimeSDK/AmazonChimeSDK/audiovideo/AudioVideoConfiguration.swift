@@ -86,12 +86,16 @@ import Foundation
                   enableAudioRedundancy: enableAudioRedundancy,
                   videoMaxResolution: Self.defaultVideoMaxResolution)
     }
+    
+    convenience public init(audioMode: AudioMode, callKitEnabled: Bool, enableAudioRedundancy: Bool, videoMaxResolution: VideoResolution) {
+        self.init(audioMode: audioMode,
+                  audioDeviceCapabilities: Self.defaultAudioDeviceCapabilities,
+                  callKitEnabled: callKitEnabled,
+                  enableAudioRedundancy: enableAudioRedundancy,
+                  videoMaxResolution: videoMaxResolution)
+    }
 
-    public init(audioMode: AudioMode = AudioVideoConfiguration.defaultAudioMode,
-                audioDeviceCapabilities: AudioDeviceCapabilities = AudioVideoConfiguration.defaultAudioDeviceCapabilities,
-                callKitEnabled: Bool = AudioVideoConfiguration.defaultCallKitEnabled,
-                enableAudioRedundancy: Bool = AudioVideoConfiguration.defaultEnableAudioRedundancy,
-                videoMaxResolution: VideoResolution = AudioVideoConfiguration.defaultVideoMaxResolution) {
+    public init(audioMode: AudioMode, audioDeviceCapabilities: AudioDeviceCapabilities, callKitEnabled: Bool, enableAudioRedundancy: Bool, videoMaxResolution: VideoResolution) {
         self.audioMode = audioMode
         self.audioDeviceCapabilities = audioDeviceCapabilities
         self.callKitEnabled = callKitEnabled
@@ -104,7 +108,8 @@ import Foundation
             "audioMode: \(self.audioMode.description)",
             "audioDeviceCapabilities: \(self.audioDeviceCapabilities.description)",
             "callKitEnabled: \(self.callKitEnabled)",
-            "enableAudioRedundancy: \(self.enableAudioRedundancy)"
+            "enableAudioRedundancy: \(self.enableAudioRedundancy)",
+            "videoMaxResolution: \(self.videoMaxResolution.description)",
         ].joined(separator: ", ")
     }
 }

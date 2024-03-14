@@ -53,4 +53,8 @@ import Foundation
     static func == (lhs: VideoResolution, rhs: VideoResolution) -> Bool {
         return lhs.width == rhs.width && lhs.height == rhs.height
     }
+    
+    public override var description: String {
+        return "{ width: \(self.width), height: \(self.height) }"
+    }
 }
