@@ -54,6 +54,7 @@ import Foundation
                                         joinToken: configuration.credentials.joinToken,
                                         callKitEnabled: audioVideoConfiguration.callKitEnabled,
                                         audioMode: audioVideoConfiguration.audioMode,
+                                        audioDeviceCapabilities: audioVideoConfiguration.audioDeviceCapabilities,
                                         enableAudioRedundancy: audioVideoConfiguration.enableAudioRedundancy)
         videoClientController.subscribeToVideoTileControllerObservers(observer: videoTileController)
         videoClientController.start()

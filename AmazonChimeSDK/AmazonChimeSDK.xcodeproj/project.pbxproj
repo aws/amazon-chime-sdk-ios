@@ -187,6 +187,8 @@
 		8278478D27188D110071E7BE /* AudioVideoConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8278478C27188D110071E7BE /* AudioVideoConfiguration.swift */; };
 		827847C3271D15B20071E7BE /* AudioVideoConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827847C2271D15B20071E7BE /* AudioVideoConfigurationTests.swift */; };
 		827847C7271D16E20071E7BE /* DefaultAudioVideoFacadeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827847C6271D16E20071E7BE /* DefaultAudioVideoFacadeTests.swift */; };
+		AACCC5142B9C3471007A9639 /* AudioDeviceCapabilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACCC5132B9C3471007A9639 /* AudioDeviceCapabilities.swift */; };
+		AACCC5162B9C34C3007A9639 /* AudioDeviceCapabilitiesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACCC5152B9C34C3007A9639 /* AudioDeviceCapabilitiesTests.swift */; };
 		AC865DC0271F9B4600D6A0D8 /* MockedAudioSessionPortDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC865DBF271F9B4600D6A0D8 /* MockedAudioSessionPortDescription.swift */; };
 		B418163024B79C0600FA62BF /* DataMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B418162F24B79C0600FA62BF /* DataMessage.swift */; };
 		B418163224B79CF100FA62BF /* DataMessageObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B418163124B79CF100FA62BF /* DataMessageObserver.swift */; };
@@ -493,6 +495,8 @@
 		8278478C27188D110071E7BE /* AudioVideoConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioVideoConfiguration.swift; sourceTree = "<group>"; };
 		827847C2271D15B20071E7BE /* AudioVideoConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioVideoConfigurationTests.swift; sourceTree = "<group>"; };
 		827847C6271D16E20071E7BE /* DefaultAudioVideoFacadeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAudioVideoFacadeTests.swift; sourceTree = "<group>"; };
+		AACCC5132B9C3471007A9639 /* AudioDeviceCapabilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioDeviceCapabilities.swift; sourceTree = "<group>"; };
+		AACCC5152B9C34C3007A9639 /* AudioDeviceCapabilitiesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioDeviceCapabilitiesTests.swift; sourceTree = "<group>"; };
 		AC865DBF271F9B4600D6A0D8 /* MockedAudioSessionPortDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockedAudioSessionPortDescription.swift; sourceTree = "<group>"; };
 		B418162F24B79C0600FA62BF /* DataMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataMessage.swift; sourceTree = "<group>"; };
 		B418163124B79CF100FA62BF /* DataMessageObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataMessageObserver.swift; sourceTree = "<group>"; };
@@ -932,6 +936,7 @@
 				5A631A4224297CC200C8DAF3 /* activespeakerpolicy */,
 				7C0D1BCA241ACC7B00280031 /* scheduler */,
 				820288D32735997100B0B5D3 /* AudioMode.swift */,
+				AACCC5132B9C3471007A9639 /* AudioDeviceCapabilities.swift */,
 			);
 			path = audio;
 			sourceTree = "<group>";
@@ -1098,6 +1103,7 @@
 				7CE107612421CC7B00E209D1 /* ActiveSpeakerPolicyTests.swift */,
 				7CE107632421CC7B00E209D1 /* SchedulerTests.swift */,
 				820288D727359A1400B0B5D3 /* AudioModeTests.swift */,
+				AACCC5152B9C34C3007A9639 /* AudioDeviceCapabilitiesTests.swift */,
 			);
 			path = audio;
 			sourceTree = "<group>";
@@ -1675,6 +1681,7 @@
 				CFA2A16328085D23008FDFF5 /* BackgroundBlurStrength.swift in Sources */,
 				5A16B9C923FDF44500ADAE26 /* DefaultClientMetricsCollector.swift in Sources */,
 				C48339B8256836E700F011D0 /* DefaultContentShareVideoClientController.swift in Sources */,
+				AACCC5142B9C3471007A9639 /* AudioDeviceCapabilities.swift in Sources */,
 				C42A8A1C253E3B15008419A6 /* CameraCaptureSource.swift in Sources */,
 				F8E42DEE247F9464004C8400 /* ConcurrentDictionary.swift in Sources */,
 				B4980CB523E78D1800D2DB64 /* DefaultDeviceController.swift in Sources */,
@@ -1899,6 +1906,7 @@
 				5A0E731B242EA39E006636AB /* VideoTileStateTests.swift in Sources */,
 				5AE76F2724203AAA009C41FD /* VolumeLevelTests.swift in Sources */,
 				5AE76F2024203A6E009C41FD /* VolumeUpdateTests.swift in Sources */,
+				AACCC5162B9C34C3007A9639 /* AudioDeviceCapabilitiesTests.swift in Sources */,
 				D863BE3729BAF68B00D9DE9E /* EventAttributeUtilsTests.swift in Sources */,
 				00E19905259E575C00AD4DAA /* DefautCameraCaptureSourceTests.swift in Sources */,
 				00E19905259E575C00AD4DAA /* DefautCameraCaptureSourceTests.swift in Sources */,

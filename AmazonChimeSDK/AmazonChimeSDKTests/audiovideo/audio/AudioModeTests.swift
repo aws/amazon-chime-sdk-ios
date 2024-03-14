@@ -13,6 +13,15 @@ class AudioModeTests: XCTestCase {
         XCTAssertEqual(AudioMode.mono16K.description, "mono16K")
         XCTAssertEqual(AudioMode.mono48K.description, "mono48K")
         XCTAssertEqual(AudioMode.stereo48K.description, "stereo48K")
-        XCTAssertEqual(AudioMode.nodevice.description, "nodevice")
+    }
+
+    func testValidInitShouldMatchCase() {
+        XCTAssertEqual(AudioMode(rawValue: 1), .mono16K)
+        XCTAssertEqual(AudioMode(rawValue: 2), .mono48K)
+        XCTAssertEqual(AudioMode(rawValue: 3), .stereo48K)
+    }
+
+    func testInvalidInitShouldBeNil() {
+        XCTAssertNil(AudioMode(rawValue: 4))
     }
 }

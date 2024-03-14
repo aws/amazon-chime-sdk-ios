@@ -231,7 +231,7 @@ If you discover a potential security issue in this project we ask that you notif
 
 #### Use case 1. Start a session.
 
-You need to start the meeting session to start sending and receiving audio. Make sure that the user has granted audio permission first.
+You need to start the meeting session to start sending and receiving audio.
 
 ```swift
 meetingSession.audioVideo.start()
@@ -239,13 +239,18 @@ meetingSession.audioVideo.start()
 
 The default configurations are:
 * audio format is Stereo/48KHz i.e Stereo Audio with 48KHz sampling rate (stereo48K)
+* audio device capabilities are input and output i.e. both microphone and speaker are enabled, which requires audio recording permissions (use `.outputOnly` or `.none` to avoid requiring audio recording permissions)
 * call kit disabled
 * audio redundancy enabled
 
 You can specify non-default options in `AudioVideoConfiguration`, and then start the meeting session.
 
 ```swift
-var audioVideoConfig = AudioVideoConfiguration(audioMode: .mono48k, callKitEnabled: true, enableAudioRedundancy: false)
+var audioVideoConfig = AudioVideoConfiguration(
+    audioMode: .mono48k,
+    audioDeviceCapabilities: .outputOnly,
+    callKitEnabled: true,
+    enableAudioRedundancy: false)
 meetingSession.audioVideo.start(audioVideoConfiguration: audioVideoConfig)
 ```
 
@@ -348,7 +353,7 @@ let activeAudioDevice = meetingSession.audioVideo.getActiveAudioDevice()
 > When joining a meeting, *Mono/16KHz*, *Mono/48KHz* and *Stereo/48KHz* are supported. *Stereo/48KHz* will be set as the default audio mode if not explicitly specified when starting the audio session.
 
 ```swift
-meetingSession.audioVideo.start() // starts the audio video session with Stereo/48KHz audio, callkit disabled and audio redundancy enabled
+meetingSession.audioVideo.start() // starts the audio video session with Stereo/48KHz audio, audio input and output devices enabled, callkit disabled, and audio redundancy enabled
 
 meetingSession.audioVideo.start(audioVideoConfiguration) // starts the audio video session with the specified [AudioVideoConfiguration]
 ```

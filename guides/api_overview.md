@@ -51,11 +51,11 @@ A DeviceChangeObserver has the following method:
 
 ## 3. Request permissions for audio and video
 
-Before starting audio or video, you will need to request permissions from the user and verify that they are granted. In Xcode, open `Info.plist` and add `NSMicrophoneUsageDescription` ("Privacy - Microphone Usage Description") and `NSCameraUsageDescription` ("Privacy - Camera Usage Description") to the property list. This will allow the app to ask for microphone and camera permissions.
+Before starting audio or video, you will need to request permissions from the user and verify that they are granted. In Xcode, open `Info.plist` and add `NSCameraUsageDescription` ("Privacy - Camera Usage Description") to the property list. If you are planning to have users join with `AudioDeviceCapabilities.inputAndOutput` (which is the default option), then also add `NSMicrophoneUsageDescription` ("Privacy - Microphone Usage Description") to the property list. This will allow the app to ask for microphone and camera permissions.
 
 After doing this, you will also need to request permissions for microphone and camera access in your source code. You can either do this with `AVAudioSession.recordPermission` and `AVCaptureDevice.authorizationStatus`, handling the response synchronously and falling back to requesting permissions, or you can use `requestRecordPermission` and `requestAccess` with an asynchronous completion handler.
 ```
-AVAudioSession.sharedInstance().requestRecordPermission
+AVAudioSession.sharedInstance().requestRecordPermission // Only needed if joining meetings with `AudioDeviceCapabilities.inputAndOutput`
 
 AVCaptureDevice.requestAccess(for: .video)
 ```
@@ -86,7 +86,7 @@ An AudioVideoObserver has the following methods:
 
 ## 5. Starting and stopping the meeting session
 
-Call this method after doing pre-requisite configuration (See previous sections). Audio permissions are required for starting the meeting session. 
+Call this method after doing pre-requisite configuration (See previous sections). 
 
 To start the meeting session, call meetingSession.audioVideo.[start(callKitEnabled:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startWithCallKitEnabled:error:). This will start underlying media clients and will start sending and receiving audio. Alternatively, call meetingSession.audioVideo.[start()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startAndReturnError:) if the call is not reported to CallKit so that audio interruptions will be handled by the SDK itself.
 

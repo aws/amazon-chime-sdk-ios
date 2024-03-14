@@ -206,6 +206,10 @@ class MeetingViewController: UIViewController {
             button?.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
             button?.tintColor = .systemBlue
         }
+        if meetingModel?.audioVideoConfig.audioDeviceCapabilities == AudioDeviceCapabilities.none
+           || meetingModel?.audioVideoConfig.audioDeviceCapabilities == AudioDeviceCapabilities.outputOnly {
+            muteButton.isEnabled = false
+        }
         endButton.tintColor = .red
         resumeCallKitMeetingButton.isHidden = true
         prevVideoPageButton.isEnabled = false

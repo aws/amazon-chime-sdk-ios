@@ -16,12 +16,14 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var versionLabel: UILabel!
     @IBOutlet var callKitOptionsPicker: UIPickerView!
     @IBOutlet var audioModeOptionsPicker: UIPickerView!
+    @IBOutlet var audioDeviceCapabilitiesPicker: UIPickerView!
     @IBOutlet var joinButton: UIButton!
     @IBOutlet var debugSettingsButton: UIButton!
     @IBOutlet var audioRedundancySwitch: UISwitch!
 
     var callKitOptions = ["Don't use CallKit", "CallKit as Incoming in 10s", "CallKit as Outgoing"]
     var audioModeOptions = ["Stereo/48KHz Audio", "Mono/48KHz Audio", "Mono/16KHz Audio"]
+    var audioDeviceCapabilitiesOptions = ["Input and Output", "None", "Output Only"]
 
     private let toastDisplayDuration = 2.0
     private let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -37,6 +39,9 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
 
         audioModeOptionsPicker.delegate = self
         audioModeOptionsPicker.dataSource = self
+        
+        audioDeviceCapabilitiesPicker.delegate = self
+        audioDeviceCapabilitiesPicker.dataSource = self
 
         audioRedundancySwitch.isOn = true
 
@@ -60,9 +65,11 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
         // Audio Mode
         let audioMode = getSelectedAudioMode()
 
+        let audioDeviceCapabilities = getSelectedAudioDeviceCapabilities()
+
         let enableAudioRedundancy = audioRedundancySwitch.isOn
 
-        joinMeeting(audioMode: audioMode, callKitOption: callKitOption, enableAudioRedundancy: enableAudioRedundancy)
+        joinMeeting(audioMode: audioMode, audioDeviceCapabilities: audioDeviceCapabilities, callKitOption: callKitOption, enableAudioRedundancy: enableAudioRedundancy)
     }
 
     @IBAction func debugSettingsButtonClicked (_: UIButton) {
@@ -101,8 +108,19 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
             return .stereo48K
         }
     }
+    
+    func getSelectedAudioDeviceCapabilities() -> AudioDeviceCapabilities {
+        switch audioDeviceCapabilitiesPicker.selectedRow(inComponent: 0) {
+        case 1:
+            return .none
+        case 2:
+            return .outputOnly
+        default:
+            return .inputAndOutput
+        }
+    }
 
-    func joinMeeting(audioMode: AudioMode, callKitOption: CallKitOption, enableAudioRedundancy: Bool) {
+    func joinMeeting(audioMode: AudioMode, audioDeviceCapabilities: AudioDeviceCapabilities, callKitOption: CallKitOption, enableAudioRedundancy: Bool) {
         view.endEditing(true)
         let meetingId = meetingIdTextField.text ?? ""
         let name = nameTextField.text ?? ""
@@ -118,6 +136,7 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
         MeetingModule.shared().prepareMeeting(meetingId: meetingId,
                                               selfName: name,
                                               audioMode: audioMode,
+                                              audioDeviceCapabilities: audioDeviceCapabilities,
                                               callKitOption: callKitOption,
                                               enableAudioRedundancy: enableAudioRedundancy,
                                               overriddenEndpoint: debugSettingsModel.endpointUrl,
@@ -145,6 +164,11 @@ extension JoiningViewController: UIPickerViewDelegate {
                 return nil
             }
             return audioModeOptions[row]
+        }  else if pickerView == audioDeviceCapabilitiesPicker {
+            if row >= audioDeviceCapabilitiesOptions.count {
+                return nil
+            }
+            return audioDeviceCapabilitiesOptions[row]
         } else {
             return nil
         }
@@ -161,6 +185,8 @@ extension JoiningViewController: UIPickerViewDataSource {
             return callKitOptions.count
         } else if pickerView == audioModeOptionsPicker {
             return audioModeOptions.count
+        }  else if pickerView == audioDeviceCapabilitiesPicker {
+            return audioDeviceCapabilitiesOptions.count
         } else {
             return 0
         }

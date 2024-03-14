@@ -62,6 +62,7 @@ extension DefaultAudioClientController: AudioClientController {
         }
     }
 
+    // swiftlint:disable function_parameter_count
     public func start(audioFallbackUrl: String,
                       audioHostUrl: String,
                       meetingId: String,
@@ -69,13 +70,14 @@ extension DefaultAudioClientController: AudioClientController {
                       joinToken: String,
                       callKitEnabled: Bool,
                       audioMode: AudioMode,
+                      audioDeviceCapabilities: AudioDeviceCapabilities,
                       enableAudioRedundancy: Bool) throws {
         audioLock.lock()
         defer {
             audioLock.unlock()
         }
         
-        if audioMode != .nodevice {
+        if audioDeviceCapabilities == .inputAndOutput {
             guard audioSession.recordPermission == .granted else {
                 throw PermissionError.audioPermissionError
             }
@@ -113,8 +115,12 @@ extension DefaultAudioClientController: AudioClientController {
             audioModeInternal = .Mono48K
         } else if (audioMode == .mono16K) {
             audioModeInternal = .Mono16K
-        } else if (audioMode == .nodevice) {
-            audioModeInternal = .NoDevice
+        }
+        var audioDeviceCapabilitiesInternal: AudioDeviceCapabilitiesInternal = .InputAndOutput
+        if (audioDeviceCapabilities == .none) {
+            audioDeviceCapabilitiesInternal = .None
+        } else if (audioDeviceCapabilities == .outputOnly) {
+            audioDeviceCapabilitiesInternal = .OutputOnly
         }
         let status = audioClient.startSession(host,
                                               basePort: port,
@@ -128,6 +134,7 @@ extension DefaultAudioClientController: AudioClientController {
                                               callKitEnabled: callKitEnabled,
                                               appInfo: appInfo,
                                               audioMode: audioModeInternal,
+                                              audioDeviceCapabilities: audioDeviceCapabilitiesInternal,
                                               enableAudioRedundancy: enableAudioRedundancy)
 
         if status == AUDIO_CLIENT_OK {
