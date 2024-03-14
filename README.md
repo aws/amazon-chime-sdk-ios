@@ -231,7 +231,7 @@ If you discover a potential security issue in this project we ask that you notif
 
 #### Use case 1. Start a session.
 
-You need to start the meeting session to start sending and receiving audio. Make sure that the user has granted audio permission first.
+You need to start the meeting session to start sending and receiving audio.
 
 ```swift
 meetingSession.audioVideo.start()
@@ -239,7 +239,7 @@ meetingSession.audioVideo.start()
 
 The default configurations are:
 * audio format is Stereo/48KHz i.e Stereo Audio with 48KHz sampling rate (stereo48K)
-* audio device capabilities are input and output i.e. both microphone and speaker are enabled
+* audio device capabilities are input and output i.e. both microphone and speaker are enabled, which requires audio recording permissions (use `.outputOnly` or `.none` to avoid requiring audio recording permissions)
 * call kit disabled
 * audio redundancy enabled
 

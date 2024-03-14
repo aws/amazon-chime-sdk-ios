@@ -13,15 +13,18 @@ Note: Deploying the serverless/browser demo and receiving traffic from the demo 
 To declare the Amazon Chime SDK as a dependency, you must complete the following steps.
 
 1. Follow the steps in the *Setup* section in the [README](https://github.com/aws/amazon-chime-sdk-ios/blob/master/README.md) file to download and import the Amazon Chime SDK.
-2. Add `Privacy - Microphone Usage Description` and `Privacy - Camera Usage Description` to the `Info.plist` of your Xcode project.
+2. Add `Privacy - Camera Usage Description` to the `Info.plist` of your Xcode project. If you are planning to have users join with `AudioDeviceCapabilities.inputAndOutput` (which is the default option), then also add `Privacy - Microphone Usage Description` to the `Info.plist`.
 3. Request microphone and camera permissions. You can use `AVAudioSession.recordPermission` and `AVCaptureDevice.authorizationStatus` by handling the response synchronously and falling back to requesting permissions. You can also use `requestRecordPermission` and `requestAccess` with an asynchronous completion handler.
 ```
+// Only needed if joining meetings with `AudioDeviceCapabilities.inputAndOutput`
 switch AVAudioSession.sharedInstance().recordPermission {
   case AVAudioSessionRecordPermission.granted:
     // You can use audio.
     ...
   case AVAudioSessionRecordPermission.denied:
     // You may not use audio. Your application should handle this.
+    // One way to handle this case is to have the user join with `AudioDeviceCapabilities.outputOnly` or
+    // `AudioDeviceCapabilities.none` instead, which do not require microphone permissions.
     ...
   case AVAudioSessionRecordPermission.undetermined:
     // You must request permission.
