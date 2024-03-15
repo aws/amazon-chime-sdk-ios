@@ -125,6 +125,8 @@ import UIKit
         }
         session.beginConfiguration()
 
+        session.isMultitaskingCameraAccessEnabled = session.isMultitaskingCameraAccessSupported
+        
         guard let deviceInput = try? AVCaptureDeviceInput(device: captureDevice),
             session.canAddInput(deviceInput) else {
             session.commitConfiguration()
