@@ -1,8 +1,9 @@
-Unreleased
+## [Unreleased]
  
 ### Added
 * Added support for building with Xcode 15.
 * Added privacy manifest files to media and machine learning dependencies.
+  * The privacy manifest is a beta feature. Please comment on the linked Github issue for any suggestions or issues encountered related to the privacy manifest: https://github.com/aws/amazon-chime-sdk-ios/issues/624
 * Added code signatures to iOS SDK as well as media and machine learning dependencies.
 * Added `AudioDeviceCapabilities` to `AudioVideoConfiguration`, which allows configuring whether the audio input and output devices are enabled or disabled before starting a meeting.
   * Audio recording permissions will only be required when using `AudioDeviceCapabilities.inputAndOutput`
