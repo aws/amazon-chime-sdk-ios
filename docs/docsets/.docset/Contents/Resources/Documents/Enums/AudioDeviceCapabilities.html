@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Meeting Class Reference</title>
+    <title>AudioDeviceCapabilities Enumeration Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -13,8 +13,8 @@
     <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
-    <a name="//apple_ref/swift/Class/Meeting" class="dashAnchor"></a>
-    <a title="Meeting Class Reference"></a>
+    <a name="//apple_ref/swift/Enum/AudioDeviceCapabilities" class="dashAnchor"></a>
+    <a title="AudioDeviceCapabilities Enumeration Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html"> Docs</a></p>
@@ -29,7 +29,7 @@
       <p id="breadcrumbs">
         <a href="../index.html"> Reference</a>
         <img id="carat" src="../img/carat.png" alt=""/>
-        Meeting Class Reference
+        AudioDeviceCapabilities Enumeration Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -488,16 +488,18 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>Meeting</h1>
+            <h1>AudioDeviceCapabilities</h1>
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="kt">Meeting</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">enum</span> <span class="kt">AudioDeviceCapabilities</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="kt">CaseIterable</span><span class="p">,</span> <span class="kt">CustomStringConvertible</span></code></pre>
 
                 </div>
               </div>
-            
+            <p><code>AudioDeviceCapabilities</code> describes whether the audio input and output devices are enabled or disabled. Disabling
+either the audio input or output will change what audio permissions are required in order to join a meeting.</p>
+
           </section>
           <section class="section task-group-section">
             <div class="task-group">
@@ -505,9 +507,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AmazonChimeSDK@objc(cs)Meeting(im)initWithExternalMeetingId:mediaPlacement:mediaRegion:meetingId:"></a>
-                    <a name="//apple_ref/swift/Method/init(externalMeetingId:mediaPlacement:mediaRegion:meetingId:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)Meeting(im)initWithExternalMeetingId:mediaPlacement:mediaRegion:meetingId:">init(externalMeetingId:<wbr>mediaPlacement:<wbr>mediaRegion:<wbr>meetingId:<wbr>)</a>
+                    <a name="/c:@M@AmazonChimeSDK@E@AudioDeviceCapabilities@AudioDeviceCapabilitiesNone"></a>
+                    <a name="//apple_ref/swift/Element/none" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@AudioDeviceCapabilities@AudioDeviceCapabilitiesNone">none</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -515,16 +517,15 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Disable both the audio input and output devices (i.e. connections to the microphone and speaker devices are not
+opened). Muted packets are sent to the server. No audio permissions are required.</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">externalMeetingId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span>
-                        <span class="nv">mediaPlacement</span><span class="p">:</span> <span class="kt"><a href="../Classes/MediaPlacement.html">MediaPlacement</a></span><span class="p">,</span>
-                        <span class="nv">mediaRegion</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-                        <span class="nv">meetingId</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="k">none</span></code></pre>
 
                         </div>
                       </div>
@@ -534,9 +535,64 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AmazonChimeSDK@objc(cs)Meeting(im)initWithExternalMeetingId:mediaPlacement:meetingFeatures:mediaRegion:meetingId:primaryMeetingId:"></a>
-                    <a name="//apple_ref/swift/Method/init(externalMeetingId:mediaPlacement:meetingFeatures:mediaRegion:meetingId:primaryMeetingId:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)Meeting(im)initWithExternalMeetingId:mediaPlacement:meetingFeatures:mediaRegion:meetingId:primaryMeetingId:">init(externalMeetingId:<wbr>mediaPlacement:<wbr>meetingFeatures:<wbr>mediaRegion:<wbr>meetingId:<wbr>primaryMeetingId:<wbr>)</a>
+                    <a name="/c:@M@AmazonChimeSDK@E@AudioDeviceCapabilities@AudioDeviceCapabilitiesOutputOnly"></a>
+                    <a name="//apple_ref/swift/Element/outputOnly" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@AudioDeviceCapabilities@AudioDeviceCapabilitiesOutputOnly">outputOnly</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Disable the audio input device and only enable the audio output device (i.e. the connection to the microphone
+device is not opened). Muted packets are sent to the server. No audio permissions are required.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">outputOnly</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@AudioDeviceCapabilities@AudioDeviceCapabilitiesInputAndOutput"></a>
+                    <a name="//apple_ref/swift/Element/inputAndOutput" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@AudioDeviceCapabilities@AudioDeviceCapabilitiesInputAndOutput">inputAndOutput</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Enable both the audio input and output devices. <code>AVAudioSession.RecordPermission</code> is required.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">inputAndOutput</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:s23CustomStringConvertibleP11descriptionSSvp"></a>
+                    <a name="//apple_ref/swift/Property/description" class="dashAnchor"></a>
+                    <a class="token" href="#/s:s23CustomStringConvertibleP11descriptionSSvp">description</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -550,12 +606,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">externalMeetingId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span>
-             <span class="nv">mediaPlacement</span><span class="p">:</span> <span class="kt"><a href="../Classes/MediaPlacement.html">MediaPlacement</a></span><span class="p">,</span>
-             <span class="nv">meetingFeatures</span><span class="p">:</span> <span class="kt"><a href="../Classes/MeetingFeatures.html">MeetingFeatures</a></span><span class="p">,</span>
-             <span class="nv">mediaRegion</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-             <span class="nv">meetingId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-             <span class="nv">primaryMeetingId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
