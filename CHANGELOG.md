@@ -1,4 +1,4 @@
-[0.25.0] - 2024-03-21
+## [0.25.0] - 2024-03-21
  
 ### Added
 * Added support for building with Xcode 15.
