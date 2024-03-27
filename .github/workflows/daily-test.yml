@@ -45,7 +45,7 @@ jobs:
           npm run cma -- --app-url "sample.app" --log-level error --tag "@common" --app-id "${id}"
       - name: Send Notification
         uses: slackapi/slack-github-action@v1.25.0
-        if: always()
+        if: failure()
         with:
           payload: |
             {
