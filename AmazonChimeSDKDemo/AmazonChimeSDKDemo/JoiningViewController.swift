@@ -140,7 +140,8 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
                                               callKitOption: callKitOption,
                                               enableAudioRedundancy: enableAudioRedundancy,
                                               overriddenEndpoint: debugSettingsModel.endpointUrl,
-                                              primaryExternalMeetingId: debugSettingsModel.primaryExternalMeetingId) { success in
+                                              primaryExternalMeetingId: debugSettingsModel.primaryExternalMeetingId,
+                                              customPort: debugSettingsModel.customPort) { success in
             DispatchQueue.main.async {
                 if !success {
                     self.view.hideToast()

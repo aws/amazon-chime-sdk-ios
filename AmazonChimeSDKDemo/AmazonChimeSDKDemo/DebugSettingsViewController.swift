@@ -11,6 +11,7 @@ import UIKit
 class DebugSettingsViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var serverEndpointUrlTextField: UITextField!
     @IBOutlet var primaryExternalMeetingIdTextField: UITextField!
+    @IBOutlet var customPortTextField: UITextField!
     @IBOutlet var saveButton: UIButton!
 
     var model: DebugSettingsModel?
@@ -22,6 +23,7 @@ class DebugSettingsViewController: UIViewController, UITextFieldDelegate {
         serverEndpointUrlTextField.delegate = self
         serverEndpointUrlTextField.text = model?.endpointUrl
         primaryExternalMeetingIdTextField.text = model?.primaryExternalMeetingId
+        customPortTextField.text = model?.customPort
     }
 
     @IBAction func saveButtonClicked(_: UIButton) {
@@ -30,6 +32,10 @@ class DebugSettingsViewController: UIViewController, UITextFieldDelegate {
 
         let primaryExternalMeetingId = primaryExternalMeetingIdTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         model?.primaryExternalMeetingId = primaryExternalMeetingId
+        
+        
+        let customPort = customPortTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        model?.customPort = customPort
 
         self.dismiss(animated: true, completion: nil)
     }

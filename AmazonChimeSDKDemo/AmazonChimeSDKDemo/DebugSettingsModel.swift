@@ -11,4 +11,5 @@ import UIKit
 class DebugSettingsModel: NSObject {
     var endpointUrl: String = ""
     var primaryExternalMeetingId: String = ""
+    var customPort: String = ""
 }

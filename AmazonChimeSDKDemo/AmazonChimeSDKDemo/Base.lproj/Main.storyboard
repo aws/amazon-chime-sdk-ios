@@ -1279,6 +1279,17 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Custom Port" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s6a-67-deW">
+                                <rect key="frame" x="64.666666666666657" y="393.66666666666663" width="95.333333333333329" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Override Meeting Endpoint Label"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" id="8cC-Ky-tYX"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" id="rLu-JT-AJ1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Meeting ID" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="gob-qw-3MV">
                                 <rect key="frame" x="64.666666666666686" y="323.66666666666669" width="301" height="34"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Meeting Endpoint Url Input"/>
@@ -1297,11 +1308,21 @@
                                     <action selector="saveButtonClicked:" destination="GpE-ar-Sxz" eventType="touchUpInside" id="axH-hX-rqO"/>
                                 </connections>
                             </button>
+                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Custom Port" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="uzT-Hk-yL7">
+                                <rect key="frame" x="64.666666666666657" y="430.66666666666663" width="301" height="34"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Meeting Endpoint Url Input"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="RgP-m2-FHm"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="JiN-Mk-dD7" firstAttribute="top" secondItem="HWT-wf-Hd8" secondAttribute="bottom" constant="36" id="0Vk-2V-7Bo"/>
                             <constraint firstItem="JiN-Mk-dD7" firstAttribute="leading" secondItem="gob-qw-3MV" secondAttribute="leading" id="5bq-wN-Xkq"/>
+                            <constraint firstItem="s6a-67-deW" firstAttribute="leading" secondItem="uzT-Hk-yL7" secondAttribute="leading" id="66y-6o-EYP"/>
                             <constraint firstItem="Dlf-w7-2eY" firstAttribute="centerX" secondItem="ugh-Cp-DHh" secondAttribute="centerX" id="Bk7-7N-5gQ"/>
                             <constraint firstItem="HWT-wf-Hd8" firstAttribute="top" secondItem="ugh-Cp-DHh" secondAttribute="bottom" constant="16" id="DI9-KN-gys"/>
                             <constraint firstItem="HWT-wf-Hd8" firstAttribute="centerX" secondItem="F9N-fz-NNe" secondAttribute="centerX" id="HHo-Hw-gL4"/>
@@ -1311,13 +1332,18 @@
                             <constraint firstItem="Dlf-w7-2eY" firstAttribute="top" secondItem="Cti-hC-3HM" secondAttribute="bottom" constant="32" id="PlT-BB-VTq"/>
                             <constraint firstItem="gob-qw-3MV" firstAttribute="centerX" secondItem="F9N-fz-NNe" secondAttribute="centerX" id="Qiu-7B-HUB"/>
                             <constraint firstItem="ugh-Cp-DHh" firstAttribute="leading" secondItem="HWT-wf-Hd8" secondAttribute="leading" id="YO9-O1-OSW"/>
+                            <constraint firstItem="uzT-Hk-yL7" firstAttribute="width" secondItem="F9N-fz-NNe" secondAttribute="width" multiplier="0.253488" id="cJh-lx-d1M"/>
+                            <constraint firstItem="uzT-Hk-yL7" firstAttribute="top" secondItem="s6a-67-deW" secondAttribute="bottom" constant="16" id="dBv-5D-6Yd"/>
                             <constraint firstItem="gob-qw-3MV" firstAttribute="width" secondItem="F9N-fz-NNe" secondAttribute="width" multiplier="0.7" id="ghs-4X-Aiw"/>
                             <constraint firstItem="Dlf-w7-2eY" firstAttribute="centerX" secondItem="F9N-fz-NNe" secondAttribute="centerX" id="mK4-f3-iO1"/>
                             <constraint firstItem="ugh-Cp-DHh" firstAttribute="top" secondItem="Dlf-w7-2eY" secondAttribute="bottom" constant="56" id="oE6-em-IIS"/>
+                            <constraint firstItem="s6a-67-deW" firstAttribute="top" secondItem="gob-qw-3MV" secondAttribute="bottom" constant="36" id="pVU-vN-rJp"/>
                             <constraint firstItem="AHd-Vp-rMm" firstAttribute="centerX" secondItem="F9N-fz-NNe" secondAttribute="centerX" id="qFv-Dz-fct"/>
+                            <constraint firstItem="uzT-Hk-yL7" firstAttribute="centerX" secondItem="F9N-fz-NNe" secondAttribute="centerX" id="rRU-K5-Nqd"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="customPortTextField" destination="uzT-Hk-yL7" id="kkK-2c-Ivg"/>
                         <outlet property="primaryExternalMeetingIdTextField" destination="gob-qw-3MV" id="8Ta-yH-R6u"/>
                         <outlet property="saveButton" destination="AHd-Vp-rMm" id="wj4-7o-d2P"/>
                         <outlet property="serverEndpointUrlTextField" destination="HWT-wf-Hd8" id="lio-80-fpD"/>

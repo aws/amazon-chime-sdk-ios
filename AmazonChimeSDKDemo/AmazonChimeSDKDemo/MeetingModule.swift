@@ -22,6 +22,8 @@ class MeetingModule {
     // These need to be cached in case of primary meeting joins in the future
     var cachedOverriddenEndpoint = ""
     var cachedPrimaryExternalMeetingId = ""
+    
+    var customPort = ""
 
     static func shared() -> MeetingModule {
         if sharedInstance == nil {
@@ -41,6 +43,7 @@ class MeetingModule {
                         enableAudioRedundancy: Bool,
                         overriddenEndpoint: String,
                         primaryExternalMeetingId: String,
+                        customPort: String,
                         completion: @escaping (Bool) -> Void) {
         requestRecordPermission(audioDeviceCapabilities: audioDeviceCapabilities) { success in
             guard success else {
@@ -49,6 +52,7 @@ class MeetingModule {
             }
             self.cachedOverriddenEndpoint = overriddenEndpoint
             self.cachedPrimaryExternalMeetingId = primaryExternalMeetingId
+            self.customPort = customPort
             JoinRequestService.postJoinRequest(meetingId: meetingId,
                                                name: selfName,
                                                overriddenEndpoint: overriddenEndpoint,
@@ -121,8 +125,36 @@ class MeetingModule {
     }
     
     func urlRewriter(url: String) -> String {
-        // changing url
-        // return url.replacingOccurrences(of: "example.com", with: "my.example.com")
+        if (self.customPort == "") { return url }
+        var tempUrl: String = url
+        // Signaling
+        if (tempUrl.contains("/control")) {
+            tempUrl = tempUrl.replacingOccurrences(of: "/control", with: ":\(self.customPort)/control")
+            logger.info(msg: "Joining with signaling url \(tempUrl)")
+            return tempUrl
+        }
+        // TURN UDP
+        if (tempUrl.contains("turn:ice.")) {
+            let regex = try! NSRegularExpression(pattern: "aws:[0-9]*")
+            tempUrl = regex.stringByReplacingMatches(
+                in: tempUrl,
+                options: [],
+                range: NSMakeRange(0, tempUrl.count),
+                withTemplate: "aws:\(self.customPort)")
+            logger.info(msg: "Joining with TURN UDP url \(tempUrl)")
+            return tempUrl
+        }
+        // Audio host
+        if (tempUrl.contains(".k.")) {
+            let regex = try! NSRegularExpression(pattern: "aws:[0-9]*")
+            tempUrl = regex.stringByReplacingMatches(
+                in: tempUrl,
+                options: [],
+                range: NSMakeRange(0, tempUrl.count),
+                withTemplate: "aws:\(self.customPort)")
+            logger.info(msg: "Joining with audio host url \(tempUrl)")
+            return tempUrl
+        }
         return url
     }
 
