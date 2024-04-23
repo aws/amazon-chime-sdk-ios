@@ -80,7 +80,9 @@ class MeetingViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
 
-        meetingModel.startMeeting()
+        DispatchQueue.main.async {
+            meetingModel.startMeeting()
+        }
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {

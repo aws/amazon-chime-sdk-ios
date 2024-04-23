@@ -405,7 +405,7 @@ extension DefaultVideoClientController: VideoClientController {
 
     private func setVideoSource(source: VideoSource, config: LocalVideoConfiguration) {
         guard videoClientState != .uninitialized else {
-            logger.fault(msg: "VideoClient is not initialized so returning without doing anything")
+            logger.fault(msg: "VideoClient is not initialized so returning without doing anything in \(#function)")
             return
         }
 
@@ -430,7 +430,7 @@ extension DefaultVideoClientController: VideoClientController {
 
     public func stopLocalVideo() {
         guard videoClientState != .uninitialized else {
-            logger.fault(msg: "VideoClient is not initialized so returning without doing anything")
+            logger.fault(msg: "VideoClient is not initialized so returning without doing anything in \(#function)")
             return
         }
         logger.info(msg: "Stopping local video")
@@ -440,7 +440,7 @@ extension DefaultVideoClientController: VideoClientController {
 
     public func startRemoteVideo() {
         guard videoClientState != .uninitialized else {
-            logger.fault(msg: "VideoClient is not initialized so returning without doing anything")
+            logger.fault(msg: "VideoClient is not initialized so returning without doing anything in \(#function)")
             return
         }
         logger.info(msg: "Starting remote video")
@@ -449,7 +449,7 @@ extension DefaultVideoClientController: VideoClientController {
 
     public func stopRemoteVideo() {
         guard videoClientState != .uninitialized else {
-            logger.fault(msg: "VideoClient is not initialized so returning without doing anything")
+            logger.fault(msg: "VideoClient is not initialized so returning without doing anything in \(#function)")
             return
         }
         logger.info(msg: "Stopping remote video")
@@ -497,7 +497,7 @@ extension DefaultVideoClientController: VideoClientController {
 
     public func updateVideoSourceSubscriptions(addedOrUpdated: Dictionary<RemoteVideoSource, VideoSubscriptionConfiguration>, removed: Array<RemoteVideoSource>) {
         guard videoClientState != .uninitialized else {
-            logger.fault(msg: "VideoClient is not initialized so returning without doing anything")
+            logger.fault(msg: "VideoClient is not initialized so returning without doing anything in \(#function)")
             return
         }
         logger.info(msg: "Updating video subscriptions")
