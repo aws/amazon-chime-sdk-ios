@@ -250,7 +250,10 @@ class MeetingModule {
         do {
             if audioSession.category != .playAndRecord {
                 try audioSession.setCategory(AVAudioSession.Category.playAndRecord,
-                                             options: AVAudioSession.CategoryOptions.allowBluetooth)
+                                             options: [
+                                                AVAudioSession.CategoryOptions.allowBluetooth,
+                                                AVAudioSession.CategoryOptions.allowBluetoothA2DP
+                                             ])
                 try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
             }
             if audioSession.mode != .voiceChat {
