@@ -1,3 +1,11 @@
+## [0.25.1] - 2024-05-16
+
+### Fixed
+* Fixed invalid bundle error when integrating Machine Learning SDK using SPM
+* Improved the Media SDK binary size
+* Allow A2DP Bluetooth speakers to be used as audio outputs
+* Fixed a bug in "Output Only" mode where receiving a phone call and hanging up would cause audio output to stop working and disconnect the attendee after 30 seconds
+
 ## [0.25.0] - 2024-03-21
  
 ### Added
