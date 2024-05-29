@@ -4,12 +4,12 @@ platform :ios, '12.0'
 target 'AmazonChimeSDKDemoPods' do
   use_frameworks!
   # Pods for AmazonChimeSDKDemoPods
-  pod 'AmazonChimeSDK', 'AMAZON_CHIME_SDK_VERSION'
+  pod 'AmazonChimeSDKNoVideoCodecs', 'AMAZON_CHIME_SDK_VERSION'
   pod 'AmazonChimeSDKMachineLearning', 'AMAZON_CHIME_SDK_MACHINE_LEARNING_VERSION'
 end
 
 target 'AmazonChimeSDKDemoBroadcastPods' do
   use_frameworks!
   # Pods for AmazonChimeSDKDemoBroadcastPods
-  pod 'AmazonChimeSDK', 'AMAZON_CHIME_SDK_VERSION'
+  pod 'AmazonChimeSDKNoVideoCodecs', 'AMAZON_CHIME_SDK_VERSION'
 end
