@@ -67,10 +67,10 @@ For the purpose of setup, your project's root folder (where you can find your `.
         ...
     end
     ```
-    If you don't need video and content share functionality, or software video codec support, you can use `AmazonChimeSDKMediaNoVideoCodecs` to reduce size:
+    If you don't need video and content share functionality, or software video codec support, you can use `AmazonChimeSDKNoVideoCodecs` instead to reduce size:
     ```
     target 'YourTarget' do
-        pod 'AmazonChimeSDKMediaNoVideoCodecs'
+        pod 'AmazonChimeSDKNoVideoCodecs'
         ...
     end
     ```

@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
   s.name             = 'AmazonChimeSDKNoVideoCodecs'
   s.version          = '0.25.1'
-  s.summary          = 'Amazon Chime SDK for iOS.'
-  s.description      = 'An iOS client library for integrating multi-party communications powered by the Amazon Chime service.'
+  s.summary          = 'Amazon Chime SDK for iOS with no video codecs.'
+  s.description      = 'An iOS client library for integrating multi-party communications powered by the Amazon Chime service.Use this one if you do not need video and content share functionality, or software video codec support, this will reduce your application size.'
   s.homepage         = 'https://github.com/aws/amazon-chime-sdk-ios'
   s.license          = 'Apache License, Version 2.0'
   s.author           = { 'Amazon Web Services' => 'amazonwebservices' }
