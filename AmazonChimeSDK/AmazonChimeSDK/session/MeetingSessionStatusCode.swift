@@ -32,7 +32,7 @@ import Foundation
     case audioInternalServerError = 62
 
     /// Authentication was rejected as the attendee information in MeetingSessionCredentials did not match that of an attendee created via chime::CreateAttendee.
-    /// This error may imply an issue with your credential providing service, the client will not allowed on this call.
+    /// This error may imply an issue with your credential providing service, the client will not be allowed on this call.
     case audioAuthenticationRejected = 63
 
     /// The client can not join because the meeting is at capacity. The service supports up to 250 attendees.
