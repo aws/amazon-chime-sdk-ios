@@ -19,7 +19,7 @@ import Foundation
     case connectionHealthReconnect = 10
 
     /// Network is not good enough for VoIP, `AudioVideoObserver.audioSessionDidDrop()` will be triggered, and there will be an automatic attempt of reconnecting.
-    /// If the reconnecting is successful, `onAudioSessionStarted` will be called with value of reconnecting as true.
+    /// If the reconnecting is successful, `audioSessionDidStart(reconnecting:)` will be called with value of `reconnecting` as `true`.
     case networkBecomePoor = 59
 
     /// Chime SDK audio server hung up.
