@@ -17,4 +17,5 @@ import Foundation
     func subscribeToTranscriptEvent(observer: TranscriptEventObserver)
     func unsubscribeFromTranscriptEvent(observer: TranscriptEventObserver)
     func setPrimaryMeetingPromotionObserver(observer: PrimaryMeetingPromotionObserver)
+    var audioStatus: MeetingSessionStatusCode { get }
 }

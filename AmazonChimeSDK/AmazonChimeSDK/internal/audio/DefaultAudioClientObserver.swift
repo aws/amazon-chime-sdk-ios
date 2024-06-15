@@ -462,5 +462,7 @@ extension DefaultAudioClientObserver: AudioClientObserver {
     func setPrimaryMeetingPromotionObserver(observer: PrimaryMeetingPromotionObserver) {
         primaryMeetingPromotionObserver = observer
     }
+    
+    var audioStatus: MeetingSessionStatusCode  { return self.currentAudioStatus }
 }
 // swiftlint:enable type_body_length

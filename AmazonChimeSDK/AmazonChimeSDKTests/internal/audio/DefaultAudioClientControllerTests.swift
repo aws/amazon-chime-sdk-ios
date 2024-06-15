@@ -53,6 +53,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                            audioMode: any(),
                                            audioDeviceCapabilities: any(),
                                            enableAudioRedundancy: any())).willReturn(AUDIO_CLIENT_OK)
+        
+        given(audioClientObserverMock.audioStatus).willReturn(MeetingSessionStatusCode.ok)
 
         defaultAudioClientController = DefaultAudioClientController(audioClient: audioClientMock,
                                                                     audioClientObserver: audioClientObserverMock,
@@ -348,6 +350,7 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                             enableAudioRedundancy: true)).wasCalled()
         XCTAssertEqual(.initialized, DefaultAudioClientController.state)
         verify(audioLockMock.unlock()).wasCalled()
+        verify(eventAnalyticsControllerMock.publishEvent(name: .meetingStartFailed, attributes: [EventAttributeName.meetingStatus: any()])).wasCalled()
     }
 
     func testSetVoiceFocusEnabled_success() {
