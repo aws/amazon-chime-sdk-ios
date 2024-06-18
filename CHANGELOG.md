@@ -1,4 +1,4 @@
-## Unreleased
+## [0.25.2] - 2024-06-18
 
 ### Fixed
 * Fixed dependency conflicts when importing no-video-codecs flavour using CocoaPods
