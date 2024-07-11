@@ -428,13 +428,11 @@ extension MeetingModel: AudioVideoObserver {
     }
 
     func audioSessionDidDrop() {
-        print("test - audioSessionDidDrop called at \(Date())")
         notifyHandler?("Audio Session Dropped")
         logWithFunctionName()
     }
 
     func audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus) {
-        print("test - audioSessionDidStopWithStatus called at \(Date())")
         logWithFunctionName(message: "\(sessionStatus.statusCode)")
 
         removeAudioVideoFacadeObservers()
