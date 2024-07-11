@@ -39,6 +39,7 @@ class MeetingModule {
                         audioDeviceCapabilities: AudioDeviceCapabilities,
                         callKitOption: CallKitOption,
                         enableAudioRedundancy: Bool,
+                        reconnectTimeoutMs: Int,
                         overriddenEndpoint: String,
                         primaryExternalMeetingId: String,
                         completion: @escaping (Bool) -> Void) {
@@ -74,13 +75,15 @@ class MeetingModule {
                                                                audioDeviceCapabilities: audioDeviceCapabilities,
                                                                callKitEnabled: callKitOption != .disabled,
                                                                enableAudioRedundancy: enableAudioRedundancy,
-                                                               videoMaxResolution: meetingSessionConfiguration.meetingFeatures.videoMaxResolution)
+                                                               videoMaxResolution: meetingSessionConfiguration.meetingFeatures.videoMaxResolution,
+                                                               reconnectTimeoutMs: reconnectTimeoutMs)
                 } else {
                     audioVideoConfig = AudioVideoConfiguration(audioMode: audioMode,
                                                                audioDeviceCapabilities: audioDeviceCapabilities,
                                                                callKitEnabled: callKitOption != .disabled,
                                                                enableAudioRedundancy: enableAudioRedundancy,
-                                                               videoMaxResolution: AudioVideoConfiguration.defaultVideoMaxResolution)
+                                                               videoMaxResolution: AudioVideoConfiguration.defaultVideoMaxResolution,
+                                                               reconnectTimeoutMs: reconnectTimeoutMs)
                 }
                 
                 let meetingModel = MeetingModel(meetingSessionConfig: meetingSessionConfiguration,

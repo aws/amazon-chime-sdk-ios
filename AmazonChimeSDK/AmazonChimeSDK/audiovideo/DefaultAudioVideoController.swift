@@ -55,7 +55,8 @@ import Foundation
                                         callKitEnabled: audioVideoConfiguration.callKitEnabled,
                                         audioMode: audioVideoConfiguration.audioMode,
                                         audioDeviceCapabilities: audioVideoConfiguration.audioDeviceCapabilities,
-                                        enableAudioRedundancy: audioVideoConfiguration.enableAudioRedundancy)
+                                        enableAudioRedundancy: audioVideoConfiguration.enableAudioRedundancy,
+                                        reconnectTimeoutMs: audioVideoConfiguration.reconnectTimeoutMs)
         videoClientController.subscribeToVideoTileControllerObservers(observer: videoTileController)
         videoClientController.start()
     }

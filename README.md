@@ -250,7 +250,8 @@ var audioVideoConfig = AudioVideoConfiguration(
     audioMode: .mono48k,
     audioDeviceCapabilities: .outputOnly,
     callKitEnabled: true,
-    enableAudioRedundancy: false)
+    enableAudioRedundancy: false, 
+    reconnectTimeoutMs: 180 * 1000)
 meetingSession.audioVideo.start(audioVideoConfiguration: audioVideoConfig)
 ```
 

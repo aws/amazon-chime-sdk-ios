@@ -12,6 +12,8 @@ import Mockingbird
 import XCTest
 
 class DefaultAudioVideoControllerTests: CommonTestCase {
+    private let reconnectTimeoutMs = 180 * 1000
+    
     var audioClientControllerMock: AudioClientControllerMock!
     var audioClientObserverMock: AudioClientObserverMock!
     var clientMetricsCollectorMock: ClientMetricsCollectorMock!
@@ -49,7 +51,8 @@ class DefaultAudioVideoControllerTests: CommonTestCase {
             callKitEnabled: false,
             audioMode: .stereo48K,
             audioDeviceCapabilities: .inputAndOutput,
-            enableAudioRedundancy: true
+            enableAudioRedundancy: true,
+            reconnectTimeoutMs: self.reconnectTimeoutMs
         )).wasCalled()
         verify(videoClientControllerMock.start()).wasCalled()
     }
@@ -67,7 +70,8 @@ class DefaultAudioVideoControllerTests: CommonTestCase {
             callKitEnabled: callKitEnabled,
             audioMode: .stereo48K,
             audioDeviceCapabilities: .inputAndOutput,
-            enableAudioRedundancy: true
+            enableAudioRedundancy: true,
+            reconnectTimeoutMs: self.reconnectTimeoutMs
         )).wasCalled()
         verify(videoClientControllerMock.start()).wasCalled()
     }
@@ -84,7 +88,8 @@ class DefaultAudioVideoControllerTests: CommonTestCase {
             callKitEnabled: false,
             audioMode: .mono48K,
             audioDeviceCapabilities: .inputAndOutput,
-            enableAudioRedundancy: true
+            enableAudioRedundancy: true,
+            reconnectTimeoutMs: self.reconnectTimeoutMs
         )).wasCalled()
         verify(videoClientControllerMock.start()).wasCalled()
     }
@@ -101,7 +106,8 @@ class DefaultAudioVideoControllerTests: CommonTestCase {
             callKitEnabled: true,
             audioMode: .mono48K,
             audioDeviceCapabilities: .inputAndOutput,
-            enableAudioRedundancy: true
+            enableAudioRedundancy: true,
+            reconnectTimeoutMs: self.reconnectTimeoutMs
         )).wasCalled()
         verify(videoClientControllerMock.start()).wasCalled()
     }
@@ -118,7 +124,8 @@ class DefaultAudioVideoControllerTests: CommonTestCase {
             callKitEnabled: false,
             audioMode: .mono16K,
             audioDeviceCapabilities: .inputAndOutput,
-            enableAudioRedundancy: true
+            enableAudioRedundancy: true,
+            reconnectTimeoutMs: self.reconnectTimeoutMs
         )).wasCalled()
         verify(videoClientControllerMock.start()).wasCalled()
     }
@@ -135,7 +142,8 @@ class DefaultAudioVideoControllerTests: CommonTestCase {
             callKitEnabled: true,
             audioMode: .mono16K,
             audioDeviceCapabilities: .inputAndOutput,
-            enableAudioRedundancy: true
+            enableAudioRedundancy: true,
+            reconnectTimeoutMs: self.reconnectTimeoutMs
         )).wasCalled()
         verify(videoClientControllerMock.start()).wasCalled()
     }
@@ -155,7 +163,8 @@ class DefaultAudioVideoControllerTests: CommonTestCase {
                 callKitEnabled: false,
                 audioMode: .stereo48K,
                 audioDeviceCapabilities: capabilities,
-                enableAudioRedundancy: true
+                enableAudioRedundancy: true,
+                reconnectTimeoutMs: self.reconnectTimeoutMs
             )).wasCalled()
             verify(videoClientControllerMock.start()).wasCalled(count)
         }
@@ -173,7 +182,28 @@ class DefaultAudioVideoControllerTests: CommonTestCase {
             callKitEnabled: false,
             audioMode: .stereo48K,
             audioDeviceCapabilities: .inputAndOutput,
-            enableAudioRedundancy: false
+            enableAudioRedundancy: false,
+            reconnectTimeoutMs: self.reconnectTimeoutMs
+        )).wasCalled()
+        verify(videoClientControllerMock.start()).wasCalled()
+    }
+    
+    func testStart_120000ReconnectTimeoutMs() {
+        let testReconnectTimeoutMs = 120 * 1000
+        let audioVideoConfiguration = AudioVideoConfiguration(reconnectTimeoutMs: testReconnectTimeoutMs)
+        XCTAssertNoThrow(try defaultAudioVideoController.start(audioVideoConfiguration: audioVideoConfiguration))
+
+        verify(audioClientControllerMock.start(
+            audioFallbackUrl: self.meetingSessionConfigurationMock.urls.audioFallbackUrl,
+            audioHostUrl: self.meetingSessionConfigurationMock.urls.audioHostUrl,
+            meetingId: self.meetingSessionConfigurationMock.meetingId,
+            attendeeId: self.meetingSessionConfigurationMock.credentials.attendeeId,
+            joinToken: self.meetingSessionConfigurationMock.credentials.joinToken,
+            callKitEnabled: false,
+            audioMode: .stereo48K,
+            audioDeviceCapabilities: .inputAndOutput,
+            enableAudioRedundancy: true,
+            reconnectTimeoutMs: testReconnectTimeoutMs
         )).wasCalled()
         verify(videoClientControllerMock.start()).wasCalled()
     }

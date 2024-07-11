@@ -15,12 +15,15 @@ import Foundation
     public static let defaultCallKitEnabled: Bool = false
     public static let defaultEnableAudioRedundancy: Bool = true
     public static let defaultVideoMaxResolution: VideoResolution = .videoResolutionHD
+    public static let defaultReconnectTimeoutMs: Int = 180 * 1000
 
     public let audioMode: AudioMode
     public let audioDeviceCapabilities: AudioDeviceCapabilities
     public let callKitEnabled: Bool
     public let enableAudioRedundancy: Bool
     public let videoMaxResolution: VideoResolution
+    /// Maximum amount of time in milliseconds to allow for reconnecting. Default value is 180000.
+    public let reconnectTimeoutMs: Int
 
     // These convenience initializers exist so that Objective-C code can initialize this class without specifying all the parameters.
     convenience override public init() {
@@ -70,6 +73,15 @@ import Foundation
                   enableAudioRedundancy: Self.defaultEnableAudioRedundancy,
                   videoMaxResolution: videoMaxResolution)
     }
+    
+    convenience public init(reconnectTimeoutMs: Int) {
+        self.init(audioMode: Self.defaultAudioMode,
+                  audioDeviceCapabilities: Self.defaultAudioDeviceCapabilities,
+                  callKitEnabled: Self.defaultCallKitEnabled,
+                  enableAudioRedundancy: Self.defaultEnableAudioRedundancy,
+                  videoMaxResolution: Self.defaultVideoMaxResolution,
+                  reconnectTimeoutMs: reconnectTimeoutMs)
+    }
 
     convenience public init(audioMode: AudioMode, callKitEnabled: Bool) {
         self.init(audioMode: audioMode,
@@ -95,12 +107,23 @@ import Foundation
                   videoMaxResolution: videoMaxResolution)
     }
 
-    public init(audioMode: AudioMode, audioDeviceCapabilities: AudioDeviceCapabilities, callKitEnabled: Bool, enableAudioRedundancy: Bool, videoMaxResolution: VideoResolution) {
+    convenience public init(audioMode: AudioMode, audioDeviceCapabilities: AudioDeviceCapabilities, callKitEnabled: Bool, enableAudioRedundancy: Bool, videoMaxResolution: VideoResolution) {
+        
+        self.init(audioMode: audioMode,
+                  audioDeviceCapabilities: audioDeviceCapabilities,
+                  callKitEnabled: callKitEnabled,
+                  enableAudioRedundancy: enableAudioRedundancy,
+                  videoMaxResolution: videoMaxResolution,
+                  reconnectTimeoutMs: Self.defaultReconnectTimeoutMs)
+    }
+    
+    public init(audioMode: AudioMode, audioDeviceCapabilities: AudioDeviceCapabilities, callKitEnabled: Bool, enableAudioRedundancy: Bool, videoMaxResolution: VideoResolution, reconnectTimeoutMs: Int) {
         self.audioMode = audioMode
         self.audioDeviceCapabilities = audioDeviceCapabilities
         self.callKitEnabled = callKitEnabled
         self.enableAudioRedundancy = enableAudioRedundancy
         self.videoMaxResolution = videoMaxResolution
+        self.reconnectTimeoutMs = reconnectTimeoutMs
     }
 
     override public var description: String {
@@ -110,6 +133,7 @@ import Foundation
             "callKitEnabled: \(self.callKitEnabled)",
             "enableAudioRedundancy: \(self.enableAudioRedundancy)",
             "videoMaxResolution: \(self.videoMaxResolution.description)",
+            "reconnectTimeoutMs: \(self.reconnectTimeoutMs.description)",
         ].joined(separator: ", ")
     }
 }

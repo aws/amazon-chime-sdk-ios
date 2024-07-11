@@ -19,7 +19,8 @@ import Foundation
                callKitEnabled: Bool,
                audioMode: AudioMode,
                audioDeviceCapabilities: AudioDeviceCapabilities,
-               enableAudioRedundancy: Bool) throws
+               enableAudioRedundancy: Bool,
+               reconnectTimeoutMs: Int) throws
     func stop()
     func setVoiceFocusEnabled(enabled: Bool) -> Bool
     func isVoiceFocusEnabled() -> Bool

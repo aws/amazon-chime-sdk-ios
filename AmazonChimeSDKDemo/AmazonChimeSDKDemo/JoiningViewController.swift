@@ -17,17 +17,19 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var callKitOptionsPicker: UIPickerView!
     @IBOutlet var audioModeOptionsPicker: UIPickerView!
     @IBOutlet var audioDeviceCapabilitiesPicker: UIPickerView!
+    @IBOutlet var reconnectTimeoutPicker: UIPickerView!
     @IBOutlet var joinButton: UIButton!
     @IBOutlet var debugSettingsButton: UIButton!
     @IBOutlet var audioRedundancySwitch: UISwitch!
 
-    var callKitOptions = ["Don't use CallKit", "CallKit as Incoming in 10s", "CallKit as Outgoing"]
-    var audioModeOptions = ["Stereo/48KHz Audio", "Mono/48KHz Audio", "Mono/16KHz Audio"]
-    var audioDeviceCapabilitiesOptions = ["Input and Output", "None", "Output Only"]
+    let callKitOptions = ["Don't use CallKit", "CallKit as Incoming in 10s", "CallKit as Outgoing"]
+    let audioModeOptions = ["Stereo/48KHz Audio", "Mono/48KHz Audio", "Mono/16KHz Audio"]
+    let audioDeviceCapabilitiesOptions = ["Input and Output", "None", "Output Only"]
+    let reconnectTimeoutOptions = [180000, 20000, 5000, 0]
 
     private let toastDisplayDuration = 2.0
     private let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-    var debugSettingsModel: DebugSettingsModel = DebugSettingsModel()
+    let debugSettingsModel: DebugSettingsModel = DebugSettingsModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +44,9 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
         
         audioDeviceCapabilitiesPicker.delegate = self
         audioDeviceCapabilitiesPicker.dataSource = self
+        
+        reconnectTimeoutPicker.delegate = self
+        reconnectTimeoutPicker.dataSource = self
 
         audioRedundancySwitch.isOn = true
 
@@ -68,8 +73,14 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
         let audioDeviceCapabilities = getSelectedAudioDeviceCapabilities()
 
         let enableAudioRedundancy = audioRedundancySwitch.isOn
+        
+        let reconnectTimeoutMs = self.reconnectTimeoutOptions[self.reconnectTimeoutPicker.selectedRow(inComponent: 0)]
 
-        joinMeeting(audioMode: audioMode, audioDeviceCapabilities: audioDeviceCapabilities, callKitOption: callKitOption, enableAudioRedundancy: enableAudioRedundancy)
+        joinMeeting(audioMode: audioMode, 
+                    audioDeviceCapabilities: audioDeviceCapabilities,
+                    callKitOption: callKitOption,
+                    enableAudioRedundancy: enableAudioRedundancy,
+                    reconnectTimeoutMs: reconnectTimeoutMs)
     }
 
     @IBAction func debugSettingsButtonClicked (_: UIButton) {
@@ -120,7 +131,11 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    func joinMeeting(audioMode: AudioMode, audioDeviceCapabilities: AudioDeviceCapabilities, callKitOption: CallKitOption, enableAudioRedundancy: Bool) {
+    func joinMeeting(audioMode: AudioMode, 
+                     audioDeviceCapabilities: AudioDeviceCapabilities,
+                     callKitOption: CallKitOption,
+                     enableAudioRedundancy: Bool,
+                     reconnectTimeoutMs: Int) {
         view.endEditing(true)
         let meetingId = meetingIdTextField.text ?? ""
         let name = nameTextField.text ?? ""
@@ -139,6 +154,7 @@ class JoiningViewController: UIViewController, UITextFieldDelegate {
                                               audioDeviceCapabilities: audioDeviceCapabilities,
                                               callKitOption: callKitOption,
                                               enableAudioRedundancy: enableAudioRedundancy,
+                                              reconnectTimeoutMs: reconnectTimeoutMs,
                                               overriddenEndpoint: debugSettingsModel.endpointUrl,
                                               primaryExternalMeetingId: debugSettingsModel.primaryExternalMeetingId) { success in
             DispatchQueue.main.async {
@@ -169,7 +185,12 @@ extension JoiningViewController: UIPickerViewDelegate {
                 return nil
             }
             return audioDeviceCapabilitiesOptions[row]
-        } else {
+        } else if pickerView == reconnectTimeoutPicker {
+            if row >= reconnectTimeoutOptions.count {
+                return nil
+            }
+            return "\(reconnectTimeoutOptions[row]) ms"
+        }else {
             return nil
         }
     }
@@ -187,6 +208,8 @@ extension JoiningViewController: UIPickerViewDataSource {
             return audioModeOptions.count
         }  else if pickerView == audioDeviceCapabilitiesPicker {
             return audioDeviceCapabilitiesOptions.count
+        } else if pickerView == reconnectTimeoutPicker {
+            return reconnectTimeoutOptions.count
         } else {
             return 0
         }
