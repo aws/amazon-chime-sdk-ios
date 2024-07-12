@@ -34,7 +34,7 @@ class MeetingModel: NSObject {
                                                            logger: logger)
 
     // Utils
-    let logger = ConsoleLogger(name: "MeetingModel")
+    let logger = ConsoleLogger(name: "MeetingModel", level: .INFO)
     let postLogger: PostLogger
     let activeSpeakerObserverId = UUID().uuidString
 

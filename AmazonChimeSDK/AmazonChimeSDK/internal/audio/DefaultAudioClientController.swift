@@ -71,7 +71,8 @@ extension DefaultAudioClientController: AudioClientController {
                       callKitEnabled: Bool,
                       audioMode: AudioMode,
                       audioDeviceCapabilities: AudioDeviceCapabilities,
-                      enableAudioRedundancy: Bool) throws {
+                      enableAudioRedundancy: Bool,
+                      reconnectTimeoutMs: Int) throws {
         audioLock.lock()
         defer {
             audioLock.unlock()
@@ -135,7 +136,8 @@ extension DefaultAudioClientController: AudioClientController {
                                               appInfo: appInfo,
                                               audioMode: audioModeInternal,
                                               audioDeviceCapabilities: audioDeviceCapabilitiesInternal,
-                                              enableAudioRedundancy: enableAudioRedundancy)
+                                              enableAudioRedundancy: enableAudioRedundancy,
+                                              reconnectTimeoutMs: reconnectTimeoutMs)
 
         if status == AUDIO_CLIENT_OK {
             Self.state = .started

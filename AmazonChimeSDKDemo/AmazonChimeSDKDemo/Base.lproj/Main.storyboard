@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_72" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -21,79 +21,160 @@
                         <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Join a meeting" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UUz-34-lb9">
-                                <rect key="frame" x="8" y="331" width="414" height="48"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Your Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="osX-FD-I0Z">
-                                <rect key="frame" x="117" y="449" width="196" height="34"/>
-                                <accessibility key="accessibilityConfiguration" identifier="Name Input">
-                                    <bool key="isElement" value="YES"/>
-                                </accessibility>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="196" id="2Um-eD-gwo"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                            </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Meeting ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s6f-Ei-sAf">
-                                <rect key="frame" x="117" y="399" width="196" height="34"/>
-                                <accessibility key="accessibilityConfiguration" identifier="Meeting Id Input">
-                                    <bool key="isElement" value="YES"/>
-                                </accessibility>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="196" id="AT3-Na-N2O"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                            </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="version" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9bX-Kc-eHT">
                                 <rect key="frame" x="16" y="867.66666666666663" width="398" height="14.333333333333371"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" systemColor="secondaryLabelColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="U4C-4u-Vzl" userLabel="Join Config">
-                                <rect key="frame" x="40" y="495" width="350" height="230"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="Zdv-9s-uGb">
+                                <rect key="frame" x="0.0" y="198.66666666666663" width="430" height="535"/>
                                 <subviews>
-                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j1Y-t4-xgU">
-                                        <rect key="frame" x="0.0" y="0.0" width="350" height="70"/>
-                                        <accessibility key="accessibilityConfiguration" identifier="CallKit Options">
-                                            <bool key="isElement" value="YES"/>
-                                        </accessibility>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Join a meeting" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UUz-34-lb9">
+                                        <rect key="frame" x="0.0" y="0.0" width="430" height="48"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xsB-FL-hOa">
+                                        <rect key="frame" x="0.0" y="64.000000000000028" width="430" height="34"/>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Meeting ID" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s6f-Ei-sAf">
+                                                <rect key="frame" x="117" y="0.0" width="196" height="34"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="Meeting Id Input">
+                                                    <bool key="isElement" value="YES"/>
+                                                </accessibility>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="196" id="AT3-Na-N2O"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                            </textField>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="350" id="4Eg-u0-9f6"/>
-                                            <constraint firstAttribute="height" constant="70" id="RZy-gv-cbQ"/>
+                                            <constraint firstItem="s6f-Ei-sAf" firstAttribute="centerX" secondItem="xsB-FL-hOa" secondAttribute="centerX" id="GAz-St-c3X"/>
+                                            <constraint firstAttribute="height" constant="34" id="Lc1-tw-g9n"/>
+                                            <constraint firstItem="s6f-Ei-sAf" firstAttribute="centerY" secondItem="xsB-FL-hOa" secondAttribute="centerY" id="zYr-dF-D4R"/>
                                         </constraints>
-                                    </pickerView>
-                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PzT-6X-6dW">
-                                        <rect key="frame" x="0.0" y="80" width="350" height="70"/>
-                                        <accessibility key="accessibilityConfiguration" identifier="AudioMode Options">
-                                            <bool key="isElement" value="YES"/>
-                                        </accessibility>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lwt-0f-rYx">
+                                        <rect key="frame" x="0.0" y="114.00000000000003" width="430" height="34"/>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Your Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="osX-FD-I0Z">
+                                                <rect key="frame" x="117" y="0.0" width="196" height="34"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="Name Input">
+                                                    <bool key="isElement" value="YES"/>
+                                                </accessibility>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="196" id="2Um-eD-gwo"/>
+                                                    <constraint firstAttribute="height" constant="34" id="V8u-pS-DhW"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                            </textField>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="350" id="du2-fy-4av"/>
-                                            <constraint firstAttribute="height" constant="70" id="tMM-3b-C9y"/>
+                                            <constraint firstItem="osX-FD-I0Z" firstAttribute="centerY" secondItem="lwt-0f-rYx" secondAttribute="centerY" id="G3v-sD-0u9"/>
+                                            <constraint firstItem="osX-FD-I0Z" firstAttribute="centerX" secondItem="lwt-0f-rYx" secondAttribute="centerX" id="eH9-Dm-nr9"/>
+                                            <constraint firstAttribute="height" constant="34" id="pYi-e5-cny"/>
                                         </constraints>
-                                    </pickerView>
-                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ppB-Bu-V4u">
-                                        <rect key="frame" x="0.0" y="160" width="350" height="70"/>
-                                        <accessibility key="accessibilityConfiguration" identifier="AudioDeviceCapabilities Options">
-                                            <bool key="isElement" value="YES"/>
-                                        </accessibility>
+                                    </view>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="U4C-4u-Vzl" userLabel="Join Config">
+                                        <rect key="frame" x="0.0" y="164" width="430" height="311"/>
+                                        <subviews>
+                                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j1Y-t4-xgU">
+                                                <rect key="frame" x="40" y="0.0" width="350" height="70"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="CallKit Options">
+                                                    <bool key="isElement" value="YES"/>
+                                                </accessibility>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="350" id="4Eg-u0-9f6"/>
+                                                    <constraint firstAttribute="height" constant="70" id="RZy-gv-cbQ"/>
+                                                </constraints>
+                                            </pickerView>
+                                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PzT-6X-6dW">
+                                                <rect key="frame" x="40" y="70" width="350" height="70"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="AudioMode Options">
+                                                    <bool key="isElement" value="YES"/>
+                                                </accessibility>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="350" id="du2-fy-4av"/>
+                                                    <constraint firstAttribute="height" constant="70" id="tMM-3b-C9y"/>
+                                                </constraints>
+                                            </pickerView>
+                                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ppB-Bu-V4u">
+                                                <rect key="frame" x="40" y="140" width="350" height="70"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="AudioDeviceCapabilities Options">
+                                                    <bool key="isElement" value="YES"/>
+                                                </accessibility>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="350" id="Eg8-5L-5Am"/>
+                                                    <constraint firstAttribute="height" constant="70" id="x8m-r2-DcM"/>
+                                                </constraints>
+                                            </pickerView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x42-Kb-m6B">
+                                                <rect key="frame" x="70.333333333333343" y="209.99999999999994" width="289.66666666666663" height="70"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reconnect timeout" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0jW-Rf-2xy">
+                                                        <rect key="frame" x="0.0" y="0.0" width="129.66666666666666" height="70"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9qs-Zh-8lJ" userLabel="Reconnect Timeout Picker">
+                                                        <rect key="frame" x="129.66666666666669" y="0.0" width="160" height="70"/>
+                                                        <accessibility key="accessibilityConfiguration" identifier="CallKit Options">
+                                                            <bool key="isElement" value="YES"/>
+                                                        </accessibility>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="160" id="DuM-Ne-gCU"/>
+                                                            <constraint firstAttribute="height" constant="70" id="zGH-uw-XfH"/>
+                                                        </constraints>
+                                                    </pickerView>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="L9g-22-68t">
+                                                <rect key="frame" x="115" y="279.99999999999994" width="200" height="31"/>
+                                                <subviews>
+                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="do3-GA-U6X">
+                                                        <rect key="frame" x="0.0" y="0.0" width="51" height="31"/>
+                                                    </switch>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Audio Redundancy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zus-QP-nBN">
+                                                        <rect key="frame" x="57" y="0.0" width="143" height="31"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j2X-Kh-CSa">
+                                        <rect key="frame" x="0.0" y="491" width="430" height="44"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EBv-5d-gOg">
+                                                <rect key="frame" x="170.66666666666666" y="7" width="88.999999999999972" height="30"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="Join Without CallKit"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" id="UAf-YY-pN4"/>
+                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" id="em2-Mi-8zQ"/>
+                                                </constraints>
+                                                <state key="normal" title="Join Meeting"/>
+                                                <connections>
+                                                    <action selector="joinButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WSb-T2-ggJ"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="350" id="Eg8-5L-5Am"/>
-                                            <constraint firstAttribute="height" constant="70" id="x8m-r2-DcM"/>
+                                            <constraint firstAttribute="height" constant="44" id="BoU-a7-cWj"/>
+                                            <constraint firstItem="EBv-5d-gOg" firstAttribute="centerY" secondItem="j2X-Kh-CSa" secondAttribute="centerY" id="CwV-Ku-9yx"/>
+                                            <constraint firstItem="EBv-5d-gOg" firstAttribute="centerX" secondItem="j2X-Kh-CSa" secondAttribute="centerX" id="LPJ-T4-UXs"/>
                                         </constraints>
-                                    </pickerView>
+                                    </view>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstItem="PzT-6X-6dW" firstAttribute="top" secondItem="j1Y-t4-xgU" secondAttribute="bottom" id="34a-7D-gy6"/>
-                                    <constraint firstAttribute="trailing" secondItem="PzT-6X-6dW" secondAttribute="trailing" id="LXi-pP-wLT"/>
-                                    <constraint firstItem="PzT-6X-6dW" firstAttribute="leading" secondItem="U4C-4u-Vzl" secondAttribute="leading" id="dfH-F5-02T"/>
-                                </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="66Y-WJ-mRM">
                                 <rect key="frame" x="284" y="75" width="106" height="30"/>
@@ -103,48 +184,18 @@
                                     <action selector="debugSettingsButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Vn9-h0-gPv"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EBv-5d-gOg">
-                                <rect key="frame" x="173" y="779" width="88.999999999999972" height="30"/>
-                                <accessibility key="accessibilityConfiguration" identifier="Join Without CallKit"/>
-                                <state key="normal" title="Join Meeting"/>
-                                <connections>
-                                    <action selector="joinButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WSb-T2-ggJ"/>
-                                </connections>
-                            </button>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="do3-GA-U6X">
-                                <rect key="frame" x="87" y="733" width="51.000000000000014" height="31"/>
-                            </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Audio Redundancy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zus-QP-nBN">
-                                <rect key="frame" x="146" y="738" width="142.99999999999997" height="20.333333333333371"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="osX-FD-I0Z" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="14S-aX-21S"/>
-                            <constraint firstItem="UUz-34-lb9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="2R9-AX-Dow"/>
-                            <constraint firstItem="Zus-QP-nBN" firstAttribute="top" secondItem="U4C-4u-Vzl" secondAttribute="bottom" constant="15" id="4jh-Uu-Mhz"/>
                             <constraint firstAttribute="trailing" secondItem="9bX-Kc-eHT" secondAttribute="trailing" constant="16" id="CFu-s4-gUV"/>
-                            <constraint firstItem="UUz-34-lb9" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="8" id="FH0-Ls-emL"/>
                             <constraint firstItem="9bX-Kc-eHT" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="JE3-ga-xUR"/>
-                            <constraint firstItem="Zus-QP-nBN" firstAttribute="leading" secondItem="do3-GA-U6X" secondAttribute="trailing" constant="10" id="JE6-zg-OGM"/>
-                            <constraint firstItem="U4C-4u-Vzl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="MOu-0K-Cvo"/>
-                            <constraint firstItem="s6f-Ei-sAf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="O7I-Dv-H8c"/>
                             <constraint firstAttribute="trailingMargin" secondItem="66Y-WJ-mRM" secondAttribute="trailing" constant="20" id="PKd-ia-QK7"/>
                             <constraint firstItem="ngS-4M-OXk" firstAttribute="top" secondItem="9bX-Kc-eHT" secondAttribute="bottom" constant="16" id="U5B-ij-2pj"/>
-                            <constraint firstItem="U4C-4u-Vzl" firstAttribute="top" secondItem="osX-FD-I0Z" secondAttribute="bottom" constant="12" id="WNP-Nc-bRq"/>
                             <constraint firstItem="9bX-Kc-eHT" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XMh-wo-ho8"/>
-                            <constraint firstItem="osX-FD-I0Z" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="bfI-1B-dC2"/>
-                            <constraint firstItem="EBv-5d-gOg" firstAttribute="top" secondItem="Zus-QP-nBN" secondAttribute="bottom" constant="20" id="bkv-lH-Q5E"/>
-                            <constraint firstItem="EBv-5d-gOg" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="d3W-eX-k85"/>
-                            <constraint firstItem="Zus-QP-nBN" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fOH-Js-PlG"/>
+                            <constraint firstItem="Zdv-9s-uGb" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Zjn-yU-WWc"/>
+                            <constraint firstItem="Zdv-9s-uGb" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="hlV-H8-6Pv"/>
+                            <constraint firstItem="Zdv-9s-uGb" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="k8S-Sh-bhZ"/>
                             <constraint firstItem="66Y-WJ-mRM" firstAttribute="top" secondItem="ygx-0K-pGD" secondAttribute="bottom" constant="16" id="n8X-Df-UNb"/>
-                            <constraint firstItem="do3-GA-U6X" firstAttribute="top" secondItem="U4C-4u-Vzl" secondAttribute="bottom" constant="10" id="rj0-9x-NfM"/>
-                            <constraint firstItem="s6f-Ei-sAf" firstAttribute="top" secondItem="UUz-34-lb9" secondAttribute="bottom" constant="20" id="sqC-ky-MjB"/>
-                            <constraint firstAttribute="trailing" secondItem="UUz-34-lb9" secondAttribute="trailing" constant="8" id="xEu-O0-RsD"/>
-                            <constraint firstItem="osX-FD-I0Z" firstAttribute="top" secondItem="s6f-Ei-sAf" secondAttribute="bottom" constant="16" id="zh1-pn-qLH"/>
                         </constraints>
                     </view>
                     <connections>
@@ -156,6 +207,7 @@
                         <outlet property="joinButton" destination="EBv-5d-gOg" id="FfN-4U-iAy"/>
                         <outlet property="meetingIdTextField" destination="s6f-Ei-sAf" id="vmx-Lh-C7I"/>
                         <outlet property="nameTextField" destination="osX-FD-I0Z" id="lFR-t4-JOi"/>
+                        <outlet property="reconnectTimeoutPicker" destination="9qs-Zh-8lJ" id="HTa-5u-14i"/>
                         <outlet property="versionLabel" destination="9bX-Kc-eHT" id="M1d-QC-GNU"/>
                     </connections>
                 </viewController>
@@ -1503,7 +1555,7 @@
             <color red="0.43529411764705883" green="0.44313725490196076" blue="0.47450980392156861" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="secondaryLabelColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
