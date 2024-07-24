@@ -27,9 +27,11 @@
     </header>
     <div class="content-wrapper">
       <p id="breadcrumbs">
-        <a href="../index.html"> Reference</a>
+        <a href="../index.html">Index</a>
         <img id="carat" src="../img/carat.png" alt=""/>
-        MeetingSessionStatusCode Enumeration Reference
+        <a href="../Enums.html">Enumerations</a>
+        <img id="carat" src="../img/carat.png" alt=""/>
+        AmazonChimeSDK.MeetingSessionStatusCode Enumeration Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -542,7 +544,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The audio leg failed.</p>
+                        <p>There was an internal server error related to audio. This may indicate some issue with the audio device, or an issue with the Amazon Chime SDK service itself.</p>
 
                       </div>
                       <div class="declaration">
@@ -596,7 +598,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Network is not good enough for VoIP.</p>
+                        <p>Network is not good enough for VoIP, <code><a href="../Protocols/AudioVideoObserver.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoObserver(im)audioSessionDidDrop">AudioVideoObserver.audioSessionDidDrop()</a></code> will be triggered, and there will be an automatic attempt of reconnecting.
+If the reconnecting is successful, <code>audioSessionDidStart(reconnecting:)</code> will be called with value of <code>reconnecting</code> as <code>true</code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -623,7 +626,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Server hung up.</p>
+                        <p>Chime SDK audio server hung up.</p>
 
                       </div>
                       <div class="declaration">
@@ -677,7 +680,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>There was an internal server error with the audio leg.</p>
+                        <p>There was an internal server error related to audio. This may indicate some issue with the audio device, or an issue with the Amazon Chime SDK service itself</p>
 
                       </div>
                       <div class="declaration">
@@ -704,7 +707,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Authentication was rejected. The client is not allowed on this call.</p>
+                        <p>Authentication was rejected as the attendee information in MeetingSessionCredentials did not match that of an attendee created via chime::CreateAttendee.
+This error may imply an issue with your credential providing service, the client will not be allowed on this call.</p>
 
                       </div>
                       <div class="declaration">
@@ -731,7 +735,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The client can not join because the call is at capacity.</p>
+                        <p>The client can not join because the meeting is at capacity. The service supports up to 250 attendees.</p>
 
                       </div>
                       <div class="declaration">
@@ -758,7 +762,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Could not connect the audio leg due to the service being unavailable.</p>
+                        <p>There was an internal server error related to audio. This may indicate some issue with the audio device, or an issue with the Amazon Chime SDK service itself.</p>
 
                       </div>
                       <div class="declaration">
@@ -812,7 +816,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The call was ended.</p>
+                        <p>The attendee attempted to join a meeting that has already ended. See this <a href="https://aws.github.io/amazon-chime-sdk-js/modules/faqs.html#when-does-an-amazon-chime-sdk-meeting-end">FAQ</a> for more information. The end user may want to be notified of this type of error.</p>
 
                       </div>
                       <div class="declaration">
@@ -839,7 +843,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>video service is unavailable.</p>
+                        <p>There was an internal server error related to video. This may indicate some issue with the video device, or an issue with the Amazon Chime SDK service itself.</p>
 
                       </div>
                       <div class="declaration">
@@ -866,7 +870,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>If State cannot be parsed, then use this state.</p>
+                        <p>The meeting session is in unkown status.</p>
 
                       </div>
                       <div class="declaration">
@@ -893,7 +897,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>When maximum concurrent video channel reached</p>
+                        <p>The video client has tried to send video but was unable to do so due to capacity reached. However, the video client can still receive remote video streams.</p>
 
                       </div>
                       <div class="declaration">
@@ -992,8 +996,8 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2024 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2024-06-18)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.4</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+          <p>&copy; 2024 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2024-07-24)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.15.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
     </div>
