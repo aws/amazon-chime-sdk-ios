@@ -1,4 +1,4 @@
-## Unreleased
+## [0.26.0] - 2024-07-18
 
 ### Added
 * Support configurable reconnecting timeout
