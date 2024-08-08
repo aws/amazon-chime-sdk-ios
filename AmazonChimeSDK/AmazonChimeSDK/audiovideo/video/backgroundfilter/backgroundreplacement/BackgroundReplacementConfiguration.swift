@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-@objcMembers public class BackgroundReplacementConfiguration {
+@objcMembers public class BackgroundReplacementConfiguration: NSObject {
     let backgroundReplacementImage: UIImage
     let logger: Logger
     let backgroundFilterProcessor: BackgroundFilterProcessor

@@ -12,7 +12,7 @@ import UIKit
 
 /// `BackgroundReplacementVideoFrameProcessor` is a processor which receives video frames via `VideoSource`
 ///  and then creates the foreground image which is rendered on top of a background image.
-@objcMembers public class BackgroundReplacementVideoFrameProcessor: VideoSource, VideoSink {
+@objcMembers public class BackgroundReplacementVideoFrameProcessor: NSObject, VideoSource, VideoSink {
     public var videoContentHint = VideoContentHint.motion
 
     /// Context used for processing and rendering the final output image.
