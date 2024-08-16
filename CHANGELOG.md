@@ -1,4 +1,4 @@
-## Unreleased
+## [0.26.1] - 2024-08-15
 
 ### Fixed
 * Add Obj-C support for BackgroundReplacementConfiguration and BackgroundReplacementVideoFrameProcessor
