@@ -36,13 +36,14 @@ jobs:
         with:
           node-version: 15.x
 
-      - name: Run tests
+      - name: Run tests with retries
         id: tests
         run: |
           id=$(curl -F 'payload=@amazon-chime-sdk-app.ipa' -F name=amazon-chime-sdk-app.ipa -u "${{ secrets.SAUCE_USERNAME }}:${{ secrets.SAUCE_ACCESS_KEY }}" 'https://api.us-west-1.saucelabs.com/v1/storage/upload' |jq '.item.id')
           npm install
           npm run build
-          npm run cma -- --app-url "sample.app" --log-level error --tag "@common" --app-id "${id}"
+          npm run cma -- --app-url "sample.app" --log-level error --tag "@common" --app-id "${id}" --retry
+
       - name: Send Notification
         uses: slackapi/slack-github-action@v1.25.0
         if: failure()
