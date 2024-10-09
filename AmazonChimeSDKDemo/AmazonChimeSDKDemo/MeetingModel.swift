@@ -402,9 +402,6 @@ extension MeetingModel: AudioVideoObserver {
 
     func videoSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus) {
         logWithFunctionName(message: "\(sessionStatus.statusCode)")
-        if sessionStatus.statusCode == .videoServiceUnavailable {
-            audioSessionDidStopWithStatus(sessionStatus: sessionStatus)
-        }
     }
 
     func audioSessionDidStartConnecting(reconnecting: Bool) {
