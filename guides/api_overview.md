@@ -51,11 +51,11 @@ A DeviceChangeObserver has the following method:
 
 ## 3. Request permissions for audio and video
 
-Before starting audio or video, you will need to request permissions from the user and verify that they are granted. In Xcode, open `Info.plist` and add `NSMicrophoneUsageDescription` ("Privacy - Microphone Usage Description") and `NSCameraUsageDescription` ("Privacy - Camera Usage Description") to the property list. This will allow the app to ask for microphone and camera permissions.
+Before starting audio or video, you will need to request permissions from the user and verify that they are granted. In Xcode, open `Info.plist` and add `NSCameraUsageDescription` ("Privacy - Camera Usage Description") to the property list. If you are planning to have users join with `AudioDeviceCapabilities.inputAndOutput` (which is the default option), then also add `NSMicrophoneUsageDescription` ("Privacy - Microphone Usage Description") to the property list. This will allow the app to ask for microphone and camera permissions.
 
 After doing this, you will also need to request permissions for microphone and camera access in your source code. You can either do this with `AVAudioSession.recordPermission` and `AVCaptureDevice.authorizationStatus`, handling the response synchronously and falling back to requesting permissions, or you can use `requestRecordPermission` and `requestAccess` with an asynchronous completion handler.
 ```
-AVAudioSession.sharedInstance().requestRecordPermission
+AVAudioSession.sharedInstance().requestRecordPermission // Only needed if joining meetings with `AudioDeviceCapabilities.inputAndOutput`
 
 AVCaptureDevice.requestAccess(for: .video)
 ```
@@ -86,7 +86,7 @@ An AudioVideoObserver has the following methods:
 
 ## 5. Starting and stopping the meeting session
 
-Call this method after doing pre-requisite configuration (See previous sections). Audio permissions are required for starting the meeting session. 
+Call this method after doing pre-requisite configuration (See previous sections). 
 
 To start the meeting session, call meetingSession.audioVideo.[start(callKitEnabled:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startWithCallKitEnabled:error:). This will start underlying media clients and will start sending and receiving audio. Alternatively, call meetingSession.audioVideo.[start()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startAndReturnError:) if the call is not reported to CallKit so that audio interruptions will be handled by the SDK itself.
 
@@ -149,7 +149,10 @@ You can view content share the same way that you view a remote attendee's video.
 
 Video permissions are required for sending the local attendee's video.
 
-To start sending the local attendee's video, call meetingSession.audioVideo.[startLocalVideo()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startLocalVideoAndReturnError:).
+To start sending the local attendee's video, call meetingSession.audioVideo.[startLocalVideo()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startLocalVideoAndReturnError:). 
+
+To start sending video with a local video configuration, call meetingSession.audioVideo.startLocalVideo(config:).
+To start local video with a provided custom `VideoSource`, call meetingSession.audioVideo.startLocalVideo(source:).  
 
 To stop sending the local attendee's video, call meetingSession.audioVideo.[stopLocalVideo()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)stopLocalVideo).
 
@@ -279,3 +282,39 @@ Note that if you want to share music or background sounds with others in the cal
 ## 12. Using a custom video source, sink or processing step (optional)
 
 Builders using the Amazon Chime SDK for video can produce, modify, and consume raw video frames transmitted or received during the call. You can allow the facade to manage its own camera capture source, provide your own custom source, or use a provided SDK capture source as the first step in a video processing pipeline which modifies frames before transmission. See the [Custom Video Sources, Processors, and Sinks](custom_video.md) guide for more information.
+
+## 13. Share screen and other content (optional)
+
+Builders using the Amazon Chime SDK for iOS can share a second video stream such as screen capture in a meeting without disrupting their applications existing audio/video stream. When a content share is started, another attendee with the attendee ID `<attendee-id>#content` joins the meeting. You can subscribe its presence event to show it in the roster and bind its video tile to a video render view the same as you would for a regular attendee.
+
+Each attendee can share one content share in addition to their main video. Each meeting may have two simultaneous content shares. Content share does not count towards the max video tile limit.
+
+### 13a. Start and stop the content share
+
+To start the content share, call meetingSession.audioVideo.[startContentShare(source:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/ContentShareController.html#/c:@M@AmazonChimeSDK@objc(pl)ContentShareController(im)startContentShareWithSource:).
+
+To stop the content share, call meetingSession.audioVideo.[stopContentShare()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/ContentShareController.html#/c:@M@AmazonChimeSDK@objc(pl)ContentShareController(im)stopContentShare).
+
+### 13b. Register a content share observer
+
+You can receive events about the content share by implementing a [ContentShareObserver](https://aws.github.io/amazon-chime-sdk-ios/Protocols/ContentShareObserver.html).
+
+To add a ContentShareObserver, call meetingSession.audioVideo.[addContentShareObserver(observer:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/ContentShareController.html#/c:@M@AmazonChimeSDK@objc(pl)ContentShareController(im)addContentShareObserverWithObserver:).
+
+To remove a ContentShareObserver, call meetingSession.audioVideo.[removeContentShareObserver(observer:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/ContentShareController.html#/c:@M@AmazonChimeSDK@objc(pl)ContentShareController(im)removeContentShareObserverWithObserver:).
+
+You can implement the following callbacks:
+
+* [contentShareDidStart](https://aws.github.io/amazon-chime-sdk-ios/Protocols/ContentShareObserver.html#/c:@M@AmazonChimeSDK@objc(pl)ContentShareObserver(im)contentShareDidStart): called when the content share has started
+
+* [contentShareDidStop(status:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/ContentShareObserver.html#/c:@M@AmazonChimeSDK@objc(pl)ContentShareObserver(im)contentShareDidStopWithStatus:): called when the content is no longer shared with other attendees with the reason provided in the status
+
+### 13c. Collect content share metrics
+
+You will receive content share metrics if you registered a metric observer by [9.Receiving metrics (optional)](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/api_overview.md#9-receiving-metrics-optional).
+
+Content share metrics will be prefixed by `contentShare`.
+
+## 14. Configuring Remote Video Subscriptions
+
+Amazon Chime SDK allows builders to have complete control over the remote videos received by each of their application’s end-users. This can be accomplished using the API [AudioVideoFacade.updateVideoSourceSubscriptions](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)updateVideoSourceSubscriptionsWithAddedOrUpdated:removed:). See [Configuring Remote Video Subscriptions](/guides/configuring_remote_video_subscriptions.md) for more information.

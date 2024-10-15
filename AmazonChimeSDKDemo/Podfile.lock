@@ -1,0 +1,24 @@
+PODS:
+  - AmazonChimeSDK (0.25.0):
+    - AmazonChimeSDKMedia (= 0.20.0)
+  - AmazonChimeSDKMachineLearning (0.3.0)
+  - AmazonChimeSDKMedia (0.20.0)
+
+DEPENDENCIES:
+  - AmazonChimeSDK
+  - AmazonChimeSDKMachineLearning
+
+SPEC REPOS:
+  trunk:
+    - AmazonChimeSDK
+    - AmazonChimeSDKMachineLearning
+    - AmazonChimeSDKMedia
+
+SPEC CHECKSUMS:
+  AmazonChimeSDK: c1ec29eb180cc95627b1c3110e001b10160da6af
+  AmazonChimeSDKMachineLearning: 1a4ca84943a3b3276788f7aee9338e835afafbf4
+  AmazonChimeSDKMedia: 9a5665dc05cdd7ae94cd919136154580460bb7c9
+
+PODFILE CHECKSUM: 4e447cb1fb8282a42768ba3da658cad241400d80
+
+COCOAPODS: 1.11.2

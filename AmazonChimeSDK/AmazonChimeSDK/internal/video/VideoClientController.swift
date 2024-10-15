@@ -10,13 +10,12 @@ import AmazonChimeSDKMedia
 import Foundation
 
 @objc public protocol VideoClientController {
-    func start(turnControlUrl: String,
-               signalingUrl: String,
-               meetingId: String,
-               joinToken: String)
+    func start()
     func stopAndDestroy()
     func startLocalVideo() throws
+    func startLocalVideo(config: LocalVideoConfiguration) throws
     func startLocalVideo(source: VideoSource)
+    func startLocalVideo(source: VideoSource, config: LocalVideoConfiguration)
     func stopLocalVideo()
     func startRemoteVideo()
     func stopRemoteVideo()
@@ -31,4 +30,8 @@ import Foundation
     func subscribeToReceiveDataMessage(topic: String, observer: DataMessageObserver)
     func unsubscribeFromReceiveDataMessageFromTopic(topic: String)
     func sendDataMessage(topic: String, data: Any, lifetimeMs: Int32) throws
+    func updateVideoSourceSubscriptions(addedOrUpdated: Dictionary<RemoteVideoSource, VideoSubscriptionConfiguration>, removed: Array<RemoteVideoSource>)
+    func promoteToPrimaryMeeting(credentials: MeetingSessionCredentials,
+                                 observer: PrimaryMeetingPromotionObserver)
+    func demoteFromPrimaryMeeting()
 }

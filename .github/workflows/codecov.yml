@@ -1,0 +1,91 @@
+name: Code Coverage Check
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on pull request events for all the branches
+  push:
+    branches: [ '**' ]
+  pull_request:
+    branches: [ '**' ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: macOS-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+        # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Download amazon-chime-sdk-media binary from AWS S3
+      - name: Get AmazonChimeSDKMedia from AWS S3
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile jenkins-automated-test
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile jenkins-automated-test
+          aws \
+            --profile jenkins-automated-test \
+            s3api get-object \
+            --bucket amazon-chime-sdk-ios-internal \
+            --key master/media/latest/AmazonChimeSDKMedia.tar.gz \
+            AmazonChimeSDKMedia.tar.gz
+          tar -xzf AmazonChimeSDKMedia.tar.gz
+          cp -R ./AmazonChimeSDKMedia.xcframework ./AmazonChimeSDK
+
+      # Download amazon-chime-sdk-machine-learning binary from AWS S3
+      - name: Get AmazonChimeSDKMachineLearning from AWS S3
+        run: |
+          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile jenkins-automated-test
+          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile jenkins-automated-test
+          aws \
+            --profile jenkins-automated-test \
+            s3api get-object \
+            --bucket amazon-chime-sdk-ios-internal \
+            --key master/machine-learning/latest/AmazonChimeSDKMachineLearning.tar.gz \
+            AmazonChimeSDKMachineLearning.tar.gz
+          tar -xzf AmazonChimeSDKMachineLearning.tar.gz
+          cp -R ./AmazonChimeSDKMachineLearning.xcframework ./AmazonChimeSDK
+
+      # Execute unit tests
+      - name: Build and Run Unit Test
+        working-directory: ./AmazonChimeSDK
+        run: |
+          wget https://github.com/birdrides/mockingbird/releases/download/0.20.0/Mockingbird.zip
+          tar -xzf Mockingbird.zip
+          ./Mockingbird/mockingbird version
+          ./Mockingbird/mockingbird configure AmazonChimeSDKTests -- --targets AmazonChimeSDK
+          xcodebuild test \
+            -project AmazonChimeSDK.xcodeproj \
+            -scheme AmazonChimeSDK \
+            -destination 'platform=iOS Simulator,name=iPhone 11' \
+            -skip-testing:"AmazonChimeSDKTests/SchedulerTests" \
+            -enableCodeCoverage YES \
+            build test
+
+      # We cannot upload artifacts that have a colon in them. Otherwise, it will
+      # error on upload. https://github.com/actions/upload-artifact/issues/35
+      - name: Rename test result files with a colon
+        if: failure()
+        run: |
+          find /Users/runner/Library/Developer/Xcode/DerivedData/AmazonChimeSDK-*/Logs/Test -name "*:*" -exec bash -c 'echo "$0"' '{}' \;
+          find /Users/runner/Library/Developer/Xcode/DerivedData/AmazonChimeSDK-*/Logs/Test -name "*:*" -exec bash -c 'mv "$0" "$(echo "$0" | sed -r "s|:|-|g")"' '{}' \;
+
+      # Upload test artifacts (for debugging purposes). Note that we ignore .ips
+      # and files with a colon because artifact cannot upload files with a colon
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: ios-test-results
+          path: |
+            !~Library/Developer/Xcode/DerivedData/AmazonChimeSDK-*/Logs/Test/**/*.ips
+            !~Library/**/*:*
+            ~/Library/Developer/Xcode/DerivedData/AmazonChimeSDK-*/Logs/Test/*.xcresult
+
+      # Upload code coverage report to codecov to process data
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1.2.1

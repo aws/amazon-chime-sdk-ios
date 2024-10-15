@@ -28,12 +28,6 @@ import Foundation
         return MediaDevice(label: port.portName, port: port)
     }
 
-    /// Create `MediaDevice` for video from  `VideoDevice`.
-    /// - Parameter device: Video device that contains information about device
-    static func fromVideoDevice(device: VideoDevice?) -> MediaDevice {
-        return MediaDevice(label: device?.name ?? "unknown", videoDevice: device)
-    }
-
     /// List available video capture devices from the hardware
     public static func listVideoDevices() -> [MediaDevice] {
         let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera],
@@ -54,6 +48,14 @@ import Foundation
     /// This methods returns an empty array for `MediaDevice` that's not used for video.
     /// - Parameter mediaDevice: Video capture device to query
     public static func listSupportedVideoCaptureFormats(mediaDevice: MediaDevice) -> [VideoCaptureFormat] {
+        let resolution = VideoResolution(width: Constants.maxSupportedVideoWidth, height: Constants.maxSupportedVideoHeight)
+        return listSupportedVideoCaptureFormats(mediaDevice: mediaDevice, videoMaxResolution: resolution)
+    }
+
+    /// List available `VideoCaptureFormat` from the video capture device.
+    /// This methods returns an empty array for `MediaDevice` that's not used for video.
+    /// - Parameter mediaDevice: Video capture device to query
+    public static func listSupportedVideoCaptureFormats(mediaDevice: MediaDevice, videoMaxResolution: VideoResolution) -> [VideoCaptureFormat] {
         guard mediaDevice.type == .videoFrontCamera || mediaDevice.type == .videoBackCamera else {
             return []
         }
@@ -65,10 +67,11 @@ import Foundation
             return []
         }
         var supportedFormats: [VideoCaptureFormat] = []
+
         for avFormat in device.formats {
             var format = VideoCaptureFormat.fromAVCaptureDeviceFormat(format: avFormat)
-            if format.height > Constants.maxSupportedVideoHeight
-                || format.width > Constants.maxSupportedVideoWidth {
+            if format.height > videoMaxResolution.height
+                || format.width > videoMaxResolution.width {
                 continue
             }
             if format.maxFrameRate > Constants.maxSupportedVideoFrameRate {
@@ -89,19 +92,10 @@ import Foundation
         self.port = nil
     }
 
-    public init(label: String, port: AVAudioSessionPortDescription? = nil, videoDevice: VideoDevice? = nil) {
+    public init(label: String, port: AVAudioSessionPortDescription? = nil) {
         self.label = label
         self.port = port
-        if let videoDevice = videoDevice {
-            let nameLowercased = videoDevice.name.lowercased()
-            if nameLowercased.contains("front") {
-                type = .videoFrontCamera
-            } else if nameLowercased.contains("back") {
-                type = .videoBackCamera
-            } else {
-                type = .other
-            }
-        } else if let port = port {
+        if let port = port {
             switch port.portType {
             case .bluetoothLE, .bluetoothHFP, .bluetoothA2DP:
                 type = .audioBluetooth

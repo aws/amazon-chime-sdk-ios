@@ -10,7 +10,7 @@ import Foundation
 
 /// `MeetingSessionCredentials` includes the credentials used to authenticate.
 /// the attendee on the meeting
-@objcMembers public class MeetingSessionCredentials: NSObject {
+@objcMembers public class MeetingSessionCredentials: NSObject, Codable {
     /// The attendee id for these credentials.
     public let attendeeId: String
 

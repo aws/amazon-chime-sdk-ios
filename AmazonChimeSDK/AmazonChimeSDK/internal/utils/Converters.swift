@@ -19,6 +19,26 @@ import Foundation
             return Self.toMeetingSessionStatusCode(rawValue: status.rawValue)
         }
     }
+    enum MeetingEventName {
+        static func toMeetingHistoryEventName(name: EventName) -> MeetingHistoryEventName {
+            switch name {
+            case .videoInputFailed:
+                return .videoInputFailed
+            case .meetingStartRequested:
+                return .meetingStartRequested
+            case .meetingStartSucceeded:
+                return .meetingStartSucceeded
+            case .meetingStartFailed:
+                return .meetingStartFailed
+            case .meetingFailed:
+                return .meetingFailed
+            case .meetingEnded:
+                return .meetingEnded
+            default:
+                return .unknown
+            }
+        }
+    }
 
     enum AudioClientState {
         static func toSessionStateControllerAction(state: audio_client_state_t) -> SessionStateControllerAction {
@@ -44,6 +64,20 @@ import Foundation
             default:
                 return .unknown
             }
+        }
+    }
+
+    enum Transcript {
+        static func toTranscriptionStatusType(type: TranscriptionStatusTypeInternal) -> TranscriptionStatusType {
+            return TranscriptionStatusType(rawValue: type.rawValue) ?? .unknown
+        }
+
+        static func toTranscriptItemType(type: TranscriptItemTypeInternal) -> TranscriptItemType {
+            return TranscriptItemType(rawValue: type.rawValue) ?? .unknown
+        }
+
+        static func toAttendeeInfo(attendeeInfo: AttendeeInfoInternal) -> AttendeeInfo {
+            return AttendeeInfo(attendeeId: attendeeInfo.attendeeId, externalUserId: attendeeInfo.externalUserId)
         }
     }
 }

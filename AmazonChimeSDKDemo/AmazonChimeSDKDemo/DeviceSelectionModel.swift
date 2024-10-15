@@ -13,11 +13,12 @@ class DeviceSelectionModel {
     let audioDevices: [MediaDevice]
     let videoDevices: [MediaDevice]
     let cameraCaptureSource: DefaultCameraCaptureSource
+    let audioVideoConfig: AudioVideoConfiguration
 
     lazy var supportedVideoFormat: [[VideoCaptureFormat]] = {
         self.videoDevices.map { videoDevice in
             // Reverse these so the highest resolutions are first
-            MediaDevice.listSupportedVideoCaptureFormats(mediaDevice: videoDevice).reversed()
+            MediaDevice.listSupportedVideoCaptureFormats(mediaDevice: videoDevice, videoMaxResolution: audioVideoConfig.videoMaxResolution).reversed()
         }
     }()
 
@@ -47,7 +48,8 @@ class DeviceSelectionModel {
     }
 
     var selectedVideoFormat: VideoCaptureFormat? {
-        if videoDevices.count == 0 {
+        let supportedVideoFormat = self.supportedVideoFormat
+        guard supportedVideoFormat.count >= selectedVideoDeviceIndex + 1 else {
             return nil
         }
         return supportedVideoFormat[selectedVideoDeviceIndex][selectedVideoFormatIndex]
@@ -57,12 +59,16 @@ class DeviceSelectionModel {
         return selectedVideoDevice?.type == MediaDeviceType.videoFrontCamera
     }
 
-    init(deviceController: DeviceController, cameraCaptureSource: DefaultCameraCaptureSource) {
+    init(deviceController: DeviceController, cameraCaptureSource: DefaultCameraCaptureSource, audioVideoConfig: AudioVideoConfiguration) {
         audioDevices = deviceController.listAudioDevices()
         // Reverse these so the front camera is the initial choice
         videoDevices = MediaDevice.listVideoDevices().reversed()
         self.cameraCaptureSource = cameraCaptureSource
+        self.audioVideoConfig = audioVideoConfig
         cameraCaptureSource.device = selectedVideoDevice
+        if (audioVideoConfig.videoMaxResolution == VideoResolution.videoDisabled) {
+            return
+        }
         guard let selectedVideoFormat = selectedVideoFormat else { return }
         cameraCaptureSource.format = selectedVideoFormat
     }

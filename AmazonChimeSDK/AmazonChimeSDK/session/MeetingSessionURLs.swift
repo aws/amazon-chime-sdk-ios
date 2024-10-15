@@ -9,7 +9,7 @@
 import Foundation
 
 /// `MeetingSessionURLs` contains the URLs that will be used to reach the meeting service.
-@objcMembers public class MeetingSessionURLs: NSObject {
+@objcMembers public class MeetingSessionURLs: NSObject, Codable {
     /// The audio fallback URL of the session
     public let audioFallbackUrl: String
 
@@ -22,14 +22,36 @@ import Foundation
     /// The signaling URL of the session
     public let signalingUrl: String
 
+    /// The event ingestion URL of the session
+    public let ingestionUrl: String?
+
+    public convenience init(audioFallbackUrl: String,
+                            audioHostUrl: String,
+                            turnControlUrl: String,
+                            signalingUrl: String,
+                            urlRewriter: URLRewriter) {
+        self.init(audioFallbackUrl: audioFallbackUrl,
+                  audioHostUrl: audioHostUrl,
+                  turnControlUrl: turnControlUrl,
+                  signalingUrl: signalingUrl,
+                  urlRewriter: urlRewriter,
+                  ingestionUrl: nil)
+    }
+
     public init(audioFallbackUrl: String,
                 audioHostUrl: String,
                 turnControlUrl: String,
                 signalingUrl: String,
-                urlRewriter: URLRewriter) {
+                urlRewriter: URLRewriter,
+                ingestionUrl: String?) {
         self.audioFallbackUrl = urlRewriter(audioFallbackUrl)
         self.audioHostUrl = urlRewriter(audioHostUrl)
         self.turnControlUrl = urlRewriter(turnControlUrl)
         self.signalingUrl = urlRewriter(signalingUrl)
+        if let ingestionUrl = ingestionUrl {
+            self.ingestionUrl = urlRewriter(ingestionUrl)
+        } else {
+            self.ingestionUrl = ingestionUrl
+        }
     }
 }

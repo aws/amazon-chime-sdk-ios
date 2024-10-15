@@ -14,26 +14,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_: UIApplication,
                      didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        window?.rootViewController = UIStoryboard(name: "LaunchScreen", bundle: nil).instantiateInitialViewController()
+        window?.makeKeyAndVisible()
+
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
+            self.window?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+        }
         return true
     }
 
-    // MARK: UISceneSession Lifecycle
-
-    @available(iOS 13.0, *)
-    func application(_: UIApplication,
-                     configurationForConnecting connectingSceneSession: UISceneSession,
-                     options _: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        // Called when a new scene session is being created.
-        // Use this method to select a configuration to create the new scene with.
-        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+    func applicationWillTerminate(_ application: UIApplication) {
+        // If app is being force killed while CallKit integrated meeting is in progress,
+        // provider(_: CXProvider, perform action: CXEndCallAction) will not be called.
+        // So we need to invoke isEndedHandler() directly.
+        if let call = MeetingModule.shared().activeMeeting?.call {
+            call.isEndedHandler?()
+        } else {
+            MeetingModule.shared().endActiveMeeting {}
+        }
     }
 
-    @available(iOS 13.0, *)
-    func application(_: UIApplication, didDiscardSceneSessions _: Set<UISceneSession>) {
-        // Called when the user discards a scene session.
-        // If any sessions were discarded while the application was not running,
-        // this will be called shortly after application:didFinishLaunchingWithOptions.
-        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        if let meeting = MeetingModule.shared().activeMeeting {
+            meeting.isAppInBackground = true
+        }
+    }
+
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        if let meeting = MeetingModule.shared().activeMeeting {
+            meeting.isAppInBackground = false
+        }
     }
 }

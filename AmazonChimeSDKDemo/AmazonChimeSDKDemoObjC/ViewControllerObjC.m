@@ -18,7 +18,7 @@
     [super viewDidLoad];
     [self updateUIWithMeetingStarted:NO];
     self.logger = [[ConsoleLogger alloc] initWithName:@"ViewControllerObjC"
-                                                level:LogLevelDEFAULT];
+                                                level:LogLevelINFO];
     self.versionLabel.text = [NSString stringWithFormat:@"amazon-chime-sdk-ios@%@", [Versioning sdkVersion]];
 }
 
@@ -64,6 +64,12 @@
             NSString *turnControlUrl = [mediaPlacementDict objectForKey:@"TurnControlUrl"];
             NSString *signalingUrl = [mediaPlacementDict objectForKey:@"SignalingUrl"];
 
+            NSDictionary *meetingFeaturesDict = [meetingInfoDict objectForKey:@"MeetingFeatures"];
+            NSDictionary *videoFeaturesDict = [meetingFeaturesDict objectForKey:@"Video"];
+            NSString     *videoMaxResolution = [videoFeaturesDict objectForKey:@"MaxResolution"];
+            NSDictionary *contentFeaturesDict = [meetingFeaturesDict objectForKey:@"Content"];
+            NSString     *contentMaxResolution = [contentFeaturesDict objectForKey:@"MaxResolution"];
+
             NSDictionary *attendeeInfoDict = [[joinInfoDict objectForKey:@"Attendee"] objectForKey:@"Attendee"];
             NSString *attendeeId = [attendeeInfoDict objectForKey:@"AttendeeId"];
             NSString *externalUserId = [attendeeInfoDict objectForKey:@"ExternalUserId"];
@@ -75,10 +81,14 @@
                                                                                  signalingUrl:signalingUrl
                                                                                turnControlUrl:turnControlUrl];
 
+            MeetingFeatures *meetingFeatures= [[MeetingFeatures alloc] initWithVideo:videoMaxResolution
+                                                                             content:contentMaxResolution];
             Meeting *meeting = [[Meeting alloc] initWithExternalMeetingId:externalMeetingId
                                                            mediaPlacement:mediaPlacement
+                                                          meetingFeatures:meetingFeatures
                                                               mediaRegion:mediaRegion
-                                                                meetingId:meetingId];
+                                                                meetingId:meetingId
+                                                         primaryMeetingId:nil];
             CreateMeetingResponse *createMeetingResponse = [[CreateMeetingResponse alloc] initWithMeeting:meeting];
             Attendee *attendee = [[Attendee alloc] initWithAttendeeId:attendeeId
                                                        externalUserId:externalUserId
@@ -106,6 +116,7 @@
     }
 
     NSError* error = nil;
+    [self.meetingSession.audioVideo addEventAnalyticsObserverWithObserver:self];
     BOOL started = [self.meetingSession.audioVideo startAndReturnError:&error];
     if (started && error == nil) {
         [self.logger infoWithMsg:@"ObjC meeting session was started successfully"];
@@ -210,6 +221,7 @@
     [self.meetingSession.audioVideo removeMetricsObserverWithObserver:self];
     [self.meetingSession.audioVideo removeVideoTileObserverWithObserver:self];
     [self.meetingSession.audioVideo removeActiveSpeakerObserverWithObserver:self];
+    [self.meetingSession.audioVideo removeEventAnalyticsObserverWithObserver:self];
     [self.meetingSession.audioVideo stop];
     [self updateUIWithMeetingStarted:NO];
 }
@@ -308,13 +320,13 @@
 
 - (void)signalStrengthDidChangeWithSignalUpdates:(NSArray<SignalUpdate *> * _Nonnull)signalUpdates {
     for (id currentSignalUpdate in signalUpdates) {
-        [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ signalStrength changed to %lu", [[currentSignalUpdate attendeeInfo] attendeeId], [currentSignalUpdate signalStrength]]];
+        [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ signalStrength changed to %lu", [[currentSignalUpdate attendeeInfo] attendeeId], (unsigned long)[currentSignalUpdate signalStrength]]];
     }
 }
 
 - (void)volumeDidChangeWithVolumeUpdates:(NSArray<VolumeUpdate *> * _Nonnull)volumeUpdates {
     for (id currentVolumeUpdate in volumeUpdates) {
-        [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ volumeLevel changed to %ld", [[currentVolumeUpdate attendeeInfo] attendeeId], [currentVolumeUpdate volumeLevel]]];
+        [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ volumeLevel changed to %lu", [[currentVolumeUpdate attendeeInfo] attendeeId], (unsigned long)[currentVolumeUpdate volumeLevel]]];
     }
 }
 
@@ -355,6 +367,9 @@
 - (void)videoTileDidRemoveWithTileState:(VideoTileState *)tileState {
     [self.logger infoWithMsg:[NSString stringWithFormat:@"Removing Video Tile tileId: %ld, attendeeId: %@", (long)tileState.tileId, tileState.attendeeId]];
     [self.meetingSession.audioVideo unbindVideoViewWithTileId:tileState.tileId];
+    if (![tileState isLocalTile]) {
+        [self.remoteVideoView resetImage];
+    }
 }
 
 - (void)videoTileDidPauseWithTileState:(VideoTileState *)tileState {
@@ -385,6 +400,11 @@
 
 - (NSString*)observerId {
     return [NSUUID new].UUIDString;
+}
+
+# pragma mark - EventAnalyticObserver
+- (void)eventDidReceiveWithName:(enum EventName)name attributes:(NSDictionary *)attributes {
+    [self.logger infoWithMsg:[NSString stringWithFormat:@"%lu %@\n", (unsigned long)name, [attributes toJsonString]]];
 }
 
 @end

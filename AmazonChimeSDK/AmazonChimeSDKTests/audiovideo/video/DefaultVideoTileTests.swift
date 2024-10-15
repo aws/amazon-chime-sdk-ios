@@ -35,7 +35,7 @@ class DefaultVideoTileTests: XCTestCase {
         videoRenderViewMock = mock(VideoRenderView.self)
         defaultVideoTitle.bind(videoRenderView: videoRenderViewMock)
 
-        verify(loggerMock.info(msg: "Binding the view to tile: tileId: \(tileId), attendeeId: \(attendeeId)")).wasCalled()
+        verify(loggerMock.info(msg: "Binding the view to tile: tileId: \(self.tileId), attendeeId: \(self.attendeeId)")).wasCalled()
         XCTAssert(videoRenderViewMock === defaultVideoTitle.videoRenderView)
     }
 
@@ -54,7 +54,7 @@ class DefaultVideoTileTests: XCTestCase {
     func testUnbind() {
         defaultVideoTitle.unbind()
 
-        verify(loggerMock.info(msg: "Unbinding the view from tile: tileId: \(tileId), attendeeId: \(attendeeId)")).wasCalled()
+        verify(loggerMock.info(msg: "Unbinding the view from tile: tileId: \(self.tileId), attendeeId: \(self.attendeeId)")).wasCalled()
         XCTAssertNil(defaultVideoTitle.videoRenderView)
     }
 

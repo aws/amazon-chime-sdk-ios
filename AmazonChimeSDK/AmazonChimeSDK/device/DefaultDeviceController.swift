@@ -13,13 +13,16 @@ import AVFoundation
     let logger: Logger
     let audioSession: AudioSession
     let deviceChangeObservers = ConcurrentMutableSet()
+    let eventAnalyticsController: EventAnalyticsController
 
     public init(audioSession: AudioSession,
                 videoClientController: VideoClientController,
+                eventAnalyticsController: EventAnalyticsController,
                 logger: Logger) {
         self.videoClientController = videoClientController
         self.logger = logger
         self.audioSession = audioSession
+        self.eventAnalyticsController = eventAnalyticsController
         super.init()
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(handleSystemAudioChange),
@@ -34,8 +37,22 @@ import AVFoundation
     public func listAudioDevices() -> [MediaDevice] {
         var inputDevices: [MediaDevice] = []
         let loudSpeaker = getSpeakerMediaDevice()
-        if let availablePort = audioSession.availableInputs {
-            inputDevices = availablePort.map { port in MediaDevice.fromAVSessionPort(port: port) }
+        if let availableInputs = audioSession.availableInputs {
+            // On iOS 15, availableInputs returns two entries for bluetooth devices,
+            // one with type Unknown.
+            // All fields are identical other than uid and portType.
+            // This is a workaround to dedup the bluetooth device entry.
+            var dedupInputsByName: [String: AVAudioSessionPortDescription] = [:]
+            for input in availableInputs {
+                if let existedInput = dedupInputsByName[input.portName] {
+                    if (existedInput.portType.rawValue == "Unknown") {
+                        dedupInputsByName[input.portName] = input
+                    }
+                } else {
+                    dedupInputsByName[input.portName] = input
+                }
+            }
+            inputDevices = dedupInputsByName.values.map { port in MediaDevice.fromAVSessionPort(port: port) }
         }
         // Putting loudSpeaker devices as second element is to align with
         // what apple's AVRoutePickerView will present the list of audio devices:
@@ -53,6 +70,7 @@ import AVFoundation
             } else {
                 try audioSession.setPreferredInput(mediaDevice.port)
             }
+            eventAnalyticsController.pushHistory(historyEventName: .audioInputSelected)
         } catch {
             logger.error(msg: "Error on setting audio input device: \(error.localizedDescription)")
         }

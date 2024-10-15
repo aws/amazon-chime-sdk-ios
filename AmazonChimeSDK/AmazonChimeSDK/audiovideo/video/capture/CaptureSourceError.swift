@@ -23,7 +23,7 @@ import Foundation
     /// A temporary failure observed when capture source generates an invalid frame which is ignored.
     case invalidFrame = 3
 
-    var description: String {
+    public var description: String {
         switch self {
         case .unknown:
             return "unknown"

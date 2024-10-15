@@ -12,4 +12,5 @@ import Foundation
     var configuration: MeetingSessionConfiguration { get }
     var logger: Logger { get }
     var audioVideo: AudioVideoFacade { get }
+    var eventAnalyticsController: EventAnalyticsController { get }
 }

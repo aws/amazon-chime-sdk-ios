@@ -3,17 +3,21 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		001FDF2625B7605000774605 /* LogRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001FDF2525B7605000774605 /* LogRequestBody.swift */; };
 		003B58AF23E23E9D002493AB /* JoinMeetingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003B58AE23E23E9D002493AB /* JoinMeetingResponse.swift */; };
 		003B58B123E25032002493AB /* HttpUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003B58B023E25032002493AB /* HttpUtils.swift */; };
-		00F0F6E12411B8E20013DA25 /* Toast in Frameworks */ = {isa = PBXBuildFile; productRef = 00F0F6E02411B8E20013DA25 /* Toast */; };
+		00D82F1E25B2732D000496A2 /* PostLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D82F1D25B2732D000496A2 /* PostLogger.swift */; };
+		00D82F2425B27BD5000496A2 /* LogEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D82F2325B27BD5000496A2 /* LogEntry.swift */; };
 		00F372EA23D9196E008F7CA7 /* MeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F372E923D9196E008F7CA7 /* MeetingViewController.swift */; };
 		00F372EE23DA2BFD008F7CA7 /* RosterAttendee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F372ED23DA2BFD008F7CA7 /* RosterAttendee.swift */; };
+		4CC2069452049F35E3B82174 /* Pods_AmazonChimeSDKDemoPods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE0AD430C91242546F74E1D8 /* Pods_AmazonChimeSDKDemoPods.framework */; };
+		5403538E27D0CBA4007BABD7 /* TranscriptionStreamParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403538C27D0CBA4007BABD7 /* TranscriptionStreamParams.swift */; };
+		54146E1E27D1F3E2001FBAE6 /* AutomaticLanguageOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54146E1D27D1F3E2001FBAE6 /* AutomaticLanguageOptionsViewController.swift */; };
 		5A1582BA23C40C9B0099F8FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1582B923C40C9B0099F8FA /* AppDelegate.swift */; };
-		5A1582BC23C40C9B0099F8FA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1582BB23C40C9B0099F8FA /* SceneDelegate.swift */; };
 		5A1582BE23C40C9B0099F8FA /* JoiningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1582BD23C40C9B0099F8FA /* JoiningViewController.swift */; };
 		5A1582C123C40C9B0099F8FA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A1582BF23C40C9B0099F8FA /* Main.storyboard */; };
 		5A1582C323C40C9D0099F8FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A1582C223C40C9D0099F8FA /* Assets.xcassets */; };
@@ -27,9 +31,68 @@
 		5A9E17D124A6A810002CACC5 /* AmazonChimeSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE38AD7242873FD00B234EC /* AmazonChimeSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5ACB3E71249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ACB3E6F249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework */; };
 		5ACB3E72249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5ACB3E6F249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5ACB3E74249AEE7300FC6E1B /* AmazonChimeSDKMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ACB3E6F249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework */; };
-		5ACB3E75249AEE7300FC6E1B /* AmazonChimeSDKMedia.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5ACB3E6F249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5AE38AE02428747100B234EC /* AmazonChimeSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE38AD7242873FD00B234EC /* AmazonChimeSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		71BEE1F229F8C17D002C6BBA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A1582C223C40C9D0099F8FA /* Assets.xcassets */; };
+		71BEE1F329F8C17D002C6BBA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A1582C423C40C9D0099F8FA /* LaunchScreen.storyboard */; };
+		71BEE1F429F8C17D002C6BBA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A1582BF23C40C9B0099F8FA /* Main.storyboard */; };
+		71BEE1F629F8C17D002C6BBA /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89046E529834C8B00373566 /* Toast.swift */; };
+		71BEE1F729F8C17D002C6BBA /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89046EC2983C32400373566 /* ToastView.swift */; };
+		71BEE1F829F8C17D002C6BBA /* ToastPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89046E729834D5400373566 /* ToastPosition.swift */; };
+		71BEE1F929F8C17D002C6BBA /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89046EA2983BC9800373566 /* PaddingLabel.swift */; };
+		71BEE1FA29F8C17D002C6BBA /* TranscriptionStreamParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403538C27D0CBA4007BABD7 /* TranscriptionStreamParams.swift */; };
+		71BEE1FB29F8C17D002C6BBA /* MetricsTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C446C84824A6612500392CE5 /* MetricsTableCell.swift */; };
+		71BEE1FC29F8C17D002C6BBA /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D50D923FC9C6C00D8F18C /* AppConfiguration.swift */; };
+		71BEE1FD29F8C17D002C6BBA /* MeetingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4923C0924BF62FE00EE866B /* MeetingPresenter.swift */; };
+		71BEE1FE29F8C17D002C6BBA /* Call.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43FD3CC24B533EA0080D57E /* Call.swift */; };
+		71BEE1FF29F8C17D002C6BBA /* CallKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4781FD524ABC45800300604 /* CallKitManager.swift */; };
+		71BEE20029F8C17D002C6BBA /* PostLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D82F1D25B2732D000496A2 /* PostLogger.swift */; };
+		71BEE20129F8C17D002C6BBA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1582B923C40C9B0099F8FA /* AppDelegate.swift */; };
+		71BEE20229F8C17D002C6BBA /* HttpUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003B58B023E25032002493AB /* HttpUtils.swift */; };
+		71BEE20329F8C17D002C6BBA /* Caption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D4376270510D200150F03 /* Caption.swift */; };
+		71BEE20429F8C17D002C6BBA /* LogEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D82F2325B27BD5000496A2 /* LogEntry.swift */; };
+		71BEE20529F8C17D002C6BBA /* JoinMeetingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003B58AE23E23E9D002493AB /* JoinMeetingResponse.swift */; };
+		71BEE20629F8C17D002C6BBA /* MeetingModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4923C0524BE71D800EE866B /* MeetingModule.swift */; };
+		71BEE20729F8C17D002C6BBA /* MeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F372E923D9196E008F7CA7 /* MeetingViewController.swift */; };
+		71BEE20829F8C17D002C6BBA /* LiveTranscriptionOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE3CFC927050CD800DAC586 /* LiveTranscriptionOptionsViewController.swift */; };
+		71BEE20929F8C17D002C6BBA /* MeetingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4923BEC24B8CB1B00EE866B /* MeetingModel.swift */; };
+		71BEE20A29F8C17D002C6BBA /* CoreImageVideoProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42A8A10253E2E4E008419A6 /* CoreImageVideoProcessor.swift */; };
+		71BEE20B29F8C17D002C6BBA /* DeviceSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42A8A0C253E2E22008419A6 /* DeviceSelectionViewController.swift */; };
+		71BEE20C29F8C17D002C6BBA /* DebugSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB5638825CCFB700096EE85 /* DebugSettingsViewController.swift */; };
+		71BEE20D29F8C17D002C6BBA /* RosterAttendee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F372ED23DA2BFD008F7CA7 /* RosterAttendee.swift */; };
+		71BEE20E29F8C17D002C6BBA /* TimestampConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCD85624B947FB00064C9E /* TimestampConversion.swift */; };
+		71BEE20F29F8C17D002C6BBA /* CaptionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D436F27050FBF00150F03 /* CaptionsModel.swift */; };
+		71BEE21029F8C17D002C6BBA /* MetalVideoProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42A8A0F253E2E4E008419A6 /* MetalVideoProcessor.swift */; };
+		71BEE21129F8C17D002C6BBA /* RosterTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A81417723F2300D00560201 /* RosterTableCell.swift */; };
+		71BEE21229F8C17D002C6BBA /* SegmentedControlIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A16BED724045A7100ADAE26 /* SegmentedControlIndex.swift */; };
+		71BEE21329F8C17D002C6BBA /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCD85124B9330A00064C9E /* ChatMessageCell.swift */; };
+		71BEE21429F8C17D002C6BBA /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCD85424B9364900064C9E /* ChatModel.swift */; };
+		71BEE21529F8C17D002C6BBA /* VideoTileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A16BE7924006A2A00ADAE26 /* VideoTileCell.swift */; };
+		71BEE21629F8C17D002C6BBA /* CaptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D4379270512A100150F03 /* CaptionCell.swift */; };
+		71BEE21729F8C17D002C6BBA /* RosterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4632EBC24A57BF8009F8AF5 /* RosterModel.swift */; };
+		71BEE21829F8C17D002C6BBA /* DeviceSelectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42A8A0A253E2E22008419A6 /* DeviceSelectionModel.swift */; };
+		71BEE21929F8C17D002C6BBA /* JoiningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1582BD23C40C9B0099F8FA /* JoiningViewController.swift */; };
+		71BEE21A29F8C17D002C6BBA /* MetricsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A38BFB624A131B3005B2AA7 /* MetricsModel.swift */; };
+		71BEE21B29F8C17D002C6BBA /* JoinRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C439EA3D24B78A11005B94C4 /* JoinRequestService.swift */; };
+		71BEE21C29F8C17D002C6BBA /* LogRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001FDF2525B7605000774605 /* LogRequestBody.swift */; };
+		71BEE21D29F8C17D002C6BBA /* InAppScreenCaptureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A3FFE5259B9AB2007CFABE /* InAppScreenCaptureModel.swift */; };
+		71BEE21E29F8C17D002C6BBA /* DebugSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB5638B25CCFEA30096EE85 /* DebugSettingsModel.swift */; };
+		71BEE21F29F8C17D002C6BBA /* VideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D8E1B724A412B6005D9CF7 /* VideoModel.swift */; };
+		71BEE22029F8C17D002C6BBA /* BroadcastScreenCaptureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A3FFE9259B9AC5007CFABE /* BroadcastScreenCaptureModel.swift */; };
+		71BEE22129F8C17D002C6BBA /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1DE365249332870060E9C3 /* ViewControllerExtension.swift */; };
+		71BEE22229F8C17D002C6BBA /* CallKitOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45B6C0724AE38D6001BE825 /* CallKitOption.swift */; };
+		71BEE22329F8C17D002C6BBA /* AutomaticLanguageOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54146E1D27D1F3E2001FBAE6 /* AutomaticLanguageOptionsViewController.swift */; };
+		71BEE22429F8C17D002C6BBA /* ScreenShareModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4923BEF24B8DF1100EE866B /* ScreenShareModel.swift */; };
+		71BEE25729F8D5AF002C6BBA /* SampleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A690A3255DFF4600F28BC2 /* SampleHandler.swift */; };
+		71BEE25A29F8D5AF002C6BBA /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4A690A0255DFF4600F28BC2 /* ReplayKit.framework */; };
+		71BEE26529F8D5FC002C6BBA /* AmazonChimeSDKDemoBroadcastSPM.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 71BEE25F29F8D5AF002C6BBA /* AmazonChimeSDKDemoBroadcastSPM.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		71FCF5ED2A2803C0004425B7 /* AmazonChimeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 71FCF5EC2A2803C0004425B7 /* AmazonChimeSDK */; };
+		71FCF5EF2A2803C0004425B7 /* AmazonChimeSDKMachineLearning in Frameworks */ = {isa = PBXBuildFile; productRef = 71FCF5EE2A2803C0004425B7 /* AmazonChimeSDKMachineLearning */; };
+		71FCF5F12A2803C0004425B7 /* AmazonChimeSDKMedia in Frameworks */ = {isa = PBXBuildFile; productRef = 71FCF5F02A2803C0004425B7 /* AmazonChimeSDKMedia */; };
+		71FCF5F32A2803D8004425B7 /* AmazonChimeSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 71FCF5F22A2803D8004425B7 /* AmazonChimeSDK */; };
+		77BB980531BBDCFE72BF62B6 /* Pods_AmazonChimeSDKDemoBroadcastPods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FBF914BC0C979614F44B032 /* Pods_AmazonChimeSDKDemoBroadcastPods.framework */; };
+		7C42A00629A4522A00B25E50 /* AmazonChimeSDKMedia.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C42A00529A4522900B25E50 /* AmazonChimeSDKMedia.xcframework */; };
+		7C42A00729A4522A00B25E50 /* AmazonChimeSDKMedia.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7C42A00529A4522900B25E50 /* AmazonChimeSDKMedia.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		ADE3CFCA27050CD800DAC586 /* LiveTranscriptionOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE3CFC927050CD800DAC586 /* LiveTranscriptionOptionsViewController.swift */; };
 		B4FCD85224B9330A00064C9E /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCD85124B9330A00064C9E /* ChatMessageCell.swift */; };
 		B4FCD85524B9364900064C9E /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCD85424B9364900064C9E /* ChatModel.swift */; };
 		B4FCD85724B947FC00064C9E /* TimestampConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCD85624B947FB00064C9E /* TimestampConversion.swift */; };
@@ -47,7 +110,76 @@
 		C4923BF024B8DF1100EE866B /* ScreenShareModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4923BEF24B8DF1100EE866B /* ScreenShareModel.swift */; };
 		C4923C0624BE71D800EE866B /* MeetingModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4923C0524BE71D800EE866B /* MeetingModule.swift */; };
 		C4923C0A24BF62FE00EE866B /* MeetingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4923C0924BF62FE00EE866B /* MeetingPresenter.swift */; };
+		C4A3FFE6259B9AB2007CFABE /* InAppScreenCaptureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A3FFE5259B9AB2007CFABE /* InAppScreenCaptureModel.swift */; };
+		C4A3FFEA259B9AC5007CFABE /* BroadcastScreenCaptureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A3FFE9259B9AC5007CFABE /* BroadcastScreenCaptureModel.swift */; };
+		C4A690A1255DFF4600F28BC2 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4A690A0255DFF4600F28BC2 /* ReplayKit.framework */; };
+		C4A690A4255DFF4600F28BC2 /* SampleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A690A3255DFF4600F28BC2 /* SampleHandler.swift */; };
+		C4A690A8255DFF4600F28BC2 /* AmazonChimeSDKDemoBroadcast.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C4A6909F255DFF4600F28BC2 /* AmazonChimeSDKDemoBroadcast.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C4A690AE255E00C100F28BC2 /* AmazonChimeSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AE38AD7242873FD00B234EC /* AmazonChimeSDK.framework */; };
 		C4D8E1B824A412B6005D9CF7 /* VideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D8E1B724A412B6005D9CF7 /* VideoModel.swift */; };
+		C61D437027050FBF00150F03 /* CaptionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D436F27050FBF00150F03 /* CaptionsModel.swift */; };
+		C61D4377270510D200150F03 /* Caption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D4376270510D200150F03 /* Caption.swift */; };
+		C61D437A270512A100150F03 /* CaptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D4379270512A100150F03 /* CaptionCell.swift */; };
+		CFD14AAF281B4DAA00C8D8CA /* AmazonChimeSDKMachineLearning.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFD14AAE281B4DAA00C8D8CA /* AmazonChimeSDKMachineLearning.xcframework */; };
+		D89046E629834C8B00373566 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89046E529834C8B00373566 /* Toast.swift */; };
+		D89046E829834D5400373566 /* ToastPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89046E729834D5400373566 /* ToastPosition.swift */; };
+		D89046EB2983BC9800373566 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89046EA2983BC9800373566 /* PaddingLabel.swift */; };
+		D89046ED2983C32400373566 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89046EC2983C32400373566 /* ToastView.swift */; };
+		ED150C0727E2E88E003E3061 /* SampleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A690A3255DFF4600F28BC2 /* SampleHandler.swift */; };
+		ED150C0A27E2E88E003E3061 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4A690A0255DFF4600F28BC2 /* ReplayKit.framework */; };
+		ED36C8B727E319C70061E150 /* AmazonChimeSDKDemoBroadcastPods.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = ED150C0F27E2E88E003E3061 /* AmazonChimeSDKDemoBroadcastPods.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EDA766B127E2B57E006B3C48 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A1582C223C40C9D0099F8FA /* Assets.xcassets */; };
+		EDA766B227E2B57E006B3C48 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A1582C423C40C9D0099F8FA /* LaunchScreen.storyboard */; };
+		EDA766B327E2B57E006B3C48 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A1582BF23C40C9B0099F8FA /* Main.storyboard */; };
+		EDA766B527E2B57E006B3C48 /* TranscriptionStreamParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403538C27D0CBA4007BABD7 /* TranscriptionStreamParams.swift */; };
+		EDA766B627E2B57E006B3C48 /* MetricsTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C446C84824A6612500392CE5 /* MetricsTableCell.swift */; };
+		EDA766B727E2B57E006B3C48 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D50D923FC9C6C00D8F18C /* AppConfiguration.swift */; };
+		EDA766B827E2B57E006B3C48 /* MeetingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4923C0924BF62FE00EE866B /* MeetingPresenter.swift */; };
+		EDA766B927E2B57E006B3C48 /* Call.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43FD3CC24B533EA0080D57E /* Call.swift */; };
+		EDA766BA27E2B57E006B3C48 /* CallKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4781FD524ABC45800300604 /* CallKitManager.swift */; };
+		EDA766BB27E2B57E006B3C48 /* PostLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D82F1D25B2732D000496A2 /* PostLogger.swift */; };
+		EDA766BC27E2B57E006B3C48 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1582B923C40C9B0099F8FA /* AppDelegate.swift */; };
+		EDA766BD27E2B57E006B3C48 /* HttpUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003B58B023E25032002493AB /* HttpUtils.swift */; };
+		EDA766BE27E2B57E006B3C48 /* Caption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D4376270510D200150F03 /* Caption.swift */; };
+		EDA766BF27E2B57E006B3C48 /* LogEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D82F2325B27BD5000496A2 /* LogEntry.swift */; };
+		EDA766C027E2B57E006B3C48 /* JoinMeetingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003B58AE23E23E9D002493AB /* JoinMeetingResponse.swift */; };
+		EDA766C127E2B57E006B3C48 /* MeetingModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4923C0524BE71D800EE866B /* MeetingModule.swift */; };
+		EDA766C227E2B57E006B3C48 /* MeetingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F372E923D9196E008F7CA7 /* MeetingViewController.swift */; };
+		EDA766C327E2B57E006B3C48 /* LiveTranscriptionOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE3CFC927050CD800DAC586 /* LiveTranscriptionOptionsViewController.swift */; };
+		EDA766C427E2B57E006B3C48 /* MeetingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4923BEC24B8CB1B00EE866B /* MeetingModel.swift */; };
+		EDA766C527E2B57E006B3C48 /* CoreImageVideoProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42A8A10253E2E4E008419A6 /* CoreImageVideoProcessor.swift */; };
+		EDA766C627E2B57E006B3C48 /* DeviceSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42A8A0C253E2E22008419A6 /* DeviceSelectionViewController.swift */; };
+		EDA766C727E2B57E006B3C48 /* DebugSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB5638825CCFB700096EE85 /* DebugSettingsViewController.swift */; };
+		EDA766C827E2B57E006B3C48 /* RosterAttendee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F372ED23DA2BFD008F7CA7 /* RosterAttendee.swift */; };
+		EDA766C927E2B57E006B3C48 /* TimestampConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCD85624B947FB00064C9E /* TimestampConversion.swift */; };
+		EDA766CA27E2B57E006B3C48 /* CaptionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D436F27050FBF00150F03 /* CaptionsModel.swift */; };
+		EDA766CB27E2B57E006B3C48 /* MetalVideoProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42A8A0F253E2E4E008419A6 /* MetalVideoProcessor.swift */; };
+		EDA766CC27E2B57E006B3C48 /* RosterTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A81417723F2300D00560201 /* RosterTableCell.swift */; };
+		EDA766CD27E2B57E006B3C48 /* SegmentedControlIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A16BED724045A7100ADAE26 /* SegmentedControlIndex.swift */; };
+		EDA766CE27E2B57E006B3C48 /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCD85124B9330A00064C9E /* ChatMessageCell.swift */; };
+		EDA766CF27E2B57E006B3C48 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FCD85424B9364900064C9E /* ChatModel.swift */; };
+		EDA766D027E2B57E006B3C48 /* VideoTileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A16BE7924006A2A00ADAE26 /* VideoTileCell.swift */; };
+		EDA766D127E2B57E006B3C48 /* CaptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D4379270512A100150F03 /* CaptionCell.swift */; };
+		EDA766D227E2B57E006B3C48 /* RosterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4632EBC24A57BF8009F8AF5 /* RosterModel.swift */; };
+		EDA766D327E2B57E006B3C48 /* DeviceSelectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42A8A0A253E2E22008419A6 /* DeviceSelectionModel.swift */; };
+		EDA766D427E2B57E006B3C48 /* JoiningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1582BD23C40C9B0099F8FA /* JoiningViewController.swift */; };
+		EDA766D527E2B57E006B3C48 /* MetricsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A38BFB624A131B3005B2AA7 /* MetricsModel.swift */; };
+		EDA766D627E2B57E006B3C48 /* JoinRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C439EA3D24B78A11005B94C4 /* JoinRequestService.swift */; };
+		EDA766D727E2B57E006B3C48 /* LogRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001FDF2525B7605000774605 /* LogRequestBody.swift */; };
+		EDA766D827E2B57E006B3C48 /* InAppScreenCaptureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A3FFE5259B9AB2007CFABE /* InAppScreenCaptureModel.swift */; };
+		EDA766D927E2B57E006B3C48 /* DebugSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB5638B25CCFEA30096EE85 /* DebugSettingsModel.swift */; };
+		EDA766DA27E2B57E006B3C48 /* VideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D8E1B724A412B6005D9CF7 /* VideoModel.swift */; };
+		EDA766DB27E2B57E006B3C48 /* BroadcastScreenCaptureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A3FFE9259B9AC5007CFABE /* BroadcastScreenCaptureModel.swift */; };
+		EDA766DC27E2B57E006B3C48 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1DE365249332870060E9C3 /* ViewControllerExtension.swift */; };
+		EDA766DD27E2B57E006B3C48 /* CallKitOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45B6C0724AE38D6001BE825 /* CallKitOption.swift */; };
+		EDA766DE27E2B57E006B3C48 /* AutomaticLanguageOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54146E1D27D1F3E2001FBAE6 /* AutomaticLanguageOptionsViewController.swift */; };
+		EDA766DF27E2B57E006B3C48 /* ScreenShareModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4923BEF24B8DF1100EE866B /* ScreenShareModel.swift */; };
+		EDB5638925CCFB700096EE85 /* DebugSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB5638825CCFB700096EE85 /* DebugSettingsViewController.swift */; };
+		EDB5638C25CCFEA30096EE85 /* DebugSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDB5638B25CCFEA30096EE85 /* DebugSettingsModel.swift */; };
+		F8054F8829CA2ED00006BEB6 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89046E529834C8B00373566 /* Toast.swift */; };
+		F8054F8929CA2ED00006BEB6 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89046EC2983C32400373566 /* ToastView.swift */; };
+		F8054F8A29CA2ED00006BEB6 /* ToastPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89046E729834D5400373566 /* ToastPosition.swift */; };
+		F8054F8B29CA2ED00006BEB6 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89046EA2983BC9800373566 /* PaddingLabel.swift */; };
 		F82D50DA23FC9C6C00D8F18C /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D50D923FC9C6C00D8F18C /* AppConfiguration.swift */; };
 		F8AC96232408840D0072EB04 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F8AC96222408840D0072EB04 /* AppDelegate.m */; };
 		F8AC96292408840D0072EB04 /* ViewControllerObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = F8AC96282408840D0072EB04 /* ViewControllerObjC.m */; };
@@ -79,6 +211,27 @@
 			remoteGlobalIDString = 5A15821C23C4020D0099F8FA;
 			remoteInfo = AmazonChimeSDK;
 		};
+		71BEE26629F8D5FC002C6BBA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5A1582AE23C40C9B0099F8FA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 71BEE25529F8D5AF002C6BBA;
+			remoteInfo = AmazonChimeSDKDemoBroadcastSPM;
+		};
+		C4A690A6255DFF4600F28BC2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5A1582AE23C40C9B0099F8FA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C4A6909E255DFF4600F28BC2;
+			remoteInfo = AmazonChimeSDKDemoBroadcast;
+		};
+		ED36C8B827E319C70061E150 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5A1582AE23C40C9B0099F8FA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ED150C0527E2E88E003E3061;
+			remoteInfo = AmazonChimeSDKDemoBroadcastPods;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -100,22 +253,59 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				7C42A00729A4522A00B25E50 /* AmazonChimeSDKMedia.xcframework in Embed Frameworks */,
 				5AE38AE02428747100B234EC /* AmazonChimeSDK.framework in Embed Frameworks */,
-				5ACB3E75249AEE7300FC6E1B /* AmazonChimeSDKMedia.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		71BEE26829F8D5FD002C6BBA /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				71BEE26529F8D5FC002C6BBA /* AmazonChimeSDKDemoBroadcastSPM.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4A690AC255DFF4600F28BC2 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C4A690A8255DFF4600F28BC2 /* AmazonChimeSDKDemoBroadcast.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ED36C8BA27E319C70061E150 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				ED36C8B727E319C70061E150 /* AmazonChimeSDKDemoBroadcastPods.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		001FDF2525B7605000774605 /* LogRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogRequestBody.swift; sourceTree = "<group>"; };
 		003B58AE23E23E9D002493AB /* JoinMeetingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinMeetingResponse.swift; sourceTree = "<group>"; };
 		003B58B023E25032002493AB /* HttpUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpUtils.swift; sourceTree = "<group>"; };
+		00D82F1D25B2732D000496A2 /* PostLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostLogger.swift; sourceTree = "<group>"; };
+		00D82F2325B27BD5000496A2 /* LogEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogEntry.swift; sourceTree = "<group>"; };
 		00F372E923D9196E008F7CA7 /* MeetingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingViewController.swift; sourceTree = "<group>"; };
 		00F372ED23DA2BFD008F7CA7 /* RosterAttendee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RosterAttendee.swift; sourceTree = "<group>"; };
+		5403538C27D0CBA4007BABD7 /* TranscriptionStreamParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionStreamParams.swift; sourceTree = "<group>"; };
+		54146E1D27D1F3E2001FBAE6 /* AutomaticLanguageOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomaticLanguageOptionsViewController.swift; sourceTree = "<group>"; };
 		5A1582B623C40C9B0099F8FA /* AmazonChimeSDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AmazonChimeSDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A1582B923C40C9B0099F8FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5A1582BB23C40C9B0099F8FA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		5A1582BD23C40C9B0099F8FA /* JoiningViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoiningViewController.swift; sourceTree = "<group>"; };
 		5A1582C023C40C9B0099F8FA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5A1582C223C40C9D0099F8FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -128,6 +318,15 @@
 		5A81417723F2300D00560201 /* RosterTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RosterTableCell.swift; sourceTree = "<group>"; };
 		5ACB3E6F249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AmazonChimeSDKMedia.framework; path = ../AmazonChimeSDK/AmazonChimeSDKMedia.framework; sourceTree = "<group>"; };
 		5AE38AD1242873FD00B234EC /* AmazonChimeSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AmazonChimeSDK.xcodeproj; path = ../AmazonChimeSDK/AmazonChimeSDK.xcodeproj; sourceTree = "<group>"; };
+		5BCB6500F6E39720EC48ADBF /* Pods-AmazonChimeSDKDemoBroadcastPods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmazonChimeSDKDemoBroadcastPods.release.xcconfig"; path = "Target Support Files/Pods-AmazonChimeSDKDemoBroadcastPods/Pods-AmazonChimeSDKDemoBroadcastPods.release.xcconfig"; sourceTree = "<group>"; };
+		71BEE22D29F8C17D002C6BBA /* AmazonChimeSDKDemoSPM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AmazonChimeSDKDemoSPM.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		71BEE22E29F8C17D002C6BBA /* AmazonChimeSDKDemoSPM-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "AmazonChimeSDKDemoSPM-Info.plist"; path = "/Users/dingyshe/workspace/SPM/Workaround/amazon-chime-sdk-ios/AmazonChimeSDKDemo/AmazonChimeSDKDemoSPM-Info.plist"; sourceTree = "<absolute>"; };
+		71BEE25F29F8D5AF002C6BBA /* AmazonChimeSDKDemoBroadcastSPM.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AmazonChimeSDKDemoBroadcastSPM.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		71BEE26029F8D5B0002C6BBA /* AmazonChimeSDKDemoBroadcastSPM-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "AmazonChimeSDKDemoBroadcastSPM-Info.plist"; path = "/Users/dingyshe/workspace/SPM/Workaround/amazon-chime-sdk-ios/AmazonChimeSDKDemo/AmazonChimeSDKDemoBroadcastSPM-Info.plist"; sourceTree = "<absolute>"; };
+		7C42A00529A4522900B25E50 /* AmazonChimeSDKMedia.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AmazonChimeSDKMedia.xcframework; path = ../AmazonChimeSDK/AmazonChimeSDKMedia.xcframework; sourceTree = "<group>"; };
+		7FBF914BC0C979614F44B032 /* Pods_AmazonChimeSDKDemoBroadcastPods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AmazonChimeSDKDemoBroadcastPods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC1927CB881BAA9BE365CBF4 /* Pods-AmazonChimeSDKDemoPods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmazonChimeSDKDemoPods.debug.xcconfig"; path = "Target Support Files/Pods-AmazonChimeSDKDemoPods/Pods-AmazonChimeSDKDemoPods.debug.xcconfig"; sourceTree = "<group>"; };
+		ADE3CFC927050CD800DAC586 /* LiveTranscriptionOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveTranscriptionOptionsViewController.swift; sourceTree = "<group>"; };
 		B4FCD85124B9330A00064C9E /* ChatMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageCell.swift; sourceTree = "<group>"; usesTabs = 0; };
 		B4FCD85424B9364900064C9E /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
 		B4FCD85624B947FB00064C9E /* TimestampConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimestampConversion.swift; sourceTree = "<group>"; };
@@ -145,7 +344,32 @@
 		C4923BEF24B8DF1100EE866B /* ScreenShareModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenShareModel.swift; sourceTree = "<group>"; };
 		C4923C0524BE71D800EE866B /* MeetingModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingModule.swift; sourceTree = "<group>"; };
 		C4923C0924BF62FE00EE866B /* MeetingPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingPresenter.swift; sourceTree = "<group>"; };
+		C4A3FFE5259B9AB2007CFABE /* InAppScreenCaptureModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppScreenCaptureModel.swift; sourceTree = "<group>"; };
+		C4A3FFE9259B9AC5007CFABE /* BroadcastScreenCaptureModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastScreenCaptureModel.swift; sourceTree = "<group>"; };
+		C4A6909F255DFF4600F28BC2 /* AmazonChimeSDKDemoBroadcast.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AmazonChimeSDKDemoBroadcast.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4A690A0255DFF4600F28BC2 /* ReplayKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReplayKit.framework; path = System/Library/Frameworks/ReplayKit.framework; sourceTree = SDKROOT; };
+		C4A690A3255DFF4600F28BC2 /* SampleHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleHandler.swift; sourceTree = "<group>"; };
+		C4A690A5255DFF4600F28BC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C4A690B1255E08AE00F28BC2 /* AmazonChimeSDKDemoDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AmazonChimeSDKDemoDebug.entitlements; sourceTree = "<group>"; };
+		C4A690B2255E0CDC00F28BC2 /* AmazonChimeSDKDemoBroadcastDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AmazonChimeSDKDemoBroadcastDebug.entitlements; sourceTree = "<group>"; };
+		C4B0AC9D258A7C6D00F6F13A /* AmazonChimeSDKDemoRelease.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = AmazonChimeSDKDemoRelease.entitlements; sourceTree = "<group>"; };
+		C4B0AC9F258A7CC100F6F13A /* AmazonChimeSDKDemoBroadcastRelease.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = AmazonChimeSDKDemoBroadcastRelease.entitlements; sourceTree = "<group>"; };
 		C4D8E1B724A412B6005D9CF7 /* VideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoModel.swift; sourceTree = "<group>"; };
+		C61D436F27050FBF00150F03 /* CaptionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionsModel.swift; sourceTree = "<group>"; };
+		C61D4376270510D200150F03 /* Caption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Caption.swift; sourceTree = "<group>"; };
+		C61D4379270512A100150F03 /* CaptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionCell.swift; sourceTree = "<group>"; };
+		CFD14AAE281B4DAA00C8D8CA /* AmazonChimeSDKMachineLearning.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = AmazonChimeSDKMachineLearning.xcframework; sourceTree = "<group>"; };
+		D52503BBE3CA2843BA5F4E09 /* Pods-AmazonChimeSDKDemoBroadcastPods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmazonChimeSDKDemoBroadcastPods.debug.xcconfig"; path = "Target Support Files/Pods-AmazonChimeSDKDemoBroadcastPods/Pods-AmazonChimeSDKDemoBroadcastPods.debug.xcconfig"; sourceTree = "<group>"; };
+		D89046E529834C8B00373566 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		D89046E729834D5400373566 /* ToastPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastPosition.swift; sourceTree = "<group>"; };
+		D89046EA2983BC9800373566 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
+		D89046EC2983C32400373566 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
+		E7BE3BB8348052A79C361E15 /* Pods-AmazonChimeSDKDemoPods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmazonChimeSDKDemoPods.release.xcconfig"; path = "Target Support Files/Pods-AmazonChimeSDKDemoPods/Pods-AmazonChimeSDKDemoPods.release.xcconfig"; sourceTree = "<group>"; };
+		ED150C0F27E2E88E003E3061 /* AmazonChimeSDKDemoBroadcastPods.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AmazonChimeSDKDemoBroadcastPods.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		EDA766EB27E2B57E006B3C48 /* AmazonChimeSDKDemoPods.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AmazonChimeSDKDemoPods.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EDB5638825CCFB700096EE85 /* DebugSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugSettingsViewController.swift; sourceTree = "<group>"; };
+		EDB5638B25CCFEA30096EE85 /* DebugSettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugSettingsModel.swift; sourceTree = "<group>"; };
+		EE0AD430C91242546F74E1D8 /* Pods_AmazonChimeSDKDemoPods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AmazonChimeSDKDemoPods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F82D50D923FC9C6C00D8F18C /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		F8AC961F2408840D0072EB04 /* AmazonChimeSDKDemoObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AmazonChimeSDKDemoObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8AC96212408840D0072EB04 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -164,8 +388,53 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00F0F6E12411B8E20013DA25 /* Toast in Frameworks */,
-				5ACB3E74249AEE7300FC6E1B /* AmazonChimeSDKMedia.framework in Frameworks */,
+				7C42A00629A4522A00B25E50 /* AmazonChimeSDKMedia.xcframework in Frameworks */,
+				CFD14AAF281B4DAA00C8D8CA /* AmazonChimeSDKMachineLearning.xcframework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		71BEE22529F8C17D002C6BBA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				71FCF5EF2A2803C0004425B7 /* AmazonChimeSDKMachineLearning in Frameworks */,
+				71FCF5F12A2803C0004425B7 /* AmazonChimeSDKMedia in Frameworks */,
+				71FCF5ED2A2803C0004425B7 /* AmazonChimeSDK in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		71BEE25829F8D5AF002C6BBA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				71FCF5F32A2803D8004425B7 /* AmazonChimeSDK in Frameworks */,
+				71BEE25A29F8D5AF002C6BBA /* ReplayKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4A6909C255DFF4600F28BC2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4A690AE255E00C100F28BC2 /* AmazonChimeSDK.framework in Frameworks */,
+				C4A690A1255DFF4600F28BC2 /* ReplayKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ED150C0827E2E88E003E3061 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ED150C0A27E2E88E003E3061 /* ReplayKit.framework in Frameworks */,
+				77BB980531BBDCFE72BF62B6 /* Pods_AmazonChimeSDKDemoBroadcastPods.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EDA766E027E2B57E006B3C48 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4CC2069452049F35E3B82174 /* Pods_AmazonChimeSDKDemoPods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,9 +453,11 @@
 		003B58AA23E2380F002493AB /* data */ = {
 			isa = PBXGroup;
 			children = (
+				5403538C27D0CBA4007BABD7 /* TranscriptionStreamParams.swift */,
 				003B58AE23E23E9D002493AB /* JoinMeetingResponse.swift */,
 				00F372ED23DA2BFD008F7CA7 /* RosterAttendee.swift */,
 				5A16BED724045A7100ADAE26 /* SegmentedControlIndex.swift */,
+				C61D4376270510D200150F03 /* Caption.swift */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -197,8 +468,12 @@
 				5AE38AD1242873FD00B234EC /* AmazonChimeSDK.xcodeproj */,
 				5A1582B823C40C9B0099F8FA /* AmazonChimeSDKDemo */,
 				F8AC96202408840D0072EB04 /* AmazonChimeSDKDemoObjC */,
+				C4A690A2255DFF4600F28BC2 /* AmazonChimeSDKDemoBroadcast */,
 				5A1582B723C40C9B0099F8FA /* Products */,
 				5FC5287C24209FE4009EC37F /* Frameworks */,
+				BA02D9B707896C4CA565991D /* Pods */,
+				71BEE22E29F8C17D002C6BBA /* AmazonChimeSDKDemoSPM-Info.plist */,
+				71BEE26029F8D5B0002C6BBA /* AmazonChimeSDKDemoBroadcastSPM-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -207,6 +482,11 @@
 			children = (
 				5A1582B623C40C9B0099F8FA /* AmazonChimeSDKDemo.app */,
 				F8AC961F2408840D0072EB04 /* AmazonChimeSDKDemoObjC.app */,
+				C4A6909F255DFF4600F28BC2 /* AmazonChimeSDKDemoBroadcast.appex */,
+				EDA766EB27E2B57E006B3C48 /* AmazonChimeSDKDemoPods.app */,
+				ED150C0F27E2E88E003E3061 /* AmazonChimeSDKDemoBroadcastPods.appex */,
+				71BEE22D29F8C17D002C6BBA /* AmazonChimeSDKDemoSPM.app */,
+				71BEE25F29F8D5AF002C6BBA /* AmazonChimeSDKDemoBroadcastSPM.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -214,14 +494,17 @@
 		5A1582B823C40C9B0099F8FA /* AmazonChimeSDKDemo */ = {
 			isa = PBXGroup;
 			children = (
+				D89046E429834C5900373566 /* toast */,
+				C4A690B1255E08AE00F28BC2 /* AmazonChimeSDKDemoDebug.entitlements */,
+				C4B0AC9D258A7C6D00F6F13A /* AmazonChimeSDKDemoRelease.entitlements */,
 				F82D50BE23FC6E5B00D8F18C /* utils */,
 				003B58AA23E2380F002493AB /* data */,
 				F82D50D923FC9C6C00D8F18C /* AppConfiguration.swift */,
 				5A1582B923C40C9B0099F8FA /* AppDelegate.swift */,
 				B4FCD85124B9330A00064C9E /* ChatMessageCell.swift */,
 				B4FCD85424B9364900064C9E /* ChatModel.swift */,
-				5A1582BB23C40C9B0099F8FA /* SceneDelegate.swift */,
 				C4923C0524BE71D800EE866B /* MeetingModule.swift */,
+				EDB5638B25CCFEA30096EE85 /* DebugSettingsModel.swift */,
 				C4923C0924BF62FE00EE866B /* MeetingPresenter.swift */,
 				5A1582BD23C40C9B0099F8FA /* JoiningViewController.swift */,
 				00F372E923D9196E008F7CA7 /* MeetingViewController.swift */,
@@ -231,16 +514,23 @@
 				C4781FD524ABC45800300604 /* CallKitManager.swift */,
 				C43FD3CC24B533EA0080D57E /* Call.swift */,
 				C4632EBC24A57BF8009F8AF5 /* RosterModel.swift */,
+				EDB5638825CCFB700096EE85 /* DebugSettingsViewController.swift */,
 				5A81417723F2300D00560201 /* RosterTableCell.swift */,
 				C4D8E1B724A412B6005D9CF7 /* VideoModel.swift */,
 				5A16BE7924006A2A00ADAE26 /* VideoTileCell.swift */,
 				5A38BFB624A131B3005B2AA7 /* MetricsModel.swift */,
 				C446C84824A6612500392CE5 /* MetricsTableCell.swift */,
 				C4923BEF24B8DF1100EE866B /* ScreenShareModel.swift */,
+				C4A3FFE5259B9AB2007CFABE /* InAppScreenCaptureModel.swift */,
+				C4A3FFE9259B9AC5007CFABE /* BroadcastScreenCaptureModel.swift */,
 				5A1582C223C40C9D0099F8FA /* Assets.xcassets */,
 				5A1582BF23C40C9B0099F8FA /* Main.storyboard */,
+				ADE3CFC927050CD800DAC586 /* LiveTranscriptionOptionsViewController.swift */,
 				5A1582C423C40C9D0099F8FA /* LaunchScreen.storyboard */,
 				5A1582C723C40C9D0099F8FA /* Info.plist */,
+				C61D436F27050FBF00150F03 /* CaptionsModel.swift */,
+				C61D4379270512A100150F03 /* CaptionCell.swift */,
+				54146E1D27D1F3E2001FBAE6 /* AutomaticLanguageOptionsViewController.swift */,
 			);
 			path = AmazonChimeSDKDemo;
 			sourceTree = "<group>";
@@ -257,9 +547,47 @@
 		5FC5287C24209FE4009EC37F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7C42A00529A4522900B25E50 /* AmazonChimeSDKMedia.xcframework */,
+				CFD14AAE281B4DAA00C8D8CA /* AmazonChimeSDKMachineLearning.xcframework */,
 				5ACB3E6F249AEE6800FC6E1B /* AmazonChimeSDKMedia.framework */,
+				C4A690A0255DFF4600F28BC2 /* ReplayKit.framework */,
+				EE0AD430C91242546F74E1D8 /* Pods_AmazonChimeSDKDemoPods.framework */,
+				7FBF914BC0C979614F44B032 /* Pods_AmazonChimeSDKDemoBroadcastPods.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BA02D9B707896C4CA565991D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AC1927CB881BAA9BE365CBF4 /* Pods-AmazonChimeSDKDemoPods.debug.xcconfig */,
+				E7BE3BB8348052A79C361E15 /* Pods-AmazonChimeSDKDemoPods.release.xcconfig */,
+				D52503BBE3CA2843BA5F4E09 /* Pods-AmazonChimeSDKDemoBroadcastPods.debug.xcconfig */,
+				5BCB6500F6E39720EC48ADBF /* Pods-AmazonChimeSDKDemoBroadcastPods.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		C4A690A2255DFF4600F28BC2 /* AmazonChimeSDKDemoBroadcast */ = {
+			isa = PBXGroup;
+			children = (
+				C4A690B2255E0CDC00F28BC2 /* AmazonChimeSDKDemoBroadcastDebug.entitlements */,
+				C4B0AC9F258A7CC100F6F13A /* AmazonChimeSDKDemoBroadcastRelease.entitlements */,
+				C4A690A3255DFF4600F28BC2 /* SampleHandler.swift */,
+				C4A690A5255DFF4600F28BC2 /* Info.plist */,
+			);
+			path = AmazonChimeSDKDemoBroadcast;
+			sourceTree = "<group>";
+		};
+		D89046E429834C5900373566 /* toast */ = {
+			isa = PBXGroup;
+			children = (
+				D89046E529834C8B00373566 /* Toast.swift */,
+				D89046EC2983C32400373566 /* ToastView.swift */,
+				D89046E729834D5400373566 /* ToastPosition.swift */,
+				D89046EA2983BC9800373566 /* PaddingLabel.swift */,
+			);
+			path = toast;
 			sourceTree = "<group>";
 		};
 		F82D50BE23FC6E5B00D8F18C /* utils */ = {
@@ -272,6 +600,9 @@
 				B4FCD85624B947FB00064C9E /* TimestampConversion.swift */,
 				C42A8A10253E2E4E008419A6 /* CoreImageVideoProcessor.swift */,
 				C42A8A0F253E2E4E008419A6 /* MetalVideoProcessor.swift */,
+				00D82F1D25B2732D000496A2 /* PostLogger.swift */,
+				00D82F2325B27BD5000496A2 /* LogEntry.swift */,
+				001FDF2525B7605000774605 /* LogRequestBody.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -304,18 +635,123 @@
 				5A1582B223C40C9B0099F8FA /* Sources */,
 				5A1582B323C40C9B0099F8FA /* Frameworks */,
 				5AE38AE12428747100B234EC /* Embed Frameworks */,
+				C4A690AC255DFF4600F28BC2 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				5AE38ADC2428741500B234EC /* PBXTargetDependency */,
+				C4A690A7255DFF4600F28BC2 /* PBXTargetDependency */,
 			);
 			name = AmazonChimeSDKDemo;
 			packageProductDependencies = (
-				00F0F6E02411B8E20013DA25 /* Toast */,
 			);
 			productName = AmazonChimeSDKDemo;
 			productReference = 5A1582B623C40C9B0099F8FA /* AmazonChimeSDKDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		71BEE1EC29F8C17D002C6BBA /* AmazonChimeSDKDemoSPM */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 71BEE22A29F8C17D002C6BBA /* Build configuration list for PBXNativeTarget "AmazonChimeSDKDemoSPM" */;
+			buildPhases = (
+				71BEE1F029F8C17D002C6BBA /* ShellScript */,
+				71BEE1F129F8C17D002C6BBA /* Resources */,
+				71BEE1F529F8C17D002C6BBA /* Sources */,
+				71BEE22529F8C17D002C6BBA /* Frameworks */,
+				71BEE26829F8D5FD002C6BBA /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				71BEE26729F8D5FC002C6BBA /* PBXTargetDependency */,
+			);
+			name = AmazonChimeSDKDemoSPM;
+			packageProductDependencies = (
+				71FCF5EC2A2803C0004425B7 /* AmazonChimeSDK */,
+				71FCF5EE2A2803C0004425B7 /* AmazonChimeSDKMachineLearning */,
+				71FCF5F02A2803C0004425B7 /* AmazonChimeSDKMedia */,
+			);
+			productName = AmazonChimeSDKDemo;
+			productReference = 71BEE22D29F8C17D002C6BBA /* AmazonChimeSDKDemoSPM.app */;
+			productType = "com.apple.product-type.application";
+		};
+		71BEE25529F8D5AF002C6BBA /* AmazonChimeSDKDemoBroadcastSPM */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 71BEE25C29F8D5AF002C6BBA /* Build configuration list for PBXNativeTarget "AmazonChimeSDKDemoBroadcastSPM" */;
+			buildPhases = (
+				71BEE25629F8D5AF002C6BBA /* Sources */,
+				71BEE25829F8D5AF002C6BBA /* Frameworks */,
+				71BEE25B29F8D5AF002C6BBA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AmazonChimeSDKDemoBroadcastSPM;
+			packageProductDependencies = (
+				71FCF5F22A2803D8004425B7 /* AmazonChimeSDK */,
+			);
+			productName = AmazonChimeSDKDemoBroadcast;
+			productReference = 71BEE25F29F8D5AF002C6BBA /* AmazonChimeSDKDemoBroadcastSPM.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		C4A6909E255DFF4600F28BC2 /* AmazonChimeSDKDemoBroadcast */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C4A690A9255DFF4600F28BC2 /* Build configuration list for PBXNativeTarget "AmazonChimeSDKDemoBroadcast" */;
+			buildPhases = (
+				C4A6909B255DFF4600F28BC2 /* Sources */,
+				C4A6909C255DFF4600F28BC2 /* Frameworks */,
+				C4A6909D255DFF4600F28BC2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AmazonChimeSDKDemoBroadcast;
+			productName = AmazonChimeSDKDemoBroadcast;
+			productReference = C4A6909F255DFF4600F28BC2 /* AmazonChimeSDKDemoBroadcast.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		ED150C0527E2E88E003E3061 /* AmazonChimeSDKDemoBroadcastPods */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ED150C0C27E2E88E003E3061 /* Build configuration list for PBXNativeTarget "AmazonChimeSDKDemoBroadcastPods" */;
+			buildPhases = (
+				915EAE908440FF44C9948225 /* [CP] Check Pods Manifest.lock */,
+				ED150C0627E2E88E003E3061 /* Sources */,
+				ED150C0827E2E88E003E3061 /* Frameworks */,
+				ED150C0B27E2E88E003E3061 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AmazonChimeSDKDemoBroadcastPods;
+			productName = AmazonChimeSDKDemoBroadcast;
+			productReference = ED150C0F27E2E88E003E3061 /* AmazonChimeSDKDemoBroadcastPods.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		EDA766A827E2B57E006B3C48 /* AmazonChimeSDKDemoPods */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EDA766E827E2B57E006B3C48 /* Build configuration list for PBXNativeTarget "AmazonChimeSDKDemoPods" */;
+			buildPhases = (
+				61775654DFE8DA5B283DD751 /* [CP] Check Pods Manifest.lock */,
+				EDA766AF27E2B57E006B3C48 /* ShellScript */,
+				EDA766B027E2B57E006B3C48 /* Resources */,
+				EDA766B427E2B57E006B3C48 /* Sources */,
+				EDA766E027E2B57E006B3C48 /* Frameworks */,
+				7546D4A467B137FB54D320C2 /* [CP] Embed Pods Frameworks */,
+				ED36C8BA27E319C70061E150 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				ED36C8B927E319C70061E150 /* PBXTargetDependency */,
+			);
+			name = AmazonChimeSDKDemoPods;
+			packageProductDependencies = (
+			);
+			productName = AmazonChimeSDKDemo;
+			productReference = EDA766EB27E2B57E006B3C48 /* AmazonChimeSDKDemoPods.app */;
 			productType = "com.apple.product-type.application";
 		};
 		F8AC961E2408840D0072EB04 /* AmazonChimeSDKDemoObjC */ = {
@@ -342,13 +778,16 @@
 		5A1582AE23C40C9B0099F8FA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1130;
+				LastSwiftUpdateCheck = 1200;
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "Amazon Chime";
 				TargetAttributes = {
 					5A1582B523C40C9B0099F8FA = {
 						CreatedOnToolsVersion = 11.3;
 						LastSwiftMigration = 1130;
+					};
+					C4A6909E255DFF4600F28BC2 = {
+						CreatedOnToolsVersion = 12.0;
 					};
 					F8AC961E2408840D0072EB04 = {
 						CreatedOnToolsVersion = 11.3.1;
@@ -366,7 +805,7 @@
 			);
 			mainGroup = 5A1582AD23C40C9B0099F8FA;
 			packageReferences = (
-				00F0F6DF2411B8E20013DA25 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+				71FCF5E52A2803B5004425B7 /* XCRemoteSwiftPackageReference "amazon-chime-sdk-ios-spm" */,
 			);
 			productRefGroup = 5A1582B723C40C9B0099F8FA /* Products */;
 			projectDirPath = "";
@@ -380,6 +819,11 @@
 			targets = (
 				5A1582B523C40C9B0099F8FA /* AmazonChimeSDKDemo */,
 				F8AC961E2408840D0072EB04 /* AmazonChimeSDKDemoObjC */,
+				C4A6909E255DFF4600F28BC2 /* AmazonChimeSDKDemoBroadcast */,
+				EDA766A827E2B57E006B3C48 /* AmazonChimeSDKDemoPods */,
+				ED150C0527E2E88E003E3061 /* AmazonChimeSDKDemoBroadcastPods */,
+				71BEE1EC29F8C17D002C6BBA /* AmazonChimeSDKDemoSPM */,
+				71BEE25529F8D5AF002C6BBA /* AmazonChimeSDKDemoBroadcastSPM */,
 			);
 		};
 /* End PBXProject section */
@@ -409,6 +853,47 @@
 				5A1582C323C40C9D0099F8FA /* Assets.xcassets in Resources */,
 				5A1582C623C40C9D0099F8FA /* LaunchScreen.storyboard in Resources */,
 				5A1582C123C40C9B0099F8FA /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		71BEE1F129F8C17D002C6BBA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				71BEE1F229F8C17D002C6BBA /* Assets.xcassets in Resources */,
+				71BEE1F329F8C17D002C6BBA /* LaunchScreen.storyboard in Resources */,
+				71BEE1F429F8C17D002C6BBA /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		71BEE25B29F8D5AF002C6BBA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4A6909D255DFF4600F28BC2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ED150C0B27E2E88E003E3061 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EDA766B027E2B57E006B3C48 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDA766B127E2B57E006B3C48 /* Assets.xcassets in Resources */,
+				EDA766B227E2B57E006B3C48 /* LaunchScreen.storyboard in Resources */,
+				EDA766B327E2B57E006B3C48 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,6 +927,101 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
+		61775654DFE8DA5B283DD751 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AmazonChimeSDKDemoPods-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		71BEE1F029F8C17D002C6BBA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		7546D4A467B137FB54D320C2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AmazonChimeSDKDemoPods/Pods-AmazonChimeSDKDemoPods-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AmazonChimeSDKDemoPods/Pods-AmazonChimeSDKDemoPods-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AmazonChimeSDKDemoPods/Pods-AmazonChimeSDKDemoPods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		915EAE908440FF44C9948225 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AmazonChimeSDKDemoBroadcastPods-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EDA766AF27E2B57E006B3C48 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -449,37 +1029,185 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5403538E27D0CBA4007BABD7 /* TranscriptionStreamParams.swift in Sources */,
 				C446C84924A6612500392CE5 /* MetricsTableCell.swift in Sources */,
 				F82D50DA23FC9C6C00D8F18C /* AppConfiguration.swift in Sources */,
 				C4923C0A24BF62FE00EE866B /* MeetingPresenter.swift in Sources */,
 				C43FD3CD24B533EA0080D57E /* Call.swift in Sources */,
 				C4781FD624ABC45800300604 /* CallKitManager.swift in Sources */,
+				00D82F1E25B2732D000496A2 /* PostLogger.swift in Sources */,
 				5A1582BA23C40C9B0099F8FA /* AppDelegate.swift in Sources */,
 				003B58B123E25032002493AB /* HttpUtils.swift in Sources */,
+				C61D4377270510D200150F03 /* Caption.swift in Sources */,
+				00D82F2425B27BD5000496A2 /* LogEntry.swift in Sources */,
 				003B58AF23E23E9D002493AB /* JoinMeetingResponse.swift in Sources */,
 				C4923C0624BE71D800EE866B /* MeetingModule.swift in Sources */,
 				00F372EA23D9196E008F7CA7 /* MeetingViewController.swift in Sources */,
+				ADE3CFCA27050CD800DAC586 /* LiveTranscriptionOptionsViewController.swift in Sources */,
+				D89046E829834D5400373566 /* ToastPosition.swift in Sources */,
+				D89046EB2983BC9800373566 /* PaddingLabel.swift in Sources */,
 				C4923BED24B8CB1B00EE866B /* MeetingModel.swift in Sources */,
 				C42A8A12253E2E4E008419A6 /* CoreImageVideoProcessor.swift in Sources */,
 				C42A8A0E253E2E22008419A6 /* DeviceSelectionViewController.swift in Sources */,
+				EDB5638925CCFB700096EE85 /* DebugSettingsViewController.swift in Sources */,
 				00F372EE23DA2BFD008F7CA7 /* RosterAttendee.swift in Sources */,
 				B4FCD85724B947FC00064C9E /* TimestampConversion.swift in Sources */,
+				C61D437027050FBF00150F03 /* CaptionsModel.swift in Sources */,
 				C42A8A11253E2E4E008419A6 /* MetalVideoProcessor.swift in Sources */,
 				5A81417823F2300D00560201 /* RosterTableCell.swift in Sources */,
-				5A1582BC23C40C9B0099F8FA /* SceneDelegate.swift in Sources */,
 				5A16BED824045A7100ADAE26 /* SegmentedControlIndex.swift in Sources */,
 				B4FCD85224B9330A00064C9E /* ChatMessageCell.swift in Sources */,
 				B4FCD85524B9364900064C9E /* ChatModel.swift in Sources */,
 				5A16BE7A24006A2A00ADAE26 /* VideoTileCell.swift in Sources */,
+				C61D437A270512A100150F03 /* CaptionCell.swift in Sources */,
 				C4632EBE24A57BF8009F8AF5 /* RosterModel.swift in Sources */,
+				D89046ED2983C32400373566 /* ToastView.swift in Sources */,
 				C42A8A0D253E2E22008419A6 /* DeviceSelectionModel.swift in Sources */,
 				5A1582BE23C40C9B0099F8FA /* JoiningViewController.swift in Sources */,
 				5A38BFB724A131B3005B2AA7 /* MetricsModel.swift in Sources */,
 				C439EA3E24B78A11005B94C4 /* JoinRequestService.swift in Sources */,
+				001FDF2625B7605000774605 /* LogRequestBody.swift in Sources */,
+				C4A3FFE6259B9AB2007CFABE /* InAppScreenCaptureModel.swift in Sources */,
+				EDB5638C25CCFEA30096EE85 /* DebugSettingsModel.swift in Sources */,
 				C4D8E1B824A412B6005D9CF7 /* VideoModel.swift in Sources */,
+				C4A3FFEA259B9AC5007CFABE /* BroadcastScreenCaptureModel.swift in Sources */,
 				5A1DE366249332870060E9C3 /* ViewControllerExtension.swift in Sources */,
 				C45B6C0824AE38D6001BE825 /* CallKitOption.swift in Sources */,
+				D89046E629834C8B00373566 /* Toast.swift in Sources */,
+				54146E1E27D1F3E2001FBAE6 /* AutomaticLanguageOptionsViewController.swift in Sources */,
 				C4923BF024B8DF1100EE866B /* ScreenShareModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		71BEE1F529F8C17D002C6BBA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				71BEE1F629F8C17D002C6BBA /* Toast.swift in Sources */,
+				71BEE1F729F8C17D002C6BBA /* ToastView.swift in Sources */,
+				71BEE1F829F8C17D002C6BBA /* ToastPosition.swift in Sources */,
+				71BEE1F929F8C17D002C6BBA /* PaddingLabel.swift in Sources */,
+				71BEE1FA29F8C17D002C6BBA /* TranscriptionStreamParams.swift in Sources */,
+				71BEE1FB29F8C17D002C6BBA /* MetricsTableCell.swift in Sources */,
+				71BEE1FC29F8C17D002C6BBA /* AppConfiguration.swift in Sources */,
+				71BEE1FD29F8C17D002C6BBA /* MeetingPresenter.swift in Sources */,
+				71BEE1FE29F8C17D002C6BBA /* Call.swift in Sources */,
+				71BEE1FF29F8C17D002C6BBA /* CallKitManager.swift in Sources */,
+				71BEE20029F8C17D002C6BBA /* PostLogger.swift in Sources */,
+				71BEE20129F8C17D002C6BBA /* AppDelegate.swift in Sources */,
+				71BEE20229F8C17D002C6BBA /* HttpUtils.swift in Sources */,
+				71BEE20329F8C17D002C6BBA /* Caption.swift in Sources */,
+				71BEE20429F8C17D002C6BBA /* LogEntry.swift in Sources */,
+				71BEE20529F8C17D002C6BBA /* JoinMeetingResponse.swift in Sources */,
+				71BEE20629F8C17D002C6BBA /* MeetingModule.swift in Sources */,
+				71BEE20729F8C17D002C6BBA /* MeetingViewController.swift in Sources */,
+				71BEE20829F8C17D002C6BBA /* LiveTranscriptionOptionsViewController.swift in Sources */,
+				71BEE20929F8C17D002C6BBA /* MeetingModel.swift in Sources */,
+				71BEE20A29F8C17D002C6BBA /* CoreImageVideoProcessor.swift in Sources */,
+				71BEE20B29F8C17D002C6BBA /* DeviceSelectionViewController.swift in Sources */,
+				71BEE20C29F8C17D002C6BBA /* DebugSettingsViewController.swift in Sources */,
+				71BEE20D29F8C17D002C6BBA /* RosterAttendee.swift in Sources */,
+				71BEE20E29F8C17D002C6BBA /* TimestampConversion.swift in Sources */,
+				71BEE20F29F8C17D002C6BBA /* CaptionsModel.swift in Sources */,
+				71BEE21029F8C17D002C6BBA /* MetalVideoProcessor.swift in Sources */,
+				71BEE21129F8C17D002C6BBA /* RosterTableCell.swift in Sources */,
+				71BEE21229F8C17D002C6BBA /* SegmentedControlIndex.swift in Sources */,
+				71BEE21329F8C17D002C6BBA /* ChatMessageCell.swift in Sources */,
+				71BEE21429F8C17D002C6BBA /* ChatModel.swift in Sources */,
+				71BEE21529F8C17D002C6BBA /* VideoTileCell.swift in Sources */,
+				71BEE21629F8C17D002C6BBA /* CaptionCell.swift in Sources */,
+				71BEE21729F8C17D002C6BBA /* RosterModel.swift in Sources */,
+				71BEE21829F8C17D002C6BBA /* DeviceSelectionModel.swift in Sources */,
+				71BEE21929F8C17D002C6BBA /* JoiningViewController.swift in Sources */,
+				71BEE21A29F8C17D002C6BBA /* MetricsModel.swift in Sources */,
+				71BEE21B29F8C17D002C6BBA /* JoinRequestService.swift in Sources */,
+				71BEE21C29F8C17D002C6BBA /* LogRequestBody.swift in Sources */,
+				71BEE21D29F8C17D002C6BBA /* InAppScreenCaptureModel.swift in Sources */,
+				71BEE21E29F8C17D002C6BBA /* DebugSettingsModel.swift in Sources */,
+				71BEE21F29F8C17D002C6BBA /* VideoModel.swift in Sources */,
+				71BEE22029F8C17D002C6BBA /* BroadcastScreenCaptureModel.swift in Sources */,
+				71BEE22129F8C17D002C6BBA /* ViewControllerExtension.swift in Sources */,
+				71BEE22229F8C17D002C6BBA /* CallKitOption.swift in Sources */,
+				71BEE22329F8C17D002C6BBA /* AutomaticLanguageOptionsViewController.swift in Sources */,
+				71BEE22429F8C17D002C6BBA /* ScreenShareModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		71BEE25629F8D5AF002C6BBA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				71BEE25729F8D5AF002C6BBA /* SampleHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4A6909B255DFF4600F28BC2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4A690A4255DFF4600F28BC2 /* SampleHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ED150C0627E2E88E003E3061 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ED150C0727E2E88E003E3061 /* SampleHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EDA766B427E2B57E006B3C48 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F8054F8829CA2ED00006BEB6 /* Toast.swift in Sources */,
+				F8054F8929CA2ED00006BEB6 /* ToastView.swift in Sources */,
+				F8054F8A29CA2ED00006BEB6 /* ToastPosition.swift in Sources */,
+				F8054F8B29CA2ED00006BEB6 /* PaddingLabel.swift in Sources */,
+				EDA766B527E2B57E006B3C48 /* TranscriptionStreamParams.swift in Sources */,
+				EDA766B627E2B57E006B3C48 /* MetricsTableCell.swift in Sources */,
+				EDA766B727E2B57E006B3C48 /* AppConfiguration.swift in Sources */,
+				EDA766B827E2B57E006B3C48 /* MeetingPresenter.swift in Sources */,
+				EDA766B927E2B57E006B3C48 /* Call.swift in Sources */,
+				EDA766BA27E2B57E006B3C48 /* CallKitManager.swift in Sources */,
+				EDA766BB27E2B57E006B3C48 /* PostLogger.swift in Sources */,
+				EDA766BC27E2B57E006B3C48 /* AppDelegate.swift in Sources */,
+				EDA766BD27E2B57E006B3C48 /* HttpUtils.swift in Sources */,
+				EDA766BE27E2B57E006B3C48 /* Caption.swift in Sources */,
+				EDA766BF27E2B57E006B3C48 /* LogEntry.swift in Sources */,
+				EDA766C027E2B57E006B3C48 /* JoinMeetingResponse.swift in Sources */,
+				EDA766C127E2B57E006B3C48 /* MeetingModule.swift in Sources */,
+				EDA766C227E2B57E006B3C48 /* MeetingViewController.swift in Sources */,
+				EDA766C327E2B57E006B3C48 /* LiveTranscriptionOptionsViewController.swift in Sources */,
+				EDA766C427E2B57E006B3C48 /* MeetingModel.swift in Sources */,
+				EDA766C527E2B57E006B3C48 /* CoreImageVideoProcessor.swift in Sources */,
+				EDA766C627E2B57E006B3C48 /* DeviceSelectionViewController.swift in Sources */,
+				EDA766C727E2B57E006B3C48 /* DebugSettingsViewController.swift in Sources */,
+				EDA766C827E2B57E006B3C48 /* RosterAttendee.swift in Sources */,
+				EDA766C927E2B57E006B3C48 /* TimestampConversion.swift in Sources */,
+				EDA766CA27E2B57E006B3C48 /* CaptionsModel.swift in Sources */,
+				EDA766CB27E2B57E006B3C48 /* MetalVideoProcessor.swift in Sources */,
+				EDA766CC27E2B57E006B3C48 /* RosterTableCell.swift in Sources */,
+				EDA766CD27E2B57E006B3C48 /* SegmentedControlIndex.swift in Sources */,
+				EDA766CE27E2B57E006B3C48 /* ChatMessageCell.swift in Sources */,
+				EDA766CF27E2B57E006B3C48 /* ChatModel.swift in Sources */,
+				EDA766D027E2B57E006B3C48 /* VideoTileCell.swift in Sources */,
+				EDA766D127E2B57E006B3C48 /* CaptionCell.swift in Sources */,
+				EDA766D227E2B57E006B3C48 /* RosterModel.swift in Sources */,
+				EDA766D327E2B57E006B3C48 /* DeviceSelectionModel.swift in Sources */,
+				EDA766D427E2B57E006B3C48 /* JoiningViewController.swift in Sources */,
+				EDA766D527E2B57E006B3C48 /* MetricsModel.swift in Sources */,
+				EDA766D627E2B57E006B3C48 /* JoinRequestService.swift in Sources */,
+				EDA766D727E2B57E006B3C48 /* LogRequestBody.swift in Sources */,
+				EDA766D827E2B57E006B3C48 /* InAppScreenCaptureModel.swift in Sources */,
+				EDA766D927E2B57E006B3C48 /* DebugSettingsModel.swift in Sources */,
+				EDA766DA27E2B57E006B3C48 /* VideoModel.swift in Sources */,
+				EDA766DB27E2B57E006B3C48 /* BroadcastScreenCaptureModel.swift in Sources */,
+				EDA766DC27E2B57E006B3C48 /* ViewControllerExtension.swift in Sources */,
+				EDA766DD27E2B57E006B3C48 /* CallKitOption.swift in Sources */,
+				EDA766DE27E2B57E006B3C48 /* AutomaticLanguageOptionsViewController.swift in Sources */,
+				EDA766DF27E2B57E006B3C48 /* ScreenShareModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -500,6 +1228,21 @@
 			isa = PBXTargetDependency;
 			name = AmazonChimeSDK;
 			targetProxy = 5AE38ADB2428741500B234EC /* PBXContainerItemProxy */;
+		};
+		71BEE26729F8D5FC002C6BBA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 71BEE25529F8D5AF002C6BBA /* AmazonChimeSDKDemoBroadcastSPM */;
+			targetProxy = 71BEE26629F8D5FC002C6BBA /* PBXContainerItemProxy */;
+		};
+		C4A690A7255DFF4600F28BC2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C4A6909E255DFF4600F28BC2 /* AmazonChimeSDKDemoBroadcast */;
+			targetProxy = C4A690A6255DFF4600F28BC2 /* PBXContainerItemProxy */;
+		};
+		ED36C8B927E319C70061E150 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ED150C0527E2E88E003E3061 /* AmazonChimeSDKDemoBroadcastPods */;
+			targetProxy = ED36C8B827E319C70061E150 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -590,13 +1333,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VALIDATE_WORKSPACE = YES;
 			};
 			name = Debug;
 		};
@@ -645,34 +1389,38 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
+				VALIDATE_WORKSPACE = YES;
 			};
 			name = Release;
 		};
 		5A1582D623C40C9D0099F8FA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_ENTITLEMENTS = AmazonChimeSDKDemo/AmazonChimeSDKDemoDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.13.1;
+				CURRENT_PROJECT_VERSION = 0.26.1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../AmazonChimeSDK/";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = AmazonChimeSDKDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -681,13 +1429,14 @@
 				MARKETING_VERSION = 0.6.0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
-					"-lc++",
 					"-ObjC",
+					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.amazonaws.services.chime.AmazonChimeSDKDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.amazonaws.services.chime.SDKDemo;
 				PRODUCT_NAME = AmazonChimeSDKDemo;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TVOS_DEPLOYMENT_TARGET = "";
@@ -698,21 +1447,113 @@
 		5A1582D723C40C9D0099F8FA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_ENTITLEMENTS = AmazonChimeSDKDemo/AmazonChimeSDKDemoRelease.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.13.1;
+				CURRENT_PROJECT_VERSION = 0.26.1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../AmazonChimeSDK/";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = AmazonChimeSDKDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = "";
+				MARKETING_VERSION = 0.6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.amazon.chime.sdk.enterprise;
+				PRODUCT_NAME = AmazonChimeSDKDemo;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = "";
+				WATCHOS_DEPLOYMENT_TARGET = "";
+			};
+			name = Release;
+		};
+		71BEE22B29F8C17D002C6BBA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_ENTITLEMENTS = AmazonChimeSDKDemo/AmazonChimeSDKDemoDebug.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 0.26.1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "AmazonChimeSDKDemoSPM-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = "";
+				MARKETING_VERSION = 0.6.0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-lc++",
+					"-ObjC",
+					"-framework",
+					AmazonChimeSDKMachineLearning,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.amazonaws.services.chime.SDKDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = "";
+				WATCHOS_DEPLOYMENT_TARGET = "";
+			};
+			name = Debug;
+		};
+		71BEE22C29F8C17D002C6BBA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_ENTITLEMENTS = AmazonChimeSDKDemo/AmazonChimeSDKDemoRelease.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 0.26.1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "AmazonChimeSDKDemoSPM-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -724,11 +1565,279 @@
 				OTHER_LDFLAGS = (
 					"-lc++",
 					"-ObjC",
+					"-framework",
+					AmazonChimeSDKMachineLearning,
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.amazonaws.services.chime.AmazonChimeSDKDemo;
-				PRODUCT_NAME = AmazonChimeSDKDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.amazon.chime.sdk.enterprise;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = "";
+				WATCHOS_DEPLOYMENT_TARGET = "";
+			};
+			name = Release;
+		};
+		71BEE25D29F8D5AF002C6BBA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_ENTITLEMENTS = AmazonChimeSDKDemoBroadcast/AmazonChimeSDKDemoBroadcastDebug.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 0.26.1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = NO;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				INFOPLIST_FILE = "AmazonChimeSDKDemoBroadcastSPM-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 0.13.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.amazonaws.services.chime.SDKDemo.AmazonChimeSDKDemoBroadcast;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		71BEE25E29F8D5AF002C6BBA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_ENTITLEMENTS = AmazonChimeSDKDemoBroadcast/AmazonChimeSDKDemoBroadcastRelease.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 0.26.1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = NO;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				INFOPLIST_FILE = "AmazonChimeSDKDemoBroadcastSPM-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 0.13.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.amazon.chime.sdk.enterprise.broadcast;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C4A690AA255DFF4600F28BC2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_ENTITLEMENTS = AmazonChimeSDKDemoBroadcast/AmazonChimeSDKDemoBroadcastDebug.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 0.26.1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = NO;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				INFOPLIST_FILE = AmazonChimeSDKDemoBroadcast/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 0.13.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.amazonaws.services.chime.SDKDemo.AmazonChimeSDKDemoBroadcast;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C4A690AB255DFF4600F28BC2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_ENTITLEMENTS = AmazonChimeSDKDemoBroadcast/AmazonChimeSDKDemoBroadcastRelease.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 0.26.1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = NO;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				INFOPLIST_FILE = AmazonChimeSDKDemoBroadcast/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 0.13.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.amazon.chime.sdk.enterprise.broadcast;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		ED150C0D27E2E88E003E3061 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D52503BBE3CA2843BA5F4E09 /* Pods-AmazonChimeSDKDemoBroadcastPods.debug.xcconfig */;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_ENTITLEMENTS = AmazonChimeSDKDemoBroadcast/AmazonChimeSDKDemoBroadcastDebug.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 0.26.1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = NO;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				INFOPLIST_FILE = AmazonChimeSDKDemoBroadcast/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 0.13.0;
+				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.amazonaws.services.chime.SDKDemo.AmazonChimeSDKDemoBroadcast;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		ED150C0E27E2E88E003E3061 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5BCB6500F6E39720EC48ADBF /* Pods-AmazonChimeSDKDemoBroadcastPods.release.xcconfig */;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_ENTITLEMENTS = AmazonChimeSDKDemoBroadcast/AmazonChimeSDKDemoBroadcastRelease.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 0.26.1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = NO;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				INFOPLIST_FILE = AmazonChimeSDKDemoBroadcast/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 0.13.0;
+				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.amazon.chime.sdk.enterprise.broadcast;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		EDA766E927E2B57E006B3C48 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AC1927CB881BAA9BE365CBF4 /* Pods-AmazonChimeSDKDemoPods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_ENTITLEMENTS = AmazonChimeSDKDemo/AmazonChimeSDKDemoDebug.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 0.26.1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = AmazonChimeSDKDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = "";
+				MARKETING_VERSION = 0.6.0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-lc++",
+					"-ObjC",
+					"-framework",
+					AmazonChimeSDKMachineLearning,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.amazonaws.services.chime.SDKDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = "";
+				WATCHOS_DEPLOYMENT_TARGET = "";
+			};
+			name = Debug;
+		};
+		EDA766EA27E2B57E006B3C48 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E7BE3BB8348052A79C361E15 /* Pods-AmazonChimeSDKDemoPods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_ENTITLEMENTS = AmazonChimeSDKDemo/AmazonChimeSDKDemoRelease.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 0.26.1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_CPP_RTTI = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = AmazonChimeSDKDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = "";
+				MARKETING_VERSION = 0.6.0;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-lc++",
+					"-ObjC",
+					"-framework",
+					AmazonChimeSDKMachineLearning,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.amazon.chime.sdk.enterprise;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TVOS_DEPLOYMENT_TARGET = "";
@@ -744,14 +1853,15 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.13.1;
+				CURRENT_PROJECT_VERSION = 0.26.1;
 				DEVELOPMENT_TEAM = "";
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../AmazonChimeSDK/";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = AmazonChimeSDKDemoObjC/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -785,14 +1895,15 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 0.13.1;
+				CURRENT_PROJECT_VERSION = 0.26.1;
 				DEVELOPMENT_TEAM = "";
-				ENABLE_BITCODE = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../AmazonChimeSDK/";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = AmazonChimeSDKDemoObjC/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -839,6 +1950,51 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		71BEE22A29F8C17D002C6BBA /* Build configuration list for PBXNativeTarget "AmazonChimeSDKDemoSPM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				71BEE22B29F8C17D002C6BBA /* Debug */,
+				71BEE22C29F8C17D002C6BBA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		71BEE25C29F8D5AF002C6BBA /* Build configuration list for PBXNativeTarget "AmazonChimeSDKDemoBroadcastSPM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				71BEE25D29F8D5AF002C6BBA /* Debug */,
+				71BEE25E29F8D5AF002C6BBA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C4A690A9255DFF4600F28BC2 /* Build configuration list for PBXNativeTarget "AmazonChimeSDKDemoBroadcast" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C4A690AA255DFF4600F28BC2 /* Debug */,
+				C4A690AB255DFF4600F28BC2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ED150C0C27E2E88E003E3061 /* Build configuration list for PBXNativeTarget "AmazonChimeSDKDemoBroadcastPods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ED150C0D27E2E88E003E3061 /* Debug */,
+				ED150C0E27E2E88E003E3061 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EDA766E827E2B57E006B3C48 /* Build configuration list for PBXNativeTarget "AmazonChimeSDKDemoPods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EDA766E927E2B57E006B3C48 /* Debug */,
+				EDA766EA27E2B57E006B3C48 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F8AC96382408840E0072EB04 /* Build configuration list for PBXNativeTarget "AmazonChimeSDKDemoObjC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -851,21 +2007,36 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		00F0F6DF2411B8E20013DA25 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+		71FCF5E52A2803B5004425B7 /* XCRemoteSwiftPackageReference "amazon-chime-sdk-ios-spm" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/scalessec/Toast-Swift";
+			repositoryURL = "https://github.com/aws/amazon-chime-sdk-ios-spm";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.1;
+				branch = main;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		00F0F6E02411B8E20013DA25 /* Toast */ = {
+		71FCF5EC2A2803C0004425B7 /* AmazonChimeSDK */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 00F0F6DF2411B8E20013DA25 /* XCRemoteSwiftPackageReference "Toast-Swift" */;
-			productName = Toast;
+			package = 71FCF5E52A2803B5004425B7 /* XCRemoteSwiftPackageReference "amazon-chime-sdk-ios-spm" */;
+			productName = AmazonChimeSDK;
+		};
+		71FCF5EE2A2803C0004425B7 /* AmazonChimeSDKMachineLearning */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 71FCF5E52A2803B5004425B7 /* XCRemoteSwiftPackageReference "amazon-chime-sdk-ios-spm" */;
+			productName = AmazonChimeSDKMachineLearning;
+		};
+		71FCF5F02A2803C0004425B7 /* AmazonChimeSDKMedia */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 71FCF5E52A2803B5004425B7 /* XCRemoteSwiftPackageReference "amazon-chime-sdk-ios-spm" */;
+			productName = AmazonChimeSDKMedia;
+		};
+		71FCF5F22A2803D8004425B7 /* AmazonChimeSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 71FCF5E52A2803B5004425B7 /* XCRemoteSwiftPackageReference "amazon-chime-sdk-ios-spm" */;
+			productName = AmazonChimeSDK;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

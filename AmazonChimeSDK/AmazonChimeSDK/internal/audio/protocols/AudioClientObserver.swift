@@ -14,4 +14,8 @@ import Foundation
     func subscribeToRealTimeEvents(observer: RealtimeObserver)
     func unsubscribeFromAudioClientStateChange(observer: AudioVideoObserver)
     func unsubscribeFromRealTimeEvents(observer: RealtimeObserver)
+    func subscribeToTranscriptEvent(observer: TranscriptEventObserver)
+    func unsubscribeFromTranscriptEvent(observer: TranscriptEventObserver)
+    func setPrimaryMeetingPromotionObserver(observer: PrimaryMeetingPromotionObserver)
+    var audioStatus: MeetingSessionStatusCode { get }
 }

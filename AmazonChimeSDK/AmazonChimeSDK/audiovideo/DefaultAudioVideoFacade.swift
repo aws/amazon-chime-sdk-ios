@@ -17,13 +17,18 @@ import Foundation
     let deviceController: DeviceController
     let videoTileController: VideoTileController
     let activeSpeakerDetector: ActiveSpeakerDetectorFacade
+    let contentShareController: ContentShareController
+    let eventAnalyticsController: EventAnalyticsController
 
     public init(
         audioVideoController: AudioVideoControllerFacade,
         realtimeController: RealtimeControllerFacade,
         deviceController: DeviceController,
         videoTileController: VideoTileController,
-        activeSpeakerDetector: ActiveSpeakerDetectorFacade
+        activeSpeakerDetector: ActiveSpeakerDetectorFacade,
+        contentShareController: ContentShareController,
+        eventAnalyticsController: EventAnalyticsController,
+        meetingStatsCollector: MeetingStatsCollector
     ) {
         self.audioVideoController = audioVideoController
         self.realtimeController = realtimeController
@@ -32,15 +37,22 @@ import Foundation
         self.configuration = audioVideoController.configuration
         self.logger = audioVideoController.logger
         self.activeSpeakerDetector = activeSpeakerDetector
+        self.contentShareController = contentShareController
+        self.eventAnalyticsController = eventAnalyticsController
+    }
+
+    public func start(audioVideoConfiguration: AudioVideoConfiguration) throws {
+        try audioVideoController.start(audioVideoConfiguration: audioVideoConfiguration)
+
+        trace(name: "start(audioVideoConfiguration: \(audioVideoConfiguration.description))")
     }
 
     public func start(callKitEnabled: Bool = false) throws {
-        try audioVideoController.start(callKitEnabled: callKitEnabled)
-        trace(name: "start(callKitEnabled: \(callKitEnabled))")
+        try self.start(audioVideoConfiguration: AudioVideoConfiguration(callKitEnabled: callKitEnabled))
     }
 
     public func start() throws {
-        try self.start(callKitEnabled: false)
+        try self.start(audioVideoConfiguration: AudioVideoConfiguration())
     }
 
     public func stop() {
@@ -52,8 +64,16 @@ import Foundation
         try audioVideoController.startLocalVideo()
     }
 
+    public func startLocalVideo(config: LocalVideoConfiguration) throws {
+        try audioVideoController.startLocalVideo(config: config)
+    }
+
     public func startLocalVideo(source: VideoSource) {
         audioVideoController.startLocalVideo(source: source)
+    }
+
+    public func startLocalVideo(source: VideoSource, config: LocalVideoConfiguration) {
+        audioVideoController.startLocalVideo(source: source, config: config)
     }
 
     public func stopLocalVideo() {
@@ -127,6 +147,28 @@ import Foundation
         audioVideoController.removeMetricsObserver(observer: observer)
     }
 
+    public func addRealtimeTranscriptEventObserver(observer: TranscriptEventObserver) {
+        realtimeController.addRealtimeTranscriptEventObserver?(observer: observer)
+    }
+
+    public func removeRealtimeTranscriptEventObserver(observer: TranscriptEventObserver) {
+        realtimeController.removeRealtimeTranscriptEventObserver?(observer: observer)
+    }
+    
+    public func updateVideoSourceSubscriptions(addedOrUpdated: Dictionary<RemoteVideoSource, VideoSubscriptionConfiguration>, removed: Array<RemoteVideoSource>) {
+        audioVideoController.updateVideoSourceSubscriptions(addedOrUpdated: addedOrUpdated, removed: removed)
+    }
+
+    public func promoteToPrimaryMeeting(credentials: MeetingSessionCredentials, observer: PrimaryMeetingPromotionObserver) {
+        audioVideoController.promoteToPrimaryMeeting(credentials: credentials, observer: observer)
+    }
+
+    public func demoteFromPrimaryMeeting() {
+        audioVideoController.demoteFromPrimaryMeeting()
+        // Stop content share as well
+        contentShareController.stopContentShare()
+    }
+
     // MARK: DeviceController
 
     public func listAudioDevices() -> [MediaDevice] {
@@ -151,6 +193,10 @@ import Foundation
 
     public func getActiveCamera() -> MediaDevice? {
         return deviceController.getActiveCamera()
+    }
+
+    public func getActiveAudioDevice() -> MediaDevice? {
+        return deviceController.getActiveAudioDevice()
     }
 
     // MARK: VideoTileController
@@ -191,7 +237,41 @@ import Foundation
 
     public func hasBandwidthPriorityCallback(hasBandwidthPriority: Bool) {}
 
-    public func getActiveAudioDevice() -> MediaDevice? {
-        return deviceController.getActiveAudioDevice()
+    // MARK: ContentShareController
+
+    public func startContentShare(source: ContentShareSource) {
+        contentShareController.startContentShare(source: source)
+    }
+
+    public func startContentShare(source: ContentShareSource, config: LocalVideoConfiguration) {
+        contentShareController.startContentShare(source: source, config: config)
+    }
+
+    public func stopContentShare() {
+        contentShareController.stopContentShare()
+    }
+
+    public func addContentShareObserver(observer: ContentShareObserver) {
+        contentShareController.addContentShareObserver(observer: observer)
+    }
+
+    public func removeContentShareObserver(observer: ContentShareObserver) {
+        contentShareController.removeContentShareObserver(observer: observer)
+    }
+
+    public func addEventAnalyticsObserver(observer: EventAnalyticsObserver) {
+        eventAnalyticsController.addEventAnalyticsObserver(observer: observer)
+    }
+
+    public func removeEventAnalyticsObserver(observer: EventAnalyticsObserver) {
+        eventAnalyticsController.removeEventAnalyticsObserver(observer: observer)
+    }
+
+    public func getMeetingHistory() -> [MeetingHistoryEvent] {
+        return eventAnalyticsController.getMeetingHistory()
+    }
+
+    public func getCommonEventAttributes() -> [AnyHashable: Any] {
+        return eventAnalyticsController.getCommonEventAttributes()
     }
 }

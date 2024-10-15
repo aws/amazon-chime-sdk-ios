@@ -5,12 +5,12 @@
 //  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 //  SPDX-License-Identifier: Apache-2.0
 //
-// swiftlint:disable identifier_name function_parameter_count
 
 import AmazonChimeSDKMedia
 import Foundation
 
 @objc public protocol AudioClientProtocol {
+    
     // swiftlint:disable function_parameter_count variable_name
     func startSession(_ host: String!,
                       basePort port: Int,
@@ -21,8 +21,12 @@ import Foundation
                       isPresenter presenter: Bool,
                       sessionToken tokenString: String!,
                       audioWsUrl: String!,
-                      callKitEnabled: Bool) -> audio_client_status_t
-    // swiftlint:enable function_parameter_count variable_name
+                      callKitEnabled: Bool,
+                      appInfo: AppInfo!,
+                      audioMode: AudioModeInternal,
+                      audioDeviceCapabilities: AudioDeviceCapabilitiesInternal,
+                      enableAudioRedundancy: Bool,
+                      reconnectTimeoutMs: Int) -> audio_client_status_t
 
     func stopSession() -> Int
 
@@ -45,6 +49,14 @@ import Foundation
     func isBliteNSSelected() -> Bool
 
     func setBliteNSSelected(_ bliteSelected: Bool) -> Int
+
+    func endOnHold()
+
+    func joinPrimaryMeeting(_ attendeeId: String!, externalUserId: String!, joinToken: String!)
+
+    func leavePrimaryMeeting()
+
+    var delegate: AudioClientDelegate! { get set }
 }
 
 extension AudioClient: AudioClientProtocol {}

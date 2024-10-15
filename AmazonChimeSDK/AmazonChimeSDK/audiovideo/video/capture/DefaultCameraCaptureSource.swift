@@ -12,8 +12,8 @@ import UIKit
 
 @objcMembers public class DefaultCameraCaptureSource: NSObject, CameraCaptureSource {
     public var videoContentHint: VideoContentHint = .motion
-
     private let logger: Logger
+    private let cameraLock = NSLock()
     private let deviceType = AVCaptureDevice.DeviceType.builtInWideAngleCamera
     private let sinks = ConcurrentMutableSet()
     private let captureSourceObservers = ConcurrentMutableSet()
@@ -24,8 +24,9 @@ import UIKit
                                                                  maxFrameRate: Constants.maxSupportedVideoFrameRate)
 
     private var session = AVCaptureSession()
-    private var orientation = UIDeviceOrientation.portrait
+    private var orientation = UIInterfaceOrientation.portrait
     private var captureDevice: AVCaptureDevice?
+    private var eventAnalyticsController: EventAnalyticsController?
 
     public init(logger: Logger) {
         self.logger = logger
@@ -78,7 +79,7 @@ import UIKit
 
     public var torchEnabled: Bool = false {
         didSet {
-            if let captureDevice = captureDevice, captureDevice.hasTorch, captureDevice.isTorchAvailable {
+            if let captureDevice = captureDevice, torchAvailable {
                 do {
                     try captureDevice.lockForConfiguration()
                     if torchEnabled {
@@ -92,9 +93,18 @@ import UIKit
                 }
             } else {
                 torchEnabled = false
-                logger.error(msg: "Torch is not available on current camera.")
+                logger.info(msg: "Torch is not available on current camera.")
             }
         }
+    }
+
+    /// Expose current capture device's torch availability
+    public var torchAvailable: Bool {
+        guard let captureDevice = captureDevice else {
+            return false
+        }
+
+        return captureDevice.hasTorch && captureDevice.isTorchAvailable
     }
 
     public func addVideoSink(sink: VideoSink) {
@@ -106,6 +116,9 @@ import UIKit
     }
 
     public func start() {
+        cameraLock.lock()
+        defer { cameraLock.unlock() }
+
         session = AVCaptureSession()
         guard let captureDevice = captureDevice else {
             return
@@ -115,9 +128,7 @@ import UIKit
         guard let deviceInput = try? AVCaptureDeviceInput(device: captureDevice),
             session.canAddInput(deviceInput) else {
             session.commitConfiguration()
-            ObserverUtils.forEach(observers: captureSourceObservers) { (observer: CaptureSourceObserver) in
-                observer.captureDidFail(error: .configurationFailure)
-            }
+            handleCaptureFailed(reason: .configurationFailure)
             logger.error(msg: "DefaultCameraCaptureSource configuration failure")
             return
         }
@@ -129,9 +140,7 @@ import UIKit
             session.addOutput(output)
         } else {
             session.commitConfiguration()
-            ObserverUtils.forEach(observers: captureSourceObservers) { (observer: CaptureSourceObserver) in
-                observer.captureDidFail(error: .configurationFailure)
-            }
+            handleCaptureFailed(reason: .configurationFailure)
             logger.error(msg: "DefaultCameraCaptureSource configuration failure")
             return
         }
@@ -150,6 +159,9 @@ import UIKit
     }
 
     public func stop() {
+        cameraLock.lock()
+        defer { cameraLock.unlock() }
+
         session.stopRunning()
 
         // If the torch was currently on, stopping the sessions
@@ -167,6 +179,10 @@ import UIKit
         device = MediaDevice.listVideoDevices().first { mediaDevice in
             mediaDevice.type == (isUsingFrontCamera ? .videoBackCamera : .videoFrontCamera)
         }
+
+        if device != nil {
+            eventAnalyticsController?.pushHistory(historyEventName: .videoInputSelected)
+        }
     }
 
     public func addCaptureSourceObserver(observer: CaptureSourceObserver) {
@@ -181,20 +197,22 @@ import UIKit
         guard let connection = output.connection(with: AVMediaType.video) else {
             return
         }
-        orientation = UIDevice.current.orientation
 
-        switch orientation {
-        case .portrait, .unknown:
-            connection.videoOrientation = .portrait
-        case .landscapeLeft:
-            connection.videoOrientation = .landscapeRight
-        case .portraitUpsideDown:
-            connection.videoOrientation = .portraitUpsideDown
-        case .landscapeRight:
-            connection.videoOrientation = .landscapeLeft
-        default:
-            // Do not update videoOrientation when the device is laying flat
-            return
+        DispatchQueue.main.async {
+            self.orientation = UIApplication.shared.statusBarOrientation
+
+            switch self.orientation {
+            case .portrait, .unknown:
+                connection.videoOrientation = .portrait
+            case .portraitUpsideDown:
+                connection.videoOrientation = .portraitUpsideDown
+            case .landscapeLeft:
+                connection.videoOrientation = .landscapeLeft
+            case .landscapeRight:
+                connection.videoOrientation = .landscapeRight
+            @unknown default:
+                break
+            }
         }
     }
 
@@ -207,9 +225,7 @@ import UIKit
         let newAVFormat = captureDevice.formats.min { avFormatA, avFormatB in
             let formatA = VideoCaptureFormat.fromAVCaptureDeviceFormat(format: avFormatA)
             let formatB = VideoCaptureFormat.fromAVCaptureDeviceFormat(format: avFormatB)
-            let diffA = abs(formatA.width - format.width) + abs(formatA.height - format.height)
-            let diffB = abs(formatB.width - format.width) + abs(formatB.height - format.height)
-            return diffA < diffB
+            return closestFormat(formatA: formatA, formatB: formatB)
         }
         guard let chosenFormat = newAVFormat, chosenFormat != captureDevice.activeFormat else {
             captureDevice.unlockForConfiguration()
@@ -219,10 +235,35 @@ import UIKit
         captureDevice.unlockForConfiguration()
     }
 
+    func closestFormat(formatA: VideoCaptureFormat, formatB: VideoCaptureFormat) -> Bool {
+        let diffA = abs(formatA.width - format.width) + abs(formatA.height - format.height)
+        let diffB = abs(formatB.width - format.width) + abs(formatB.height - format.height)
+        if diffA == diffB {
+            return abs(formatA.maxFrameRate - format.maxFrameRate) < abs(formatB.maxFrameRate - format.maxFrameRate)
+        }
+        return diffA < diffB
+    }
+    
     @objc private func deviceOrientationDidChange(notification: NSNotification) {
         captureQueue.async {
             self.updateOrientation()
         }
+    }
+
+    private func handleCaptureFailed(reason: CaptureSourceError) {
+        let attributes = [
+            EventAttributeName.videoInputError: reason
+        ]
+
+        eventAnalyticsController?.publishEvent(name: .videoInputFailed, attributes: attributes)
+
+        ObserverUtils.forEach(observers: captureSourceObservers) { (observer: CaptureSourceObserver) in
+            observer.captureDidFail(error: reason)
+        }
+    }
+
+    public func setEventAnalyticsController(eventAnalyticsController: EventAnalyticsController?) {
+        self.eventAnalyticsController = eventAnalyticsController
     }
 }
 
@@ -230,24 +271,13 @@ extension DefaultCameraCaptureSource: AVCaptureVideoDataOutputSampleBufferDelega
     public func captureOutput(_: AVCaptureOutput,
                               didOutput sampleBuffer: CMSampleBuffer,
                               from _: AVCaptureConnection) {
-        guard CMSampleBufferGetNumSamples(sampleBuffer) == 1,
-            CMSampleBufferIsValid(sampleBuffer),
-            CMSampleBufferDataIsReady(sampleBuffer),
-            let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
+        guard let frame = VideoFrame(sampleBuffer: sampleBuffer) else {
+            handleCaptureFailed(reason: .invalidFrame)
+            logger.error(msg: "DefaultCameraCaptureSource could not convert captured CMSampleBuffer to video frame")
 
-            ObserverUtils.forEach(observers: captureSourceObservers) { (observer: CaptureSourceObserver) in
-                observer.captureDidFail(error: .invalidFrame)
-            }
-            logger.error(msg: "DefaultCameraCaptureSource invalid frame received")
             return
         }
-        let buffer = VideoFramePixelBuffer(pixelBuffer: pixelBuffer)
-        let timestampNs = CMTimeGetSeconds(CMSampleBufferGetOutputPresentationTimeStamp(sampleBuffer))
-            * Double(Constants.nanosecondsPerSecond)
 
-        let frame = VideoFrame(timestampNs: Int64(timestampNs),
-                               rotation: .rotation0,
-                               buffer: buffer)
         sinks.forEach { item in
             guard let sink = item as? VideoSink else { return }
             sink.onVideoFrameReceived(frame: frame)

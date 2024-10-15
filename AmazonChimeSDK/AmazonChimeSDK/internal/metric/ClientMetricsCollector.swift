@@ -16,6 +16,7 @@ import Foundation
     // assumed that the video client has been stopped
     func processAudioClientMetrics(metrics: [AnyHashable: Any])
     func processVideoClientMetrics(metrics: [AnyHashable: Any])
+    func processContentShareVideoClientMetrics(metrics: [AnyHashable: Any])
 
     func subscribeToMetrics(observer: MetricsObserver)
     func unsubscribeFromMetrics(observer: MetricsObserver)

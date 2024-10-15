@@ -13,127 +13,51 @@ import UIKit
 
 class DefaultVideoClientController: NSObject {
     var clientMetricsCollector: ClientMetricsCollector
-    var joinToken: String?
     var logger: Logger
-    var meetingId: String?
-    var signalingUrl: String?
-    var videoClient: VideoClient?
+    var videoClient: VideoClientProtocol?
     var videoSourceAdapter = VideoSourceAdapter()
     var videoClientState: VideoClientState = .uninitialized
     let videoTileControllerObservers = ConcurrentMutableSet()
     let videoObservers = ConcurrentMutableSet()
-    var dataMessageObservers = [String: ConcurrentMutableSet]()
-    var turnControlUrl: String?
+    var dataMessageObservers = ConcurrentDictionary<String, NSMutableSet>()
+    // We have designed the SDK API to allow using `RemoteVideoSource` as a key in a map, e.g. for  `updateVideoSourceSubscription`.
+    // Therefore we need to map to a consistent set of sources from the internal sources, by using attendeeId as a unique identifier.
+    var cachedRemoteVideoSources = ConcurrentMutableSet()
+    var primaryMeetingPromotionObserver: PrimaryMeetingPromotionObserver?
 
     private let configuration: MeetingSessionConfiguration
-    private let contentTypeHeader = "Content-Type"
-    private let contentType = "application/json"
-    private let userAgentTypeHeader = "User-Agent"
-    private let defaultVideoClient: VideoClient
-    private let meetingIdKey = "meetingId"
-    private let tokenHeader = "X-Chime-Auth-Token"
-    private let tokenKey = "_aws_wt_session"
-    private let turnRequestHttpMethod = "POST"
+    private let defaultVideoClient: VideoClientProtocol
 
     // This internal camera capture source is used for `startLocalVideo()` API without parameter.
     private let internalCaptureSource: DefaultCameraCaptureSource
     private var isInternalCaptureSourceRunning = true
+    private let eventAnalyticsController: EventAnalyticsController
 
-    init(videoClient: VideoClient,
+    init(videoClient: VideoClientProtocol,
          clientMetricsCollector: ClientMetricsCollector,
          configuration: MeetingSessionConfiguration,
-         logger: Logger) {
+         logger: Logger,
+         eventAnalyticsController: EventAnalyticsController) {
         self.defaultVideoClient = videoClient
         self.clientMetricsCollector = clientMetricsCollector
         self.configuration = configuration
         self.logger = logger
         self.internalCaptureSource = DefaultCameraCaptureSource(logger: logger)
+        self.internalCaptureSource.setEventAnalyticsController(eventAnalyticsController: eventAnalyticsController)
+        self.eventAnalyticsController = eventAnalyticsController
         super.init()
-    }
-
-    private func getUserAgent() -> String {
-        let model = UIDevice.current.model
-        let systemVersion = UIDevice.current.systemVersion
-        let scaleFactor = UIScreen.main.scale
-        let defaultAgent = "(\(model); iOS \(systemVersion); Scale/\(String(format: "%.2f", scaleFactor)))"
-        if let dict = Bundle.main.infoDictionary {
-            if let identifier = dict[kCFBundleExecutableKey as String] ?? dict[kCFBundleIdentifierKey as String],
-                let version = dict[kCFBundleVersionKey as String] {
-                return "\(identifier)/\(version) \(defaultAgent)"
-            }
-        }
-        return defaultAgent
-    }
-
-    private func getModelInfo() -> String {
-        var systemInfo = utsname()
-        uname(&systemInfo)
-        let machineMirror = Mirror(reflecting: systemInfo.machine)
-        return machineMirror.children.reduce("") { identifier, element in
-            guard let value = element.value as? Int8, value != 0 else { return identifier }
-            return identifier + String(UnicodeScalar(UInt8(value)))
-        }
-    }
-
-    private func makeTurnRequest(request: URLRequest) {
-        URLSession.shared.dataTask(with: request) { data, resp, error in
-            if let error = error {
-                self.logger.error(msg: "Failed to make TURN request, error: \(error.localizedDescription)")
-                return
-            }
-            if let httpResponse = resp as? HTTPURLResponse {
-                guard httpResponse.statusCode == 200 else {
-                    self.logger.error(msg: "Received status code \(httpResponse.statusCode) when making TURN request")
-                    return
-                }
-            }
-            guard let signalingUrl = self.signalingUrl else {
-                self.logger.error(msg: "DefaultVideoClientController:signalingUrl is nil")
-                return
-            }
-            guard let data = data else { return }
-            self.logger.info(msg: "TURN request success")
-
-            let jsonDecoder = JSONDecoder()
-            do {
-                let turnCredentials: MeetingSessionTURNCredentials = try jsonDecoder.decode(
-                    MeetingSessionTURNCredentials.self, from: data
-                )
-
-                let uriSize = turnCredentials.uris.count
-                let uris = UnsafeMutablePointer<UnsafePointer<Int8>?>.allocate(capacity: uriSize)
-                for index in 0 ..< uriSize {
-                    let uri = self.configuration.urlRewriter(turnCredentials.uris[index])
-                    uris.advanced(by: index).pointee = (uri as NSString).utf8String
-                }
-
-                let turnResponse: turn_session_response_t = turn_session_response_t.init(
-                    user_name: (turnCredentials.username as NSString).utf8String,
-                    password: (turnCredentials.password as NSString).utf8String,
-                    ttl: UInt64(turnCredentials.ttl),
-                    signaling_url: (signalingUrl as NSString).utf8String,
-                    turn_data_uris: uris,
-                    size: Int32(uriSize)
-                )
-
-                self.videoClient?.updateTurnCreds(turnResponse, turn: VIDEO_CLIENT_TURN_FEATURE_ON)
-            } catch {
-                self.logger.error(msg: "Failed to decode TURN response, error: \(error.localizedDescription)")
-                return
-            }
-        }.resume()
     }
 
     // MARK: VideoClientController
 
     private func checkVideoPermission() throws {
         if AVCaptureDevice.authorizationStatus(for: .video) != .authorized {
+            let attributes = [
+                EventAttributeName.videoInputError: PermissionError.videoPermissionError
+            ]
+            eventAnalyticsController.publishEvent(name: .videoInputFailed, attributes: attributes)
             throw PermissionError.videoPermissionError
         }
-    }
-
-    func isDeviceFrontFacing(videoDevice: VideoDevice) -> Bool {
-        return MediaDevice.fromVideoDevice(device: videoDevice).type == .videoFrontCamera
     }
 
     private func stopVideoClient() {
@@ -146,26 +70,10 @@ class DefaultVideoClientController: NSObject {
 
     private func destroyVideoClient() {
         logger.info(msg: "VideoClient is being destroyed")
+        videoTileControllerObservers.removeAll()
+        videoClient?.delegate = nil
         videoClient = nil
         videoClientState = .uninitialized
-    }
-
-    func setFrontCameraAsCurrentDevice() {
-        guard videoClientState != .uninitialized else {
-            logger.error(msg: "Cannot set front camera as current device because videoClientState=\(videoClientState)")
-            return
-        }
-
-        logger.info(msg: "Setting front camera as current device")
-
-        let currentDevice = VideoClient.currentDevice()
-        if currentDevice == nil || !isDeviceFrontFacing(videoDevice: currentDevice!) {
-            if let devices = (VideoClient.devices() as? [VideoDevice]) {
-                if let frontDevice = devices.first(where: isDeviceFrontFacing) {
-                    videoClient?.setCurrentDevice(frontDevice)
-                }
-            }
-        }
     }
 
     func initialize() {
@@ -188,30 +96,23 @@ class DefaultVideoClientController: NSObject {
 
         let videoConfig: VideoConfiguration = VideoConfiguration()
         videoConfig.isUsing16by9AspectRatio = true
+        videoConfig.isUsingSendSideBwe = true
+        videoConfig.isDisablingSimulcastP2P = true
         videoConfig.isUsingPixelBufferRenderer = true
         videoConfig.isUsingOptimizedTwoSimulcastStreamTable = true
+        videoConfig.isExcludeSelfContentInIndex = true
+        videoConfig.isUsingInbandTurnCreds = true
 
         // Default to idle mode, no video but signaling connection is
         // established for messaging
         videoClient.setReceiving(false)
-        var appInfo = app_detailed_info_t.init()
 
-        appInfo.platform_version = UnsafePointer<Int8>((UIDevice.current.systemVersion as NSString).utf8String)
-        if let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] {
-            appInfo.app_version_name = UnsafePointer<Int8>(("iOS \(appVersion)" as NSString).utf8String)
-            appInfo.app_version_code = UnsafePointer<Int8>(("\(appVersion)" as NSString).utf8String)
-        }
-        appInfo.device_model = UnsafePointer<Int8>((getModelInfo() as NSString).utf8String)
-        appInfo.platform_name = UnsafePointer<Int8>(("iOS" as NSString).utf8String)
-        appInfo.device_make = UnsafePointer<Int8>(("apple" as NSString).utf8String)
-        appInfo.client_source = UnsafePointer<Int8>(("amazon-chime-sdk" as NSString).utf8String)
-        appInfo.chime_sdk_version = UnsafePointer<Int8>((Versioning.sdkVersion() as NSString).utf8String)
-
-        videoClient.start(meetingId,
-                          token: joinToken,
+        videoClient.start(configuration.meetingId,
+                          token: configuration.credentials.joinToken,
                           sending: false,
                           config: videoConfig,
-                          appInfo: appInfo)
+                          appInfo: DeviceUtils.getDetailedInfo(),
+                          signalingUrl: configuration.urls.signalingUrl)
         videoClientState = .started
     }
 }
@@ -289,40 +190,40 @@ extension DefaultVideoClientController: VideoClientDelegate {
         ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
             observer.videoSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus(statusCode: .ok))
         }
+
+        // We will not be promoted on reconnection
+        self.primaryMeetingPromotionObserver?
+            .didDemoteFromPrimaryMeeting(status: MeetingSessionStatus.init(statusCode: MeetingSessionStatusCode.audioInternalServerError))
+        self.primaryMeetingPromotionObserver = nil
     }
 
     public func videoClient(_ client: VideoClient?, cameraSendIsAvailable available: Bool) {
-        logger.info(msg: "videoClientCameraSendIsAvailable")
+        logger.info(msg: "videoClientCameraSendIsAvailable \(available)")
+        ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
+            observer.cameraSendAvailabilityDidChange(
+                available: available
+            )
+        }
     }
 
     public func videoClientRequestTurnCreds(_ videoClient: VideoClient?) {
-        guard
-            let turnControlUrl = turnControlUrl,
-            let joinToken = self.joinToken,
-            let serverUrl = URL(string: turnControlUrl)
-        else {
-            logger.error(msg: "Failed to request TURN creds because required info is missing")
-            return
-        }
+        let turnControlUrl = configuration.urls.turnControlUrl
+        let joinToken = configuration.credentials.joinToken
+        let meetingId = configuration.meetingId
+        let signalingUrl = configuration.urls.signalingUrl
+
         logger.info(msg: "Requesting TURN creds")
 
-        // Prepare TURN request
-        var request = URLRequest(url: serverUrl)
-        request.httpMethod = turnRequestHttpMethod
-        request.addValue("\(tokenKey)=\(joinToken)", forHTTPHeaderField: tokenHeader)
-        request.addValue(contentType, forHTTPHeaderField: contentTypeHeader)
-        request.addValue(getUserAgent(), forHTTPHeaderField: userAgentTypeHeader)
-
-        // Write meetingId into HTTP request body
-        let meetingIdDict = [meetingIdKey: meetingId]
-        do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: meetingIdDict)
-        } catch {
-            logger.error(msg: "Failed to set meetingId in TURN request payload, error: \(error.localizedDescription)")
-            return
+        TURNRequestService.postTURNRequest(meetingId: meetingId,
+                                           turnControlUrl: turnControlUrl,
+                                           joinToken: joinToken,
+                                           logger: logger) { [weak self] turnCredentials in
+            if let strongSelf = self, let turnCredentials = turnCredentials {
+                let turnResponse = turnCredentials.toTURNSessionResponse(urlRewriter: strongSelf.configuration.urlRewriter,
+                                                                         signalingUrl: signalingUrl)
+                (strongSelf.videoClient as? VideoClient)?.updateTurnCreds(turnResponse, turn: VIDEO_CLIENT_TURN_FEATURE_ON)
+            }
         }
-
-        makeTurnRequest(request: request)
     }
 
     public func videoClientMetricsReceived(_ metrics: [AnyHashable: Any]?) {
@@ -341,20 +242,96 @@ extension DefaultVideoClientController: VideoClientDelegate {
             }
         }
     }
+    
+    public func remoteVideoSourcesDidBecomeAvailable(_ sourcesInternal: [RemoteVideoSourceInternal]) {
+        if sourcesInternal.isEmpty { return } // Don't callback for empty lists
+
+        var sources = [RemoteVideoSource]()
+        sourcesInternal.forEach { source in
+            var foundCachedRemoteVideoSource = false
+            cachedRemoteVideoSources.forEach { cachedRemoteVideoSource in
+                if let cachedRemoteVideoSource = cachedRemoteVideoSource as? RemoteVideoSource {
+                    if source.attendeeId == cachedRemoteVideoSource.attendeeId {
+                        sources.append(cachedRemoteVideoSource)
+                        foundCachedRemoteVideoSource = true
+                    }
+                }
+            }
+
+            if foundCachedRemoteVideoSource {
+                return
+            }
+            // Otherwise create a new one and add to cached set
+            let newSource = RemoteVideoSource()
+            newSource.attendeeId = source.attendeeId
+            sources.append(newSource)
+            cachedRemoteVideoSources.add(newSource)
+        }
+        ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
+            observer.remoteVideoSourcesDidBecomeAvailable(sources: sources)
+        }
+    }
+    
+    public func remoteVideoSourcesDidBecomeUnavailable(_ sourcesInternal: [RemoteVideoSourceInternal]) {
+        if sourcesInternal.isEmpty { return } // Don't callback for empty lists
+        var sourcesToRemove = [RemoteVideoSource]()
+        sourcesInternal.forEach { source in
+            cachedRemoteVideoSources.forEach { cachedRemoteVideoSource in
+                if let cachedRemoteVideoSource = cachedRemoteVideoSource as? RemoteVideoSource {
+                    if source.attendeeId == cachedRemoteVideoSource.attendeeId {
+                        sourcesToRemove.append(cachedRemoteVideoSource)
+                    }
+                }
+            }
+        }
+        sourcesToRemove.forEach { sourceToRemove in
+            cachedRemoteVideoSources.remove(sourceToRemove)
+        }
+        ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
+            observer.remoteVideoSourcesDidBecomeUnavailable(sources: sourcesToRemove)
+        }
+    }
+
+    public func videoClientTurnURIsReceived(_ uris: [String]) -> [String] {
+        return uris.map(self.configuration.urlRewriter)
+    }
+
+    public func videoClientDidPromote(toPrimaryMeeting status: video_client_status_t) {
+        let code: MeetingSessionStatusCode
+        switch status {
+        case VIDEO_CLIENT_OK:
+            code = MeetingSessionStatusCode.ok
+        case VIDEO_CLIENT_ERR_PRIMARY_MEETING_JOIN_AT_CAPACITY:
+            code = MeetingSessionStatusCode.audioCallAtCapacity
+        case VIDEO_CLIENT_ERR_PRIMARY_MEETING_JOIN_AUTHENTICATION_FAILED:
+            code = MeetingSessionStatusCode.audioAuthenticationRejected
+        default:
+            code = MeetingSessionStatusCode.unknown
+        }
+        self.primaryMeetingPromotionObserver?
+            .didPromoteToPrimaryMeeting(status: MeetingSessionStatus.init(statusCode: code))
+    }
+
+    public func videoClientDidDemote(fromPrimaryMeeting status: video_client_status_t) {
+        let code: MeetingSessionStatusCode
+        switch status {
+        case VIDEO_CLIENT_OK:
+            code = MeetingSessionStatusCode.ok
+        case VIDEO_CLIENT_ERR_PRIMARY_MEETING_JOIN_AUTHENTICATION_FAILED:
+            code = MeetingSessionStatusCode.audioAuthenticationRejected
+        default:
+            code = MeetingSessionStatusCode.unknown
+        }
+        self.primaryMeetingPromotionObserver?
+            .didDemoteFromPrimaryMeeting(status: MeetingSessionStatus.init(statusCode: code))
+        self.primaryMeetingPromotionObserver = nil
+    }
 }
 
 extension DefaultVideoClientController: VideoClientController {
     // MARK: - Lifecycle: start and initialize
 
-    public func start(turnControlUrl: String,
-                      signalingUrl: String,
-                      meetingId: String,
-                      joinToken: String) {
-        self.turnControlUrl = turnControlUrl
-        self.signalingUrl = signalingUrl
-        self.meetingId = meetingId
-        self.joinToken = joinToken
-
+    public func start() {
         switch videoClientState {
         case .uninitialized:
             initialize()
@@ -385,19 +362,38 @@ extension DefaultVideoClientController: VideoClientController {
     // MARK: - Video selection
 
     public func startLocalVideo() throws {
-        try checkVideoPermission()
-        setVideoSource(source: internalCaptureSource)
+        let config = LocalVideoConfiguration()
+        try startLocalVideo(config: config)
+    }
 
-        logger.info(msg: "Starting local video with internal source")
+    public func startLocalVideo(config: LocalVideoConfiguration) throws {
+        if (self.configuration.meetingFeatures.videoMaxResolution == VideoResolution.videoDisabled) {
+            logger.info(msg: "Could not start camera video because camere video max resolution was set to disabled")
+            return
+        }
+
+        try checkVideoPermission()
+        logger.info(msg: "Starting local video with internal source and config")
+        setVideoSource(source: internalCaptureSource, config: config)
         internalCaptureSource.start()
         isInternalCaptureSourceRunning = true
     }
 
     public func startLocalVideo(source: VideoSource) {
-        stopInternalCaptureSourceIfRunning()
-        setVideoSource(source: source)
+        let config = LocalVideoConfiguration()
+        startLocalVideo(source: source, config: config)
+    }
 
-        logger.info(msg: "Starting local video with custom source")
+    public func startLocalVideo(source: VideoSource, config: LocalVideoConfiguration) {
+        if (self.configuration.meetingFeatures.videoMaxResolution == VideoResolution.videoDisabled) {
+            logger.info(msg: "Could not start camera video because camere video max resolution was set to disabled")
+            return
+        }
+
+        stopInternalCaptureSourceIfRunning()
+        setVideoSource(source: source, config: config)
+
+        logger.info(msg: "Starting local video with custom source and custom config")
     }
 
     private func stopInternalCaptureSourceIfRunning() {
@@ -407,20 +403,34 @@ extension DefaultVideoClientController: VideoClientController {
         }
     }
 
-    private func setVideoSource(source: VideoSource) {
+    private func setVideoSource(source: VideoSource, config: LocalVideoConfiguration) {
         guard videoClientState != .uninitialized else {
-            logger.fault(msg: "VideoClient is not initialized so returning without doing anything")
+            logger.fault(msg: "VideoClient is not initialized so returning without doing anything in setVideoSource")
             return
         }
 
         videoSourceAdapter.source = source
         videoClient?.setExternalVideoSource(videoSourceAdapter)
         videoClient?.setSending(true)
+
+        let simulcastEnabled = config.simulcastEnabled
+        logger.info(msg: "Setting simulcast")
+        videoClient?.setSimulcast(simulcastEnabled)
+
+        if (config.maxBitRateKbps > 0) {
+            logger.info(msg: "Setting max bit rate in kbps for local video")
+            videoClient?.setMaxBitRateKbps(config.maxBitRateKbps)
+        }
+
+        if (self.configuration.meetingFeatures.videoMaxResolution == VideoResolution.videoResolutionFHD) {
+            logger.info(msg: "Setting max bit rate in kbps for local video FHD (2500kbps)")
+            videoClient?.setMaxBitRateKbps(VideoBitrateConstants().videoHighResolutionBitrateKbps)
+        }
     }
 
     public func stopLocalVideo() {
         guard videoClientState != .uninitialized else {
-            logger.fault(msg: "VideoClient is not initialized so returning without doing anything")
+            logger.fault(msg: "VideoClient is not initialized so returning without doing anything in stopLocalVideo")
             return
         }
         logger.info(msg: "Stopping local video")
@@ -430,7 +440,7 @@ extension DefaultVideoClientController: VideoClientController {
 
     public func startRemoteVideo() {
         guard videoClientState != .uninitialized else {
-            logger.fault(msg: "VideoClient is not initialized so returning without doing anything")
+            logger.fault(msg: "VideoClient is not initialized so returning without doing anything in startRemoteVideo")
             return
         }
         logger.info(msg: "Starting remote video")
@@ -439,7 +449,7 @@ extension DefaultVideoClientController: VideoClientController {
 
     public func stopRemoteVideo() {
         guard videoClientState != .uninitialized else {
-            logger.fault(msg: "VideoClient is not initialized so returning without doing anything")
+            logger.fault(msg: "VideoClient is not initialized so returning without doing anything in stopRemoteVideo")
             return
         }
         logger.info(msg: "Stopping remote video")
@@ -485,20 +495,44 @@ extension DefaultVideoClientController: VideoClientController {
         videoClient?.setRemotePause(videoId, pause: pause)
     }
 
+    public func updateVideoSourceSubscriptions(addedOrUpdated: Dictionary<RemoteVideoSource, VideoSubscriptionConfiguration>, removed: Array<RemoteVideoSource>) {
+        guard videoClientState != .uninitialized else {
+            logger.fault(msg: "VideoClient is not initialized so returning without doing anything in updateVideoSourceSubscriptions")
+            return
+        }
+        logger.info(msg: "Updating video subscriptions")
+        
+        let addedOrUpdatedInternal = Dictionary(uniqueKeysWithValues:
+            addedOrUpdated.map { source, config in
+                (RemoteVideoSourceInternal(attendeeId: source.attendeeId),
+                 VideoSubscriptionConfigurationInternal(
+                    priority: PriorityInternal(rawValue: UInt(config.priority.rawValue)) ?? PriorityInternal.highest,
+                    targetResolution: ResolutionInternal.init(width: Int32(config.targetResolution.width),
+                                                              height: Int32(config.targetResolution.height))))
+        })
+        
+        var removedInternal = [RemoteVideoSourceInternal]()
+        removed.forEach{ source in
+            removedInternal.append(RemoteVideoSourceInternal(attendeeId: source.attendeeId))
+        }
+        
+        videoClient?.updateVideoSourceSubscriptions(addedOrUpdatedInternal as Dictionary<AnyHashable, Any>, withRemoved: removedInternal as [Any])
+    }
+
     public func subscribeToReceiveDataMessage(topic: String, observer: DataMessageObserver) {
         if dataMessageObservers[topic] == nil {
-            dataMessageObservers[topic] = ConcurrentMutableSet()
+            dataMessageObservers[topic] = NSMutableSet()
         }
         dataMessageObservers[topic]?.add(observer)
     }
 
     public func unsubscribeFromReceiveDataMessageFromTopic(topic: String) {
-        dataMessageObservers.removeValue(forKey: topic)
+        dataMessageObservers[topic] = nil
     }
 
     public func sendDataMessage(topic: String, data: Any, lifetimeMs: Int32 = 0) throws {
         guard videoClientState == .started else {
-            logger.error(msg: "Cannot send data message because videoClientState=\(videoClientState)")
+            logger.error(msg: "Cannot send data message because videoClientState=\(videoClientState.description)")
             return
         }
 
@@ -513,26 +547,51 @@ extension DefaultVideoClientController: VideoClientController {
         var dataContainer: Data?
         if let dataAsString = data as? String {
             dataContainer = dataAsString.data(using: .utf8)
+        } else if let dataAsByteArray = data as? [UInt8] {
+            dataContainer = Data(dataAsByteArray)
         } else if JSONSerialization.isValidJSONObject(data) {
             dataContainer = try JSONSerialization.data(withJSONObject: data)
+        } else if let dataAsData = data as? Data {
+            dataContainer = dataAsData
         } else {
             throw SendDataMessageError.invalidData
         }
 
-        if let container = dataContainer {
+        if let container: Data = dataContainer {
             if container.count > Constants.dataMessageMaxDataSizeInByte {
                 throw SendDataMessageError.invalidDataLength
             }
-            container.withUnsafeBytes { (bufferRawBufferPointer) -> Void in
-                if let bufferPointer = bufferRawBufferPointer
-                    .baseAddress {
-                    videoClient?.sendDataMessage(topic,
-                                                 data: bufferPointer.assumingMemoryBound(to: Int8.self),
-                                                 lifetimeMs: lifetimeMs)
-                }
+            container.withUnsafeBytes { dataBytes in
+                let buffer: UnsafePointer<Int8> = dataBytes.baseAddress!.assumingMemoryBound(to: Int8.self)
+
+                videoClient?.sendDataMessage(topic,
+                                             data: buffer,
+                                             dataLen: UInt32(container.count),
+                                             lifetimeMs: lifetimeMs)
             }
         } else {
             throw SendDataMessageError.invalidData
         }
+    }
+
+    func promoteToPrimaryMeeting(credentials: MeetingSessionCredentials,
+                                  observer: PrimaryMeetingPromotionObserver) {
+        guard videoClientState == .started else {
+            logger.error(msg: "Cannot join primary meeting because videoClientState=\(videoClientState)")
+            observer.didPromoteToPrimaryMeeting(status: MeetingSessionStatus(statusCode: MeetingSessionStatusCode.audioServiceUnavailable))
+            return
+        }
+        primaryMeetingPromotionObserver = observer
+        videoClient?.promotePrimaryMeeting(credentials.attendeeId,
+                                             externalUserId: credentials.externalUserId,
+                                             joinToken: credentials.joinToken)
+    }
+
+    func demoteFromPrimaryMeeting() {
+        guard videoClientState == .started else {
+            logger.error(msg: "Cannot leave primary meeting because videoClientState=\(videoClientState)")
+            return
+        }
+        videoClient?.demoteFromPrimaryMeeting()
     }
 }
