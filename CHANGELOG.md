@@ -1,4 +1,4 @@
-## Unreleased
+## [0.26.2] - 2024-10-16
 
 ### Fixed
 * Fixed a crash caused by AVCaptureSession in DefaultCameraCaptureSource when repeatedly toggling camera on/off.
