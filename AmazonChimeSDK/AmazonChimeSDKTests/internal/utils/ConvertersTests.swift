@@ -150,7 +150,7 @@ class ConvertersTests: XCTestCase {
         )
         XCTAssertEqual(
             Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_SERVER_HUNGUP),
-            SessionStateControllerAction.fail
+            SessionStateControllerAction.finishDisconnecting
         )
         XCTAssertEqual(
             Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_FAILED_TO_CONNECT),
