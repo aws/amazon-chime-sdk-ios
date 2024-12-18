@@ -10,6 +10,7 @@ import AmazonChimeSDK
 import AVFoundation
 import UIKit
 
+// TO BE DELETED
 class MeetingModel: NSObject {
     enum ActiveMode {
         case roster
