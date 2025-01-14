@@ -486,7 +486,7 @@
 		7C0D1BE8241ACC7B00280031 /* ActiveSpeakerDetectorFacade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveSpeakerDetectorFacade.swift; sourceTree = "<group>"; };
 		7C0D1BE9241ACC7B00280031 /* ActiveSpeakerObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveSpeakerObserver.swift; sourceTree = "<group>"; };
 		7C0D1BEA241ACC7B00280031 /* ActiveSpeakerPolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveSpeakerPolicy.swift; sourceTree = "<group>"; };
-		7C429FFA29A442F800B25E50 /* AmazonChimeSDKMedia.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = AmazonChimeSDKMedia.xcframework; sourceTree = "<group>"; };
+		7C429FFA29A442F800B25E50 /* AmazonChimeSDKMedia.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:AZVF44667G:Amazon.com, Inc"; lastKnownFileType = wrapper.xcframework; path = AmazonChimeSDKMedia.xcframework; sourceTree = "<group>"; };
 		7CE107602421CC7B00E209D1 /* ActiveSpeakerDetectorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveSpeakerDetectorTests.swift; sourceTree = "<group>"; };
 		7CE107612421CC7B00E209D1 /* ActiveSpeakerPolicyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveSpeakerPolicyTests.swift; sourceTree = "<group>"; };
 		7CE107632421CC7B00E209D1 /* SchedulerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchedulerTests.swift; sourceTree = "<group>"; };
