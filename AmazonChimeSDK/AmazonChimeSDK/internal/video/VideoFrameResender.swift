@@ -43,6 +43,8 @@ import CoreMedia
     /// Calling this function will kick off a timer which will begin checking if frames need to be resent
     /// to maintain a minimum frame frame
     func frameDidSend(videoFrame: VideoFrame) {
+        resendTimer?.resume()
+        
         lastSendTimestamp = CMClockGetTime(CMClockGetHostTimeClock())
         lastVideoFrame = videoFrame
 
