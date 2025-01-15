@@ -15,6 +15,13 @@ env:
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
   DEMO_APP_DOWNLOAD_LINK: ${{ secrets.DEMO_APP_DOWNLOAD_LINK }}
   NO_VIDEO_CODECS_DEMO_APP_DOWNLOAD_LINK: ${{ secrets.NO_VIDEO_CODECS_DEMO_APP_DOWNLOAD_LINK }}
+  ROLE_TO_ASSUME: ${{ secrets.ROLE_TO_ASSUME }}
+  METRIC_NAME: ${{ secrets.METRIC_NAME }}
+  METRIC_NAMESPACE: ${{ secrets.METRIC_NAMESPACE }}
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   daily-test:
@@ -44,6 +51,10 @@ jobs:
         with:
           node-version: 15.x
 
+      - name: Install Dependencies
+        run: |
+          npm install @aws-sdk/client-cloudwatch
+
       - name: Run test against specified iOS versions
         id: tests
         run: |
@@ -62,3 +73,46 @@ jobs:
               "Link": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
               "Status": "${{ steps.tests.outcome }}"
             }
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
+          aws-region: us-east-1
+
+      - name: Setup Node.js - 18.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+
+      - name: Install Dependencies
+        run: |
+          # Required to bydpass issue with canvas dependency: https://github.com/Automattic/node-canvas/issues/1862
+          sudo apt-get install -y libcairo2-dev libjpeg-dev libpango1.0-dev libgif-dev build-essential g++
+
+      - name: Send Metric to CloudWatch
+        run: |
+          node -e "
+          const { CloudWatchClient, PutMetricDataCommand } = require('@aws-sdk/client-cloudwatch');
+          const client = new CloudWatchClient({ region: 'us-east-1' });
+
+          const value = '${{ job.status }}' === 'failure' ? 0 : 1;
+
+          const command = new PutMetricDataCommand({
+            Namespace: process.env.METRIC_NAMESPACE,
+            MetricData: [{
+              MetricName: process.env.METRIC_NAME,
+              Dimensions: [
+                { Name: 'Workflow', Value: 'DailyTest' },
+                { Name: 'Platform', Value: 'iOS' }
+              ],
+              Value: value,
+            }]
+          });
+
+          client.send(command).then(() => console.log('Daily test result sent to CloudWatch')).catch(err => {
+            console.error('Failed to send metric. Error: ', err);
+            process.exit(1);
+          });
+          ";
+
