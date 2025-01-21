@@ -18,6 +18,7 @@ env:
   ROLE_TO_ASSUME: ${{ secrets.ROLE_TO_ASSUME }}
   METRIC_NAME: ${{ secrets.METRIC_NAME }}
   METRIC_NAMESPACE: ${{ secrets.METRIC_NAMESPACE }}
+  REGION: us-east-1
 
 permissions:
   id-token: write
@@ -31,32 +32,45 @@ jobs:
       matrix:
         # Latest 2 iOS versions. TODO: Upgrade to Appium 2 for OS 17 and above.
         os_list: ["15", "16"]
-        demo_download_url_list: ["$DEMO_APP_DOWNLOAD_LINK", "$NO_VIDEO_CODECS_DEMO_APP_DOWNLOAD_LINK"]
+        demo_flavor_list: ["default", "no-video-codecs"]
+    continue-on-error: true
     outputs:
       job-status: ${{ job.status }}
 
     steps:
       - name: Checkout test package
         uses: actions/checkout@v4
+        if: always()
         with:
           repository: awslabs/amazon-chime-sdk-apple
           token: ${{ secrets.GH_INTEG_READ_ONLY_PAT }}
           ref: automated-test-development
 
       - name: Get latest prod demo app
+        if: always()
         run: |
-          wget -O amazon-chime-sdk-app.ipa ${{ matrix.demo_download_url_list }}
+          if [ "${{ matrix.demo_flavor_list }}" = "default" ]; then
+            wget -O amazon-chime-sdk-app.ipa $DEMO_APP_DOWNLOAD_LINK;
+          elif [ "${{ matrix.demo_flavor_list }}" = "no-video-codecs" ]; then
+            wget -O amazon-chime-sdk-app.ipa $NO_VIDEO_CODECS_DEMO_APP_DOWNLOAD_LINK;
+          else
+            echo "Error: Unsupported demo app flavor: ${{ matrix.demo_flavor_list }}";
+            exit 1;
+          fi
       - name: Setup Node.js - 15.x
         uses: actions/setup-node@v4
+        if: always()
         with:
           node-version: 15.x
 
       - name: Install Dependencies
+        if: always()
         run: |
           npm install @aws-sdk/client-cloudwatch
 
       - name: Run test against specified iOS versions
         id: tests
+        if: always()
         run: |
           id=$(curl -F 'payload=@amazon-chime-sdk-app.ipa' -F name=amazon-chime-sdk-app.ipa -u "${{ secrets.SAUCE_USERNAME }}:${{ secrets.SAUCE_ACCESS_KEY }}" 'https://api.us-west-1.saucelabs.com/v1/storage/upload' |jq '.item.id')
           npm install
@@ -76,25 +90,29 @@ jobs:
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
+        if: always()
         with:
           role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
-          aws-region: us-east-1
+          aws-region: ${{ env.REGION }}
 
       - name: Setup Node.js - 18.x
         uses: actions/setup-node@v4
+        if: always()
         with:
           node-version: 18.x
 
       - name: Install Dependencies
+        if: always()
         run: |
           # Required to bydpass issue with canvas dependency: https://github.com/Automattic/node-canvas/issues/1862
           sudo apt-get install -y libcairo2-dev libjpeg-dev libpango1.0-dev libgif-dev build-essential g++
 
       - name: Send Metric to CloudWatch
+        if: always()
         run: |
           node -e "
           const { CloudWatchClient, PutMetricDataCommand } = require('@aws-sdk/client-cloudwatch');
-          const client = new CloudWatchClient({ region: 'us-east-1' });
+          const client = new CloudWatchClient({ region: process.env.REGION });
 
           const value = '${{ job.status }}' === 'failure' ? 0 : 1;
 
@@ -103,14 +121,15 @@ jobs:
             MetricData: [{
               MetricName: process.env.METRIC_NAME,
               Dimensions: [
-                { Name: 'Workflow', Value: 'DailyTest' },
-                { Name: 'Platform', Value: 'iOS' }
+                { Name: 'Platform', Value: 'iOS' },
+                { Name: 'OS', Value: ${{ matrix.os_list }} },
+                { Name: 'Flavor', Value: '${{ matrix.demo_flavor_list }}' }
               ],
               Value: value,
             }]
           });
 
-          client.send(command).then(() => console.log('Daily test result sent to CloudWatch')).catch(err => {
+          client.send(command).then(() => console.log('Daily test result sent to CloudWatch: ' + value)).catch(err => {
             console.error('Failed to send metric. Error: ', err);
             process.exit(1);
           });
