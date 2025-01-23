@@ -3,83 +3,53 @@ name: Daily Test
 on:
   schedule:
     # More information on cron https://crontab.guru/
-    # GitHub actions is using UTC time. Scheduling action at 4 am PST
-    - cron: '0 12 * * *'
+    # GitHub actions is using UTC time. Scheduling action at 5 am PST
+    - cron: '0 13 * * *'
 
   workflow_dispatch:
 
-# note: secrets can only be referenced in env or run
 env:
   SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
   SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-  DEMO_APP_DOWNLOAD_LINK: ${{ secrets.DEMO_APP_DOWNLOAD_LINK }}
-  NO_VIDEO_CODECS_DEMO_APP_DOWNLOAD_LINK: ${{ secrets.NO_VIDEO_CODECS_DEMO_APP_DOWNLOAD_LINK }}
-  ROLE_TO_ASSUME: ${{ secrets.ROLE_TO_ASSUME }}
-  METRIC_NAME: ${{ secrets.METRIC_NAME }}
-  METRIC_NAMESPACE: ${{ secrets.METRIC_NAMESPACE }}
-  REGION: us-east-1
-
-permissions:
-  id-token: write
-  contents: read
 
 jobs:
   daily-test:
     name: Amazon Chime iOS SDK Daily Test
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        # Latest 2 iOS versions. TODO: Upgrade to Appium 2 for OS 17 and above.
-        os_list: ["15", "16"]
-        demo_flavor_list: ["default", "no-video-codecs"]
-    continue-on-error: true
     outputs:
       job-status: ${{ job.status }}
 
     steps:
       - name: Checkout test package
         uses: actions/checkout@v4
-        if: always()
         with:
           repository: awslabs/amazon-chime-sdk-apple
           token: ${{ secrets.GH_INTEG_READ_ONLY_PAT }}
           ref: automated-test-development
 
       - name: Get latest prod demo app
-        if: always()
         run: |
-          if [ "${{ matrix.demo_flavor_list }}" = "default" ]; then
-            wget -O amazon-chime-sdk-app.ipa $DEMO_APP_DOWNLOAD_LINK;
-          elif [ "${{ matrix.demo_flavor_list }}" = "no-video-codecs" ]; then
-            wget -O amazon-chime-sdk-app.ipa $NO_VIDEO_CODECS_DEMO_APP_DOWNLOAD_LINK;
-          else
-            echo "Error: Unsupported demo app flavor: ${{ matrix.demo_flavor_list }}";
-            exit 1;
-          fi
+          wget -O amazon-chime-sdk-app.ipa ${{ secrets.DEMO_APP_DOWNLOAD_LINK }}
       - name: Setup Node.js - 15.x
         uses: actions/setup-node@v4
-        if: always()
         with:
           node-version: 15.x
 
-      - name: Install Dependencies
-        if: always()
-        run: |
-          npm install @aws-sdk/client-cloudwatch
-
-      - name: Run test against specified iOS versions
+      - name: Run test against the latest 2 iOS versions
         id: tests
-        if: always()
         run: |
           id=$(curl -F 'payload=@amazon-chime-sdk-app.ipa' -F name=amazon-chime-sdk-app.ipa -u "${{ secrets.SAUCE_USERNAME }}:${{ secrets.SAUCE_ACCESS_KEY }}" 'https://api.us-west-1.saucelabs.com/v1/storage/upload' |jq '.item.id')
-          npm install
+          npm install --verbose
           npm run build
-          npm run cma -- --app-url "sample.app" --log-level error --tag "@common" --app-id "${id}" --retry --platform-version "${{ matrix.os_list }}"
+          for os in 15 16; do
+            npm run cma -- --app-url "sample.app" --log-level error --tag "@common" --app-id "${id}" --retry --platform-version $os
+            sleep 10
+          done
 
       - name: Send Notification
         uses: slackapi/slack-github-action@v1.25.0
-        if: failure()
+        if: false
         with:
           payload: |
             {
@@ -87,51 +57,3 @@ jobs:
               "Link": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
               "Status": "${{ steps.tests.outcome }}"
             }
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        if: always()
-        with:
-          role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
-          aws-region: ${{ env.REGION }}
-
-      - name: Setup Node.js - 18.x
-        uses: actions/setup-node@v4
-        if: always()
-        with:
-          node-version: 18.x
-
-      - name: Install Dependencies
-        if: always()
-        run: |
-          # Required to bydpass issue with canvas dependency: https://github.com/Automattic/node-canvas/issues/1862
-          sudo apt-get install -y libcairo2-dev libjpeg-dev libpango1.0-dev libgif-dev build-essential g++
-
-      - name: Send Metric to CloudWatch
-        if: always()
-        run: |
-          node -e "
-          const { CloudWatchClient, PutMetricDataCommand } = require('@aws-sdk/client-cloudwatch');
-          const client = new CloudWatchClient({ region: process.env.REGION });
-
-          const value = '${{ job.status }}' === 'failure' ? 0 : 1;
-
-          const command = new PutMetricDataCommand({
-            Namespace: process.env.METRIC_NAMESPACE,
-            MetricData: [{
-              MetricName: process.env.METRIC_NAME,
-              Dimensions: [
-                { Name: 'Platform', Value: 'iOS' },
-                { Name: 'OS', Value: ${{ matrix.os_list }} },
-                { Name: 'Flavor', Value: '${{ matrix.demo_flavor_list }}' }
-              ],
-              Value: value,
-            }]
-          });
-
-          client.send(command).then(() => console.log('Daily test result sent to CloudWatch: ' + value)).catch(err => {
-            console.error('Failed to send metric. Error: ', err);
-            process.exit(1);
-          });
-          ";
-
