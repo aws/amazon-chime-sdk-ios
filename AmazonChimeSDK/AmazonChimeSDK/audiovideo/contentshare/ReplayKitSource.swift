@@ -23,17 +23,17 @@ import ReplayKit
     private let logger: Logger
     private let sinks = ConcurrentMutableSet()
 
-    private lazy var videoFrameResender = VideoFrameResender(minFrameRate: 5) { [weak self] (frame) -> Void in
-        guard let `self` = self else { return }
-        self.sendVideoFrame(frame: frame)
-    }
+//    private lazy var videoFrameResender = VideoFrameResender(minFrameRate: 5) { [weak self] (frame) -> Void in
+//        guard let `self` = self else { return }
+//        self.sendVideoFrame(frame: frame)
+//    }
 
     public init(logger: Logger) {
         self.logger = logger
     }
 
     public func stop() {
-        videoFrameResender.stop()
+//        videoFrameResender.stop()
     }
 
     public func addVideoSink(sink: VideoSink) {
@@ -73,6 +73,6 @@ import ReplayKit
             guard let sink = item as? VideoSink else { return }
             sink.onVideoFrameReceived(frame: frame)
         }
-        videoFrameResender.frameDidSend(videoFrame: frame)
+//        videoFrameResender.frameDidSend(videoFrame: frame)
     }
 }
