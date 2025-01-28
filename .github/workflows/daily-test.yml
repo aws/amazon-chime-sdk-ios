@@ -27,7 +27,7 @@ permissions:
 jobs:
   daily-test:
     name: Amazon Chime iOS SDK Daily Test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         # Latest 2 iOS versions. TODO: Upgrade to Appium 2 for OS 17 and above.
