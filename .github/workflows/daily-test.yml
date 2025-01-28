@@ -16,7 +16,7 @@ env:
 jobs:
   daily-test:
     name: Amazon Chime iOS SDK Daily Test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     outputs:
       job-status: ${{ job.status }}
 
