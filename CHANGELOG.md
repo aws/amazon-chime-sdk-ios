@@ -1,3 +1,8 @@
+## Pending Release
+
+### Fixed
+* Fixed a crash caused VideoFrameResender.
+
 ## [0.26.2] - 2024-10-16
 
 ### Fixed
