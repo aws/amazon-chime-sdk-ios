@@ -17,7 +17,6 @@ import CoreMedia
     // Create a serial queue for resending video frame
     private let resendQueue = DispatchQueue(label: "com.amazonaws.services.chime.VideoFrameResender")
     
-    // Will be nil until the first frame is sent, and nil again on stop
     private let resendTimer: DispatchSourceTimer
     
     // Cached constant values
@@ -31,11 +30,13 @@ import CoreMedia
     private var lastVideoFrame: VideoFrame?
 
     /// Callback will be triggered with a previous `VideoFrame` which will have different timestamp
-    /// than originally sent with so it won't be dropped by downstream encoders
+    /// than originally sent with so it won't be dropped by downstream encoders.
+    /// `resendFrameHandler` needs to be thread safe.
     init(minFrameRate: UInt,
          logger: Logger,
          resendFrameHandler: @escaping (VideoFrame) -> Void) {
-        self.resendTimer = DispatchSource.makeTimerSource(flags: .strict, queue: resendQueue)
+        let timer = DispatchSource.makeTimerSource(flags: .strict, queue: resendQueue)
+        self.resendTimer = timer
         self.logger = logger
         
         super.init()
@@ -46,24 +47,29 @@ import CoreMedia
         
         self.resendTimer.setEventHandler(handler: { [weak self] in
             guard let `self` = self else {
-                self?.resendTimer.cancel()
-                self?.logger.error(msg: "Unable to resend video frame, VideoFrameResender is unavailable. Thread: \(Thread.current)")
+                timer.cancel()
+                logger.error(msg: "Unable to resend video frame, VideoFrameResender is unavailable.")
                 return
             }
             
-            self.logger.info(msg: "Checking if there is pending frame for resending. Thread: \(Thread.current)")
-            lock.lock()
+            self.logger.debug(debugFunction: {
+                "Checking if there is pending frame for resending."
+            })
+            self.lock.lock()
             guard let lastSendTimestamp = self.lastSendTimestamp,
-                  let lastVideoFrame = self.lastVideoFrame else { return }
-            lock.unlock()
+                  let lastVideoFrame = self.lastVideoFrame else {
+                self.lock.unlock()
+                return
+            }
+            self.lock.unlock()
 
-            self.logger.info(msg: "Checking the time elapsed for resending. Thread: \(Thread.current)")
+            self.logger.debug(debugFunction: { "Checking the time elapsed for resending." })
             let currentTimestamp = CMClockGetTime(CMClockGetHostTimeClock())
             let delta = CMTimeSubtract(currentTimestamp, lastSendTimestamp)
 
             // Resend the last input frame if there is no new input frame after resendTimeInterval
             if delta > resendTimeInterval {
-                self.logger.info(msg: "Creating new video frame for resending. Thread: \(Thread.current)")
+                self.logger.debug(debugFunction: { "Creating new video frame for resending."})
                 // Update the timestamp so it's not dropped by downstream as a duplicate
                 let lastVideoFrameTime = CMTimeMake(value: lastVideoFrame.timestampNs,
                                                     timescale: Int32(Constants.nanosecondsPerSecond))
@@ -71,7 +77,7 @@ import CoreMedia
                                                                     * Double(Constants.nanosecondsPerSecond)),
                                                rotation: lastVideoFrame.rotation,
                                                buffer: lastVideoFrame.buffer)
-                self.logger.info(msg: "Resending last frame. Thread: \(Thread.current)")
+                self.logger.debug(debugFunction: { "Resending last frame."})
                 resendFrameHandler(newVideoFrame)
             }
         })
@@ -100,7 +106,7 @@ import CoreMedia
     }
 
     /// Calling this function will kick off a timer which will begin checking if frames need to be resent
-    /// to maintain a minimum frame frame
+    /// to maintain a minimum frame rate
     func frameDidSend(videoFrame: VideoFrame) {
         lock.lock()
         lastSendTimestamp = CMClockGetTime(CMClockGetHostTimeClock())
