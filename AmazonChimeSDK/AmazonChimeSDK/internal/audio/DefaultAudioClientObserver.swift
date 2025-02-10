@@ -68,7 +68,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         case .reconnecting:
             handleStateChangeToReconnecting()
         case .finishDisconnecting:
-            handleStateChangeToDisconnected()
+            handleStateChangeToDisconnected(newAudioStatus: newAudioStatus)
         case .fail:
             handleStateChangeToFail(newAudioStatus: newAudioStatus)
         default:
@@ -353,16 +353,21 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         eventAnalyticsController.publishEvent(name: .meetingStartSucceeded)
     }
 
-    private func handleStateChangeToDisconnected() {
+    private func handleStateChangeToDisconnected(newAudioStatus: MeetingSessionStatusCode) {
         switch currentAudioState {
         case .connecting,
              .finishConnecting:
-            // No-op, already handled in DefaultAudioClientController.stop()
+            if newAudioStatus == .audioServerHungup {
+                handleAudioSessionEndedByServer(newAudioStatus: newAudioStatus)
+            } // Else no-op, client initiated stops already handled in DefaultAudioClientController.stop()
             break
         case .reconnecting:
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
                 observer.audioSessionDidCancelReconnect()
             }
+            if newAudioStatus == .audioServerHungup {
+                handleAudioSessionEndedByServer(newAudioStatus: newAudioStatus)
+            } // Else no-op, client initiated stops already handled in DefaultAudioClientController.stop()
         default:
             break
         }
@@ -394,22 +399,39 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         if DefaultAudioClientController.state == .stopped {
             return
         }
-
         notifyFailed(status: newAudioStatus)
+        handleAudioClientStop(status: newAudioStatus)
+    }
+    
+    private func handleAudioSessionEndedByServer(newAudioStatus: MeetingSessionStatusCode) {
+        if DefaultAudioClientController.state == .stopped {
+            return
+        }
+        notifyMeetingEnded(status: newAudioStatus)
+        handleAudioClientStop(status: newAudioStatus)
+    }
 
+    private func handleAudioClientStop(status: MeetingSessionStatusCode) {
         DispatchQueue.global().async {
             self.audioLock.lock()
             _ = self.audioClient.stopSession()
             DefaultAudioClientController.state = .stopped
             self.audioLock.unlock()
             self.notifyAudioClientObserver { (observer: AudioVideoObserver) in
-                observer.audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus(statusCode: newAudioStatus))
+                observer.audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus(statusCode: status))
             }
         }
     }
 
     private func notifyFailed(status: MeetingSessionStatusCode) {
         eventAnalyticsController.publishEvent(name: .meetingFailed,
+                                              attributes: [EventAttributeName.meetingStatus: status,
+                                                           EventAttributeName.meetingErrorMessage: String(describing: status)])
+        meetingStatsCollector.resetMeetingStats()
+    }
+    
+    private func notifyMeetingEnded(status: MeetingSessionStatusCode) {
+        eventAnalyticsController.publishEvent(name: .meetingEnded,
                                               attributes: [EventAttributeName.meetingStatus: status,
                                                            EventAttributeName.meetingErrorMessage: String(describing: status)])
         meetingStatsCollector.resetMeetingStats()

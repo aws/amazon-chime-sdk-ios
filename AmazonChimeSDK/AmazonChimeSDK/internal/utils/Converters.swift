@@ -55,10 +55,10 @@ import Foundation
                 return .reconnecting
             case AUDIO_CLIENT_STATE_DISCONNECTING:
                 return .disconnecting
-            case AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL:
+            case AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL,
+                 AUDIO_CLIENT_STATE_SERVER_HUNGUP:
                 return .finishDisconnecting
             case AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
-                 AUDIO_CLIENT_STATE_SERVER_HUNGUP,
                  AUDIO_CLIENT_STATE_FAILED_TO_CONNECT:
                 return .fail
             default:

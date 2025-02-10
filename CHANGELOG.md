@@ -1,7 +1,8 @@
-## Pending Release
+## Unreleased
 
 ### Fixed
 * Fixed a crash caused VideoFrameResender.
+* When meeting has ended normally, but not initiated by the client, send a meetingEnded event rather than a meetingFailed event.
 
 ## [0.26.2] - 2024-10-16
 
