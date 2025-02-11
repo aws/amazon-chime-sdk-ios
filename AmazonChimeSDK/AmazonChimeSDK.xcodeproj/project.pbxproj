@@ -99,7 +99,6 @@
 		00F6E60825FBEA7F006DA17D /* SQLiteClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F6E60725FBEA7F006DA17D /* SQLiteClient.swift */; };
 		0DC04F772ACCEBFD003C4848 /* VideoBitrateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC04F762ACCEBFD003C4848 /* VideoBitrateConstants.swift */; };
 		26CB31D729DD257000991409 /* DateUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26CB31D629DD257000991409 /* DateUtilsTests.swift */; };
-		32F235B3714DA0906335CC12 /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7CEAE89DD08E6E863FC8BE /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift */; };
 		5403538827D0C9E9007BABD7 /* TranscriptEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403538727D0C9E9007BABD7 /* TranscriptEntity.swift */; };
 		5403538A27D0C9F9007BABD7 /* TranscriptLanguageWithScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5403538927D0C9F9007BABD7 /* TranscriptLanguageWithScore.swift */; };
 		5A0E7317242EA072006636AB /* MediaDeviceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0E7316242EA072006636AB /* MediaDeviceTests.swift */; };
@@ -199,6 +198,7 @@
 		B4980CB523E78D1800D2DB64 /* DefaultDeviceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4980CB423E78D1800D2DB64 /* DefaultDeviceController.swift */; };
 		B4980CB823E78F9500D2DB64 /* MediaDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4980CB723E78F9500D2DB64 /* MediaDevice.swift */; };
 		B4AEE47C24BE5A4600ED4B77 /* SendDataMessageErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AEE47B24BE5A4600ED4B77 /* SendDataMessageErrorTests.swift */; };
+		C28478D8C67EA749830566CC /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B29A85F186286D27AAE7FD /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift */; };
 		C42A8A16253E35CD008419A6 /* VideoCaptureSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42A8A15253E35CD008419A6 /* VideoCaptureSource.swift */; };
 		C42A8A18253E35F1008419A6 /* CaptureSourceObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42A8A17253E35F1008419A6 /* CaptureSourceObserver.swift */; };
 		C42A8A1A253E3618008419A6 /* CaptureSourceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42A8A19253E3618008419A6 /* CaptureSourceError.swift */; };
@@ -284,6 +284,8 @@
 		D863BE3329BAD65500D9DE9E /* MeetingEventClientConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D863BE3229BAD65500D9DE9E /* MeetingEventClientConfigurationTests.swift */; };
 		D863BE3529BAD8DA00D9DE9E /* AnyCodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D863BE3429BAD8DA00D9DE9E /* AnyCodableTests.swift */; };
 		D863BE3729BAF68B00D9DE9E /* EventAttributeUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D863BE3629BAF68B00D9DE9E /* EventAttributeUtilsTests.swift */; };
+		D8A1527E2D56CAFE002775BD /* VideoFrameResenderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A1527D2D56CAF7002775BD /* VideoFrameResenderTests.swift */; };
+		D8A152832D56F8DF002775BD /* VideoFrameGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A152822D56F8DA002775BD /* VideoFrameGenerator.swift */; };
 		D8D8D9102B91579C00ECE0EE /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D8D90F2B91579C00ECE0EE /* StringExtension.swift */; };
 		D8D8D9122B915B0D00ECE0EE /* StringExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D8D9112B915B0D00ECE0EE /* StringExtensionTests.swift */; };
 		D8FE1FE629B9232400A62E72 /* AnyCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8FE1FE529B9232400A62E72 /* AnyCodable.swift */; };
@@ -465,7 +467,6 @@
 		5AE76F33242049E0009C41FD /* MediaDeviceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDeviceType.swift; sourceTree = "<group>"; };
 		5AE76F3524204A03009C41FD /* MediaDeviceTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDeviceTypeTests.swift; sourceTree = "<group>"; };
 		5AF7E00D245B6E86006C7C86 /* VersioningTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersioningTests.swift; sourceTree = "<group>"; };
-		5E7CEAE89DD08E6E863FC8BE /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift"; path = "MockingbirdMocks/AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift"; sourceTree = "<group>"; };
 		6A01CAE423F8FCAF005C5193 /* ClientMetricsCollectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientMetricsCollectorTests.swift; sourceTree = "<group>"; };
 		6A26542027E1207D00C8885F /* PrimaryMeetingPromotionObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrimaryMeetingPromotionObserver.swift; sourceTree = "<group>"; };
 		6A68E79E24196773004F5A56 /* VideoPauseState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPauseState.swift; sourceTree = "<group>"; };
@@ -486,7 +487,7 @@
 		7C0D1BE8241ACC7B00280031 /* ActiveSpeakerDetectorFacade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveSpeakerDetectorFacade.swift; sourceTree = "<group>"; };
 		7C0D1BE9241ACC7B00280031 /* ActiveSpeakerObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveSpeakerObserver.swift; sourceTree = "<group>"; };
 		7C0D1BEA241ACC7B00280031 /* ActiveSpeakerPolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveSpeakerPolicy.swift; sourceTree = "<group>"; };
-		7C429FFA29A442F800B25E50 /* AmazonChimeSDKMedia.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = AmazonChimeSDKMedia.xcframework; sourceTree = "<group>"; };
+		7C429FFA29A442F800B25E50 /* AmazonChimeSDKMedia.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:AZVF44667G:Amazon.com, Inc"; lastKnownFileType = wrapper.xcframework; path = AmazonChimeSDKMedia.xcframework; sourceTree = "<group>"; };
 		7CE107602421CC7B00E209D1 /* ActiveSpeakerDetectorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveSpeakerDetectorTests.swift; sourceTree = "<group>"; };
 		7CE107612421CC7B00E209D1 /* ActiveSpeakerPolicyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveSpeakerPolicyTests.swift; sourceTree = "<group>"; };
 		7CE107632421CC7B00E209D1 /* SchedulerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchedulerTests.swift; sourceTree = "<group>"; };
@@ -495,6 +496,7 @@
 		8278478C27188D110071E7BE /* AudioVideoConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioVideoConfiguration.swift; sourceTree = "<group>"; };
 		827847C2271D15B20071E7BE /* AudioVideoConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioVideoConfigurationTests.swift; sourceTree = "<group>"; };
 		827847C6271D16E20071E7BE /* DefaultAudioVideoFacadeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAudioVideoFacadeTests.swift; sourceTree = "<group>"; };
+		A6B29A85F186286D27AAE7FD /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift"; path = "MockingbirdMocks/AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift"; sourceTree = "<group>"; };
 		AACCC5132B9C3471007A9639 /* AudioDeviceCapabilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioDeviceCapabilities.swift; sourceTree = "<group>"; };
 		AACCC5152B9C34C3007A9639 /* AudioDeviceCapabilitiesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioDeviceCapabilitiesTests.swift; sourceTree = "<group>"; };
 		AC865DBF271F9B4600D6A0D8 /* MockedAudioSessionPortDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockedAudioSessionPortDescription.swift; sourceTree = "<group>"; };
@@ -578,7 +580,7 @@
 		C6DA0B6124F961AA00028F2B /* DefaultAudioVideoControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAudioVideoControllerTests.swift; sourceTree = "<group>"; };
 		CF4BA472280FBE72005E6DAE /* BackgroundBlurConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundBlurConfiguration.swift; sourceTree = "<group>"; };
 		CF5B9A12281716E600441A7D /* BackgroundReplacementConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundReplacementConfiguration.swift; sourceTree = "<group>"; };
-		CF8C8C502825D04000450757 /* AmazonChimeSDKMachineLearning.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = AmazonChimeSDKMachineLearning.xcframework; sourceTree = "<group>"; };
+		CF8C8C502825D04000450757 /* AmazonChimeSDKMachineLearning.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:AZVF44667G:Amazon.com, Inc"; lastKnownFileType = wrapper.xcframework; path = AmazonChimeSDKMachineLearning.xcframework; sourceTree = "<group>"; };
 		CFA2A14628074E2A008FDFF5 /* BackgroundBlurVideoFrameProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundBlurVideoFrameProcessor.swift; sourceTree = "<group>"; };
 		CFA2A14728074E2A008FDFF5 /* BackgroundFilterProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundFilterProcessor.swift; sourceTree = "<group>"; };
 		CFA2A14828074E2A008FDFF5 /* BackgroundReplacementVideoFrameProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundReplacementVideoFrameProcessor.swift; sourceTree = "<group>"; };
@@ -592,6 +594,8 @@
 		D863BE3229BAD65500D9DE9E /* MeetingEventClientConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingEventClientConfigurationTests.swift; sourceTree = "<group>"; };
 		D863BE3429BAD8DA00D9DE9E /* AnyCodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCodableTests.swift; sourceTree = "<group>"; };
 		D863BE3629BAF68B00D9DE9E /* EventAttributeUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAttributeUtilsTests.swift; sourceTree = "<group>"; };
+		D8A1527D2D56CAF7002775BD /* VideoFrameResenderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFrameResenderTests.swift; sourceTree = "<group>"; };
+		D8A152822D56F8DA002775BD /* VideoFrameGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFrameGenerator.swift; sourceTree = "<group>"; };
 		D8D8D90F2B91579C00ECE0EE /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		D8D8D9112B915B0D00ECE0EE /* StringExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensionTests.swift; sourceTree = "<group>"; };
 		D8FE1FE529B9232400A62E72 /* AnyCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCodable.swift; sourceTree = "<group>"; };
@@ -860,6 +864,7 @@
 		5A15822A23C4020D0099F8FA /* AmazonChimeSDKTests */ = {
 			isa = PBXGroup;
 			children = (
+				D8A152812D56F8CF002775BD /* tools */,
 				0033D341263B24FD00D8FA0C /* ingestion */,
 				00E198DF259BC0B700AD4DAA /* analytics */,
 				5A631A4924298CE000C8DAF3 /* audiovideo */,
@@ -1177,6 +1182,7 @@
 		5A6F818A24637A9B0031AE97 /* video */ = {
 			isa = PBXGroup;
 			children = (
+				D8A1527D2D56CAF7002775BD /* VideoFrameResenderTests.swift */,
 				5A6F818D24637BA30031AE97 /* VideoClientStateTests.swift */,
 				C61D43212703BD9D00150F03 /* DefaultVideoClientControllerTests.swift */,
 			);
@@ -1257,7 +1263,7 @@
 		B2624DE0EEE7B7B1BCEB6407 /* Generated Mocks */ = {
 			isa = PBXGroup;
 			children = (
-				5E7CEAE89DD08E6E863FC8BE /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift */,
+				A6B29A85F186286D27AAE7FD /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift */,
 			);
 			name = "Generated Mocks";
 			sourceTree = "<group>";
@@ -1447,6 +1453,14 @@
 			path = resources;
 			sourceTree = "<group>";
 		};
+		D8A152812D56F8CF002775BD /* tools */ = {
+			isa = PBXGroup;
+			children = (
+				D8A152822D56F8DA002775BD /* VideoFrameGenerator.swift */,
+			);
+			path = tools;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1488,7 +1502,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5A15823423C4020D0099F8FA /* Build configuration list for PBXNativeTarget "AmazonChimeSDKTests" */;
 			buildPhases = (
-				114854BF06996650440AB080 /* Clean Mockingbird Mocks */,
 				0185D1C3C38C2238A77007C7 /* Generate Mockingbird Mocks */,
 				5A15822223C4020D0099F8FA /* Sources */,
 				5A15822323C4020D0099F8FA /* Frameworks */,
@@ -1574,11 +1587,11 @@
 /* Begin PBXShellScriptBuildPhase section */
 		0185D1C3C38C2238A77007C7 /* Generate Mockingbird Mocks */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"/tmp/Mockingbird-4EADEE4F-EDAA-43E2-8425-154ED8F58B03",
 			);
 			name = "Generate Mockingbird Mocks";
 			outputPaths = (
@@ -1586,22 +1599,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nmockingbird generate \\\n  --targets 'AmazonChimeSDK' \\\n  --outputs \"${SRCROOT}/MockingbirdMocks/AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift\" \\\n  --support \"${SRCROOT}/MockingbirdSupport\"\n\n# Ensure mocks are generated prior to running Compile Sources\nrm -f '/tmp/Mockingbird-4EADEE4F-EDAA-43E2-8425-154ED8F58B03'\n";
-		};
-		114854BF06996650440AB080 /* Clean Mockingbird Mocks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Clean Mockingbird Mocks";
-			outputPaths = (
-				"/tmp/Mockingbird-4EADEE4F-EDAA-43E2-8425-154ED8F58B03",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "echo $RANDOM > '/tmp/Mockingbird-4EADEE4F-EDAA-43E2-8425-154ED8F58B03'\n";
+			shellScript = "set -eu\n\n# Prevent Xcode 13 from running this script while indexing.\n[[ \"${ACTION}\" == \"indexbuild\" ]] && exit 0\n\n\"${SRCROOT}/Mockingbird/mockingbird\" generate --targets \"AmazonChimeSDK\" --outputs \"${SRCROOT}/MockingbirdMocks/AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift\"";
 		};
 		5A3CFC6423C52B5D00BB63B7 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1831,6 +1829,7 @@
 				7CE107652421CC7B00E209D1 /* ActiveSpeakerPolicyTests.swift in Sources */,
 				C49A1C54253F43A50089FEEF /* VideoFrameTests.swift in Sources */,
 				5AE76F2224203A76009C41FD /* AttendeeInfoTests.swift in Sources */,
+				D8A1527E2D56CAFE002775BD /* VideoFrameResenderTests.swift in Sources */,
 				0064167F262A26E600626EB8 /* EventSQLiteDaoTests.swift in Sources */,
 				00E198FB259D164C00AD4DAA /* DefaultAudioClientObserverTests.swift in Sources */,
 				D8D8D9122B915B0D00ECE0EE /* StringExtensionTests.swift in Sources */,
@@ -1861,6 +1860,7 @@
 				C67EA04E26F83C0F0084C9B4 /* TranscriptionStatusTests.swift in Sources */,
 				5A6F8188246379D80031AE97 /* MediaErrorTests.swift in Sources */,
 				5AE1322B23EA2ED300BF5997 /* MeetingSessionConfigurationTests.swift in Sources */,
+				D8A152832D56F8DF002775BD /* VideoFrameGenerator.swift in Sources */,
 				5AE1322D23EA2EE400BF5997 /* MeetingSessionCredentialsTests.swift in Sources */,
 				C67EA04226F838470084C9B4 /* TranscriptAlternativeTests.swift in Sources */,
 				C60D5596246514B000C2A278 /* ConvertersTests.swift in Sources */,
@@ -1910,7 +1910,7 @@
 				D863BE3729BAF68B00D9DE9E /* EventAttributeUtilsTests.swift in Sources */,
 				00E19905259E575C00AD4DAA /* DefautCameraCaptureSourceTests.swift in Sources */,
 				00E19905259E575C00AD4DAA /* DefautCameraCaptureSourceTests.swift in Sources */,
-				32F235B3714DA0906335CC12 /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift in Sources */,
+				C28478D8C67EA749830566CC /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

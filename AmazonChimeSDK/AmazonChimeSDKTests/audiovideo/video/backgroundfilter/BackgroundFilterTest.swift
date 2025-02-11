@@ -31,8 +31,8 @@ class BackgroundFilterTests: XCTestCase {
     /// because it's more efficient for the test. Otherwise, we end up doing
     /// a lot more comparisons and the test takes longer.
     let downscaledSize = CGSize(width: 144, height: 256)
-
-    let context = CIContext(options: [.cacheIntermediates: false])
+    
+    let videoFrameGenerator = VideoFrameGenerator()
 
     override func setUp() {
         loggerMock = mock(Logger.self)
@@ -64,7 +64,7 @@ class BackgroundFilterTests: XCTestCase {
     /// Test `BackgroundBlurVideoFrameProcessor` functionalities  on the testImage frame.
     func testBackgroundBlurVideoFrameProcessor() {
         #if canImport(AmazonChimeSDKMachineLearning)
-        guard let frame = generateVideoFrame() else {
+        guard let frame = videoFrameGenerator.generateVideoFrame(image:self.testImage!) else {
             return
         }
 
@@ -130,7 +130,7 @@ class BackgroundFilterTests: XCTestCase {
     /// Test `BackgroundReplacementVideoFrameProcessor` functionalities on the testImage frame.
     func testBackgroundReplacementVideoFrameProcessor() {
         #if canImport(AmazonChimeSDKMachineLearning)
-        guard let frame = generateVideoFrame() else {
+        guard let frame = videoFrameGenerator.generateVideoFrame(image:self.testImage!) else {
             return
         }
 
@@ -245,26 +245,6 @@ class BackgroundFilterTests: XCTestCase {
         let backgroundReplacementImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         return backgroundReplacementImage
-    }
-
-    /// Generates a `VideoFrame` for the test image.
-    func generateVideoFrame() -> VideoFrame? {
-        guard let uiImage = testImage else {
-            return nil
-        }
-        guard let testCGImage = uiImage.cgImage else {
-            return nil
-        }
-        let height = testCGImage.height
-        let width = testCGImage.width
-
-        var cvPixelBuffer: CVPixelBuffer?
-        CVPixelBufferCreate(kCFAllocatorDefault, width, height, kCVPixelFormatType_32ARGB, nil, &cvPixelBuffer)
-        context.render(CIImage(cgImage: testCGImage), to: cvPixelBuffer!)
-
-        let buffer = VideoFramePixelBuffer(pixelBuffer: cvPixelBuffer!)
-        let frame = VideoFrame(timestampNs: 0, rotation: .rotation0, buffer: buffer)
-        return frame
     }
 
     /// Generate the check sum of a video frame and return processed UIImage. This function should only be used in the

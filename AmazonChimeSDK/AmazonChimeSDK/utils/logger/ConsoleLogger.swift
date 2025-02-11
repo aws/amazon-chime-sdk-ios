@@ -71,15 +71,15 @@ import os
 
         switch type {
         case .DEFAULT:
-            os_log("%@", type: .default, logMessage)
+            os_log("%@ %@", type: .default, logMessage, "Thread: \(Thread.current)")
         case .DEBUG:
-            os_log("%@", type: .debug, logMessage)
+            os_log("%@ %@", type: .debug, logMessage, "Thread: \(Thread.current)")
         case .INFO:
-            os_log("%@", type: .info, logMessage)
+            os_log("%@ %@", type: .info, logMessage, "Thread: \(Thread.current)")
         case .FAULT:
-            os_log("%@", type: .fault, logMessage)
+            os_log("%@ %@", type: .fault, logMessage, "Thread: \(Thread.current)")
         case .ERROR:
-            os_log("%@", type: .error, logMessage)
+            os_log("%@ %@", type: .error, logMessage, "Thread: \(Thread.current)")
         default:
             return
         }
