@@ -1,4 +1,4 @@
-## Unreleased
+## [0.27.0] - 2025-02-20
 
 ### Fixed
 * Fixed a crash caused VideoFrameResender.
