@@ -44,7 +44,9 @@ import Foundation
     /// The attendee should explicitly switch itself from joined with audio to checked-in.
     case audioDisconnectAudio = 69
 
-    /// The attendee attempted to join a meeting that has already ended. See this [FAQ](https://aws.github.io/amazon-chime-sdk-js/modules/faqs.html#when-does-an-amazon-chime-sdk-meeting-end) for more information. The end user may want to be notified of this type of error.
+    /// The attendee attempted to join a meeting that has already ended.
+    /// See this [FAQ](https://aws.github.io/amazon-chime-sdk-js/modules/faqs.html#when-does-an-amazon-chime-sdk-meeting-end)
+    /// for more information. The end user may want to be notified of this type of error.
     case audioCallEnded = 75
 
     /// There was an internal server error related to video. This may indicate some issue with the video device, or an issue with the Amazon Chime SDK service itself.

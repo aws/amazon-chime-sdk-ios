@@ -16,7 +16,7 @@ class MeetingPresenter {
         return UIApplication.shared.keyWindow?.rootViewController
     }
 
-    func showMeetingView(meetingModel: MeetingModel, completion: @escaping (Bool) -> Void) {
+    func showMeetingView(meetingModel: MeetingModel, screenMeetingModel: MeetingModel, completion: @escaping (Bool) -> Void) {
         guard let meetingViewController = mainStoryboard.instantiateViewController(withIdentifier: "meeting")
             as? MeetingViewController, let rootViewController = self.rootViewController else {
             completion(false)
@@ -24,6 +24,7 @@ class MeetingPresenter {
         }
         meetingViewController.modalPresentationStyle = .fullScreen
         meetingViewController.meetingModel = meetingModel
+        meetingViewController.screenMeetingModel = screenMeetingModel
         rootViewController.present(meetingViewController, animated: true) {
             self.activeMeetingViewController = meetingViewController
             completion(true)

@@ -15,6 +15,7 @@ let incomingCallKitDelayInSeconds = 10.0
 class MeetingModule {
     private static var sharedInstance: MeetingModule?
     private(set) var activeMeeting: MeetingModel?
+    private(set) var activeScreenMeeting: MeetingModel?
     private let meetingPresenter = MeetingPresenter()
     private var meetings: [UUID: MeetingModel] = [:]
     private let logger = ConsoleLogger(name: "MeetingModule")
@@ -33,6 +34,8 @@ class MeetingModule {
         return sharedInstance!
     }
 
+    // swiftlint:disable function_parameter_count
+    // swiftlint:disable function_body_length
     func prepareMeeting(meetingId: String,
                         selfName: String,
                         audioMode: AudioMode,
@@ -50,6 +53,7 @@ class MeetingModule {
             }
             self.cachedOverriddenEndpoint = overriddenEndpoint
             self.cachedPrimaryExternalMeetingId = primaryExternalMeetingId
+            self.logger.info(msg: "linsang: joining as \(selfName)")
             JoinRequestService.postJoinRequest(meetingId: meetingId,
                                                name: selfName,
                                                overriddenEndpoint: overriddenEndpoint,
@@ -94,6 +98,7 @@ class MeetingModule {
                                                 audioVideoConfig: audioVideoConfig,
                                                 callKitOption: callKitOption,
                                                 meetingEndpointUrl: overriddenEndpoint)
+                self.logger.info(msg: "linsang: meetingModel is created for \(selfName) with uuid \(meetingModel.uuid)")
                 self.meetings[meetingModel.uuid] = meetingModel
 
                 switch callKitOption {
@@ -118,6 +123,81 @@ class MeetingModule {
                         self?.selectDevice(meetingModel, completion: completion)
                     }
                 }
+            }
+            
+            // Screen meeting
+            let nameScreen = selfName + "_screen"
+            self.logger.info(msg: "linsang: joining as \(nameScreen)")
+            JoinRequestService.postJoinRequest(meetingId: meetingId,
+                                               name: nameScreen,
+                                               overriddenEndpoint: overriddenEndpoint,
+                                               primaryExternalMeetingId: primaryExternalMeetingId) { joinMeetingResponse in
+                guard let joinMeetingResponse = joinMeetingResponse else {
+                    DispatchQueue.main.async {
+                        completion(false)
+                    }
+                    return
+                }
+                let meetingResp = JoinRequestService.getCreateMeetingResponse(from: joinMeetingResponse)
+                let attendeeResp = JoinRequestService.getCreateAttendeeResponse(from: joinMeetingResponse)
+                let meetingSessionConfiguration = MeetingSessionConfiguration(createMeetingResponse: meetingResp,
+                                                   createAttendeeResponse: attendeeResp,
+                                                   urlRewriter: self.urlRewriter)
+                
+                let audioVideoConfig: AudioVideoConfiguration
+                if (meetingSessionConfiguration.meetingFeatures.videoMaxResolution == VideoResolution.videoDisabled
+                    || meetingSessionConfiguration.meetingFeatures.videoMaxResolution == VideoResolution.videoResolutionHD
+                    || meetingSessionConfiguration.meetingFeatures.videoMaxResolution == VideoResolution.videoResolutionFHD
+                ) {
+                    audioVideoConfig = AudioVideoConfiguration(audioMode: audioMode,
+                                                               audioDeviceCapabilities: .none,
+                                                               callKitEnabled: callKitOption != .disabled,
+                                                               enableAudioRedundancy: enableAudioRedundancy,
+                                                               videoMaxResolution: meetingSessionConfiguration.meetingFeatures.videoMaxResolution,
+                                                               reconnectTimeoutMs: reconnectTimeoutMs)
+                } else {
+                    audioVideoConfig = AudioVideoConfiguration(audioMode: audioMode,
+                                                               audioDeviceCapabilities: .none,
+                                                               callKitEnabled: callKitOption != .disabled,
+                                                               enableAudioRedundancy: enableAudioRedundancy,
+                                                               videoMaxResolution: AudioVideoConfiguration.defaultVideoMaxResolution,
+                                                               reconnectTimeoutMs: reconnectTimeoutMs)
+                }
+                
+                let meetingModel = MeetingModel(meetingSessionConfig: meetingSessionConfiguration,
+                                                meetingId: meetingId,
+                                                primaryMeetingId: meetingSessionConfiguration.primaryMeetingId ?? "",
+                                                primaryExternalMeetingId: joinMeetingResponse.joinInfo.primaryExternalMeetingId ?? "",
+                                                selfName: nameScreen,
+                                                audioVideoConfig: audioVideoConfig,
+                                                callKitOption: callKitOption,
+                                                meetingEndpointUrl: overriddenEndpoint)
+                self.meetings[meetingModel.uuid] = meetingModel
+                self.logger.info(msg: "linsang: meetingModel is created for \(nameScreen) with uuid \(meetingModel.uuid)")
+                self.activeScreenMeeting = meetingModel
+
+//                switch callKitOption {
+//                case .incoming:
+//                    guard let call = meetingModel.call else {
+//                        completion(false)
+//                        return
+//                    }
+//                    let backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask(expirationHandler: nil)
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + incomingCallKitDelayInSeconds) {
+//                        CallKitManager.shared().reportNewIncomingCall(with: call)
+//                        UIApplication.shared.endBackgroundTask(backgroundTaskIdentifier)
+//                    }
+//                case .outgoing:
+//                    guard let call = meetingModel.call else {
+//                        completion(false)
+//                        return
+//                    }
+//                    CallKitManager.shared().startOutgoingCall(with: call)
+//                case .disabled:
+//                    DispatchQueue.main.async { [weak self] in
+//                        self?.selectDevice(meetingModel, completion: completion)
+//                    }
+//                }
                 completion(true)
             }
         }
@@ -146,7 +226,7 @@ class MeetingModule {
         }
         activeMeeting.deviceSelectionModel = deviceSelectionModel
         meetingPresenter.dismissActiveMeetingView {
-            self.meetingPresenter.showMeetingView(meetingModel: activeMeeting) { _ in }
+            self.meetingPresenter.showMeetingView(meetingModel: activeMeeting, screenMeetingModel: self.activeScreenMeeting!) { _ in }
         }
     }
     
@@ -163,7 +243,7 @@ class MeetingModule {
 
     func joinMeeting(_ meeting: MeetingModel, completion: @escaping (Bool) -> Void) {
         endActiveMeeting {
-            self.meetingPresenter.showMeetingView(meetingModel: meeting) { success in
+            self.meetingPresenter.showMeetingView(meetingModel: meeting, screenMeetingModel: self.activeScreenMeeting!) { success in
                 if success {
                     self.activeMeeting = meeting
                 }

@@ -107,6 +107,7 @@ class DefaultVideoClientController: NSObject {
         // established for messaging
         videoClient.setReceiving(false)
 
+        logger.info(msg: "Starting video client with token \(configuration.credentials.joinToken)")
         videoClient.start(configuration.meetingId,
                           token: configuration.credentials.joinToken,
                           sending: false,

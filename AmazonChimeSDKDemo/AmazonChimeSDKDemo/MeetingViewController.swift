@@ -64,6 +64,7 @@ class MeetingViewController: UIViewController {
 
     // Model
     var meetingModel: MeetingModel?
+    var screenMeetingModel: MeetingModel?
 
     // Local var
     private let logger = ConsoleLogger(name: "MeetingViewController")
@@ -76,7 +77,12 @@ class MeetingViewController: UIViewController {
             dismiss(animated: true, completion: nil)
             return
         }
-        configure(meetingModel: meetingModel)
+        guard let screenMeetingModel = screenMeetingModel else {
+            logger.error(msg: "screenMeetingModel not set")
+            dismiss(animated: true, completion: nil)
+            return
+        }
+        configure(meetingModel: meetingModel, screenMeetingModel: screenMeetingModel)
         super.viewDidLoad()
         setupUI()
 
@@ -120,7 +126,7 @@ class MeetingViewController: UIViewController {
             .removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
-    private func configure(meetingModel: MeetingModel) {
+    private func configure(meetingModel: MeetingModel, screenMeetingModel: MeetingModel) {
         meetingModel.activeModeDidSetHandler = { [weak self] activeMode in
             self?.switchSubview(mode: activeMode)
         }
@@ -136,6 +142,12 @@ class MeetingViewController: UIViewController {
                 MeetingModule.shared().dismissMeeting(meetingModel)
             }
         }
+//        meetingModel.isStartedHandler = { [weak screenMeetingModel] in
+////            DispatchQueue.main.async {
+////                guard let meetingModel = screenMeetingModel else { return }
+////                meetingModel.startMeeting()
+////            }
+//        }
         meetingModel.rosterModel.rosterUpdatedHandler = { [weak self] in
             self?.rosterTable.reloadData()
         }
@@ -391,6 +403,7 @@ class MeetingViewController: UIViewController {
     }
 
     @IBAction func muteButtonClicked(_: UIButton) {
+        screenMeetingModel?.startMeeting()
         meetingModel?.setMute(isMuted: !muteButton.isSelected)
     }
 

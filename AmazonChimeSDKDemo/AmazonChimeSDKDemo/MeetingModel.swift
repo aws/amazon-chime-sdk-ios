@@ -34,7 +34,7 @@ class MeetingModel: NSObject {
                                                            logger: logger)
 
     // Utils
-    let logger = ConsoleLogger(name: "MeetingModel", level: .INFO)
+    let logger: Logger
     let postLogger: PostLogger
     let activeSpeakerObserverId = UUID().uuidString
 
@@ -126,6 +126,7 @@ class MeetingModel: NSObject {
     var notifyHandler: ((String) -> Void)?
     var isMutedHandler: ((Bool) -> Void)?
     var isEndedHandler: (() -> Void)?
+    var isStartedHandler: (() -> Void)?
 
     init(meetingSessionConfig: MeetingSessionConfiguration,
          meetingId: String,
@@ -146,6 +147,7 @@ class MeetingModel: NSObject {
 
         let url = AppConfiguration.url.hasSuffix("/") ? AppConfiguration.url : "\(AppConfiguration.url)/"
         self.postLogger = PostLogger(name: "SDKEvents", configuration: meetingSessionConfig, url: "\(url)log_meeting_event")
+        self.logger = ConsoleLogger(name: "MeetingModel - \(selfName)", level: .INFO)
         super.init()
 
         if callKitOption == .incoming {
@@ -414,6 +416,7 @@ extension MeetingModel: AudioVideoObserver {
 
     func audioSessionDidStart(reconnecting: Bool) {
         notifyHandler?("Audio successfully started. Reconnecting: \(reconnecting)")
+        isStartedHandler?()
         logWithFunctionName(message: "reconnecting \(reconnecting)")
         // Start Amazon Voice Focus as soon as audio session started
         setVoiceFocusEnabled(enabled: true)
@@ -600,7 +603,7 @@ extension MeetingModel: MetricsObserver {
             return
         }
         metricsModel.updateAppMetrics(metrics: metrics)
-        logger.info(msg: "Media metrics have been received: \(observableMetrics)")
+        logger.debug(debugFunction: { return "Media metrics have been received: \(observableMetrics)" })
         if activeMode == .metrics {
             metricsModel.metricsUpdatedHandler?()
         }

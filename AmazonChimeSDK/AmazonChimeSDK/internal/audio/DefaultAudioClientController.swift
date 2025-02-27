@@ -73,6 +73,7 @@ extension DefaultAudioClientController: AudioClientController {
                       audioDeviceCapabilities: AudioDeviceCapabilities,
                       enableAudioRedundancy: Bool,
                       reconnectTimeoutMs: Int) throws {
+        logger.info(msg: "Starting audio client with attendeeId \(attendeeId) and joinToken \(joinToken), audioDeviceCapabilities \(audioDeviceCapabilities)")
         audioLock.lock()
         defer {
             audioLock.unlock()
