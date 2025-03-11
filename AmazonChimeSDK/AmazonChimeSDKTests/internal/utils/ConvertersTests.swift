@@ -117,44 +117,126 @@ class ConvertersTests: XCTestCase {
 
     func testAudioClientStateToSessionStateControllerAction() {
         XCTAssertEqual(
-            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_UNKNOWN),
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_UNKNOWN, status: MeetingSessionStatusCode.ok),
             SessionStateControllerAction.unknown
         )
         XCTAssertEqual(
-            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_INIT),
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_INIT, status: MeetingSessionStatusCode.ok),
             SessionStateControllerAction.initialize
         )
         XCTAssertEqual(
-            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_CONNECTING),
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_CONNECTING, status: MeetingSessionStatusCode.ok),
             SessionStateControllerAction.connecting
         )
         XCTAssertEqual(
-            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_CONNECTED),
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_CONNECTED, status: MeetingSessionStatusCode.ok),
             SessionStateControllerAction.finishConnecting
         )
         XCTAssertEqual(
-            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_RECONNECTING),
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_RECONNECTING, status: MeetingSessionStatusCode.ok),
             SessionStateControllerAction.reconnecting
         )
         XCTAssertEqual(
-            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_DISCONNECTING),
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_DISCONNECTING, status: MeetingSessionStatusCode.ok),
             SessionStateControllerAction.disconnecting
         )
         XCTAssertEqual(
-            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL),
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL, status: MeetingSessionStatusCode.ok),
             SessionStateControllerAction.finishDisconnecting
         )
         XCTAssertEqual(
-            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL),
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL, status: MeetingSessionStatusCode.ok),
             SessionStateControllerAction.fail
         )
         XCTAssertEqual(
-            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_SERVER_HUNGUP),
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_SERVER_HUNGUP, status: MeetingSessionStatusCode.ok),
+            SessionStateControllerAction.fail
+        )
+        XCTAssertEqual(
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_FAILED_TO_CONNECT, status: MeetingSessionStatusCode.ok),
+            SessionStateControllerAction.fail
+        )
+
+        XCTAssertEqual(
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_UNKNOWN, status: MeetingSessionStatusCode.audioServerHungup),
             SessionStateControllerAction.finishDisconnecting
         )
         XCTAssertEqual(
-            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_FAILED_TO_CONNECT),
-            SessionStateControllerAction.fail
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_INIT, status: MeetingSessionStatusCode.audioServerHungup),
+            SessionStateControllerAction.finishDisconnecting
+        )
+        XCTAssertEqual(
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_CONNECTING, status: MeetingSessionStatusCode.audioServerHungup),
+            SessionStateControllerAction.finishDisconnecting
+        )
+        XCTAssertEqual(
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_CONNECTED, status: MeetingSessionStatusCode.audioServerHungup),
+            SessionStateControllerAction.finishDisconnecting
+        )
+        XCTAssertEqual(
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_RECONNECTING, status: MeetingSessionStatusCode.audioServerHungup),
+            SessionStateControllerAction.finishDisconnecting
+        )
+        XCTAssertEqual(
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_DISCONNECTING, status: MeetingSessionStatusCode.audioServerHungup),
+            SessionStateControllerAction.finishDisconnecting
+        )
+        XCTAssertEqual(
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL, status: MeetingSessionStatusCode.audioServerHungup),
+            SessionStateControllerAction.finishDisconnecting
+        )
+        XCTAssertEqual(
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL, status: MeetingSessionStatusCode.audioServerHungup),
+            SessionStateControllerAction.finishDisconnecting
+        )
+        XCTAssertEqual(
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_SERVER_HUNGUP, status: MeetingSessionStatusCode.audioServerHungup),
+            SessionStateControllerAction.finishDisconnecting
+        )
+        XCTAssertEqual(
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_FAILED_TO_CONNECT, status: MeetingSessionStatusCode.audioServerHungup),
+            SessionStateControllerAction.finishDisconnecting
+        )
+
+        XCTAssertEqual(
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_UNKNOWN, status: MeetingSessionStatusCode.audioJoinedFromAnotherDevice),
+            SessionStateControllerAction.finishDisconnecting
+        )
+        XCTAssertEqual(
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_INIT, status: MeetingSessionStatusCode.audioJoinedFromAnotherDevice),
+            SessionStateControllerAction.finishDisconnecting
+        )
+        XCTAssertEqual(
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_CONNECTING, status: MeetingSessionStatusCode.audioJoinedFromAnotherDevice),
+            SessionStateControllerAction.finishDisconnecting
+        )
+        XCTAssertEqual(
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_CONNECTED, status: MeetingSessionStatusCode.audioJoinedFromAnotherDevice),
+            SessionStateControllerAction.finishDisconnecting
+        )
+        XCTAssertEqual(
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_RECONNECTING, status: MeetingSessionStatusCode.audioJoinedFromAnotherDevice),
+            SessionStateControllerAction.finishDisconnecting
+        )
+        XCTAssertEqual(
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_DISCONNECTING, status: MeetingSessionStatusCode.audioJoinedFromAnotherDevice),
+            SessionStateControllerAction.finishDisconnecting
+        )
+        XCTAssertEqual(
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL, status: MeetingSessionStatusCode.audioJoinedFromAnotherDevice),
+            SessionStateControllerAction.finishDisconnecting
+        )
+        XCTAssertEqual(
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL, status: MeetingSessionStatusCode.audioJoinedFromAnotherDevice),
+            SessionStateControllerAction.finishDisconnecting
+        )
+        XCTAssertEqual(
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_SERVER_HUNGUP, status: MeetingSessionStatusCode.audioJoinedFromAnotherDevice),
+            SessionStateControllerAction.finishDisconnecting
+        )
+        XCTAssertEqual(
+            Converters.AudioClientState.toSessionStateControllerAction(state: AUDIO_CLIENT_STATE_FAILED_TO_CONNECT, status: MeetingSessionStatusCode.audioJoinedFromAnotherDevice),
+            SessionStateControllerAction.finishDisconnecting
         )
     }
 

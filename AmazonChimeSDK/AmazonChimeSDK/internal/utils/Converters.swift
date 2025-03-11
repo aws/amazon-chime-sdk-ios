@@ -41,7 +41,10 @@ import Foundation
     }
 
     enum AudioClientState {
-        static func toSessionStateControllerAction(state: audio_client_state_t) -> SessionStateControllerAction {
+        static func toSessionStateControllerAction(state: audio_client_state_t, status: MeetingSessionStatusCode) -> SessionStateControllerAction {
+            if (shouldCloseAndNotifyEndMeeting(status: status)) {
+                return .finishDisconnecting
+            }
             switch state {
             case AUDIO_CLIENT_STATE_UNKNOWN:
                 return .unknown
@@ -55,15 +58,19 @@ import Foundation
                 return .reconnecting
             case AUDIO_CLIENT_STATE_DISCONNECTING:
                 return .disconnecting
-            case AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL,
-                 AUDIO_CLIENT_STATE_SERVER_HUNGUP:
+            case AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL:
                 return .finishDisconnecting
             case AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
+                 AUDIO_CLIENT_STATE_SERVER_HUNGUP,
                  AUDIO_CLIENT_STATE_FAILED_TO_CONNECT:
                 return .fail
             default:
                 return .unknown
             }
+        }
+        
+        static func shouldCloseAndNotifyEndMeeting(status: MeetingSessionStatusCode) -> Bool {
+            return status == MeetingSessionStatusCode.audioServerHungup || status == MeetingSessionStatusCode.audioJoinedFromAnotherDevice
         }
     }
 

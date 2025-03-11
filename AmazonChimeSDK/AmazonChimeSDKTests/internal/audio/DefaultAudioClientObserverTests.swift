@@ -92,7 +92,13 @@ class DefaultAudioClientObserverTests: XCTestCase {
         defaultAudioClientObserver.subscribeToAudioClientStateChange(observer: mockAudioVideoObserver)
         defaultAudioClientObserver.subscribeToRealTimeEvents(observer: mockRealTimeObserver)
         defaultAudioClientObserver.subscribeToTranscriptEvent(observer: transcriptEventObserverMock)
+        given(audioClientMock.stopSession()).willReturn(0)
+        DefaultAudioClientController.state = .started
     }
+    
+    // MARK: - Audio Client State Changed Tests
+    
+    // Client state change tests -- Common sense tests
 
     func testAudioClientStateChanged_Connected() {
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTING,
@@ -167,46 +173,36 @@ class DefaultAudioClientObserverTests: XCTestCase {
     }
 
     func testAudioClientStateChanged_ConnectionFailedFromConnecting() {
-        given(audioClientMock.stopSession()).willReturn(0)
-        DefaultAudioClientController.state = .started
+        
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTING,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
-                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServerHungup.rawValue))
-        let expect = eventually {
-            verify(eventAnalyticsControllerMock.publishEvent(name: .meetingFailed, attributes: any())).wasCalled()
-            verify(mockAudioVideoObserver.audioSessionDidStopWithStatus(sessionStatus: any())).wasCalled()
-        }
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioDisconnected.rawValue))
 
-        wait(for: [expect], timeout: defaultTimeout)
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioDisconnected)
     }
 
     func testAudioClientStateChanged_ConnectionFailedFromConnected() {
-        given(audioClientMock.stopSession()).willReturn(0)
-        DefaultAudioClientController.state = .started
+        
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
-                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServerHungup.rawValue))
-        let expect = eventually {
-            verify(mockAudioVideoObserver.audioSessionDidStopWithStatus(sessionStatus: any())).wasCalled()
-            verify(eventAnalyticsControllerMock.publishEvent(name: .meetingFailed, attributes: any())).wasCalled()
-            verify(meetingStatsCollectorMock.resetMeetingStats()).wasCalled()
-        }
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioDisconnected.rawValue))
 
-        wait(for: [expect], timeout: defaultTimeout)
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioDisconnected)
     }
     
     func testAudioClientStateChanged_ConnectionFailedFromReconnecting() {
-        given(audioClientMock.stopSession()).willReturn(0)
-        DefaultAudioClientController.state = .started
+        
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
-                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServerHungup.rawValue))
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioDisconnected.rawValue))
         let expect = eventually {
             verify(mockAudioVideoObserver.audioSessionDidCancelReconnect()).wasCalled()
             verify(eventAnalyticsControllerMock.publishEvent(name: .meetingFailed, attributes: any())).wasCalled()
+            verify(mockAudioVideoObserver.audioSessionDidStopWithStatus(sessionStatus: any(MeetingSessionStatus.self,
+                                                                        where: { $0.statusCode.rawValue == MeetingSessionStatusCode.audioDisconnected.rawValue}))).wasCalled()
             verify(meetingStatsCollectorMock.resetMeetingStats()).wasCalled()
         }
 
@@ -214,29 +210,1377 @@ class DefaultAudioClientObserverTests: XCTestCase {
     }
     
     func testAudioClientStateChanged_FinishDisconnectingFromConnecting() {
-        given(audioClientMock.stopSession()).willReturn(0)
-        DefaultAudioClientController.state = .started
+        
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTING,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.audioServerHungup.rawValue))
+        verifyAudioClientStateMeetingEnded(statusCode: MeetingSessionStatusCode.audioServerHungup)
+    }
+
+    func testAudioClientStateChanged_FinishDisconnectingFromConnected() {
+        
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServerHungup.rawValue))
+        verifyAudioClientStateMeetingEnded(statusCode: MeetingSessionStatusCode.audioServerHungup)
+    }
+    
+    func testAudioClientStateChanged_FinishDisconnectingFromReconnecting() {
+        
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServerHungup.rawValue))
         let expect = eventually {
+            verify(mockAudioVideoObserver.audioSessionDidCancelReconnect()).wasCalled()
             verify(eventAnalyticsControllerMock.publishEvent(name: .meetingEnded, attributes: any())).wasCalled()
-            verify(mockAudioVideoObserver.audioSessionDidStopWithStatus(sessionStatus: any())).wasCalled()
+            verify(meetingStatsCollectorMock.resetMeetingStats()).wasCalled()
         }
 
         wait(for: [expect], timeout: defaultTimeout)
     }
 
-    func testAudioClientStateChanged_FinishDisconnectingFromConnected() {
+    func testAudioClientStateChanged_FinishDisconnectingFromConnected_WhenJoinedFromAnotherDevice() {
         given(audioClientMock.stopSession()).willReturn(0)
-        DefaultAudioClientController.state = .started
+         DefaultAudioClientController.state = .started
+         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
+                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.audioJoinedFromAnotherDevice.rawValue))
+        verifyAudioClientStateMeetingEnded(statusCode: MeetingSessionStatusCode.audioJoinedFromAnotherDevice)
+     }
+    
+    func testAudioClientStateChanged_FinishDisconnectingFromConnecting_WhenJoinedFromAnotherDevice() {
+        given(audioClientMock.stopSession()).willReturn(0)
+         DefaultAudioClientController.state = .started
+         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTING,
+                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
+                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.audioJoinedFromAnotherDevice.rawValue))
+        verifyAudioClientStateMeetingEnded(statusCode: MeetingSessionStatusCode.audioJoinedFromAnotherDevice)
+     }
+    
+    func testAudioClientStateChanged_FinishDisconnectingFromReconnecting_WhenJoinedFromAnotherDevice() {
+        given(audioClientMock.stopSession()).willReturn(0)
+         DefaultAudioClientController.state = .started
+         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
+                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
+                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.audioJoinedFromAnotherDevice.rawValue))
+         let expect = eventually {
+             verify(mockAudioVideoObserver.audioSessionDidStopWithStatus(sessionStatus: any(MeetingSessionStatus.self,
+                                                                        where: { $0.statusCode.rawValue == MeetingSessionStatusCode.audioJoinedFromAnotherDevice.rawValue}))).wasCalled()
+             verify(eventAnalyticsControllerMock.publishEvent(name: .meetingEnded, attributes: any())).wasCalled()
+             verify(meetingStatsCollectorMock.resetMeetingStats()).wasCalled()
+             verify(mockAudioVideoObserver.audioSessionDidCancelReconnect()).wasCalled()
+         }
+ 
+         wait(for: [expect], timeout: defaultTimeout)
+     }
+
+    func testAudioClientStateChanged_NotifiesOfInputDeviceFailure() {
+        
+        let statusCode = MeetingSessionStatusCode.audioInputDeviceNotResponding.rawValue
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
+                                                           status: audio_client_status_t.init(statusCode))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioInputDeviceNotResponding)
+    }
+
+    func testAudioClientStateChanged_NotifiesOfOutputDeviceFailure() {
+        
+        let statusCode = MeetingSessionStatusCode.audioOutputDeviceNotResponding.rawValue
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
+                                                           status: audio_client_status_t.init(statusCode))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioOutputDeviceNotResponding)
+    }
+
+    func testAudioClientStateChanged_ConnectionCancelledReconnect() {
+        
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioDisconnected.rawValue))
+        let expect = eventually {
+            verify(mockAudioVideoObserver.audioSessionDidCancelReconnect()).wasCalled()
+            verify(mockAudioVideoObserver.audioSessionDidStopWithStatus(sessionStatus: any(MeetingSessionStatus.self,
+                                                                        where: { $0.statusCode.rawValue == MeetingSessionStatusCode.audioDisconnected.rawValue}))).wasCalled()
+            verify(eventAnalyticsControllerMock.publishEvent(name: .meetingFailed, attributes: any())).wasCalled()
+            verify(meetingStatsCollectorMock.resetMeetingStats()).wasCalled()
+        }
+
+        wait(for: [expect], timeout: defaultTimeout)
+    }
+    
+    func testAudioClientStateChanged_SameStateStatusNoop() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    // Client state change tests -- Remaining combinations of state and status from connected state with ok status
+    
+    func testAudioClientStateChanged_ConnectedOkToUnknownOk() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_UNKNOWN,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToInitOk() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_INIT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToConnectingOk() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        verifyAudioClientStateNoop()
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToFailedOk() {
+        
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_FAILED_TO_CONNECT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.ok)
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToDisconnectingOk() {
+        
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedNormalOk() {
+        
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedAbnormalOk() {
+        
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.ok)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToServerHungupOk() {
+        
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.ok)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToUnknownAudioDisconnected() {
+        
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_UNKNOWN,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioDisconnected.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToInitAudioDisconnected() {
+        
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_INIT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioDisconnected.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToConnectingAudioDisconnected() {
+        
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioDisconnected.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToReconnectingAudioDisconnected() {
+        
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioDisconnected.rawValue))
+        verifyAudioClientStateChangedToReconnecting()
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToFailedAudioDisconnected() {
+        
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_FAILED_TO_CONNECT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioDisconnected.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioDisconnected)
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToDisconnectingAudioDisconnected() {
+        
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioDisconnected.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedNormalAudioDisconnected() {
+        
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioDisconnected.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedAbnormalAudioDisconnected() {
+        
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioDisconnected.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioDisconnected)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToServerHungupAudioDisconnected() {
+        
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioDisconnected.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioDisconnected)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToUnknownConnectionHealthReconnect() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_UNKNOWN,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.connectionHealthReconnect.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToInitConnectionHealthReconnect() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_INIT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.connectionHealthReconnect.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToConnectingConnectionHealthReconnect() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.connectionHealthReconnect.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToReconnectingConnectionHealthReconnect() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.connectionHealthReconnect.rawValue))
+        verifyAudioClientStateChangedToReconnecting()
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToFailedConnectionHealthReconnect() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_FAILED_TO_CONNECT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.connectionHealthReconnect.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.connectionHealthReconnect)
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToDisconnectingConnectionHealthReconnect() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.connectionHealthReconnect.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedNormalConnectionHealthReconnect() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.connectionHealthReconnect.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedAbnormalConnectionHealthReconnect() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.connectionHealthReconnect.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.connectionHealthReconnect)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToServerHungupConnectionHealthReconnect() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.connectionHealthReconnect.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.connectionHealthReconnect)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToUnknownNetworkBecomePoor() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_UNKNOWN,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.networkBecomePoor.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToInitNetworkBecomePoor() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_INIT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.networkBecomePoor.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToConnectingNetworkBecomePoor() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.networkBecomePoor.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToReconnectingNetworkBecomePoor() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.networkBecomePoor.rawValue))
+        verifyAudioClientStateChangedToReconnecting()
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToFailedNetworkBecomePoor() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_FAILED_TO_CONNECT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.networkBecomePoor.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.networkBecomePoor)
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToDisconnectingNetworkBecomePoor() {
+        
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.networkBecomePoor.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedNormalNetworkBecomePoor() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.networkBecomePoor.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedAbnormalNetworkBecomePoor() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.networkBecomePoor.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.networkBecomePoor)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToServerHungupNetworkBecomePoor() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.networkBecomePoor.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.networkBecomePoor)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToUnknownAudioServerHungup() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_UNKNOWN,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServerHungup.rawValue))
+        verifyAudioClientStateMeetingEnded(statusCode: MeetingSessionStatusCode.audioServerHungup)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToInitAudioServerHungup() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_INIT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServerHungup.rawValue))
+        verifyAudioClientStateMeetingEnded(statusCode: MeetingSessionStatusCode.audioServerHungup)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToConnectingAudioServerHungup() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServerHungup.rawValue))
+        verifyAudioClientStateMeetingEnded(statusCode: MeetingSessionStatusCode.audioServerHungup)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToReconnectingAudioServerHungup() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServerHungup.rawValue))
+        verifyAudioClientStateMeetingEnded(statusCode: MeetingSessionStatusCode.audioServerHungup)
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToFailedAudioServerHungup() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_FAILED_TO_CONNECT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServerHungup.rawValue))
+        verifyAudioClientStateMeetingEnded(statusCode: MeetingSessionStatusCode.audioServerHungup)
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToDisconnectingAudioServerHungup() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServerHungup.rawValue))
+        verifyAudioClientStateMeetingEnded(statusCode: MeetingSessionStatusCode.audioServerHungup)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedNormalAudioServerHungup() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServerHungup.rawValue))
+        verifyAudioClientStateMeetingEnded(statusCode: MeetingSessionStatusCode.audioServerHungup)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedAbnormalAudioServerHungup() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServerHungup.rawValue))
+        verifyAudioClientStateMeetingEnded(statusCode: MeetingSessionStatusCode.audioServerHungup)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToServerHungupAudioServerHungup() {
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.audioServerHungup.rawValue))
+        verifyAudioClientStateMeetingEnded(statusCode: MeetingSessionStatusCode.audioServerHungup)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToUnknownAudioJoinedFromAnotherDevice() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_UNKNOWN,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioJoinedFromAnotherDevice.rawValue))
+        verifyAudioClientStateMeetingEnded(statusCode: MeetingSessionStatusCode.audioJoinedFromAnotherDevice)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToInitAudioJoinedFromAnotherDevice() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_INIT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioJoinedFromAnotherDevice.rawValue))
+        verifyAudioClientStateMeetingEnded(statusCode: MeetingSessionStatusCode.audioJoinedFromAnotherDevice)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToConnectingAudioJoinedFromAnotherDevice() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioJoinedFromAnotherDevice.rawValue))
+        verifyAudioClientStateMeetingEnded(statusCode: MeetingSessionStatusCode.audioJoinedFromAnotherDevice)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToReconnectingAudioJoinedFromAnotherDevice() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioJoinedFromAnotherDevice.rawValue))
+        verifyAudioClientStateMeetingEnded(statusCode: MeetingSessionStatusCode.audioJoinedFromAnotherDevice)
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToFailedAudioJoinedFromAnotherDevice() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_FAILED_TO_CONNECT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioJoinedFromAnotherDevice.rawValue))
+        verifyAudioClientStateMeetingEnded(statusCode: MeetingSessionStatusCode.audioJoinedFromAnotherDevice)
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToDisconnectingAudioJoinedFromAnotherDevice() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioJoinedFromAnotherDevice.rawValue))
+        verifyAudioClientStateMeetingEnded(statusCode: MeetingSessionStatusCode.audioJoinedFromAnotherDevice)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedNormalAudioJoinedFromAnotherDevice() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioJoinedFromAnotherDevice.rawValue))
+        verifyAudioClientStateMeetingEnded(statusCode: MeetingSessionStatusCode.audioJoinedFromAnotherDevice)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedAbnormalAudioJoinedFromAnotherDevice() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioJoinedFromAnotherDevice.rawValue))
+        verifyAudioClientStateMeetingEnded(statusCode: MeetingSessionStatusCode.audioJoinedFromAnotherDevice)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToServerHungupAudioJoinedFromAnotherDevice() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioJoinedFromAnotherDevice.rawValue))
+        verifyAudioClientStateMeetingEnded(statusCode: MeetingSessionStatusCode.audioJoinedFromAnotherDevice)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToUnknownAudioInternalServerError() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_UNKNOWN,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioInternalServerError.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToInitAudioInternalServerError() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_INIT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioInternalServerError.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToConnectingAudioInternalServerError() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioInternalServerError.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToReconnectingAudioInternalServerError() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioInternalServerError.rawValue))
+        verifyAudioClientStateChangedToReconnecting()
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToFailedAudioInternalServerError() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_FAILED_TO_CONNECT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioInternalServerError.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioInternalServerError)
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToDisconnectingAudioInternalServerError() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioInternalServerError.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedNormalAudioInternalServerError() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioInternalServerError.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedAbnormalAudioInternalServerError() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioInternalServerError.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioInternalServerError)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToServerHungupAudioInternalServerError() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioInternalServerError.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioInternalServerError)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToUnknownAudioAuthenticationRejected() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_UNKNOWN,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioAuthenticationRejected.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToInitAudioAuthenticationRejected() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_INIT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioAuthenticationRejected.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToConnectingAudioAuthenticationRejected() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioAuthenticationRejected.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToReconnectingAudioAuthenticationRejected() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioAuthenticationRejected.rawValue))
+        verifyAudioClientStateChangedToReconnecting()
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToFailedAudioAuthenticationRejected() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_FAILED_TO_CONNECT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioAuthenticationRejected.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioAuthenticationRejected)
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToDisconnectingAudioAuthenticationRejected() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioAuthenticationRejected.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedNormalAudioAuthenticationRejected() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioAuthenticationRejected.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedAbnormalAudioAuthenticationRejected() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioAuthenticationRejected.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioAuthenticationRejected)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToServerHungupAudioAuthenticationRejected() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioAuthenticationRejected.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioAuthenticationRejected)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToUnknownAudioCallAtCapacity() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_UNKNOWN,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioCallAtCapacity.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToInitAudioCallAtCapacity() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_INIT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioCallAtCapacity.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToConnectingAudioCallAtCapacity() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioCallAtCapacity.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToReconnectingAudioCallAtCapacity() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioCallAtCapacity.rawValue))
+        verifyAudioClientStateChangedToReconnecting()
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToFailedAudioCallAtCapacity() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_FAILED_TO_CONNECT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioCallAtCapacity.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioCallAtCapacity)
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToDisconnectingAudioCallAtCapacity() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioCallAtCapacity.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedNormalAudioCallAtCapacity() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioCallAtCapacity.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedAbnormalAudioCallAtCapacity() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioCallAtCapacity.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioCallAtCapacity)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToServerHungupAudioCallAtCapacity() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioCallAtCapacity.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioCallAtCapacity)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToUnknownAudioServiceUnavailable() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_UNKNOWN,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServiceUnavailable.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToInitAudioServiceUnavailable() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_INIT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServiceUnavailable.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToConnectingAudioServiceUnavailable() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServiceUnavailable.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToReconnectingAudioServiceUnavailable() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServiceUnavailable.rawValue))
+        verifyAudioClientStateChangedToReconnecting()
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToFailedAudioServiceUnavailable() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_FAILED_TO_CONNECT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServiceUnavailable.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioServiceUnavailable)
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToDisconnectingAudioServiceUnavailable() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServiceUnavailable.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedNormalAudioServiceUnavailable() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServiceUnavailable.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedAbnormalAudioServiceUnavailable() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServiceUnavailable.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioServiceUnavailable)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToServerHungupAudioServiceUnavailable() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServiceUnavailable.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioServiceUnavailable)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToUnknownAudioDisconnectAudio() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_UNKNOWN,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioDisconnectAudio.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToInitAudioDisconnectAudio() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_INIT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioDisconnectAudio.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToConnectingAudioDisconnectAudio() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioDisconnectAudio.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToReconnectingAudioDisconnectAudio() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioDisconnectAudio.rawValue))
+        verifyAudioClientStateChangedToReconnecting()
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToFailedAudioDisconnectAudio() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_FAILED_TO_CONNECT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioDisconnectAudio.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioDisconnectAudio)
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToDisconnectingAudioDisconnectAudio() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioDisconnectAudio.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedNormalAudioDisconnectAudio() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioDisconnectAudio.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedAbnormalAudioDisconnectAudio() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioDisconnectAudio.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioDisconnectAudio)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToServerHungupAudioDisconnectAudio() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioDisconnectAudio.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioDisconnectAudio)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToUnknownAudioCallEnded() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_UNKNOWN,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioCallEnded.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToInitAudioCallEnded() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_INIT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioCallEnded.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToConnectingAudioCallEnded() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioCallEnded.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToReconnectingAudioCallEnded() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioCallEnded.rawValue))
+        verifyAudioClientStateChangedToReconnecting()
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToFailedAudioCallEnded() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_FAILED_TO_CONNECT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioCallEnded.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioCallEnded)
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToDisconnectingAudioCallEnded() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioCallEnded.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedNormalAudioCallEnded() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioCallEnded.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedAbnormalAudioCallEnded() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioCallEnded.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioCallEnded)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToServerHungupAudioCallEnded() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioCallEnded.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioCallEnded)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToUnknownVideoServiceUnavailable() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_UNKNOWN,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.videoServiceUnavailable.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToInitVideoServiceUnavailable() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_INIT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.videoServiceUnavailable.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToConnectingVideoServiceUnavailable() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.videoServiceUnavailable.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToReconnectingVideoServiceUnavailable() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.videoServiceUnavailable.rawValue))
+        verifyAudioClientStateChangedToReconnecting()
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToFailedVideoServiceUnavailable() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_FAILED_TO_CONNECT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.videoServiceUnavailable.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.videoServiceUnavailable)
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToDisconnectingVideoServiceUnavailable() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.videoServiceUnavailable.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedNormalVideoServiceUnavailable() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.videoServiceUnavailable.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedAbnormalVideoServiceUnavailable() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.videoServiceUnavailable.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.videoServiceUnavailable)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToServerHungupVideoServiceUnavailable() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.videoServiceUnavailable.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.videoServiceUnavailable)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToUnknownUnknown() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_UNKNOWN,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.unknown.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToInitUnknown() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_INIT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.unknown.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToConnectingUnknown() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.unknown.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToReconnectingUnknown() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.unknown.rawValue))
+        verifyAudioClientStateChangedToReconnecting()
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToFailedUnknown() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_FAILED_TO_CONNECT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.unknown.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.unknown)
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToDisconnectingUnknown() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.unknown.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedNormalUnknown() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.unknown.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedAbnormalUnknown() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.unknown.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.unknown)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToServerHungupUnknown() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.unknown.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.unknown)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToUnknownVideoAtCapacityViewOnly() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_UNKNOWN,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.videoAtCapacityViewOnly.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToInitVideoAtCapacityViewOnly() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_INIT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.videoAtCapacityViewOnly.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToConnectingVideoAtCapacityViewOnly() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.videoAtCapacityViewOnly.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToReconnectingVideoAtCapacityViewOnly() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.videoAtCapacityViewOnly.rawValue))
+        verifyAudioClientStateChangedToReconnecting()
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToFailedVideoAtCapacityViewOnly() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_FAILED_TO_CONNECT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.videoAtCapacityViewOnly.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.videoAtCapacityViewOnly)
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToDisconnectingVideoAtCapacityViewOnly() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.videoAtCapacityViewOnly.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedNormalVideoAtCapacityViewOnly() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.videoAtCapacityViewOnly.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedAbnormalVideoAtCapacityViewOnly() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.videoAtCapacityViewOnly.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.videoAtCapacityViewOnly)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToServerHungupVideoAtCapacityViewOnly() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.videoAtCapacityViewOnly.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.videoAtCapacityViewOnly)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToUnknownAudioInputDeviceNotResponding() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_UNKNOWN,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioInputDeviceNotResponding.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToInitAudioInputDeviceNotResponding() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_INIT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioInputDeviceNotResponding.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToConnectingAudioInputDeviceNotResponding() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioInputDeviceNotResponding.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToReconnectingAudioInputDeviceNotResponding() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioInputDeviceNotResponding.rawValue))
+        verifyAudioClientStateChangedToReconnecting()
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToFailedAudioInputDeviceNotResponding() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_FAILED_TO_CONNECT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioInputDeviceNotResponding.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioInputDeviceNotResponding)
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToDisconnectingAudioInputDeviceNotResponding() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioInputDeviceNotResponding.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedNormalAudioInputDeviceNotResponding() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioInputDeviceNotResponding.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedAbnormalAudioInputDeviceNotResponding() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioInputDeviceNotResponding.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioInputDeviceNotResponding)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToServerHungupAudioInputDeviceNotResponding() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioInputDeviceNotResponding.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioInputDeviceNotResponding)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToUnknownAudioOutputDeviceNotResponding() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_UNKNOWN,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioOutputDeviceNotResponding.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToInitAudioOutputDeviceNotResponding() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_INIT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioOutputDeviceNotResponding.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToConnectingAudioOutputDeviceNotResponding() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioOutputDeviceNotResponding.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToReconnectingAudioOutputDeviceNotResponding() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioOutputDeviceNotResponding.rawValue))
+        verifyAudioClientStateChangedToReconnecting()
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToFailedAudioOutputDeviceNotResponding() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_FAILED_TO_CONNECT,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioOutputDeviceNotResponding.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioOutputDeviceNotResponding)
+    }
+
+    func testAudioClientStateChanged_ConnectedOkToDisconnectingAudioOutputDeviceNotResponding() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTING,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioOutputDeviceNotResponding.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedNormalAudioOutputDeviceNotResponding() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioOutputDeviceNotResponding.rawValue))
+        verifyAudioClientStateNoop()
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToDisconnectedAbnormalAudioOutputDeviceNotResponding() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioOutputDeviceNotResponding.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioOutputDeviceNotResponding)
+    }
+    
+    func testAudioClientStateChanged_ConnectedOkToServerHungupAudioOutputDeviceNotResponding() {
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioOutputDeviceNotResponding.rawValue))
+        verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioOutputDeviceNotResponding)
+    }
+    
+    func verifyAudioClientStateChangedToReconnecting() {
+        verifyAudioClientStateNoop()
         let expect = eventually {
-            verify(mockAudioVideoObserver.audioSessionDidStopWithStatus(sessionStatus: any())).wasCalled()
+            verify(mockAudioVideoObserver.audioSessionDidDrop()).wasCalled()
+        }
+        wait(for: [expect], timeout: defaultTimeout)
+    }
+    
+    func verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode) {
+        let expect = eventually {
+            verify(mockAudioVideoObserver.audioSessionDidStopWithStatus(sessionStatus: any(MeetingSessionStatus.self,
+                                                                        where: { $0.statusCode.rawValue == statusCode.rawValue}))).wasCalled()
+            verify(eventAnalyticsControllerMock.publishEvent(name: .meetingFailed, attributes: any())).wasCalled()
+            verify(meetingStatsCollectorMock.resetMeetingStats()).wasCalled()
+        }
+
+        wait(for: [expect], timeout: defaultTimeout)
+    }
+    
+    func verifyAudioClientStateMeetingEnded(statusCode: MeetingSessionStatusCode) {
+        let expect = eventually {
+            verify(mockAudioVideoObserver.audioSessionDidStopWithStatus(sessionStatus: any(MeetingSessionStatus.self,
+                                                                        where: { $0.statusCode.rawValue == statusCode.rawValue}))).wasCalled()
             verify(eventAnalyticsControllerMock.publishEvent(name: .meetingEnded, attributes: any())).wasCalled()
             verify(meetingStatsCollectorMock.resetMeetingStats()).wasCalled()
         }
@@ -244,74 +1588,13 @@ class DefaultAudioClientObserverTests: XCTestCase {
         wait(for: [expect], timeout: defaultTimeout)
     }
     
-    func testAudioClientStateChanged_FinishDisconnectingFromReconnecting() {
-        given(audioClientMock.stopSession()).willReturn(0)
-        DefaultAudioClientController.state = .started
-        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
-                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
-        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
-                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServerHungup.rawValue))
-        let expect = eventually {
-            verify(mockAudioVideoObserver.audioSessionDidCancelReconnect()).wasCalled()
-            verify(eventAnalyticsControllerMock.publishEvent(name: .meetingEnded, attributes: any())).wasCalled()
-            verify(meetingStatsCollectorMock.resetMeetingStats()).wasCalled()
-        }
-
-        wait(for: [expect], timeout: defaultTimeout)
+    func verifyAudioClientStateNoop() {
+        verify(mockAudioVideoObserver.audioSessionDidStopWithStatus(sessionStatus: any())).wasNeverCalled()
+        verify(eventAnalyticsControllerMock.publishEvent(name: any(), attributes: any())).wasNeverCalled()
+        verify(meetingStatsCollectorMock.resetMeetingStats()).wasNeverCalled()
     }
-
-    func testAudioClientStateChanged_NotifiesOfInputDeviceFailure() {
-        given(audioClientMock.stopSession()).willReturn(0)
-        DefaultAudioClientController.state = .started
-        let statusCode = MeetingSessionStatusCode.audioInputDeviceNotResponding.rawValue
-        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
-                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
-        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
-                                                           status: audio_client_status_t.init(statusCode))
-        let expect = eventually {
-            verify(mockAudioVideoObserver.audioSessionDidStopWithStatus(sessionStatus: any(MeetingSessionStatus.self,
-                                                                        where: { $0.statusCode.rawValue == statusCode }))).wasCalled()
-            verify(eventAnalyticsControllerMock.publishEvent(name: .meetingFailed, attributes: any())).wasCalled()
-            verify(meetingStatsCollectorMock.resetMeetingStats()).wasCalled()
-        }
-
-        wait(for: [expect], timeout: defaultTimeout)
-    }
-
-    func testAudioClientStateChanged_NotifiesOfOutputDeviceFailure() {
-        given(audioClientMock.stopSession()).willReturn(0)
-        DefaultAudioClientController.state = .started
-        let statusCode = MeetingSessionStatusCode.audioOutputDeviceNotResponding.rawValue
-        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
-                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
-        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
-                                                           status: audio_client_status_t.init(statusCode))
-        let expect = eventually {
-            verify(mockAudioVideoObserver.audioSessionDidStopWithStatus(sessionStatus: any(MeetingSessionStatus.self,
-                                                                        where: { $0.statusCode.rawValue == statusCode }))).wasCalled()
-            verify(eventAnalyticsControllerMock.publishEvent(name: .meetingFailed, attributes: any())).wasCalled()
-            verify(meetingStatsCollectorMock.resetMeetingStats()).wasCalled()
-        }
-
-        wait(for: [expect], timeout: defaultTimeout)
-    }
-
-    func testAudioClientStateChanged_ConnectionCancelledReconnect() {
-        given(audioClientMock.stopSession()).willReturn(0)
-        DefaultAudioClientController.state = .started
-        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
-                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
-        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
-                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServerHungup.rawValue))
-        let expect = eventually {
-            verify(mockAudioVideoObserver.audioSessionDidCancelReconnect()).wasCalled()
-            verify(mockAudioVideoObserver.audioSessionDidStopWithStatus(sessionStatus: any())).wasCalled()
-            verify(eventAnalyticsControllerMock.publishEvent(name: .meetingFailed, attributes: any())).wasCalled()
-            verify(meetingStatsCollectorMock.resetMeetingStats()).wasCalled()
-        }
-
-        wait(for: [expect], timeout: defaultTimeout)
-    }
+    
+    // MARK: - Audio Metric Changed Tests
 
     func testAudioMetricChanged_processAudioClientMetrics() {
         var metrics = [AnyHashable: Any]()

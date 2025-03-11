@@ -32,7 +32,7 @@ import Foundation
         return self
     }
 
-    public func build(disabled: Bool = true,
+    public func build(disabled: Bool = false,
                       ingestionUrl: String,
                       clientConiguration: EventClientConfiguration) -> IngestionConfiguration {
         return IngestionConfiguration(clientConfiguration: clientConiguration,
