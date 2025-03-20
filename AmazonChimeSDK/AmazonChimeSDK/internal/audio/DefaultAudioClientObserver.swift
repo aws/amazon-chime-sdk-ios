@@ -49,8 +49,8 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     }
 
     public func audioClientStateChanged(_ audioClientState: audio_client_state_t, status: audio_client_status_t) {
-        let newAudioState = Converters.AudioClientState.toSessionStateControllerAction(state: audioClientState)
         let newAudioStatus = Converters.AudioClientStatus.toMeetingSessionStatusCode(status: status)
+        let newAudioState = Converters.AudioClientState.toSessionStateControllerAction(state: audioClientState, status: newAudioStatus)
 
         if newAudioStatus == .unknown {
             logger.info(msg: "AudioClient State rawValue: \(audioClientState.rawValue) Unknown Status rawValue: \(status.rawValue)")
@@ -357,7 +357,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         switch currentAudioState {
         case .connecting,
              .finishConnecting:
-            if newAudioStatus == .audioServerHungup {
+            if Converters.AudioClientState.shouldCloseAndNotifyEndMeeting(status: newAudioStatus) {
                 handleAudioSessionEndedByServer(newAudioStatus: newAudioStatus)
             } // Else no-op, client initiated stops already handled in DefaultAudioClientController.stop()
             break
@@ -365,7 +365,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
                 observer.audioSessionDidCancelReconnect()
             }
-            if newAudioStatus == .audioServerHungup {
+            if Converters.AudioClientState.shouldCloseAndNotifyEndMeeting(status: newAudioStatus) {
                 handleAudioSessionEndedByServer(newAudioStatus: newAudioStatus)
             } // Else no-op, client initiated stops already handled in DefaultAudioClientController.stop()
         default:
