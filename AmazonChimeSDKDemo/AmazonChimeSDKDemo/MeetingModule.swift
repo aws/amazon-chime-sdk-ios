@@ -124,8 +124,15 @@ class MeetingModule {
     }
     
     func urlRewriter(url: String) -> String {
-        // changing url
-        // return url.replacingOccurrences(of: "example.com", with: "my.example.com")
+
+        logger.info(msg: "[URL Rewriter] Original URL: \(url)")
+        // Check for audio host URL
+        if url.contains(".k.") && url.hasSuffix(".app.chime.aws:4172") {
+            let rewrittenUrl = url.replacingOccurrences(of: ".app.chime.aws:4172", with: ".m.chime.aws:42366")
+            logger.info(msg: "[URL Rewriter] URL is audio URL.")
+            logger.info(msg: "[URL Rewriter] Rewritten URL: \(rewrittenUrl)")
+            return rewrittenUrl
+        }
         return url
     }
 
