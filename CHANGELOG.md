@@ -1,4 +1,4 @@
-## Unreleased
+## [0.27.1] - 2025-03-28
 
 ### Fixed
 * Fixed a bug preventing cleanup after joining from another device and added unit tests.
