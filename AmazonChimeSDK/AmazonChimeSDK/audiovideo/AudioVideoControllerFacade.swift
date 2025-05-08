@@ -178,4 +178,7 @@ import Foundation
     /// may result in `PrimaryMeetingPromotionObserver.didPromoteToPrimaryMeeting` but there is no need to wait for that callback
     /// to revert UX, etc.
     func demoteFromPrimaryMeeting()
+
+    /// Reset the video controller by restarting the underlying video client.
+    func resetVideoController()
 }

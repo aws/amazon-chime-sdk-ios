@@ -200,6 +200,10 @@ class MeetingModel: NSObject {
         }
     }
 
+    func resetVideoConnection() {
+        currentMeetingSession.audioVideo.resetVideoController()
+    }
+
     func isVoiceFocusEnabled() -> Bool {
         return currentMeetingSession.audioVideo.realtimeIsVoiceFocusEnabled()
     }

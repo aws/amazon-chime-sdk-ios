@@ -16,7 +16,16 @@ class DefaultVideoClientController: NSObject {
     var logger: Logger
     var videoClient: VideoClientProtocol?
     var videoSourceAdapter = VideoSourceAdapter()
-    var videoClientState: VideoClientState = .uninitialized
+    var videoClientState: VideoClientState = .uninitialized {
+        didSet {
+            guard videoClientState == .uninitialized else { return }
+            guard ongoingVideoClientReset else { return }
+            if videoClientDidStopReceivedDuringReset {
+                start()
+                videoClientDidStopReceivedDuringReset = false
+            }
+        }
+    }
     let videoTileControllerObservers = ConcurrentMutableSet()
     let videoObservers = ConcurrentMutableSet()
     var dataMessageObservers = ConcurrentDictionary<String, NSMutableSet>()
@@ -32,6 +41,11 @@ class DefaultVideoClientController: NSObject {
     private let internalCaptureSource: DefaultCameraCaptureSource
     private var isInternalCaptureSourceRunning = true
     private let eventAnalyticsController: EventAnalyticsController
+
+    private var ongoingVideoClientReset = false
+    private var videoClientDidStopReceivedDuringReset = false
+    private var videoClientResetcompletion: ((Error?) -> Void)?
+    private var isReceivingVideo = false
 
     init(videoClient: VideoClientProtocol,
          clientMetricsCollector: ClientMetricsCollector,
@@ -70,9 +84,11 @@ class DefaultVideoClientController: NSObject {
 
     private func destroyVideoClient() {
         logger.info(msg: "VideoClient is being destroyed")
-        videoTileControllerObservers.removeAll()
-        videoClient?.delegate = nil
-        videoClient = nil
+        if !ongoingVideoClientReset {
+            videoTileControllerObservers.removeAll()
+            videoClient?.delegate = nil
+            videoClient = nil
+        }
         videoClientState = .uninitialized
     }
 
@@ -105,7 +121,11 @@ class DefaultVideoClientController: NSObject {
 
         // Default to idle mode, no video but signaling connection is
         // established for messaging
-        videoClient.setReceiving(false)
+        if ongoingVideoClientReset {
+            videoClient.setReceiving(isReceivingVideo)
+        } else {
+            videoClient.setReceiving(false)
+        }
 
         videoClient.start(configuration.meetingId,
                           token: configuration.credentials.joinToken,
@@ -114,6 +134,11 @@ class DefaultVideoClientController: NSObject {
                           appInfo: DeviceUtils.getDetailedInfo(),
                           signalingUrl: configuration.urls.signalingUrl)
         videoClientState = .started
+        if self.ongoingVideoClientReset {
+            self.videoClientResetcompletion?(nil)
+            self.videoClientResetcompletion = nil
+            self.ongoingVideoClientReset = false
+        }
     }
 }
 
@@ -189,6 +214,16 @@ extension DefaultVideoClientController: VideoClientDelegate {
         logger.info(msg: "videoClientDidStop")
         ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
             observer.videoSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus(statusCode: .ok))
+        }
+
+        if self.ongoingVideoClientReset {
+            if videoClientState == .uninitialized {
+                self.start()
+            } else {
+                // Set this to true so that when videoClientState changes to
+                // uninitialized, we can call start the video client.
+                self.videoClientDidStopReceivedDuringReset = true
+            }
         }
 
         // We will not be promoted on reconnection
@@ -343,6 +378,27 @@ extension DefaultVideoClientController: VideoClientController {
         }
     }
 
+    public func reset(completion: @escaping (Error?) -> Void) {
+        guard self.videoClientState == .started else {
+            struct NotStartedError: Error {
+                var errorDescription: String? { "video client is not started so cannot be reset" }
+            }
+            completion(NotStartedError())
+            return
+        }
+        if self.ongoingVideoClientReset {
+            struct ResetInProgressError: Error {
+                var errorDescription: String? { "video client reset already in progress" }
+            }
+            completion(ResetInProgressError())
+            return
+        }
+        self.ongoingVideoClientReset = true
+        self.videoClientResetcompletion = completion
+
+        self.stopAndDestroy()
+    }
+
     // MARK: - Lifecycle: stop and destroy
 
     public func stopAndDestroy() {
@@ -445,6 +501,8 @@ extension DefaultVideoClientController: VideoClientController {
         }
         logger.info(msg: "Starting remote video")
         videoClient?.setReceiving(true)
+        isReceivingVideo = true
+
     }
 
     public func stopRemoteVideo() {
@@ -454,6 +512,8 @@ extension DefaultVideoClientController: VideoClientController {
         }
         logger.info(msg: "Stopping remote video")
         videoClient?.setReceiving(false)
+        isReceivingVideo = false
+
     }
 
     public func switchCamera() {

@@ -204,4 +204,14 @@ import Foundation
         primaryMeetingPromotionObserver?.didDemoteFromPrimaryMeeting(
             status: MeetingSessionStatus(statusCode: MeetingSessionStatusCode.ok))
     }
+
+    public func resetVideoController() {
+        videoClientController.reset { error in
+            if let error = error {
+                self.logger.error(msg: "Video Controller Reset failed: \(error)")
+            } else {
+                self.logger.info(msg: "Video Controller Reset completed")
+            }
+        }
+    }
 }

@@ -60,6 +60,11 @@ import Foundation
         trace(name: "stop")
     }
 
+    public func resetVideoController() {
+        audioVideoController.resetVideoController()
+        trace(name: "resetVideoController")
+    }
+
     public func startLocalVideo() throws {
         try audioVideoController.startLocalVideo()
     }

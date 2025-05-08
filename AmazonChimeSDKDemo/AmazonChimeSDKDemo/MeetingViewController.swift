@@ -400,6 +400,13 @@ class MeetingViewController: UIViewController {
         }
         let optionMenu = UIAlertController(title: nil, message: "Additional Options", preferredStyle: .actionSheet)
 
+        let resetVideoAction = UIAlertAction(title: "Reset Video Connection",
+                                                 style: .default,
+                                                 handler: { _ in
+                                                    meetingModel.resetVideoConnection()
+                                                 })
+        optionMenu.addAction(resetVideoAction)
+
         if !meetingModel.primaryExternalMeetingId.isEmpty {
             let primaryMeetingPromotionTitle = meetingModel.isPromotedToPrimaryMeeting
                 ? "Demote from Primary meeting" : "Promote to Primary meeting"

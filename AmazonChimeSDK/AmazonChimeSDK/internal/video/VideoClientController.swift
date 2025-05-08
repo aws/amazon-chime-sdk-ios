@@ -11,6 +11,7 @@ import Foundation
 
 @objc public protocol VideoClientController {
     func start()
+    func reset(completion: @escaping (Error?) -> Void)
     func stopAndDestroy()
     func startLocalVideo() throws
     func startLocalVideo(config: LocalVideoConfiguration) throws
