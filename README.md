@@ -40,112 +40,112 @@ And review the following guides:
 * [Background Video Filters](guides/background_video_filters.md)
 
 ## Include Amazon Chime SDK in Your Project
-You can integrate Amazon Chime SDK in your project from SPM, CocoaPods or binaries through Github release.
+You can integrate the Amazon Chime SDK using CocoaPods, Swift Package Manager (SPM), or by manually including the binaries.
 
-For the purpose of setup, your project's root folder (where you can find your `.xcodeproj` file) will be referred to as `root`.
+### SDK Frameworks
 
-### From CocoaPods
-1. The Amazon Chime SDK is available through [CocoaPods](http://cocoapods.org/). If you have not installed CocoaPods, install CocoaPods by running the command:
-    ```
-    $ gem install cocoapods
-    $ pod setup
-    ```
-    Depending on your system settings, you may have to use sudo for installing cocoapods as follows:
+The Amazon Chime SDK for iOS is composed of modular frameworks. You can choose the appropriate combination based on your app's needs:
 
-    ```
-    $ sudo gem install cocoapods
-    $ pod setup
-    ```
-2. In root directory (the directory where your *.xcodeproj file is), run the following to create a Podfile in your project:
-    ```
-    $ pod init
-    ```
-3. Edit the `Podfile` to include `AmazonChimeSDK` into your project:
-    ```
-    target 'YourTarget' do
-        pod 'AmazonChimeSDK'
-        ...
-    end
-    ```
-    If you don't need video and content share functionality, or software video codec support, you can use `AmazonChimeSDKNoVideoCodecs` instead to reduce size:
-    ```
-    target 'YourTarget' do
-        pod 'AmazonChimeSDKNoVideoCodecs'
-        ...
-    end
-    ```
-4. (Optional) If you want to use background blur and replacement features, add:
-    ```
-    target 'YourTarget' do
-      pod 'AmazonChimeSDKMachineLearning'
-      ...
-    end
-    ```
-5. Then run the following command to install pods:
+| Type                   | Framework Name                     | Description                                                            |
+|------------------------|------------------------------------|------------------------------------------------------------------------|
+| Main SDK (required)    | `AmazonChimeSDK`                   | Provides meeting control and platform integration.                     |
+| Media SDK (choose one) | `AmazonChimeSDKMedia`              | Full-featured for for device and simulator.                            |
+|                        | `AmazonChimeSDKMediaNoVideoCodecs` | Audio only for device and simulator, smaller size.                     |
+| ML SDK (optional)      | `AmazonChimeSDKMachineLearning`    | Enables background blur and background replacement.                    |
+> **Note:** Starting from version `0.25.0`, the Amazon Chime SDK for iOS no longer includes Bitcode support in distributed frameworks.  
+> This aligns with Apple's removal of Bitcode requirement and support beginning with Xcode 14.
+
+### Option 1: CocoaPods
+1. Add the desired pods to your `Podfile`:
+
+   - Full-featured:
+     ```
+     pod 'AmazonChimeSDK'
+     ```
+
+   - Audio-only:
+     ```
+     pod 'AmazonChimeSDKNoVideoCodecs'
+     ```
+
+   - (Optional) Machine learning for background blur/replacement:
+     ```
+     pod 'AmazonChimeSDKMachineLearning'
+     ```
+
+2. Then run the following command to install pods:
    ```
    $ pod install --repo-update
    ```
-6. To open your project, open the newly generated `*.xcworkspace` file in the root directory using XCode. You can do this by issuing the following command in your project folder
+3. To open your project, open the newly generated `*.xcworkspace` file in the root directory using XCode. You can do this by issuing the following command in your project folder
    ```
     $ xed .
    ```
    Note: Do *NOT* use *.xcodeproj to open project.
-7. If you are using background blur and replacement features, under `Build Settings` tab, under the `Linking` section, add `-framework AmazonChimeSDKMachineLearning` to `Other Linker Flags`.
+4. If you are using background blur and replacement features, under `Build Settings` tab, under the `Linking` section, add `-framework AmazonChimeSDKMachineLearning` to `Other Linker Flags`.
 <p align="center">
 <img src="./media/cocoapods_machine_learning.png" alt="image" width="80%"/>
 </p>
 
-### From SPM
-The Amazon Chime SDK is available through [SPM](https://github.com/aws/amazon-chime-sdk-ios-spm). If you don't need video and content share functionality, or software video codec support, you could choose to use [no video codecs SPM](https://github.com/aws/amazon-chime-sdk-ios-no-video-codecs-spm) instead.
+### Option 2: Swift Package Manager (SPM)
+You can integrate the Amazon Chime SDK using Swift Package Manager. Choose the appropriate package based on the media SDK you want to use:
+
+| Media Option   | Package URL                                                     |
+|----------------|-----------------------------------------------------------------|
+| Full-featured  | https://github.com/aws/amazon-chime-sdk-ios-spm                 |
+| Audio-only     | https://github.com/aws/amazon-chime-sdk-ios-no-video-codecs-spm |
+
 
 1. Open your project in Xcode
 
-2. Go to **File** > **Swift Packages** > **Add Package Dependency...**
+2. Go to **File** > **Add Package Dependencies**
 
-3. In the field **Enter package repository URL**, enter "https://github.com/aws/amazon-chime-sdk-ios-spm". To use no video codecs media module instead, enter "https://github.com/aws/amazon-chime-sdk-ios-no-video-codecs-spm".
+3. Enter one of the package URLs listed above, based on the media SDK you want to use.
 
-4. Enter the latest version(e.g. `0.23.1`) and click **Next**.
+4. Click **Add Package**. Xcode will fetch the latest compatible version automatically.
 
-5. Choose packages for your project and click **Finish**. `AmazonChimeSDK` and `AmazonChimeSDKMedia` are required. Check `AmazonChimeSDKMachineLearning` if you'd like to use background blur and background replacement. 
+5. Select packages to include in your target and click **Finish**. 
+
+    `AmazonChimeSDK` and `AmazonChimeSDKMedia` are required. Check `AmazonChimeSDKMachineLearning` if you'd like to use background blur and background replacement. 
 
 
-### From Github Release Binaries
+### Option 3: Using Frameworks Directly
+You can manually integrate the SDK using prebuilt `.xcframework` binaries from the [latest release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
 
-#### 1. Download Binaries
+#### 1. Download Required Frameworks
 
-* Download the `AmazonChimeSDK` and `AmazonChimeSDKMedia` binaries from the latest [release](https://github.com/aws/amazon-chime-sdk-ios/releases/latest).
-  * If you'd like to use background blur and background replacement, also download the `AmazonChimeSDKMachineLearning` binary. Otherwise, you can ignore all references to `AmazonChimeSDKMachineLearning` in the instructions below.
-  * If you don't need video and content share functionality, or software video codec support, you could use `AmazonChimeSDKMediaNoVideoCodecs` binary instead of `AmazonChimeSDKMedia` and treat all references to `AmazonChimeSDKMedia` as `AmazonChimeSDKMediaNoVideoCodecs` in the instructions below.
+- Download `AmazonChimeSDK.xcframework` and `AmazonChimeSDKMedia.xcframework`.
+- Optionally, download `AmazonChimeSDKMachineLearning.xcframework` if using background blur or replacement.
+- If you prefer audio-only with smaller size, use `AmazonChimeSDKMediaNoVideoCodecs.xcframework` instead of `AmazonChimeSDKMedia`.
 
-**NOTE: We do not support mixing and matching binaries from different releases.**
+> **Note:** We do not support mixing binaries from different versions.
 
-* Unzip and copy the `.framework`s or `.xcframework`s to `root`, which depends on which framework your project uses.  For Xcode12.3 and later, please use `.xcframework` if you have compile issue. `.xcframework` is available after Amazon Chime SDK iOS v0.15.0
+#### 2. Add to Xcode Project
 
-#### 2. Update Project File
+- In Xcode, go to your target’s **General** tab.
+- Under **Frameworks, Libraries, and Embedded Content**, click **+**, then **Add Other > Add Files...**.
+- Select the downloaded `.xcframework` files.
 
-* Open your `.xcodeproj` file in Xcode and click on your build target.
+For `AmazonChimeSDK` and media frameworks, select **Embed & Sign**.  
+For `AmazonChimeSDKMachineLearning`, select **Do Not Embed**.
 
-* Under `Build Settings` tab,
-
-  * add `$(PROJECT_DIR)` to `Framework Search Path`.
-  * add `@executable_path/Frameworks` to `Runpath Search Paths`.
-
-  * under `Linking` section, add the following two flags in `Other Linker Flags`:
-    * `-lc++`
-    * `-ObjC`
-
-<p align="center">
-<img src="./media/build_setting.png" alt="image" width="80%"/>
-</p>
-
-* Under `General` tab, look for `Frameworks, Libraries, and Embedded Content` section. Click on +, then `Add Others`, then `Add Files`.
-
-  * If you are using traditional `.framework`, specify the location of `AmazonChimeSDK.framework`, `AmazonChimeSDKMedia.framework`, and `AmazonChimeSDKMachineLearning.framework` from Step 1. If you have compile error while using traditional `.framework`, which occurs in Xcode 12.3 and later, please use `.xcframework` instead, which is available after Amazon Chime SDK iOS v0.15.0.
-  * If you are using `.xcframework`, specify the location of `AmazonChimeSDK.xcframework`, `AmazonChimeSDKMedia.xcframework`, and `AmazonChimeSDKMachineLearning.xcframework` from Step 1.
-  * For `AmazonChimeSDK.framework` `AmazonChimeSDKMedia.framework` and frameworks, verify that `Embed & Sign` is selected under the `Embed` option. For `AmazonChimeSDKMachineLearning.framework`, select `Do Not Embed`.
 
 <p align="center">
 <img src="./media/xcframework_setting.png" alt="image" width="80%"/>
+</p>
+
+#### 3. Update Build Settings
+
+In your project’s **Build Settings**:
+
+- Add `$(PROJECT_DIR)` to **Framework Search Paths**
+- Add `@executable_path/Frameworks` to **Runpath Search Paths**
+- In **Other Linker Flags**, add:
+  - -lc++
+  - -ObjC
+
+<p align="center">
+<img src="./media/build_setting.png" alt="image" width="80%"/>
 </p>
 
 ## Running the Demo App
