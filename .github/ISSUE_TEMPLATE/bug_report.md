@@ -40,3 +40,6 @@ If applicable, add screenshots to help explain your problem.
 
 **Additional context**
 Add any other context about the problem here.
+
+*Note: GitHub issues are not a substitute for customer support. Please open a support case if the issue is important to you.*
+https://docs.aws.amazon.com/awssupport/latest/user/case-management.html
