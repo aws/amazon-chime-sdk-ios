@@ -32,6 +32,7 @@ class DefaultVideoClientController: NSObject {
     private let internalCaptureSource: DefaultCameraCaptureSource
     private var isInternalCaptureSourceRunning = true
     private let eventAnalyticsController: EventAnalyticsController
+    private var shouldDestroyAfterStop = false
 
     init(videoClient: VideoClientProtocol,
          clientMetricsCollector: ClientMetricsCollector,
@@ -68,7 +69,7 @@ class DefaultVideoClientController: NSObject {
         stopInternalCaptureSourceIfRunning()
     }
 
-    private func destroyVideoClient() {
+    internal func destroyVideoClient() {
         logger.info(msg: "VideoClient is being destroyed")
         videoTileControllerObservers.removeAll()
         videoClient?.delegate = nil
@@ -195,6 +196,11 @@ extension DefaultVideoClientController: VideoClientDelegate {
         self.primaryMeetingPromotionObserver?
             .didDemoteFromPrimaryMeeting(status: MeetingSessionStatus.init(statusCode: MeetingSessionStatusCode.audioInternalServerError))
         self.primaryMeetingPromotionObserver = nil
+        
+        if shouldDestroyAfterStop {
+            shouldDestroyAfterStop = false
+            destroyVideoClient()
+        }
     }
 
     public func videoClient(_ client: VideoClient?, cameraSendIsAvailable available: Bool) {
@@ -351,8 +357,8 @@ extension DefaultVideoClientController: VideoClientController {
             case .uninitialized:
                 self.logger.info(msg: "VideoClient is uninitialized so cannot be stopped and destroyed")
             case .started:
-                self.stopVideoClient()
-                self.destroyVideoClient()
+                self.shouldDestroyAfterStop = true
+                self.stopVideoClient() // stop first, destroy later in callback
             case .initialized, .stopped:
                 self.destroyVideoClient()
             }

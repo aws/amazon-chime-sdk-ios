@@ -175,11 +175,11 @@ class MeetingModel: NSObject {
     }
 
     func endMeeting() {
-        if let call = call, !isEnded {
+        guard !isEnded else { return }  // Exit early if already ended
+        if let call = call {
             CallKitManager.shared().endCallFromLocal(with: call)
-        } else {
-            isEnded = true
         }
+        isEnded = true
     }
 
     func setMute(isMuted: Bool) {
