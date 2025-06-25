@@ -21,7 +21,7 @@ class DefaultVideoClientController: NSObject {
             guard videoClientState == .uninitialized else { return }
             guard ongoingVideoClientReset else { return }
             if videoClientDidStopReceivedDuringReset {
-                start()
+                internalStart()
                 videoClientDidStopReceivedDuringReset = false
             }
         }
@@ -44,6 +44,7 @@ class DefaultVideoClientController: NSObject {
 
     private var ongoingVideoClientReset = false
     private var videoClientDidStopReceivedDuringReset = false
+    private var videoClientStopAndDestroyDuringReset = false
     private var videoClientResetcompletion: ((Error?) -> Void)?
     private var isReceivingVideo = false
 
@@ -216,9 +217,9 @@ extension DefaultVideoClientController: VideoClientDelegate {
             observer.videoSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus(statusCode: .ok))
         }
 
-        if self.ongoingVideoClientReset {
+        if self.ongoingVideoClientReset && !self.videoClientStopAndDestroyDuringReset {
             if videoClientState == .uninitialized {
-                self.start()
+                self.internalStart()
             } else {
                 // Set this to true so that when videoClientState changes to
                 // uninitialized, we can call start the video client.
@@ -367,6 +368,14 @@ extension DefaultVideoClientController: VideoClientController {
     // MARK: - Lifecycle: start and initialize
 
     public func start() {
+        guard !ongoingVideoClientReset else {
+            logger.info(msg: "Ignoring start as VideoClient reset is in progress")
+            return
+        }
+        internalStart()
+    }
+
+    private func internalStart() {
         switch videoClientState {
         case .uninitialized:
             initialize()
@@ -396,12 +405,20 @@ extension DefaultVideoClientController: VideoClientController {
         self.ongoingVideoClientReset = true
         self.videoClientResetcompletion = completion
 
-        self.stopAndDestroy()
+        self.internalStopAndDestroy()
     }
 
     // MARK: - Lifecycle: stop and destroy
 
     public func stopAndDestroy() {
+        if ongoingVideoClientReset {
+            logger.info(msg: "Received stopAndDestroy while reset is in progress")
+            videoClientStopAndDestroyDuringReset = true
+        }
+        internalStopAndDestroy()
+    }
+
+    private func internalStopAndDestroy() {
         DispatchQueue.global().async {
             switch self.videoClientState {
             case .uninitialized:
@@ -428,6 +445,12 @@ extension DefaultVideoClientController: VideoClientController {
             return
         }
 
+        // Avoid crash when there's a race between startLocalVideo and resetVideoController
+        guard !ongoingVideoClientReset else {
+            logger.info(msg: "VideoClient is being reset so returning without doing anything in startLocalVideo")
+            return
+        }
+
         try checkVideoPermission()
         logger.info(msg: "Starting local video with internal source and config")
         setVideoSource(source: internalCaptureSource, config: config)
@@ -443,6 +466,12 @@ extension DefaultVideoClientController: VideoClientController {
     public func startLocalVideo(source: VideoSource, config: LocalVideoConfiguration) {
         if (self.configuration.meetingFeatures.videoMaxResolution == VideoResolution.videoDisabled) {
             logger.info(msg: "Could not start camera video because camere video max resolution was set to disabled")
+            return
+        }
+
+        // Avoid crash when there's a race between startLocalVideo and resetVideoController
+        guard !ongoingVideoClientReset else {
+            logger.info(msg: "VideoClient is being reset so returning without doing anything in startLocalVideo")
             return
         }
 
@@ -489,6 +518,12 @@ extension DefaultVideoClientController: VideoClientController {
             logger.fault(msg: "VideoClient is not initialized so returning without doing anything in stopLocalVideo")
             return
         }
+
+        guard !ongoingVideoClientReset else {
+            logger.fault(msg: "VideoClient is being reset so returning without doing anything in stopLocalVideo")
+            return
+        }
+
         logger.info(msg: "Stopping local video")
         videoClient?.setSending(false)
         stopInternalCaptureSourceIfRunning()
