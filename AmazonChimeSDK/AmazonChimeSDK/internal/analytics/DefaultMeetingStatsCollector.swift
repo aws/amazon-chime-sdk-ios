@@ -68,5 +68,6 @@ import Foundation
         maxVideoTileCount = 0
         meetingStartTimeMs = 0
         meetingStartConnectingTimeMs = 0
+        // TODO: meetingHistory should also get reset
     }
 }

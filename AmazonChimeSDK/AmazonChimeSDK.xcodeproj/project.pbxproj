@@ -804,7 +804,6 @@
 		00E198D8259BBBAD00AD4DAA /* analytics */ = {
 			isa = PBXGroup;
 			children = (
-				00E198D9259BBFD400AD4DAA /* DefaultEventAnalyticsControllerTests.swift */,
 				002F8FEE25BFED6800006F46 /* DefaultMeetingStatsCollectorTests.swift */,
 			);
 			path = analytics;
@@ -813,6 +812,7 @@
 		00E198DF259BC0B700AD4DAA /* analytics */ = {
 			isa = PBXGroup;
 			children = (
+				00E198D9259BBFD400AD4DAA /* DefaultEventAnalyticsControllerTests.swift */,
 				00E198E0259BC0CF00AD4DAA /* EventNameTests.swift */,
 				00E198EA259BC24F00AD4DAA /* MeetingHistoryEventNameTests.swift */,
 				00E198EE259BCA5A00AD4DAA /* EventAttributeNameTests.swift */,

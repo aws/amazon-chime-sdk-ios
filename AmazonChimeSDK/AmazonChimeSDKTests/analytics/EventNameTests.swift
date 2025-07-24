@@ -15,8 +15,29 @@ class EventNameTests: XCTestCase {
         XCTAssertEqual(EventName.videoInputFailed.description, "videoInputFailed")
         XCTAssertEqual(EventName.meetingStartRequested.description, "meetingStartRequested")
         XCTAssertEqual(EventName.meetingStartSucceeded.description, "meetingStartSucceeded")
+        XCTAssertEqual(EventName.meetingReconnected.description, "meetingReconnected")
         XCTAssertEqual(EventName.meetingStartFailed.description, "meetingStartFailed")
         XCTAssertEqual(EventName.meetingFailed.description, "meetingFailed")
         XCTAssertEqual(EventName.meetingEnded.description, "meetingEnded")
+        XCTAssertEqual(EventName.unknown.description, "unknown")
+    }
+    
+    func testEventNameShouldBeAbleToConvertFromString() {
+        XCTAssertEqual(EventName.toEventName(name: "videoInputFailed"),
+                       EventName.videoInputFailed)
+        XCTAssertEqual(EventName.toEventName(name: "meetingStartRequested"),
+                       EventName.meetingStartRequested)
+        XCTAssertEqual(EventName.toEventName(name: "meetingStartSucceeded"),
+                       EventName.meetingStartSucceeded)
+        XCTAssertEqual(EventName.toEventName(name: "meetingReconnected"),
+                       EventName.meetingReconnected)
+        XCTAssertEqual(EventName.toEventName(name: "meetingStartFailed"),
+                       EventName.meetingStartFailed)
+        XCTAssertEqual(EventName.toEventName(name: "meetingFailed"),
+                       EventName.meetingFailed)
+        XCTAssertEqual(EventName.toEventName(name: "meetingEnded"),
+                       EventName.meetingEnded)
+        XCTAssertEqual(EventName.toEventName(name: "invalidEventName"),
+                       EventName.unknown)
     }
 }

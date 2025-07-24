@@ -28,6 +28,8 @@ import Foundation
                 return .meetingStartRequested
             case .meetingStartSucceeded:
                 return .meetingStartSucceeded
+            case .meetingReconnected:
+                return .meetingReconnected
             case .meetingStartFailed:
                 return .meetingStartFailed
             case .meetingFailed:
