@@ -1,3 +1,8 @@
+## PENDING
+
+### Added
+* Added meetingReconnected meeting event
+
 ## [0.27.1] - 2025-03-28
 
 ### Fixed
