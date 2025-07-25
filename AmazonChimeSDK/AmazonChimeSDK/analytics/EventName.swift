@@ -16,6 +16,8 @@ import Foundation
     case meetingStartRequested
     /// The meeting started.
     case meetingStartSucceeded
+    /// The meeting reconnected.
+    case meetingReconnected
     /// The meeting failed to start.
     case meetingStartFailed
     /// The meeting ended with failure
@@ -33,6 +35,8 @@ import Foundation
             return "meetingStartRequested"
         case .meetingStartSucceeded:
             return "meetingStartSucceeded"
+        case .meetingReconnected:
+            return "meetingReconnected"
         case .meetingStartFailed:
             return "meetingStartFailed"
         case .meetingFailed:
@@ -52,6 +56,8 @@ import Foundation
             return .meetingStartRequested
         case "meetingStartSucceeded":
             return .meetingStartSucceeded
+        case "meetingReconnected":
+            return .meetingReconnected
         case "meetingStartFailed":
             return .meetingStartFailed
         case "meetingFailed":

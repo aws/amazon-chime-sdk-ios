@@ -49,7 +49,8 @@ import Foundation
         case .meetingFailed,
              .meetingEnded,
              .meetingStartFailed,
-             .meetingStartSucceeded:
+             .meetingStartSucceeded,
+             .meetingReconnected:
             let meetingStats = meetingStatsCollector.getMeetingStats()
             mutatedAttributes.merge(meetingStats) { _, newVal in newVal }
         default:

@@ -314,14 +314,14 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     private func handleStateChangeToConnected(newAudioStatus: MeetingSessionStatusCode) {
         switch currentAudioState {
         case .connecting:
-            notifyStartSucceeded()
+            meetingStatsCollector.updateMeetingStartTimeMs()
+            eventAnalyticsController.publishEvent(name: .meetingStartSucceeded)
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
                 observer.audioSessionDidStart(reconnecting: false)
             }
         case .reconnecting:
             meetingStatsCollector.incrementRetryCount()
-            eventAnalyticsController.pushHistory(historyEventName: .meetingReconnected)
-            notifyStartSucceeded()
+            eventAnalyticsController.publishEvent(name: .meetingReconnected)
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
                 observer.audioSessionDidStart(reconnecting: true)
             }
@@ -346,11 +346,6 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         default:
             break
         }
-    }
-
-    private func notifyStartSucceeded() {
-        meetingStatsCollector.updateMeetingStartTimeMs()
-        eventAnalyticsController.publishEvent(name: .meetingStartSucceeded)
     }
 
     private func handleStateChangeToDisconnected(newAudioStatus: MeetingSessionStatusCode) {

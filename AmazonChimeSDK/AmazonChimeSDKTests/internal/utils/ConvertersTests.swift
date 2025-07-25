@@ -282,4 +282,25 @@ class ConvertersTests: XCTestCase {
         XCTAssertEqual(speakerAfter.attendeeId, attendeeId)
         XCTAssertEqual(speakerAfter.externalUserId, externalUserId)
     }
+    
+    func testMeetingEventNameConvertToMatchingHistoryEVentName() {
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.videoInputFailed),
+                       MeetingHistoryEventName.videoInputFailed)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.meetingStartRequested),
+                       MeetingHistoryEventName.meetingStartRequested)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.meetingStartSucceeded),
+                       MeetingHistoryEventName.meetingStartSucceeded)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.meetingReconnected),
+                       MeetingHistoryEventName.meetingReconnected)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.meetingReconnected),
+                       MeetingHistoryEventName.meetingReconnected)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.meetingStartFailed),
+                       MeetingHistoryEventName.meetingStartFailed)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.meetingStartFailed),
+                       MeetingHistoryEventName.meetingStartFailed)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.meetingFailed),
+                       MeetingHistoryEventName.meetingFailed)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.unknown),
+                       MeetingHistoryEventName.unknown)
+    }
 }

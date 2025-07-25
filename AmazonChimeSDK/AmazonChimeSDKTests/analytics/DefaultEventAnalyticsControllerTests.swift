@@ -15,12 +15,18 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
     var eventAnalyticsController: DefaultEventAnalyticsController!
     var meetingStatsCollectorMock: MeetingStatsCollectorMock!
     var eventReporterMock: EventReporterMock!
+    
+    private var mockMeetingStats: [AnyHashable: Any] = [:]
+    private let mockMeetingStartDurationMs = 123
 
     override func setUp() {
         super.setUp()
+        
+        mockMeetingStats[EventAttributeName.meetingStartDurationMs] = mockMeetingStartDurationMs
+        
         eventReporterMock = mock(EventReporter.self)
         meetingStatsCollectorMock = mock(MeetingStatsCollector.self)
-        given(meetingStatsCollectorMock.getMeetingStats()).willReturn([AnyHashable: Any]())
+        given(meetingStatsCollectorMock.getMeetingStats()).willReturn(mockMeetingStats)
         eventAnalyticsController = DefaultEventAnalyticsController(meetingSessionConfig: meetingSessionConfigurationMock,
                                                                    meetingStatsCollector: meetingStatsCollectorMock,
                                                                    logger: loggerMock,
@@ -43,6 +49,15 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
         eventAnalyticsController.publishEvent(name: .meetingStartRequested)
 
         verify(eventReporterMock.report(event: any())).wasCalled(1)
+    }
+    
+    func testPublishEvent_ShouldAddMeetingStats_WhenMeetingReconnected() {
+        let eventCaptor = ArgumentCaptor<SDKEvent>()
+        eventAnalyticsController.publishEvent(name: .meetingReconnected)
+        verify(eventReporterMock.report(event: eventCaptor.any())).wasCalled()
+        
+        XCTAssertEqual(eventCaptor.value?.eventAttributes[EventAttributeName.meetingStartDurationMs] as! Int,
+                       mockMeetingStartDurationMs)
     }
 
     func testPushHistoryState_eventReporter_report() {

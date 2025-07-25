@@ -77,7 +77,6 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                                         joinToken: joinToken)
         let createAttendeeResponseMock: CreateAttendeeResponseMock = mock(CreateAttendeeResponse.self)
             .initialize(attendee: attendeeMock)
-        let clientConfig = MeetingEventClientConfiguration(eventClientJoinToken: joinToken, meetingId: meetingId, attendeeId: attendeeId)
 
         config = mock(MeetingSessionConfiguration.self).initialize(createMeetingResponse: createMeetingResponseMock,
                                                                    createAttendeeResponse: createAttendeeResponseMock,
@@ -105,6 +104,8 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(0))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
                                                            status: audio_client_status_t.init(0))
+        verify(meetingStatsCollectorMock.updateMeetingStartTimeMs()).wasCalled()
+        verify(eventAnalyticsControllerMock.publishEvent(name: .meetingStartSucceeded)).wasCalled()
         let expect = eventually {
             verify(mockAudioVideoObserver.audioSessionDidStart(reconnecting: false)).wasCalled()
         }
@@ -117,6 +118,8 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        verify(meetingStatsCollectorMock.updateMeetingStartTimeMs()).wasNeverCalled()
+        verify(eventAnalyticsControllerMock.publishEvent(name: .meetingReconnected)).wasCalled()
         let expect = eventually {
             verify(mockAudioVideoObserver.audioSessionDidStart(reconnecting: true)).wasCalled()
         }
