@@ -14,6 +14,7 @@ import Foundation
     public let id: String?
     public let maxVideoTileCount: Int?
     public let meetingStartDurationMs: Int64?
+    public let meetingReconnectDurationMs: Int64?
     public let meetingDurationMs: Int64?
     public let meetingErrorMessage: String?
     public let meetingStatus: String?
@@ -27,6 +28,7 @@ import Foundation
                 id: String? = nil,
                 maxVideoTileCount: Int? = nil,
                 meetingStartDurationMs: Int64? = nil,
+                meetingReconnectDurationMs: Int64? = nil,
                 meetingDurationMs: Int64? = nil,
                 meetingErrorMessage: String? = nil,
                 meetingStatus: String? = nil,
@@ -39,6 +41,7 @@ import Foundation
         self.id = id
         self.maxVideoTileCount = maxVideoTileCount
         self.meetingStartDurationMs = meetingStartDurationMs
+        self.meetingReconnectDurationMs = meetingReconnectDurationMs
         self.meetingDurationMs = meetingDurationMs
         self.meetingErrorMessage = meetingErrorMessage
         self.meetingStatus = meetingStatus

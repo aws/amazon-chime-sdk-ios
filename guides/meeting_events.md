@@ -118,7 +118,9 @@ The following table describes attributes for a meeting.
 |Attribute|Description|Included in
 |--|--|--
 |`maxVideoTileCount`|The maximum number of simultaneous video tiles shared during the meeting. This includes a local tile (your video), remote tiles, and content shares.<br><br>Unit: Count|`meetingStartSucceeded`, `meetingReconnected`, `meetingStartFailed`, `meetingEnded`, `meetingFailed`
+|`meetingStartDuraionMs`|The time that elapsed between the start request `meetingSession.audioVideo.start()` and the beginning of the meeting `AudioVideoObserver.audioSessionDidStart()`.<br><br>Unit: Milliseconds|`meetingStartSucceeded`, `meetingReconnected`, `meetingStartFailed`, `meetingEnded`, `meetingFailed`
 |`meetingDurationMs`|The time that elapsed between the beginning (`AudioVideoObserver.audioSessionDidStart`) and the end (`AudioVideoObserver.audioSessionDidStop`) of the meeting.<br><br>Unit: Milliseconds|`meetingStartSucceeded`, `meetingStartFailed`, `meetingReconnected`, `meetingEnded`, `meetingFailed`
+|`meetingReconnectDuraionMs`|The time taken to reconnect the session after dropped.<br><br>Unit: Milliseconds|`meetingReconnected`
 |`meetingErrorMessage`|The error message that explains why the meeting has failed.|`meetingFailed`
 |`meetingStatus`|The meeting status when the meeting ended or failed. Note that this attribute indicates an enum name in [MeetingSessionStatusCode](https://aws.github.io/amazon-chime-sdk-ios/Enums/MeetingSessionStatusCode.html)| `meetingStartSucceeded`, `meetingReconnected`, `meetingEnded`, `meetingFailed`
 |`poorConnectionCount`|The number of times the significant packet loss occurred during the meeting. Per count, you receive `AudioVideoObserver.connectionDidBecomePoor`.<br><br>Unit: Count|`meetingStartSucceeded`, `meetingReconnected`, `meetingStartFailed`, `meetingEnded`, `meetingFailed`

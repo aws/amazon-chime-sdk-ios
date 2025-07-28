@@ -38,6 +38,9 @@ private typealias EAName = EventAttributeName
         attributes[EAName.meetingStartDurationMs.description] = AnyCodable(
             eventAttributes[EAName.meetingStartDurationMs]
         )
+        attributes[EAName.meetingReconnectDurationMs.description] = AnyCodable(
+            eventAttributes[EAName.meetingReconnectDurationMs]
+        )
         attributes[EAName.meetingDurationMs.description] = AnyCodable(eventAttributes[EAName.meetingDurationMs])
         attributes[EAName.meetingErrorMessage.description] = AnyCodable(eventAttributes[EAName.meetingErrorMessage])
         attributes[EAName.meetingStatus.description] = AnyCodable(meetingStatus)
@@ -145,6 +148,7 @@ private typealias EAName = EventAttributeName
                                 id: meetingEventItemId,
                                 maxVideoTileCount: meetingEvent.getMaxVideoTileCount(),
                                 meetingStartDurationMs: meetingEvent.getMeetingStartDurationMs(),
+                                meetingReconnectDurationMs: meetingEvent.getMeetingReconnectDurationMs(),
                                 meetingDurationMs: meetingEvent.getMeetingDurationMs(),
                                 meetingErrorMessage: meetingEvent.getMeetingErrorMessage(),
                                 meetingStatus: meetingEvent.getMeetingStatus(),

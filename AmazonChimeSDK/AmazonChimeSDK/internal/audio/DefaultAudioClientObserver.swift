@@ -321,6 +321,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
             }
         case .reconnecting:
             meetingStatsCollector.incrementRetryCount()
+            meetingStatsCollector.updateMeetingReconnectedTimeMs()
             eventAnalyticsController.publishEvent(name: .meetingReconnected)
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
                 observer.audioSessionDidStart(reconnecting: true)
@@ -383,7 +384,9 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     }
 
     private func handleStateChangeToReconnecting() {
+        // TODO: Investigate why audioSessionDidStartConnecting(reconnecting: true) is not implemented
         if currentAudioState == .finishConnecting {
+            meetingStatsCollector.updateMeetingStartReconnectingTimeMs()
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
                 observer.audioSessionDidDrop()
             }

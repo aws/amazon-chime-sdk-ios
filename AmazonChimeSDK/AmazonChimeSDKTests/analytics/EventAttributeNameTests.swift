@@ -28,6 +28,7 @@ class EventAttributeNameTests: XCTestCase {
         XCTAssertEqual(EventAttributeName.meetingHistory.description, "meetingHistory")
         XCTAssertEqual(EventAttributeName.maxVideoTileCount.description, "maxVideoTileCount")
         XCTAssertEqual(EventAttributeName.meetingStartDurationMs.description, "meetingStartDurationMs")
+        XCTAssertEqual(EventAttributeName.meetingReconnectDurationMs.description, "meetingReconnectDurationMs")
         XCTAssertEqual(EventAttributeName.meetingDurationMs.description, "meetingDurationMs")
         XCTAssertEqual(EventAttributeName.meetingErrorMessage.description, "meetingErrorMessage")
         XCTAssertEqual(EventAttributeName.meetingStatus.description, "meetingStatus")

@@ -51,7 +51,10 @@ import Foundation
              .meetingStartFailed,
              .meetingStartSucceeded,
              .meetingReconnected:
-            let meetingStats = meetingStatsCollector.getMeetingStats()
+            var meetingStats = meetingStatsCollector.getMeetingStats()
+            if name != .meetingReconnected {
+                meetingStats.removeValue(forKey: EventAttributeName.meetingReconnectDurationMs)
+            }
             mutatedAttributes.merge(meetingStats) { _, newVal in newVal }
         default:
             break

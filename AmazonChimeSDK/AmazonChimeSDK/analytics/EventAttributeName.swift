@@ -44,6 +44,8 @@ import Foundation
     case maxVideoTileCount
     /// Duration of the meeting start process
     case meetingStartDurationMs
+    /// Duration of the meeting reconnect process
+    case meetingReconnectDurationMs
     /// Duration of the meeting
     case meetingDurationMs
     /// Error message of the meeting
@@ -93,6 +95,8 @@ import Foundation
             return "maxVideoTileCount"
         case .meetingStartDurationMs:
             return "meetingStartDurationMs"
+        case .meetingReconnectDurationMs:
+            return "meetingReconnectDurationMs"
         case .meetingDurationMs:
             return "meetingDurationMs"
         case .meetingErrorMessage:

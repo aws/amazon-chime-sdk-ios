@@ -119,6 +119,7 @@ class DefaultAudioClientObserverTests: XCTestCase {
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         verify(meetingStatsCollectorMock.updateMeetingStartTimeMs()).wasNeverCalled()
+        verify(meetingStatsCollectorMock.updateMeetingReconnectedTimeMs()).wasCalled()
         verify(eventAnalyticsControllerMock.publishEvent(name: .meetingReconnected)).wasCalled()
         let expect = eventually {
             verify(mockAudioVideoObserver.audioSessionDidStart(reconnecting: true)).wasCalled()
@@ -156,6 +157,7 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        verify(meetingStatsCollectorMock.updateMeetingStartReconnectingTimeMs()).wasCalled()
         let expect = eventually {
             verify(mockAudioVideoObserver.audioSessionDidDrop()).wasCalled()
         }

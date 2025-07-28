@@ -12,6 +12,8 @@ import Foundation
     private let logger: Logger
     private var meetingStartTimeMs: Int64 = 0
     private var meetingStartConnectingTimeMs: Int64 = 0
+    private var meetingStartReconnectingTimeMs: Int64 = 0
+    private var meetingReconnectedTimeMs: Int64 = 0
     private var retryCount: Int = 0
     private var poorConnectionCount: Int = 0
     private var maxVideoTileCount: Int = 0
@@ -27,13 +29,20 @@ import Foundation
     }
 
     public func getMeetingStats() -> [AnyHashable: Any] {
+        
+        let meetingReconnectDurationMs = (meetingStartReconnectingTimeMs == 0
+                                          || meetingReconnectedTimeMs == 0
+                                          || meetingReconnectedTimeMs < meetingStartReconnectingTimeMs)
+        ? 0 : (meetingReconnectedTimeMs - meetingStartReconnectingTimeMs)
+        
         return [EventAttributeName.maxVideoTileCount: maxVideoTileCount,
                 EventAttributeName.retryCount: retryCount,
                 EventAttributeName.poorConnectionCount: poorConnectionCount,
                 EventAttributeName.meetingStartDurationMs: meetingStartTimeMs == 0 ?
                     0 : meetingStartTimeMs - meetingStartConnectingTimeMs,
                 EventAttributeName.meetingDurationMs: meetingStartTimeMs == 0 ?
-                    0 : DateUtils.getCurrentTimeStampMs() - meetingStartTimeMs
+                    0 : DateUtils.getCurrentTimeStampMs() - meetingStartTimeMs,
+                EventAttributeName.meetingReconnectDurationMs: meetingReconnectDurationMs
         ] as [EventAttributeName: Any]
     }
 
@@ -61,6 +70,15 @@ import Foundation
     public func updateMeetingStartTimeMs() {
         meetingStartTimeMs = DateUtils.getCurrentTimeStampMs()
     }
+    
+    public func updateMeetingStartReconnectingTimeMs() {
+        meetingStartReconnectingTimeMs = DateUtils.getCurrentTimeStampMs()
+        meetingReconnectedTimeMs = 0
+    }
+
+    public func updateMeetingReconnectedTimeMs() {
+        meetingReconnectedTimeMs = DateUtils.getCurrentTimeStampMs()
+    }
 
     public func resetMeetingStats() {
         retryCount = 0
@@ -68,6 +86,8 @@ import Foundation
         maxVideoTileCount = 0
         meetingStartTimeMs = 0
         meetingStartConnectingTimeMs = 0
+        meetingStartReconnectingTimeMs = 0
+        meetingReconnectedTimeMs = 0
         // TODO: meetingHistory should also get reset
     }
 }

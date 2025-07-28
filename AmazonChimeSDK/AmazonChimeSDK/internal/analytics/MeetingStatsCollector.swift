@@ -28,6 +28,12 @@ import Foundation
     
     /// Update meetingStartTimeMs.
     func updateMeetingStartTimeMs()
+    
+    /// Update meetingStartReconnectingTimeMs and reset meetingReconnectedTimeMs
+    func updateMeetingStartReconnectingTimeMs()
+
+    /// Update meetingReconnectedTimeMs
+    func updateMeetingReconnectedTimeMs()
 
     /// Clear internal states of `MeetingStatsCollector`.
     func resetMeetingStats()
