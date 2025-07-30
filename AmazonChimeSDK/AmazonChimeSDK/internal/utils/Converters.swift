@@ -22,6 +22,8 @@ import Foundation
     enum MeetingEventName {
         static func toMeetingHistoryEventName(name: EventName) -> MeetingHistoryEventName {
             switch name {
+            case .audioInputFailed:
+                return .audioInputFailed
             case .videoInputFailed:
                 return .videoInputFailed
             case .meetingStartRequested:

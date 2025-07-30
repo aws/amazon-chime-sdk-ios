@@ -21,6 +21,7 @@ import Foundation
     public let poorConnectionCount: Int?
     public let retryCount: Int?
     public let videoInputErrorMessage: String?
+    public let audioInputErrorMessage: String?
     public let ttl: Int64?
 
     public init(name: String,
@@ -35,6 +36,7 @@ import Foundation
                 poorConnectionCount: Int? = nil,
                 retryCount: Int? = nil,
                 videoInputErrorMessage: String? = nil,
+                audioInputErrorMessage: String? = nil,
                 ttl: Int64? = nil) {
         self.name = name
         self.ts = ts
@@ -48,6 +50,7 @@ import Foundation
         self.poorConnectionCount = poorConnectionCount
         self.retryCount = retryCount
         self.videoInputErrorMessage = videoInputErrorMessage
+        self.audioInputErrorMessage = audioInputErrorMessage
         self.ttl = ttl
     }
 }

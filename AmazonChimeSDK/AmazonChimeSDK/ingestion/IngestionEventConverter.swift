@@ -31,6 +31,11 @@ private typealias EAName = EventAttributeName
         if let videoError = eventAttributes[EventAttributeName.videoInputError] as? CaptureSourceError {
             videoErrorStr = String(describing: videoError)
         }
+        
+        var audioErrorStr: String?
+        if let audioError = eventAttributes[EventAttributeName.audioInputError] as? Error {
+            audioErrorStr = String(describing: audioError)
+        }
 
         var attributes = [String:AnyCodable]()
         attributes[EAName.timestampMs.description] = AnyCodable(eventAttributes[EAName.timestampMs])
@@ -47,6 +52,7 @@ private typealias EAName = EventAttributeName
         attributes[EAName.poorConnectionCount.description] = AnyCodable(eventAttributes[EAName.poorConnectionCount])
         attributes[EAName.retryCount.description] = AnyCodable(eventAttributes[EAName.retryCount])
         attributes[EAName.videoInputError.description] = AnyCodable(videoErrorStr)
+        attributes[EAName.audioInputError.description] = AnyCodable(audioErrorStr)
         
         clientConfig.metadataAttributes.forEach({ (key: String, value: Any) in
             attributes[key] = AnyCodable(value)
@@ -155,6 +161,7 @@ private typealias EAName = EventAttributeName
                                 poorConnectionCount: meetingEvent.getPoorConnectionCount(),
                                 retryCount: meetingEvent.getRetryCount(),
                                 videoInputErrorMessage: meetingEvent.getVideoInputErrorMessage(),
+                                audioInputErrorMessage: meetingEvent.getAudioInputErrorMessage(),
                                 ttl: dirtyMeetingEventTtl)
     }
 

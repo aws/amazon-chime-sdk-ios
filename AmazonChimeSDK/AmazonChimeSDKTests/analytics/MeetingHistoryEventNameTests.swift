@@ -14,6 +14,7 @@ class MeetingHistoryEventNameTests: XCTestCase {
     func testDescriptionShouldMatch() {
         XCTAssertEqual(MeetingHistoryEventName.audioInputSelected.description, "audioInputSelected")
         XCTAssertEqual(MeetingHistoryEventName.videoInputSelected.description, "videoInputSelected")
+        XCTAssertEqual(MeetingHistoryEventName.audioInputFailed.description, "audioInputFailed")
         XCTAssertEqual(MeetingHistoryEventName.videoInputFailed.description, "videoInputFailed")
         XCTAssertEqual(MeetingHistoryEventName.meetingStartRequested.description, "meetingStartRequested")
         XCTAssertEqual(MeetingHistoryEventName.meetingStartSucceeded.description, "meetingStartSucceeded")

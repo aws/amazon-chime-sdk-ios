@@ -12,6 +12,7 @@ import XCTest
 
 class EventNameTests: XCTestCase {
     func testDescriptionShouldMatch() {
+        XCTAssertEqual(EventName.audioInputFailed.description, "audioInputFailed")
         XCTAssertEqual(EventName.videoInputFailed.description, "videoInputFailed")
         XCTAssertEqual(EventName.meetingStartRequested.description, "meetingStartRequested")
         XCTAssertEqual(EventName.meetingStartSucceeded.description, "meetingStartSucceeded")
@@ -23,6 +24,8 @@ class EventNameTests: XCTestCase {
     }
     
     func testEventNameShouldBeAbleToConvertFromString() {
+        XCTAssertEqual(EventName.toEventName(name: "audioInputFailed"),
+                       EventName.audioInputFailed)
         XCTAssertEqual(EventName.toEventName(name: "videoInputFailed"),
                        EventName.videoInputFailed)
         XCTAssertEqual(EventName.toEventName(name: "meetingStartRequested"),

@@ -72,6 +72,9 @@ import AVFoundation
             }
             eventAnalyticsController.pushHistory(historyEventName: .audioInputSelected)
         } catch {
+            eventAnalyticsController.publishEvent(name: .audioInputFailed, attributes: [
+                EventAttributeName.audioInputError: error
+            ])
             logger.error(msg: "Error on setting audio input device: \(error.localizedDescription)")
         }
     }

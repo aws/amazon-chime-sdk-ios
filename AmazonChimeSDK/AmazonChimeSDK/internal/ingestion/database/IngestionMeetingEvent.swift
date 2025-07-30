@@ -73,4 +73,9 @@ extension IngestionMeetingEvent {
         let item = eventAttributes[EventAttributeName.videoInputError.description]
         return item??.value as? String
     }
+    
+    func getAudioInputErrorMessage() -> String? {
+        let item = eventAttributes[EventAttributeName.audioInputError.description]
+        return item??.value as? String
+    }
 }

@@ -25,6 +25,8 @@ class CommonTestCase: XCTestCase {
     var meetingSessionConfigurationMock: MeetingSessionConfigurationMock!
     var meetingSessionConfigurationMockNone: MeetingSessionConfigurationMock!
     var meetingSessionConfigurationMockHigh: MeetingSessionConfigurationMock!
+    var eventClientConfig: EventClientConfiguration!
+    var ingestionConfiguration: IngestionConfiguration!
     var loggerMock: LoggerMock!
 
     override func setUp() {
@@ -90,5 +92,13 @@ class CommonTestCase: XCTestCase {
                         urlRewriter: URLRewriterUtils.defaultUrlRewriter)
 
         loggerMock = mock(Logger.self)
+        
+        eventClientConfig = MeetingEventClientConfiguration(eventClientJoinToken: "testJoinToken",
+                                                            meetingId: "testMeetingId",
+                                                            attendeeId: "testAttendeeId")
+        
+        ingestionConfiguration = IngestionConfigurationBuilder().build(disabled: false,
+                                                                       ingestionUrl: "testIngestionUrl",
+                                                                       clientConiguration: eventClientConfig)
     }
 }

@@ -10,6 +10,8 @@ import Foundation
 
 /// `EventName` represent some major event that could help builders to analyze the data
 @objc public enum EventName: Int, CaseIterable, CustomStringConvertible {
+    /// The microphone selection failed.
+    case audioInputFailed
     /// The camera selection failed.
     case videoInputFailed
     /// The meeting will start.
@@ -29,6 +31,8 @@ import Foundation
 
     public var description: String {
         switch self {
+        case .audioInputFailed:
+            return "audioInputFailed"
         case .videoInputFailed:
             return "videoInputFailed"
         case .meetingStartRequested:
@@ -50,6 +54,8 @@ import Foundation
 
     static func toEventName(name: String) -> EventName {
         switch name {
+        case "audioInputFailed":
+            return .audioInputFailed
         case "videoInputFailed":
             return .videoInputFailed
         case "meetingStartRequested":

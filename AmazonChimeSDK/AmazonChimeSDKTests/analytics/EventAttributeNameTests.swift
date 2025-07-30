@@ -34,6 +34,7 @@ class EventAttributeNameTests: XCTestCase {
         XCTAssertEqual(EventAttributeName.meetingStatus.description, "meetingStatus")
         XCTAssertEqual(EventAttributeName.poorConnectionCount.description, "poorConnectionCount")
         XCTAssertEqual(EventAttributeName.retryCount.description, "retryCount")
+        XCTAssertEqual(EventAttributeName.audioInputError.description, "audioInputError")
         XCTAssertEqual(EventAttributeName.videoInputError.description, "videoInputError")
     }
 }
