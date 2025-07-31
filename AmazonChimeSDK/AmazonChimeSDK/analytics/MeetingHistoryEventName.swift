@@ -19,6 +19,8 @@ import Foundation
     case videoInputSelected
     /// The camera selection failed.
     case videoInputFailed
+    /// The microphone or camera device access failed.
+    case deviceAccessFailed
     /// The meeting failed to start.
     case meetingStartFailed
     /// The meeting will start.
@@ -44,6 +46,8 @@ import Foundation
             return "videoInputSelected"
         case .videoInputFailed:
             return "videoInputFailed"
+        case .deviceAccessFailed:
+            return "deviceAccessFailed"
         case .meetingStartFailed:
             return "meetingStartFailed"
         case .meetingStartRequested:

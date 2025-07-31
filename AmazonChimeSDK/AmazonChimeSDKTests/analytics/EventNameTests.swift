@@ -14,6 +14,7 @@ class EventNameTests: XCTestCase {
     func testDescriptionShouldMatch() {
         XCTAssertEqual(EventName.audioInputFailed.description, "audioInputFailed")
         XCTAssertEqual(EventName.videoInputFailed.description, "videoInputFailed")
+        XCTAssertEqual(EventName.deviceAccessFailed.description, "deviceAccessFailed")
         XCTAssertEqual(EventName.meetingStartRequested.description, "meetingStartRequested")
         XCTAssertEqual(EventName.meetingStartSucceeded.description, "meetingStartSucceeded")
         XCTAssertEqual(EventName.meetingReconnected.description, "meetingReconnected")
@@ -28,6 +29,8 @@ class EventNameTests: XCTestCase {
                        EventName.audioInputFailed)
         XCTAssertEqual(EventName.toEventName(name: "videoInputFailed"),
                        EventName.videoInputFailed)
+        XCTAssertEqual(EventName.toEventName(name: "deviceAccessFailed"),
+                       EventName.deviceAccessFailed)
         XCTAssertEqual(EventName.toEventName(name: "meetingStartRequested"),
                        EventName.meetingStartRequested)
         XCTAssertEqual(EventName.toEventName(name: "meetingStartSucceeded"),

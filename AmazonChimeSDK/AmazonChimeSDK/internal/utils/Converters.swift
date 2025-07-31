@@ -26,6 +26,8 @@ import Foundation
                 return .audioInputFailed
             case .videoInputFailed:
                 return .videoInputFailed
+            case .deviceAccessFailed:
+                return .deviceAccessFailed
             case .meetingStartRequested:
                 return .meetingStartRequested
             case .meetingStartSucceeded:
@@ -38,7 +40,7 @@ import Foundation
                 return .meetingFailed
             case .meetingEnded:
                 return .meetingEnded
-            default:
+            case .unknown:
                 return .unknown
             }
         }

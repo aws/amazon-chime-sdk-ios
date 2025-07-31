@@ -96,6 +96,20 @@ class DefaultDeviceControllerTests: XCTestCase {
         XCTAssertEqual(currentDevice?.type, expected?.type)
     }
     
+    func testListAudioDevices_ShouldPublishEvent_WhenNoAvailableInputs() {
+        let captor = ArgumentCaptor<[AnyHashable: Any]>()
+        
+        given(audioSessionMock.getAvailableInputs()).willReturn(nil)
+        
+        _ = defaultDeviceController.listAudioDevices()
+        
+        verify(eventAnalyticsControllerMock.publishEvent(name: .deviceAccessFailed,
+                                                         attributes: captor.any())).wasCalled()
+        
+        let error = captor.value?[EventAttributeName.deviceAccessFailedError] as? DeviceError
+        XCTAssertEqual(error, DeviceError.noAvailableAudioInputs)
+    }
+    
     func testChooseAudioDevice_ShouldPublishEvent_WhenFail() {
         let captor = ArgumentCaptor<[AnyHashable: Any]>()
         

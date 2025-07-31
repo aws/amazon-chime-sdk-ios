@@ -62,6 +62,8 @@ import Foundation
     case videoInputError
     /// The error message that explains why the microphone selection failed.
     case audioInputError
+    /// The error message that explains why the microphone or camera access failed.
+    case deviceAccessFailedError
 
     public var description: String {
         switch self {
@@ -113,8 +115,8 @@ import Foundation
             return "audioInputError"
         case .videoInputError:
             return "videoInputError"
-        default:
-            return ""
+        case .deviceAccessFailedError:
+            return "deviceAccessFailedError"
         }
     }
 }

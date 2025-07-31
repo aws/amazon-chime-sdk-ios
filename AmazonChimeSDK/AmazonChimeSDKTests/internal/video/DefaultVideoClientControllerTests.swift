@@ -159,4 +159,13 @@ class DefaultVideoClientControllerTests: CommonTestCase {
         verify(videoClientMock.setSimulcast(true)).wasCalled()
         verify(videoClientMock.setMaxBitRateKbps(300)).wasCalled()
     }
+    
+//    func testStartLocalVideo_ShouldRaiseDeviceAccessError_WhenPermissionNotGranted() {
+//        
+//        let captor = ArgumentCaptor<[AnyHashable: Any]>()
+//        
+//        XCTAssertThrowsError(try defaultVideoClientController.startLocalVideo())
+//        
+//        verify(eventAnalyticsControllerMock.publishEvent(name: .deviceAccessFailed, attributes: captor.any())).wasCalled()
+//    }
 }

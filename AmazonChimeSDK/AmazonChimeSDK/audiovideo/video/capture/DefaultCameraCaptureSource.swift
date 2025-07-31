@@ -189,6 +189,11 @@ import UIKit
 
         if device != nil {
             eventAnalyticsController?.pushHistory(historyEventName: .videoInputSelected)
+        }else {
+            let attributes = [
+                EventAttributeName.videoInputError: DeviceError.noCameraSelected
+            ]
+            eventAnalyticsController?.publishEvent(name: .videoInputFailed, attributes: attributes)
         }
     }
 
@@ -259,10 +264,9 @@ import UIKit
 
     private func handleCaptureFailed(reason: CaptureSourceError) {
         let attributes = [
-            EventAttributeName.videoInputError: reason
+            EventAttributeName.deviceAccessFailedError: reason
         ]
-
-        eventAnalyticsController?.publishEvent(name: .videoInputFailed, attributes: attributes)
+        eventAnalyticsController?.publishEvent(name: .deviceAccessFailed, attributes: attributes)
 
         ObserverUtils.forEach(observers: captureSourceObservers) { (observer: CaptureSourceObserver) in
             observer.captureDidFail(error: reason)

@@ -53,7 +53,7 @@ class DefaultCameraCaptureSourceTests: XCTestCase {
 
         let expect = eventually {
             verify(mockSourceObserver.captureDidFail(error: .configurationFailure)).wasCalled()
-            verify(eventControllerMock.publishEvent(name: .videoInputFailed, attributes: any())).wasCalled()
+            verify(eventControllerMock.publishEvent(name: .deviceAccessFailed, attributes: any())).wasCalled()
         }
 
         wait(for: [expect], timeout: defaultTimeout)
@@ -65,6 +65,17 @@ class DefaultCameraCaptureSourceTests: XCTestCase {
             formatA: VideoCaptureFormat(width: 1280, height: 720, maxFrameRate: 30),
             formatB: VideoCaptureFormat(width: 1280, height: 720, maxFrameRate: 15)
         ), true)
+    }
+    
+    func testSwitchCamera_ShouldPublishDeviceAccessFailed_WhenCameraNotAvailable() {
+        let captor = ArgumentCaptor<[AnyHashable: Any]>()
+        
+        defaultCameraCaptureSource.switchCamera()
+        
+        verify(eventControllerMock.publishEvent(name: .videoInputFailed, attributes: captor.any())).wasCalled()
+        
+        let error = captor.value?[EventAttributeName.videoInputError] as? DeviceError
+        XCTAssertEqual(error, DeviceError.noCameraSelected)
     }
 }
 

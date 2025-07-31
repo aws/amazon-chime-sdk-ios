@@ -10,7 +10,7 @@ import Foundation
 
 /// `CaptureSourceError` describes an error resulting from a capture source failure.
 /// These can be used to trigger UI, or attempt to restart the capture source.
-@objc public enum CaptureSourceError: Int {
+@objc public enum CaptureSourceError: Int, Error, CustomStringConvertible {
     /// Unknown error, and catch-all for errors not otherwise covered.
     case unknown = 0
 

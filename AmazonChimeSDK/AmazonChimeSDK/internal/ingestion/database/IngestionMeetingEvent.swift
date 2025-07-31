@@ -78,4 +78,9 @@ extension IngestionMeetingEvent {
         let item = eventAttributes[EventAttributeName.audioInputError.description]
         return item??.value as? String
     }
+    
+    func getDeviceAccessFailedErrorMessage() -> String? {
+        let item = eventAttributes[EventAttributeName.deviceAccessFailedError.description]
+        return item??.value as? String
+    }
 }
