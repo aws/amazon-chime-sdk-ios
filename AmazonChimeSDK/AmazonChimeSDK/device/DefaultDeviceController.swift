@@ -59,7 +59,17 @@ import AVFoundation
         // 1. Build-in receiver
         // 2. Build-in loud speaker
         // 3. ...
-        inputDevices.insert(loudSpeaker, at: 1)
+        if(inputDevices.isEmpty){
+            let attribute = [
+                EventAttributeName.deviceAccessFailedError: DeviceError.noAvailableAudioInputs
+            ]
+            eventAnalyticsController.publishEvent(name: .deviceAccessFailed,
+                                                  attributes: attribute)
+            inputDevices.append(loudSpeaker)
+        } else {
+            inputDevices.insert(loudSpeaker, at: 1)
+        }
+        
         return inputDevices
     }
 

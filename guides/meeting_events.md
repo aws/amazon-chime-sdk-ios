@@ -134,6 +134,7 @@ The following table describes attributes for the microphone and camera.
 |--|--|--
 |`audioInputErrorMessage`|The error message that explains why the microphone selection failed.|`audioInputFailed`
 |`videoInputErrorMessage`|The error that explains why the camera selection failed.|`videoInputFailed`
+|`deviceAccessErrorMessage`|The error message that explains why the microphone or camera access failed.`|`deviceAccessFailed`
 ### The meeting history attribute
 The meeting history attribute is a list of states. Each state object contains the state name and timestamp.
 

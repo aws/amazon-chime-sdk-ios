@@ -28,13 +28,18 @@ private typealias EAName = EventAttributeName
         }
 
         var videoErrorStr: String?
-        if let videoError = eventAttributes[EventAttributeName.videoInputError] as? CaptureSourceError {
+        if let videoError = eventAttributes[EventAttributeName.videoInputError] as? Error {
             videoErrorStr = String(describing: videoError)
         }
         
         var audioErrorStr: String?
         if let audioError = eventAttributes[EventAttributeName.audioInputError] as? Error {
             audioErrorStr = String(describing: audioError)
+        }
+        
+        var deviceAccessErrorStr: String?
+        if let deviceAccessError = eventAttributes[EventAttributeName.deviceAccessFailedError] as? Error {
+            deviceAccessErrorStr = String(describing: deviceAccessError)
         }
 
         var attributes = [String:AnyCodable]()
@@ -53,6 +58,7 @@ private typealias EAName = EventAttributeName
         attributes[EAName.retryCount.description] = AnyCodable(eventAttributes[EAName.retryCount])
         attributes[EAName.videoInputError.description] = AnyCodable(videoErrorStr)
         attributes[EAName.audioInputError.description] = AnyCodable(audioErrorStr)
+        attributes[EAName.deviceAccessFailedError.description] = AnyCodable(deviceAccessErrorStr)
         
         clientConfig.metadataAttributes.forEach({ (key: String, value: Any) in
             attributes[key] = AnyCodable(value)
@@ -162,6 +168,7 @@ private typealias EAName = EventAttributeName
                                 retryCount: meetingEvent.getRetryCount(),
                                 videoInputErrorMessage: meetingEvent.getVideoInputErrorMessage(),
                                 audioInputErrorMessage: meetingEvent.getAudioInputErrorMessage(),
+                                deviceAccessErrorMessage: meetingEvent.getDeviceAccessErrorMessage(),
                                 ttl: dirtyMeetingEventTtl)
     }
 

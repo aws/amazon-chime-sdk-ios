@@ -52,6 +52,16 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
         let newAudioStatus = Converters.AudioClientStatus.toMeetingSessionStatusCode(status: status)
         let newAudioState = Converters.AudioClientState.toSessionStateControllerAction(state: audioClientState, status: newAudioStatus)
 
+        if(newAudioStatus == .audioInputDeviceNotResponding) {
+            eventAnalyticsController.publishEvent(name: .deviceAccessFailed, attributes: [
+                EventAttributeName.deviceAccessFailedError: DeviceError.audioInputDeviceNotRespondingError
+            ])
+        } else if(newAudioStatus == .audioOutputDeviceNotResponding) {
+            eventAnalyticsController.publishEvent(name: .deviceAccessFailed, attributes: [
+                EventAttributeName.deviceAccessFailedError: DeviceError.audioOutputDeviceNotRespondingError
+            ])
+        }
+        
         if newAudioStatus == .unknown {
             logger.info(msg: "AudioClient State rawValue: \(audioClientState.rawValue) Unknown Status rawValue: \(status.rawValue)")
         } else {

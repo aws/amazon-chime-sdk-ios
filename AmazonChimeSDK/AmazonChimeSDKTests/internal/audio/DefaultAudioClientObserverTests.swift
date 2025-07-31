@@ -1424,7 +1424,8 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_UNKNOWN,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.audioInputDeviceNotResponding.rawValue))
-        verifyAudioClientStateNoop()
+        verifyAudioClientStateNoop(verifyPublishEvent: false)
+        verify(eventAnalyticsControllerMock.publishEvent(name: .deviceAccessFailed, attributes: any())).wasCalled()
     }
     
     func testAudioClientStateChanged_ConnectedOkToInitAudioInputDeviceNotResponding() {
@@ -1432,7 +1433,8 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_INIT,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.audioInputDeviceNotResponding.rawValue))
-        verifyAudioClientStateNoop()
+        verifyAudioClientStateNoop(verifyPublishEvent: false)
+        verify(eventAnalyticsControllerMock.publishEvent(name: .deviceAccessFailed, attributes: any())).wasCalled()
     }
     
     func testAudioClientStateChanged_ConnectedOkToConnectingAudioInputDeviceNotResponding() {
@@ -1440,7 +1442,8 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTING,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.audioInputDeviceNotResponding.rawValue))
-        verifyAudioClientStateNoop()
+        verifyAudioClientStateNoop(verifyPublishEvent: false)
+        verify(eventAnalyticsControllerMock.publishEvent(name: .deviceAccessFailed, attributes: any())).wasCalled()
     }
     
     func testAudioClientStateChanged_ConnectedOkToReconnectingAudioInputDeviceNotResponding() {
@@ -1448,7 +1451,8 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.audioInputDeviceNotResponding.rawValue))
-        verifyAudioClientStateChangedToReconnecting()
+        verifyAudioClientStateChangedToReconnecting(verifyPublishEvent: false)
+        verify(eventAnalyticsControllerMock.publishEvent(name: .deviceAccessFailed, attributes: any())).wasCalled()
     }
 
     func testAudioClientStateChanged_ConnectedOkToFailedAudioInputDeviceNotResponding() {
@@ -1464,7 +1468,8 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTING,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.audioInputDeviceNotResponding.rawValue))
-        verifyAudioClientStateNoop()
+        verifyAudioClientStateNoop(verifyPublishEvent: false)
+        verify(eventAnalyticsControllerMock.publishEvent(name: .deviceAccessFailed, attributes: any())).wasCalled()
     }
     
     func testAudioClientStateChanged_ConnectedOkToDisconnectedNormalAudioInputDeviceNotResponding() {
@@ -1472,7 +1477,8 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.audioInputDeviceNotResponding.rawValue))
-        verifyAudioClientStateNoop()
+        verifyAudioClientStateNoop(verifyPublishEvent: false)
+        verify(eventAnalyticsControllerMock.publishEvent(name: .deviceAccessFailed, attributes: any())).wasCalled()
     }
     
     func testAudioClientStateChanged_ConnectedOkToDisconnectedAbnormalAudioInputDeviceNotResponding() {
@@ -1496,7 +1502,8 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_UNKNOWN,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.audioOutputDeviceNotResponding.rawValue))
-        verifyAudioClientStateNoop()
+        verifyAudioClientStateNoop(verifyPublishEvent: false)
+        verify(eventAnalyticsControllerMock.publishEvent(name: .deviceAccessFailed, attributes: any())).wasCalled()
     }
     
     func testAudioClientStateChanged_ConnectedOkToInitAudioOutputDeviceNotResponding() {
@@ -1504,7 +1511,8 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_INIT,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.audioOutputDeviceNotResponding.rawValue))
-        verifyAudioClientStateNoop()
+        verifyAudioClientStateNoop(verifyPublishEvent: false)
+        verify(eventAnalyticsControllerMock.publishEvent(name: .deviceAccessFailed, attributes: any())).wasCalled()
     }
     
     func testAudioClientStateChanged_ConnectedOkToConnectingAudioOutputDeviceNotResponding() {
@@ -1512,7 +1520,8 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTING,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.audioOutputDeviceNotResponding.rawValue))
-        verifyAudioClientStateNoop()
+        verifyAudioClientStateNoop(verifyPublishEvent: false)
+        verify(eventAnalyticsControllerMock.publishEvent(name: .deviceAccessFailed, attributes: any())).wasCalled()
     }
     
     func testAudioClientStateChanged_ConnectedOkToReconnectingAudioOutputDeviceNotResponding() {
@@ -1520,7 +1529,8 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.audioOutputDeviceNotResponding.rawValue))
-        verifyAudioClientStateChangedToReconnecting()
+        verifyAudioClientStateChangedToReconnecting(verifyPublishEvent: false)
+        verify(eventAnalyticsControllerMock.publishEvent(name: .deviceAccessFailed, attributes: any())).wasCalled()
     }
 
     func testAudioClientStateChanged_ConnectedOkToFailedAudioOutputDeviceNotResponding() {
@@ -1536,7 +1546,8 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTING,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.audioOutputDeviceNotResponding.rawValue))
-        verifyAudioClientStateNoop()
+        verifyAudioClientStateNoop(verifyPublishEvent: false)
+        verify(eventAnalyticsControllerMock.publishEvent(name: .deviceAccessFailed, attributes: any())).wasCalled()
     }
     
     func testAudioClientStateChanged_ConnectedOkToDisconnectedNormalAudioOutputDeviceNotResponding() {
@@ -1544,7 +1555,8 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.audioOutputDeviceNotResponding.rawValue))
-        verifyAudioClientStateNoop()
+        verifyAudioClientStateNoop(verifyPublishEvent: false)
+        verify(eventAnalyticsControllerMock.publishEvent(name: .deviceAccessFailed, attributes: any())).wasCalled()
     }
     
     func testAudioClientStateChanged_ConnectedOkToDisconnectedAbnormalAudioOutputDeviceNotResponding() {
@@ -1563,8 +1575,8 @@ class DefaultAudioClientObserverTests: XCTestCase {
         verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode.audioOutputDeviceNotResponding)
     }
     
-    func verifyAudioClientStateChangedToReconnecting() {
-        verifyAudioClientStateNoop()
+    func verifyAudioClientStateChangedToReconnecting(verifyPublishEvent: Bool = true) {
+        verifyAudioClientStateNoop(verifyPublishEvent: verifyPublishEvent)
         let expect = eventually {
             verify(mockAudioVideoObserver.audioSessionDidDrop()).wasCalled()
         }
@@ -1593,9 +1605,11 @@ class DefaultAudioClientObserverTests: XCTestCase {
         wait(for: [expect], timeout: defaultTimeout)
     }
     
-    func verifyAudioClientStateNoop() {
+    func verifyAudioClientStateNoop(verifyPublishEvent: Bool = true) {
         verify(mockAudioVideoObserver.audioSessionDidStopWithStatus(sessionStatus: any())).wasNeverCalled()
-        verify(eventAnalyticsControllerMock.publishEvent(name: any(), attributes: any())).wasNeverCalled()
+        if(verifyPublishEvent) {
+            verify(eventAnalyticsControllerMock.publishEvent(name: any(), attributes: any())).wasNeverCalled()
+        }
         verify(meetingStatsCollectorMock.resetMeetingStats()).wasNeverCalled()
     }
     
