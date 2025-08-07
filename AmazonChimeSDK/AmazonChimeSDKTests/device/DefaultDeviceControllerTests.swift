@@ -103,11 +103,11 @@ class DefaultDeviceControllerTests: XCTestCase {
         
         _ = defaultDeviceController.listAudioDevices()
         
-        verify(eventAnalyticsControllerMock.publishEvent(name: .deviceAccessFailed,
+        verify(eventAnalyticsControllerMock.publishEvent(name: .audioAccessFailed,
                                                          attributes: captor.any())).wasCalled()
         
-        let error = captor.value?[EventAttributeName.deviceAccessFailedError] as? DeviceError
-        XCTAssertEqual(error, DeviceError.noAvailableAudioInputs)
+        let error = captor.value?[EventAttributeName.audioAccessError] as? MediaError
+        XCTAssertEqual(error, MediaError.noAudioDevices)
     }
     
     func testChooseAudioDevice_ShouldPublishEvent_WhenFail() {
@@ -122,7 +122,7 @@ class DefaultDeviceControllerTests: XCTestCase {
         
         verify(eventAnalyticsControllerMock.publishEvent(name: .audioInputFailed, attributes: captor.any())).wasCalled()
         
-        let error = captor.value?[EventAttributeName.audioInputError] as? TestError
-        XCTAssertEqual(error, TestError.simulatedFailure)
+        let error = captor.value?[EventAttributeName.audioInputError] as? MediaError
+        XCTAssertEqual(error, MediaError.overrideOutputAudioPortFailed)
     }
 }

@@ -22,7 +22,8 @@ import Foundation
     public let retryCount: Int?
     public let videoInputErrorMessage: String?
     public let audioInputErrorMessage: String?
-    public let deviceAccessErrorMessage: String?
+    public let audioAccessErrorMessage: String?
+    public let videoAccessErrorMessage: String?
     public let ttl: Int64?
 
     public init(name: String,
@@ -38,7 +39,8 @@ import Foundation
                 retryCount: Int? = nil,
                 videoInputErrorMessage: String? = nil,
                 audioInputErrorMessage: String? = nil,
-                deviceAccessErrorMessage: String? = nil,
+                audioAccessErrorMessage: String? = nil,
+                videoAccessErrorMessage: String? = nil,
                 ttl: Int64? = nil) {
         self.name = name
         self.ts = ts
@@ -53,7 +55,8 @@ import Foundation
         self.retryCount = retryCount
         self.videoInputErrorMessage = videoInputErrorMessage
         self.audioInputErrorMessage = audioInputErrorMessage
-        self.deviceAccessErrorMessage = deviceAccessErrorMessage
+        self.audioAccessErrorMessage = audioAccessErrorMessage
+        self.videoAccessErrorMessage = videoAccessErrorMessage
         self.ttl = ttl
     }
 }

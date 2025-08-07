@@ -80,11 +80,11 @@ extension DefaultAudioClientController: AudioClientController {
         
         if audioDeviceCapabilities == .inputAndOutput {
             guard audioSession.recordPermission == .granted else {
-                eventAnalyticsController.publishEvent(
-                    name: .deviceAccessFailed,
-                    attributes: [EventAttributeName.deviceAccessFailedError : DeviceError.audioPermissionError]
-                )
-                throw DeviceError.audioPermissionError
+                eventAnalyticsController.publishEvent(name: .audioAccessFailed, attributes: [
+                    EventAttributeName.audioAccessError : PermissionError.audioPermissionError
+                ])
+                logger.error(msg: "Failed to start: \(String(describing: PermissionError.audioPermissionError))")
+                throw PermissionError.audioPermissionError
             }
         }
 

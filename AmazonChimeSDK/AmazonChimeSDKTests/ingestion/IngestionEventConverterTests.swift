@@ -62,27 +62,51 @@ class IngestionEventConverterTests: CommonTestCase {
         XCTAssertEqual(resultErrorMessage, String(describing: TestError.simulatedFailure))
     }
     
-    func testToIngestionMeetingEvent_ShouldConvertDeviceAccessError_IfExists() {
-        let event = SDKEvent(eventName: .deviceAccessFailed, eventAttributes: [
-            EventAttributeName.deviceAccessFailedError: TestError.simulatedFailure
+    func testToIngestionMeetingEvent_ShouldConvertAudioAccessError_IfExists() {
+        let event = SDKEvent(eventName: .audioAccessFailed, eventAttributes: [
+            EventAttributeName.audioAccessError: TestError.simulatedFailure
         ])
         let result = converter.toIngestionMeetingEvent(event: event,
                                                        ingestionConfiguration: ingestionConfiguration)
         
-        XCTAssertEqual(result.getDeviceAccessErrorMessage(),
+        XCTAssertEqual(result.getAudioAccessErrorMessage(),
                        String(describing: TestError.simulatedFailure))
     }
     
-    func testToIngestionRecord_ShouldReturnDeviceAccessErrorMessage_IfExists() {
+    func testToIngestionMeetingEvent_ShouldConvertVideoAccessError_IfExists() {
+        let event = SDKEvent(eventName: .videoAccessFailed, eventAttributes: [
+            EventAttributeName.videoAccessError: TestError.simulatedFailure
+        ])
+        let result = converter.toIngestionMeetingEvent(event: event,
+                                                       ingestionConfiguration: ingestionConfiguration)
+        
+        XCTAssertEqual(result.getVideoAccessErrorMessage(),
+                       String(describing: TestError.simulatedFailure))
+    }
+    
+    func testToIngestionRecord_ShouldReturnAudioAccessErrorMessage_IfExists() {
         let attributes = [
-            EventAttributeName.deviceAccessFailedError.description: AnyCodable(String(describing: TestError.simulatedFailure))
+            EventAttributeName.audioAccessError.description: AnyCodable(String(describing: TestError.simulatedFailure))
         ]
-        let ingestionMeetingEvent = IngestionMeetingEvent(name: EventName.deviceAccessFailed.description,
+        let ingestionMeetingEvent = IngestionMeetingEvent(name: EventName.audioAccessFailed.description,
                                                           eventAttributes: attributes)
         let meetingEvent = MeetingEventItem(id: "test", data: ingestionMeetingEvent)
         let results = converter.toIngestionRecord(meetingEvents: [meetingEvent],
                                                   ingestionConfiguration: ingestionConfiguration)
-        let resultErrorMessage = results.events.first!.payloads.first!.deviceAccessErrorMessage
+        let resultErrorMessage = results.events.first!.payloads.first!.audioAccessErrorMessage
+        XCTAssertEqual(resultErrorMessage, String(describing: TestError.simulatedFailure))
+    }
+    
+    func testToIngestionRecord_ShouldReturnVideoAccessErrorMessage_IfExists() {
+        let attributes = [
+            EventAttributeName.videoAccessError.description: AnyCodable(String(describing: TestError.simulatedFailure))
+        ]
+        let ingestionMeetingEvent = IngestionMeetingEvent(name: EventName.videoAccessFailed.description,
+                                                          eventAttributes: attributes)
+        let meetingEvent = MeetingEventItem(id: "test", data: ingestionMeetingEvent)
+        let results = converter.toIngestionRecord(meetingEvents: [meetingEvent],
+                                                  ingestionConfiguration: ingestionConfiguration)
+        let resultErrorMessage = results.events.first!.payloads.first!.videoAccessErrorMessage
         XCTAssertEqual(resultErrorMessage, String(describing: TestError.simulatedFailure))
     }
 }

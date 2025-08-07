@@ -187,15 +187,16 @@ import UIKit
         device = MediaDevice.listVideoDevices().first { mediaDevice in
             mediaDevice.type == (isUsingFrontCamera ? .videoBackCamera : .videoFrontCamera)
         }
-
-        if device != nil {
-            eventAnalyticsController?.pushHistory(historyEventName: .videoInputSelected)
-        }else {
+        
+        if device == nil {
             let attributes = [
-                EventAttributeName.videoInputError: DeviceError.noCameraSelected
+                EventAttributeName.videoInputError: MediaError.noCameraSelected
             ]
             eventAnalyticsController?.publishEvent(name: .videoInputFailed, attributes: attributes)
+            return
         }
+
+        eventAnalyticsController?.pushHistory(historyEventName: .videoInputSelected)
     }
 
     public func addCaptureSourceObserver(observer: CaptureSourceObserver) {
@@ -265,10 +266,10 @@ import UIKit
 
     private func handleCaptureFailed(reason: CaptureSourceError) {
         let attributes = [
-            EventAttributeName.deviceAccessFailedError: reason
+            EventAttributeName.videoAccessError: reason
         ]
-        eventAnalyticsController?.publishEvent(name: .deviceAccessFailed, attributes: attributes)
-
+        eventAnalyticsController?.publishEvent(name: .videoAccessFailed, attributes: attributes)
+        
         ObserverUtils.forEach(observers: captureSourceObservers) { (observer: CaptureSourceObserver) in
             observer.captureDidFail(error: reason)
         }

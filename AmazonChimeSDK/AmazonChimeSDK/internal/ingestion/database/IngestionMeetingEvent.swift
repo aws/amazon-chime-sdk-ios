@@ -79,8 +79,13 @@ extension IngestionMeetingEvent {
         return item??.value as? String
     }
     
-    func getDeviceAccessErrorMessage() -> String? {
-        let item = eventAttributes[EventAttributeName.deviceAccessFailedError.description]
+    func getAudioAccessErrorMessage() -> String? {
+        let item = eventAttributes[EventAttributeName.audioAccessError.description]
+        return item??.value as? String
+    }
+    
+    func getVideoAccessErrorMessage() -> String? {
+        let item = eventAttributes[EventAttributeName.videoAccessError.description]
         return item??.value as? String
     }
 }

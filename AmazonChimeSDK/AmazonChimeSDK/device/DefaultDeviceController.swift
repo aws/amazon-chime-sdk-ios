@@ -60,11 +60,10 @@ import AVFoundation
         // 2. Build-in loud speaker
         // 3. ...
         if(inputDevices.isEmpty){
-            let attribute = [
-                EventAttributeName.deviceAccessFailedError: DeviceError.noAvailableAudioInputs
-            ]
-            eventAnalyticsController.publishEvent(name: .deviceAccessFailed,
-                                                  attributes: attribute)
+            eventAnalyticsController.publishEvent(name: .audioAccessFailed, attributes: [
+                EventAttributeName.audioAccessError: MediaError.noAudioDevices
+            ])
+            logger.error(msg: "Error on listing audio input devices: \(String(describing: MediaError.noAudioDevices))")
             inputDevices.append(loudSpeaker)
         } else {
             inputDevices.insert(loudSpeaker, at: 1)
@@ -74,18 +73,26 @@ import AVFoundation
     }
 
     public func chooseAudioDevice(mediaDevice: MediaDevice) {
-        do {
-            if mediaDevice.port == nil {
+        if mediaDevice.port == nil {
+            do {
                 try audioSession.overrideOutputAudioPort(.speaker)
-            } else {
-                try audioSession.setPreferredInput(mediaDevice.port)
+                eventAnalyticsController.pushHistory(historyEventName: .audioInputSelected)
+            } catch {
+                eventAnalyticsController.publishEvent(name: .audioInputFailed, attributes: [
+                    EventAttributeName.audioInputError: MediaError.overrideOutputAudioPortFailed
+                ])
+                logger.error(msg: "Error on setting audio input device: \(error.localizedDescription)")
             }
-            eventAnalyticsController.pushHistory(historyEventName: .audioInputSelected)
-        } catch {
-            eventAnalyticsController.publishEvent(name: .audioInputFailed, attributes: [
-                EventAttributeName.audioInputError: error
-            ])
-            logger.error(msg: "Error on setting audio input device: \(error.localizedDescription)")
+        } else {
+            do {
+                try audioSession.setPreferredInput(mediaDevice.port)
+                eventAnalyticsController.pushHistory(historyEventName: .audioInputSelected)
+            } catch {
+                eventAnalyticsController.publishEvent(name: .audioInputFailed, attributes: [
+                    EventAttributeName.audioInputError: MediaError.setPreferredAudioInputFailed
+                ])
+                logger.error(msg: "Error on setting audio input device: \(error.localizedDescription)")
+            }
         }
     }
 
