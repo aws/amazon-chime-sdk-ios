@@ -60,8 +60,8 @@ import AVFoundation
         // 2. Build-in loud speaker
         // 3. ...
         if(inputDevices.isEmpty){
-            eventAnalyticsController.publishEvent(name: .audioAccessFailed, attributes: [
-                EventAttributeName.audioAccessError: MediaError.noAudioDevices
+            eventAnalyticsController.publishEvent(name: .audioInputFailed, attributes: [
+                EventAttributeName.audioInputError: MediaError.noAudioDevices
             ])
             logger.error(msg: "Error on listing audio input devices: \(String(describing: MediaError.noAudioDevices))")
             inputDevices.append(loudSpeaker)

@@ -26,10 +26,6 @@ import Foundation
                 return .audioInputFailed
             case .videoInputFailed:
                 return .videoInputFailed
-            case .audioAccessFailed:
-                return .audioAccessFailed
-            case .videoAccessFailed:
-                return .videoAccessFailed
             case .meetingStartRequested:
                 return .meetingStartRequested
             case .meetingStartSucceeded:

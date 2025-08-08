@@ -288,10 +288,6 @@ class ConvertersTests: XCTestCase {
                        MeetingHistoryEventName.audioInputFailed)
         XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.videoInputFailed),
                        MeetingHistoryEventName.videoInputFailed)
-        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.audioAccessFailed),
-                       MeetingHistoryEventName.audioAccessFailed)
-        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.videoAccessFailed),
-                       MeetingHistoryEventName.videoAccessFailed)
         XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.meetingStartRequested),
                        MeetingHistoryEventName.meetingStartRequested)
         XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.meetingStartSucceeded),

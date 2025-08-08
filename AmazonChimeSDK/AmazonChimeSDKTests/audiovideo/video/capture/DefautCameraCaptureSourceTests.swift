@@ -53,7 +53,7 @@ class DefaultCameraCaptureSourceTests: XCTestCase {
 
         let expect = eventually {
             verify(mockSourceObserver.captureDidFail(error: .configurationFailure)).wasCalled()
-            verify(eventControllerMock.publishEvent(name: .videoAccessFailed, attributes: any())).wasCalled()
+            verify(eventControllerMock.publishEvent(name: .videoInputFailed, attributes: any())).wasCalled()
         }
 
         wait(for: [expect], timeout: defaultTimeout)

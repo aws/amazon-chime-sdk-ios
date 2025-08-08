@@ -103,10 +103,10 @@ class DefaultDeviceControllerTests: XCTestCase {
         
         _ = defaultDeviceController.listAudioDevices()
         
-        verify(eventAnalyticsControllerMock.publishEvent(name: .audioAccessFailed,
+        verify(eventAnalyticsControllerMock.publishEvent(name: .audioInputFailed,
                                                          attributes: captor.any())).wasCalled()
         
-        let error = captor.value?[EventAttributeName.audioAccessError] as? MediaError
+        let error = captor.value?[EventAttributeName.audioInputError] as? MediaError
         XCTAssertEqual(error, MediaError.noAudioDevices)
     }
     

@@ -98,9 +98,9 @@ class DefaultAudioClientControllerTests: CommonTestCase {
         verify(audioLockMock.unlock()).wasCalled()
         
         
-        verify(eventAnalyticsControllerMock.publishEvent(name: .audioAccessFailed, attributes: eventAttributeCaptor.any())).wasCalled()
+        verify(eventAnalyticsControllerMock.publishEvent(name: .audioInputFailed, attributes: eventAttributeCaptor.any())).wasCalled()
         
-        let error = eventAttributeCaptor.value?[EventAttributeName.audioAccessError] as? PermissionError
+        let error = eventAttributeCaptor.value?[EventAttributeName.audioInputError] as? PermissionError
         XCTAssertEqual(error, PermissionError.audioPermissionError)
     }
     

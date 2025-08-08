@@ -83,10 +83,8 @@ Chime SDK sends these meeting events.
 |`meetingStartFailed`    |The meeting failed to start.
 |`meetingEnded`          |The meeting ended.
 |`meetingFailed`         |The meeting ended with one of the following failure [MeetingSessionStatusCode](https://aws.github.io/amazon-chime-sdk-ios/Enums/MeetingSessionStatusCode.html): <br><ul><li>`audioJoinedFromAnotherDevice`</li><li>`audioDisconnectAudio`</li><li>`audioAuthenticationRejected`</li><li>`audioCallAtCapacity`</li><li>`audioCallEnded`</li><li>`audioInternalServerError`</li><li>`audioServiceUnavailable`</li><li>`audioDisconnected`</li></ul>
-|`audioInputFailed`      |The microphone selection failed.
-|`videoInputFailed`      |The camera selection failed.
-|`audioAccessFailed`     |The microphone access failed.
-|`videoAccessFailed`     |The camera access failed.
+|`audioInputFailed`      |The microphone selection or access failed.
+|`videoInputFailed`      |The camera selection or access failed.
 
 ### Common attributes
 Chime SDK stores common attributes for builders to identify/filter events.
@@ -135,10 +133,8 @@ The following table describes attributes for a meeting.
 The following table describes attributes for the microphone and camera.
 |Attribute|Description|Included in
 |--|--|--
-|`audioInputErrorMessage`|The error message that explains why the microphone selection failed.|`audioInputFailed`
-|`audioAccessErrorMessage`|The error message that explains why the microphone access failed.|`audioAccessFailed`
-|`videoInputErrorMessage`|The error that explains why the camera selection failed.|`videoInputFailed`
-|`videoAccessErrorMessage`|The error message that explains why the camera access failed.|`videoAccessFailed`
+|`audioInputErrorMessage`|The error message that explains why the microphone selection or access failed.|`audioInputFailed`
+|`videoInputErrorMessage`|The error that explains why the camera selection or access failed.|`videoInputFailed`
 ### The meeting history attribute
 The meeting history attribute is a list of states. Each state object contains the state name and timestamp.
 
@@ -181,10 +177,8 @@ The following table lists available states.
 |`meetingStartSucceeded`|The meeting started.
 |`audioInputSelected`|The microphone was selected.
 |`audioInputFailed`|The microphone selection failed.
-|`audioAccessFailed`|The microphone access failed.
 |`videoInputSelected`|The camera was selected.
 |`videoInputFailed`|The camera selection failed.
-|`videoAccessFailed`|The camera access failed.
 
 ## Example
 

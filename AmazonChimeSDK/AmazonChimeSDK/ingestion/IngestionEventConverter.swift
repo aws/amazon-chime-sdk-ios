@@ -36,16 +36,6 @@ private typealias EAName = EventAttributeName
         if let audioError = eventAttributes[EventAttributeName.audioInputError] as? Error {
             audioErrorStr = String(describing: audioError)
         }
-        
-        var audioAccessErrorStr: String?
-        if let audioAccessError = eventAttributes[EventAttributeName.audioAccessError] as? Error {
-            audioAccessErrorStr = String(describing: audioAccessError)
-        }
-        
-        var videoAccessErrorStr: String?
-        if let videoAccessError = eventAttributes[EventAttributeName.videoAccessError] as? Error {
-            videoAccessErrorStr = String(describing: videoAccessError)
-        }
 
         var attributes = [String:AnyCodable]()
         attributes[EAName.timestampMs.description] = AnyCodable(eventAttributes[EAName.timestampMs])
@@ -63,8 +53,6 @@ private typealias EAName = EventAttributeName
         attributes[EAName.retryCount.description] = AnyCodable(eventAttributes[EAName.retryCount])
         attributes[EAName.videoInputError.description] = AnyCodable(videoErrorStr)
         attributes[EAName.audioInputError.description] = AnyCodable(audioErrorStr)
-        attributes[EAName.audioAccessError.description] = AnyCodable(audioAccessErrorStr)
-        attributes[EAName.videoAccessError.description] = AnyCodable(videoAccessErrorStr)
         
         clientConfig.metadataAttributes.forEach({ (key: String, value: Any) in
             attributes[key] = AnyCodable(value)
@@ -174,8 +162,6 @@ private typealias EAName = EventAttributeName
                                 retryCount: meetingEvent.getRetryCount(),
                                 videoInputErrorMessage: meetingEvent.getVideoInputErrorMessage(),
                                 audioInputErrorMessage: meetingEvent.getAudioInputErrorMessage(),
-                                audioAccessErrorMessage: meetingEvent.getAudioAccessErrorMessage(),
-                                videoAccessErrorMessage: meetingEvent.getVideoAccessErrorMessage(),
                                 ttl: dirtyMeetingEventTtl)
     }
 

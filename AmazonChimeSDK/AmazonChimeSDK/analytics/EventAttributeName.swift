@@ -58,14 +58,10 @@ import Foundation
     case retryCount
     // Followings are related to Device Event Attributes
 
-    /// The error of video input selection such as starting camera
+    /// The error message that explains why the camera failed.
     case videoInputError
-    /// The error message that explains why the microphone selection failed.
+    /// The error message that explains why the microphone failed.
     case audioInputError
-    /// The error message that explains why the microphone access failed.
-    case audioAccessError
-    /// The error message that explains why the camera access failed.
-    case videoAccessError
 
     public var description: String {
         switch self {
@@ -117,10 +113,6 @@ import Foundation
             return "audioInputError"
         case .videoInputError:
             return "videoInputError"
-        case .audioAccessError:
-            return "audioAccessError"
-        case .videoAccessError:
-            return "videoAccessError"
         }
     }
 }

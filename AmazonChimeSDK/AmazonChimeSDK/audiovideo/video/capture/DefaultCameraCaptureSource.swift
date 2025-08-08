@@ -193,6 +193,7 @@ import UIKit
                 EventAttributeName.videoInputError: MediaError.noCameraSelected
             ]
             eventAnalyticsController?.publishEvent(name: .videoInputFailed, attributes: attributes)
+            logger.error(msg: "Unable to switch camera. Error: \(MediaError.noCameraSelected.localizedDescription)")
             return
         }
 
@@ -265,10 +266,9 @@ import UIKit
     }
 
     private func handleCaptureFailed(reason: CaptureSourceError) {
-        let attributes = [
-            EventAttributeName.videoAccessError: reason
-        ]
-        eventAnalyticsController?.publishEvent(name: .videoAccessFailed, attributes: attributes)
+        eventAnalyticsController?.publishEvent(name: .videoInputFailed, attributes: [
+            EventAttributeName.videoInputError: reason
+        ])
         
         ObserverUtils.forEach(observers: captureSourceObservers) { (observer: CaptureSourceObserver) in
             observer.captureDidFail(error: reason)

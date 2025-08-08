@@ -10,14 +10,10 @@ import Foundation
 
 /// `EventName` represent some major event that could help builders to analyze the data
 @objc public enum EventName: Int, CaseIterable, CustomStringConvertible {
-    /// The microphone selection failed.
+    /// The microphone selection or access failed.
     case audioInputFailed
-    /// The camera selection failed.
+    /// The camera selection or access failed.
     case videoInputFailed
-    /// The microphone access failed.
-    case audioAccessFailed
-    /// The camera access failed.
-    case videoAccessFailed
     /// The meeting will start.
     case meetingStartRequested
     /// The meeting started.
@@ -39,10 +35,6 @@ import Foundation
             return "audioInputFailed"
         case .videoInputFailed:
             return "videoInputFailed"
-        case .audioAccessFailed:
-            return "audioAccessFailed"
-        case .videoAccessFailed:
-            return "videoAccessFailed"
         case .meetingStartRequested:
             return "meetingStartRequested"
         case .meetingStartSucceeded:
@@ -66,10 +58,6 @@ import Foundation
             return .audioInputFailed
         case "videoInputFailed":
             return .videoInputFailed
-        case "audioAccessFailed":
-            return .audioAccessFailed
-        case "videoAccessFailed":
-            return .videoAccessFailed
         case "meetingStartRequested":
             return .meetingStartRequested
         case "meetingStartSucceeded":

@@ -13,16 +13,12 @@ import Foundation
 @objc public enum MeetingHistoryEventName: Int, CaseIterable, CustomStringConvertible {
     /// The microphone was selected.
     case audioInputSelected
-    /// The microphone selection failed.
+    /// The microphone selection or access failed.
     case audioInputFailed
     /// The camera was selected.
     case videoInputSelected
-    /// The camera selection failed.
+    /// The camera selection or access failed.
     case videoInputFailed
-    /// The microphone access failed.
-    case audioAccessFailed
-    /// The camera access failed.
-    case videoAccessFailed
     /// The meeting failed to start.
     case meetingStartFailed
     /// The meeting will start.
@@ -48,10 +44,6 @@ import Foundation
             return "videoInputSelected"
         case .videoInputFailed:
             return "videoInputFailed"
-        case .audioAccessFailed:
-            return "audioAccessFailed"
-        case .videoAccessFailed:
-            return "videoAccessFailed"
         case .meetingStartFailed:
             return "meetingStartFailed"
         case .meetingStartRequested:
