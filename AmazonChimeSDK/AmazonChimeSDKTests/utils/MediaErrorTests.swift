@@ -13,5 +13,9 @@ class MediaErrorTests: XCTestCase {
     func testDescriptionShouldMatch() {
         XCTAssertEqual(MediaError.illegalState.description, "illegalState")
         XCTAssertEqual(MediaError.audioFailedToStart.description, "audioFailedToStart")
+        XCTAssertEqual(MediaError.noCameraSelected.description, "noCameraSelected")
+        XCTAssertEqual(MediaError.noAudioDevices.description, "noAudioDevices")
+        XCTAssertEqual(MediaError.overrideOutputAudioPortFailed.description, "overrideOutputAudioPortFailed")
+        XCTAssertEqual(MediaError.setPreferredAudioInputFailed.description, "setPreferredAudioInputFailed")
     }
 }

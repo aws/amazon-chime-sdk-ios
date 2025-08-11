@@ -11,12 +11,13 @@ import Foundation
 /// `MeetingHistoryEventName` is a meeting history state which are important events to note in the history.
 /// Thus, this also includes events in `EventName`
 @objc public enum MeetingHistoryEventName: Int, CaseIterable, CustomStringConvertible {
-
     /// The microphone was selected.
     case audioInputSelected
+    /// The microphone selection or access failed.
+    case audioInputFailed
     /// The camera was selected.
     case videoInputSelected
-    /// The camera selection failed.
+    /// The camera selection or access failed.
     case videoInputFailed
     /// The meeting failed to start.
     case meetingStartFailed
@@ -37,6 +38,8 @@ import Foundation
         switch self {
         case .audioInputSelected:
             return "audioInputSelected"
+        case .audioInputFailed:
+            return "audioInputFailed"
         case .videoInputSelected:
             return "videoInputSelected"
         case .videoInputFailed:

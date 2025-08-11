@@ -18,11 +18,13 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
     
     private var mockMeetingStats: [AnyHashable: Any] = [:]
     private let mockMeetingStartDurationMs = 123
+    private let mockMeetingReconnectDurationMs = 123
 
     override func setUp() {
         super.setUp()
         
         mockMeetingStats[EventAttributeName.meetingStartDurationMs] = mockMeetingStartDurationMs
+        mockMeetingStats[EventAttributeName.meetingReconnectDurationMs] = mockMeetingReconnectDurationMs
         
         eventReporterMock = mock(EventReporter.self)
         meetingStatsCollectorMock = mock(MeetingStatsCollector.self)
@@ -58,6 +60,16 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
         
         XCTAssertEqual(eventCaptor.value?.eventAttributes[EventAttributeName.meetingStartDurationMs] as! Int,
                        mockMeetingStartDurationMs)
+        XCTAssertEqual(eventCaptor.value?.eventAttributes[EventAttributeName.meetingReconnectDurationMs] as! Int,
+                       mockMeetingReconnectDurationMs)
+    }
+    
+    func testPublishEvent_ShouldNotContainReconnectDurationAttribute_WhenEventIsNotMeetingReconnected() {
+        let eventCaptor = ArgumentCaptor<SDKEvent>()
+        eventAnalyticsController.publishEvent(name: .meetingStartFailed)
+        verify(eventReporterMock.report(event: eventCaptor.any())).wasCalled()
+        
+        XCTAssertNil(eventCaptor.value?.eventAttributes[EventAttributeName.meetingReconnectDurationMs])
     }
 
     func testPushHistoryState_eventReporter_report() {

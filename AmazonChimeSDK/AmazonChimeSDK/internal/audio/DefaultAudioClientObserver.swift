@@ -51,7 +51,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     public func audioClientStateChanged(_ audioClientState: audio_client_state_t, status: audio_client_status_t) {
         let newAudioStatus = Converters.AudioClientStatus.toMeetingSessionStatusCode(status: status)
         let newAudioState = Converters.AudioClientState.toSessionStateControllerAction(state: audioClientState, status: newAudioStatus)
-
+        
         if newAudioStatus == .unknown {
             logger.info(msg: "AudioClient State rawValue: \(audioClientState.rawValue) Unknown Status rawValue: \(status.rawValue)")
         } else {
@@ -321,6 +321,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
             }
         case .reconnecting:
             meetingStatsCollector.incrementRetryCount()
+            meetingStatsCollector.updateMeetingReconnectedTimeMs()
             eventAnalyticsController.publishEvent(name: .meetingReconnected)
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
                 observer.audioSessionDidStart(reconnecting: true)
@@ -383,7 +384,9 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     }
 
     private func handleStateChangeToReconnecting() {
+        // TODO: Investigate why audioSessionDidStartConnecting(reconnecting: true) is not implemented
         if currentAudioState == .finishConnecting {
+            meetingStatsCollector.updateMeetingStartReconnectingTimeMs()
             notifyAudioClientObserver { (observer: AudioVideoObserver) in
                 observer.audioSessionDidDrop()
             }

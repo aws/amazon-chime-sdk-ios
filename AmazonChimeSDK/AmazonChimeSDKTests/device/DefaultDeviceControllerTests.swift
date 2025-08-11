@@ -95,4 +95,34 @@ class DefaultDeviceControllerTests: XCTestCase {
         XCTAssertEqual(currentDevice?.label, expected?.label)
         XCTAssertEqual(currentDevice?.type, expected?.type)
     }
+    
+    func testListAudioDevices_ShouldPublishEvent_WhenNoAvailableInputs() {
+        let captor = ArgumentCaptor<[AnyHashable: Any]>()
+        
+        given(audioSessionMock.getAvailableInputs()).willReturn(nil)
+        
+        _ = defaultDeviceController.listAudioDevices()
+        
+        verify(eventAnalyticsControllerMock.publishEvent(name: .audioInputFailed,
+                                                         attributes: captor.any())).wasCalled()
+        
+        let error = captor.value?[EventAttributeName.audioInputError] as? MediaError
+        XCTAssertEqual(error, MediaError.noAudioDevices)
+    }
+    
+    func testChooseAudioDevice_ShouldPublishEvent_WhenFail() {
+        let captor = ArgumentCaptor<[AnyHashable: Any]>()
+        
+        given(audioSessionMock.overrideOutputAudioPort(.speaker)).will { _ in
+            throw TestError.simulatedFailure
+        }
+        
+        let speakerDevice = MediaDevice(label: "Built-in Speaker")
+        defaultDeviceController.chooseAudioDevice(mediaDevice: speakerDevice)
+        
+        verify(eventAnalyticsControllerMock.publishEvent(name: .audioInputFailed, attributes: captor.any())).wasCalled()
+        
+        let error = captor.value?[EventAttributeName.audioInputError] as? MediaError
+        XCTAssertEqual(error, MediaError.overrideOutputAudioPortFailed)
+    }
 }

@@ -39,6 +39,11 @@ extension IngestionMeetingEvent {
         return item??.int64Value
     }
     
+    func getMeetingReconnectDurationMs() -> Int64? {
+        let item = eventAttributes[EventAttributeName.meetingReconnectDurationMs.description]
+        return item??.int64Value
+    }
+    
     func getMeetingDurationMs() -> Int64? {
         let item = eventAttributes[EventAttributeName.meetingDurationMs.description]
         return item??.int64Value
@@ -66,6 +71,11 @@ extension IngestionMeetingEvent {
     
     func getVideoInputErrorMessage() -> String? {
         let item = eventAttributes[EventAttributeName.videoInputError.description]
+        return item??.value as? String
+    }
+    
+    func getAudioInputErrorMessage() -> String? {
+        let item = eventAttributes[EventAttributeName.audioInputError.description]
         return item??.value as? String
     }
 }

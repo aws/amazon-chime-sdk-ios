@@ -83,7 +83,8 @@ Chime SDK sends these meeting events.
 |`meetingStartFailed`    |The meeting failed to start.
 |`meetingEnded`          |The meeting ended.
 |`meetingFailed`         |The meeting ended with one of the following failure [MeetingSessionStatusCode](https://aws.github.io/amazon-chime-sdk-ios/Enums/MeetingSessionStatusCode.html): <br><ul><li>`audioJoinedFromAnotherDevice`</li><li>`audioDisconnectAudio`</li><li>`audioAuthenticationRejected`</li><li>`audioCallAtCapacity`</li><li>`audioCallEnded`</li><li>`audioInternalServerError`</li><li>`audioServiceUnavailable`</li><li>`audioDisconnected`</li></ul>
-|`videoInputFailed`      |The camera selection failed.
+|`audioInputFailed`      |The microphone selection or access failed.
+|`videoInputFailed`      |The camera selection or access failed.
 
 ### Common attributes
 Chime SDK stores common attributes for builders to identify/filter events.
@@ -118,7 +119,9 @@ The following table describes attributes for a meeting.
 |Attribute|Description|Included in
 |--|--|--
 |`maxVideoTileCount`|The maximum number of simultaneous video tiles shared during the meeting. This includes a local tile (your video), remote tiles, and content shares.<br><br>Unit: Count|`meetingStartSucceeded`, `meetingReconnected`, `meetingStartFailed`, `meetingEnded`, `meetingFailed`
+|`meetingStartDurationMs`|The time that elapsed between the start request `meetingSession.audioVideo.start()` and the beginning of the meeting `AudioVideoObserver.audioSessionDidStart()`.<br><br>Unit: Milliseconds|`meetingStartSucceeded`, `meetingReconnected`, `meetingStartFailed`, `meetingEnded`, `meetingFailed`
 |`meetingDurationMs`|The time that elapsed between the beginning (`AudioVideoObserver.audioSessionDidStart`) and the end (`AudioVideoObserver.audioSessionDidStop`) of the meeting.<br><br>Unit: Milliseconds|`meetingStartSucceeded`, `meetingStartFailed`, `meetingReconnected`, `meetingEnded`, `meetingFailed`
+|`meetingReconnectDurationMs`|The time taken to reconnect the session after dropped.<br><br>Unit: Milliseconds|`meetingReconnected`
 |`meetingErrorMessage`|The error message that explains why the meeting has failed.|`meetingFailed`
 |`meetingStatus`|The meeting status when the meeting ended or failed. Note that this attribute indicates an enum name in [MeetingSessionStatusCode](https://aws.github.io/amazon-chime-sdk-ios/Enums/MeetingSessionStatusCode.html)| `meetingStartSucceeded`, `meetingReconnected`, `meetingEnded`, `meetingFailed`
 |`poorConnectionCount`|The number of times the significant packet loss occurred during the meeting. Per count, you receive `AudioVideoObserver.connectionDidBecomePoor`.<br><br>Unit: Count|`meetingStartSucceeded`, `meetingReconnected`, `meetingStartFailed`, `meetingEnded`, `meetingFailed`
@@ -127,10 +130,11 @@ The following table describes attributes for a meeting.
 
 
 ### Device attributes
-The following table describes attributes for the camera.
+The following table describes attributes for the microphone and camera.
 |Attribute|Description|Included in
 |--|--|--
-|`videoInputError`|The error that explains why the camera selection failed.|`videoInputFailed`
+|`audioInputErrorMessage`|The error message that explains why the microphone selection or access failed.|`audioInputFailed`
+|`videoInputErrorMessage`|The error that explains why the camera selection or access failed.|`videoInputFailed`
 ### The meeting history attribute
 The meeting history attribute is a list of states. Each state object contains the state name and timestamp.
 
@@ -165,15 +169,16 @@ before sending it to your server application or analytics tool.
 The following table lists available states.
 |State|Description
 |--|--
-|`audioInputSelected`|The microphone was selected.
 |`meetingEnded`|The meeting ended.
 |`meetingFailed`|The meeting ended with the failure status.
 |`meetingReconnected`|The meeting reconnected.
 |`meetingStartFailed`|The meeting failed to start.
 |`meetingStartRequested`|The meeting will start.
 |`meetingStartSucceeded`|The meeting started.
-|`videoInputFailed`|The camera selection failed.
+|`audioInputSelected`|The microphone was selected.
+|`audioInputFailed`|The microphone selection failed.
 |`videoInputSelected`|The camera was selected.
+|`videoInputFailed`|The camera selection failed.
 
 ## Example
 

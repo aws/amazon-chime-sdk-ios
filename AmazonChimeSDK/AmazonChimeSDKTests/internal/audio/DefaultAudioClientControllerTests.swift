@@ -80,6 +80,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
     }
 
     func testStart_recordPermissionNotGranted() {
+        let eventAttributeCaptor = ArgumentCaptor<[AnyHashable: Any]>()
+        
         given(audioSessionMock.getRecordPermission()).willReturn(.denied)
 
         XCTAssertThrowsError(try defaultAudioClientController.start(audioFallbackUrl: audioFallbackUrl,
@@ -94,6 +96,12 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                                     reconnectTimeoutMs: reconnectTimeoutMs))
         verify(audioLockMock.lock()).wasCalled()
         verify(audioLockMock.unlock()).wasCalled()
+        
+        
+        verify(eventAnalyticsControllerMock.publishEvent(name: .audioInputFailed, attributes: eventAttributeCaptor.any())).wasCalled()
+        
+        let error = eventAttributeCaptor.value?[EventAttributeName.audioInputError] as? PermissionError
+        XCTAssertEqual(error, PermissionError.audioPermissionError)
     }
     
     func testStart_emptyAudioHostUrl() {

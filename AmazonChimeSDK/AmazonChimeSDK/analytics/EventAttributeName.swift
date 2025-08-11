@@ -44,6 +44,8 @@ import Foundation
     case maxVideoTileCount
     /// Duration of the meeting start process
     case meetingStartDurationMs
+    /// Duration of the meeting reconnect process
+    case meetingReconnectDurationMs
     /// Duration of the meeting
     case meetingDurationMs
     /// Error message of the meeting
@@ -54,10 +56,12 @@ import Foundation
     case poorConnectionCount
     /// The number of meeting retry connection count during the meeting from start to end
     case retryCount
-    // Followings are related to Device Event Attributes - videoInputFailed
+    // Followings are related to Device Event Attributes
 
-    /// The error of video input selection such as starting camera
+    /// The error message that explains why the camera failed.
     case videoInputError
+    /// The error message that explains why the microphone failed.
+    case audioInputError
 
     public var description: String {
         switch self {
@@ -93,6 +97,8 @@ import Foundation
             return "maxVideoTileCount"
         case .meetingStartDurationMs:
             return "meetingStartDurationMs"
+        case .meetingReconnectDurationMs:
+            return "meetingReconnectDurationMs"
         case .meetingDurationMs:
             return "meetingDurationMs"
         case .meetingErrorMessage:
@@ -103,10 +109,10 @@ import Foundation
             return "poorConnectionCount"
         case .retryCount:
             return "retryCount"
+        case .audioInputError:
+            return "audioInputError"
         case .videoInputError:
             return "videoInputError"
-        default:
-            return ""
         }
     }
 }

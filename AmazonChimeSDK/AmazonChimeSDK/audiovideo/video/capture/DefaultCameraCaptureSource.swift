@@ -56,6 +56,7 @@ import UIKit
         NotificationCenter.default.removeObserver(self)
     }
 
+    // TODO: `device` is being initialize twice: here and in init(), assess if this is needed
     public var device: MediaDevice? = MediaDevice.listVideoDevices().first {
         didSet {
             guard let device = device else { return }
@@ -186,10 +187,17 @@ import UIKit
         device = MediaDevice.listVideoDevices().first { mediaDevice in
             mediaDevice.type == (isUsingFrontCamera ? .videoBackCamera : .videoFrontCamera)
         }
-
-        if device != nil {
-            eventAnalyticsController?.pushHistory(historyEventName: .videoInputSelected)
+        
+        if device == nil {
+            let attributes = [
+                EventAttributeName.videoInputError: MediaError.noCameraSelected
+            ]
+            eventAnalyticsController?.publishEvent(name: .videoInputFailed, attributes: attributes)
+            logger.error(msg: "Unable to switch camera. Error: \(MediaError.noCameraSelected.localizedDescription)")
+            return
         }
+
+        eventAnalyticsController?.pushHistory(historyEventName: .videoInputSelected)
     }
 
     public func addCaptureSourceObserver(observer: CaptureSourceObserver) {
@@ -258,12 +266,10 @@ import UIKit
     }
 
     private func handleCaptureFailed(reason: CaptureSourceError) {
-        let attributes = [
+        eventAnalyticsController?.publishEvent(name: .videoInputFailed, attributes: [
             EventAttributeName.videoInputError: reason
-        ]
-
-        eventAnalyticsController?.publishEvent(name: .videoInputFailed, attributes: attributes)
-
+        ])
+        
         ObserverUtils.forEach(observers: captureSourceObservers) { (observer: CaptureSourceObserver) in
             observer.captureDidFail(error: reason)
         }

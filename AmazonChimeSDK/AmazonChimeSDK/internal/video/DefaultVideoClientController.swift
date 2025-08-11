@@ -52,10 +52,10 @@ class DefaultVideoClientController: NSObject {
 
     private func checkVideoPermission() throws {
         if AVCaptureDevice.authorizationStatus(for: .video) != .authorized {
-            let attributes = [
+            eventAnalyticsController.publishEvent(name: .videoInputFailed, attributes: [
                 EventAttributeName.videoInputError: PermissionError.videoPermissionError
-            ]
-            eventAnalyticsController.publishEvent(name: .videoInputFailed, attributes: attributes)
+            ])
+            logger.error(msg: "Video permission not granted")
             throw PermissionError.videoPermissionError
         }
     }

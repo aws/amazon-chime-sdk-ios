@@ -284,6 +284,8 @@ class ConvertersTests: XCTestCase {
     }
     
     func testMeetingEventNameConvertToMatchingHistoryEVentName() {
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.audioInputFailed),
+                       MeetingHistoryEventName.audioInputFailed)
         XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.videoInputFailed),
                        MeetingHistoryEventName.videoInputFailed)
         XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.meetingStartRequested),

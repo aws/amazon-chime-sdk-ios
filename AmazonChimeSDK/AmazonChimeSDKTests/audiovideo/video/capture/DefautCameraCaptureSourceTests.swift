@@ -66,6 +66,17 @@ class DefaultCameraCaptureSourceTests: XCTestCase {
             formatB: VideoCaptureFormat(width: 1280, height: 720, maxFrameRate: 15)
         ), true)
     }
+    
+    func testSwitchCamera_ShouldPublishVideoInputFailed_WhenCameraNotAvailable() {
+        let captor = ArgumentCaptor<[AnyHashable: Any]>()
+        
+        defaultCameraCaptureSource.switchCamera()
+        
+        verify(eventControllerMock.publishEvent(name: .videoInputFailed, attributes: captor.any())).wasCalled()
+        
+        let error = captor.value?[EventAttributeName.videoInputError] as? MediaError
+        XCTAssertEqual(error, MediaError.noCameraSelected)
+    }
 }
 
 extension AVCaptureSession {
