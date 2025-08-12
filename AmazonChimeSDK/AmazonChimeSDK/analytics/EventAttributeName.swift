@@ -62,6 +62,8 @@ import Foundation
     case videoInputError
     /// The error message that explains why the microphone failed.
     case audioInputError
+    /// The error message that explains why the signaling dropped.
+    case signalingDroppedError
 
     public var description: String {
         switch self {
@@ -113,6 +115,8 @@ import Foundation
             return "audioInputError"
         case .videoInputError:
             return "videoInputError"
+        case .signalingDroppedError:
+            return "signalingDroppedError"
         }
     }
 }

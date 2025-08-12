@@ -20,6 +20,7 @@ class EventNameTests: XCTestCase {
         XCTAssertEqual(EventName.meetingStartFailed.description, "meetingStartFailed")
         XCTAssertEqual(EventName.meetingFailed.description, "meetingFailed")
         XCTAssertEqual(EventName.meetingEnded.description, "meetingEnded")
+        XCTAssertEqual(EventName.signalingDropped.description, "signalingDropped")
         XCTAssertEqual(EventName.unknown.description, "unknown")
     }
     
@@ -40,6 +41,8 @@ class EventNameTests: XCTestCase {
                        EventName.meetingFailed)
         XCTAssertEqual(EventName.toEventName(name: "meetingEnded"),
                        EventName.meetingEnded)
+        XCTAssertEqual(EventName.toEventName(name: "signalingDropped"),
+                       EventName.signalingDropped)
         XCTAssertEqual(EventName.toEventName(name: "invalidEventName"),
                        EventName.unknown)
     }

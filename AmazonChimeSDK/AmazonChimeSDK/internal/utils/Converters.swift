@@ -38,6 +38,8 @@ import Foundation
                 return .meetingFailed
             case .meetingEnded:
                 return .meetingEnded
+            case .signalingDropped:
+                return .signalingDropped
             case .unknown:
                 return .unknown
             }

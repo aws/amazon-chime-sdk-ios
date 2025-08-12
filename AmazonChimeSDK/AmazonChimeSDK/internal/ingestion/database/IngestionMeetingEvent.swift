@@ -78,4 +78,9 @@ extension IngestionMeetingEvent {
         let item = eventAttributes[EventAttributeName.audioInputError.description]
         return item??.value as? String
     }
+    
+    func getSignalingDroppedErrorMessage() -> String? {
+        let item = eventAttributes[EventAttributeName.signalingDroppedError.description]
+        return item??.value as? String
+    }
 }

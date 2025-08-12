@@ -64,6 +64,15 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
                        mockMeetingReconnectDurationMs)
     }
     
+    func testPublishEvent_ShouldAddMeetingStats_WhenSignalingDropped() {
+        let eventCaptor = ArgumentCaptor<SDKEvent>()
+        eventAnalyticsController.publishEvent(name: .signalingDropped)
+        verify(eventReporterMock.report(event: eventCaptor.any())).wasCalled()
+        
+        XCTAssertEqual(eventCaptor.value?.eventAttributes[EventAttributeName.meetingStartDurationMs] as! Int,
+                       mockMeetingStartDurationMs)
+    }
+    
     func testPublishEvent_ShouldNotContainReconnectDurationAttribute_WhenEventIsNotMeetingReconnected() {
         let eventCaptor = ArgumentCaptor<SDKEvent>()
         eventAnalyticsController.publishEvent(name: .meetingStartFailed)

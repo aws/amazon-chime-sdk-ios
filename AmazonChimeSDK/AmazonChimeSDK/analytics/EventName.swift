@@ -26,6 +26,8 @@ import Foundation
     case meetingFailed
     /// The meeting ended.
     case meetingEnded
+    /// The WebSocket failed or closed with an error.
+    case signalingDropped
     // unknown
     case unknown
 
@@ -47,6 +49,8 @@ import Foundation
             return "meetingFailed"
         case .meetingEnded:
             return "meetingEnded"
+        case .signalingDropped:
+            return "signalingDropped"
         case .unknown:
             return "unknown"
         }
@@ -70,6 +74,8 @@ import Foundation
             return .meetingFailed
         case "meetingEnded":
             return .meetingEnded
+        case "signalingDropped":
+            return .signalingDropped
         default:
             return .unknown
         }

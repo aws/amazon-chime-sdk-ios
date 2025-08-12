@@ -159,4 +159,19 @@ class DefaultVideoClientControllerTests: CommonTestCase {
         verify(videoClientMock.setSimulcast(true)).wasCalled()
         verify(videoClientMock.setMaxBitRateKbps(300)).wasCalled()
     }
+    
+    func testVideoClientDidReceiveEvent_ShouldPublishSignalingDroppedEvent_WhenEventTypeIsSignalingDropped() {
+        let event: video_client_event = video_client_event(timestamp: 1,
+                                                           event_type: VIDEO_CLIENT_EVENT_TYPE_SIGNALING_DROPPED,
+                                                           signaling_dropped_error: VIDEO_CLIENT_SIGNALING_DROPPED_ERROR_INTERNAL_SERVER_ERROR)
+        let captor = ArgumentCaptor<[AnyHashable: Any]>()
+        
+        defaultVideoClientController.videoClientDidReceive(event)
+        
+        verify(eventAnalyticsControllerMock.publishEvent(name: .signalingDropped,
+                                                         attributes: captor.any())).wasCalled()
+        
+        let error = captor.value?[EventAttributeName.signalingDroppedError] as? SignalingDroppedError
+        XCTAssertEqual(error, SignalingDroppedError.internalServerError)
+    }
 }

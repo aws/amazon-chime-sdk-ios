@@ -114,7 +114,7 @@ class DefaultDeviceControllerTests: XCTestCase {
         let captor = ArgumentCaptor<[AnyHashable: Any]>()
         
         given(audioSessionMock.overrideOutputAudioPort(.speaker)).will { _ in
-            throw TestError.simulatedFailure
+            throw TestError.audioInputError
         }
         
         let speakerDevice = MediaDevice(label: "Built-in Speaker")

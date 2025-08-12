@@ -50,7 +50,8 @@ import Foundation
              .meetingEnded,
              .meetingStartFailed,
              .meetingStartSucceeded,
-             .meetingReconnected:
+             .meetingReconnected,
+             .signalingDropped:
             var meetingStats = meetingStatsCollector.getMeetingStats()
             if name != .meetingReconnected {
                 meetingStats.removeValue(forKey: EventAttributeName.meetingReconnectDurationMs)

@@ -21,5 +21,6 @@ class MeetingHistoryEventNameTests: XCTestCase {
         XCTAssertEqual(MeetingHistoryEventName.meetingEnded.description, "meetingEnded")
         XCTAssertEqual(MeetingHistoryEventName.meetingFailed.description, "meetingFailed")
         XCTAssertEqual(MeetingHistoryEventName.meetingReconnected.description, "meetingReconnected")
+        XCTAssertEqual(MeetingHistoryEventName.signalingDropped.description, "signalingDropped")
     }
 }

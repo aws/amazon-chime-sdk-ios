@@ -31,6 +31,8 @@ import Foundation
     case meetingFailed
     /// The meeting reconnected.
     case meetingReconnected
+    /// The WebSocket failed or closed with an error.
+    case signalingDropped
     /// unknown
     case unknown
 
@@ -56,6 +58,8 @@ import Foundation
             return "meetingFailed"
         case .meetingReconnected:
             return "meetingReconnected"
+        case .signalingDropped:
+            return "signalingDropped"
         case .unknown:
             return "unknown"
         }
