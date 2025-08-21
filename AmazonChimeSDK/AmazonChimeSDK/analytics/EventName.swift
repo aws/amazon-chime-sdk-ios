@@ -10,25 +10,25 @@ import Foundation
 
 /// `EventName` represent some major event that could help builders to analyze the data
 @objc public enum EventName: Int, CaseIterable, CustomStringConvertible {
-    /// The microphone selection or access failed.
+    /// The microphone selection or access failed
     case audioInputFailed
-    /// The camera selection or access failed.
+    /// The camera selection or access failed
     case videoInputFailed
-    /// The meeting will start.
+    /// The meeting will start
     case meetingStartRequested
-    /// The meeting started.
+    /// The meeting started
     case meetingStartSucceeded
-    /// The meeting reconnected.
+    /// The meeting reconnected
     case meetingReconnected
-    /// The meeting failed to start.
+    /// The meeting failed to start
     case meetingStartFailed
     /// The meeting ended with failure
     case meetingFailed
-    /// The meeting ended.
+    /// The meeting ended
     case meetingEnded
-    /// The video client WebSocket failed or closed with an error.
+    /// The video client signaling websocket failed or closed with an error
     case videoClientSignalingDropped
-    /// The content share WebSocket failed or closed with an error.
+    /// The content share signaling websocket failed or closed with an error
     case contentShareSignalingDropped
     // unknown
     case unknown

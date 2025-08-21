@@ -58,11 +58,11 @@ import Foundation
     case retryCount
     // Followings are related to Device Event Attributes
 
-    /// The error message that explains why the camera failed.
+    /// The error message that explains why the camera failed
     case videoInputError
-    /// The error message that explains why the microphone failed.
+    /// The error message that explains why the microphone failed
     case audioInputError
-    /// The error message that explains why the signaling dropped.
+    /// The error message that explains why the signaling websocket connection dropped
     case signalingDroppedError
 
     public var description: String {

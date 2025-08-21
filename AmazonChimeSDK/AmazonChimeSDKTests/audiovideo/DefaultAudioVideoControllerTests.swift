@@ -19,6 +19,7 @@ class DefaultAudioVideoControllerTests: CommonTestCase {
     var clientMetricsCollectorMock: ClientMetricsCollectorMock!
     var videoClientControllerMock: VideoClientControllerMock!
     var videoTileControllerMock: VideoTileControllerMock!
+    var appLifecycleObserverMock: AppLifecycleObserverMock!
     var defaultAudioVideoController: DefaultAudioVideoController!
 
     override func setUp() {
@@ -29,12 +30,14 @@ class DefaultAudioVideoControllerTests: CommonTestCase {
         clientMetricsCollectorMock = mock(ClientMetricsCollector.self)
         videoClientControllerMock = mock(VideoClientController.self)
         videoTileControllerMock = mock(VideoTileController.self)
+        appLifecycleObserverMock = mock(AppLifecycleObserver.self)
 
         defaultAudioVideoController = DefaultAudioVideoController(audioClientController: audioClientControllerMock,
                                                                   audioClientObserver: audioClientObserverMock,
                                                                   clientMetricsCollector: clientMetricsCollectorMock,
                                                                   videoClientController: videoClientControllerMock,
                                                                   videoTileController: videoTileControllerMock,
+                                                                  appLifecycleObserver: appLifecycleObserverMock,
                                                                   configuration: meetingSessionConfigurationMock,
                                                                   logger: loggerMock)
     }
@@ -55,6 +58,7 @@ class DefaultAudioVideoControllerTests: CommonTestCase {
             reconnectTimeoutMs: self.reconnectTimeoutMs
         )).wasCalled()
         verify(videoClientControllerMock.start()).wasCalled()
+        verify(appLifecycleObserverMock.startObserve()).wasCalled()
     }
 
     func testStart_callKitEnabled() {
@@ -213,6 +217,7 @@ class DefaultAudioVideoControllerTests: CommonTestCase {
 
         verify(audioClientControllerMock.stop()).wasCalled()
         verify(videoClientControllerMock.stopAndDestroy()).wasCalled()
+        verify(appLifecycleObserverMock.stopObserve()).wasCalled()
     }
 
     func testAddAudioVideoObserver() {
