@@ -166,9 +166,11 @@ class DefaultVideoClientControllerTests: CommonTestCase {
                                                            signaling_dropped_error: VIDEO_CLIENT_SIGNALING_DROPPED_ERROR_INTERNAL_SERVER_ERROR)
         let captor = ArgumentCaptor<[AnyHashable: Any]>()
         
-        defaultVideoClientController.videoClientDidReceive(event)
+        let mediaVideoClientMock = mock(VideoClient.self)
         
-        verify(eventAnalyticsControllerMock.publishEvent(name: .signalingDropped,
+        defaultVideoClientController.videoClient(mediaVideoClientMock, didReceive: event)
+        
+        verify(eventAnalyticsControllerMock.publishEvent(name: .videoClientSignalingDropped,
                                                          attributes: captor.any())).wasCalled()
         
         let error = captor.value?[EventAttributeName.signalingDroppedError] as? SignalingDroppedError

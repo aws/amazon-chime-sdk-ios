@@ -66,7 +66,7 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
     
     func testPublishEvent_ShouldAddMeetingStats_WhenSignalingDropped() {
         let eventCaptor = ArgumentCaptor<SDKEvent>()
-        eventAnalyticsController.publishEvent(name: .signalingDropped)
+        eventAnalyticsController.publishEvent(name: .videoClientSignalingDropped)
         verify(eventReporterMock.report(event: eventCaptor.any())).wasCalled()
         
         XCTAssertEqual(eventCaptor.value?.eventAttributes[EventAttributeName.meetingStartDurationMs] as! Int,

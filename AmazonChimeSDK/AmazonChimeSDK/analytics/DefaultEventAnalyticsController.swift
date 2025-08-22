@@ -51,7 +51,8 @@ import Foundation
              .meetingStartFailed,
              .meetingStartSucceeded,
              .meetingReconnected,
-             .signalingDropped:
+             .videoClientSignalingDropped,
+             .contentShareSignalingDropped:
             var meetingStats = meetingStatsCollector.getMeetingStats()
             if name != .meetingReconnected {
                 meetingStats.removeValue(forKey: EventAttributeName.meetingReconnectDurationMs)

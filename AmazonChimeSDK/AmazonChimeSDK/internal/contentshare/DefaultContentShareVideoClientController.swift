@@ -16,6 +16,7 @@ import Foundation
     private let videoClient: VideoClientProtocol
     private let contentShareObservers = ConcurrentMutableSet()
     private let videoSourceAdapter = VideoSourceAdapter()
+    private let eventAnalyticsController: EventAnalyticsController
     private let videoClientLock = NSLock()
     private var isSharing = false
     private let videoConfig: VideoConfiguration = {
@@ -32,12 +33,14 @@ import Foundation
     public init(videoClient: VideoClientProtocol,
                 configuration: MeetingSessionConfiguration,
                 logger: Logger,
-                clientMetricsCollector: ClientMetricsCollector) {
+                clientMetricsCollector: ClientMetricsCollector,
+                eventAnalyticsController: EventAnalyticsController) {
         self.configuration = configuration
         videoConfig.audioHostUrl = configuration.urls.audioHostUrl as NSString
         self.logger = logger
         self.clientMetricsCollector = clientMetricsCollector
         self.videoClient = videoClient
+        self.eventAnalyticsController = eventAnalyticsController
         super.init()
         videoClient.setReceiving(false)
     }
@@ -159,6 +162,16 @@ extension DefaultContentShareVideoClientController: VideoClientDelegate {
             observer.contentShareDidStop(status: ContentShareStatus(statusCode: .ok))
         }
         isSharing = false
+    }
+    
+    public func videoClient(_ client: VideoClient, didReceive event: video_client_event) {
+        logger.info(msg: "ContentShare didReceiveEvent: \(event.event_type)")
+        if (event.event_type == VIDEO_CLIENT_EVENT_TYPE_SIGNALING_DROPPED) {
+            logger.error(msg: "event: \(event.event_type) error: \(event.signaling_dropped_error)")
+            eventAnalyticsController.publishEvent(name: .contentShareSignalingDropped, attributes: [
+                EventAttributeName.signalingDroppedError: SignalingDroppedError(from: event.signaling_dropped_error)
+            ])
+        }
     }
 
     public func videoClientMetricsReceived(_ metrics: [AnyHashable: Any]?) {
