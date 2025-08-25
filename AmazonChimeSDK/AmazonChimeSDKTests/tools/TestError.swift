@@ -7,5 +7,7 @@
 //
 
 enum TestError: Error {
-    case simulatedFailure
+    case audioInputError
+    case videoInputError
+    case signalingDroppedError
 }

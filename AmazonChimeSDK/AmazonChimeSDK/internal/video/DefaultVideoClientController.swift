@@ -178,7 +178,7 @@ extension DefaultVideoClientController: VideoClientDelegate {
     }
 
     public func videoClientDidFail(_ client: VideoClient?, status: video_client_status_t, controlStatus: Int32) {
-        logger.info(msg: "videoClientDidFail")
+        logger.error(msg: "videoClientDidFail")
         ObserverUtils.forEach(observers: videoObservers) { (observer: AudioVideoObserver) in
             observer.videoSessionDidStopWithStatus(sessionStatus:
                 MeetingSessionStatus(statusCode: .videoServiceUnavailable))
@@ -195,6 +195,16 @@ extension DefaultVideoClientController: VideoClientDelegate {
         self.primaryMeetingPromotionObserver?
             .didDemoteFromPrimaryMeeting(status: MeetingSessionStatus.init(statusCode: MeetingSessionStatusCode.audioInternalServerError))
         self.primaryMeetingPromotionObserver = nil
+    }
+    
+    public func videoClient(_ client: VideoClient, didReceive event: video_client_event) {
+        logger.info(msg: "VideoClient didReceiveEvent: \(event.event_type)")
+        if (event.event_type == VIDEO_CLIENT_EVENT_TYPE_SIGNALING_DROPPED) {
+            logger.error(msg: "event: \(event.event_type) error: \(event.signaling_dropped_error)")
+            eventAnalyticsController.publishEvent(name: .videoClientSignalingDropped, attributes: [
+                EventAttributeName.signalingDroppedError: SignalingDroppedError(from: event.signaling_dropped_error)
+            ])
+        }
     }
 
     public func videoClient(_ client: VideoClient?, cameraSendIsAvailable available: Bool) {

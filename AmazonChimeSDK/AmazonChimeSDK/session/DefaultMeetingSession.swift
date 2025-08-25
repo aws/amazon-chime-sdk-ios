@@ -80,7 +80,8 @@ import Foundation
         let contentShareVideoClientController = DefaultContentShareVideoClientController(videoClient: contentShareVideoClient,
                                                                                          configuration: contentShareConfiguration,
                                                                                          logger: logger,
-                                                                                         clientMetricsCollector: clientMetricsCollector)
+                                                                                         clientMetricsCollector: clientMetricsCollector,
+                                                                                         eventAnalyticsController: eventAnalyticsController)
         let contentShareController = DefaultContentShareController(contentShareVideoClientController: contentShareVideoClientController)
 
         self.audioVideo =

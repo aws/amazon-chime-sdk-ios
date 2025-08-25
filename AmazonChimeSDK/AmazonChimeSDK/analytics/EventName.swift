@@ -26,6 +26,10 @@ import Foundation
     case meetingFailed
     /// The meeting ended.
     case meetingEnded
+    /// The video client WebSocket failed or closed with an error.
+    case videoClientSignalingDropped
+    /// The content share WebSocket failed or closed with an error.
+    case contentShareSignalingDropped
     // unknown
     case unknown
 
@@ -47,6 +51,10 @@ import Foundation
             return "meetingFailed"
         case .meetingEnded:
             return "meetingEnded"
+        case .videoClientSignalingDropped:
+            return "videoClientSignalingDropped"
+        case .contentShareSignalingDropped:
+            return "contentShareSignalingDropped"
         case .unknown:
             return "unknown"
         }
@@ -70,6 +78,10 @@ import Foundation
             return .meetingFailed
         case "meetingEnded":
             return .meetingEnded
+        case "videoClientSignalingDropped":
+            return .videoClientSignalingDropped
+        case "contentShareSignalingDropped":
+            return .contentShareSignalingDropped
         default:
             return .unknown
         }

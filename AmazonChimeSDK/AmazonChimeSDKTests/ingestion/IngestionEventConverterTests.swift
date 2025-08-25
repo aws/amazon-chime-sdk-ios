@@ -20,45 +20,37 @@ class IngestionEventConverterTests: CommonTestCase {
         converter = IngestionEventConverter()
     }
     
-    func testToIngestionMeetingEvent_ShouldConvertAudioInputError_IfExists() {
+    func testToIngestionMeetingEvent_ShouldConvertAttributes_IfExists() {
         let event = SDKEvent(eventName: .audioInputFailed, eventAttributes: [
-            EventAttributeName.audioInputError: TestError.simulatedFailure
+            EventAttributeName.audioInputError: TestError.audioInputError,
+            EventAttributeName.videoInputError: TestError.videoInputError,
+            EventAttributeName.signalingDroppedError: TestError.signalingDroppedError
         ])
         let result = converter.toIngestionMeetingEvent(event: event,
                                                        ingestionConfiguration: ingestionConfiguration)
         
-        XCTAssertEqual(result.getAudioInputErrorMessage(), String(describing: TestError.simulatedFailure))
+        XCTAssertEqual(result.getAudioInputErrorMessage(), String(describing: TestError.audioInputError))
+        XCTAssertEqual(result.getVideoInputErrorMessage(), String(describing: TestError.videoInputError))
+        XCTAssertEqual(result.getSignalingDroppedErrorMessage(), String(describing: TestError.signalingDroppedError))
     }
     
-    func testToIngestionRecord_ShouldReturnAudioInputErrorMessage_IfExists() {
-        let ingestionMeetingEvent = IngestionMeetingEvent(name: EventName.audioInputFailed.description, eventAttributes: [
-            EventAttributeName.audioInputError.description: AnyCodable(String(describing: TestError.simulatedFailure))
+    func testToIngestionRecord_ShouldReturnAttributes_IfExists() {
+        let ingestionMeetingEvent = IngestionMeetingEvent(name: EventName.audioInputFailed.description,
+                                                          eventAttributes: [
+            EventAttributeName.audioInputError.description: AnyCodable(String(describing: TestError.audioInputError)),
+            EventAttributeName.videoInputError.description: AnyCodable(String(describing: TestError.videoInputError)),
+            EventAttributeName.signalingDroppedError.description: AnyCodable(String(describing: TestError.signalingDroppedError))
         ])
         let meetingEvent = MeetingEventItem(id: "test", data: ingestionMeetingEvent)
         let results = converter.toIngestionRecord(meetingEvents: [meetingEvent],
                                                   ingestionConfiguration: ingestionConfiguration)
-        let resultErrorMessage = results.events.first!.payloads.first!.audioInputErrorMessage
-        XCTAssertEqual(resultErrorMessage, String(describing: TestError.simulatedFailure))
-    }
-    
-    func testToIngestionMeetingEvent_ShouldConvertVideoInputError_IfExists() {
-        let event = SDKEvent(eventName: .videoInputFailed, eventAttributes: [
-            EventAttributeName.videoInputError: TestError.simulatedFailure
-        ])
-        let result = converter.toIngestionMeetingEvent(event: event,
-                                                       ingestionConfiguration: ingestionConfiguration)
+        let audioInputErrorMessage = results.events.first!.payloads.first!.audioInputErrorMessage
+        XCTAssertEqual(audioInputErrorMessage, String(describing: TestError.audioInputError))
         
-        XCTAssertEqual(result.getVideoInputErrorMessage(), String(describing: TestError.simulatedFailure))
-    }
-    
-    func testToIngestionRecord_ShouldReturnVideoInputErrorMessage_IfExists() {
-        let ingestionMeetingEvent = IngestionMeetingEvent(name: EventName.videoInputFailed.description, eventAttributes: [
-            EventAttributeName.videoInputError.description: AnyCodable(String(describing: TestError.simulatedFailure))
-        ])
-        let meetingEvent = MeetingEventItem(id: "test", data: ingestionMeetingEvent)
-        let results = converter.toIngestionRecord(meetingEvents: [meetingEvent],
-                                                  ingestionConfiguration: ingestionConfiguration)
-        let resultErrorMessage = results.events.first!.payloads.first!.videoInputErrorMessage
-        XCTAssertEqual(resultErrorMessage, String(describing: TestError.simulatedFailure))
+        let videoInputErrorMessage = results.events.first!.payloads.first!.videoInputErrorMessage
+        XCTAssertEqual(videoInputErrorMessage, String(describing: TestError.videoInputError))
+        
+        let signalingDroppedErrorMessage = results.events.first!.payloads.first!.signalingDroppedErrorMessage
+        XCTAssertEqual(signalingDroppedErrorMessage, String(describing: TestError.signalingDroppedError))
     }
 }

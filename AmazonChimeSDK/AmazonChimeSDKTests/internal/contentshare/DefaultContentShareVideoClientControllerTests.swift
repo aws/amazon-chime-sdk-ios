@@ -7,6 +7,7 @@
 //
 
 @testable import AmazonChimeSDK
+import AmazonChimeSDKMedia
 import Mockingbird
 import XCTest
 
@@ -14,6 +15,7 @@ class DefaultContentShareVideoClientControllerTests: CommonTestCase {
     var videoClientMock: VideoClientProtocolMock!
     var videoSourceMock: VideoSourceMock!
     var clientMetricsLollectorMock: ClientMetricsCollectorMock!
+    var eventAnalyticsControllerMock: EventAnalyticsControllerMock!
     var defaultContentShareVideoClientController: DefaultContentShareVideoClientController!
     var defaultContentShareVideoClientControllerNone: DefaultContentShareVideoClientController!
     var defaultContentShareVideoClientControllerHigh: DefaultContentShareVideoClientController!
@@ -23,23 +25,27 @@ class DefaultContentShareVideoClientControllerTests: CommonTestCase {
 
         videoClientMock = mock(VideoClientProtocol.self)
         videoSourceMock = mock(VideoSource.self)
+        eventAnalyticsControllerMock = mock(EventAnalyticsController.self)
         loggerMock = mock(Logger.self)
         clientMetricsLollectorMock = mock(ClientMetricsCollector.self)
         defaultContentShareVideoClientController =
             DefaultContentShareVideoClientController(videoClient: videoClientMock,
                                                      configuration: meetingSessionConfigurationMock,
                                                      logger: loggerMock,
-                                                     clientMetricsCollector: clientMetricsLollectorMock)
+                                                     clientMetricsCollector: clientMetricsLollectorMock,
+                                                     eventAnalyticsController: eventAnalyticsControllerMock)
         defaultContentShareVideoClientControllerNone =
             DefaultContentShareVideoClientController(videoClient: videoClientMock,
                                                      configuration: meetingSessionConfigurationMockNone,
                                                      logger: loggerMock,
-                                                     clientMetricsCollector: clientMetricsLollectorMock)
+                                                     clientMetricsCollector: clientMetricsLollectorMock,
+                                                     eventAnalyticsController: eventAnalyticsControllerMock)
         defaultContentShareVideoClientControllerHigh =
             DefaultContentShareVideoClientController(videoClient: videoClientMock,
                                                      configuration: meetingSessionConfigurationMockHigh,
                                                      logger: loggerMock,
-                                                     clientMetricsCollector: clientMetricsLollectorMock)
+                                                     clientMetricsCollector: clientMetricsLollectorMock,
+                                                     eventAnalyticsController: eventAnalyticsControllerMock)
 
         given(videoSourceMock.getVideoContentHint()).willReturn(VideoContentHint.text)
     }
@@ -142,5 +148,22 @@ class DefaultContentShareVideoClientControllerTests: CommonTestCase {
 
         verify(videoClientMock.setSending(false)).wasNeverCalled()
         verify(videoClientMock.stop()).wasNeverCalled()
+    }
+    
+    func testVideoClientDidReceiveEvent_ShouldPublishSignalingDroppedEvent_WhenEventTypeIsSignalingDropped() {
+        let event: video_client_event = video_client_event(timestamp: 1,
+                                                           event_type: VIDEO_CLIENT_EVENT_TYPE_SIGNALING_DROPPED,
+                                                           signaling_dropped_error: VIDEO_CLIENT_SIGNALING_DROPPED_ERROR_INTERNAL_SERVER_ERROR)
+        let captor = ArgumentCaptor<[AnyHashable: Any]>()
+        
+        let mediaVideoClientMock = mock(VideoClient.self)
+        
+        defaultContentShareVideoClientController.videoClient(mediaVideoClientMock, didReceive: event)
+        
+        verify(eventAnalyticsControllerMock.publishEvent(name: .contentShareSignalingDropped,
+                                                         attributes: captor.any())).wasCalled()
+        
+        let error = captor.value?[EventAttributeName.signalingDroppedError] as? SignalingDroppedError
+        XCTAssertEqual(error, SignalingDroppedError.internalServerError)
     }
 }

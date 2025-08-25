@@ -38,6 +38,10 @@ import Foundation
                 return .meetingFailed
             case .meetingEnded:
                 return .meetingEnded
+            case .videoClientSignalingDropped:
+                return .videoClientSignalingDropped
+            case .contentShareSignalingDropped:
+                return .contentShareSignalingDropped
             case .unknown:
                 return .unknown
             }

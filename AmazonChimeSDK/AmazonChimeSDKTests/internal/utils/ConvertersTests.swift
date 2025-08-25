@@ -302,6 +302,10 @@ class ConvertersTests: XCTestCase {
                        MeetingHistoryEventName.meetingStartFailed)
         XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.meetingFailed),
                        MeetingHistoryEventName.meetingFailed)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.videoClientSignalingDropped),
+                       MeetingHistoryEventName.videoClientSignalingDropped)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.contentShareSignalingDropped),
+                       MeetingHistoryEventName.contentShareSignalingDropped)
         XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.unknown),
                        MeetingHistoryEventName.unknown)
     }
