@@ -18,7 +18,7 @@ import Foundation
     private let clientMetricsCollector: ClientMetricsCollector
     private var videoClientController: VideoClientController
     private let videoTileController: VideoTileController
-    private let appLifecycleObserver: AppLifecycleObserver
+    private let appStateMonitor: AppStateMonitor
     private var primaryMeetingPromotionObserver: PrimaryMeetingPromotionObserver?
 
     public init(audioClientController: AudioClientController,
@@ -26,7 +26,7 @@ import Foundation
                 clientMetricsCollector: ClientMetricsCollector,
                 videoClientController: VideoClientController,
                 videoTileController: VideoTileController,
-                appLifecycleObserver: AppLifecycleObserver,
+                appStateMonitor: AppStateMonitor,
                 configuration: MeetingSessionConfiguration,
                 logger: Logger) {
         self.audioClientController = audioClientController
@@ -34,7 +34,7 @@ import Foundation
         self.clientMetricsCollector = clientMetricsCollector
         self.videoClientController = videoClientController
         self.videoTileController = videoTileController
-        self.appLifecycleObserver = appLifecycleObserver
+        self.appStateMonitor = appStateMonitor
         self.configuration = configuration
         self.logger = logger
     }
@@ -50,7 +50,7 @@ import Foundation
     }
 
     public func start(audioVideoConfiguration: AudioVideoConfiguration) throws {
-        self.appLifecycleObserver.startObserve()
+        self.appStateMonitor.start()
         try audioClientController.start(audioFallbackUrl: configuration.urls.audioFallbackUrl,
                                         audioHostUrl: configuration.urls.audioHostUrl,
                                         meetingId: configuration.meetingId,
@@ -68,7 +68,7 @@ import Foundation
     public func stop() {
         audioClientController.stop()
         videoClientController.stopAndDestroy()
-        self.appLifecycleObserver.stopObserve()
+        self.appStateMonitor.stop()
     }
 
     public func addAudioVideoObserver(observer: AudioVideoObserver) {

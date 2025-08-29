@@ -41,6 +41,11 @@ private typealias EAName = EventAttributeName
         if let signalingDroppedError = eventAttributes[EventAttributeName.signalingDroppedError] as? Error {
             signalingDroppedErrorStr = String(describing: signalingDroppedError)
         }
+        
+        var appStateStr: String?
+        if let appState = eventAttributes[EventAttributeName.appState] as? AppState {
+            appStateStr = String(describing: appState)
+        }
 
         var attributes = [String:AnyCodable]()
         attributes[EAName.timestampMs.description] = AnyCodable(eventAttributes[EAName.timestampMs])
@@ -59,6 +64,7 @@ private typealias EAName = EventAttributeName
         attributes[EAName.videoInputError.description] = AnyCodable(videoErrorStr)
         attributes[EAName.audioInputError.description] = AnyCodable(audioErrorStr)
         attributes[EAName.signalingDroppedError.description] = AnyCodable(signalingDroppedErrorStr)
+        attributes[EAName.appState.description] = AnyCodable(appStateStr)
         
         clientConfig.metadataAttributes.forEach({ (key: String, value: Any) in
             attributes[key] = AnyCodable(value)
@@ -169,6 +175,7 @@ private typealias EAName = EventAttributeName
                                 videoInputErrorMessage: meetingEvent.getVideoInputErrorMessage(),
                                 audioInputErrorMessage: meetingEvent.getAudioInputErrorMessage(),
                                 signalingDroppedErrorMessage: meetingEvent.getSignalingDroppedErrorMessage(),
+                                appState: meetingEvent.getAppState(),
                                 ttl: dirtyMeetingEventTtl)
     }
 

@@ -35,10 +35,10 @@ import Foundation
     case videoClientSignalingDropped
     /// The content share signaling websocket failed or closed with an error.
     case contentShareSignalingDropped
-    /// The application entered foreground
-    case appEnteredForeground
-    /// The application entered background
-    case appEnteredBackground
+    /// The application state is changed
+    case appStateChanged
+    /// The application memory is low
+    case appMemoryLow
     /// unknown
     case unknown
 
@@ -68,10 +68,10 @@ import Foundation
             return "videoClientSignalingDropped"
         case .contentShareSignalingDropped:
             return "contentShareSignalingDropped"
-        case .appEnteredForeground:
-            return "appEnteredForeground"
-        case .appEnteredBackground:
-            return "appEnteredBackground"
+        case .appStateChanged:
+            return "appStateChanged"
+        case .appMemoryLow:
+            return "appMemoryLow"
         case .unknown:
             return "unknown"
         }

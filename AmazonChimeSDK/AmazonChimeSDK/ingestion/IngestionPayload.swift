@@ -23,6 +23,7 @@ import Foundation
     public let videoInputErrorMessage: String?
     public let audioInputErrorMessage: String?
     public let signalingDroppedErrorMessage: String?
+    public let appState: String?
     public let ttl: Int64?
 
     public init(name: String,
@@ -39,6 +40,7 @@ import Foundation
                 videoInputErrorMessage: String? = nil,
                 audioInputErrorMessage: String? = nil,
                 signalingDroppedErrorMessage: String? = nil,
+                appState: String? = nil,
                 ttl: Int64? = nil) {
         self.name = name
         self.ts = ts
@@ -54,6 +56,7 @@ import Foundation
         self.videoInputErrorMessage = videoInputErrorMessage
         self.audioInputErrorMessage = audioInputErrorMessage
         self.signalingDroppedErrorMessage = signalingDroppedErrorMessage
+        self.appState = appState
         self.ttl = ttl
     }
 }

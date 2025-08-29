@@ -87,6 +87,8 @@ Chime SDK sends these meeting events.
 |`videoInputFailed`      |The camera selection or access failed.
 |`videoClientSignalingDropped`      |The video client signaling websocket failed or closed with an error.
 |`contentShareSignalingDropped`     |The content share client signaling websocket failed or closed with an error.
+|`appStateChanged`                  |The application state is changed.
+|`appMemoryLow`                     |The application memory is low.
 
 ### Common attributes
 Chime SDK stores common attributes for builders to identify/filter events.
@@ -129,6 +131,7 @@ The following table describes attributes for a meeting.
 |`poorConnectionCount`|The number of times the significant packet loss occurred during the meeting. Per count, you receive `AudioVideoObserver.connectionDidBecomePoor`.<br><br>Unit: Count|`meetingStartSucceeded`, `meetingReconnected`, `meetingStartFailed`, `meetingEnded`, `meetingFailed`
 |`retryCount`|The number of connection retries performed during the meeting.<br><br>Unit: Count|`meetingStartSucceeded`, `meetingReconnected`, `meetingStartFailed`, `meetingEnded`, `meetingFailed`
 |`signalingDroppedErrorMessage`|The error message that explains why the signaling websocket connection dropped.|`videoClientSignalingDropped`, `contentShareSignalingDropped`
+|`appState`|The current app state when the event occurs.| All events
 
 
 ### Device attributes
@@ -183,8 +186,8 @@ The following table lists available states.
 |`videoInputFailed`                 |The camera selection failed.
 |`videoClientSignalingDropped`      |The video client signaling websocket failed or closed with an error.
 |`contentShareSignalingDropped`     |The content share client signaling websocket failed or closed with an error.
-|`appEnteredForeground`             |The app entered foreground.
-|`appEnteredBackground`             |The app entered background.
+|`appStateChanged`                  |The application state is changed.
+|`appMemoryLow`                     |The application memory is low.
 
 ## Example
 

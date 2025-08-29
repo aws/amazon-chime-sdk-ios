@@ -15,6 +15,7 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
     var eventAnalyticsController: DefaultEventAnalyticsController!
     var meetingStatsCollectorMock: MeetingStatsCollectorMock!
     var eventReporterMock: EventReporterMock!
+    var appStateMonitorMock: AppStateMonitorMock!
     
     private var mockMeetingStats: [AnyHashable: Any] = [:]
     private let mockMeetingStartDurationMs = 123
@@ -27,10 +28,13 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
         mockMeetingStats[EventAttributeName.meetingReconnectDurationMs] = mockMeetingReconnectDurationMs
         
         eventReporterMock = mock(EventReporter.self)
+        appStateMonitorMock = mock(AppStateMonitor.self)
         meetingStatsCollectorMock = mock(MeetingStatsCollector.self)
         given(meetingStatsCollectorMock.getMeetingStats()).willReturn(mockMeetingStats)
+        given(appStateMonitorMock.getAppState()).willReturn(.active)
         eventAnalyticsController = DefaultEventAnalyticsController(meetingSessionConfig: meetingSessionConfigurationMock,
                                                                    meetingStatsCollector: meetingStatsCollectorMock,
+                                                                   appStateMonitor: appStateMonitorMock,
                                                                    logger: loggerMock,
                                                                    eventReporter: eventReporterMock)
     }
@@ -87,5 +91,37 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
         eventAnalyticsController.pushHistory(historyEventName: .meetingReconnected)
 
         verify(eventReporterMock.report(event: any())).wasCalled(1)
+    }
+    
+    func testAppStateDidChange_ShouldPublishEvent() {
+        let eventCaptor = ArgumentCaptor<SDKEvent>()
+        let mockObserver = mock(EventAnalyticsObserver.self)
+        
+        given(appStateMonitorMock.getAppState()).willReturn(.background)
+        
+        eventAnalyticsController.addEventAnalyticsObserver(observer: mockObserver)
+        eventAnalyticsController.appStateDidChange(monitor: self.appStateMonitorMock, newAppState: .background)
+
+        verify(eventReporterMock.report(event: eventCaptor.any())).wasCalled(1)
+        
+        XCTAssertEqual(eventCaptor.value?.eventAttributes[EventAttributeName.appState] as? AppState, AppState.background)
+        sleep(1)
+        verify(mockObserver.eventDidReceive(name: any(), attributes: any())).wasNeverCalled()
+    }
+    
+    func testDidReceiveMemoryWarning_ShouldPublishEvent() {
+        let eventCaptor = ArgumentCaptor<SDKEvent>()
+        let mockObserver = mock(EventAnalyticsObserver.self)
+        
+        given(appStateMonitorMock.getAppState()).willReturn(.background)
+        
+        eventAnalyticsController.addEventAnalyticsObserver(observer: mockObserver)
+        eventAnalyticsController.didReceiveMemoryWarning(monitor: self.appStateMonitorMock)
+
+        verify(eventReporterMock.report(event: eventCaptor.any())).wasCalled(1)
+        
+        XCTAssertEqual(eventCaptor.value?.name, EventName.appMemoryLow.description)
+        sleep(1)
+        verify(mockObserver.eventDidReceive(name: any(), attributes: any())).wasNeverCalled()
     }
 }

@@ -64,6 +64,8 @@ import Foundation
     case audioInputError
     /// The error message that explains why the signaling websocket connection dropped
     case signalingDroppedError
+    /// The current app state
+    case appState
 
     public var description: String {
         switch self {
@@ -117,6 +119,8 @@ import Foundation
             return "videoInputError"
         case .signalingDroppedError:
             return "signalingDroppedError"
+        case .appState:
+            return "appState"
         }
     }
 }

@@ -26,7 +26,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
     private let logger: Logger
     private let eventAnalyticsController: EventAnalyticsController
     private let meetingStatsCollector: MeetingStatsCollector
-    private let appLifecycleObserver: AppLifecycleObserver
+    private let appStateMonitor: AppStateMonitor
     private var primaryMeetingPromotionObserver: PrimaryMeetingPromotionObserver?
 
     private let audioLock: AudioLock
@@ -38,14 +38,14 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
          logger: Logger,
          eventAnalyticsController: EventAnalyticsController,
          meetingStatsCollector: MeetingStatsCollector,
-         appLifecycleObserver: AppLifecycleObserver) {
+         appStateMonitor: AppStateMonitor) {
         self.audioClient = audioClient
         self.clientMetricsCollector = clientMetricsCollector
         self.configuration = configuration
         self.logger = logger
         self.eventAnalyticsController = eventAnalyticsController
         self.meetingStatsCollector = meetingStatsCollector
-        self.appLifecycleObserver = appLifecycleObserver
+        self.appStateMonitor = appStateMonitor
         audioLock = audioClientLock
         super.init()
         audioClient.delegate = self
@@ -422,7 +422,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
             self.notifyAudioClientObserver { (observer: AudioVideoObserver) in
                 observer.audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus(statusCode: status))
             }
-            self.appLifecycleObserver.stopObserve()
+            self.appStateMonitor.stop()
         }
     }
 

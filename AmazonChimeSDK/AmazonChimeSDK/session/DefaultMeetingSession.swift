@@ -29,16 +29,18 @@ import Foundation
         let clientMetricsCollector = DefaultClientMetricsCollector()
         let audioClientLock = NSLock()
 
-        let meetingStatsCollector =  DefaultMeetingStatsCollector(logger: logger)
+        let meetingStatsCollector = DefaultMeetingStatsCollector(logger: logger)
+        
+        let appStateMonitor: AppStateMonitor = DefaultAppStateMonitor(logger: self.logger)
 
         let eventReporter: EventReporter? = eventReporterFactory.createEventReporter()
-        self.eventAnalyticsController = DefaultEventAnalyticsController(meetingSessionConfig: configuration,
-                                                                        meetingStatsCollector: meetingStatsCollector,
-                                                                        logger: logger,
-                                                                        eventReporter: eventReporter)
-        
-        let appLifecycleObserver: AppLifecycleObserver = DefaultAppLifecycleObserver(eventAnalyticsController: self.eventAnalyticsController,
-                                                                                     logger: self.logger)
+        let defaultEventAnalyticsController = DefaultEventAnalyticsController(meetingSessionConfig: configuration,
+                                                                              meetingStatsCollector: meetingStatsCollector,
+                                                                              appStateMonitor: appStateMonitor,
+                                                                              logger: logger,
+                                                                              eventReporter: eventReporter)
+        appStateMonitor.delegate = defaultEventAnalyticsController
+        self.eventAnalyticsController = defaultEventAnalyticsController
         
         let audioClientObserver = DefaultAudioClientObserver(audioClient: audioClient,
                                                              clientMetricsCollector: clientMetricsCollector,
@@ -47,7 +49,7 @@ import Foundation
                                                              logger: logger,
                                                              eventAnalyticsController: self.eventAnalyticsController,
                                                              meetingStatsCollector: meetingStatsCollector,
-                                                             appLifecycleObserver: appLifecycleObserver)
+                                                             appStateMonitor: appStateMonitor)
         let activeSpeakerDetector =
             DefaultActiveSpeakerDetector(selfAttendeeId: configuration.credentials.attendeeId)
         let audioClientController = DefaultAudioClientController(audioClient: audioClient,
@@ -97,7 +99,7 @@ import Foundation
                                             clientMetricsCollector: clientMetricsCollector,
                                             videoClientController: videoClientController,
                                             videoTileController: videoTileController,
-                                            appLifecycleObserver: appLifecycleObserver,
+                                            appStateMonitor: appStateMonitor,
                                             configuration: configuration,
                                             logger: logger),
                                     realtimeController: realtimeController,

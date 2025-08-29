@@ -38,7 +38,7 @@ class DefaultAudioClientObserverTests: XCTestCase {
     var mockRealTimeObserver: RealtimeObserverMock!
     var meetingStatsCollectorMock: MeetingStatsCollectorMock!
     var transcriptEventObserverMock: TranscriptEventObserverMock!
-    var appLifecycleObserverMock: AppLifecycleObserverMock!
+    var appStateMonitorMock: AppStateMonitorMock!
 
     let defaultTimeout = 1.0
 
@@ -51,7 +51,7 @@ class DefaultAudioClientObserverTests: XCTestCase {
         audioLockMock = mock(AudioLock.self)
         meetingStatsCollectorMock = mock(MeetingStatsCollector.self)
         transcriptEventObserverMock = mock(TranscriptEventObserver.self)
-        appLifecycleObserverMock = mock(AppLifecycleObserver.self)
+        appStateMonitorMock = mock(AppStateMonitor.self)
         loggerMock = mock(Logger.self)
 
         given(meetingStatsCollectorMock.getMeetingStats()).will { [AnyHashable: Any]() }
@@ -90,7 +90,7 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                                 logger: loggerMock,
                                                                 eventAnalyticsController: eventAnalyticsControllerMock,
                                                                 meetingStatsCollector: meetingStatsCollectorMock,
-                                                                appLifecycleObserver: appLifecycleObserverMock)
+                                                                appStateMonitor: appStateMonitorMock)
         defaultAudioClientObserver.subscribeToAudioClientStateChange(observer: mockAudioVideoObserver)
         defaultAudioClientObserver.subscribeToRealTimeEvents(observer: mockRealTimeObserver)
         defaultAudioClientObserver.subscribeToTranscriptEvent(observer: transcriptEventObserverMock)
@@ -212,7 +212,7 @@ class DefaultAudioClientObserverTests: XCTestCase {
             verify(mockAudioVideoObserver.audioSessionDidStopWithStatus(sessionStatus: any(MeetingSessionStatus.self,
                                                                         where: { $0.statusCode.rawValue == MeetingSessionStatusCode.audioDisconnected.rawValue}))).wasCalled()
             verify(meetingStatsCollectorMock.resetMeetingStats()).wasCalled()
-            verify(appLifecycleObserverMock.stopObserve()).wasCalled()
+            verify(appStateMonitorMock.stop()).wasCalled()
         }
 
         wait(for: [expect], timeout: defaultTimeout)
