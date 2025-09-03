@@ -1,8 +1,8 @@
 ## PENDING
 
 ### Added
-* Added meetingReconnected/audioInputFailed/signalingDropped meeting event
-* Added meetingReconnectDurationMs/audioInputErrorMessage/signalingDroppedErrorMessage meeting event attributes
+* Added meetingReconnected/audioInputFailed/signalingDropped/appStateChanged/appMemoryLow meeting event
+* Added meetingReconnectDurationMs/audioInputErrorMessage/signalingDroppedErrorMessage/appState meeting event attributes
 
 ## [0.27.1] - 2025-03-28
 

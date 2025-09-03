@@ -85,7 +85,10 @@ Chime SDK sends these meeting events.
 |`meetingFailed`         |The meeting ended with one of the following failure [MeetingSessionStatusCode](https://aws.github.io/amazon-chime-sdk-ios/Enums/MeetingSessionStatusCode.html): <br><ul><li>`audioJoinedFromAnotherDevice`</li><li>`audioDisconnectAudio`</li><li>`audioAuthenticationRejected`</li><li>`audioCallAtCapacity`</li><li>`audioCallEnded`</li><li>`audioInternalServerError`</li><li>`audioServiceUnavailable`</li><li>`audioDisconnected`</li></ul>
 |`audioInputFailed`      |The microphone selection or access failed.
 |`videoInputFailed`      |The camera selection or access failed.
-|`signalingDropped`      |The WebSocket failed or closed with an error.
+|`videoClientSignalingDropped`      |The video client signaling websocket failed or closed with an error.
+|`contentShareSignalingDropped`     |The content share client signaling websocket failed or closed with an error.
+|`appStateChanged`                  |The application state is changed.
+|`appMemoryLow`                     |The application memory is low.
 
 ### Common attributes
 Chime SDK stores common attributes for builders to identify/filter events.
@@ -127,7 +130,8 @@ The following table describes attributes for a meeting.
 |`meetingStatus`|The meeting status when the meeting ended or failed. Note that this attribute indicates an enum name in [MeetingSessionStatusCode](https://aws.github.io/amazon-chime-sdk-ios/Enums/MeetingSessionStatusCode.html)| `meetingStartSucceeded`, `meetingReconnected`, `meetingEnded`, `meetingFailed`
 |`poorConnectionCount`|The number of times the significant packet loss occurred during the meeting. Per count, you receive `AudioVideoObserver.connectionDidBecomePoor`.<br><br>Unit: Count|`meetingStartSucceeded`, `meetingReconnected`, `meetingStartFailed`, `meetingEnded`, `meetingFailed`
 |`retryCount`|The number of connection retries performed during the meeting.<br><br>Unit: Count|`meetingStartSucceeded`, `meetingReconnected`, `meetingStartFailed`, `meetingEnded`, `meetingFailed`
-|`signalingDroppedErrorMessage`|The error message that explains why the signaling dropped.|`signalingDropped`
+|`signalingDroppedErrorMessage`|The error message that explains why the signaling websocket connection dropped.|`videoClientSignalingDropped`, `contentShareSignalingDropped`
+|`appState`|The current app state when the event occurs.| All events
 
 
 ### Device attributes
@@ -170,17 +174,20 @@ before sending it to your server application or analytics tool.
 The following table lists available states.
 |State|Description
 |--|--
-|`meetingEnded`|The meeting ended.
-|`meetingFailed`|The meeting ended with the failure status.
-|`meetingReconnected`|The meeting reconnected.
-|`meetingStartFailed`|The meeting failed to start.
-|`meetingStartRequested`|The meeting will start.
-|`meetingStartSucceeded`|The meeting started.
-|`audioInputSelected`|The microphone was selected.
-|`audioInputFailed`|The microphone selection failed.
-|`videoInputSelected`|The camera was selected.
-|`videoInputFailed`|The camera selection failed.
-|`signalingDropped`|The WebSocket failed or closed with an error.
+|`meetingEnded`                     |The meeting ended.
+|`meetingFailed`                    |The meeting ended with the failure status.
+|`meetingReconnected`               |The meeting reconnected.
+|`meetingStartFailed`               |The meeting failed to start.
+|`meetingStartRequested`            |The meeting will start.
+|`meetingStartSucceeded`            |The meeting started.
+|`audioInputSelected`               |The microphone was selected.
+|`audioInputFailed`                 |The microphone selection failed.
+|`videoInputSelected`               |The camera was selected.
+|`videoInputFailed`                 |The camera selection failed.
+|`videoClientSignalingDropped`      |The video client signaling websocket failed or closed with an error.
+|`contentShareSignalingDropped`     |The content share client signaling websocket failed or closed with an error.
+|`appStateChanged`                  |The application state is changed.
+|`appMemoryLow`                     |The application memory is low.
 
 ## Example
 

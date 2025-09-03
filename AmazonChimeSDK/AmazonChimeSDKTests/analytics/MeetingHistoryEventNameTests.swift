@@ -23,5 +23,7 @@ class MeetingHistoryEventNameTests: XCTestCase {
         XCTAssertEqual(MeetingHistoryEventName.meetingReconnected.description, "meetingReconnected")
         XCTAssertEqual(MeetingHistoryEventName.videoClientSignalingDropped.description, "videoClientSignalingDropped")
         XCTAssertEqual(MeetingHistoryEventName.contentShareSignalingDropped.description, "contentShareSignalingDropped")
+        XCTAssertEqual(MeetingHistoryEventName.appStateChanged.description, "appStateChanged")
+        XCTAssertEqual(MeetingHistoryEventName.appMemoryLow.description, "appMemoryLow")
     }
 }

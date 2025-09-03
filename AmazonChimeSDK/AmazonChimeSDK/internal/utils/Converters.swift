@@ -42,6 +42,10 @@ import Foundation
                 return .videoClientSignalingDropped
             case .contentShareSignalingDropped:
                 return .contentShareSignalingDropped
+            case .appStateChanged:
+                return .appStateChanged
+            case .appMemoryLow:
+                return .appMemoryLow
             case .unknown:
                 return .unknown
             }

@@ -19,6 +19,14 @@ import Foundation
     ///   - name: Name of event to publish
     ///   - attributes: Attributes `EventAttributes` for that meeting event
     func publishEvent(name: EventName, attributes: [AnyHashable: Any])
+    
+    /// Publish an event with updated `EventAttributes`
+    ///
+    /// - Parameters:
+    ///   - name: Name of event to publish
+    ///   - attributes: Attributes `EventAttributes` for that meeting event
+    ///   - notifyObservers: Notify `eventAnalyticObservers`
+    func publishEvent(name: EventName, attributes: [AnyHashable: Any], notifyObservers: Bool)
 
     /// Push `MeetingHistoryEventName` to internal `MeetingStatsCollector` states to later pass to builders
     ///

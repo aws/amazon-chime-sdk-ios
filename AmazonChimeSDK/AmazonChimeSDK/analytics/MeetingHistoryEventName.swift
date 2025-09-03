@@ -31,10 +31,14 @@ import Foundation
     case meetingFailed
     /// The meeting reconnected.
     case meetingReconnected
-    /// The video client WebSocket failed or closed with an error.
+    /// The video client signaling websocket failed or closed with an error.
     case videoClientSignalingDropped
-    /// The content share WebSocket failed or closed with an error.
+    /// The content share signaling websocket failed or closed with an error.
     case contentShareSignalingDropped
+    /// The application state is changed
+    case appStateChanged
+    /// The application memory is low
+    case appMemoryLow
     /// unknown
     case unknown
 
@@ -64,6 +68,10 @@ import Foundation
             return "videoClientSignalingDropped"
         case .contentShareSignalingDropped:
             return "contentShareSignalingDropped"
+        case .appStateChanged:
+            return "appStateChanged"
+        case .appMemoryLow:
+            return "appMemoryLow"
         case .unknown:
             return "unknown"
         }

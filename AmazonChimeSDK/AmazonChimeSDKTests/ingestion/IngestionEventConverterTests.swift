@@ -24,7 +24,8 @@ class IngestionEventConverterTests: CommonTestCase {
         let event = SDKEvent(eventName: .audioInputFailed, eventAttributes: [
             EventAttributeName.audioInputError: TestError.audioInputError,
             EventAttributeName.videoInputError: TestError.videoInputError,
-            EventAttributeName.signalingDroppedError: TestError.signalingDroppedError
+            EventAttributeName.signalingDroppedError: TestError.signalingDroppedError,
+            EventAttributeName.appState: AppState.background
         ])
         let result = converter.toIngestionMeetingEvent(event: event,
                                                        ingestionConfiguration: ingestionConfiguration)
@@ -32,6 +33,7 @@ class IngestionEventConverterTests: CommonTestCase {
         XCTAssertEqual(result.getAudioInputErrorMessage(), String(describing: TestError.audioInputError))
         XCTAssertEqual(result.getVideoInputErrorMessage(), String(describing: TestError.videoInputError))
         XCTAssertEqual(result.getSignalingDroppedErrorMessage(), String(describing: TestError.signalingDroppedError))
+        XCTAssertEqual(result.getAppState(), String(describing: AppState.background))
     }
     
     func testToIngestionRecord_ShouldReturnAttributes_IfExists() {
@@ -39,7 +41,8 @@ class IngestionEventConverterTests: CommonTestCase {
                                                           eventAttributes: [
             EventAttributeName.audioInputError.description: AnyCodable(String(describing: TestError.audioInputError)),
             EventAttributeName.videoInputError.description: AnyCodable(String(describing: TestError.videoInputError)),
-            EventAttributeName.signalingDroppedError.description: AnyCodable(String(describing: TestError.signalingDroppedError))
+            EventAttributeName.signalingDroppedError.description: AnyCodable(String(describing: TestError.signalingDroppedError)),
+            EventAttributeName.appState.description: AnyCodable(String(describing: AppState.background))
         ])
         let meetingEvent = MeetingEventItem(id: "test", data: ingestionMeetingEvent)
         let results = converter.toIngestionRecord(meetingEvents: [meetingEvent],
@@ -52,5 +55,8 @@ class IngestionEventConverterTests: CommonTestCase {
         
         let signalingDroppedErrorMessage = results.events.first!.payloads.first!.signalingDroppedErrorMessage
         XCTAssertEqual(signalingDroppedErrorMessage, String(describing: TestError.signalingDroppedError))
+        
+        let appStateStr = results.events.first!.payloads.first!.appState
+        XCTAssertEqual(appStateStr, String(describing: AppState.background))
     }
 }

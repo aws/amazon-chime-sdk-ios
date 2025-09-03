@@ -83,4 +83,9 @@ extension IngestionMeetingEvent {
         let item = eventAttributes[EventAttributeName.signalingDroppedError.description]
         return item??.value as? String
     }
+    
+    func getAppState() -> String? {
+        let item = eventAttributes[EventAttributeName.appState.description]
+        return item??.value as? String
+    }
 }
