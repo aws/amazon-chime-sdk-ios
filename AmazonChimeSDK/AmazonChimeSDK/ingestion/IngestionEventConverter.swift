@@ -185,7 +185,7 @@ private typealias EAName = EventAttributeName
                                 audioInputErrorMessage: meetingEvent.getAudioInputErrorMessage(),
                                 signalingDroppedErrorMessage: meetingEvent.getSignalingDroppedErrorMessage(),
                                 appState: meetingEvent.getAppState(),
-                                batteryLevel: meetingEvent.getBatteryLevel(),
+                                batteryLevel: meetingEvent.getBatteryLevel()?.floatValue,
                                 batteryState: meetingEvent.getBatteryState(),
                                 ttl: dirtyMeetingEventTtl)
     }

@@ -127,7 +127,7 @@ import Foundation
         ]
         
         if let batteryLevel = self.appStateMonitor.getBatteryLevel() {
-            attributes[EventAttributeName.batteryLevel] = batteryLevel.floatValue
+            attributes[EventAttributeName.batteryLevel] = batteryLevel
         }
         
         return attributes
