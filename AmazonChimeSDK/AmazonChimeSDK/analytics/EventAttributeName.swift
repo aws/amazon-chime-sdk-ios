@@ -66,6 +66,10 @@ import Foundation
     case signalingDroppedError
     /// The current app state
     case appState
+    /// The current battery level
+    case batteryLevel
+    /// The current battery state
+    case batteryState
 
     public var description: String {
         switch self {
@@ -121,6 +125,10 @@ import Foundation
             return "signalingDroppedError"
         case .appState:
             return "appState"
+        case .batteryLevel:
+            return "batteryLevel"
+        case .batteryState:
+            return "batteryState"
         }
     }
 }

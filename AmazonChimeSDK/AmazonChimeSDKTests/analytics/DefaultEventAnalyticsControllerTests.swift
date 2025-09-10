@@ -32,6 +32,9 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
         meetingStatsCollectorMock = mock(MeetingStatsCollector.self)
         given(meetingStatsCollectorMock.getMeetingStats()).willReturn(mockMeetingStats)
         given(appStateMonitorMock.getAppState()).willReturn(.active)
+        given(appStateMonitorMock.getBatteryLevel()).willReturn(NSNumber(value: 0.77))
+        given(appStateMonitorMock.getBatteryState()).willReturn(BatteryState.charging)
+        
         eventAnalyticsController = DefaultEventAnalyticsController(meetingSessionConfig: meetingSessionConfigurationMock,
                                                                    meetingStatsCollector: meetingStatsCollectorMock,
                                                                    appStateMonitor: appStateMonitorMock,
@@ -84,6 +87,26 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
         
         XCTAssertNil(eventCaptor.value?.eventAttributes[EventAttributeName.meetingReconnectDurationMs])
     }
+    
+    func testPublishEvent_WillPublishAppAttributes() {
+        let eventCaptor = ArgumentCaptor<SDKEvent>()
+        
+        given(appStateMonitorMock.getAppState()).willReturn(.background)
+        given(appStateMonitorMock.getBatteryLevel()).willReturn(NSNumber.init(value: 0.17))
+        given(appStateMonitorMock.getBatteryState()).willReturn(BatteryState.full)
+        
+        eventAnalyticsController.publishEvent(name: .meetingStartFailed)
+        verify(eventReporterMock.report(event: eventCaptor.any())).wasCalled()
+        
+        let attributes = eventCaptor.value?.eventAttributes
+        
+        XCTAssertEqual(attributes?[EventAttributeName.appState] as! AppState,
+                       AppState.background)
+        XCTAssertEqual((attributes?[EventAttributeName.batteryLevel] as! NSNumber).floatValue,
+                       0.17)
+        XCTAssertEqual(attributes?[EventAttributeName.batteryState] as! BatteryState,
+                       BatteryState.full)
+    }
 
     func testPushHistoryState_eventReporter_report() {
         let mockObserver = mock(EventAnalyticsObserver.self)
@@ -91,6 +114,26 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
         eventAnalyticsController.pushHistory(historyEventName: .meetingReconnected)
 
         verify(eventReporterMock.report(event: any())).wasCalled(1)
+    }
+    
+    func testPushHistoryState_WillPublishAppAttributes() {
+        let eventCaptor = ArgumentCaptor<SDKEvent>()
+        
+        given(appStateMonitorMock.getAppState()).willReturn(.background)
+        given(appStateMonitorMock.getBatteryLevel()).willReturn(NSNumber.init(value: 0.17))
+        given(appStateMonitorMock.getBatteryState()).willReturn(BatteryState.full)
+        
+        eventAnalyticsController.pushHistory(historyEventName: .meetingEnded)
+        verify(eventReporterMock.report(event: eventCaptor.any())).wasCalled()
+        
+        let attributes = eventCaptor.value?.eventAttributes
+        
+        XCTAssertEqual(attributes?[EventAttributeName.appState] as! AppState,
+                       AppState.background)
+        XCTAssertEqual((attributes?[EventAttributeName.batteryLevel] as! NSNumber).floatValue,
+                       0.17)
+        XCTAssertEqual(attributes?[EventAttributeName.batteryState] as! BatteryState,
+                       BatteryState.full)
     }
     
     func testAppStateDidChange_ShouldPublishEvent() {

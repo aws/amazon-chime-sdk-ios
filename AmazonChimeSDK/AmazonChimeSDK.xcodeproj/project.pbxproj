@@ -281,6 +281,7 @@
 		CFD14AAD281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite in Resources */ = {isa = PBXBuildFile; fileRef = CFD14AAB281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite */; };
 		CFF1553C2819C123009E257B /* background-ml-test-image.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CFF1553B2819C123009E257B /* background-ml-test-image.jpeg */; };
 		D81D7BB72E45237800932348 /* PermissionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81D7BB62E45237600932348 /* PermissionError.swift */; };
+		D82D32B32E71E89E009190ED /* BatteryState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82D32B22E71E89A009190ED /* BatteryState.swift */; };
 		D863BE3329BAD65500D9DE9E /* MeetingEventClientConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D863BE3229BAD65500D9DE9E /* MeetingEventClientConfigurationTests.swift */; };
 		D863BE3529BAD8DA00D9DE9E /* AnyCodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D863BE3429BAD8DA00D9DE9E /* AnyCodableTests.swift */; };
 		D863BE3729BAF68B00D9DE9E /* EventAttributeUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D863BE3629BAF68B00D9DE9E /* EventAttributeUtilsTests.swift */; };
@@ -600,6 +601,7 @@
 		CFD14AAB281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = selfie_segmentation_landscape.tflite; sourceTree = "<group>"; };
 		CFF1553B2819C123009E257B /* background-ml-test-image.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "background-ml-test-image.jpeg"; sourceTree = "<group>"; };
 		D81D7BB62E45237600932348 /* PermissionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionError.swift; sourceTree = "<group>"; };
+		D82D32B22E71E89A009190ED /* BatteryState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryState.swift; sourceTree = "<group>"; };
 		D863BE3229BAD65500D9DE9E /* MeetingEventClientConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingEventClientConfigurationTests.swift; sourceTree = "<group>"; };
 		D863BE3429BAD8DA00D9DE9E /* AnyCodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCodableTests.swift; sourceTree = "<group>"; };
 		D863BE3629BAF68B00D9DE9E /* EventAttributeUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAttributeUtilsTests.swift; sourceTree = "<group>"; };
@@ -659,6 +661,7 @@
 		0007BD8F2632402A00A15BB6 /* ingestion */ = {
 			isa = PBXGroup;
 			children = (
+				D82D32B22E71E89A009190ED /* BatteryState.swift */,
 				D8D3F8D42E611669003D2EF4 /* AppStateMonitorDelegate.swift */,
 				D8D3F8D22E610E6A003D2EF4 /* AppState.swift */,
 				D8F829912E569E6A009E9186 /* DefaultAppStateMonitor.swift */,
@@ -1655,6 +1658,7 @@
 				D8F8298A2E564766009E9186 /* AppStateMonitor.swift in Sources */,
 				5403538A27D0C9F9007BABD7 /* TranscriptLanguageWithScore.swift in Sources */,
 				5403538827D0C9E9007BABD7 /* TranscriptEntity.swift in Sources */,
+				D82D32B32E71E89E009190ED /* BatteryState.swift in Sources */,
 				002C1FEA2649D5CD00C9B919 /* EventSender.swift in Sources */,
 				7C0D1BEF241ACC7B00280031 /* ActiveSpeakerDetectorFacade.swift in Sources */,
 				CFA2A15028074FE7008FDFF5 /* ResourceError.swift in Sources */,

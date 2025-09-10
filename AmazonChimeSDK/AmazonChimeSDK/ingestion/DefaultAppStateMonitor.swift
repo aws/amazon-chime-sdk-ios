@@ -115,6 +115,32 @@ import UIKit
         logger.info(msg: "Application received memory low warning.")
         self.delegate?.didReceiveMemoryWarning(monitor: self)
     }
+    
+    // MARK: - Battery Monitoring
+    
+    /// Retrieves the current battery level as a percentage (0.0 to 1.0)
+    /// Returns nil if battery monitoring is not available or disabled
+    public func getBatteryLevel() -> NSNumber? {
+        let device = UIDevice.current
+        
+        if !device.isBatteryMonitoringEnabled {
+            device.isBatteryMonitoringEnabled = true
+        }
+        
+        return device.batteryLevel < 0 ? nil : NSNumber.init(value: device.batteryLevel)
+    }
+    
+    /// Retrieves the current battery state
+    /// Returns the UIDevice.BatteryState indicating charging status
+    public func getBatteryState() -> BatteryState {
+        let device = UIDevice.current
+        
+        if !device.isBatteryMonitoringEnabled {
+            device.isBatteryMonitoringEnabled = true
+        }
+        
+        return BatteryState(from: device.batteryState)
+    }
 
     deinit {
         stop()

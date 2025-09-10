@@ -88,4 +88,14 @@ extension IngestionMeetingEvent {
         let item = eventAttributes[EventAttributeName.appState.description]
         return item??.value as? String
     }
+    
+    func getBatteryLevel() -> Float? {
+        let item = eventAttributes[EventAttributeName.batteryLevel.description]
+        return item??.value as? Float
+    }
+    
+    func getBatteryState() -> String? {
+        let item = eventAttributes[EventAttributeName.batteryState.description]
+        return item??.value as? String
+    }
 }
