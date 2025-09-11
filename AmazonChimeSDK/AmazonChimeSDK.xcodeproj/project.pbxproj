@@ -282,6 +282,7 @@
 		CFF1553C2819C123009E257B /* background-ml-test-image.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CFF1553B2819C123009E257B /* background-ml-test-image.jpeg */; };
 		D81D7BB72E45237800932348 /* PermissionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81D7BB62E45237600932348 /* PermissionError.swift */; };
 		D82D32B32E71E89E009190ED /* BatteryState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82D32B22E71E89A009190ED /* BatteryState.swift */; };
+		D846E9AB2E7248E4008086F3 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D846E9AA2E7248E4008086F3 /* PrivacyInfo.xcprivacy */; };
 		D863BE3329BAD65500D9DE9E /* MeetingEventClientConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D863BE3229BAD65500D9DE9E /* MeetingEventClientConfigurationTests.swift */; };
 		D863BE3529BAD8DA00D9DE9E /* AnyCodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D863BE3429BAD8DA00D9DE9E /* AnyCodableTests.swift */; };
 		D863BE3729BAF68B00D9DE9E /* EventAttributeUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D863BE3629BAF68B00D9DE9E /* EventAttributeUtilsTests.swift */; };
@@ -602,6 +603,7 @@
 		CFF1553B2819C123009E257B /* background-ml-test-image.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "background-ml-test-image.jpeg"; sourceTree = "<group>"; };
 		D81D7BB62E45237600932348 /* PermissionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionError.swift; sourceTree = "<group>"; };
 		D82D32B22E71E89A009190ED /* BatteryState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryState.swift; sourceTree = "<group>"; };
+		D846E9AA2E7248E4008086F3 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		D863BE3229BAD65500D9DE9E /* MeetingEventClientConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingEventClientConfigurationTests.swift; sourceTree = "<group>"; };
 		D863BE3429BAD8DA00D9DE9E /* AnyCodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCodableTests.swift; sourceTree = "<group>"; };
 		D863BE3629BAF68B00D9DE9E /* EventAttributeUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAttributeUtilsTests.swift; sourceTree = "<group>"; };
@@ -885,6 +887,7 @@
 				F86CB7402411B9A6004FD82F /* exported_symbols */,
 				5A15822123C4020D0099F8FA /* Info.plist */,
 				C531A5C5281D37AE00086E73 /* AmazonChimeSDK.h */,
+				D846E9AA2E7248E4008086F3 /* PrivacyInfo.xcprivacy */,
 			);
 			path = AmazonChimeSDK;
 			sourceTree = "<group>";
@@ -1596,6 +1599,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D846E9AB2E7248E4008086F3 /* PrivacyInfo.xcprivacy in Resources */,
 				F86CB7412411B9A6004FD82F /* exported_symbols in Resources */,
 				CFD14AAC281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite in Resources */,
 			);
