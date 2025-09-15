@@ -24,6 +24,8 @@ import Foundation
     public let audioInputErrorMessage: String?
     public let signalingDroppedErrorMessage: String?
     public let appState: String?
+    public let batteryLevel: Float?
+    public let batteryState: String?
     public let ttl: Int64?
 
     public init(name: String,
@@ -41,6 +43,8 @@ import Foundation
                 audioInputErrorMessage: String? = nil,
                 signalingDroppedErrorMessage: String? = nil,
                 appState: String? = nil,
+                batteryLevel: Float? = nil,
+                batteryState: String? = nil,
                 ttl: Int64? = nil) {
         self.name = name
         self.ts = ts
@@ -57,6 +61,8 @@ import Foundation
         self.audioInputErrorMessage = audioInputErrorMessage
         self.signalingDroppedErrorMessage = signalingDroppedErrorMessage
         self.appState = appState
+        self.batteryLevel = batteryLevel
+        self.batteryState = batteryState
         self.ttl = ttl
     }
 }

@@ -15,4 +15,12 @@
     func start()
     
     func stop()
+    
+    /// Retrieves the current battery level as a percentage (0.0 to 1.0)
+    /// Returns nil if battery monitoring is not available or disabled
+    func getBatteryLevel() -> NSNumber?
+    
+    /// Retrieves the current battery state
+    /// Returns the UIDevice.BatteryState indicating charging status
+    func getBatteryState() -> BatteryState
 }

@@ -25,7 +25,9 @@ class IngestionEventConverterTests: CommonTestCase {
             EventAttributeName.audioInputError: TestError.audioInputError,
             EventAttributeName.videoInputError: TestError.videoInputError,
             EventAttributeName.signalingDroppedError: TestError.signalingDroppedError,
-            EventAttributeName.appState: AppState.background
+            EventAttributeName.appState: AppState.background,
+            EventAttributeName.batteryLevel: 0.5,
+            EventAttributeName.batteryState: BatteryState.charging
         ])
         let result = converter.toIngestionMeetingEvent(event: event,
                                                        ingestionConfiguration: ingestionConfiguration)
@@ -34,6 +36,8 @@ class IngestionEventConverterTests: CommonTestCase {
         XCTAssertEqual(result.getVideoInputErrorMessage(), String(describing: TestError.videoInputError))
         XCTAssertEqual(result.getSignalingDroppedErrorMessage(), String(describing: TestError.signalingDroppedError))
         XCTAssertEqual(result.getAppState(), String(describing: AppState.background))
+        XCTAssertEqual(result.getBatteryLevel(), 0.5)
+        XCTAssertEqual(result.getBatteryState(), String(describing: BatteryState.charging))
     }
     
     func testToIngestionRecord_ShouldReturnAttributes_IfExists() {

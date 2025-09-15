@@ -2,7 +2,7 @@
 
 ### Added
 * Added meetingReconnected/audioInputFailed/signalingDropped/appStateChanged/appMemoryLow meeting event
-* Added meetingReconnectDurationMs/audioInputErrorMessage/signalingDroppedErrorMessage/appState meeting event attributes
+* Added meetingReconnectDurationMs/audioInputErrorMessage/signalingDroppedErrorMessage/appState/batteryLevel/batteryState to meeting event attributes
 
 ## [0.27.1] - 2025-03-28
 

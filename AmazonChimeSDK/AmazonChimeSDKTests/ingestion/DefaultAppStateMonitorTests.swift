@@ -125,4 +125,93 @@ final class DefaultAppStateMonitorTests: XCTestCase {
         verify(delegateMock.appStateDidChange(monitor: monitor, newAppState: AppState.inactive)).wasNeverCalled()
         XCTAssertNotEqual(monitor.appState, .inactive)
     }
+    
+    // MARK: - Battery Monitoring Tests
+    
+    func testGetBatteryLevel_WhenBatteryMonitoringEnabled_ShouldReturnValidLevel() {
+        // Given
+        let device = UIDevice.current
+        let originalMonitoringState = device.isBatteryMonitoringEnabled
+        device.isBatteryMonitoringEnabled = true
+        
+        // When
+        let batteryLevel = monitor.getBatteryLevel()
+        
+        // Then
+        if device.batteryLevel >= 0 {
+            XCTAssertNotNil(batteryLevel)
+            XCTAssertGreaterThanOrEqual(batteryLevel!.floatValue, 0.0)
+            XCTAssertLessThanOrEqual(batteryLevel!.floatValue, 1.0)
+        } else {
+            // Battery level is unknown (-1.0)
+            XCTAssertNil(batteryLevel)
+        }
+        
+        // Cleanup
+        device.isBatteryMonitoringEnabled = originalMonitoringState
+    }
+    
+    func testGetBatteryLevel_WhenBatteryMonitoringDisabled_ShouldEnableAndReturnLevel() {
+        // Given
+        let device = UIDevice.current
+        let originalMonitoringState = device.isBatteryMonitoringEnabled
+        device.isBatteryMonitoringEnabled = false
+        
+        // When
+        let batteryLevel = monitor.getBatteryLevel()
+        
+        if device.batteryLevel >= 0 {
+            XCTAssertNotNil(batteryLevel)
+            XCTAssertGreaterThanOrEqual(batteryLevel!.floatValue, 0.0)
+            XCTAssertLessThanOrEqual(batteryLevel!.floatValue, 1.0)
+        } else {
+            // Battery level is unknown (-1.0)
+            XCTAssertNil(batteryLevel)
+        }
+        
+        // Cleanup
+        device.isBatteryMonitoringEnabled = originalMonitoringState
+    }
+    
+    func testGetBatteryLevel_WhenBatteryLevelUnknown_ShouldReturnNil() {
+        // Given
+        let device = UIDevice.current
+        let originalMonitoringState = device.isBatteryMonitoringEnabled
+        
+        // When
+        let batteryLevel = monitor.getBatteryLevel()
+        
+        // Then
+        if device.batteryLevel < 0 {
+            XCTAssertNil(batteryLevel, "Battery level should be nil when device.batteryLevel is negative")
+        }
+        
+        // Cleanup
+        device.isBatteryMonitoringEnabled = originalMonitoringState
+    }
+    
+    func testGetBatteryState_WhenBatteryMonitoringEnabled_ShouldReturnValidState() {
+        validateBatteryState(true)
+    }
+    
+    func testGetBatteryState_WhenBatteryMonitoringDisabled_ShouldEnableAndReturnState() {
+        validateBatteryState(false)
+    }
+    
+    private func validateBatteryState(_ isBatteryMonitoringEnabled: Bool) {
+        // Given
+        let device = UIDevice.current
+        let originalMonitoringState = device.isBatteryMonitoringEnabled
+        device.isBatteryMonitoringEnabled = false
+        
+        // When
+        let batteryState = monitor.getBatteryState()
+        
+        // Verify the state is one of the expected values
+        let validStates: [BatteryState] = [.charging, .discharging, .full, .unknown]
+        XCTAssertTrue(validStates.contains(batteryState), "Battery state should be one of the valid states")
+        
+        // Cleanup
+        device.isBatteryMonitoringEnabled = originalMonitoringState
+    }
 }

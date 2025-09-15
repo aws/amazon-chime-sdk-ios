@@ -76,7 +76,7 @@ import Foundation
             break
         }
         
-        mutatedAttributes[EventAttributeName.appState] = self.appStateMonitor.appState
+        mutatedAttributes.merge(getAppAttributes()) { (_, new) in new }
 
         eventReporter?.report(event: SDKEvent(eventName: name, eventAttributes: mutatedAttributes))
         
@@ -94,7 +94,11 @@ import Foundation
     // TODO: Remove this, use publishEvent() instead
     public func pushHistory(historyEventName: MeetingHistoryEventName) {
         let currentTimeMs = DateUtils.getCurrentTimeStampMs()
-        let attributes = [EventAttributeName.timestampMs: currentTimeMs]
+        var attributes: [AnyHashable: Any]  = [
+            EventAttributeName.timestampMs: currentTimeMs,
+        ]
+        attributes.merge(getAppAttributes()) { (_, new) in new }
+        
         eventReporter?.report(event: SDKEvent(meetingHistoryEventName: historyEventName,
                                               eventAttributes: attributes))
 
@@ -112,6 +116,21 @@ import Foundation
 
     public func getCommonEventAttributes() -> [AnyHashable: Any] {
         return EventAttributeUtils.getCommonAttributes(meetingSessionConfig: meetingSessionConfig)
+    }
+    
+    private func getAppAttributes() -> [AnyHashable: Any] {
+        let appState = self.appStateMonitor.appState
+        let batteryState = self.appStateMonitor.getBatteryState()
+        var attributes: [EventAttributeName : Any] = [
+            EventAttributeName.appState: appState,
+            EventAttributeName.batteryState: batteryState
+        ]
+        
+        if let batteryLevel = self.appStateMonitor.getBatteryLevel() {
+            attributes[EventAttributeName.batteryLevel] = batteryLevel
+        }
+        
+        return attributes
     }
 }
 

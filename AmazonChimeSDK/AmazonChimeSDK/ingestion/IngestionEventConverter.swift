@@ -65,6 +65,15 @@ private typealias EAName = EventAttributeName
         attributes[EAName.audioInputError.description] = AnyCodable(audioErrorStr)
         attributes[EAName.signalingDroppedError.description] = AnyCodable(signalingDroppedErrorStr)
         attributes[EAName.appState.description] = AnyCodable(appStateStr)
+        if let batteryLevel = eventAttributes[EventAttributeName.batteryLevel] as? NSNumber {
+            attributes[EAName.batteryLevel.description] = AnyCodable(batteryLevel.floatValue)
+        }
+        
+        if let batteryState = eventAttributes[EventAttributeName.batteryState] as? BatteryState {
+            let batteryStateStr = String(describing: batteryState)
+            attributes[EAName.batteryState.description] = AnyCodable(batteryStateStr)
+        }
+        
         
         clientConfig.metadataAttributes.forEach({ (key: String, value: Any) in
             attributes[key] = AnyCodable(value)
@@ -176,6 +185,8 @@ private typealias EAName = EventAttributeName
                                 audioInputErrorMessage: meetingEvent.getAudioInputErrorMessage(),
                                 signalingDroppedErrorMessage: meetingEvent.getSignalingDroppedErrorMessage(),
                                 appState: meetingEvent.getAppState(),
+                                batteryLevel: meetingEvent.getBatteryLevel()?.floatValue,
+                                batteryState: meetingEvent.getBatteryState(),
                                 ttl: dirtyMeetingEventTtl)
     }
 
