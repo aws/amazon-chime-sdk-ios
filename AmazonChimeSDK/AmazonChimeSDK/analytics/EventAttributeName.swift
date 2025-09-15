@@ -64,6 +64,8 @@ import Foundation
     case audioInputError
     /// The error message that explains why the signaling websocket connection dropped
     case signalingDroppedError
+    /// The error message that explains why content share failed
+    case contentShareError
     /// The current app state
     case appState
     /// The current battery level
@@ -123,6 +125,8 @@ import Foundation
             return "videoInputError"
         case .signalingDroppedError:
             return "signalingDroppedError"
+        case .contentShareError:
+            return "contentShareError"
         case .appState:
             return "appState"
         case .batteryLevel:

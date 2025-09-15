@@ -286,6 +286,8 @@
 		D863BE3329BAD65500D9DE9E /* MeetingEventClientConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D863BE3229BAD65500D9DE9E /* MeetingEventClientConfigurationTests.swift */; };
 		D863BE3529BAD8DA00D9DE9E /* AnyCodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D863BE3429BAD8DA00D9DE9E /* AnyCodableTests.swift */; };
 		D863BE3729BAF68B00D9DE9E /* EventAttributeUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D863BE3629BAF68B00D9DE9E /* EventAttributeUtilsTests.swift */; };
+		D8659BE22E78B013006C1C20 /* VideoClientFailedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8659BE12E78B013006C1C20 /* VideoClientFailedError.swift */; };
+		D8659BE42E78BCDA006C1C20 /* VideoClientFailedErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8659BE32E78BCD5006C1C20 /* VideoClientFailedErrorTests.swift */; };
 		D8A1527E2D56CAFE002775BD /* VideoFrameResenderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A1527D2D56CAF7002775BD /* VideoFrameResenderTests.swift */; };
 		D8A152832D56F8DF002775BD /* VideoFrameGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A152822D56F8DA002775BD /* VideoFrameGenerator.swift */; };
 		D8B836602E39A0CB00179ABF /* TestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B8365F2E39A0C900179ABF /* TestError.swift */; };
@@ -607,6 +609,8 @@
 		D863BE3229BAD65500D9DE9E /* MeetingEventClientConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingEventClientConfigurationTests.swift; sourceTree = "<group>"; };
 		D863BE3429BAD8DA00D9DE9E /* AnyCodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCodableTests.swift; sourceTree = "<group>"; };
 		D863BE3629BAF68B00D9DE9E /* EventAttributeUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAttributeUtilsTests.swift; sourceTree = "<group>"; };
+		D8659BE12E78B013006C1C20 /* VideoClientFailedError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoClientFailedError.swift; sourceTree = "<group>"; };
+		D8659BE32E78BCD5006C1C20 /* VideoClientFailedErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoClientFailedErrorTests.swift; sourceTree = "<group>"; };
 		D8A1527D2D56CAF7002775BD /* VideoFrameResenderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFrameResenderTests.swift; sourceTree = "<group>"; };
 		D8A152822D56F8DA002775BD /* VideoFrameGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFrameGenerator.swift; sourceTree = "<group>"; };
 		D8B8365F2E39A0C900179ABF /* TestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestError.swift; sourceTree = "<group>"; };
@@ -798,6 +802,7 @@
 		00825F4923D90A2D00388D08 /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				D8659BE12E78B013006C1C20 /* VideoClientFailedError.swift */,
 				D8F829832E552C6B009E9186 /* SignalingDroppedError.swift */,
 				D81D7BB62E45237600932348 /* PermissionError.swift */,
 				CFA2A14F28074FE7008FDFF5 /* ResourceError.swift */,
@@ -1264,6 +1269,7 @@
 		5AE132CB23EB47B100BF5997 /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				D8659BE32E78BCD5006C1C20 /* VideoClientFailedErrorTests.swift */,
 				D8F829852E553EB3009E9186 /* SignalingDroppedErrorTests.swift */,
 				5AE1323023EA2FBC00BF5997 /* logger */,
 				5A6F8187246379D80031AE97 /* MediaErrorTests.swift */,
@@ -1853,6 +1859,7 @@
 				00C2A91723F76250008CD687 /* VideoTileState.swift in Sources */,
 				F81104AF276190AA003D17AD /* VideoSubscriptionConfiguration.swift in Sources */,
 				C61475DB26EFC18400CDEC09 /* TranscriptEvent.swift in Sources */,
+				D8659BE22E78B013006C1C20 /* VideoClientFailedError.swift in Sources */,
 				0007BDA126334BA800A15BB6 /* DefaultEventReporter.swift in Sources */,
 				F82D50D823FC752600D8F18C /* VolumeLevel.swift in Sources */,
 				0007BDBB26335E5D00A15BB6 /* IngestionEvent.swift in Sources */,
@@ -1880,6 +1887,7 @@
 				D8F829902E5693A4009E9186 /* DefaultAppStateMonitorTests.swift in Sources */,
 				00E198E1259BC0CF00AD4DAA /* EventNameTests.swift in Sources */,
 				00E198EF259BCA5A00AD4DAA /* EventAttributeNameTests.swift in Sources */,
+				D8659BE42E78BCDA006C1C20 /* VideoClientFailedErrorTests.swift in Sources */,
 				820288D827359A1400B0B5D3 /* AudioModeTests.swift in Sources */,
 				6A01CAE523F8FCAF005C5193 /* ClientMetricsCollectorTests.swift in Sources */,
 				007679FE262DFAE500BBF977 /* DirtyEventSQLiteDaoTests.swift in Sources */,

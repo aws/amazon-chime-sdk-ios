@@ -27,7 +27,8 @@ class IngestionEventConverterTests: CommonTestCase {
             EventAttributeName.signalingDroppedError: TestError.signalingDroppedError,
             EventAttributeName.appState: AppState.background,
             EventAttributeName.batteryLevel: 0.5,
-            EventAttributeName.batteryState: BatteryState.charging
+            EventAttributeName.batteryState: BatteryState.charging,
+            EventAttributeName.contentShareError: VideoClientFailedError.authenticationFailed
         ])
         let result = converter.toIngestionMeetingEvent(event: event,
                                                        ingestionConfiguration: ingestionConfiguration)
@@ -38,6 +39,7 @@ class IngestionEventConverterTests: CommonTestCase {
         XCTAssertEqual(result.getAppState(), String(describing: AppState.background))
         XCTAssertEqual(result.getBatteryLevel(), 0.5)
         XCTAssertEqual(result.getBatteryState(), String(describing: BatteryState.charging))
+        XCTAssertEqual(result.getContentShareErrorMessage(), String(describing: VideoClientFailedError.authenticationFailed))
     }
     
     func testToIngestionRecord_ShouldReturnAttributes_IfExists() {
@@ -46,7 +48,8 @@ class IngestionEventConverterTests: CommonTestCase {
             EventAttributeName.audioInputError.description: AnyCodable(String(describing: TestError.audioInputError)),
             EventAttributeName.videoInputError.description: AnyCodable(String(describing: TestError.videoInputError)),
             EventAttributeName.signalingDroppedError.description: AnyCodable(String(describing: TestError.signalingDroppedError)),
-            EventAttributeName.appState.description: AnyCodable(String(describing: AppState.background))
+            EventAttributeName.appState.description: AnyCodable(String(describing: AppState.background)),
+            EventAttributeName.contentShareError.description: AnyCodable(String(describing: VideoClientFailedError.authenticationFailed))
         ])
         let meetingEvent = MeetingEventItem(id: "test", data: ingestionMeetingEvent)
         let results = converter.toIngestionRecord(meetingEvents: [meetingEvent],

@@ -306,6 +306,14 @@ class ConvertersTests: XCTestCase {
                        MeetingHistoryEventName.videoClientSignalingDropped)
         XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.contentShareSignalingDropped),
                        MeetingHistoryEventName.contentShareSignalingDropped)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.contentShareStartRequested),
+                       MeetingHistoryEventName.contentShareStartRequested)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.contentShareStarted),
+                       MeetingHistoryEventName.contentShareStarted)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.contentShareStopped),
+                       MeetingHistoryEventName.contentShareStopped)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.contentShareFailed),
+                       MeetingHistoryEventName.contentShareFailed)
         XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.unknown),
                        MeetingHistoryEventName.unknown)
     }

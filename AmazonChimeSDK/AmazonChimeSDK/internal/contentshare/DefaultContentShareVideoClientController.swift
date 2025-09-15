@@ -55,6 +55,8 @@ import Foundation
             logger.info(msg: "Could not start content share because content max resolution is set to disabled")
             return
         }
+        eventAnalyticsController.publishEvent(name: .contentShareStartRequested)
+        
         // ignore simulcast in config because contentshare does not have simulcast
         videoClientLock.lock()
         defer { videoClientLock.unlock() }
@@ -140,6 +142,7 @@ extension DefaultContentShareVideoClientController: VideoClientDelegate {
 
     public func videoClientDidConnect(_ client: VideoClient?, controlStatus: Int32) {
         logger.info(msg: "ContentShare videoClientDidConnect")
+        eventAnalyticsController.publishEvent(name: .contentShareStarted)
         ObserverUtils.forEach(observers: contentShareObservers) { (observer: ContentShareObserver) in
             observer.contentShareDidStart()
         }
@@ -147,7 +150,12 @@ extension DefaultContentShareVideoClientController: VideoClientDelegate {
     }
 
     public func videoClientDidFail(_ client: VideoClient?, status: video_client_status_t, controlStatus: Int32) {
-        logger.info(msg: "ContentShare videoClientDidFail")
+        logger.error(msg: "ContentShare videoClientDidFail with status: \(status), contentStatus: \(controlStatus)")
+        
+        eventAnalyticsController.publishEvent(name: .contentShareFailed, attributes: [
+            EventAttributeName.contentShareError: VideoClientFailedError(from: status)
+        ])
+        
         resetContentShareVideoClientMetrics()
         ObserverUtils.forEach(observers: contentShareObservers) { (observer: ContentShareObserver) in
             observer.contentShareDidStop(status: ContentShareStatus(statusCode: .videoServiceFailed))
@@ -157,6 +165,7 @@ extension DefaultContentShareVideoClientController: VideoClientDelegate {
 
     public func videoClientDidStop(_ client: VideoClient?) {
         logger.info(msg: "ContentShare videoClientDidStop")
+        eventAnalyticsController.publishEvent(name: .contentShareStopped)
         resetContentShareVideoClientMetrics()
         ObserverUtils.forEach(observers: contentShareObservers) { (observer: ContentShareObserver) in
             observer.contentShareDidStop(status: ContentShareStatus(statusCode: .ok))
