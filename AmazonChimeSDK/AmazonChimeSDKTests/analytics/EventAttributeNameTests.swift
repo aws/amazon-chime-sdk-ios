@@ -38,5 +38,10 @@ class EventAttributeNameTests: XCTestCase {
         XCTAssertEqual(EventAttributeName.videoInputError.description, "videoInputError")
         XCTAssertEqual(EventAttributeName.signalingDroppedError.description, "signalingDroppedError")
         XCTAssertEqual(EventAttributeName.contentShareError.description, "contentShareError")
+        XCTAssertEqual(EventAttributeName.voiceFocusError.description, "voiceFocusError")
+        XCTAssertEqual(EventAttributeName.audioDeviceType.description, "audioDeviceType")
+        XCTAssertEqual(EventAttributeName.videoDeviceType.description, "videoDeviceType")
+        XCTAssertEqual(EventAttributeName.lowPowerModeEnabled.description, "lowPowerModeEnabled")
+        XCTAssertEqual(EventAttributeName.videoInterruptionReason.description, "videoInterruptionReason")
     }
 }

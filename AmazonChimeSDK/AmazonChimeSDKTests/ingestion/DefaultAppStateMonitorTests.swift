@@ -214,4 +214,19 @@ final class DefaultAppStateMonitorTests: XCTestCase {
         // Cleanup
         device.isBatteryMonitoringEnabled = originalMonitoringState
     }
+    
+    // MARK: - Low Power Mode Tests
+    
+    func testIsLowPowerModeEnabled_ShouldReturnBooleanValue() {
+        // When
+        let isLowPowerModeEnabled = monitor.isLowPowerModeEnabled()
+        
+        // Then
+        XCTAssertTrue(isLowPowerModeEnabled == true || isLowPowerModeEnabled == false, 
+                     "Low power mode should return a valid boolean value")
+        
+        // Verify it matches the system value
+        XCTAssertEqual(isLowPowerModeEnabled, ProcessInfo.processInfo.isLowPowerModeEnabled,
+                      "Low power mode should match ProcessInfo.processInfo.isLowPowerModeEnabled")
+    }
 }

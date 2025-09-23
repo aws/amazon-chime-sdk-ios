@@ -79,6 +79,28 @@ private typealias EAName = EventAttributeName
             attributes[EAName.contentShareError.description] = AnyCodable(contentShareErrorStr)
         }
         
+        if let voiceFocusError = eventAttributes[EAName.voiceFocusError] as? VoiceFocusError {
+            let voiceFocusErrorStr = String(describing: voiceFocusError)
+            attributes[EAName.voiceFocusError.description] = AnyCodable(voiceFocusErrorStr)
+        }
+        
+        if let audioDeviceTypeStr = eventAttributes[EAName.audioDeviceType] as? String {
+            attributes[EAName.audioDeviceType.description] = AnyCodable(audioDeviceTypeStr)
+        }
+        
+        if let videoDeviceTypeStr = eventAttributes[EAName.videoDeviceType] as? String {
+            attributes[EAName.videoDeviceType.description] = AnyCodable(videoDeviceTypeStr)
+        }
+        
+        if let lowPowerModeEnabled = eventAttributes[EAName.lowPowerModeEnabled] as? Bool {
+            attributes[EAName.lowPowerModeEnabled.description] = AnyCodable(lowPowerModeEnabled)
+        }
+        
+        if let videoInterruptionReason = eventAttributes[EAName.videoInterruptionReason] as? VideoInterruptionReason {
+            let reasonStr = String(describing: videoInterruptionReason)
+            attributes[EAName.videoInterruptionReason.description] = AnyCodable(reasonStr)
+        }
+        
         clientConfig.metadataAttributes.forEach({ (key: String, value: Any) in
             attributes[key] = AnyCodable(value)
         })
@@ -192,6 +214,11 @@ private typealias EAName = EventAttributeName
                                 appState: meetingEvent.getAppState(),
                                 batteryLevel: meetingEvent.getBatteryLevel(),
                                 batteryState: meetingEvent.getBatteryState(),
+                                voiceFocusErrorMessage: meetingEvent.getVoiceFocusErrorMessage(),
+                                audioDeviceType: meetingEvent.getAudioDeviceType(),
+                                videoDeviceType: meetingEvent.getVideoDeviceType(),
+                                lowPowerModeEnabled: meetingEvent.isLowPowerModeEnabled(),
+                                videoInterruptionReason: meetingEvent.getVideoInterruptionReason(),
                                 ttl: dirtyMeetingEventTtl)
     }
 

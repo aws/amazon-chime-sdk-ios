@@ -288,10 +288,13 @@
 		D863BE3729BAF68B00D9DE9E /* EventAttributeUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D863BE3629BAF68B00D9DE9E /* EventAttributeUtilsTests.swift */; };
 		D8659BE22E78B013006C1C20 /* VideoClientFailedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8659BE12E78B013006C1C20 /* VideoClientFailedError.swift */; };
 		D8659BE42E78BCDA006C1C20 /* VideoClientFailedErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8659BE32E78BCD5006C1C20 /* VideoClientFailedErrorTests.swift */; };
+		D86AB6A02E8267D6003FF014 /* VoiceFocusErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86AB69F2E8267D0003FF014 /* VoiceFocusErrorTests.swift */; };
+		D89047E62E7B8E4100A22DFE /* VoiceFocusError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89047E52E7B8E3100A22DFE /* VoiceFocusError.swift */; };
 		D8A1527E2D56CAFE002775BD /* VideoFrameResenderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A1527D2D56CAF7002775BD /* VideoFrameResenderTests.swift */; };
 		D8A152832D56F8DF002775BD /* VideoFrameGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A152822D56F8DA002775BD /* VideoFrameGenerator.swift */; };
 		D8B836602E39A0CB00179ABF /* TestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B8365F2E39A0C900179ABF /* TestError.swift */; };
 		D8B836622E39A10F00179ABF /* IngestionEventConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B836612E39A10D00179ABF /* IngestionEventConverterTests.swift */; };
+		D8C2EAAB2E89ADEA007BA3C7 /* VideoInterruptionReason.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C2EAAA2E89ADDE007BA3C7 /* VideoInterruptionReason.swift */; };
 		D8D3F8D32E610E6B003D2EF4 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D3F8D22E610E6A003D2EF4 /* AppState.swift */; };
 		D8D3F8D52E61166A003D2EF4 /* AppStateMonitorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D3F8D42E611669003D2EF4 /* AppStateMonitorDelegate.swift */; };
 		D8D8D9102B91579C00ECE0EE /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D8D90F2B91579C00ECE0EE /* StringExtension.swift */; };
@@ -611,10 +614,13 @@
 		D863BE3629BAF68B00D9DE9E /* EventAttributeUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAttributeUtilsTests.swift; sourceTree = "<group>"; };
 		D8659BE12E78B013006C1C20 /* VideoClientFailedError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoClientFailedError.swift; sourceTree = "<group>"; };
 		D8659BE32E78BCD5006C1C20 /* VideoClientFailedErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoClientFailedErrorTests.swift; sourceTree = "<group>"; };
+		D86AB69F2E8267D0003FF014 /* VoiceFocusErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceFocusErrorTests.swift; sourceTree = "<group>"; };
+		D89047E52E7B8E3100A22DFE /* VoiceFocusError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceFocusError.swift; sourceTree = "<group>"; };
 		D8A1527D2D56CAF7002775BD /* VideoFrameResenderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFrameResenderTests.swift; sourceTree = "<group>"; };
 		D8A152822D56F8DA002775BD /* VideoFrameGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFrameGenerator.swift; sourceTree = "<group>"; };
 		D8B8365F2E39A0C900179ABF /* TestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestError.swift; sourceTree = "<group>"; };
 		D8B836612E39A10D00179ABF /* IngestionEventConverterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngestionEventConverterTests.swift; sourceTree = "<group>"; };
+		D8C2EAAA2E89ADDE007BA3C7 /* VideoInterruptionReason.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoInterruptionReason.swift; sourceTree = "<group>"; };
 		D8D3F8D22E610E6A003D2EF4 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		D8D3F8D42E611669003D2EF4 /* AppStateMonitorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateMonitorDelegate.swift; sourceTree = "<group>"; };
 		D8D8D90F2B91579C00ECE0EE /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
@@ -667,6 +673,8 @@
 		0007BD8F2632402A00A15BB6 /* ingestion */ = {
 			isa = PBXGroup;
 			children = (
+				D8C2EAAA2E89ADDE007BA3C7 /* VideoInterruptionReason.swift */,
+				D89047E52E7B8E3100A22DFE /* VoiceFocusError.swift */,
 				D82D32B22E71E89A009190ED /* BatteryState.swift */,
 				D8D3F8D42E611669003D2EF4 /* AppStateMonitorDelegate.swift */,
 				D8D3F8D22E610E6A003D2EF4 /* AppState.swift */,
@@ -724,6 +732,7 @@
 		0033D341263B24FD00D8FA0C /* ingestion */ = {
 			isa = PBXGroup;
 			children = (
+				D86AB69F2E8267D0003FF014 /* VoiceFocusErrorTests.swift */,
 				D8F8298F2E56939E009E9186 /* DefaultAppStateMonitorTests.swift */,
 				D8B836612E39A10D00179ABF /* IngestionEventConverterTests.swift */,
 				0033D342263B250C00D8FA0C /* IngestionConfigurationTests.swift */,
@@ -1697,6 +1706,7 @@
 				D8FE1FE629B9232400A62E72 /* AnyCodable.swift in Sources */,
 				C4643F0C2578776E0085D51E /* ModalityType.swift in Sources */,
 				5A6A209B23CB1164000C9157 /* CreateAttendeeResponse.swift in Sources */,
+				D8C2EAAB2E89ADEA007BA3C7 /* VideoInterruptionReason.swift in Sources */,
 				00C35B5F246A015800EA186F /* URLRewriter.swift in Sources */,
 				5A6A209A23CB1164000C9157 /* CreateMeetingResponse.swift in Sources */,
 				0007BD9D2633499600A15BB6 /* EventReporter.swift in Sources */,
@@ -1839,6 +1849,7 @@
 				C6DA0B5D24F8107000028F2B /* AudioLock.swift in Sources */,
 				0064166626290C9400626EB8 /* DirtyEventSQLiteDao.swift in Sources */,
 				0095013423FF372E003260E3 /* VideoClientState.swift in Sources */,
+				D89047E62E7B8E4100A22DFE /* VoiceFocusError.swift in Sources */,
 				5AE121D3240F6A8E0090A2AD /* VolumeUpdate.swift in Sources */,
 				6A68E79F24196773004F5A56 /* VideoPauseState.swift in Sources */,
 				C67E9B6C26F4F5A30084C9B4 /* Transcript.swift in Sources */,
@@ -1884,6 +1895,7 @@
 				C61D43222703BD9D00150F03 /* DefaultVideoClientControllerTests.swift in Sources */,
 				5A2210E524BE577E0038725B /* DefaultMeetingSessionTests.swift in Sources */,
 				CFA2A17028087AE8008FDFF5 /* BackgroundFilterTest.swift in Sources */,
+				D86AB6A02E8267D6003FF014 /* VoiceFocusErrorTests.swift in Sources */,
 				D8F829902E5693A4009E9186 /* DefaultAppStateMonitorTests.swift in Sources */,
 				00E198E1259BC0CF00AD4DAA /* EventNameTests.swift in Sources */,
 				00E198EF259BCA5A00AD4DAA /* EventAttributeNameTests.swift in Sources */,

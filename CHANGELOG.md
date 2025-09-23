@@ -1,8 +1,8 @@
 ## PENDING
 
 ### Added
-* Added meetingReconnected/audioInputFailed/signalingDropped/appStateChanged/appMemoryLow/contentShareStartRequested/contentShareStarted/contentShareStopped/contentShareFailed meeting event
-* Added meetingReconnectDurationMs/audioInputErrorMessage/signalingDroppedErrorMessage/appState/batteryLevel/batteryState/contentShareErrorMessage to meeting event attributes
+* Added meetingReconnected/audioInputFailed/signalingDropped/appStateChanged/appMemoryLow/contentShareStartRequested/contentShareStarted/contentShareStopped/contentShareFailed/voiceFocusEnabled/voiceFocusDisabled/voiceFocusEnableFailed/voiceFocusDisableFailed/audioInterruptionBegan/audioInterruptionEnded/videoInterruptionBegan/videoInterruptionEnded meeting events
+* Added meetingReconnectDurationMs/audioInputErrorMessage/signalingDroppedErrorMessage/appState/batteryLevel/batteryState/lowPowerModeEnabled/contentShareErrorMessage/videoInterruptionReason to meeting event attributes
 
 ## [0.27.1] - 2025-03-28
 

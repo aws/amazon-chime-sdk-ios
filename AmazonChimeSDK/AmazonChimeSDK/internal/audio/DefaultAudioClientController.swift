@@ -46,6 +46,12 @@ class DefaultAudioClientController: NSObject {
                                                selector: #selector(handleMediaServiceReset),
                                                name: AVAudioSession.mediaServicesWereResetNotification,
                                                object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleAudioSessionInterruption),
+                                               name: AVAudioSession.interruptionNotification,
+                                               object: nil
+        )
     }
 
     deinit {
@@ -177,9 +183,25 @@ extension DefaultAudioClientController: AudioClientController {
     }
 
     func setVoiceFocusEnabled(enabled: Bool) -> Bool {
-        if Self.state == .started {
-            return audioClient.setBliteNSSelected(enabled) == Int(AUDIO_CLIENT_OK.rawValue)
+        guard Self.state == .started else {
+            let event = enabled ? EventName.voiceFocusEnableFailed : EventName.voiceFocusDisableFailed
+            eventAnalyticsController.publishEvent(name: event, attributes: [
+                EventAttributeName.voiceFocusError : VoiceFocusError.audioClientNotStarted
+            ], notifyObservers: false)
+            return false
+        }
+        
+        let result = audioClient.setBliteNSSelected(enabled)
+        if(result == Int(AUDIO_CLIENT_OK.rawValue)) {
+            let event = enabled ? EventName.voiceFocusEnabled : EventName.voiceFocusDisabled
+            eventAnalyticsController.publishEvent(name: event, attributes: [:], notifyObservers: false)
+            return true
         } else {
+            let error = VoiceFocusError(from: result)
+            let event = enabled ? EventName.voiceFocusEnableFailed : EventName.voiceFocusDisableFailed
+            eventAnalyticsController.publishEvent(name: event, attributes: [
+                EventAttributeName.voiceFocusError : error
+            ], notifyObservers: false)
             return false
         }
     }
@@ -231,6 +253,30 @@ extension DefaultAudioClientController: AudioClientController {
                 return
             }
             strongSelf.audioClient.endOnHold()
+        }
+    }
+    
+    @objc private func handleAudioSessionInterruption(notification: Notification) {
+        
+        guard Self.state == .started else { return }
+        
+        guard let userInfo = notification.userInfo,
+              let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+              let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
+            return
+        }
+
+        switch type {
+        case .began:
+            self.eventAnalyticsController.publishEvent(name: .audioInterruptionBegan,
+                                                       attributes: [:],
+                                                       notifyObservers: false)
+        case .ended:
+            self.eventAnalyticsController.publishEvent(name: .audioInterruptionEnded,
+                                                       attributes: [:],
+                                                       notifyObservers: false)
+        @unknown default:
+            break
         }
     }
 }

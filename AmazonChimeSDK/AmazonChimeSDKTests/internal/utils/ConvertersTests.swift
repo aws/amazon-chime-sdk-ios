@@ -314,6 +314,22 @@ class ConvertersTests: XCTestCase {
                        MeetingHistoryEventName.contentShareStopped)
         XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.contentShareFailed),
                        MeetingHistoryEventName.contentShareFailed)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.appStateChanged),
+                       MeetingHistoryEventName.appStateChanged)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.appMemoryLow),
+                       MeetingHistoryEventName.appMemoryLow)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.voiceFocusEnabled),
+                       MeetingHistoryEventName.voiceFocusEnabled)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.voiceFocusDisabled),
+                       MeetingHistoryEventName.voiceFocusDisabled)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.voiceFocusEnableFailed),
+                       MeetingHistoryEventName.voiceFocusEnableFailed)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.voiceFocusDisableFailed),
+                       MeetingHistoryEventName.voiceFocusDisableFailed)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.audioInputSelected),
+                       MeetingHistoryEventName.audioInputSelected)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.videoInputSelected),
+                       MeetingHistoryEventName.videoInputSelected)
         XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.unknown),
                        MeetingHistoryEventName.unknown)
     }

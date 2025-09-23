@@ -26,6 +26,14 @@ class EventNameTests: XCTestCase {
         XCTAssertEqual(EventName.contentShareStarted.description, "contentShareStarted")
         XCTAssertEqual(EventName.contentShareStopped.description, "contentShareStopped")
         XCTAssertEqual(EventName.contentShareFailed.description, "contentShareFailed")
+        XCTAssertEqual(EventName.appStateChanged.description, "appStateChanged")
+        XCTAssertEqual(EventName.appMemoryLow.description, "appMemoryLow")
+        XCTAssertEqual(EventName.voiceFocusEnabled.description, "voiceFocusEnabled")
+        XCTAssertEqual(EventName.voiceFocusDisabled.description, "voiceFocusDisabled")
+        XCTAssertEqual(EventName.voiceFocusEnableFailed.description, "voiceFocusEnableFailed")
+        XCTAssertEqual(EventName.voiceFocusDisableFailed.description, "voiceFocusDisableFailed")
+        XCTAssertEqual(EventName.audioInputSelected.description, "audioInputSelected")
+        XCTAssertEqual(EventName.videoInputSelected.description, "videoInputSelected")
         XCTAssertEqual(EventName.unknown.description, "unknown")
     }
     
@@ -58,6 +66,30 @@ class EventNameTests: XCTestCase {
                        EventName.contentShareStopped)
         XCTAssertEqual(EventName.toEventName(name: "contentShareFailed"),
                        EventName.contentShareFailed)
+        XCTAssertEqual(EventName.toEventName(name: "appStateChanged"),
+                       EventName.appStateChanged)
+        XCTAssertEqual(EventName.toEventName(name: "appMemoryLow"),
+                       EventName.appMemoryLow)
+        XCTAssertEqual(EventName.toEventName(name: "voiceFocusEnabled"),
+                       EventName.voiceFocusEnabled)
+        XCTAssertEqual(EventName.toEventName(name: "voiceFocusDisabled"),
+                       EventName.voiceFocusDisabled)
+        XCTAssertEqual(EventName.toEventName(name: "voiceFocusEnableFailed"),
+                       EventName.voiceFocusEnableFailed)
+        XCTAssertEqual(EventName.toEventName(name: "voiceFocusDisableFailed"),
+                       EventName.voiceFocusDisableFailed)
+        XCTAssertEqual(EventName.toEventName(name: "audioInputSelected"),
+                       EventName.audioInputSelected)
+        XCTAssertEqual(EventName.toEventName(name: "videoInputSelected"),
+                       EventName.videoInputSelected)
+        XCTAssertEqual(EventName.toEventName(name: "audioInterruptionBegan"),
+                       EventName.audioInterruptionBegan)
+        XCTAssertEqual(EventName.toEventName(name: "audioInterruptionEnded"),
+                       EventName.audioInterruptionEnded)
+        XCTAssertEqual(EventName.toEventName(name: "videoInterruptionBegan"),
+                       EventName.videoInterruptionBegan)
+        XCTAssertEqual(EventName.toEventName(name: "videoInterruptionEnded"),
+                       EventName.videoInterruptionEnded)
         XCTAssertEqual(EventName.toEventName(name: "invalidEventName"),
                        EventName.unknown)
     }

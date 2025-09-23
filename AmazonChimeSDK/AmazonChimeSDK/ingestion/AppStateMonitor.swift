@@ -23,4 +23,8 @@
     /// Retrieves the current battery state
     /// Returns the UIDevice.BatteryState indicating charging status
     func getBatteryState() -> BatteryState
+    
+    /// Retrieves whether low power mode is currently enabled
+    /// Returns true if low power mode is enabled, false otherwise
+    func isLowPowerModeEnabled() -> Bool
 }

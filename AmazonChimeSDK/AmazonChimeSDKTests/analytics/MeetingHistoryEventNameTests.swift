@@ -29,5 +29,13 @@ class MeetingHistoryEventNameTests: XCTestCase {
         XCTAssertEqual(MeetingHistoryEventName.contentShareFailed.description, "contentShareFailed")
         XCTAssertEqual(MeetingHistoryEventName.appStateChanged.description, "appStateChanged")
         XCTAssertEqual(MeetingHistoryEventName.appMemoryLow.description, "appMemoryLow")
+        XCTAssertEqual(MeetingHistoryEventName.voiceFocusEnabled.description, "voiceFocusEnabled")
+        XCTAssertEqual(MeetingHistoryEventName.voiceFocusDisabled.description, "voiceFocusDisabled")
+        XCTAssertEqual(MeetingHistoryEventName.voiceFocusEnableFailed.description, "voiceFocusEnableFailed")
+        XCTAssertEqual(MeetingHistoryEventName.voiceFocusDisableFailed.description, "voiceFocusDisableFailed")
+        XCTAssertEqual(MeetingHistoryEventName.audioInterruptionBegan.description, "audioInterruptionBegan")
+        XCTAssertEqual(MeetingHistoryEventName.audioInterruptionEnded.description, "audioInterruptionEnded")
+        XCTAssertEqual(MeetingHistoryEventName.videoInterruptionBegan.description, "videoInterruptionBegan")
+        XCTAssertEqual(MeetingHistoryEventName.videoInterruptionEnded.description, "videoInterruptionEnded")
     }
 }

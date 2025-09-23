@@ -388,6 +388,10 @@ class DefaultAudioClientControllerTests: CommonTestCase {
 
         XCTAssertTrue(defaultAudioClientController.setVoiceFocusEnabled(enabled: false))
         verify(audioClientMock.setBliteNSSelected(false)).wasCalled()
+        
+        verify(eventAnalyticsControllerMock.publishEvent(name: EventName.voiceFocusEnabled,
+                                                         attributes: [:],
+                                                         notifyObservers: false)).wasCalled()
     }
 
     func testSetVoiceFocusEnabled_failure_audioClientNotStarted() {
@@ -398,6 +402,15 @@ class DefaultAudioClientControllerTests: CommonTestCase {
 
         XCTAssertFalse(defaultAudioClientController.setVoiceFocusEnabled(enabled: false))
         verify(audioClientMock.setBliteNSSelected(any())).wasNeverCalled()
+        
+        let eventAttributeCaptor = ArgumentCaptor<[AnyHashable: Any]>()
+        
+        verify(eventAnalyticsControllerMock.publishEvent(name: EventName.voiceFocusEnableFailed,
+                                                         attributes: eventAttributeCaptor.any(),
+                                                         notifyObservers: false)).wasCalled()
+        
+        let error = eventAttributeCaptor.value?[EventAttributeName.voiceFocusError] as? VoiceFocusError
+        XCTAssertEqual(error, VoiceFocusError.audioClientNotStarted)
     }
 
     func testSetVoiceFocusEnabled_failure_mediaFailure() {
@@ -410,6 +423,15 @@ class DefaultAudioClientControllerTests: CommonTestCase {
 
         XCTAssertFalse(defaultAudioClientController.setVoiceFocusEnabled(enabled: false))
         verify(audioClientMock.setBliteNSSelected(false)).wasCalled()
+        
+        let eventAttributeCaptor = ArgumentCaptor<[AnyHashable: Any]>()
+        
+        verify(eventAnalyticsControllerMock.publishEvent(name: EventName.voiceFocusEnableFailed,
+                                                         attributes: eventAttributeCaptor.any(),
+                                                         notifyObservers: false)).wasCalled()
+        
+        let error = eventAttributeCaptor.value?[EventAttributeName.voiceFocusError] as? VoiceFocusError
+        XCTAssertEqual(error, VoiceFocusError.audioClientError)
     }
 
     func testIsVoiceFocusEnabled_success() {
