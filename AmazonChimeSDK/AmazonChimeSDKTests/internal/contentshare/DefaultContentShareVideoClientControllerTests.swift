@@ -135,12 +135,16 @@ class DefaultContentShareVideoClientControllerTests: CommonTestCase {
                                     signalingUrl: any())).will {_, _, _, _, _, _ in
             self.defaultContentShareVideoClientController.videoClientDidConnect(nil, controlStatus: 1)
         }
+        given(videoClientMock.stop()).will {
+            self.defaultContentShareVideoClientController.videoClientDidStop(nil)
+        }
 
         defaultContentShareVideoClientController.startVideoShare(source: videoSourceMock)
         defaultContentShareVideoClientController.stopVideoShare()
 
         verify(videoClientMock.setSending(false)).wasCalled()
         verify(videoClientMock.stop()).wasCalled()
+        verify(eventAnalyticsControllerMock.publishEvent(name: .contentShareStopped)).wasCalled()
     }
 
     func testStopVideoShareBeforeStart() {
@@ -165,5 +169,37 @@ class DefaultContentShareVideoClientControllerTests: CommonTestCase {
         
         let error = captor.value?[EventAttributeName.signalingDroppedError] as? SignalingDroppedError
         XCTAssertEqual(error, SignalingDroppedError.internalServerError)
+    }
+    
+    func testStartVideoShare_ShouldPublishContentShareStartRequestedEvent() {
+        defaultContentShareVideoClientController.startVideoShare(source: videoSourceMock)
+
+        verify(eventAnalyticsControllerMock.publishEvent(name: .contentShareStartRequested)).wasCalled()
+    }
+    
+    func testVideoClientDidConnect_ShouldPublishContentShareStartedEvent() {
+        defaultContentShareVideoClientController.videoClientDidConnect(nil, controlStatus: 0)
+
+        verify(eventAnalyticsControllerMock.publishEvent(name: .contentShareStarted)).wasCalled()
+    }
+    
+    func testVideoClientDidFail_ShouldPublishContentShareFailedEvent() {
+        let captor = ArgumentCaptor<[AnyHashable: Any]>()
+        
+        defaultContentShareVideoClientController.videoClientDidFail(nil,
+                                                                    status: VIDEO_CLIENT_ERR_PROXY_AUTHENTICATION_FAILED,
+                                                                    controlStatus: 0)
+        
+        verify(eventAnalyticsControllerMock.publishEvent(name: .contentShareFailed,
+                                                         attributes: captor.any())).wasCalled()
+        
+        let error = captor.value?[EventAttributeName.contentShareError] as? VideoClientFailedError
+        XCTAssertEqual(error, VideoClientFailedError.authenticationFailed)
+    }
+    
+    func testVideoClientDidStop_ShouldPublishContentShareStoppedEvent() {
+        defaultContentShareVideoClientController.videoClientDidStop(nil)
+
+        verify(eventAnalyticsControllerMock.publishEvent(name: .contentShareStopped)).wasCalled()
     }
 }

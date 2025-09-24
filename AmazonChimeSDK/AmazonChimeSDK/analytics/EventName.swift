@@ -30,6 +30,14 @@ import Foundation
     case videoClientSignalingDropped
     /// The content share signaling websocket failed or closed with an error
     case contentShareSignalingDropped
+    /// Content share start was requested.
+    case contentShareStartRequested
+    /// Content share started successfully.
+    case contentShareStarted
+    /// Content share stopped.
+    case contentShareStopped
+    /// Content share failed.
+    case contentShareFailed
     /// The application state is changed
     case appStateChanged
     /// The application memory is low
@@ -59,6 +67,14 @@ import Foundation
             return "videoClientSignalingDropped"
         case .contentShareSignalingDropped:
             return "contentShareSignalingDropped"
+        case .contentShareStartRequested:
+            return "contentShareStartRequested"
+        case .contentShareStarted:
+            return "contentShareStarted"
+        case .contentShareStopped:
+            return "contentShareStopped"
+        case .contentShareFailed:
+            return "contentShareFailed"
         case .appStateChanged:
             return "appStateChanged"
         case .appMemoryLow:
@@ -90,6 +106,14 @@ import Foundation
             return .videoClientSignalingDropped
         case "contentShareSignalingDropped":
             return .contentShareSignalingDropped
+        case "contentShareStartRequested":
+            return .contentShareStartRequested
+        case "contentShareStarted":
+            return .contentShareStarted
+        case "contentShareStopped":
+            return .contentShareStopped
+        case "contentShareFailed":
+            return .contentShareFailed
         case "appStateChanged":
             return .appStateChanged
         case "appMemoryLow":

@@ -1,8 +1,8 @@
 ## PENDING
 
 ### Added
-* Added meetingReconnected/audioInputFailed/signalingDropped/appStateChanged/appMemoryLow meeting event
-* Added meetingReconnectDurationMs/audioInputErrorMessage/signalingDroppedErrorMessage/appState/batteryLevel/batteryState to meeting event attributes
+* Added meetingReconnected/audioInputFailed/signalingDropped/appStateChanged/appMemoryLow/contentShareStartRequested/contentShareStarted/contentShareStopped/contentShareFailed meeting event
+* Added meetingReconnectDurationMs/audioInputErrorMessage/signalingDroppedErrorMessage/appState/batteryLevel/batteryState/contentShareErrorMessage to meeting event attributes
 
 ## [0.27.1] - 2025-03-28
 

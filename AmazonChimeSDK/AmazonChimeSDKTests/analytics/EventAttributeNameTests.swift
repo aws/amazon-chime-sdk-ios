@@ -37,5 +37,6 @@ class EventAttributeNameTests: XCTestCase {
         XCTAssertEqual(EventAttributeName.audioInputError.description, "audioInputError")
         XCTAssertEqual(EventAttributeName.videoInputError.description, "videoInputError")
         XCTAssertEqual(EventAttributeName.signalingDroppedError.description, "signalingDroppedError")
+        XCTAssertEqual(EventAttributeName.contentShareError.description, "contentShareError")
     }
 }

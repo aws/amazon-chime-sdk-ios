@@ -23,6 +23,7 @@ import Foundation
     public let videoInputErrorMessage: String?
     public let audioInputErrorMessage: String?
     public let signalingDroppedErrorMessage: String?
+    public let contentShareErrorMessage: String?
     public let appState: String?
     public let batteryLevel: Float?
     public let batteryState: String?
@@ -42,6 +43,7 @@ import Foundation
                 videoInputErrorMessage: String? = nil,
                 audioInputErrorMessage: String? = nil,
                 signalingDroppedErrorMessage: String? = nil,
+                contentShareErrorMessage: String? = nil,
                 appState: String? = nil,
                 batteryLevel: Float? = nil,
                 batteryState: String? = nil,
@@ -60,6 +62,7 @@ import Foundation
         self.videoInputErrorMessage = videoInputErrorMessage
         self.audioInputErrorMessage = audioInputErrorMessage
         self.signalingDroppedErrorMessage = signalingDroppedErrorMessage
+        self.contentShareErrorMessage = contentShareErrorMessage
         self.appState = appState
         self.batteryLevel = batteryLevel
         self.batteryState = batteryState

@@ -74,6 +74,10 @@ private typealias EAName = EventAttributeName
             attributes[EAName.batteryState.description] = AnyCodable(batteryStateStr)
         }
         
+        if let contentShareError = eventAttributes[EAName.contentShareError] as? VideoClientFailedError {
+            let contentShareErrorStr = String(describing: contentShareError)
+            attributes[EAName.contentShareError.description] = AnyCodable(contentShareErrorStr)
+        }
         
         clientConfig.metadataAttributes.forEach({ (key: String, value: Any) in
             attributes[key] = AnyCodable(value)
@@ -184,8 +188,9 @@ private typealias EAName = EventAttributeName
                                 videoInputErrorMessage: meetingEvent.getVideoInputErrorMessage(),
                                 audioInputErrorMessage: meetingEvent.getAudioInputErrorMessage(),
                                 signalingDroppedErrorMessage: meetingEvent.getSignalingDroppedErrorMessage(),
+                                contentShareErrorMessage: meetingEvent.getContentShareErrorMessage(),
                                 appState: meetingEvent.getAppState(),
-                                batteryLevel: meetingEvent.getBatteryLevel()?.floatValue,
+                                batteryLevel: meetingEvent.getBatteryLevel(),
                                 batteryState: meetingEvent.getBatteryState(),
                                 ttl: dirtyMeetingEventTtl)
     }

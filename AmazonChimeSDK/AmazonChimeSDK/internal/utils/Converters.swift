@@ -42,6 +42,14 @@ import Foundation
                 return .videoClientSignalingDropped
             case .contentShareSignalingDropped:
                 return .contentShareSignalingDropped
+            case .contentShareStartRequested:
+                return .contentShareStartRequested
+            case .contentShareStarted:
+                return .contentShareStarted
+            case .contentShareStopped:
+                return .contentShareStopped
+            case .contentShareFailed:
+                return .contentShareFailed
             case .appStateChanged:
                 return .appStateChanged
             case .appMemoryLow:

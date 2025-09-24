@@ -84,14 +84,19 @@ extension IngestionMeetingEvent {
         return item??.value as? String
     }
     
+    func getContentShareErrorMessage() -> String? {
+        let item = eventAttributes[EventAttributeName.contentShareError.description]
+        return item??.value as? String
+    }
+    
     func getAppState() -> String? {
         let item = eventAttributes[EventAttributeName.appState.description]
         return item??.value as? String
     }
     
-    func getBatteryLevel() -> NSNumber? {
+    func getBatteryLevel() -> Float? {
         let item = eventAttributes[EventAttributeName.batteryLevel.description]
-        return item??.value as? NSNumber
+        return (item??.value as? NSNumber)?.floatValue
     }
     
     func getBatteryState() -> String? {
