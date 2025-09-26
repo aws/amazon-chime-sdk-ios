@@ -56,6 +56,8 @@ import Foundation
     func setMaxBitRateKbps(_ maxBitRate: UInt32)
 
     func setContentMaxResolutionUHD(_ isContentMaxResolutionUHD: Bool)
+
+    func setVideoCodecPreferences(_ codecPreferences: [Any]!)
 }
 
 extension VideoClient: VideoClientProtocol {}

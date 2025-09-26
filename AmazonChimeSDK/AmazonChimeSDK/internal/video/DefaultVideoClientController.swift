@@ -434,7 +434,7 @@ extension DefaultVideoClientController: VideoClientController {
         videoClient?.setSending(true)
 
         let simulcastEnabled = config.simulcastEnabled
-        logger.info(msg: "Setting simulcast")
+        logger.info(msg: "Setting simulcast=\(simulcastEnabled)")
         videoClient?.setSimulcast(simulcastEnabled)
 
         if (config.maxBitRateKbps > 0) {
@@ -613,5 +613,17 @@ extension DefaultVideoClientController: VideoClientController {
             return
         }
         videoClient?.demoteFromPrimaryMeeting()
+    }
+
+    func setVideoCodecSendPreferences(preferences: [VideoCodecCapability]) {
+        var codecCapabilties = [VideoCodecCapabilitiesInternal]()
+        preferences.forEach { preference in codecCapabilties.append(
+            VideoCodecCapabilitiesInternal(
+                name: preference.name,
+                clockRate: preference.clockRate,
+                parameters: preference.parameters as [AnyHashable: Any]
+            )
+        )}
+        videoClient?.setVideoCodecPreferences(codecCapabilties)
     }
 }

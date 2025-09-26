@@ -209,4 +209,8 @@ import Foundation
         primaryMeetingPromotionObserver?.didDemoteFromPrimaryMeeting(
             status: MeetingSessionStatus(statusCode: MeetingSessionStatusCode.ok))
     }
+
+    public func setVideoCodecSendPreferences(preferences: [VideoCodecCapability]) {
+        videoClientController.setVideoCodecSendPreferences(preferences: preferences)
+    }
 }

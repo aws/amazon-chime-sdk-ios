@@ -169,6 +169,10 @@ import Foundation
         contentShareController.stopContentShare()
     }
 
+    public func setVideoCodecSendPreferences(preferences: [VideoCodecCapability]) {
+        audioVideoController.setVideoCodecSendPreferences(preferences: preferences)
+    }
+
     // MARK: DeviceController
 
     public func listAudioDevices() -> [MediaDevice] {

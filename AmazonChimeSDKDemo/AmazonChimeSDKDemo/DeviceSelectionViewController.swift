@@ -14,6 +14,7 @@ class DeviceSelectionViewController: UIViewController {
     @IBOutlet var audioDevicePicker: UIPickerView!
     @IBOutlet var videoDevicePicker: UIPickerView!
     @IBOutlet var videoFormatPicker: UIPickerView!
+    @IBOutlet var videoCodecPicker: UIPickerView!
     @IBOutlet var videoPreviewImageView: DefaultVideoRenderView!
     @IBOutlet var joinButton: UIButton!
 
@@ -28,6 +29,8 @@ class DeviceSelectionViewController: UIViewController {
         videoDevicePicker.dataSource = self
         videoFormatPicker.delegate = self
         videoFormatPicker.dataSource = self
+        videoCodecPicker.delegate = self
+        videoCodecPicker.dataSource = self
 
         videoPreviewImageView.mirror = model?.shouldMirrorPreview ?? false
         model?.cameraCaptureSource.addVideoSink(sink: videoPreviewImageView)
@@ -66,6 +69,11 @@ extension DeviceSelectionViewController: UIPickerViewDelegate {
             }
             let format = formats[row]
             return "\(format.width) x \(format.height) @ \(format.maxFrameRate)"
+        } else if pickerView == videoCodecPicker {
+            if row > model.codecs.count {
+                return nil
+            }
+            return model.codecs[row].map{ $0.name }.joined(separator: ", ")
         } else {
             return nil
         }
@@ -93,6 +101,8 @@ extension DeviceSelectionViewController: UIPickerViewDelegate {
                 return
             }
             model.selectedVideoFormatIndex = row
+        } else if pickerView == videoCodecPicker {
+            model.selectedCodecIndex = row
         } else {
             return
         }
@@ -117,6 +127,8 @@ extension DeviceSelectionViewController: UIPickerViewDataSource {
                 return 0
             }
             return model.supportedVideoFormat[model.selectedVideoDeviceIndex].count
+        } else if pickerView == videoCodecPicker {
+            return model.codecs.count
         } else {
             return 0
         }
