@@ -30,10 +30,18 @@ import Foundation
     case meetingFailed
     /// The meeting ended
     case meetingEnded
+    /// The video client signaling websocket opened
+    case videoClientSignalingOpened
     /// The video client signaling websocket failed or closed with an error
     case videoClientSignalingDropped
+    /// The content share signaling websocket opened
+    case contentShareSignalingOpened
     /// The content share signaling websocket failed or closed with an error
     case contentShareSignalingDropped
+    /// The video client ICE candidate gathering has finished
+    case videoClientIceGatheringCompleted
+    /// The content share ICE candidate gathering has finished
+    case contentShareIceGatheringCompleted
     /// Content share start was requested.
     case contentShareStartRequested
     /// Content share started successfully.
@@ -87,10 +95,18 @@ import Foundation
             return "meetingFailed"
         case .meetingEnded:
             return "meetingEnded"
+        case .videoClientSignalingOpened:
+            return "videoClientSignalingOpened"
         case .videoClientSignalingDropped:
             return "videoClientSignalingDropped"
+        case .contentShareSignalingOpened:
+            return "contentShareSignalingOpened"
         case .contentShareSignalingDropped:
             return "contentShareSignalingDropped"
+        case .videoClientIceGatheringCompleted:
+            return "videoClientIceGatheringCompleted"
+        case .contentShareIceGatheringCompleted:
+            return "contentShareIceGatheringCompleted"
         case .contentShareStartRequested:
             return "contentShareStartRequested"
         case .contentShareStarted:
@@ -146,10 +162,18 @@ import Foundation
             return .meetingFailed
         case "meetingEnded":
             return .meetingEnded
+        case "videoClientSignalingOpened":
+            return .videoClientSignalingOpened
         case "videoClientSignalingDropped":
             return .videoClientSignalingDropped
+        case "contentShareSignalingOpened":
+            return .contentShareSignalingOpened
         case "contentShareSignalingDropped":
             return .contentShareSignalingDropped
+        case "videoClientIceGatheringCompleted":
+            return .videoClientIceGatheringCompleted
+        case "contentShareIceGatheringCompleted":
+            return .contentShareIceGatheringCompleted
         case "contentShareStartRequested":
             return .contentShareStartRequested
         case "contentShareStarted":

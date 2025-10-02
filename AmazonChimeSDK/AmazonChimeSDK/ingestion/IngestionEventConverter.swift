@@ -101,6 +101,9 @@ private typealias EAName = EventAttributeName
             attributes[EAName.videoInterruptionReason.description] = AnyCodable(reasonStr)
         }
         
+        attributes[EAName.iceGatheringDurationMs.description] = AnyCodable(eventAttributes[EAName.iceGatheringDurationMs])
+        attributes[EAName.signalingOpenDurationMs.description] = AnyCodable(eventAttributes[EAName.signalingOpenDurationMs])
+        
         clientConfig.metadataAttributes.forEach({ (key: String, value: Any) in
             attributes[key] = AnyCodable(value)
         })
@@ -219,6 +222,8 @@ private typealias EAName = EventAttributeName
                                 videoDeviceType: meetingEvent.getVideoDeviceType(),
                                 lowPowerModeEnabled: meetingEvent.isLowPowerModeEnabled(),
                                 videoInterruptionReason: meetingEvent.getVideoInterruptionReason(),
+                                iceGatheringDurationMs: meetingEvent.getIceGatheringDurationMs(),
+                                signalingOpenDurationMs: meetingEvent.getSignalingOpenDurationMs(),
                                 ttl: dirtyMeetingEventTtl)
     }
 

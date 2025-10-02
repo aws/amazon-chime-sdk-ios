@@ -129,5 +129,13 @@ extension IngestionMeetingEvent {
         return item??.value as? String
     }
     
+    func getIceGatheringDurationMs() -> Int64? {
+        let item = eventAttributes[EventAttributeName.iceGatheringDurationMs.description]
+        return item??.int64Value
+    }
     
+    func getSignalingOpenDurationMs() -> Int64? {
+        let item = eventAttributes[EventAttributeName.signalingOpenDurationMs.description]
+        return item??.int64Value
+    }
 }

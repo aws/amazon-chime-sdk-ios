@@ -180,6 +180,16 @@ extension DefaultContentShareVideoClientController: VideoClientDelegate {
             eventAnalyticsController.publishEvent(name: .contentShareSignalingDropped, attributes: [
                 EventAttributeName.signalingDroppedError: SignalingDroppedError(from: event.signaling_dropped_error)
             ])
+        } else if (event.event_type == VIDEO_CLIENT_EVENT_TYPE_SIGNALING_OPENED) {
+            eventAnalyticsController.publishEvent(name: .contentShareSignalingOpened,
+                                                  attributes: [
+                                                    EventAttributeName.signalingOpenDurationMs: event.signaling_open_duration_ms
+                                                  ])
+        } else if (event.event_type == VIDEO_CLIENT_EVENT_TYPE_ICE_GATHERING_COMPLETED) {
+            eventAnalyticsController.publishEvent(name: .contentShareIceGatheringCompleted,
+                                                  attributes: [
+                                                    EventAttributeName.iceGatheringDurationMs: event.ice_gathering_duration_ms
+                                                  ])
         }
     }
 

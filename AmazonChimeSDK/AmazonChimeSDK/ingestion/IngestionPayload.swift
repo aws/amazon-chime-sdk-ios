@@ -33,6 +33,8 @@ import Foundation
     public let ttl: Int64?
     public let lowPowerModeEnabled: Bool?
     public let videoInterruptionReason: String?
+    public let iceGatheringDurationMs: Int64?
+    public let signalingOpenDurationMs: Int64?
 
     public init(name: String,
                 ts: Int64,
@@ -57,6 +59,8 @@ import Foundation
                 videoDeviceType: String? = nil,
                 lowPowerModeEnabled: Bool? = nil,
                 videoInterruptionReason: String? = nil,
+                iceGatheringDurationMs: Int64? = nil,
+                signalingOpenDurationMs: Int64? = nil,
                 ttl: Int64? = nil) {
         self.name = name
         self.ts = ts
@@ -81,6 +85,8 @@ import Foundation
         self.videoDeviceType = videoDeviceType
         self.lowPowerModeEnabled = lowPowerModeEnabled
         self.videoInterruptionReason = videoInterruptionReason
+        self.iceGatheringDurationMs = iceGatheringDurationMs
+        self.signalingOpenDurationMs = signalingOpenDurationMs
         self.ttl = ttl
     }
 }
