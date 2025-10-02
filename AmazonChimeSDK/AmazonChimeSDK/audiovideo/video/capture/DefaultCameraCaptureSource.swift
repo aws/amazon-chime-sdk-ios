@@ -44,6 +44,16 @@ import UIKit
                                        selector: #selector(deviceOrientationDidChange),
                                        name: UIDevice.orientationDidChangeNotification,
                                        object: nil)
+        
+        notificationCenter.addObserver(self,
+                                       selector: #selector(handleWasInterrupted(_:)),
+                                       name: .AVCaptureSessionWasInterrupted,
+                                       object: nil)
+
+        notificationCenter.addObserver(self,
+                                       selector: #selector(handleInterruptionEnded(_:)),
+                                       name: .AVCaptureSessionInterruptionEnded,
+                                       object: nil)
     }
 
     deinit {
@@ -67,6 +77,11 @@ import UIKit
             if session.isRunning {
                 start() // Restart
             }
+            
+            eventAnalyticsController?.publishEvent(name: .videoInputSelected,
+                                                   attributes: [
+                                                    EventAttributeName.videoDeviceType: device.type.description
+                                                   ], notifyObservers: false)
         }
     }
 
@@ -196,8 +211,6 @@ import UIKit
             logger.error(msg: "Unable to switch camera. Error: \(MediaError.noCameraSelected.localizedDescription)")
             return
         }
-
-        eventAnalyticsController?.pushHistory(historyEventName: .videoInputSelected)
     }
 
     public func addCaptureSourceObserver(observer: CaptureSourceObserver) {
@@ -277,6 +290,30 @@ import UIKit
 
     public func setEventAnalyticsController(eventAnalyticsController: EventAnalyticsController?) {
         self.eventAnalyticsController = eventAnalyticsController
+    }
+    
+    @objc private func handleWasInterrupted(_ notification: Notification) {
+
+        guard let userInfo = notification.userInfo else { return }
+        
+        var attributes: [AnyHashable: Any] = [:]
+        if let reasonValue = userInfo[AVCaptureSessionInterruptionReasonKey] as? NSNumber,
+           let reason = AVCaptureSession.InterruptionReason(rawValue: reasonValue.intValue) {
+            let interruptionReason = VideoInterruptionReason(from: reason)
+            attributes = [
+                EventAttributeName.videoInterruptionReason: interruptionReason
+            ]
+        }
+        
+        self.eventAnalyticsController?.publishEvent(name: .videoInterruptionBegan,
+                                                    attributes: attributes,
+                                                    notifyObservers: false)
+    }
+
+    @objc private func handleInterruptionEnded(_ notification: Notification) {
+        self.eventAnalyticsController?.publishEvent(name: .videoInterruptionEnded,
+                                                    attributes: [:],
+                                                    notifyObservers: false)
     }
 }
 

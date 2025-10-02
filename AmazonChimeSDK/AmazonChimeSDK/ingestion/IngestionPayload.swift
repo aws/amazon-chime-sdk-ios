@@ -27,7 +27,12 @@ import Foundation
     public let appState: String?
     public let batteryLevel: Float?
     public let batteryState: String?
+    public let voiceFocusErrorMessage: String?
+    public let audioDeviceType: String?
+    public let videoDeviceType: String?
     public let ttl: Int64?
+    public let lowPowerModeEnabled: Bool?
+    public let videoInterruptionReason: String?
 
     public init(name: String,
                 ts: Int64,
@@ -47,6 +52,11 @@ import Foundation
                 appState: String? = nil,
                 batteryLevel: Float? = nil,
                 batteryState: String? = nil,
+                voiceFocusErrorMessage: String? = nil,
+                audioDeviceType: String? = nil,
+                videoDeviceType: String? = nil,
+                lowPowerModeEnabled: Bool? = nil,
+                videoInterruptionReason: String? = nil,
                 ttl: Int64? = nil) {
         self.name = name
         self.ts = ts
@@ -66,6 +76,11 @@ import Foundation
         self.appState = appState
         self.batteryLevel = batteryLevel
         self.batteryState = batteryState
+        self.voiceFocusErrorMessage = voiceFocusErrorMessage
+        self.audioDeviceType = audioDeviceType
+        self.videoDeviceType = videoDeviceType
+        self.lowPowerModeEnabled = lowPowerModeEnabled
+        self.videoInterruptionReason = videoInterruptionReason
         self.ttl = ttl
     }
 }

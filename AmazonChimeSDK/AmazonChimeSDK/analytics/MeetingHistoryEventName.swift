@@ -47,6 +47,22 @@ import Foundation
     case appStateChanged
     /// The application memory is low
     case appMemoryLow
+    /// Voice focus enabled
+    case voiceFocusEnabled
+    /// Voice focus disabled
+    case voiceFocusDisabled
+    /// Failed to enable voice focus
+    case voiceFocusEnableFailed
+    /// Failed to disable voice focus
+    case voiceFocusDisableFailed
+    /// Audio interruption began
+    case audioInterruptionBegan
+    /// Audio interruption ended
+    case audioInterruptionEnded
+    /// Video interruption began
+    case videoInterruptionBegan
+    /// Video interruption ended
+    case videoInterruptionEnded
     /// unknown
     case unknown
 
@@ -88,6 +104,22 @@ import Foundation
             return "appStateChanged"
         case .appMemoryLow:
             return "appMemoryLow"
+        case .voiceFocusEnabled:
+            return "voiceFocusEnabled"
+        case .voiceFocusDisabled:
+            return "voiceFocusDisabled"
+        case .voiceFocusEnableFailed:
+            return "voiceFocusEnableFailed"
+        case .voiceFocusDisableFailed:
+            return "voiceFocusDisableFailed"
+        case .audioInterruptionBegan:
+            return "audioInterruptionBegan"
+        case .audioInterruptionEnded:
+            return "audioInterruptionEnded"
+        case .videoInterruptionBegan:
+            return "videoInterruptionBegan"
+        case .videoInterruptionEnded:
+            return "videoInterruptionEnded"
         case .unknown:
             return "unknown"
         }

@@ -141,6 +141,12 @@ import UIKit
         
         return BatteryState(from: device.batteryState)
     }
+    
+    /// Retrieves whether low power mode is currently enabled
+    /// Returns true if low power mode is enabled, false otherwise
+    public func isLowPowerModeEnabled() -> Bool {
+        return ProcessInfo.processInfo.isLowPowerModeEnabled
+    }
 
     deinit {
         stop()

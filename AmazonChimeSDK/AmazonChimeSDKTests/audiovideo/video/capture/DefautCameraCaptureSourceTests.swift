@@ -77,6 +77,65 @@ class DefaultCameraCaptureSourceTests: XCTestCase {
         let error = captor.value?[EventAttributeName.videoInputError] as? MediaError
         XCTAssertEqual(error, MediaError.noCameraSelected)
     }
+    
+    func testSetDevice_ShouldPublishVideoInputSelected() {
+        defaultCameraCaptureSource.device = MediaDevice.init(label: "mock", type: MediaDeviceType.videoFrontCamera)
+        
+        let captor = ArgumentCaptor<[AnyHashable: Any]>()
+        verify(eventControllerMock.publishEvent(name: .videoInputSelected,
+                                                attributes: captor.any(),
+                                                notifyObservers: false)).wasCalled()
+        
+        let deviceType = captor.value?[EventAttributeName.videoDeviceType] as? String
+        XCTAssertEqual(deviceType, MediaDeviceType.videoFrontCamera.description)
+    }
+    
+    func testHandleWasInterrupted_ShouldPublishInterruptionBeganEvent_WithValidReason() {
+        // Given
+        let interruptionReason = AVCaptureSession.InterruptionReason.videoDeviceInUseByAnotherClient
+        let userInfo = [AVCaptureSessionInterruptionReasonKey: NSNumber(value: interruptionReason.rawValue)]
+        
+        // When - Post notification directly to trigger the handler
+        NotificationCenter.default.post(name: .AVCaptureSessionWasInterrupted, 
+                                       object: nil, 
+                                       userInfo: userInfo)
+        
+        // Then
+        let captor = ArgumentCaptor<[AnyHashable: Any]>()
+        verify(eventControllerMock.publishEvent(name: .videoInterruptionBegan,
+                                                attributes: captor.any(),
+                                                notifyObservers: false)).wasCalled()
+        
+        let capturedReason = captor.value?[EventAttributeName.videoInterruptionReason] as? VideoInterruptionReason
+        XCTAssertEqual(capturedReason, .videoDeviceInUseByAnotherClient)
+    }
+    
+    func testHandleWasInterrupted_ShouldPublishEventWithoutAttribute_WhenReasonKeyIsMissing() {
+        // Given
+        let userInfo = ["someOtherKey": "someValue"]
+        
+        // When - Post notification directly to trigger the handler
+        NotificationCenter.default.post(name: .AVCaptureSessionWasInterrupted, 
+                                       object: nil, 
+                                       userInfo: userInfo)
+        
+        // Then
+        verify(eventControllerMock.publishEvent(name: .videoInterruptionBegan,
+                                                attributes: any(),
+                                                notifyObservers: false)).wasCalled()
+    }
+    
+    func testHandleInterruptionEnded_ShouldPublishInterruptionEndedEvent() {
+        // Given - Post notification directly to trigger the handler
+        NotificationCenter.default.post(name: .AVCaptureSessionInterruptionEnded, 
+                                       object: nil, 
+                                       userInfo: nil)
+        
+        // Then
+        verify(eventControllerMock.publishEvent(name: .videoInterruptionEnded,
+                                                attributes: [:],
+                                                notifyObservers: false)).wasCalled()
+    }
 }
 
 extension AVCaptureSession {

@@ -34,6 +34,7 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
         given(appStateMonitorMock.getAppState()).willReturn(.active)
         given(appStateMonitorMock.getBatteryLevel()).willReturn(NSNumber(value: 0.77))
         given(appStateMonitorMock.getBatteryState()).willReturn(BatteryState.charging)
+        given(appStateMonitorMock.isLowPowerModeEnabled()).willReturn(true)
         
         eventAnalyticsController = DefaultEventAnalyticsController(meetingSessionConfig: meetingSessionConfigurationMock,
                                                                    meetingStatsCollector: meetingStatsCollectorMock,
@@ -94,6 +95,7 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
         given(appStateMonitorMock.getAppState()).willReturn(.background)
         given(appStateMonitorMock.getBatteryLevel()).willReturn(NSNumber.init(value: 0.17))
         given(appStateMonitorMock.getBatteryState()).willReturn(BatteryState.full)
+        given(appStateMonitorMock.isLowPowerModeEnabled()).willReturn(true)
         
         eventAnalyticsController.publishEvent(name: .meetingStartFailed)
         verify(eventReporterMock.report(event: eventCaptor.any())).wasCalled()

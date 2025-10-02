@@ -103,4 +103,31 @@ extension IngestionMeetingEvent {
         let item = eventAttributes[EventAttributeName.batteryState.description]
         return item??.value as? String
     }
+    
+    func getVoiceFocusErrorMessage() -> String? {
+        let item = eventAttributes[EventAttributeName.voiceFocusError.description]
+        return item??.value as? String
+    }
+    
+    func getAudioDeviceType() -> String? {
+        let item = eventAttributes[EventAttributeName.audioDeviceType.description]
+        return item??.value as? String
+    }
+    
+    func getVideoDeviceType() -> String? {
+        let item = eventAttributes[EventAttributeName.videoDeviceType.description]
+        return item??.value as? String
+    }
+    
+    func isLowPowerModeEnabled() -> Bool? {
+        let item = eventAttributes[EventAttributeName.lowPowerModeEnabled.description]
+        return item??.value as? Bool
+    }
+    
+    func getVideoInterruptionReason() -> String? {
+        let item = eventAttributes[EventAttributeName.videoInterruptionReason.description]
+        return item??.value as? String
+    }
+    
+    
 }

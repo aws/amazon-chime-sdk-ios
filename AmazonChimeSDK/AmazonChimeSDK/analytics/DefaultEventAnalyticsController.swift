@@ -121,9 +121,11 @@ import Foundation
     private func getAppAttributes() -> [AnyHashable: Any] {
         let appState = self.appStateMonitor.appState
         let batteryState = self.appStateMonitor.getBatteryState()
+        let lowPowerModeEnabled = self.appStateMonitor.isLowPowerModeEnabled()
         var attributes: [EventAttributeName : Any] = [
             EventAttributeName.appState: appState,
-            EventAttributeName.batteryState: batteryState
+            EventAttributeName.batteryState: batteryState,
+            EventAttributeName.lowPowerModeEnabled: lowPowerModeEnabled
         ]
         
         if let batteryLevel = self.appStateMonitor.getBatteryLevel() {

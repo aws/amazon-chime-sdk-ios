@@ -28,7 +28,11 @@ class IngestionEventConverterTests: CommonTestCase {
             EventAttributeName.appState: AppState.background,
             EventAttributeName.batteryLevel: 0.5,
             EventAttributeName.batteryState: BatteryState.charging,
-            EventAttributeName.contentShareError: VideoClientFailedError.authenticationFailed
+            EventAttributeName.lowPowerModeEnabled: true,
+            EventAttributeName.contentShareError: VideoClientFailedError.authenticationFailed,
+            EventAttributeName.voiceFocusError: VoiceFocusError.audioClientError,
+            EventAttributeName.audioDeviceType: MediaDeviceType.audioBluetooth.description,
+            EventAttributeName.videoDeviceType: MediaDeviceType.videoBackCamera.description
         ])
         let result = converter.toIngestionMeetingEvent(event: event,
                                                        ingestionConfiguration: ingestionConfiguration)
@@ -39,7 +43,11 @@ class IngestionEventConverterTests: CommonTestCase {
         XCTAssertEqual(result.getAppState(), String(describing: AppState.background))
         XCTAssertEqual(result.getBatteryLevel(), 0.5)
         XCTAssertEqual(result.getBatteryState(), String(describing: BatteryState.charging))
+        XCTAssertEqual(result.isLowPowerModeEnabled(), true)
         XCTAssertEqual(result.getContentShareErrorMessage(), String(describing: VideoClientFailedError.authenticationFailed))
+        XCTAssertEqual(result.getVoiceFocusErrorMessage(), String(describing: VoiceFocusError.audioClientError))
+        XCTAssertEqual(result.getAudioDeviceType(), String(describing: MediaDeviceType.audioBluetooth.description))
+        XCTAssertEqual(result.getVideoDeviceType(), String(describing: MediaDeviceType.videoBackCamera.description))
     }
     
     func testToIngestionRecord_ShouldReturnAttributes_IfExists() {
@@ -49,7 +57,11 @@ class IngestionEventConverterTests: CommonTestCase {
             EventAttributeName.videoInputError.description: AnyCodable(String(describing: TestError.videoInputError)),
             EventAttributeName.signalingDroppedError.description: AnyCodable(String(describing: TestError.signalingDroppedError)),
             EventAttributeName.appState.description: AnyCodable(String(describing: AppState.background)),
-            EventAttributeName.contentShareError.description: AnyCodable(String(describing: VideoClientFailedError.authenticationFailed))
+            EventAttributeName.lowPowerModeEnabled.description: AnyCodable(true),
+            EventAttributeName.contentShareError.description: AnyCodable(String(describing: VideoClientFailedError.authenticationFailed)),
+            EventAttributeName.voiceFocusError.description: AnyCodable(String(describing: VoiceFocusError.audioClientError)),
+            EventAttributeName.audioDeviceType.description: AnyCodable(String(describing: MediaDeviceType.audioBluetooth.description)),
+            EventAttributeName.videoDeviceType.description: AnyCodable(String(describing: MediaDeviceType.videoBackCamera.description))
         ])
         let meetingEvent = MeetingEventItem(id: "test", data: ingestionMeetingEvent)
         let results = converter.toIngestionRecord(meetingEvents: [meetingEvent],
@@ -65,5 +77,17 @@ class IngestionEventConverterTests: CommonTestCase {
         
         let appStateStr = results.events.first!.payloads.first!.appState
         XCTAssertEqual(appStateStr, String(describing: AppState.background))
+        
+        let voiceFocusErrorMessage = results.events.first!.payloads.first!.voiceFocusErrorMessage
+        XCTAssertEqual(voiceFocusErrorMessage, String(describing: VoiceFocusError.audioClientError))
+        
+        let audioDeviceType = results.events.first!.payloads.first!.audioDeviceType
+        XCTAssertEqual(audioDeviceType, String(describing: MediaDeviceType.audioBluetooth))
+        
+        let videoDeviceType = results.events.first!.payloads.first!.videoDeviceType
+        XCTAssertEqual(videoDeviceType, String(describing: MediaDeviceType.videoBackCamera))
+        
+        let lowPowerModeEnabled = results.events.first!.payloads.first!.lowPowerModeEnabled
+        XCTAssertTrue(lowPowerModeEnabled ?? false)
     }
 }

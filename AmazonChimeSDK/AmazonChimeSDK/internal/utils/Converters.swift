@@ -22,8 +22,12 @@ import Foundation
     enum MeetingEventName {
         static func toMeetingHistoryEventName(name: EventName) -> MeetingHistoryEventName {
             switch name {
+            case .audioInputSelected:
+                return .audioInputSelected
             case .audioInputFailed:
                 return .audioInputFailed
+            case .videoInputSelected:
+                return .videoInputSelected
             case .videoInputFailed:
                 return .videoInputFailed
             case .meetingStartRequested:
@@ -54,6 +58,22 @@ import Foundation
                 return .appStateChanged
             case .appMemoryLow:
                 return .appMemoryLow
+            case .voiceFocusEnabled:
+                return .voiceFocusEnabled
+            case .voiceFocusDisabled:
+                return .voiceFocusDisabled
+            case .voiceFocusEnableFailed:
+                return .voiceFocusEnableFailed
+            case .voiceFocusDisableFailed:
+                return .voiceFocusDisableFailed
+            case .audioInterruptionBegan:
+                return .audioInterruptionBegan
+            case .audioInterruptionEnded:
+                return .audioInterruptionEnded
+            case .videoInterruptionBegan:
+                return .videoInterruptionBegan
+            case .videoInterruptionEnded:
+                return .videoInterruptionEnded
             case .unknown:
                 return .unknown
             }

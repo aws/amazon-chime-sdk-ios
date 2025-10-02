@@ -63,6 +63,14 @@ class DefaultDeviceControllerTests: XCTestCase {
         defaultDeviceController.chooseAudioDevice(mediaDevice: speakerDevice)
 
         verify(audioSessionMock.overrideOutputAudioPort(.speaker)).wasCalled()
+        
+        let captor = ArgumentCaptor<[AnyHashable: Any]>()
+        verify(eventAnalyticsControllerMock.publishEvent(name: .audioInputSelected,
+                                                         attributes: captor.any(),
+                                                         notifyObservers: false)).wasCalled()
+        
+        let audioDeviceType = captor.value?[EventAttributeName.audioDeviceType] as? String
+        XCTAssertEqual(audioDeviceType, MediaDeviceType.audioBuiltInSpeaker.description)
     }
 
     func testChooseAudioDevice_nonSpeaker() {
@@ -71,6 +79,14 @@ class DefaultDeviceControllerTests: XCTestCase {
         defaultDeviceController.chooseAudioDevice(mediaDevice: nonSpeakerDevice)
 
         verify(audioSessionMock.setPreferredInput(nonSpeakerDevice.port)).wasCalled()
+        
+        let captor = ArgumentCaptor<[AnyHashable: Any]>()
+        verify(eventAnalyticsControllerMock.publishEvent(name: .audioInputSelected,
+                                                         attributes: captor.any(),
+                                                         notifyObservers: false)).wasCalled()
+        
+        let audioDeviceType = captor.value?[EventAttributeName.audioDeviceType] as? String
+        XCTAssertEqual(audioDeviceType, nonSpeakerDevice.type.description)
     }
 
     func testSwitchCamera() {
@@ -124,5 +140,8 @@ class DefaultDeviceControllerTests: XCTestCase {
         
         let error = captor.value?[EventAttributeName.audioInputError] as? MediaError
         XCTAssertEqual(error, MediaError.overrideOutputAudioPortFailed)
+        
+        let deviceType = captor.value?[EventAttributeName.audioDeviceType] as? String
+        XCTAssertEqual(deviceType, MediaDeviceType.audioBuiltInSpeaker.description)
     }
 }

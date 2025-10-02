@@ -72,6 +72,16 @@ import Foundation
     case batteryLevel
     /// The current battery state
     case batteryState
+    /// The error message explaining why enabling or disabling Voice Focus failed
+    case voiceFocusError
+    /// The selected audio device type
+    case audioDeviceType
+    /// The selected video device type
+    case videoDeviceType
+    /// Whether low power mode is enabled
+    case lowPowerModeEnabled
+    /// The reason explaning why the vidoe is interrupted
+    case videoInterruptionReason
 
     public var description: String {
         switch self {
@@ -133,6 +143,16 @@ import Foundation
             return "batteryLevel"
         case .batteryState:
             return "batteryState"
+        case .voiceFocusError:
+            return "voiceFocusError"
+        case .audioDeviceType:
+            return "audioDeviceType"
+        case .videoDeviceType:
+            return "videoDeviceType"
+        case .lowPowerModeEnabled:
+            return "lowPowerModeEnabled"
+        case .videoInterruptionReason:
+            return "videoInterruptionReason"
         }
     }
 }

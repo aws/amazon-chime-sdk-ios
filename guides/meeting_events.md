@@ -91,8 +91,6 @@ Chime SDK sends these meeting events.
 |`contentShareStopped`              |The content share stopped.
 |`contentShareFailed`               |The content share failed.
 |`contentShareSignalingDropped`     |The content share client signaling websocket failed or closed with an error.
-|`appStateChanged`                  |The application state is changed.
-|`appMemoryLow`                     |The application memory is low.
 
 ### Common attributes
 Chime SDK stores common attributes for builders to identify/filter events.
@@ -139,7 +137,7 @@ The following table describes attributes for a meeting.
 |`appState`|The current app state when the event occurs.| All events
 |`batteryLevel`|The current battery level when the event occurs.| All events
 |`batteryState`|The current battery state when the event occurs.| All events
-
+|`lowPowerModeEnabled`|Whether low power mode is enabled.| All events
 
 ### Device attributes
 The following table describes attributes for the microphone and camera.
@@ -147,6 +145,10 @@ The following table describes attributes for the microphone and camera.
 |--|--|--
 |`audioInputErrorMessage`|The error message that explains why the microphone selection or access failed.|`audioInputFailed`
 |`videoInputErrorMessage`|The error that explains why the camera selection or access failed.|`videoInputFailed`
+|`voiceFocusError`|The error message explaining why enabling or disabling Voice Focus failed.| `voiceFocusEnableFailed`, `voiceFocusDisableFailed`
+|`audioDeviceType`|The selected audio input device.| `audioInputSelected`
+|`videoDeviceType`|The selected video input device.| `videoInputSelected`
+|`videoInterruptionReason`|The reason explaning why the video is interrupted.| `videoInterruptionBegan`
 ### The meeting history attribute
 The meeting history attribute is a list of states. Each state object contains the state name and timestamp.
 
@@ -181,24 +183,32 @@ before sending it to your server application or analytics tool.
 The following table lists available states.
 |State|Description
 |--|--
-|`meetingEnded`                     |The meeting ended.
-|`meetingFailed`                    |The meeting ended with the failure status.
-|`meetingReconnected`               |The meeting reconnected.
-|`meetingStartFailed`               |The meeting failed to start.
-|`meetingStartRequested`            |The meeting will start.
-|`meetingStartSucceeded`            |The meeting started.
-|`audioInputSelected`               |The microphone was selected.
-|`audioInputFailed`                 |The microphone selection failed.
-|`videoInputSelected`               |The camera was selected.
-|`videoInputFailed`                 |The camera selection failed.
-|`videoClientSignalingDropped`      |The video client signaling websocket failed or closed with an error.
-|`contentShareStartRequested`       |The content share start was requested.
-|`contentShareStarted`              |The content share started successfully.
-|`contentShareStopped`              |The content share stopped.
-|`contentShareFailed`               |The content share failed.
-|`contentShareSignalingDropped`     |The content share client signaling websocket failed or closed with an error.
-|`appStateChanged`                  |The application state is changed.
-|`appMemoryLow`                     |The application memory is low.
+|`meetingEnded`                             |The meeting ended.
+|`meetingFailed`                            |The meeting ended with the failure status.
+|`meetingReconnected`                       |The meeting reconnected.
+|`meetingStartFailed`                       |The meeting failed to start.
+|`meetingStartRequested`                    |The meeting will start.
+|`meetingStartSucceeded`                    |The meeting started.
+|`audioInputSelected`                       |The microphone was selected.
+|`audioInputFailed`                         |The microphone selection failed.
+|`videoInputSelected`                       |The camera was selected.
+|`videoInputFailed`                         |The camera selection failed.
+|`videoClientSignalingDropped`              |The video client signaling websocket failed or closed with an error.
+|`contentShareStartRequested`               |The content share start was requested.
+|`contentShareStarted`                      |The content share started successfully.
+|`contentShareStopped`                      |The content share stopped.
+|`contentShareFailed`                       |The content share failed.
+|`contentShareSignalingDropped`             |The content share client signaling websocket failed or closed with an error.
+|`appStateChanged`                          |The application state is changed.
+|`appMemoryLow`                             |The application memory is low.
+|`voiceFocusEnabled`                        |The voice focus is enabled.
+|`voiceFocusDisabled`                       |The voice focus is disabled.
+|`voiceFocusEnableFailed`                   |The voice focus failed to enable.
+|`voiceFocusDisableFailed`                  |The voice focus failed to disable.
+|`audioInterruptionBegan`                   |Audio interruption began.
+|`audioInterruptionEnded`                   |Audio interruption ended.
+|`videoInterruptionBegan`                   |Video interruption began.
+|`videoInterruptionEnded`                   |Video interruption ended.
 
 ## Example
 
