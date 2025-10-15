@@ -85,12 +85,16 @@ Chime SDK sends these meeting events.
 |`meetingFailed`         |The meeting ended with one of the following failure [MeetingSessionStatusCode](https://aws.github.io/amazon-chime-sdk-ios/Enums/MeetingSessionStatusCode.html): <br><ul><li>`audioJoinedFromAnotherDevice`</li><li>`audioDisconnectAudio`</li><li>`audioAuthenticationRejected`</li><li>`audioCallAtCapacity`</li><li>`audioCallEnded`</li><li>`audioInternalServerError`</li><li>`audioServiceUnavailable`</li><li>`audioDisconnected`</li></ul>
 |`audioInputFailed`      |The microphone selection or access failed.
 |`videoInputFailed`      |The camera selection or access failed.
+|`videoClientSignalingOpened`       |The video client signaling websocket opened.
 |`videoClientSignalingDropped`      |The video client signaling websocket failed or closed with an error.
+|`videoClientIceGatheringCompleted` |The video client ICE candidate gathering has finished.
+|`contentShareSignalingOpened`      |The content share signaling websocket opened.
 |`contentShareStartRequested`       |The content share start was requested.
 |`contentShareStarted`              |The content share started successfully.
 |`contentShareStopped`              |The content share stopped.
 |`contentShareFailed`               |The content share failed.
 |`contentShareSignalingDropped`     |The content share client signaling websocket failed or closed with an error.
+|`contentShareIceGatheringCompleted`|The content share ICE candidate gathering has finished.
 
 ### Common attributes
 Chime SDK stores common attributes for builders to identify/filter events.
@@ -134,6 +138,8 @@ The following table describes attributes for a meeting.
 |`retryCount`|The number of connection retries performed during the meeting.<br><br>Unit: Count|`meetingStartSucceeded`, `meetingReconnected`, `meetingStartFailed`, `meetingEnded`, `meetingFailed`
 |`contentShareErrorMessage`|The error message that explains why content share failed.|`contentShareFailed`
 |`signalingDroppedErrorMessage`|The error message that explains why the signaling websocket connection dropped.|`videoClientSignalingDropped`, `contentShareSignalingDropped`
+|`signalingOpenDurationMs`|The time that elapsed for the signaling websocket to open.<br><br>Unit: Milliseconds|`videoClientSignalingOpened`, `contentShareSignalingOpened`
+|`iceGatheringDurationMs`|The time that elapsed for ICE candidate gathering to complete.<br><br>Unit: Milliseconds|`videoClientIceGatheringCompleted`, `contentShareIceGatheringCompleted`
 |`appState`|The current app state when the event occurs.| All events
 |`batteryLevel`|The current battery level when the event occurs.| All events
 |`batteryState`|The current battery state when the event occurs.| All events
@@ -193,12 +199,16 @@ The following table lists available states.
 |`audioInputFailed`                         |The microphone selection failed.
 |`videoInputSelected`                       |The camera was selected.
 |`videoInputFailed`                         |The camera selection failed.
+|`videoClientSignalingOpened`               |The video client signaling websocket opened.
 |`videoClientSignalingDropped`              |The video client signaling websocket failed or closed with an error.
+|`videoClientIceGatheringCompleted`         |The video client ICE candidate gathering has finished.
+|`contentShareSignalingOpened`              |The content share signaling websocket opened.
 |`contentShareStartRequested`               |The content share start was requested.
 |`contentShareStarted`                      |The content share started successfully.
 |`contentShareStopped`                      |The content share stopped.
 |`contentShareFailed`                       |The content share failed.
 |`contentShareSignalingDropped`             |The content share client signaling websocket failed or closed with an error.
+|`contentShareIceGatheringCompleted`        |The content share ICE candidate gathering has finished.
 |`appStateChanged`                          |The application state is changed.
 |`appMemoryLow`                             |The application memory is low.
 |`voiceFocusEnabled`                        |The voice focus is enabled.
