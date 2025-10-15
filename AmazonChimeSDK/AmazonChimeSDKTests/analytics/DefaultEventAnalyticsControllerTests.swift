@@ -169,4 +169,21 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
         sleep(1)
         verify(mockObserver.eventDidReceive(name: any(), attributes: any())).wasNeverCalled()
     }
+    
+    func testNetworkConnectionTypeDidChange_ShouldPublishEvent() {
+        let eventCaptor = ArgumentCaptor<SDKEvent>()
+        let mockObserver = mock(EventAnalyticsObserver.self)
+        
+        given(appStateMonitorMock.getNetworkConnectionType()).willReturn(NetworkConnectionType.cellular)
+        
+        eventAnalyticsController.addEventAnalyticsObserver(observer: mockObserver)
+        eventAnalyticsController.networkConnectionTypeDidChange(monitor: self.appStateMonitorMock,
+                                                                newNetworkConnectionType: NetworkConnectionType.cellular)
+
+        verify(eventReporterMock.report(event: eventCaptor.any())).wasCalled(1)
+        
+        XCTAssertEqual(eventCaptor.value?.name, EventName.networkConnectionTypeChanged.description)
+        sleep(1)
+        verify(mockObserver.eventDidReceive(name: any(), attributes: any())).wasNeverCalled()
+    }
 }

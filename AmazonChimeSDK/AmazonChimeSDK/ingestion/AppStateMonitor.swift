@@ -27,4 +27,8 @@
     /// Retrieves whether low power mode is currently enabled
     /// Returns true if low power mode is enabled, false otherwise
     func isLowPowerModeEnabled() -> Bool
+    
+    /// Retrieves the current network connection type
+    /// Returns the NetworkConnectionType indicating the current network connection
+    func getNetworkConnectionType() -> NetworkConnectionType
 }

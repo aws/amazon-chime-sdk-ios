@@ -35,6 +35,7 @@ import Foundation
     public let videoInterruptionReason: String?
     public let iceGatheringDurationMs: Int64?
     public let signalingOpenDurationMs: Int64?
+    public let networkConnectionType: String?
 
     public init(name: String,
                 ts: Int64,
@@ -61,6 +62,7 @@ import Foundation
                 videoInterruptionReason: String? = nil,
                 iceGatheringDurationMs: Int64? = nil,
                 signalingOpenDurationMs: Int64? = nil,
+                networkConnectionType: String? = nil,
                 ttl: Int64? = nil) {
         self.name = name
         self.ts = ts
@@ -87,6 +89,7 @@ import Foundation
         self.videoInterruptionReason = videoInterruptionReason
         self.iceGatheringDurationMs = iceGatheringDurationMs
         self.signalingOpenDurationMs = signalingOpenDurationMs
+        self.networkConnectionType = networkConnectionType
         self.ttl = ttl
     }
 }

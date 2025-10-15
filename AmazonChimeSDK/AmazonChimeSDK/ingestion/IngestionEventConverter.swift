@@ -103,6 +103,10 @@ private typealias EAName = EventAttributeName
         
         attributes[EAName.iceGatheringDurationMs.description] = AnyCodable(eventAttributes[EAName.iceGatheringDurationMs])
         attributes[EAName.signalingOpenDurationMs.description] = AnyCodable(eventAttributes[EAName.signalingOpenDurationMs])
+        if let networkConnectionType = eventAttributes[EAName.networkConnectionType] as? NetworkConnectionType {
+            let typeStr = String(describing: networkConnectionType)
+            attributes[EAName.networkConnectionType.description] = AnyCodable(typeStr)
+        }
         
         clientConfig.metadataAttributes.forEach({ (key: String, value: Any) in
             attributes[key] = AnyCodable(value)
@@ -224,6 +228,7 @@ private typealias EAName = EventAttributeName
                                 videoInterruptionReason: meetingEvent.getVideoInterruptionReason(),
                                 iceGatheringDurationMs: meetingEvent.getIceGatheringDurationMs(),
                                 signalingOpenDurationMs: meetingEvent.getSignalingOpenDurationMs(),
+                                networkConnectionType: meetingEvent.getNetworkConnectionType(),
                                 ttl: dirtyMeetingEventTtl)
     }
 

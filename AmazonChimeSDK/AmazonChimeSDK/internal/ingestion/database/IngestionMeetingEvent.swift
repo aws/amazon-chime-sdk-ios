@@ -138,4 +138,9 @@ extension IngestionMeetingEvent {
         let item = eventAttributes[EventAttributeName.signalingOpenDurationMs.description]
         return item??.int64Value
     }
+
+    func getNetworkConnectionType() -> String? {
+        let item = eventAttributes[EventAttributeName.networkConnectionType.description]
+        return item??.value as? String
+    }
 }

@@ -34,6 +34,7 @@ class EventNameTests: XCTestCase {
         XCTAssertEqual(EventName.voiceFocusDisableFailed.description, "voiceFocusDisableFailed")
         XCTAssertEqual(EventName.audioInputSelected.description, "audioInputSelected")
         XCTAssertEqual(EventName.videoInputSelected.description, "videoInputSelected")
+        XCTAssertEqual(EventName.networkConnectionTypeChanged.description, "networkConnectionTypeChanged")
         XCTAssertEqual(EventName.unknown.description, "unknown")
     }
     
@@ -90,6 +91,8 @@ class EventNameTests: XCTestCase {
                        EventName.videoInterruptionBegan)
         XCTAssertEqual(EventName.toEventName(name: "videoInterruptionEnded"),
                        EventName.videoInterruptionEnded)
+        XCTAssertEqual(EventName.toEventName(name: "networkConnectionTypeChanged"),
+                       EventName.networkConnectionTypeChanged)
         XCTAssertEqual(EventName.toEventName(name: "invalidEventName"),
                        EventName.unknown)
     }

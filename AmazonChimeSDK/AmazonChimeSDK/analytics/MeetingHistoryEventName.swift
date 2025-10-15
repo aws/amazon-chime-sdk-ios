@@ -71,6 +71,8 @@ import Foundation
     case videoInterruptionBegan
     /// Video interruption ended
     case videoInterruptionEnded
+    /// Network connection type is changed
+    case networkConnectionTypeChanged
     /// unknown
     case unknown
 
@@ -136,6 +138,8 @@ import Foundation
             return "videoInterruptionBegan"
         case .videoInterruptionEnded:
             return "videoInterruptionEnded"
+        case .networkConnectionTypeChanged:
+            return "networkConnectionTypeChanged"
         case .unknown:
             return "unknown"
         }

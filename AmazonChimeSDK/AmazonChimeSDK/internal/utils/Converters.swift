@@ -82,6 +82,8 @@ import Foundation
                 return .videoInterruptionBegan
             case .videoInterruptionEnded:
                 return .videoInterruptionEnded
+            case .networkConnectionTypeChanged:
+                return .networkConnectionTypeChanged
             case .unknown:
                 return .unknown
             }

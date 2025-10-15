@@ -86,6 +86,8 @@ import Foundation
     case iceGatheringDurationMs
     /// The time taken for opening a WebSocket connection.
     case signalingOpenDurationMs
+    /// The network connection type
+    case networkConnectionType
 
     public var description: String {
         switch self {
@@ -161,6 +163,8 @@ import Foundation
             return "iceGatheringDurationMs"
         case .signalingOpenDurationMs:
             return "signalingOpenDurationMs"
+        case .networkConnectionType:
+            return "networkConnectionType"
         }
     }
 }
