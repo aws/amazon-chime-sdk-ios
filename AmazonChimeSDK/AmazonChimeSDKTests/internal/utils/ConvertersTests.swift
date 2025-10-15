@@ -302,10 +302,18 @@ class ConvertersTests: XCTestCase {
                        MeetingHistoryEventName.meetingStartFailed)
         XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.meetingFailed),
                        MeetingHistoryEventName.meetingFailed)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.videoClientSignalingOpened),
+                       MeetingHistoryEventName.videoClientSignalingOpened)
         XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.videoClientSignalingDropped),
                        MeetingHistoryEventName.videoClientSignalingDropped)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.videoClientIceGatheringCompleted),
+                       MeetingHistoryEventName.videoClientIceGatheringCompleted)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.contentShareSignalingOpened),
+                       MeetingHistoryEventName.contentShareSignalingOpened)
         XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.contentShareSignalingDropped),
                        MeetingHistoryEventName.contentShareSignalingDropped)
+        XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.contentShareIceGatheringCompleted),
+                       MeetingHistoryEventName.contentShareIceGatheringCompleted)
         XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.contentShareStartRequested),
                        MeetingHistoryEventName.contentShareStartRequested)
         XCTAssertEqual(Converters.MeetingEventName.toMeetingHistoryEventName(name: EventName.contentShareStarted),

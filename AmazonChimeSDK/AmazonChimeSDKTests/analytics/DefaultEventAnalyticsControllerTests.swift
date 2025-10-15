@@ -35,6 +35,7 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
         given(appStateMonitorMock.getBatteryLevel()).willReturn(NSNumber(value: 0.77))
         given(appStateMonitorMock.getBatteryState()).willReturn(BatteryState.charging)
         given(appStateMonitorMock.isLowPowerModeEnabled()).willReturn(true)
+        given(appStateMonitorMock.getNetworkConnectionType()).willReturn(NetworkConnectionType.cellular)
         
         eventAnalyticsController = DefaultEventAnalyticsController(meetingSessionConfig: meetingSessionConfigurationMock,
                                                                    meetingStatsCollector: meetingStatsCollectorMock,

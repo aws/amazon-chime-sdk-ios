@@ -20,8 +20,12 @@ class EventNameTests: XCTestCase {
         XCTAssertEqual(EventName.meetingStartFailed.description, "meetingStartFailed")
         XCTAssertEqual(EventName.meetingFailed.description, "meetingFailed")
         XCTAssertEqual(EventName.meetingEnded.description, "meetingEnded")
+        XCTAssertEqual(EventName.videoClientSignalingOpened.description, "videoClientSignalingOpened")
         XCTAssertEqual(EventName.videoClientSignalingDropped.description, "videoClientSignalingDropped")
+        XCTAssertEqual(EventName.videoClientIceGatheringCompleted.description, "videoClientIceGatheringCompleted")
+        XCTAssertEqual(EventName.contentShareSignalingOpened.description, "contentShareSignalingOpened")
         XCTAssertEqual(EventName.contentShareSignalingDropped.description, "contentShareSignalingDropped")
+        XCTAssertEqual(EventName.contentShareIceGatheringCompleted.description, "contentShareIceGatheringCompleted")
         XCTAssertEqual(EventName.contentShareStartRequested.description, "contentShareStartRequested")
         XCTAssertEqual(EventName.contentShareStarted.description, "contentShareStarted")
         XCTAssertEqual(EventName.contentShareStopped.description, "contentShareStopped")
@@ -55,10 +59,18 @@ class EventNameTests: XCTestCase {
                        EventName.meetingFailed)
         XCTAssertEqual(EventName.toEventName(name: "meetingEnded"),
                        EventName.meetingEnded)
+        XCTAssertEqual(EventName.toEventName(name: "videoClientSignalingOpened"),
+                       EventName.videoClientSignalingOpened)
         XCTAssertEqual(EventName.toEventName(name: "videoClientSignalingDropped"),
                        EventName.videoClientSignalingDropped)
+        XCTAssertEqual(EventName.toEventName(name: "videoClientIceGatheringCompleted"),
+                       EventName.videoClientIceGatheringCompleted)
+        XCTAssertEqual(EventName.toEventName(name: "contentShareSignalingOpened"),
+                       EventName.contentShareSignalingOpened)
         XCTAssertEqual(EventName.toEventName(name: "contentShareSignalingDropped"),
                        EventName.contentShareSignalingDropped)
+        XCTAssertEqual(EventName.toEventName(name: "contentShareIceGatheringCompleted"),
+                       EventName.contentShareIceGatheringCompleted)
         XCTAssertEqual(EventName.toEventName(name: "contentShareStartRequested"),
                        EventName.contentShareStartRequested)
         XCTAssertEqual(EventName.toEventName(name: "contentShareStarted"),

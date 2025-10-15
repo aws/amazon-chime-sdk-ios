@@ -163,7 +163,9 @@ class DefaultVideoClientControllerTests: CommonTestCase {
     func testVideoClientDidReceiveEvent_ShouldPublishSignalingDroppedEvent_WhenEventTypeIsSignalingDropped() {
         let event: video_client_event = video_client_event(timestamp: 1,
                                                            event_type: VIDEO_CLIENT_EVENT_TYPE_SIGNALING_DROPPED,
-                                                           signaling_dropped_error: VIDEO_CLIENT_SIGNALING_DROPPED_ERROR_INTERNAL_SERVER_ERROR)
+                                                           signaling_dropped_error: VIDEO_CLIENT_SIGNALING_DROPPED_ERROR_INTERNAL_SERVER_ERROR,
+                                                           signaling_open_duration_ms: 0,
+                                                           ice_gathering_duration_ms: 0)
         let captor = ArgumentCaptor<[AnyHashable: Any]>()
         
         let mediaVideoClientMock = mock(VideoClient.self)
@@ -175,5 +177,43 @@ class DefaultVideoClientControllerTests: CommonTestCase {
         
         let error = captor.value?[EventAttributeName.signalingDroppedError] as? SignalingDroppedError
         XCTAssertEqual(error, SignalingDroppedError.internalServerError)
+    }
+    
+    func testVideoClientDidReceiveEvent_ShouldPublishSignalingOpenedEvent_WhenEventTypeIsSignalingOpened() {
+        let event: video_client_event = video_client_event(timestamp: 1,
+                                                           event_type: VIDEO_CLIENT_EVENT_TYPE_SIGNALING_OPENED,
+                                                           signaling_dropped_error: VIDEO_CLIENT_SIGNALING_DROPPED_ERROR_INTERNAL_SERVER_ERROR,
+                                                           signaling_open_duration_ms: 123,
+                                                           ice_gathering_duration_ms: 0)
+        let captor = ArgumentCaptor<[AnyHashable: Any]>()
+        
+        let mediaVideoClientMock = mock(VideoClient.self)
+        
+        defaultVideoClientController.videoClient(mediaVideoClientMock, didReceive: event)
+        
+        verify(eventAnalyticsControllerMock.publishEvent(name: .videoClientSignalingOpened,
+                                                         attributes: captor.any())).wasCalled()
+        
+        let duration = captor.value?[EventAttributeName.signalingOpenDurationMs] as? Int64
+        XCTAssertEqual(duration, 123)
+    }
+    
+    func testVideoClientDidReceiveEvent_ShouldPublishIceGatheringCompleted_WhenEventTypeIsIceGatheringCompleted() {
+        let event: video_client_event = video_client_event(timestamp: 1,
+                                                           event_type: VIDEO_CLIENT_EVENT_TYPE_ICE_GATHERING_COMPLETED,
+                                                           signaling_dropped_error: VIDEO_CLIENT_SIGNALING_DROPPED_ERROR_INTERNAL_SERVER_ERROR,
+                                                           signaling_open_duration_ms: 123,
+                                                           ice_gathering_duration_ms: 456)
+        let captor = ArgumentCaptor<[AnyHashable: Any]>()
+        
+        let mediaVideoClientMock = mock(VideoClient.self)
+        
+        defaultVideoClientController.videoClient(mediaVideoClientMock, didReceive: event)
+        
+        verify(eventAnalyticsControllerMock.publishEvent(name: .videoClientIceGatheringCompleted,
+                                                         attributes: captor.any())).wasCalled()
+        
+        let duration = captor.value?[EventAttributeName.iceGatheringDurationMs] as? Int64
+        XCTAssertEqual(duration, 456)
     }
 }
