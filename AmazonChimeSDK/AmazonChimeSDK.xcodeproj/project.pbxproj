@@ -280,6 +280,7 @@
 		CFD14AAC281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite in Resources */ = {isa = PBXBuildFile; fileRef = CFD14AAB281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite */; };
 		CFD14AAD281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite in Resources */ = {isa = PBXBuildFile; fileRef = CFD14AAB281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite */; };
 		CFF1553C2819C123009E257B /* background-ml-test-image.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = CFF1553B2819C123009E257B /* background-ml-test-image.jpeg */; };
+		D80214E62E9F05EF00D83E82 /* NetworkConnectionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80214E52E9F05EF00D83E82 /* NetworkConnectionType.swift */; };
 		D81D7BB72E45237800932348 /* PermissionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81D7BB62E45237600932348 /* PermissionError.swift */; };
 		D82D32B32E71E89E009190ED /* BatteryState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82D32B22E71E89A009190ED /* BatteryState.swift */; };
 		D846E9AB2E7248E4008086F3 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D846E9AA2E7248E4008086F3 /* PrivacyInfo.xcprivacy */; };
@@ -606,6 +607,7 @@
 		CFA2A16F28087AE8008FDFF5 /* BackgroundFilterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundFilterTest.swift; sourceTree = "<group>"; };
 		CFD14AAB281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = selfie_segmentation_landscape.tflite; sourceTree = "<group>"; };
 		CFF1553B2819C123009E257B /* background-ml-test-image.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "background-ml-test-image.jpeg"; sourceTree = "<group>"; };
+		D80214E52E9F05EF00D83E82 /* NetworkConnectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectionType.swift; sourceTree = "<group>"; };
 		D81D7BB62E45237600932348 /* PermissionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionError.swift; sourceTree = "<group>"; };
 		D82D32B22E71E89A009190ED /* BatteryState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryState.swift; sourceTree = "<group>"; };
 		D846E9AA2E7248E4008086F3 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -686,6 +688,7 @@
 				0007BD9C2633499600A15BB6 /* EventReporter.swift */,
 				0007BDA026334BA800A15BB6 /* DefaultEventReporter.swift */,
 				0007BDB226335DE500A15BB6 /* DefaultEventBuffer.swift */,
+				D80214E52E9F05EF00D83E82 /* NetworkConnectionType.swift */,
 				0007BDBA26335E5D00A15BB6 /* IngestionEvent.swift */,
 				0007BDBE26335E6A00A15BB6 /* IngestionRecord.swift */,
 				004A855826372E8700746654 /* IngestionConfigurationBuilder.swift */,
@@ -1804,6 +1807,7 @@
 				CF4BA473280FBE72005E6DAE /* BackgroundBlurConfiguration.swift in Sources */,
 				C61475E526EFF71500CDEC09 /* TranscriptEventObserver.swift in Sources */,
 				C4A69072255B0E8F00F28BC2 /* ContentShareStatus.swift in Sources */,
+				D80214E62E9F05EF00D83E82 /* NetworkConnectionType.swift in Sources */,
 				5A6A209823CB1164000C9157 /* MeetingSessionURLs.swift in Sources */,
 				0007BD952633435D00A15BB6 /* EventBuffer.swift in Sources */,
 				002307482630BF4C0074947E /* DatabaseManager.swift in Sources */,

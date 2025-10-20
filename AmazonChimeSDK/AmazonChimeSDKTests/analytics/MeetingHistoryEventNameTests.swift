@@ -21,8 +21,12 @@ class MeetingHistoryEventNameTests: XCTestCase {
         XCTAssertEqual(MeetingHistoryEventName.meetingEnded.description, "meetingEnded")
         XCTAssertEqual(MeetingHistoryEventName.meetingFailed.description, "meetingFailed")
         XCTAssertEqual(MeetingHistoryEventName.meetingReconnected.description, "meetingReconnected")
+        XCTAssertEqual(MeetingHistoryEventName.videoClientSignalingOpened.description, "videoClientSignalingOpened")
         XCTAssertEqual(MeetingHistoryEventName.videoClientSignalingDropped.description, "videoClientSignalingDropped")
+        XCTAssertEqual(MeetingHistoryEventName.videoClientIceGatheringCompleted.description, "videoClientIceGatheringCompleted")
+        XCTAssertEqual(MeetingHistoryEventName.contentShareSignalingOpened.description, "contentShareSignalingOpened")
         XCTAssertEqual(MeetingHistoryEventName.contentShareSignalingDropped.description, "contentShareSignalingDropped")
+        XCTAssertEqual(MeetingHistoryEventName.contentShareIceGatheringCompleted.description, "contentShareIceGatheringCompleted")
         XCTAssertEqual(MeetingHistoryEventName.contentShareStartRequested.description, "contentShareStartRequested")
         XCTAssertEqual(MeetingHistoryEventName.contentShareStarted.description, "contentShareStarted")
         XCTAssertEqual(MeetingHistoryEventName.contentShareStopped.description, "contentShareStopped")
@@ -37,5 +41,6 @@ class MeetingHistoryEventNameTests: XCTestCase {
         XCTAssertEqual(MeetingHistoryEventName.audioInterruptionEnded.description, "audioInterruptionEnded")
         XCTAssertEqual(MeetingHistoryEventName.videoInterruptionBegan.description, "videoInterruptionBegan")
         XCTAssertEqual(MeetingHistoryEventName.videoInterruptionEnded.description, "videoInterruptionEnded")
+        XCTAssertEqual(MeetingHistoryEventName.networkConnectionTypeChanged.description, "networkConnectionTypeChanged")
     }
 }

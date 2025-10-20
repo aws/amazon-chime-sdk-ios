@@ -42,10 +42,18 @@ import Foundation
                 return .meetingFailed
             case .meetingEnded:
                 return .meetingEnded
+            case .videoClientSignalingOpened:
+                return .videoClientSignalingOpened
             case .videoClientSignalingDropped:
                 return .videoClientSignalingDropped
+            case .contentShareSignalingOpened:
+                return .contentShareSignalingOpened
             case .contentShareSignalingDropped:
                 return .contentShareSignalingDropped
+            case .videoClientIceGatheringCompleted:
+                return .videoClientIceGatheringCompleted
+            case .contentShareIceGatheringCompleted:
+                return .contentShareIceGatheringCompleted
             case .contentShareStartRequested:
                 return .contentShareStartRequested
             case .contentShareStarted:
@@ -74,6 +82,8 @@ import Foundation
                 return .videoInterruptionBegan
             case .videoInterruptionEnded:
                 return .videoInterruptionEnded
+            case .networkConnectionTypeChanged:
+                return .networkConnectionTypeChanged
             case .unknown:
                 return .unknown
             }

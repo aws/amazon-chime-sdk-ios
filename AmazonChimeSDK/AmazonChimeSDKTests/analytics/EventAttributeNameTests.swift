@@ -43,5 +43,8 @@ class EventAttributeNameTests: XCTestCase {
         XCTAssertEqual(EventAttributeName.videoDeviceType.description, "videoDeviceType")
         XCTAssertEqual(EventAttributeName.lowPowerModeEnabled.description, "lowPowerModeEnabled")
         XCTAssertEqual(EventAttributeName.videoInterruptionReason.description, "videoInterruptionReason")
+        XCTAssertEqual(EventAttributeName.iceGatheringDurationMs.description, "iceGatheringDurationMs")
+        XCTAssertEqual(EventAttributeName.signalingOpenDurationMs.description, "signalingOpenDurationMs")
+        XCTAssertEqual(EventAttributeName.networkConnectionType.description, "networkConnectionType")
     }
 }

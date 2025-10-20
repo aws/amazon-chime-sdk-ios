@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Network
 
 @objcMembers public class DefaultAppStateMonitor: AppStateMonitor {
     
@@ -15,6 +16,19 @@ import UIKit
     
     // App states should be posted only when the meeting session is running
     private var shouldPostEvent: Bool = false
+    
+    private let networkPathMonitor: NWPathMonitor
+    private let networkQueue = DispatchQueue(label: "NetworkMonitor")
+    private var currentNetworkConnectionType = NetworkConnectionType.none {
+        didSet {
+            DispatchQueue.main.async {
+                guard self.shouldPostEvent else { return }
+                guard self.currentNetworkConnectionType != oldValue else { return }
+                self.delegate?.networkConnectionTypeDidChange(monitor: self,
+                                                              newNetworkConnectionType: self.currentNetworkConnectionType)
+            }
+        }
+    }
     
     public private(set) var appState: AppState {
         didSet {
@@ -27,6 +41,18 @@ import UIKit
     init(logger: Logger) {
         self.logger = logger
         self.appState = AppState(from: UIApplication.shared.applicationState)
+        self.networkPathMonitor = NWPathMonitor()
+        self.networkPathMonitor.pathUpdateHandler = { [weak self] path in
+            guard let weakSelf = self else { return }
+            
+            let newConnectionType = NetworkConnectionType(from: path)
+            
+            weakSelf.currentNetworkConnectionType = newConnectionType
+        }
+        // Looks like networkPathMonitor.start()/stop() operate asynchronously, stop() may execute after start().
+        // To avoid race conditions, we’ll keep the monitor running continuously.
+        // The networkConnectionTypeChanged event will be conditionally posted based on `shouldPostEvent`.
+        networkPathMonitor.start(queue: networkQueue)
     }
     
     public func start() {
@@ -83,7 +109,6 @@ import UIKit
             name: UIApplication.didReceiveMemoryWarningNotification,
             object: nil
         )
-        
     }
     
     public func stop() {
@@ -146,6 +171,14 @@ import UIKit
     /// Returns true if low power mode is enabled, false otherwise
     public func isLowPowerModeEnabled() -> Bool {
         return ProcessInfo.processInfo.isLowPowerModeEnabled
+    }
+    
+    // MARK: - Network Monitoring
+    
+    /// Retrieves the current network connection type
+    /// Returns the NetworkConnectionType indicating the current network connection
+    public func getNetworkConnectionType() -> NetworkConnectionType {
+        return self.currentNetworkConnectionType
     }
 
     deinit {

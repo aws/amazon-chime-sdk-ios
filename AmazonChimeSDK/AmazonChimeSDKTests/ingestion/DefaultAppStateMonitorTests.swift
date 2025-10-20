@@ -229,4 +229,72 @@ final class DefaultAppStateMonitorTests: XCTestCase {
         XCTAssertEqual(isLowPowerModeEnabled, ProcessInfo.processInfo.isLowPowerModeEnabled,
                       "Low power mode should match ProcessInfo.processInfo.isLowPowerModeEnabled")
     }
+    
+    // MARK: - Network Connection Type Tests
+    
+    func testGetNetworkConnectionType_WhenInitialized_ShouldReturnNone() {
+        // When
+        let connectionType = monitor.getNetworkConnectionType()
+        
+        // Then
+        XCTAssertEqual(connectionType, .none, "Initial network connection type should be none")
+    }
+    
+    func testGetNetworkConnectionType_ShouldReturnValidConnectionType() {
+        // When
+        let connectionType = monitor.getNetworkConnectionType()
+        
+        // Then
+        let validTypes: [NetworkConnectionType] = [.wifi, .cellular, .wiredEthernet, .other, .none, .unknown]
+        XCTAssertTrue(validTypes.contains(connectionType), "Network connection type should be one of the valid types")
+    }
+    
+    func testNetworkConnectionTypeMonitoring_WhenMonitorNotStarted_ShouldNotPostEvents() {
+        // Given - Monitor is not started
+        
+        // When - Simulate some time passing (network changes might occur)
+        let expectation = XCTestExpectation(description: "Wait for potential network changes")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 1.0)
+        
+        // Then - No network connection type change events should be posted
+        verify(delegateMock.networkConnectionTypeDidChange(monitor: any(), newNetworkConnectionType: any())).wasNeverCalled()
+    }
+    
+    func testNetworkConnectionTypeMonitoring_WhenMonitorStopped_ShouldNotPostEvents() {
+        // Given
+        monitor.start()
+        monitor.stop()
+        
+        // When - Simulate some time passing (network changes might occur)
+        let expectation = XCTestExpectation(description: "Wait for potential network changes after stop")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 1.0)
+        
+        // Then - No network connection type change events should be posted
+        verify(delegateMock.networkConnectionTypeDidChange(monitor: any(), newNetworkConnectionType: any())).wasNeverCalled()
+    }
+    
+    func testNetworkConnectionTypeMonitoring_WhenDelegateIsWeak_ShouldHandleNilDelegate() {
+        // Given
+        monitor.start()
+        
+        // When - Set delegate to nil (simulating weak reference being deallocated)
+        monitor.delegate = nil
+        
+        // Then - Should not crash when network changes occur
+        let expectation = XCTestExpectation(description: "Network monitoring with nil delegate")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            // Test passes if we reach here without crashing
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 1.0)
+    }
 }

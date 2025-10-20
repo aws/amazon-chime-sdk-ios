@@ -31,10 +31,18 @@ import Foundation
     case meetingFailed
     /// The meeting reconnected.
     case meetingReconnected
+    /// The video client signaling websocket opened
+    case videoClientSignalingOpened
     /// The video client signaling websocket failed or closed with an error.
     case videoClientSignalingDropped
+    /// The content share signaling websocket opened
+    case contentShareSignalingOpened
     /// The content share signaling websocket failed or closed with an error.
     case contentShareSignalingDropped
+    /// The video client ICE candidate gathering has finished
+    case videoClientIceGatheringCompleted
+    /// The content share ICE candidate gathering has finished
+    case contentShareIceGatheringCompleted
     /// Content share start was requested.
     case contentShareStartRequested
     /// Content share started successfully.
@@ -63,6 +71,8 @@ import Foundation
     case videoInterruptionBegan
     /// Video interruption ended
     case videoInterruptionEnded
+    /// Network connection type is changed
+    case networkConnectionTypeChanged
     /// unknown
     case unknown
 
@@ -88,10 +98,18 @@ import Foundation
             return "meetingFailed"
         case .meetingReconnected:
             return "meetingReconnected"
+        case .videoClientSignalingOpened:
+            return "videoClientSignalingOpened"
         case .videoClientSignalingDropped:
             return "videoClientSignalingDropped"
+        case .contentShareSignalingOpened:
+            return "contentShareSignalingOpened"
         case .contentShareSignalingDropped:
             return "contentShareSignalingDropped"
+        case .videoClientIceGatheringCompleted:
+            return "videoClientIceGatheringCompleted"
+        case .contentShareIceGatheringCompleted:
+            return "contentShareIceGatheringCompleted"
         case .contentShareStartRequested:
             return "contentShareStartRequested"
         case .contentShareStarted:
@@ -120,6 +138,8 @@ import Foundation
             return "videoInterruptionBegan"
         case .videoInterruptionEnded:
             return "videoInterruptionEnded"
+        case .networkConnectionTypeChanged:
+            return "networkConnectionTypeChanged"
         case .unknown:
             return "unknown"
         }

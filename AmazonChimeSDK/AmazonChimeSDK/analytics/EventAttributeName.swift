@@ -82,6 +82,12 @@ import Foundation
     case lowPowerModeEnabled
     /// The reason explaning why the vidoe is interrupted
     case videoInterruptionReason
+    /// The time taken for connection's ICE gathering state to complete
+    case iceGatheringDurationMs
+    /// The time taken for opening a WebSocket connection.
+    case signalingOpenDurationMs
+    /// The network connection type
+    case networkConnectionType
 
     public var description: String {
         switch self {
@@ -153,6 +159,12 @@ import Foundation
             return "lowPowerModeEnabled"
         case .videoInterruptionReason:
             return "videoInterruptionReason"
+        case .iceGatheringDurationMs:
+            return "iceGatheringDurationMs"
+        case .signalingOpenDurationMs:
+            return "signalingOpenDurationMs"
+        case .networkConnectionType:
+            return "networkConnectionType"
         }
     }
 }

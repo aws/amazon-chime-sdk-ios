@@ -122,10 +122,13 @@ import Foundation
         let appState = self.appStateMonitor.appState
         let batteryState = self.appStateMonitor.getBatteryState()
         let lowPowerModeEnabled = self.appStateMonitor.isLowPowerModeEnabled()
+        let networkConnectionType = self.appStateMonitor.getNetworkConnectionType()
+        
         var attributes: [EventAttributeName : Any] = [
             EventAttributeName.appState: appState,
             EventAttributeName.batteryState: batteryState,
-            EventAttributeName.lowPowerModeEnabled: lowPowerModeEnabled
+            EventAttributeName.lowPowerModeEnabled: lowPowerModeEnabled,
+            EventAttributeName.networkConnectionType: networkConnectionType
         ]
         
         if let batteryLevel = self.appStateMonitor.getBatteryLevel() {
@@ -148,6 +151,11 @@ extension DefaultEventAnalyticsController: AppStateMonitorDelegate {
     public func didReceiveMemoryWarning(monitor: any AppStateMonitor) {
         guard monitor === self.appStateMonitor else { return }
         self.publishEvent(name: .appMemoryLow, attributes: [:], notifyObservers: false)
+    }
+    
+    public func networkConnectionTypeDidChange(monitor: any AppStateMonitor, newNetworkConnectionType: NetworkConnectionType) {
+        guard monitor === self.appStateMonitor else { return }
+        self.publishEvent(name: .networkConnectionTypeChanged, attributes: [:], notifyObservers: false)
     }
     
     

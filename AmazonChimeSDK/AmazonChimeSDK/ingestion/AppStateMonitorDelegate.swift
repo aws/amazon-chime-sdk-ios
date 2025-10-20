@@ -11,4 +11,6 @@
     func appStateDidChange(monitor: AppStateMonitor, newAppState: AppState)
     
     func didReceiveMemoryWarning(monitor: AppStateMonitor)
+    
+    func networkConnectionTypeDidChange(monitor: AppStateMonitor, newNetworkConnectionType: NetworkConnectionType)
 }
