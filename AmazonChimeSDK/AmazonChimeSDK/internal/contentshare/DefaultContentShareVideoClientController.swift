@@ -29,6 +29,11 @@ import Foundation
         config.isUsingInbandTurnCreds = true
         return config
     }()
+    private var videoSendCodecPreferences: [VideoCodecCapability] = [
+        VideoCodecCapability.vp9(),
+        VideoCodecCapability.h264ConstrainedBaselineProfile(),
+        VideoCodecCapability.vp8()
+    ]
 
     public init(videoClient: VideoClientProtocol,
                 configuration: MeetingSessionConfiguration,
@@ -80,6 +85,16 @@ import Foundation
             logger.info(msg: "Setting max bit rate in kbps for content share UHD (2500kbps)")
             videoClient.setMaxBitRateKbps(VideoBitrateConstants().contentHighResolutionBitrateKbps)
         }
+
+        var codecCapabilties = [VideoCodecCapabilitiesInternal]()
+        videoSendCodecPreferences.forEach { preference in codecCapabilties.append(
+            VideoCodecCapabilitiesInternal(
+                name: preference.name,
+                clockRate: preference.clockRate,
+                parameters: preference.parameters as [AnyHashable: Any]
+            )
+        )}
+        videoClient.setVideoCodecPreferences(codecCapabilties)
     }
 
     public func stopVideoShare() {
@@ -199,15 +214,7 @@ extension DefaultContentShareVideoClientController: VideoClientDelegate {
     }
 
     public func setVideoCodecSendPreferences(preferences: [VideoCodecCapability]) {
-        var codecCapabilties = [VideoCodecCapabilitiesInternal]()
-        preferences.forEach { preference in codecCapabilties.append(
-            VideoCodecCapabilitiesInternal(
-                name: preference.name,
-                clockRate: preference.clockRate,
-                parameters: preference.parameters as [AnyHashable: Any]
-            )
-        )}
-        videoClient.setVideoCodecPreferences(codecCapabilties)
+        videoSendCodecPreferences = preferences
     }
 
     private func resetContentShareVideoClientMetrics() {

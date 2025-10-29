@@ -32,6 +32,7 @@ class DefaultVideoClientController: NSObject {
     private let internalCaptureSource: DefaultCameraCaptureSource
     private var isInternalCaptureSourceRunning = true
     private let eventAnalyticsController: EventAnalyticsController
+    private var videoSendCodecPreferences: [VideoCodecCapability] = [VideoCodecCapability.vp9(), VideoCodecCapability.h264ConstrainedBaselineProfile(), VideoCodecCapability.vp8()]
 
     init(videoClient: VideoClientProtocol,
          clientMetricsCollector: ClientMetricsCollector,
@@ -446,6 +447,16 @@ extension DefaultVideoClientController: VideoClientController {
             logger.info(msg: "Setting max bit rate in kbps for local video FHD (2500kbps)")
             videoClient?.setMaxBitRateKbps(VideoBitrateConstants().videoHighResolutionBitrateKbps)
         }
+
+        var codecCapabilties = [VideoCodecCapabilitiesInternal]()
+        videoSendCodecPreferences.forEach { preference in codecCapabilties.append(
+            VideoCodecCapabilitiesInternal(
+                name: preference.name,
+                clockRate: preference.clockRate,
+                parameters: preference.parameters as [AnyHashable: Any]
+            )
+        )}
+        videoClient?.setVideoCodecPreferences(codecCapabilties)
     }
 
     public func stopLocalVideo() {
@@ -616,14 +627,6 @@ extension DefaultVideoClientController: VideoClientController {
     }
 
     func setVideoCodecSendPreferences(preferences: [VideoCodecCapability]) {
-        var codecCapabilties = [VideoCodecCapabilitiesInternal]()
-        preferences.forEach { preference in codecCapabilties.append(
-            VideoCodecCapabilitiesInternal(
-                name: preference.name,
-                clockRate: preference.clockRate,
-                parameters: preference.parameters as [AnyHashable: Any]
-            )
-        )}
-        videoClient?.setVideoCodecPreferences(codecCapabilties)
+        videoSendCodecPreferences = preferences
     }
 }
