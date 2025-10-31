@@ -3,6 +3,7 @@
 ### Added
 * Added meetingReconnected/audioInputFailed/signalingOpened/signalingDropped/iceGatheringCompleted/appStateChanged/appMemoryLow/contentShareStartRequested/contentShareStarted/contentShareStopped/contentShareFailed/voiceFocusEnabled/voiceFocusDisabled/voiceFocusEnableFailed/voiceFocusDisableFailed/audioInterruptionBegan/audioInterruptionEnded/videoInterruptionBegan/videoInterruptionEnded/networkConnectionTypeChanged meeting events
 * Added meetingReconnectDurationMs/audioInputErrorMessage/signalingOpenDurationMs/signalingDroppedErrorMessage/iceGatheringDurationMs/appState/batteryLevel/batteryState/lowPowerModeEnabled/contentShareErrorMessage/videoInterruptionReason to meeting event attributes
+* Add video codec selection API and set default video codec to VP9
 
 ## [0.27.1] - 2025-03-28
 
