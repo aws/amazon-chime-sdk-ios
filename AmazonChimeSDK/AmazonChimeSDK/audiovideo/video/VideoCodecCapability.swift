@@ -27,7 +27,7 @@ import Foundation
         return VideoCodecCapability(
             name: "H264",
             clockRate: 90000,
-            params: ["level-asymmetry-allowed": "1", "packetization-mode": "1", "profile-level-id": "42e034"]  // [DBG-MSG] explain
+            params: ["level-asymmetry-allowed": "1", "packetization-mode": "1", "profile-level-id": "42e034"]  // IOS uses profile 5.2 (0x34) for H264 CBP
         )
     }
 
