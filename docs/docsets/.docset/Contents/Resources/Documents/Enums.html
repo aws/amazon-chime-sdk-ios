@@ -87,6 +87,9 @@
                 <a href="Classes/DefaultActiveSpeakerPolicy.html">DefaultActiveSpeakerPolicy</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/DefaultAppStateMonitor.html">DefaultAppStateMonitor</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/DefaultAudioVideoController.html">DefaultAudioVideoController</a>
               </li>
               <li class="nav-group-task">
@@ -260,6 +263,9 @@
             <a href="Enums.html">Enumerations</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="Enums/AppState.html">AppState</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Enums/AudioDeviceCapabilities.html">AudioDeviceCapabilities</a>
               </li>
               <li class="nav-group-task">
@@ -270,6 +276,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Enums/BackgroundFilter.html">BackgroundFilter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/BatteryState.html">BatteryState</a>
               </li>
               <li class="nav-group-task">
                 <a href="Enums/CaptureSourceError.html">CaptureSourceError</a>
@@ -305,6 +314,9 @@
                 <a href="Enums/ModalityType.html">ModalityType</a>
               </li>
               <li class="nav-group-task">
+                <a href="Enums/NetworkConnectionType.html">NetworkConnectionType</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Enums/ObservableMetric.html">ObservableMetric</a>
               </li>
               <li class="nav-group-task">
@@ -320,13 +332,22 @@
                 <a href="Enums/SignalStrength.html">SignalStrength</a>
               </li>
               <li class="nav-group-task">
+                <a href="Enums/SignalingDroppedError.html">SignalingDroppedError</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Enums/TranscriptItemType.html">TranscriptItemType</a>
               </li>
               <li class="nav-group-task">
                 <a href="Enums/TranscriptionStatusType.html">TranscriptionStatusType</a>
               </li>
               <li class="nav-group-task">
+                <a href="Enums/VideoClientFailedError.html">VideoClientFailedError</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Enums/VideoContentHint.html">VideoContentHint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/VideoInterruptionReason.html">VideoInterruptionReason</a>
               </li>
               <li class="nav-group-task">
                 <a href="Enums/VideoPauseState.html">VideoPauseState</a>
@@ -336,6 +357,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Enums/VideoRotation.html">VideoRotation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/VoiceFocusError.html">VoiceFocusError</a>
               </li>
               <li class="nav-group-task">
                 <a href="Enums/VolumeLevel.html">VolumeLevel</a>
@@ -364,6 +388,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/ActiveSpeakerPolicy.html">ActiveSpeakerPolicy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/AppStateMonitor.html">AppStateMonitor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/AppStateMonitorDelegate.html">AppStateMonitorDelegate</a>
               </li>
               <li class="nav-group-task">
                 <a href="Protocols/AudioVideoControllerFacade.html">AudioVideoControllerFacade</a>
@@ -1023,7 +1053,7 @@ These can be used to trigger UI, or attempt to restart the capture source.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">@objc</span>
-<span class="kd">public</span> <span class="kd">enum</span> <span class="kt">CaptureSourceError</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
+<span class="kd">public</span> <span class="kd">enum</span> <span class="kt">CaptureSourceError</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="kt">Error</span><span class="p">,</span> <span class="kt">CustomStringConvertible</span></code></pre>
 
                         </div>
                       </div>
@@ -1061,6 +1091,62 @@ These can be used to trigger UI, or attempt to restart the capture source.</p>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@AppState"></a>
+                    <a name="//apple_ref/swift/Enum/AppState" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@AppState">AppState</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Enums/AppState.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">enum</span> <span class="kt">AppState</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="kt">CustomStringConvertible</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@BatteryState"></a>
+                    <a name="//apple_ref/swift/Enum/BatteryState" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@BatteryState">BatteryState</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Enums/BatteryState.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">enum</span> <span class="kt">BatteryState</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="kt">CustomStringConvertible</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@M@AmazonChimeSDK@E@EventClientType"></a>
                     <a name="//apple_ref/swift/Enum/EventClientType" class="dashAnchor"></a>
                     <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventClientType">EventClientType</a>
@@ -1081,6 +1167,90 @@ These can be used to trigger UI, or attempt to restart the capture source.</p>
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">@objc</span>
 <span class="kd">public</span> <span class="kd">enum</span> <span class="kt">EventClientType</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="kt">CaseIterable</span><span class="p">,</span> <span class="kt">CustomStringConvertible</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@NetworkConnectionType"></a>
+                    <a name="//apple_ref/swift/Enum/NetworkConnectionType" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@NetworkConnectionType">NetworkConnectionType</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Enums/NetworkConnectionType.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">enum</span> <span class="kt">NetworkConnectionType</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="kt">CustomStringConvertible</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@VideoInterruptionReason"></a>
+                    <a name="//apple_ref/swift/Enum/VideoInterruptionReason" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@VideoInterruptionReason">VideoInterruptionReason</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Enums/VideoInterruptionReason.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">enum</span> <span class="kt">VideoInterruptionReason</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="kt">Error</span><span class="p">,</span> <span class="kt">CustomStringConvertible</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@VoiceFocusError"></a>
+                    <a name="//apple_ref/swift/Enum/VoiceFocusError" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@VoiceFocusError">VoiceFocusError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Enums/VoiceFocusError.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">enum</span> <span class="kt">VoiceFocusError</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="kt">Error</span><span class="p">,</span> <span class="kt">CustomStringConvertible</span></code></pre>
 
                         </div>
                       </div>
@@ -1258,6 +1428,62 @@ These can be used to trigger UI, or attempt to restart the capture source.</p>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@SignalingDroppedError"></a>
+                    <a name="//apple_ref/swift/Enum/SignalingDroppedError" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@SignalingDroppedError">SignalingDroppedError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Enums/SignalingDroppedError.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">enum</span> <span class="kt">SignalingDroppedError</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="kt">Error</span><span class="p">,</span> <span class="kt">CustomStringConvertible</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@VideoClientFailedError"></a>
+                    <a name="//apple_ref/swift/Enum/VideoClientFailedError" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@VideoClientFailedError">VideoClientFailedError</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                        <a href="Enums/VideoClientFailedError.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">enum</span> <span class="kt">VideoClientFailedError</span> <span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="kt">Error</span><span class="p">,</span> <span class="kt">CustomStringConvertible</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@M@AmazonChimeSDK@E@LogLevel"></a>
                     <a name="//apple_ref/swift/Enum/LogLevel" class="dashAnchor"></a>
                     <a class="token" href="#/c:@M@AmazonChimeSDK@E@LogLevel">LogLevel</a>
@@ -1288,8 +1514,8 @@ These can be used to trigger UI, or attempt to restart the capture source.</p>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2025 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2025-03-28)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.15.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+          <p>&copy; 2025 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2025-12-09)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.15.4</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
     </div>

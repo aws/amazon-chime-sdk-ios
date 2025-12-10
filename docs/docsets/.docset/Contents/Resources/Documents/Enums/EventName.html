@@ -89,6 +89,9 @@
                 <a href="../Classes/DefaultActiveSpeakerPolicy.html">DefaultActiveSpeakerPolicy</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/DefaultAppStateMonitor.html">DefaultAppStateMonitor</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/DefaultAudioVideoController.html">DefaultAudioVideoController</a>
               </li>
               <li class="nav-group-task">
@@ -262,6 +265,9 @@
             <a href="../Enums.html">Enumerations</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="../Enums/AppState.html">AppState</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Enums/AudioDeviceCapabilities.html">AudioDeviceCapabilities</a>
               </li>
               <li class="nav-group-task">
@@ -272,6 +278,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/BackgroundFilter.html">BackgroundFilter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/BatteryState.html">BatteryState</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/CaptureSourceError.html">CaptureSourceError</a>
@@ -307,6 +316,9 @@
                 <a href="../Enums/ModalityType.html">ModalityType</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Enums/NetworkConnectionType.html">NetworkConnectionType</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Enums/ObservableMetric.html">ObservableMetric</a>
               </li>
               <li class="nav-group-task">
@@ -322,13 +334,22 @@
                 <a href="../Enums/SignalStrength.html">SignalStrength</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Enums/SignalingDroppedError.html">SignalingDroppedError</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Enums/TranscriptItemType.html">TranscriptItemType</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/TranscriptionStatusType.html">TranscriptionStatusType</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Enums/VideoClientFailedError.html">VideoClientFailedError</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Enums/VideoContentHint.html">VideoContentHint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/VideoInterruptionReason.html">VideoInterruptionReason</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/VideoPauseState.html">VideoPauseState</a>
@@ -338,6 +359,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/VideoRotation.html">VideoRotation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/VoiceFocusError.html">VoiceFocusError</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/VolumeLevel.html">VolumeLevel</a>
@@ -366,6 +390,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/ActiveSpeakerPolicy.html">ActiveSpeakerPolicy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AppStateMonitor.html">AppStateMonitor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AppStateMonitorDelegate.html">AppStateMonitorDelegate</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/AudioVideoControllerFacade.html">AudioVideoControllerFacade</a>
@@ -508,6 +538,87 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameAudioInputSelected"></a>
+                    <a name="//apple_ref/swift/Element/audioInputSelected" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameAudioInputSelected">audioInputSelected</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The microphone was selected.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">audioInputSelected</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameAudioInputFailed"></a>
+                    <a name="//apple_ref/swift/Element/audioInputFailed" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameAudioInputFailed">audioInputFailed</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The microphone selection or access failed</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">audioInputFailed</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameVideoInputSelected"></a>
+                    <a name="//apple_ref/swift/Element/videoInputSelected" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameVideoInputSelected">videoInputSelected</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The camera was selected.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">videoInputSelected</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameVideoInputFailed"></a>
                     <a name="//apple_ref/swift/Element/videoInputFailed" class="dashAnchor"></a>
                     <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameVideoInputFailed">videoInputFailed</a>
@@ -518,7 +629,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The camera selection failed.</p>
+                        <p>The camera selection or access failed</p>
 
                       </div>
                       <div class="declaration">
@@ -545,7 +656,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The meeting will start.</p>
+                        <p>The meeting will start</p>
 
                       </div>
                       <div class="declaration">
@@ -572,7 +683,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The meeting started.</p>
+                        <p>The meeting started</p>
 
                       </div>
                       <div class="declaration">
@@ -580,6 +691,33 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="k">case</span> <span class="n">meetingStartSucceeded</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameMeetingReconnected"></a>
+                    <a name="//apple_ref/swift/Element/meetingReconnected" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameMeetingReconnected">meetingReconnected</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The meeting reconnected</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">meetingReconnected</span></code></pre>
 
                         </div>
                       </div>
@@ -599,7 +737,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The meeting failed to start.</p>
+                        <p>The meeting failed to start</p>
 
                       </div>
                       <div class="declaration">
@@ -653,7 +791,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The meeting ended.</p>
+                        <p>The meeting ended</p>
 
                       </div>
                       <div class="declaration">
@@ -661,6 +799,573 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="k">case</span> <span class="n">meetingEnded</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameVideoClientSignalingOpened"></a>
+                    <a name="//apple_ref/swift/Element/videoClientSignalingOpened" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameVideoClientSignalingOpened">videoClientSignalingOpened</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The video client signaling websocket opened</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">videoClientSignalingOpened</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameVideoClientSignalingDropped"></a>
+                    <a name="//apple_ref/swift/Element/videoClientSignalingDropped" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameVideoClientSignalingDropped">videoClientSignalingDropped</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The video client signaling websocket failed or closed with an error</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">videoClientSignalingDropped</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameContentShareSignalingOpened"></a>
+                    <a name="//apple_ref/swift/Element/contentShareSignalingOpened" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameContentShareSignalingOpened">contentShareSignalingOpened</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The content share signaling websocket opened</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">contentShareSignalingOpened</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameContentShareSignalingDropped"></a>
+                    <a name="//apple_ref/swift/Element/contentShareSignalingDropped" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameContentShareSignalingDropped">contentShareSignalingDropped</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The content share signaling websocket failed or closed with an error</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">contentShareSignalingDropped</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameVideoClientIceGatheringCompleted"></a>
+                    <a name="//apple_ref/swift/Element/videoClientIceGatheringCompleted" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameVideoClientIceGatheringCompleted">videoClientIceGatheringCompleted</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The video client ICE candidate gathering has finished</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">videoClientIceGatheringCompleted</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameContentShareIceGatheringCompleted"></a>
+                    <a name="//apple_ref/swift/Element/contentShareIceGatheringCompleted" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameContentShareIceGatheringCompleted">contentShareIceGatheringCompleted</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The content share ICE candidate gathering has finished</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">contentShareIceGatheringCompleted</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameContentShareStartRequested"></a>
+                    <a name="//apple_ref/swift/Element/contentShareStartRequested" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameContentShareStartRequested">contentShareStartRequested</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Content share start was requested.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">contentShareStartRequested</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameContentShareStarted"></a>
+                    <a name="//apple_ref/swift/Element/contentShareStarted" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameContentShareStarted">contentShareStarted</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Content share started successfully.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">contentShareStarted</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameContentShareStopped"></a>
+                    <a name="//apple_ref/swift/Element/contentShareStopped" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameContentShareStopped">contentShareStopped</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Content share stopped.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">contentShareStopped</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameContentShareFailed"></a>
+                    <a name="//apple_ref/swift/Element/contentShareFailed" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameContentShareFailed">contentShareFailed</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Content share failed.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">contentShareFailed</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameAppStateChanged"></a>
+                    <a name="//apple_ref/swift/Element/appStateChanged" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameAppStateChanged">appStateChanged</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The application state is changed</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">appStateChanged</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameAppMemoryLow"></a>
+                    <a name="//apple_ref/swift/Element/appMemoryLow" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameAppMemoryLow">appMemoryLow</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The application memory is low</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">appMemoryLow</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameVoiceFocusEnabled"></a>
+                    <a name="//apple_ref/swift/Element/voiceFocusEnabled" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameVoiceFocusEnabled">voiceFocusEnabled</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Voice focus enabled</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">voiceFocusEnabled</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameVoiceFocusDisabled"></a>
+                    <a name="//apple_ref/swift/Element/voiceFocusDisabled" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameVoiceFocusDisabled">voiceFocusDisabled</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Voice focus disabled</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">voiceFocusDisabled</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameVoiceFocusEnableFailed"></a>
+                    <a name="//apple_ref/swift/Element/voiceFocusEnableFailed" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameVoiceFocusEnableFailed">voiceFocusEnableFailed</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Failed to enable voice focus</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">voiceFocusEnableFailed</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameVoiceFocusDisableFailed"></a>
+                    <a name="//apple_ref/swift/Element/voiceFocusDisableFailed" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameVoiceFocusDisableFailed">voiceFocusDisableFailed</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Failed to disable voice focus</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">voiceFocusDisableFailed</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameAudioInterruptionBegan"></a>
+                    <a name="//apple_ref/swift/Element/audioInterruptionBegan" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameAudioInterruptionBegan">audioInterruptionBegan</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Audio interruption began</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">audioInterruptionBegan</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameAudioInterruptionEnded"></a>
+                    <a name="//apple_ref/swift/Element/audioInterruptionEnded" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameAudioInterruptionEnded">audioInterruptionEnded</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Audio interruption ended</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">audioInterruptionEnded</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameVideoInterruptionBegan"></a>
+                    <a name="//apple_ref/swift/Element/videoInterruptionBegan" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameVideoInterruptionBegan">videoInterruptionBegan</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Video interruption began</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">videoInterruptionBegan</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameVideoInterruptionEnded"></a>
+                    <a name="//apple_ref/swift/Element/videoInterruptionEnded" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameVideoInterruptionEnded">videoInterruptionEnded</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Video interruption ended</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">videoInterruptionEnded</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@E@EventName@EventNameNetworkConnectionTypeChanged"></a>
+                    <a name="//apple_ref/swift/Element/networkConnectionTypeChanged" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@E@EventName@EventNameNetworkConnectionTypeChanged">networkConnectionTypeChanged</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Network connection type is changed</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">networkConnectionTypeChanged</span></code></pre>
 
                         </div>
                       </div>
@@ -724,8 +1429,8 @@
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2025 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2025-03-28)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.15.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+          <p>&copy; 2025 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2025-12-09)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.15.4</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
     </div>
