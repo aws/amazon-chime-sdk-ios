@@ -1,4 +1,4 @@
-## PENDING
+## [0.27.2] - 2025-12-09
 
 ### Added
 * Added meetingReconnected/audioInputFailed/signalingOpened/signalingDropped/iceGatheringCompleted/appStateChanged/appMemoryLow/contentShareStartRequested/contentShareStarted/contentShareStopped/contentShareFailed/voiceFocusEnabled/voiceFocusDisabled/voiceFocusEnableFailed/voiceFocusDisableFailed/audioInterruptionBegan/audioInterruptionEnded/videoInterruptionBegan/videoInterruptionEnded/networkConnectionTypeChanged meeting events

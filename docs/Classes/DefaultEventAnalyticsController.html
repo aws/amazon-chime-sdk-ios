@@ -89,6 +89,9 @@
                 <a href="../Classes/DefaultActiveSpeakerPolicy.html">DefaultActiveSpeakerPolicy</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/DefaultAppStateMonitor.html">DefaultAppStateMonitor</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/DefaultAudioVideoController.html">DefaultAudioVideoController</a>
               </li>
               <li class="nav-group-task">
@@ -262,6 +265,9 @@
             <a href="../Enums.html">Enumerations</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a href="../Enums/AppState.html">AppState</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Enums/AudioDeviceCapabilities.html">AudioDeviceCapabilities</a>
               </li>
               <li class="nav-group-task">
@@ -272,6 +278,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/BackgroundFilter.html">BackgroundFilter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/BatteryState.html">BatteryState</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/CaptureSourceError.html">CaptureSourceError</a>
@@ -307,6 +316,9 @@
                 <a href="../Enums/ModalityType.html">ModalityType</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Enums/NetworkConnectionType.html">NetworkConnectionType</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Enums/ObservableMetric.html">ObservableMetric</a>
               </li>
               <li class="nav-group-task">
@@ -322,13 +334,22 @@
                 <a href="../Enums/SignalStrength.html">SignalStrength</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Enums/SignalingDroppedError.html">SignalingDroppedError</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Enums/TranscriptItemType.html">TranscriptItemType</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/TranscriptionStatusType.html">TranscriptionStatusType</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Enums/VideoClientFailedError.html">VideoClientFailedError</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Enums/VideoContentHint.html">VideoContentHint</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/VideoInterruptionReason.html">VideoInterruptionReason</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/VideoPauseState.html">VideoPauseState</a>
@@ -338,6 +359,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/VideoRotation.html">VideoRotation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/VoiceFocusError.html">VoiceFocusError</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Enums/VolumeLevel.html">VolumeLevel</a>
@@ -366,6 +390,12 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/ActiveSpeakerPolicy.html">ActiveSpeakerPolicy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AppStateMonitor.html">AppStateMonitor</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AppStateMonitorDelegate.html">AppStateMonitorDelegate</a>
               </li>
               <li class="nav-group-task">
                 <a href="../Protocols/AudioVideoControllerFacade.html">AudioVideoControllerFacade</a>
@@ -496,6 +526,7 @@
                   
                   <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="kt">DefaultEventAnalyticsController</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt"><a href="../Protocols/EventAnalyticsController.html">EventAnalyticsController</a></span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">DefaultEventAnalyticsController</span><span class="p">:</span> <span class="kt"><a href="../Protocols/AppStateMonitorDelegate.html">AppStateMonitorDelegate</a></span></code></pre>
 
                 </div>
               </div>
@@ -504,6 +535,32 @@
           <section class="section task-group-section">
             <div class="task-group">
               <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(cs)DefaultEventAnalyticsController(im)publishEventWithName:"></a>
+                    <a name="//apple_ref/swift/Method/publishEvent(name:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)DefaultEventAnalyticsController(im)publishEventWithName:">publishEvent(name:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">publishEvent</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="kt"><a href="../Enums/EventName.html">EventName</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
                 <li class="item">
                   <div>
                     <code>
@@ -533,6 +590,32 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:@M@AmazonChimeSDK@objc(pl)EventAnalyticsController(im)publishEventWithName:attributes:notifyObservers:"></a>
+                    <a name="//apple_ref/swift/Method/publishEvent(name:attributes:notifyObservers:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)EventAnalyticsController(im)publishEventWithName:attributes:notifyObservers:">publishEvent(name:<wbr>attributes:<wbr>notifyObservers:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">publishEvent</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="kt"><a href="../Enums/EventName.html">EventName</a></span><span class="p">,</span> <span class="nv">attributes</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnyHashable</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">],</span> <span class="nv">notifyObservers</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@M@AmazonChimeSDK@objc(pl)EventAnalyticsController(im)getMeetingHistory"></a>
                     <a name="//apple_ref/swift/Method/getMeetingHistory()" class="dashAnchor"></a>
                     <a class="token" href="#/c:@M@AmazonChimeSDK@objc(pl)EventAnalyticsController(im)getMeetingHistory">getMeetingHistory()</a>
@@ -550,32 +633,6 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">getMeetingHistory</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt"><a href="../Classes/MeetingHistoryEvent.html">MeetingHistoryEvent</a></span><span class="p">]</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:@M@AmazonChimeSDK@objc(cs)DefaultEventAnalyticsController(im)publishEventWithName:"></a>
-                    <a name="//apple_ref/swift/Method/publishEvent(name:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AmazonChimeSDK@objc(cs)DefaultEventAnalyticsController(im)publishEventWithName:">publishEvent(name:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">publishEvent</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="kt"><a href="../Enums/EventName.html">EventName</a></span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -686,13 +743,91 @@
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AmazonChimeSDK@objc(cs)DefaultEventAnalyticsController(im)appStateDidChangeWithMonitor:newAppState:"></a>
+                    <a name="//apple_ref/swift/Method/appStateDidChange(monitor:newAppState:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AmazonChimeSDK@objc(cs)DefaultEventAnalyticsController(im)appStateDidChangeWithMonitor:newAppState:">appStateDidChange(monitor:<wbr>newAppState:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">appStateDidChange</span><span class="p">(</span><span class="nv">monitor</span><span class="p">:</span> <span class="kd">any</span> <span class="kt"><a href="../Protocols/AppStateMonitor.html">AppStateMonitor</a></span><span class="p">,</span> <span class="nv">newAppState</span><span class="p">:</span> <span class="kt"><a href="../Enums/AppState.html">AppState</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AmazonChimeSDK@objc(cs)DefaultEventAnalyticsController(im)didReceiveMemoryWarningWithMonitor:"></a>
+                    <a name="//apple_ref/swift/Method/didReceiveMemoryWarning(monitor:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AmazonChimeSDK@objc(cs)DefaultEventAnalyticsController(im)didReceiveMemoryWarningWithMonitor:">didReceiveMemoryWarning(monitor:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">didReceiveMemoryWarning</span><span class="p">(</span><span class="nv">monitor</span><span class="p">:</span> <span class="kd">any</span> <span class="kt"><a href="../Protocols/AppStateMonitor.html">AppStateMonitor</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@CM@AmazonChimeSDK@objc(cs)DefaultEventAnalyticsController(im)networkConnectionTypeDidChangeWithMonitor:newNetworkConnectionType:"></a>
+                    <a name="//apple_ref/swift/Method/networkConnectionTypeDidChange(monitor:newNetworkConnectionType:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@AmazonChimeSDK@objc(cs)DefaultEventAnalyticsController(im)networkConnectionTypeDidChangeWithMonitor:newNetworkConnectionType:">networkConnectionTypeDidChange(monitor:<wbr>newNetworkConnectionType:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">networkConnectionTypeDidChange</span><span class="p">(</span><span class="nv">monitor</span><span class="p">:</span> <span class="kd">any</span> <span class="kt"><a href="../Protocols/AppStateMonitor.html">AppStateMonitor</a></span><span class="p">,</span> <span class="nv">newNetworkConnectionType</span><span class="p">:</span> <span class="kt"><a href="../Enums/NetworkConnectionType.html">NetworkConnectionType</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2025 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2025-03-28)</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.15.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
+          <p>&copy; 2025 <a class="link" href="" target="_blank" rel="external noopener">Amazon.com, Inc. or its affiliates</a>. All rights reserved. (Last updated: 2025-12-09)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.15.4</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
         </section>
       </article>
     </div>
