@@ -52,11 +52,11 @@ import Foundation
     }
 }
 
+// turnControlUrl is unused
 @objcMembers public class MediaPlacement: NSObject {
     let audioFallbackUrl: String
     let audioHostUrl: String
     let signalingUrl: String
-    let turnControlUrl: String
     let eventIngestionUrl: String?
 
     public convenience init(audioFallbackUrl: String, audioHostUrl: String, signalingUrl: String, turnControlUrl: String) {
@@ -75,7 +75,6 @@ import Foundation
         self.audioFallbackUrl = audioFallbackUrl
         self.audioHostUrl = audioHostUrl
         self.signalingUrl = signalingUrl
-        self.turnControlUrl = turnControlUrl
         self.eventIngestionUrl = eventIngestionUrl
     }
 }
