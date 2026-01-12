@@ -101,7 +101,6 @@ class DefaultVideoClientController: NSObject {
         videoConfig.isUsingPixelBufferRenderer = true
         videoConfig.isUsingOptimizedTwoSimulcastStreamTable = true
         videoConfig.isExcludeSelfContentInIndex = true
-        videoConfig.isUsingInbandTurnCreds = true
 
         // Default to idle mode, no video but signaling connection is
         // established for messaging
@@ -223,26 +222,6 @@ extension DefaultVideoClientController: VideoClientDelegate {
             observer.cameraSendAvailabilityDidChange(
                 available: available
             )
-        }
-    }
-
-    public func videoClientRequestTurnCreds(_ videoClient: VideoClient?) {
-        let turnControlUrl = configuration.urls.turnControlUrl
-        let joinToken = configuration.credentials.joinToken
-        let meetingId = configuration.meetingId
-        let signalingUrl = configuration.urls.signalingUrl
-
-        logger.info(msg: "Requesting TURN creds")
-
-        TURNRequestService.postTURNRequest(meetingId: meetingId,
-                                           turnControlUrl: turnControlUrl,
-                                           joinToken: joinToken,
-                                           logger: logger) { [weak self] turnCredentials in
-            if let strongSelf = self, let turnCredentials = turnCredentials {
-                let turnResponse = turnCredentials.toTURNSessionResponse(urlRewriter: strongSelf.configuration.urlRewriter,
-                                                                         signalingUrl: signalingUrl)
-                (strongSelf.videoClient as? VideoClient)?.updateTurnCreds(turnResponse, turn: VIDEO_CLIENT_TURN_FEATURE_ON)
-            }
         }
     }
 
