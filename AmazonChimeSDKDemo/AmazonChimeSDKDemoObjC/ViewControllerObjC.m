@@ -61,6 +61,7 @@
             NSDictionary *mediaPlacementDict = [meetingInfoDict objectForKey:@"MediaPlacement"];
             NSString *audioFallbackUrl = [mediaPlacementDict objectForKey:@"AudioFallbackUrl"];
             NSString *audioHostUrl = [mediaPlacementDict objectForKey:@"AudioHostUrl"];
+            NSString *turnControlUrl = [mediaPlacementDict objectForKey:@"TurnControlUrl"];
             NSString *signalingUrl = [mediaPlacementDict objectForKey:@"SignalingUrl"];
 
             NSDictionary *meetingFeaturesDict = [meetingInfoDict objectForKey:@"MeetingFeatures"];
@@ -78,7 +79,7 @@
             MediaPlacement *mediaPlacement = [[MediaPlacement alloc] initWithAudioFallbackUrl:audioFallbackUrl
                                                                                  audioHostUrl:audioHostUrl
                                                                                  signalingUrl:signalingUrl
-                                                                               turnControlUrl:@""];
+                                                                               turnControlUrl:turnControlUrl];
 
             MeetingFeatures *meetingFeatures= [[MeetingFeatures alloc] initWithVideo:videoMaxResolution
                                                                              content:contentMaxResolution];
