@@ -68,7 +68,7 @@ class JoinRequestService: NSObject {
                     audioFallbackUrl: meeting.mediaPlacement.audioFallbackUrl ?? "",
                     audioHostUrl: meeting.mediaPlacement.audioHostUrl,
                     signalingUrl: meeting.mediaPlacement.signalingUrl,
-                    turnControlUrl: meeting.mediaPlacement.turnControlUrl ?? "",
+                    turnControlUrl: "",
                     eventIngestionUrl: meeting.mediaPlacement.eventIngestionUrl
                 ),
                 meetingFeatures: MeetingFeatures(

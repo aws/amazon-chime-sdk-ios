@@ -26,7 +26,6 @@ import Foundation
         config.isDisablingSimulcastP2P = true
         config.isUsingPixelBufferRenderer = true
         config.isContentShare = true
-        config.isUsingInbandTurnCreds = true
         return config
     }()
 
@@ -117,25 +116,6 @@ import Foundation
 }
 
 extension DefaultContentShareVideoClientController: VideoClientDelegate {
-    public func videoClientRequestTurnCreds(_ client: VideoClient?) {
-        let turnControlUrl = configuration.urls.turnControlUrl
-        let meetingId = configuration.meetingId
-        let signalingUrl = configuration.urls.signalingUrl
-        let joinTokenBase = DefaultModality(id: configuration.credentials.joinToken).base
-        TURNRequestService.postTURNRequest(meetingId: meetingId,
-                                           turnControlUrl: turnControlUrl,
-                                           joinToken: joinTokenBase,
-                                           logger: logger) { [weak self] turnCredentials in
-            if let strongSelf = self, let turnCredentials = turnCredentials {
-                let turnResponse = turnCredentials.toTURNSessionResponse(urlRewriter: strongSelf.configuration.urlRewriter,
-                                                                         signalingUrl: signalingUrl)
-                (strongSelf.videoClient as? VideoClient)?.updateTurnCreds(turnResponse, turn: VIDEO_CLIENT_TURN_FEATURE_ON)
-            } else {
-                self?.logger.error(msg: "Failed to update TURN Credentials")
-            }
-        }
-    }
-
     public func videoClientIsConnecting(_ client: VideoClient?) {
         logger.info(msg: "ContentShare videoClientIsConnecting")
     }

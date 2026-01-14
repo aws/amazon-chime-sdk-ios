@@ -222,7 +222,6 @@
 		C4A69076255B0EA400F28BC2 /* ContentShareObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A69075255B0EA400F28BC2 /* ContentShareObserver.swift */; };
 		C4A6907E255B0EF600F28BC2 /* DefaultContentShareController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A6907D255B0EF600F28BC2 /* DefaultContentShareController.swift */; };
 		C4A69086255B0F1D00F28BC2 /* InAppScreenCaptureSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A69085255B0F1D00F28BC2 /* InAppScreenCaptureSource.swift */; };
-		C4A6908C255B529200F28BC2 /* TURNRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A6908B255B529200F28BC2 /* TURNRequestService.swift */; };
 		C4A69096255CB00700F28BC2 /* ContentShareStatusCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A69095255CB00700F28BC2 /* ContentShareStatusCode.swift */; };
 		C4A6F9C4252E686700455418 /* VideoContentHint.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A6F9C3252E686700455418 /* VideoContentHint.swift */; };
 		C4A6F9CD252F718200455418 /* VideoRotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A6F9CC252F718200455418 /* VideoRotation.swift */; };
@@ -311,7 +310,6 @@
 		F81104AD276190AA003D17AD /* RemoteVideoSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81104A9276190A9003D17AD /* RemoteVideoSource.swift */; };
 		F81104AE276190AA003D17AD /* VideoResolution.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81104AA276190A9003D17AD /* VideoResolution.swift */; };
 		F81104AF276190AA003D17AD /* VideoSubscriptionConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81104AB276190A9003D17AD /* VideoSubscriptionConfiguration.swift */; };
-		F8204ADC23F499410099E3D1 /* MeetingSessionTURNCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8204ADB23F499410099E3D1 /* MeetingSessionTURNCredentials.swift */; };
 		F82D50D723FC752600D8F18C /* SignalStrength.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D50C223FC732300D8F18C /* SignalStrength.swift */; };
 		F82D50D823FC752600D8F18C /* VolumeLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82D50C323FC732300D8F18C /* VolumeLevel.swift */; };
 		F83F53702452757700614913 /* ObserverUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F83F536F2452757700614913 /* ObserverUtils.swift */; };
@@ -549,7 +547,6 @@
 		C4A69075255B0EA400F28BC2 /* ContentShareObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentShareObserver.swift; sourceTree = "<group>"; };
 		C4A6907D255B0EF600F28BC2 /* DefaultContentShareController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultContentShareController.swift; sourceTree = "<group>"; };
 		C4A69085255B0F1D00F28BC2 /* InAppScreenCaptureSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppScreenCaptureSource.swift; sourceTree = "<group>"; };
-		C4A6908B255B529200F28BC2 /* TURNRequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TURNRequestService.swift; sourceTree = "<group>"; };
 		C4A6908F255B691900F28BC2 /* DeviceUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceUtils.swift; sourceTree = "<group>"; };
 		C4A69095255CB00700F28BC2 /* ContentShareStatusCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentShareStatusCode.swift; sourceTree = "<group>"; };
 		C4A6F9C3252E686700455418 /* VideoContentHint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoContentHint.swift; sourceTree = "<group>"; };
@@ -638,7 +635,6 @@
 		F81104A9276190A9003D17AD /* RemoteVideoSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteVideoSource.swift; sourceTree = "<group>"; };
 		F81104AA276190A9003D17AD /* VideoResolution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoResolution.swift; sourceTree = "<group>"; };
 		F81104AB276190A9003D17AD /* VideoSubscriptionConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoSubscriptionConfiguration.swift; sourceTree = "<group>"; };
-		F8204ADB23F499410099E3D1 /* MeetingSessionTURNCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSessionTURNCredentials.swift; sourceTree = "<group>"; };
 		F82D50C223FC732300D8F18C /* SignalStrength.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalStrength.swift; sourceTree = "<group>"; };
 		F82D50C323FC732300D8F18C /* VolumeLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeLevel.swift; sourceTree = "<group>"; };
 		F83F536F2452757700614913 /* ObserverUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserverUtils.swift; sourceTree = "<group>"; };
@@ -1055,7 +1051,6 @@
 				5A631A4424297DA100C8DAF3 /* metric */,
 				5A9196FC245A4AC500E17CDE /* utils */,
 				5A631A4524297DB500C8DAF3 /* video */,
-				F8204ADB23F499410099E3D1 /* MeetingSessionTURNCredentials.swift */,
 				003B588C23E22CD6002493AB /* SessionStateControllerAction.swift */,
 				006894F5246B479100611C75 /* AttendeeStatus.swift */,
 			);
@@ -1249,7 +1244,6 @@
 				F83F536F2452757700614913 /* ObserverUtils.swift */,
 				C49B5423247EFD2B002829F1 /* ConcurrentMutableSet.swift */,
 				F8E42DED247F9464004C8400 /* ConcurrentDictionary.swift */,
-				C4A6908B255B529200F28BC2 /* TURNRequestService.swift */,
 				C4F8B6542580172200D9AE54 /* CMCampleBufferExtensions.swift */,
 				00E198F2259BE6BD00AD4DAA /* DateUtils.swift */,
 			);
@@ -1752,7 +1746,6 @@
 				0083A11623D8CFFD0057027A /* DefaultRealtimeController.swift in Sources */,
 				00D9DBB2241AE23F00146467 /* DefaultVideoClient.swift in Sources */,
 				CFA2A14A28074E2A008FDFF5 /* BackgroundBlurVideoFrameProcessor.swift in Sources */,
-				C4A6908C255B529200F28BC2 /* TURNRequestService.swift in Sources */,
 				003D78D826127EC8009B2ABB /* DatabaseClient.swift in Sources */,
 				C4A6F9CD252F718200455418 /* VideoRotation.swift in Sources */,
 				0033D33A263B1E5B00D8FA0C /* DirtyMeetingEventItem.swift in Sources */,
@@ -1801,7 +1794,6 @@
 				003B588923E22C4F002493AB /* MeetingSessionStatus.swift in Sources */,
 				0064165926290BDB00626EB8 /* EventDao.swift in Sources */,
 				003B588B23E22C6E002493AB /* MeetingSessionStatusCode.swift in Sources */,
-				F8204ADC23F499410099E3D1 /* MeetingSessionTURNCredentials.swift in Sources */,
 				C4A6907E255B0EF600F28BC2 /* DefaultContentShareController.swift in Sources */,
 				F81104AD276190AA003D17AD /* RemoteVideoSource.swift in Sources */,
 				CF4BA473280FBE72005E6DAE /* BackgroundBlurConfiguration.swift in Sources */,
