@@ -12,12 +12,14 @@ struct CreateMediaPlacementInfo: Codable {
     var audioFallbackUrl: String?
     var audioHostUrl: String
     var signalingUrl: String
+    var turnControlUrl: String?
     var eventIngestionUrl: String?
 
     enum CodingKeys: String, CodingKey {
         case audioFallbackUrl = "AudioFallbackUrl"
         case audioHostUrl = "AudioHostUrl"
         case signalingUrl = "SignalingUrl"
+        case turnControlUrl = "TurnControlUrl"
         case eventIngestionUrl = "EventIngestionUrl"
     }
 }

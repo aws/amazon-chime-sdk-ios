@@ -121,7 +121,7 @@ import Foundation
                                                      joinToken: createAttendeeResponse.attendee.joinToken)
         self.urls = MeetingSessionURLs(audioFallbackUrl: createMeetingResponse.meeting.mediaPlacement.audioFallbackUrl,
                                        audioHostUrl: createMeetingResponse.meeting.mediaPlacement.audioHostUrl,
-                                       turnControlUrl: "",
+                                       turnControlUrl: createMeetingResponse.meeting.mediaPlacement.turnControlUrl,
                                        signalingUrl: createMeetingResponse.meeting.mediaPlacement.signalingUrl,
                                        urlRewriter: urlRewriter,
                                        ingestionUrl: createMeetingResponse.meeting.mediaPlacement.eventIngestionUrl)

@@ -16,7 +16,7 @@ import Foundation
     /// The audio host URL of the session
     public let audioHostUrl: String
 
-    /// This URL is deprecated and unused
+    /// The TURN control URL of the session
     public let turnControlUrl: String
 
     /// The signaling URL of the session

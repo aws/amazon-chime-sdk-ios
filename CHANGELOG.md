@@ -1,9 +1,3 @@
-## [Unreleased]
-
-### Changed
-
-* Remove legacy path for requesting TURN credentials. This includes breaking changes to internal files, which should not impact applications. TURN is still used internally
-
 ## [0.27.2] - 2025-12-09
 
 ### Added
