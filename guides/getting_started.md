@@ -73,7 +73,6 @@ let meetingResp = CreateMeetingResponse(meeting:
             audioFallbackUrl: joinMeetingResponse.joinInfo.meeting.meeting.mediaPlacement.audioFallbackUrl,
             audioHostUrl: joinMeetingResponse.joinInfo.meeting.meeting.mediaPlacement.audioHostUrl,
             signalingUrl: joinMeetingResponse.joinInfo.meeting.meeting.mediaPlacement.signalingUrl,
-            turnControlUrl: joinMeetingResponse.joinInfo.meeting.meeting.mediaPlacement.turnControlUrl
         ),
         mediaRegion: joinMeetingResponse.joinInfo.meeting.meeting.mediaRegion,
         meetingId: joinMeetingResponse.joinInfo.meeting.meeting.meetingId

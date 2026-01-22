@@ -232,7 +232,6 @@ class MeetingSessionConfigurationTests: XCTestCase {
         XCTAssertEqual(audioFallbackStr, mediaPlacement?.audioFallbackUrl)
         XCTAssertEqual(audioHostStr, mediaPlacement?.audioHostUrl)
         XCTAssertEqual(signalingUrlStr, mediaPlacement?.signalingUrl)
-        XCTAssertEqual(turnControlUrlStr, mediaPlacement?.turnControlUrl)
     }
 
     func testMeetingShouldBeInitialized() {
@@ -240,7 +239,6 @@ class MeetingSessionConfigurationTests: XCTestCase {
         XCTAssertEqual(mediaPlacement?.audioFallbackUrl, meeting?.mediaPlacement.audioFallbackUrl)
         XCTAssertEqual(mediaPlacement?.audioHostUrl, meeting?.mediaPlacement.audioHostUrl)
         XCTAssertEqual(mediaPlacement?.signalingUrl, meeting?.mediaPlacement.signalingUrl)
-        XCTAssertEqual(mediaPlacement?.turnControlUrl, meeting?.mediaPlacement.turnControlUrl)
         XCTAssertEqual(mediaRegionStr, meeting?.mediaRegion)
         XCTAssertEqual(meetingIdStr, meeting?.meetingId)
     }
@@ -251,7 +249,6 @@ class MeetingSessionConfigurationTests: XCTestCase {
                        meeting?.mediaPlacement.audioFallbackUrl)
         XCTAssertEqual(meetingResponse?.meeting.mediaPlacement.audioHostUrl, meeting?.mediaPlacement.audioHostUrl)
         XCTAssertEqual(meetingResponse?.meeting.mediaPlacement.signalingUrl, meeting?.mediaPlacement.signalingUrl)
-        XCTAssertEqual(meetingResponse?.meeting.mediaPlacement.turnControlUrl, meeting?.mediaPlacement.turnControlUrl)
         XCTAssertEqual(meetingResponse?.meeting.mediaRegion, meeting?.mediaRegion)
         XCTAssertEqual(meetingResponse?.meeting.meetingId, meeting?.meetingId)
     }
@@ -272,7 +269,6 @@ class MeetingSessionConfigurationTests: XCTestCase {
         XCTAssertEqual(mediaPlacement?.audioFallbackUrl, configuration?.urls.audioFallbackUrl)
         XCTAssertEqual(mediaPlacement?.audioHostUrl, configuration?.urls.audioHostUrl)
         XCTAssertEqual(mediaPlacement?.signalingUrl, configuration?.urls.signalingUrl)
-        XCTAssertEqual(mediaPlacement?.turnControlUrl, configuration?.urls.turnControlUrl)
         XCTAssertEqual(meeting?.meetingId, configuration?.meetingId)
         XCTAssertEqual(attendee?.attendeeId, configuration?.credentials.attendeeId)
         XCTAssertEqual(attendee?.joinToken, configuration?.credentials.joinToken)
