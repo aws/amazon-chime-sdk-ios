@@ -103,6 +103,14 @@ import Foundation
         return realtimeController.realtimeLocalUnmute()
     }
 
+    public func realtimePlaybackMute() -> Bool {
+        return realtimeController.realtimePlaybackMute()
+    }
+
+    public func realtimePlaybackUnmute() -> Bool {
+        return realtimeController.realtimePlaybackUnmute()
+    }
+
     public func addRealtimeObserver(observer: RealtimeObserver) {
         realtimeController.addRealtimeObserver(observer: observer)
     }

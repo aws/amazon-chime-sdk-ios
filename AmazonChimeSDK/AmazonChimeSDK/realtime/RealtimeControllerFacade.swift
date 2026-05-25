@@ -27,6 +27,16 @@ import Foundation
     /// - Returns: Whether unmute was successful
     func realtimeLocalUnmute() -> Bool
 
+    /// Mutes the audio output
+    ///
+    /// - Returns: Whether mute was successful
+    func realtimePlaybackMute() -> Bool
+
+    /// Unmutes the audio output
+    ///
+    /// - Returns: Whether unmute was successful
+    func realtimePlaybackUnmute() -> Bool
+
     /// Subscribes to real time events with an observer
     ///
     /// - Parameter observer: Observer that handles real time events

@@ -361,12 +361,22 @@ meetingSession.audioVideo.start(audioVideoConfiguration) // starts the audio vid
 
 > Note: So far, you've added observers to receive device and session lifecycle events. In the following use cases, you'll use the real-time API methods to send and receive volume indicators and control mute state.
 
-#### Use case 9. Mute and unmute an audio input.
+#### Use case 9. Mute and unmute audio input and output.
+
+To mute and unmute audio input:
 
 ```swift
 let muted = meetingSession.audioVideo.realtimeLocalMute() // returns true if muted, false if failed
 
-let unmuted = meetingSession.audioVideo.realtimeLocalUnmute // returns true if unmuted, false if failed
+let unmuted = meetingSession.audioVideo.realtimeLocalUnmute() // returns true if unmuted, false if failed
+```
+
+To mute and unmute audio playback (output):
+
+```swift
+let muted = meetingSession.audioVideo.realtimePlaybackMute() // returns true if muted, false if failed
+
+let unmuted = meetingSession.audioVideo.realtimePlaybackUnmute() // returns true if unmuted, false if failed
 ```
 
 #### Use case 10. Add an observer to observe realtime events such as volume changes/signal change/muted status of a specific attendee.

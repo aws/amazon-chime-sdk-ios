@@ -29,6 +29,14 @@ import Foundation
         return audioClientController.setMute(mute: false)
     }
 
+    public func realtimePlaybackMute() -> Bool {
+        return audioClientController.setPlaybackMute(mute: true)
+    }
+
+    public func realtimePlaybackUnmute() -> Bool {
+        return audioClientController.setPlaybackMute(mute: false)
+    }
+
     public func addRealtimeObserver(observer: RealtimeObserver) {
         audioClientObserver.subscribeToRealTimeEvents(observer: observer)
     }

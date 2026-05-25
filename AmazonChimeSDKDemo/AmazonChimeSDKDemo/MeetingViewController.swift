@@ -484,6 +484,15 @@ class MeetingViewController: UIViewController {
             optionMenu.addAction(liveTranscriptionAction)
         }
 
+        let isPlaybackMuted = meetingModel.isPlaybackMuted
+        let playbackMuteTitle = isPlaybackMuted ? "Unmute Playback" : "Mute Playback"
+        let playbackMuteAction = UIAlertAction(title: playbackMuteTitle,
+                                               style: .default,
+                                               handler: { _ in
+                                                  meetingModel.togglePlaybackMute()
+                                               })
+        optionMenu.addAction(playbackMuteAction)
+
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         optionMenu.addAction(cancelAction)
 

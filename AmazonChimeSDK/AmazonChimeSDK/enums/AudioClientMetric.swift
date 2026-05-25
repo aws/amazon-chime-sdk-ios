@@ -18,4 +18,7 @@ enum AudioClientMetric: Int {
     case clientSpkMaxJitterMs = 6
     case clientPostJbSpk1sPacketsLostPercent = 7
     case clientPostJbSpk5sPacketsLostPercent = 8
+    case clientRttMs = 9
+    case serverMicJitterMs = 10
+    case clientSpkJitterMs = 11
 }

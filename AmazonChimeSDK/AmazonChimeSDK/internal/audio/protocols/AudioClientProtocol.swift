@@ -40,6 +40,8 @@ import Foundation
 
     func setMicrophoneMuted(_ mute: Bool) -> Int
 
+    func setSpeakerMuted(_ mute: Bool) -> Int
+
     func setPresenter(_ presenter: Bool)
 
     func remoteMute()
