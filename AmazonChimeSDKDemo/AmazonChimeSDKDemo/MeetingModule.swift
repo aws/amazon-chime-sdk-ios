@@ -252,8 +252,13 @@ class MeetingModule {
         let audioSession = AVAudioSession.sharedInstance()
         do {
             if audioSession.category != .playAndRecord {
+                #if compiler(>=6.2)
                 try audioSession.setCategory(AVAudioSession.Category.playAndRecord,
-                                             options: AVAudioSession.CategoryOptions.allowBluetooth)
+                                             options: .allowBluetoothHFP)
+                #else
+                try audioSession.setCategory(AVAudioSession.Category.playAndRecord,
+                                             options: .allowBluetooth)
+                #endif
                 try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
             }
             if audioSession.mode != .voiceChat {

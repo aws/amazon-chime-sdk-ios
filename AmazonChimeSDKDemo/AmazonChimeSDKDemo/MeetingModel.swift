@@ -97,6 +97,8 @@ class MeetingModel: NSObject {
         }
     }
 
+    private(set) var isPlaybackMuted = false
+
     private var isEnded = false {
         didSet {
             // This will unbind current tiles.
@@ -187,6 +189,20 @@ class MeetingModel: NSObject {
             CallKitManager.shared().setMuted(for: call, isMuted: isMuted)
         } else {
             self.isMuted = isMuted
+        }
+    }
+
+    func togglePlaybackMute() {
+        if isPlaybackMuted {
+            if currentMeetingSession.audioVideo.realtimePlaybackUnmute() {
+                isPlaybackMuted = false
+                notify(msg: "Playback unmuted")
+            }
+        } else {
+            if currentMeetingSession.audioVideo.realtimePlaybackMute() {
+                isPlaybackMuted = true
+                notify(msg: "Playback muted")
+            }
         }
     }
 

@@ -1,3 +1,9 @@
+## [Unreleased]
+
+### Added
+* Added `audioSendJitterMs`, `audioReceiveJitterMs`, and `audioRttMs` to `ObservableMetric` for audio quality monitoring
+* Added `realtimePlaybackMute()` and `realtimePlaybackUnmute()` to `RealtimeControllerFacade` for muting/unmuting audio output
+
 ## [0.27.2] - 2025-12-09
 
 ### Added

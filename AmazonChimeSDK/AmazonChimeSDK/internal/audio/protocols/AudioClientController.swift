@@ -10,6 +10,7 @@ import Foundation
 
 @objc public protocol AudioClientController {
     func setMute(mute: Bool) -> Bool
+    func setPlaybackMute(mute: Bool) -> Bool
     // swiftlint:disable function_parameter_count
     func start(audioFallbackUrl: String,
                audioHostUrl: String,

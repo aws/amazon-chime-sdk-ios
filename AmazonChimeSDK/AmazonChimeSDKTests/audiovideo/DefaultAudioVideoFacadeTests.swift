@@ -102,6 +102,24 @@ class DefaultAudioVideoFacadeTests: CommonTestCase {
         verify(audioVideoControllerMock.startLocalVideo(source: cameraCaptureSourceMock, config: config)).wasCalled()
     }
 
+    func testRealtimePlaybackMute() {
+        given(realtimeControllerMock.realtimePlaybackMute()).willReturn(true)
+
+        let result = defaultAudioVideoFacade.realtimePlaybackMute()
+
+        XCTAssertTrue(result)
+        verify(realtimeControllerMock.realtimePlaybackMute()).wasCalled()
+    }
+
+    func testRealtimePlaybackUnmute() {
+        given(realtimeControllerMock.realtimePlaybackUnmute()).willReturn(true)
+
+        let result = defaultAudioVideoFacade.realtimePlaybackUnmute()
+
+        XCTAssertTrue(result)
+        verify(realtimeControllerMock.realtimePlaybackUnmute()).wasCalled()
+    }
+
     func testStartContentShare() {
         let source = ContentShareSource()
         defaultAudioVideoFacade.startContentShare(source: source)

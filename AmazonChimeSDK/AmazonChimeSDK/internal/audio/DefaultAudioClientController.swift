@@ -68,6 +68,14 @@ extension DefaultAudioClientController: AudioClientController {
         }
     }
 
+    public func setPlaybackMute(mute: Bool) -> Bool {
+        if Self.state == .started {
+            return audioClient.setSpeakerMuted(mute) == Int(AUDIO_CLIENT_OK.rawValue)
+        } else {
+            return false
+        }
+    }
+
     // swiftlint:disable function_parameter_count
     public func start(audioFallbackUrl: String,
                       audioHostUrl: String,

@@ -18,6 +18,12 @@ import Foundation
     case audioReceivePacketLossPercent
     /// Percentage of audio packets lost from client to server
     case audioSendPacketLossPercent
+    /// Upstream audio jitter (ms)
+    case audioSendJitterMs
+    /// Downstream audio jitter (ms)
+    case audioReceiveJitterMs
+    /// Audio round-trip time (ms) between client and server
+    case audioRttMs
     /// Estimated uplink bandwidth from perspective of video client
     case videoAvailableSendBandwidth
     /// Estimated downlink bandwidth from perspective of video client
@@ -52,6 +58,12 @@ import Foundation
             return "audioReceivePacketLossPercent"
         case .audioSendPacketLossPercent:
             return "audioSendPacketLossPercent"
+        case .audioSendJitterMs:
+            return "audioSendJitterMs"
+        case .audioReceiveJitterMs:
+            return "audioReceiveJitterMs"
+        case .audioRttMs:
+            return "audioRttMs"
         case .videoAvailableSendBandwidth:
             return "videoAvailableSendBandwidth"
         case .videoAvailableReceiveBandwidth:

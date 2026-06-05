@@ -33,6 +33,12 @@ extension DefaultClientMetricsCollector: ClientMetricsCollector {
             = metrics[AudioClientMetric.serverPostJbMic1sPacketsLostPercent.rawValue]
         cachedObservableMetrics[ObservableMetric.audioReceivePacketLossPercent]
             = metrics[AudioClientMetric.clientPostJbSpk1sPacketsLostPercent.rawValue]
+        cachedObservableMetrics[ObservableMetric.audioSendJitterMs]
+            = metrics[AudioClientMetric.serverMicJitterMs.rawValue]
+        cachedObservableMetrics[ObservableMetric.audioReceiveJitterMs]
+            = metrics[AudioClientMetric.clientSpkJitterMs.rawValue]
+        cachedObservableMetrics[ObservableMetric.audioRttMs]
+            = metrics[AudioClientMetric.clientRttMs.rawValue]
         maybeEmitMetrics()
     }
 
