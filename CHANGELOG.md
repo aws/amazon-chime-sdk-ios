@@ -1,4 +1,4 @@
-## [Unreleased]
+## [0.27.3] - 2026-06-29
 
 ### Added
 * Added `audioSendJitterMs`, `audioReceiveJitterMs`, and `audioRttMs` to `ObservableMetric` for audio quality monitoring
