@@ -51,7 +51,9 @@ import Foundation
 
     func demoteFromPrimaryMeeting()
 
-    func setSimulcast(_ simulcast: Bool)
+    // setSimulcast was removed from VideoClient in tincan 717a66d24 ("Remove dead
+    // uplink-policy and codec config"); simulcast now runs via the built-in optimized
+    // uplink policy by default, so it is no longer part of this protocol.
 
     func setMaxBitRateKbps(_ maxBitRate: UInt32)
 
