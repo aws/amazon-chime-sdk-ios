@@ -1,3 +1,8 @@
+## [Unreleased]
+
+### Deprecated
+* Deprecated `LocalVideoConfiguration.simulcastEnabled`. Simulcast is now enabled by default and this flag no longer has any effect.
+
 ## [0.27.3] - 2026-06-29
 
 ### Added
