@@ -13,7 +13,8 @@ import Foundation
 
     /// The flag to disable/enable simulcast, default to true
     /// For local video use only, will not work for content share
-    public var simulcastEnabled: Bool
+    @available(*, deprecated, message: "Simulcast is enabled by default and this flag no longer has any effect.")
+    public var simulcastEnabled: Bool = true
 
     /// The max bit rate for video encoding, should be greater than 0
     /// Actual quality achieved may vary throughout the call depending on what system and network can provide
@@ -21,7 +22,6 @@ import Foundation
 
     public init(maxBitRateKbps: UInt32 = 0, simulcastEnabled: Bool = true) {
         self.maxBitRateKbps = maxBitRateKbps
-        self.simulcastEnabled = simulcastEnabled
         super.init()
     }
 }

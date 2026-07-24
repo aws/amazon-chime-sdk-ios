@@ -23,8 +23,6 @@ import Foundation
         let config = VideoConfiguration()
         config.isUsing16by9AspectRatio = true
         config.isUsingPixelBufferRenderer = true
-        // isUsingSendSideBwe and isDisablingSimulcastP2P were removed from VideoConfiguration
-        // in tincan 717a66d24 (dead config); behavior is now the built-in default.
         config.isContentShare = true
         config.isUsingInbandTurnCreds = true
         return config

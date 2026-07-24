@@ -99,9 +99,6 @@ class DefaultVideoClientController: NSObject {
         videoConfig.isUsingPixelBufferRenderer = true
         videoConfig.isExcludeSelfContentInIndex = true
         videoConfig.isUsingInbandTurnCreds = true
-        // isUsingSendSideBwe, isDisablingSimulcastP2P and isUsingOptimizedTwoSimulcastStreamTable
-        // were removed from VideoConfiguration in tincan 717a66d24 (dead config); these behaviors
-        // are now built-in defaults (optimized uplink policy / send-side BWE / HW accel).
 
         // Default to idle mode, no video but signaling connection is
         // established for messaging
@@ -432,10 +429,6 @@ extension DefaultVideoClientController: VideoClientController {
         videoSourceAdapter.source = source
         videoClient?.setExternalVideoSource(videoSourceAdapter)
         videoClient?.setSending(true)
-
-        // setSimulcast was removed from VideoClient in tincan 717a66d24; simulcast is now
-        // managed by the client's built-in optimized uplink policy. LocalVideoConfiguration
-        // .simulcastEnabled is retained for source compatibility but no longer has an effect.
 
         if (config.maxBitRateKbps > 0) {
             logger.info(msg: "Setting max bit rate in kbps for local video")
