@@ -4,7 +4,7 @@
 * Deprecated `LocalVideoConfiguration.simulcastEnabled`. Simulcast is enabled by default and this flag no longer has any effect.
 
 ### Removed
-* Removed `setSimulcast` from `VideoClientProtocol` and stopped setting the dead `VideoConfiguration` flags `isUsingSendSideBwe`, `isDisablingSimulcastP2P`, and `isUsingOptimizedTwoSimulcastStreamTable`. These were removed from the media client as dead configuration; the corresponding behaviors (simulcast, send-side bandwidth estimation, the optimized uplink policy, and hardware acceleration) are now built-in defaults, so there is no behavior change.
+* Removed `setSimulcast` from `VideoClientProtocol` and unused internal flags.
 
 ## [0.27.3] - 2026-06-29
 
