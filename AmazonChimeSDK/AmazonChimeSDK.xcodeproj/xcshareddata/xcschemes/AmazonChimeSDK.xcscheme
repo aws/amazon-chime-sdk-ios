@@ -33,9 +33,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5A15822523C4020D0099F8FA"
-               BuildableName = "AmazonChimeSDKTests.xctest"
-               BlueprintName = "AmazonChimeSDKTests"
+               BlueprintIdentifier = "50DA73DCEC8FD61F8C70EC53"
+               BuildableName = "AmazonChimeSDKCuckooTests.xctest"
+               BlueprintName = "AmazonChimeSDKCuckooTests"
                ReferencedContainer = "container:AmazonChimeSDK.xcodeproj">
             </BuildableReference>
          </TestableReference>

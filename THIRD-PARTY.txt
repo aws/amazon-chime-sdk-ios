@@ -2185,12 +2185,12 @@ SOFTWARE.
 
 ------
 
-** mockingbird; version 0.15.0 -- https://github.com/birdrides/mockingbird
-Copyright (c) 2019 Bird Rides, Inc.
- 
+** Cuckoo; version 2.3.0 -- https://github.com/Brightify/Cuckoo
+Copyright (c) 2015 Brightify s.r.o.
+
 MIT License
 
-Copyright (c) <year> <copyright holders>
+Copyright (c) 2015 Brightify s.r.o.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in

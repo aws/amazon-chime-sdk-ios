@@ -21,7 +21,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
         # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       # Download amazon-chime-sdk-media binary from AWS S3
       - name: Get AmazonChimeSDKMedia from AWS S3
@@ -55,15 +55,11 @@ jobs:
       - name: Build and Run Unit Test
         working-directory: ./AmazonChimeSDK
         run: |
-          wget https://github.com/birdrides/mockingbird/releases/download/0.20.0/Mockingbird.zip
-          tar -xzf Mockingbird.zip
-          ./Mockingbird/mockingbird version
-          ./Mockingbird/mockingbird configure AmazonChimeSDKTests -- --targets AmazonChimeSDK
           xcodebuild test \
             -project AmazonChimeSDK.xcodeproj \
-            -scheme AmazonChimeSDK \
+            -scheme AmazonChimeSDKCuckooTests \
             -destination 'platform=iOS Simulator,name=iPhone 11' \
-            -skip-testing:"AmazonChimeSDKTests/SchedulerTests" \
+            -skip-testing:"AmazonChimeSDKCuckooTests/SchedulerTests" \
             -enableCodeCoverage YES \
             build test
 
@@ -77,7 +73,7 @@ jobs:
 
       # Upload test artifacts (for debugging purposes). Note that we ignore .ips
       # and files with a colon because artifact cannot upload files with a colon
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: ios-test-results
