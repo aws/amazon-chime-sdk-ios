@@ -9,7 +9,7 @@
 
 @testable import AmazonChimeSDK
 import AmazonChimeSDKMedia
-import Mockingbird
+import Cuckoo
 import XCTest
 
 // swiftlint:disable:next type_body_length
@@ -29,62 +29,63 @@ class DefaultAudioClientObserverTests: XCTestCase {
     let transcriptionRegion = "us-east-1"
     let transcriptionConfiguration = "transcription-configuration"
     let failedMessage = "Internal server error"
-    var audioClientMock: AudioClientProtocolMock!
-    var clientMetricsCollectorMock: ClientMetricsCollectorMock!
-    var audioSessionMock: AudioSessionMock!
-    var audioLockMock: AudioLockMock!
-    var eventAnalyticsControllerMock: EventAnalyticsControllerMock!
-    var loggerMock: LoggerMock!
+    var audioClientMock: MockAudioClientProtocol!
+    var clientMetricsCollectorMock: MockClientMetricsCollector!
+    var audioSessionMock: MockAudioSession!
+    var audioLockMock: MockAudioLock!
+    var eventAnalyticsControllerMock: MockEventAnalyticsController!
+    var loggerMock: MockLogger!
     var defaultAudioClientObserver: DefaultAudioClientObserver!
-    var mockAudioVideoObserver: AudioVideoObserverMock!
-    var mockRealTimeObserver: RealtimeObserverMock!
-    var meetingStatsCollectorMock: MeetingStatsCollectorMock!
-    var transcriptEventObserverMock: TranscriptEventObserverMock!
-    var appStateMonitorMock: AppStateMonitorMock!
+    var mockAudioVideoObserver: MockAudioVideoObserver!
+    var mockRealTimeObserver: MockRealtimeObserver!
+    var meetingStatsCollectorMock: MockMeetingStatsCollector!
+    var transcriptEventObserverMock: MockTranscriptEventObserver!
+    var appStateMonitorMock: MockAppStateMonitor!
 
     let defaultTimeout = 1.0
 
     override func setUp() {
-        mockAudioVideoObserver = mock(AudioVideoObserver.self)
-        mockRealTimeObserver = mock(RealtimeObserver.self)
-        audioClientMock = mock(AudioClientProtocol.self)
-        clientMetricsCollectorMock = mock(ClientMetricsCollector.self)
-        eventAnalyticsControllerMock = mock(EventAnalyticsController.self)
-        audioLockMock = mock(AudioLock.self)
-        meetingStatsCollectorMock = mock(MeetingStatsCollector.self)
-        transcriptEventObserverMock = mock(TranscriptEventObserver.self)
-        appStateMonitorMock = mock(AppStateMonitor.self)
-        loggerMock = mock(Logger.self)
+        mockAudioVideoObserver = MockAudioVideoObserver().withEnabledDefaultImplementation(AudioVideoObserverStub())
+        mockRealTimeObserver = MockRealtimeObserver().withEnabledDefaultImplementation(RealtimeObserverStub())
+        audioClientMock = MockAudioClientProtocol().withEnabledDefaultImplementation(AudioClientProtocolStub())
+        clientMetricsCollectorMock = MockClientMetricsCollector().withEnabledDefaultImplementation(ClientMetricsCollectorStub())
+        eventAnalyticsControllerMock = MockEventAnalyticsController().withEnabledDefaultImplementation(EventAnalyticsControllerStub())
+        audioLockMock = MockAudioLock().withEnabledDefaultImplementation(AudioLockStub())
+        meetingStatsCollectorMock = MockMeetingStatsCollector().withEnabledDefaultImplementation(MeetingStatsCollectorStub())
+        transcriptEventObserverMock = MockTranscriptEventObserver().withEnabledDefaultImplementation(TranscriptEventObserverStub())
+        appStateMonitorMock = MockAppStateMonitor().withEnabledDefaultImplementation(AppStateMonitorStub())
+        loggerMock = MockLogger().withEnabledDefaultImplementation(LoggerStub())
 
-        given(meetingStatsCollectorMock.getMeetingStats()).will { [AnyHashable: Any]() }
+        stub(meetingStatsCollectorMock) { stub in
+            when(stub.getMeetingStats()).then { [AnyHashable: Any]() }
+        }
 
-        let mediaPlacementMock: MediaPlacementMock = mock(MediaPlacement.self)
-            .initialize(audioFallbackUrl: audioFallbackUrl,
-                        audioHostUrl: audioHostUrl,
-                        signalingUrl: signalingUrl,
-                        turnControlUrl: turnControlUrl,
-                        eventIngestionUrl: nil)
-        let meetingFeaturesMock: MeetingFeaturesMock = mock(MeetingFeatures.self)
-            .initialize(videoMaxResolution: VideoResolution.videoResolutionHD,
-                        contentMaxResolution: VideoResolution.videoResolutionFHD)
-        let meetingMock: MeetingMock = mock(Meeting.self).initialize(externalMeetingId: externalMeetingId,
-                                                                     mediaPlacement: mediaPlacementMock,
-                                                                     meetingFeatures: meetingFeaturesMock,
-                                                                     mediaRegion: mediaRegion,
-                                                                     meetingId: meetingId,
-                                                                     primaryMeetingId: nil)
-        let createMeetingResponseMock: CreateMeetingResponseMock = mock(CreateMeetingResponse.self)
-            .initialize(meeting: meetingMock)
+        // NOTE(cuckoo-migration): the Mockingbird version wrapped these data objects in
+        // class mocks initialized with real values. No test ever stubs or verifies them
+        // (they are pure value holders), so real instances are used here instead.
+        let mediaPlacementMock = MediaPlacement(audioFallbackUrl: audioFallbackUrl,
+                                                audioHostUrl: audioHostUrl,
+                                                signalingUrl: signalingUrl,
+                                                turnControlUrl: turnControlUrl,
+                                                eventIngestionUrl: nil)
+        let meetingFeaturesMock = MeetingFeatures(videoMaxResolution: VideoResolution.videoResolutionHD,
+                                                  contentMaxResolution: VideoResolution.videoResolutionFHD)
+        let meetingMock = Meeting(externalMeetingId: externalMeetingId,
+                                  mediaPlacement: mediaPlacementMock,
+                                  meetingFeatures: meetingFeaturesMock,
+                                  mediaRegion: mediaRegion,
+                                  meetingId: meetingId,
+                                  primaryMeetingId: nil)
+        let createMeetingResponseMock = CreateMeetingResponse(meeting: meetingMock)
 
-        let attendeeMock: AttendeeMock = mock(Attendee.self).initialize(attendeeId: attendeeId,
-                                                                        externalUserId: externalUserId,
-                                                                        joinToken: joinToken)
-        let createAttendeeResponseMock: CreateAttendeeResponseMock = mock(CreateAttendeeResponse.self)
-            .initialize(attendee: attendeeMock)
+        let attendeeMock = Attendee(attendeeId: attendeeId,
+                                    externalUserId: externalUserId,
+                                    joinToken: joinToken)
+        let createAttendeeResponseMock = CreateAttendeeResponse(attendee: attendeeMock)
 
-        config = mock(MeetingSessionConfiguration.self).initialize(createMeetingResponse: createMeetingResponseMock,
-                                                                   createAttendeeResponse: createAttendeeResponseMock,
-                                                                   urlRewriter: URLRewriterUtils.defaultUrlRewriter)
+        config = MeetingSessionConfiguration(createMeetingResponse: createMeetingResponseMock,
+                                             createAttendeeResponse: createAttendeeResponseMock,
+                                             urlRewriter: URLRewriterUtils.defaultUrlRewriter)
         defaultAudioClientObserver = DefaultAudioClientObserver(audioClient: audioClientMock,
                                                                 clientMetricsCollector: clientMetricsCollectorMock,
                                                                 audioClientLock: audioLockMock,
@@ -96,7 +97,9 @@ class DefaultAudioClientObserverTests: XCTestCase {
         defaultAudioClientObserver.subscribeToAudioClientStateChange(observer: mockAudioVideoObserver)
         defaultAudioClientObserver.subscribeToRealTimeEvents(observer: mockRealTimeObserver)
         defaultAudioClientObserver.subscribeToTranscriptEvent(observer: transcriptEventObserverMock)
-        given(audioClientMock.stopSession()).willReturn(0)
+        stub(audioClientMock) { stub in
+            when(stub.stopSession()).thenReturn(0)
+        }
         DefaultAudioClientController.state = .started
     }
     
@@ -109,13 +112,15 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(0))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
                                                            status: audio_client_status_t.init(0))
-        verify(meetingStatsCollectorMock.updateMeetingStartTimeMs()).wasCalled()
-        verify(eventAnalyticsControllerMock.publishEvent(name: .meetingStartSucceeded)).wasCalled()
-        let expect = eventually {
-            verify(mockAudioVideoObserver.audioSessionDidStart(reconnecting: false)).wasCalled()
+        verify(meetingStatsCollectorMock).updateMeetingStartTimeMs()
+        verify(eventAnalyticsControllerMock).publishEvent(name: equal(to: .meetingStartSucceeded))
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockAudioVideoObserver).audioSessionDidStart(reconnecting: false)
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: 1.0)
+        wait(for: [expect], timeout: 2)
     }
 
     func testAudioClientStateChanged_Reconnected() {
@@ -123,14 +128,16 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
-        verify(meetingStatsCollectorMock.updateMeetingStartTimeMs()).wasNeverCalled()
-        verify(meetingStatsCollectorMock.updateMeetingReconnectedTimeMs()).wasCalled()
-        verify(eventAnalyticsControllerMock.publishEvent(name: .meetingReconnected)).wasCalled()
-        let expect = eventually {
-            verify(mockAudioVideoObserver.audioSessionDidStart(reconnecting: true)).wasCalled()
+        verify(meetingStatsCollectorMock, never()).updateMeetingStartTimeMs()
+        verify(meetingStatsCollectorMock).updateMeetingReconnectedTimeMs()
+        verify(eventAnalyticsControllerMock).publishEvent(name: equal(to: .meetingReconnected))
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockAudioVideoObserver).audioSessionDidStart(reconnecting: true)
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
 
     func testAudioClientStateChanged_ConnectionRecover() {
@@ -138,11 +145,13 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.networkBecomePoor.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
-        let expect = eventually {
-            verify(mockAudioVideoObserver.connectionDidRecover()).wasCalled()
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockAudioVideoObserver).connectionDidRecover()
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
 
     func testAudioClientStateChanged_ConnectionBecomePoor() {
@@ -150,11 +159,13 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.networkBecomePoor.rawValue))
-        let expect = eventually {
-            verify(mockAudioVideoObserver.connectionDidBecomePoor()).wasCalled()
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockAudioVideoObserver).connectionDidBecomePoor()
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
 
     func testAudioClientStateChanged_ConnectionDrop() {
@@ -162,12 +173,14 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
-        verify(meetingStatsCollectorMock.updateMeetingStartReconnectingTimeMs()).wasCalled()
-        let expect = eventually {
-            verify(mockAudioVideoObserver.audioSessionDidDrop()).wasCalled()
+        verify(meetingStatsCollectorMock).updateMeetingStartReconnectingTimeMs()
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockAudioVideoObserver).audioSessionDidDrop()
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
 
     func testAudioClientStateChanged_ConnectionCancelReconnect() {
@@ -175,11 +188,13 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_NORMAL,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
-        let expect = eventually {
-            verify(mockAudioVideoObserver.audioSessionDidCancelReconnect()).wasCalled()
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockAudioVideoObserver).audioSessionDidCancelReconnect()
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
 
     func testAudioClientStateChanged_ConnectionFailedFromConnecting() {
@@ -208,16 +223,17 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.audioDisconnected.rawValue))
-        let expect = eventually {
-            verify(mockAudioVideoObserver.audioSessionDidCancelReconnect()).wasCalled()
-            verify(eventAnalyticsControllerMock.publishEvent(name: .meetingFailed, attributes: any())).wasCalled()
-            verify(mockAudioVideoObserver.audioSessionDidStopWithStatus(sessionStatus: any(MeetingSessionStatus.self,
-                                                                        where: { $0.statusCode.rawValue == MeetingSessionStatusCode.audioDisconnected.rawValue}))).wasCalled()
-            verify(meetingStatsCollectorMock.resetMeetingStats()).wasCalled()
-            verify(appStateMonitorMock.stop()).wasCalled()
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockAudioVideoObserver).audioSessionDidCancelReconnect()
+            verify(self.eventAnalyticsControllerMock).publishEvent(name: equal(to: .meetingFailed), attributes: any())
+            verify(self.mockAudioVideoObserver).audioSessionDidStopWithStatus(sessionStatus: ParameterMatcher { $0.statusCode.rawValue == MeetingSessionStatusCode.audioDisconnected.rawValue})
+            verify(self.meetingStatsCollectorMock).resetMeetingStats()
+            verify(self.appStateMonitorMock).stop()
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
     
     func testAudioClientStateChanged_FinishDisconnectingFromConnecting() {
@@ -244,17 +260,21 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.audioServerHungup.rawValue))
-        let expect = eventually {
-            verify(mockAudioVideoObserver.audioSessionDidCancelReconnect()).wasCalled()
-            verify(eventAnalyticsControllerMock.publishEvent(name: .meetingEnded, attributes: any())).wasCalled()
-            verify(meetingStatsCollectorMock.resetMeetingStats()).wasCalled()
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockAudioVideoObserver).audioSessionDidCancelReconnect()
+            verify(self.eventAnalyticsControllerMock).publishEvent(name: equal(to: .meetingEnded), attributes: any())
+            verify(self.meetingStatsCollectorMock).resetMeetingStats()
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
 
     func testAudioClientStateChanged_FinishDisconnectingFromConnected_WhenJoinedFromAnotherDevice() {
-        given(audioClientMock.stopSession()).willReturn(0)
+        stub(audioClientMock) { stub in
+            when(stub.stopSession()).thenReturn(0)
+        }
          DefaultAudioClientController.state = .started
          defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
                                                             status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
@@ -264,7 +284,9 @@ class DefaultAudioClientObserverTests: XCTestCase {
      }
     
     func testAudioClientStateChanged_FinishDisconnectingFromConnecting_WhenJoinedFromAnotherDevice() {
-        given(audioClientMock.stopSession()).willReturn(0)
+        stub(audioClientMock) { stub in
+            when(stub.stopSession()).thenReturn(0)
+        }
          DefaultAudioClientController.state = .started
          defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTING,
                                                             status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
@@ -274,21 +296,26 @@ class DefaultAudioClientObserverTests: XCTestCase {
      }
     
     func testAudioClientStateChanged_FinishDisconnectingFromReconnecting_WhenJoinedFromAnotherDevice() {
-        given(audioClientMock.stopSession()).willReturn(0)
+        stub(audioClientMock) { stub in
+            when(stub.stopSession()).thenReturn(0)
+        }
          DefaultAudioClientController.state = .started
          defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_RECONNECTING,
                                                             status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
          defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
                                                             status: audio_client_status_t.init(MeetingSessionStatusCode.audioJoinedFromAnotherDevice.rawValue))
-         let expect = eventually {
-             verify(mockAudioVideoObserver.audioSessionDidStopWithStatus(sessionStatus: any(MeetingSessionStatus.self,
-                                                                        where: { $0.statusCode.rawValue == MeetingSessionStatusCode.audioJoinedFromAnotherDevice.rawValue}))).wasCalled()
-             verify(eventAnalyticsControllerMock.publishEvent(name: .meetingEnded, attributes: any())).wasCalled()
-             verify(meetingStatsCollectorMock.resetMeetingStats()).wasCalled()
-             verify(mockAudioVideoObserver.audioSessionDidCancelReconnect()).wasCalled()
+         let expect = expectation(description: "eventually")
+         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+             verify(self.mockAudioVideoObserver).audioSessionDidStopWithStatus(sessionStatus: ParameterMatcher {
+                 $0.statusCode.rawValue == MeetingSessionStatusCode.audioJoinedFromAnotherDevice.rawValue
+             })
+             verify(self.eventAnalyticsControllerMock).publishEvent(name: equal(to: .meetingEnded), attributes: any())
+             verify(self.meetingStatsCollectorMock).resetMeetingStats()
+             verify(self.mockAudioVideoObserver).audioSessionDidCancelReconnect()
+             expect.fulfill()
          }
  
-         wait(for: [expect], timeout: defaultTimeout)
+         wait(for: [expect], timeout: 2)
      }
 
     func testAudioClientStateChanged_NotifiesOfInputDeviceFailure() {
@@ -317,15 +344,16 @@ class DefaultAudioClientObserverTests: XCTestCase {
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
         defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_DISCONNECTED_ABNORMAL,
                                                            status: audio_client_status_t.init(MeetingSessionStatusCode.audioDisconnected.rawValue))
-        let expect = eventually {
-            verify(mockAudioVideoObserver.audioSessionDidCancelReconnect()).wasCalled()
-            verify(mockAudioVideoObserver.audioSessionDidStopWithStatus(sessionStatus: any(MeetingSessionStatus.self,
-                                                                        where: { $0.statusCode.rawValue == MeetingSessionStatusCode.audioDisconnected.rawValue}))).wasCalled()
-            verify(eventAnalyticsControllerMock.publishEvent(name: .meetingFailed, attributes: any())).wasCalled()
-            verify(meetingStatsCollectorMock.resetMeetingStats()).wasCalled()
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockAudioVideoObserver).audioSessionDidCancelReconnect()
+            verify(self.mockAudioVideoObserver).audioSessionDidStopWithStatus(sessionStatus: ParameterMatcher { $0.statusCode.rawValue == MeetingSessionStatusCode.audioDisconnected.rawValue})
+            verify(self.eventAnalyticsControllerMock).publishEvent(name: equal(to: .meetingFailed), attributes: any())
+            verify(self.meetingStatsCollectorMock).resetMeetingStats()
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
     
     func testAudioClientStateChanged_SameStateStatusNoop() {
@@ -1571,40 +1599,44 @@ class DefaultAudioClientObserverTests: XCTestCase {
     
     func verifyAudioClientStateChangedToReconnecting(verifyPublishEvent: Bool = true) {
         verifyAudioClientStateNoop(verifyPublishEvent: verifyPublishEvent)
-        let expect = eventually {
-            verify(mockAudioVideoObserver.audioSessionDidDrop()).wasCalled()
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockAudioVideoObserver).audioSessionDidDrop()
+            expect.fulfill()
         }
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
     
     func verifyAudioClientStateMeetingFailed(statusCode: MeetingSessionStatusCode) {
-        let expect = eventually {
-            verify(mockAudioVideoObserver.audioSessionDidStopWithStatus(sessionStatus: any(MeetingSessionStatus.self,
-                                                                        where: { $0.statusCode.rawValue == statusCode.rawValue}))).wasCalled()
-            verify(eventAnalyticsControllerMock.publishEvent(name: .meetingFailed, attributes: any())).wasCalled()
-            verify(meetingStatsCollectorMock.resetMeetingStats()).wasCalled()
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockAudioVideoObserver).audioSessionDidStopWithStatus(sessionStatus: ParameterMatcher { $0.statusCode.rawValue == statusCode.rawValue})
+            verify(self.eventAnalyticsControllerMock).publishEvent(name: equal(to: .meetingFailed), attributes: any())
+            verify(self.meetingStatsCollectorMock).resetMeetingStats()
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
     
     func verifyAudioClientStateMeetingEnded(statusCode: MeetingSessionStatusCode) {
-        let expect = eventually {
-            verify(mockAudioVideoObserver.audioSessionDidStopWithStatus(sessionStatus: any(MeetingSessionStatus.self,
-                                                                        where: { $0.statusCode.rawValue == statusCode.rawValue}))).wasCalled()
-            verify(eventAnalyticsControllerMock.publishEvent(name: .meetingEnded, attributes: any())).wasCalled()
-            verify(meetingStatsCollectorMock.resetMeetingStats()).wasCalled()
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockAudioVideoObserver).audioSessionDidStopWithStatus(sessionStatus: ParameterMatcher { $0.statusCode.rawValue == statusCode.rawValue})
+            verify(self.eventAnalyticsControllerMock).publishEvent(name: equal(to: .meetingEnded), attributes: any())
+            verify(self.meetingStatsCollectorMock).resetMeetingStats()
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
     
     func verifyAudioClientStateNoop(verifyPublishEvent: Bool = true) {
-        verify(mockAudioVideoObserver.audioSessionDidStopWithStatus(sessionStatus: any())).wasNeverCalled()
+        verify(mockAudioVideoObserver, never()).audioSessionDidStopWithStatus(sessionStatus: any())
         if(verifyPublishEvent) {
-            verify(eventAnalyticsControllerMock.publishEvent(name: any(), attributes: any())).wasNeverCalled()
+            verify(eventAnalyticsControllerMock, never()).publishEvent(name: any(), attributes: any())
         }
-        verify(meetingStatsCollectorMock.resetMeetingStats()).wasNeverCalled()
+        verify(meetingStatsCollectorMock, never()).resetMeetingStats()
     }
     
     // MARK: - Audio Metric Changed Tests
@@ -1613,7 +1645,7 @@ class DefaultAudioClientObserverTests: XCTestCase {
         var metrics = [AnyHashable: Any]()
         metrics[ObservableMetric.audioSendPacketLossPercent] = 50
         defaultAudioClientObserver.audioMetricsChanged(metrics)
-        verify(clientMetricsCollectorMock.processAudioClientMetrics(metrics: any())).wasCalled()
+        verify(clientMetricsCollectorMock).processAudioClientMetrics(metrics: any())
     }
 }
 
@@ -1622,22 +1654,26 @@ extension DefaultAudioClientObserverTests{
     func testSignalStrengthChanged_signalStrengthDidChange() {
         let signals = [AttendeeUpdate(profileId: attendeeId, externalUserId: externalUserId, data: 0)]
         defaultAudioClientObserver.signalStrengthChanged(signals as [Any])
-        let expect = eventually {
-            verify(mockRealTimeObserver.signalStrengthDidChange(signalUpdates: any())).wasCalled()
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockRealTimeObserver).signalStrengthDidChange(signalUpdates: any())
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
 
     func testSignalStrengthChanged_signalStrengthDidChange_noDuplicate() {
         let signals = [AttendeeUpdate(profileId: attendeeId, externalUserId: externalUserId, data: 0)]
         defaultAudioClientObserver.signalStrengthChanged(signals as [Any])
         defaultAudioClientObserver.signalStrengthChanged(signals as [Any])
-        let expect = eventually {
-            verify(mockRealTimeObserver.signalStrengthDidChange(signalUpdates: any())).wasCalled(1)
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockRealTimeObserver, times(1)).signalStrengthDidChange(signalUpdates: any())
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
 
     func testSignalStrengthChanged_signalStrengthDidChange_differentSignalLevel() {
@@ -1645,11 +1681,13 @@ extension DefaultAudioClientObserverTests{
         let signals2 = [AttendeeUpdate(profileId: attendeeId, externalUserId: externalUserId, data: 1)]
         defaultAudioClientObserver.signalStrengthChanged(signals as [Any])
         defaultAudioClientObserver.signalStrengthChanged(signals2 as [Any])
-        let expect = eventually {
-            verify(mockRealTimeObserver.signalStrengthDidChange(signalUpdates: any())).wasCalled(2)
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockRealTimeObserver, times(2)).signalStrengthDidChange(signalUpdates: any())
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
 }
 
@@ -1658,22 +1696,26 @@ extension DefaultAudioClientObserverTests{
     func testVolumeStateChanged_volumeDidChange() {
         let volumes = [AttendeeUpdate(profileId: attendeeId, externalUserId: externalUserId, data: 2)]
         defaultAudioClientObserver.volumeStateChanged(volumes as [Any])
-        let expect = eventually {
-            verify(mockRealTimeObserver.volumeDidChange(volumeUpdates: any())).wasCalled()
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockRealTimeObserver).volumeDidChange(volumeUpdates: any())
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
 
     func testVolumeStateChanged_volumeDidChange_noDuplicate() {
         let volumes = [AttendeeUpdate(profileId: attendeeId, externalUserId: externalUserId, data: 2)]
         defaultAudioClientObserver.volumeStateChanged(volumes as [Any])
         defaultAudioClientObserver.volumeStateChanged(volumes as [Any])
-        let expect = eventually {
-            verify(mockRealTimeObserver.volumeDidChange(volumeUpdates: any())).wasCalled(1)
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockRealTimeObserver, times(1)).volumeDidChange(volumeUpdates: any())
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
 
     func testVolumeStateChanged_volumeDidChange_differentVolumeLevel() {
@@ -1681,21 +1723,25 @@ extension DefaultAudioClientObserverTests{
         let volumes2 = [AttendeeUpdate(profileId: attendeeId, externalUserId: externalUserId, data: 1)]
         defaultAudioClientObserver.volumeStateChanged(volumes as [Any])
         defaultAudioClientObserver.volumeStateChanged(volumes2 as [Any])
-        let expect = eventually {
-            verify(mockRealTimeObserver.volumeDidChange(volumeUpdates: any())).wasCalled(2)
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockRealTimeObserver, times(2)).volumeDidChange(volumeUpdates: any())
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
 
     func testVolumeStateChanged_attendeesDidMute() {
         let volumes = [AttendeeUpdate(profileId: attendeeId, externalUserId: externalUserId, data: -1)]
         defaultAudioClientObserver.volumeStateChanged(volumes as [Any])
-        let expect = eventually {
-            verify(mockRealTimeObserver.attendeesDidMute(attendeeInfo: any())).wasCalled()
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockRealTimeObserver).attendeesDidMute(attendeeInfo: any())
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
 
     func testVolumeStateChanged_attendeesDidUnMute() {
@@ -1703,12 +1749,14 @@ extension DefaultAudioClientObserverTests{
         let volumes2 = [AttendeeUpdate(profileId: attendeeId, externalUserId: externalUserId, data: 2)]
         defaultAudioClientObserver.volumeStateChanged(volumes as [Any])
         defaultAudioClientObserver.volumeStateChanged(volumes2 as [Any])
-        let expect = eventually {
-            verify(mockRealTimeObserver.attendeesDidMute(attendeeInfo: any())).wasCalled()
-            verify(mockRealTimeObserver.attendeesDidUnmute(attendeeInfo: any())).wasCalled()
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockRealTimeObserver).attendeesDidMute(attendeeInfo: any())
+            verify(self.mockRealTimeObserver).attendeesDidUnmute(attendeeInfo: any())
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
 }
 
@@ -1717,22 +1765,26 @@ extension DefaultAudioClientObserverTests{
     func testAttendeesPresenceChanged_attendeesDidJoin() {
         let attendees = [AttendeeUpdate(profileId: attendeeId, externalUserId: externalUserId, data: 1)]
         defaultAudioClientObserver.attendeesPresenceChanged(attendees as [Any])
-        let expect = eventually {
-            verify(mockRealTimeObserver.attendeesDidJoin(attendeeInfo: any())).wasCalled()
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockRealTimeObserver).attendeesDidJoin(attendeeInfo: any())
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
 
     func testAttendeesPresenceChanged_attendeesDidJoinDuplicate() {
         let attendees = [AttendeeUpdate(profileId: attendeeId, externalUserId: externalUserId, data: 1)]
         defaultAudioClientObserver.attendeesPresenceChanged(attendees as [Any])
         defaultAudioClientObserver.attendeesPresenceChanged(attendees as [Any])
-        let expect = eventually {
-            verify(mockRealTimeObserver.attendeesDidJoin(attendeeInfo: any())).wasCalled(1)
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockRealTimeObserver, times(1)).attendeesDidJoin(attendeeInfo: any())
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
 
     func testAttendeesPresenceChanged_attendeesDidLeave() {
@@ -1740,12 +1792,14 @@ extension DefaultAudioClientObserverTests{
         let attendees2 = [AttendeeUpdate(profileId: attendeeId, externalUserId: externalUserId, data: 2)]
         defaultAudioClientObserver.attendeesPresenceChanged(attendees as [Any])
         defaultAudioClientObserver.attendeesPresenceChanged(attendees2 as [Any])
-        let expect = eventually {
-            verify(mockRealTimeObserver.attendeesDidJoin(attendeeInfo: any())).wasCalled()
-            verify(mockRealTimeObserver.attendeesDidLeave(attendeeInfo: any())).wasCalled()
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockRealTimeObserver).attendeesDidJoin(attendeeInfo: any())
+            verify(self.mockRealTimeObserver).attendeesDidLeave(attendeeInfo: any())
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
 
     func testAttendeesPresenceChanged_attendeesDidDrop() {
@@ -1753,12 +1807,14 @@ extension DefaultAudioClientObserverTests{
         let attendees2 = [AttendeeUpdate(profileId: attendeeId, externalUserId: externalUserId, data: 3)]
         defaultAudioClientObserver.attendeesPresenceChanged(attendees as [Any])
         defaultAudioClientObserver.attendeesPresenceChanged(attendees2 as [Any])
-        let expect = eventually {
-            verify(mockRealTimeObserver.attendeesDidJoin(attendeeInfo: any())).wasCalled()
-            verify(mockRealTimeObserver.attendeesDidDrop(attendeeInfo: any())).wasCalled()
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockRealTimeObserver).attendeesDidJoin(attendeeInfo: any())
+            verify(self.mockRealTimeObserver).attendeesDidDrop(attendeeInfo: any())
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
 }
 
@@ -1777,11 +1833,13 @@ extension DefaultAudioClientObserverTests{
                                                        message: failedMessage)
         let events = [statusStarted, statusFailed]
         defaultAudioClientObserver.transcriptEventsReceived(events as [Any])
-        let expect = eventually {
-            verify(transcriptEventObserverMock.transcriptEventDidReceive(transcriptEvent: any())).wasCalled(2)
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.transcriptEventObserverMock, times(2)).transcriptEventDidReceive(transcriptEvent: any())
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
     
     func testTranscriptEventsReceived_receivedTranscript() {
@@ -1806,11 +1864,13 @@ extension DefaultAudioClientObserverTests{
         let transcript = TranscriptInternal(results: [result])
         let events = [transcript]
         defaultAudioClientObserver.transcriptEventsReceived(events as [Any])
-        let expect = eventually {
-            verify(transcriptEventObserverMock.transcriptEventDidReceive(transcriptEvent: any())).wasCalled()
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.transcriptEventObserverMock).transcriptEventDidReceive(transcriptEvent: any())
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
 
     func testTranscriptEventsReceived_receivedTranscriptWithNilEntities() {
@@ -1835,11 +1895,13 @@ extension DefaultAudioClientObserverTests{
         let transcript = TranscriptInternal(results: [result])
         let events = [transcript]
         defaultAudioClientObserver.transcriptEventsReceived(events as [Any])
-        let expect = eventually {
-            verify(transcriptEventObserverMock.transcriptEventDidReceive(transcriptEvent: any())).wasCalled()
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.transcriptEventObserverMock).transcriptEventDidReceive(transcriptEvent: any())
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
 
     func testTranscriptEventsReceived_receivedTranscriptWithNilLanguageIdentification() {
@@ -1864,10 +1926,12 @@ extension DefaultAudioClientObserverTests{
         let transcript = TranscriptInternal(results: [result])
         let events = [transcript]
         defaultAudioClientObserver.transcriptEventsReceived(events as [Any])
-        let expect = eventually {
-            verify(transcriptEventObserverMock.transcriptEventDidReceive(transcriptEvent: any())).wasCalled()
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.transcriptEventObserverMock).transcriptEventDidReceive(transcriptEvent: any())
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
 }

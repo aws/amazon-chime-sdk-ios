@@ -1,3 +1,4 @@
 excluded:
   - MockingbirdMocks
   - MockingbirdSupport
+  - AmazonChimeSDKCuckooTests/Generated
