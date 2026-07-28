@@ -384,6 +384,10 @@
 		D8B836602E39A0CB00179ABF /* TestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B8365F2E39A0C900179ABF /* TestError.swift */; };
 		D8B836622E39A10F00179ABF /* IngestionEventConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B836612E39A10D00179ABF /* IngestionEventConverterTests.swift */; };
 		D8C2EAAB2E89ADEA007BA3C7 /* VideoInterruptionReason.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C2EAAA2E89ADDE007BA3C7 /* VideoInterruptionReason.swift */; };
+		D8E1A0032EA7F00100AAB003 /* VideoInterruptionReasonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E1A0012EA7F00100AAB001 /* VideoInterruptionReasonTests.swift */; };
+		D8E1A0042EA7F00100AAB004 /* NetworkConnectionTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E1A0022EA7F00100AAB002 /* NetworkConnectionTypeTests.swift */; };
+		D8E1A0052EA7F00100AAB005 /* VideoInterruptionReasonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E1A0072EA7F00100AAB007 /* VideoInterruptionReasonTests.swift */; };
+		D8E1A0062EA7F00100AAB006 /* NetworkConnectionTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E1A0082EA7F00100AAB008 /* NetworkConnectionTypeTests.swift */; };
 		D8D3F8D32E610E6B003D2EF4 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D3F8D22E610E6A003D2EF4 /* AppState.swift */; };
 		D8D3F8D52E61166A003D2EF4 /* AppStateMonitorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D3F8D42E611669003D2EF4 /* AppStateMonitorDelegate.swift */; };
 		D8D8D9102B91579C00ECE0EE /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D8D90F2B91579C00ECE0EE /* StringExtension.swift */; };
@@ -764,6 +768,10 @@
 		D8B8365F2E39A0C900179ABF /* TestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestError.swift; sourceTree = "<group>"; };
 		D8B836612E39A10D00179ABF /* IngestionEventConverterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngestionEventConverterTests.swift; sourceTree = "<group>"; };
 		D8C2EAAA2E89ADDE007BA3C7 /* VideoInterruptionReason.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoInterruptionReason.swift; sourceTree = "<group>"; };
+		D8E1A0012EA7F00100AAB001 /* VideoInterruptionReasonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoInterruptionReasonTests.swift; sourceTree = "<group>"; };
+		D8E1A0022EA7F00100AAB002 /* NetworkConnectionTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectionTypeTests.swift; sourceTree = "<group>"; };
+		D8E1A0072EA7F00100AAB007 /* VideoInterruptionReasonTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VideoInterruptionReasonTests.swift; sourceTree = "<group>"; };
+		D8E1A0082EA7F00100AAB008 /* NetworkConnectionTypeTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NetworkConnectionTypeTests.swift; sourceTree = "<group>"; };
 		D8D3F8D22E610E6A003D2EF4 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		D8D3F8D42E611669003D2EF4 /* AppStateMonitorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateMonitorDelegate.swift; sourceTree = "<group>"; };
 		D8D8D90F2B91579C00ECE0EE /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
@@ -897,6 +905,8 @@
 				0033D34C263B2E5F00D8FA0C /* DefaultEventReporterTests.swift */,
 				002C1FBC2642641A00C9B919 /* DefaultEventBufferTests.swift */,
 				D863BE3229BAD65500D9DE9E /* MeetingEventClientConfigurationTests.swift */,
+				D8E1A0012EA7F00100AAB001 /* VideoInterruptionReasonTests.swift */,
+				D8E1A0022EA7F00100AAB002 /* NetworkConnectionTypeTests.swift */,
 			);
 			path = ingestion;
 			sourceTree = "<group>";
@@ -1081,6 +1091,8 @@
 				F48047BFEAC9DEB5BCFBFA1F /* DefaultEventBufferTests.swift */,
 				0DC20CF19251E68FA09CC368 /* DefaultEventReporterTests.swift */,
 				A1008AF6DF51FB1602BED99B /* IngestionEventConverterTests.swift */,
+				D8E1A0072EA7F00100AAB007 /* VideoInterruptionReasonTests.swift */,
+				D8E1A0082EA7F00100AAB008 /* NetworkConnectionTypeTests.swift */,
 			);
 			path = ingestion;
 			sourceTree = "<group>";
@@ -2357,6 +2369,8 @@
 				D863BE3729BAF68B00D9DE9E /* EventAttributeUtilsTests.swift in Sources */,
 				D8F829862E553EBD009E9186 /* SignalingDroppedErrorTests.swift in Sources */,
 				00E19905259E575C00AD4DAA /* DefautCameraCaptureSourceTests.swift in Sources */,
+				D8E1A0032EA7F00100AAB003 /* VideoInterruptionReasonTests.swift in Sources */,
+				D8E1A0042EA7F00100AAB004 /* NetworkConnectionTypeTests.swift in Sources */,
 				C28478D8C67EA749830566CC /* AmazonChimeSDKTests-AmazonChimeSDKMocks.generated.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2459,6 +2473,8 @@
 				0CCD55F158FDB031D8CC252B /* LogLevelTests.swift in Sources */,
 				779ADB7017C9A9A6D51E02BE /* SQLiteClientTests.swift in Sources */,
 				9CF51B8FE40E9DEC6671062F /* SQLiteClientFileTests.swift in Sources */,
+				D8E1A0052EA7F00100AAB005 /* VideoInterruptionReasonTests.swift in Sources */,
+				D8E1A0062EA7F00100AAB006 /* NetworkConnectionTypeTests.swift in Sources */,
 				7221C8908C7D8D36087AB97A /* StaticConformanceShims.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

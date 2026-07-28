@@ -12,7 +12,9 @@ import XCTest
 
 class EventNameTests: XCTestCase {
     func testDescriptionShouldMatch() {
+        XCTAssertEqual(EventName.audioInputSelected.description, "audioInputSelected")
         XCTAssertEqual(EventName.audioInputFailed.description, "audioInputFailed")
+        XCTAssertEqual(EventName.videoInputSelected.description, "videoInputSelected")
         XCTAssertEqual(EventName.videoInputFailed.description, "videoInputFailed")
         XCTAssertEqual(EventName.meetingStartRequested.description, "meetingStartRequested")
         XCTAssertEqual(EventName.meetingStartSucceeded.description, "meetingStartSucceeded")
@@ -22,9 +24,9 @@ class EventNameTests: XCTestCase {
         XCTAssertEqual(EventName.meetingEnded.description, "meetingEnded")
         XCTAssertEqual(EventName.videoClientSignalingOpened.description, "videoClientSignalingOpened")
         XCTAssertEqual(EventName.videoClientSignalingDropped.description, "videoClientSignalingDropped")
-        XCTAssertEqual(EventName.videoClientIceGatheringCompleted.description, "videoClientIceGatheringCompleted")
         XCTAssertEqual(EventName.contentShareSignalingOpened.description, "contentShareSignalingOpened")
         XCTAssertEqual(EventName.contentShareSignalingDropped.description, "contentShareSignalingDropped")
+        XCTAssertEqual(EventName.videoClientIceGatheringCompleted.description, "videoClientIceGatheringCompleted")
         XCTAssertEqual(EventName.contentShareIceGatheringCompleted.description, "contentShareIceGatheringCompleted")
         XCTAssertEqual(EventName.contentShareStartRequested.description, "contentShareStartRequested")
         XCTAssertEqual(EventName.contentShareStarted.description, "contentShareStarted")
@@ -36,10 +38,15 @@ class EventNameTests: XCTestCase {
         XCTAssertEqual(EventName.voiceFocusDisabled.description, "voiceFocusDisabled")
         XCTAssertEqual(EventName.voiceFocusEnableFailed.description, "voiceFocusEnableFailed")
         XCTAssertEqual(EventName.voiceFocusDisableFailed.description, "voiceFocusDisableFailed")
-        XCTAssertEqual(EventName.audioInputSelected.description, "audioInputSelected")
-        XCTAssertEqual(EventName.videoInputSelected.description, "videoInputSelected")
+        XCTAssertEqual(EventName.audioInterruptionBegan.description, "audioInterruptionBegan")
+        XCTAssertEqual(EventName.audioInterruptionEnded.description, "audioInterruptionEnded")
+        XCTAssertEqual(EventName.videoInterruptionBegan.description, "videoInterruptionBegan")
+        XCTAssertEqual(EventName.videoInterruptionEnded.description, "videoInterruptionEnded")
         XCTAssertEqual(EventName.networkConnectionTypeChanged.description, "networkConnectionTypeChanged")
         XCTAssertEqual(EventName.unknown.description, "unknown")
+
+        // Ensure all cases are covered so the test fails at compile time if a new case is added
+        XCTAssertEqual(EventName.allCases.count, 32)
     }
     
     func testEventNameShouldBeAbleToConvertFromString() {

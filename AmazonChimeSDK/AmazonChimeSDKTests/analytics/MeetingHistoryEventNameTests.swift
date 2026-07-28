@@ -13,9 +13,10 @@ import XCTest
 class MeetingHistoryEventNameTests: XCTestCase {
     func testDescriptionShouldMatch() {
         XCTAssertEqual(MeetingHistoryEventName.audioInputSelected.description, "audioInputSelected")
-        XCTAssertEqual(MeetingHistoryEventName.videoInputSelected.description, "videoInputSelected")
         XCTAssertEqual(MeetingHistoryEventName.audioInputFailed.description, "audioInputFailed")
+        XCTAssertEqual(MeetingHistoryEventName.videoInputSelected.description, "videoInputSelected")
         XCTAssertEqual(MeetingHistoryEventName.videoInputFailed.description, "videoInputFailed")
+        XCTAssertEqual(MeetingHistoryEventName.meetingStartFailed.description, "meetingStartFailed")
         XCTAssertEqual(MeetingHistoryEventName.meetingStartRequested.description, "meetingStartRequested")
         XCTAssertEqual(MeetingHistoryEventName.meetingStartSucceeded.description, "meetingStartSucceeded")
         XCTAssertEqual(MeetingHistoryEventName.meetingEnded.description, "meetingEnded")
@@ -42,5 +43,9 @@ class MeetingHistoryEventNameTests: XCTestCase {
         XCTAssertEqual(MeetingHistoryEventName.videoInterruptionBegan.description, "videoInterruptionBegan")
         XCTAssertEqual(MeetingHistoryEventName.videoInterruptionEnded.description, "videoInterruptionEnded")
         XCTAssertEqual(MeetingHistoryEventName.networkConnectionTypeChanged.description, "networkConnectionTypeChanged")
+        XCTAssertEqual(MeetingHistoryEventName.unknown.description, "unknown")
+
+        // Ensure all cases are covered so the test fails at compile time if a new case is added
+        XCTAssertEqual(MeetingHistoryEventName.allCases.count, 32)
     }
 }
