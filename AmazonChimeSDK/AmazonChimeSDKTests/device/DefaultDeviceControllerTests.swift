@@ -73,12 +73,12 @@ class DefaultDeviceControllerTests: XCTestCase {
         XCTAssertEqual(audioDeviceType, MediaDeviceType.audioBuiltInSpeaker.description)
     }
 
-    func testChooseAudioDevice_nonSpeaker() {
+    func testChooseAudioDevice_nonSpeaker() throws {
         let availableInputs = AVAudioSession.sharedInstance().availableInputs
         let nonSpeakerDevice = MediaDevice.fromAVSessionPort(port: (availableInputs?[0])!)
         defaultDeviceController.chooseAudioDevice(mediaDevice: nonSpeakerDevice)
 
-        verify(audioSessionMock.setPreferredInput(nonSpeakerDevice.port)).wasCalled()
+        try verify(audioSessionMock.setPreferredInput(nonSpeakerDevice.port)).wasCalled()
         
         let captor = ArgumentCaptor<[AnyHashable: Any]>()
         verify(eventAnalyticsControllerMock.publishEvent(name: .audioInputSelected,

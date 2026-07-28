@@ -40,21 +40,21 @@ class DefaultAudioClientControllerTests: CommonTestCase {
         given(meetingStatsCollectorMock.getMeetingStats()).will { [AnyHashable: Any]() }
 
         given(audioSessionMock.getRecordPermission()).willReturn(.granted)
-        given(audioClientMock.startSession(any(),
-                                           basePort: any(),
-                                           callId: any(),
-                                           profileId: any(),
-                                           microphoneMute: any(),
-                                           speakerMute: any(),
-                                           isPresenter: any(),
-                                           sessionToken: any(),
-                                           audioWsUrl: any(),
-                                           callKitEnabled: any(),
-                                           appInfo: any(),
-                                           audioMode: any(),
-                                           audioDeviceCapabilities: any(),
-                                           enableAudioRedundancy: any(),
-                                           reconnectTimeoutMs: any())).willReturn(AUDIO_CLIENT_OK)
+        given(audioClientMock.startSession(any(String.self),
+                                           basePort: any(Int.self),
+                                           callId: any(String.self),
+                                           profileId: any(String.self),
+                                           microphoneMute: any(Bool.self),
+                                           speakerMute: any(Bool.self),
+                                           isPresenter: any(Bool.self),
+                                           sessionToken: any(String.self),
+                                           audioWsUrl: any(String.self),
+                                           callKitEnabled: any(Bool.self),
+                                           appInfo: any(AppInfo.self),
+                                           audioMode: any(AudioModeInternal.self),
+                                           audioDeviceCapabilities: any(AudioDeviceCapabilitiesInternal.self),
+                                           enableAudioRedundancy: any(Bool.self),
+                                           reconnectTimeoutMs: any(Int.self))).willReturn(AUDIO_CLIENT_OK)
 
         defaultAudioClientController = DefaultAudioClientController(audioClient: audioClientMock,
                                                                     audioClientObserver: audioClientObserverMock,
@@ -328,21 +328,21 @@ class DefaultAudioClientControllerTests: CommonTestCase {
 
     func testStart_failedToStart() {
         DefaultAudioClientController.state = .initialized
-        given(audioClientMock.startSession(any(),
-                                           basePort: any(),
-                                           callId: any(),
-                                           profileId: any(),
-                                           microphoneMute: any(),
-                                           speakerMute: any(),
-                                           isPresenter: any(),
-                                           sessionToken: any(),
-                                           audioWsUrl: any(),
-                                           callKitEnabled: any(),
-                                           appInfo: any(),
-                                           audioMode: any(),
-                                           audioDeviceCapabilities: any(),
-                                           enableAudioRedundancy: any(),
-                                           reconnectTimeoutMs: any())).willReturn(AUDIO_CLIENT_ERR)
+        given(audioClientMock.startSession(any(String.self),
+                                           basePort: any(Int.self),
+                                           callId: any(String.self),
+                                           profileId: any(String.self),
+                                           microphoneMute: any(Bool.self),
+                                           speakerMute: any(Bool.self),
+                                           isPresenter: any(Bool.self),
+                                           sessionToken: any(String.self),
+                                           audioWsUrl: any(String.self),
+                                           callKitEnabled: any(Bool.self),
+                                           appInfo: any(AppInfo.self),
+                                           audioMode: any(AudioModeInternal.self),
+                                           audioDeviceCapabilities: any(AudioDeviceCapabilitiesInternal.self),
+                                           enableAudioRedundancy: any(Bool.self),
+                                           reconnectTimeoutMs: any(Int.self))).willReturn(AUDIO_CLIENT_ERR)
         given(audioClientObserverMock.audioStatus).willReturn(.ok)
         
 
