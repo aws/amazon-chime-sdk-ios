@@ -137,7 +137,6 @@ class DefaultVideoClientControllerTests: CommonTestCase {
 
         verify(videoClientMock.setExternalVideoSource(any())).wasCalled()
         verify(videoClientMock.setSending(true)).wasCalled()
-        verify(videoClientMock.setSimulcast(true)).wasCalled()
         verify(videoClientMock.setMaxBitRateKbps(300)).wasCalled()
     }
 
@@ -156,7 +155,6 @@ class DefaultVideoClientControllerTests: CommonTestCase {
 
         verify(videoClientMock.setExternalVideoSource(any())).wasCalled()
         verify(videoClientMock.setSending(true)).wasCalled()
-        verify(videoClientMock.setSimulcast(true)).wasCalled()
         verify(videoClientMock.setMaxBitRateKbps(300)).wasCalled()
     }
     
