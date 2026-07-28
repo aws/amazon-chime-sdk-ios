@@ -96,10 +96,7 @@ class DefaultVideoClientController: NSObject {
 
         let videoConfig: VideoConfiguration = VideoConfiguration()
         videoConfig.isUsing16by9AspectRatio = true
-        videoConfig.isUsingSendSideBwe = true
-        videoConfig.isDisablingSimulcastP2P = true
         videoConfig.isUsingPixelBufferRenderer = true
-        videoConfig.isUsingOptimizedTwoSimulcastStreamTable = true
         videoConfig.isExcludeSelfContentInIndex = true
         videoConfig.isUsingInbandTurnCreds = true
 
@@ -432,10 +429,6 @@ extension DefaultVideoClientController: VideoClientController {
         videoSourceAdapter.source = source
         videoClient?.setExternalVideoSource(videoSourceAdapter)
         videoClient?.setSending(true)
-
-        let simulcastEnabled = config.simulcastEnabled
-        logger.info(msg: "Setting simulcast")
-        videoClient?.setSimulcast(simulcastEnabled)
 
         if (config.maxBitRateKbps > 0) {
             logger.info(msg: "Setting max bit rate in kbps for local video")

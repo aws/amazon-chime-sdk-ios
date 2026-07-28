@@ -22,8 +22,6 @@ import Foundation
     private let videoConfig: VideoConfiguration = {
         let config = VideoConfiguration()
         config.isUsing16by9AspectRatio = true
-        config.isUsingSendSideBwe = true
-        config.isDisablingSimulcastP2P = true
         config.isUsingPixelBufferRenderer = true
         config.isContentShare = true
         config.isUsingInbandTurnCreds = true
