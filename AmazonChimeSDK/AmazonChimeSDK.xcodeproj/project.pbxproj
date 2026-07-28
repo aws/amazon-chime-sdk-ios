@@ -2768,6 +2768,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				OTHER_MODULE_VERIFIER_FLAGS = "$(OTHER_CLANG_MODULES_VERIFIER_FLAGS) -Wno-quoted-include-in-framework-header";
 				PRODUCT_BUNDLE_IDENTIFIER = com.amazonaws.services.chime.AmazonChimeSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -2830,6 +2831,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				OTHER_MODULE_VERIFIER_FLAGS = "$(OTHER_CLANG_MODULES_VERIFIER_FLAGS) -Wno-quoted-include-in-framework-header";
 				PRODUCT_BUNDLE_IDENTIFIER = com.amazonaws.services.chime.AmazonChimeSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
