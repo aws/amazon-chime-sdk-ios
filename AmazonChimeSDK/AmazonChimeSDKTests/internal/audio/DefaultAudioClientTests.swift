@@ -8,15 +8,14 @@
 
 @testable import AmazonChimeSDK
 import AmazonChimeSDKMedia
-import Cuckoo
 import XCTest
 
 class DefaultAudioClientTests: XCTestCase {
-    var loggerMock: MockLogger!
+    var loggerMock: LoggerSpy!
     var defaultAudioClient: DefaultAudioClient!
 
     override func setUp() {
-        loggerMock = MockLogger().withEnabledDefaultImplementation(LoggerStub())
+        loggerMock = LoggerSpy()
         defaultAudioClient = DefaultAudioClient.shared(logger: loggerMock)
     }
 
@@ -28,20 +27,20 @@ class DefaultAudioClientTests: XCTestCase {
         let someErrorMessage = "some error message"
         defaultAudioClient.audioLogCallBack(loglevel_t(rawValue: Constants.fatalLevel), msg: someErrorMessage)
 
-        verify(loggerMock).error(msg: someErrorMessage)
+        XCTAssertEqual(loggerMock.errorCalls.filter { $0 == someErrorMessage }.count, 1)
     }
 
     func testAudioLogCallBack_fatalLogLevel() {
         let someFatalMessage = "some fatal message"
         defaultAudioClient.audioLogCallBack(loglevel_t(rawValue: Constants.errorLevel), msg: someFatalMessage)
 
-        verify(loggerMock).error(msg: someFatalMessage)
+        XCTAssertEqual(loggerMock.errorCalls.filter { $0 == someFatalMessage }.count, 1)
     }
 
     func testAudioLogCallBack_otherLogLevel() {
         let someMessage = "some message"
         defaultAudioClient.audioLogCallBack(loglevel_t(rawValue: 3), msg: someMessage)
 
-        verify(loggerMock, never()).info(msg: someMessage)
+        XCTAssertEqual(loggerMock.infoCalls.filter { $0 == someMessage }.count, 0)
     }
 }

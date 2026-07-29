@@ -7,19 +7,18 @@
 //
 
 @testable import AmazonChimeSDK
-import Cuckoo
 import XCTest
 
 final class DefaultAppStateMonitorTests: XCTestCase {
     
-    private var loggerMock: MockLogger!
-    private var delegateMock: MockAppStateMonitorDelegate!
+    private var loggerMock: LoggerSpy!
+    private var delegateMock: AppStateMonitorDelegateSpy!
     private var monitor: DefaultAppStateMonitor!
     
     override func setUp() {
         super.setUp()
-        loggerMock = MockLogger().withEnabledDefaultImplementation(LoggerStub())
-        delegateMock = MockAppStateMonitorDelegate().withEnabledDefaultImplementation(AppStateMonitorDelegateStub())
+        loggerMock = LoggerSpy()
+        delegateMock = AppStateMonitorDelegateSpy()
         monitor = DefaultAppStateMonitor(logger: loggerMock)
         monitor.delegate = delegateMock
     }
@@ -38,8 +37,8 @@ final class DefaultAppStateMonitorTests: XCTestCase {
         
         // Then
         XCTAssertEqual(monitor.appState, .foreground)
-        verify(delegateMock).appStateDidChange(monitor: equal(to: monitor), newAppState: equal(to: AppState.foreground))
-        verify(loggerMock).info(msg: "Application entered state: Foreground")
+        XCTAssertEqual(delegateMock.appStateDidChangeCalls.filter { $0 == .foreground }.count, 1)
+        XCTAssertEqual(loggerMock.infoCalls.filter { $0 == "Application entered state: Foreground" }.count, 1)
     }
     
     func testAppEnteredBackground_ShouldUpdateStateAndNotifyDelegate() {
@@ -51,8 +50,8 @@ final class DefaultAppStateMonitorTests: XCTestCase {
         
         // Then
         XCTAssertEqual(monitor.appState, .background)
-        verify(delegateMock).appStateDidChange(monitor: equal(to: monitor), newAppState: equal(to: AppState.background))
-        verify(loggerMock).info(msg: "Application entered state: Background")
+        XCTAssertEqual(delegateMock.appStateDidChangeCalls.filter { $0 == .background }.count, 1)
+        XCTAssertEqual(loggerMock.infoCalls.filter { $0 == "Application entered state: Background" }.count, 1)
     }
     
     func testAppBecameActive_ShouldUpdateStateAndNotifyDelegate() {
@@ -64,8 +63,8 @@ final class DefaultAppStateMonitorTests: XCTestCase {
         
         // Then
         XCTAssertEqual(monitor.appState, .active)
-        verify(delegateMock, times(2)).appStateDidChange(monitor: equal(to: monitor), newAppState: equal(to: AppState.active))
-        verify(loggerMock, times(2)).info(msg: "Application entered state: Active")
+        XCTAssertEqual(delegateMock.appStateDidChangeCalls.filter { $0 == .active }.count, 2)
+        XCTAssertEqual(loggerMock.infoCalls.filter { $0 == "Application entered state: Active" }.count, 2)
     }
     
     func testAppBecameInactive_ShouldUpdateStateAndNotifyDelegate() {
@@ -77,8 +76,8 @@ final class DefaultAppStateMonitorTests: XCTestCase {
         
         // Then
         XCTAssertEqual(monitor.appState, .inactive)
-        verify(delegateMock).appStateDidChange(monitor: equal(to: monitor), newAppState: equal(to: AppState.inactive))
-        verify(loggerMock).info(msg: "Application entered state: Inactive")
+        XCTAssertEqual(delegateMock.appStateDidChangeCalls.filter { $0 == .inactive }.count, 1)
+        XCTAssertEqual(loggerMock.infoCalls.filter { $0 == "Application entered state: Inactive" }.count, 1)
     }
     
     func testAppWillTerminate_ShouldUpdateStateAndNotifyDelegate() {
@@ -90,8 +89,8 @@ final class DefaultAppStateMonitorTests: XCTestCase {
         
         // Then
         XCTAssertEqual(monitor.appState, .terminated)
-        verify(delegateMock).appStateDidChange(monitor: equal(to: monitor), newAppState: equal(to: AppState.terminated))
-        verify(loggerMock).info(msg: "Application entered state: Terminated")
+        XCTAssertEqual(delegateMock.appStateDidChangeCalls.filter { $0 == .terminated }.count, 1)
+        XCTAssertEqual(loggerMock.infoCalls.filter { $0 == "Application entered state: Terminated" }.count, 1)
     }
     
     func testDidReceiveMemoryLowWarning_ShouldNotifyDelegate() {
@@ -101,8 +100,8 @@ final class DefaultAppStateMonitorTests: XCTestCase {
         NotificationCenter.default.post(name: UIApplication.didReceiveMemoryWarningNotification, object: nil)
         
         // Then
-        verify(delegateMock).didReceiveMemoryWarning(monitor: equal(to: monitor))
-        verify(loggerMock).info(msg: "Application received memory low warning.")
+        XCTAssertEqual(delegateMock.didReceiveMemoryWarningCallCount, 1)
+        XCTAssertEqual(loggerMock.infoCalls.filter { $0 == "Application received memory low warning." }.count, 1)
     }
     
     func testStart_ShouldRegisterNotifications() {
@@ -122,7 +121,7 @@ final class DefaultAppStateMonitorTests: XCTestCase {
         
         // Posting notification after stop should not change state
         NotificationCenter.default.post(name: UIApplication.willResignActiveNotification, object: nil)
-        verify(delegateMock, never()).appStateDidChange(monitor: equal(to: monitor), newAppState: equal(to: AppState.inactive))
+        XCTAssertEqual(delegateMock.appStateDidChangeCalls.filter { $0 == .inactive }.count, 0)
         XCTAssertNotEqual(monitor.appState, .inactive)
     }
     
@@ -261,7 +260,7 @@ final class DefaultAppStateMonitorTests: XCTestCase {
         wait(for: [expectation], timeout: 1.0)
         
         // Then - No network connection type change events should be posted
-        verify(delegateMock, never()).networkConnectionTypeDidChange(monitor: any(), newNetworkConnectionType: any())
+        XCTAssertEqual(delegateMock.networkConnectionTypeDidChangeCalls.count, 0)
     }
     
     func testNetworkConnectionTypeMonitoring_WhenMonitorStopped_ShouldNotPostEvents() {
@@ -278,7 +277,7 @@ final class DefaultAppStateMonitorTests: XCTestCase {
         wait(for: [expectation], timeout: 1.0)
         
         // Then - No network connection type change events should be posted
-        verify(delegateMock, never()).networkConnectionTypeDidChange(monitor: any(), newNetworkConnectionType: any())
+        XCTAssertEqual(delegateMock.networkConnectionTypeDidChangeCalls.count, 0)
     }
     
     func testNetworkConnectionTypeMonitoring_WhenDelegateIsWeak_ShouldHandleNilDelegate() {

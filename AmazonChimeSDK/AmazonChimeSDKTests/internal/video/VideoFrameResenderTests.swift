@@ -9,7 +9,6 @@
 
 @testable import AmazonChimeSDK
 import AmazonChimeSDKMedia
-import Cuckoo
 import XCTest
 
 class VideoFrameResenderTests: CommonTestCase {

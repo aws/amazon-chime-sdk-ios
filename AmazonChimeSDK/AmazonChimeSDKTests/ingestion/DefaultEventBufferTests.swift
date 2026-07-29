@@ -7,17 +7,16 @@
 //
 
 @testable import AmazonChimeSDK
-import Cuckoo
 import XCTest
 
 class DefaultEventBufferTests: XCTestCase {
     private var eventSqliteBuffer: DefaultEventBuffer!
-    private var eventDao: MockEventDao!
-    private var dirtyEventDao: MockDirtyEventDao!
-    private var converter: MockIngestionEventConverter!
+    private var eventDao: EventDaoSpy!
+    private var dirtyEventDao: DirtyEventDaoSpy!
+    private var converter: IngestionEventConverterSpy!
     private var ingestionConfiguration: IngestionConfiguration!
-    private var eventSender: MockEventSender!
-    private var logger: MockLogger!
+    private var eventSender: EventSenderSpy!
+    private var logger: LoggerSpy!
 
     private let meetingEvent = SDKEvent(eventName: EventName.meetingEnded, eventAttributes: [EventAttributeName.poorConnectionCount: 0])
 
@@ -36,19 +35,16 @@ class DefaultEventBufferTests: XCTestCase {
                                                                        clientConiguration: MeetingEventClientConfiguration(eventClientJoinToken: "",
                                                                                                                            meetingId: "",
                                                                                                                            attendeeId: ""))
-        converter = MockIngestionEventConverter().withEnabledDefaultImplementation(IngestionEventConverterStub())
-        eventDao = MockEventDao().withEnabledDefaultImplementation(EventDaoStub())
-        dirtyEventDao = MockDirtyEventDao().withEnabledDefaultImplementation(DirtyEventDaoStub())
-        eventSender = MockEventSender().withEnabledDefaultImplementation(EventSenderStub())
-        logger = MockLogger().withEnabledDefaultImplementation(LoggerStub())
-        stub(converter) { stub in
-            when(stub.toIngestionRecord(meetingEvents: any(), ingestionConfiguration: any())).thenReturn(ingestionRecord)
-            when(stub.toIngestionRecord(dirtyMeetingEvents: any(), ingestionConfiguration: any())).thenReturn(ingestionRecord)
-            when(stub.toIngestionMeetingEvent(event: any(), ingestionConfiguration: any())).thenReturn(IngestionMeetingEvent(name: "dsfdsf", eventAttributes: [:]))
-        }
-        stub(dirtyEventDao) { stub in
-            when(stub.queryDirtyMeetingEventItems(size: any())).thenReturn([DirtyMeetingEventItem(id: "aa", data: ingestionEvent, ttl: 11123)])
-        }
+        converter = IngestionEventConverterSpy()
+        converter.toIngestionRecordReturn = ingestionRecord
+        converter.toIngestionMeetingEventReturn = IngestionMeetingEvent(name: "dsfdsf", eventAttributes: [:])
+
+        eventDao = EventDaoSpy()
+        dirtyEventDao = DirtyEventDaoSpy()
+        dirtyEventDao.queryDirtyMeetingEventItemsReturn = [DirtyMeetingEventItem(id: "aa", data: ingestionEvent, ttl: 11123)]
+        eventSender = EventSenderSpy()
+        logger = LoggerSpy()
+
         eventSqliteBuffer = DefaultEventBuffer(ingestionConfiguration: ingestionConfiguration,
                                               eventDao: eventDao,
                                               dirtyEventDao: dirtyEventDao,
@@ -58,27 +54,20 @@ class DefaultEventBufferTests: XCTestCase {
     }
 
     func testAddShouldInvokeInsertMeetingEvent() {
-        stub(eventDao) { stub in
-            when(stub.insertMeetingEvent(event: any())).thenReturn(true)
-        }
+        eventDao.insertMeetingEventReturn = true
 
         eventSqliteBuffer.add(item: meetingEvent)
 
-        verify(eventDao, times(1)).insertMeetingEvent(event: any())
+        XCTAssertEqual(eventDao.insertMeetingEventCalls.count, 1)
     }
 
     func testProcessShouldInvokeInsertMeetingEvent() {
-        stub(eventDao) { stub in
-            when(stub.queryMeetingEventItems(size: any())).thenReturn([meetingEventItem])
-        }
-        stub(eventSender) { stub in
-            when(stub.sendEvents(ingestionRecord: any(), completionHandler: any())).thenDoNothing()
-        }
+        eventDao.queryMeetingEventItemsReturn = [meetingEventItem]
 
         eventSqliteBuffer.process()
 
-        verify(eventDao, times(1)).queryMeetingEventItems(size: any())
-        verify(eventSender, times(2)).sendEvents(ingestionRecord: any(), completionHandler: any())
-        verify(converter, times(1)).toIngestionRecord(meetingEvents: any(), ingestionConfiguration: any())
+        XCTAssertEqual(eventDao.queryMeetingEventItemsCalls.count, 1)
+        XCTAssertEqual(eventSender.sendEventsCalls.count, 2)
+        XCTAssertEqual(converter.toIngestionRecordFromMeetingEventsCalls.count, 1)
     }
 }

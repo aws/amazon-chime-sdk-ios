@@ -8,7 +8,6 @@
 
 import Foundation
 @testable import AmazonChimeSDK
-import Cuckoo
 import XCTest
 
 class DefaultMeetingStatsCollectorTests: CommonTestCase {

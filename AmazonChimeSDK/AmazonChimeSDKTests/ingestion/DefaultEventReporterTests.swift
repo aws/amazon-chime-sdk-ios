@@ -7,13 +7,12 @@
 //
 
 @testable import AmazonChimeSDK
-import Cuckoo
 import XCTest
 
 class DefaultEventReporterTests: XCTestCase {
-    private var eventBuffer: MockEventBuffer!
-    private var logger: MockLogger!
-    private var timer: MockScheduler!
+    private var eventBuffer: EventBufferSpy!
+    private var logger: LoggerSpy!
+    private var timer: SchedulerSpy!
 
     private let clientConfigurationMock = MeetingEventClientConfiguration(eventClientJoinToken: "", meetingId: "meetingId", attendeeId: "attendeeId")
     private let ingestionUrl = "ingestionUrl"
@@ -24,12 +23,9 @@ class DefaultEventReporterTests: XCTestCase {
     private let emptyIngestionRecord = IngestionRecord(metadata: [:], events: [])
 
     override func setUp() {
-        eventBuffer = MockEventBuffer().withEnabledDefaultImplementation(EventBufferStub())
-        logger = MockLogger().withEnabledDefaultImplementation(LoggerStub())
-        timer = MockScheduler().withEnabledDefaultImplementation(SchedulerStub())
-        stub(eventBuffer) { stub in
-            when(stub.process()).thenDoNothing()
-        }
+        eventBuffer = EventBufferSpy()
+        logger = LoggerSpy()
+        timer = SchedulerSpy()
     }
 
     func testDefaultEventReporterShouldCallIntervalSchedulerStartIfDisabledIsTrue() {
@@ -41,7 +37,7 @@ class DefaultEventReporterTests: XCTestCase {
                              eventBuffer: eventBuffer,
                              logger: logger)
 
-        verify(eventBuffer, never()).process()
+        XCTAssertEqual(eventBuffer.processCallCount, 0)
     }
 
     func testDefaultEventReporterShouldCallIntervalSchedulerStartIfDisabledIsFalse() {
@@ -55,6 +51,6 @@ class DefaultEventReporterTests: XCTestCase {
                              timer: timer)
 
     
-        verify(timer, times(1)).start()
+        XCTAssertEqual(timer.startCallCount, 1)
     }
 }

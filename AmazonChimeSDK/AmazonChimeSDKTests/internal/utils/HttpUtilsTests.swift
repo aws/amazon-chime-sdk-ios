@@ -9,7 +9,6 @@
 import Foundation
 
 @testable import AmazonChimeSDK
-import Cuckoo
 import XCTest
 
 let url = "https://example.com"

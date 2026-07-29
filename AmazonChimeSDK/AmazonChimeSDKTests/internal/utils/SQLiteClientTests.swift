@@ -9,7 +9,6 @@
 @testable import AmazonChimeSDK
 import Foundation
 import SQLite3
-import Cuckoo
 import XCTest
 
 class SQLiteClientTests: XCTestCase {
@@ -24,11 +23,7 @@ class SQLiteClientTests: XCTestCase {
     private let numName = "num"
 
     override func setUp() {
-        let loggerMock = MockLogger().withEnabledDefaultImplementation(LoggerStub())
-        stub(loggerMock) { stub in
-            when(stub.info(msg: any())).thenDoNothing()
-            when(stub.error(msg: any())).thenDoNothing()
-        }
+        let loggerMock = LoggerSpy()
 
         // :memory: is needed for in memory databse
         sqliteDBClient = SQLiteClient(databaseName: ":memory:", logger: loggerMock, inMemory: true)

@@ -9,25 +9,22 @@
 @testable import AmazonChimeSDK
 import AmazonChimeSDKMedia
 import AVFoundation
-import Cuckoo
 import XCTest
 
 class DefaultDeviceControllerTests: XCTestCase {
-    var audioSessionMock: MockAudioSession!
-    var videoClientControllerMock: MockVideoClientController!
-    var loggerMock: MockLogger!
+    var audioSessionMock: AudioSessionSpy!
+    var videoClientControllerMock: VideoClientControllerSpy!
+    var loggerMock: LoggerSpy!
     var defaultDeviceController: DefaultDeviceController!
-    var eventAnalyticsControllerMock: MockEventAnalyticsController!
+    var eventAnalyticsControllerMock: EventAnalyticsControllerSpy!
 
     override func setUp() {
-        videoClientControllerMock = MockVideoClientController().withEnabledDefaultImplementation(VideoClientControllerStub())
-        eventAnalyticsControllerMock = MockEventAnalyticsController().withEnabledDefaultImplementation(EventAnalyticsControllerStub())
-        loggerMock = MockLogger().withEnabledDefaultImplementation(LoggerStub())
+        videoClientControllerMock = VideoClientControllerSpy()
+        eventAnalyticsControllerMock = EventAnalyticsControllerSpy()
+        loggerMock = LoggerSpy()
         let route = AVAudioSession.sharedInstance().currentRoute
-        audioSessionMock = MockAudioSession().withEnabledDefaultImplementation(AudioSessionStub())
-        stub(audioSessionMock) { stub in
-            when(stub.currentRoute.get).thenReturn(route)
-        }
+        audioSessionMock = AudioSessionSpy()
+        audioSessionMock.currentRouteReturn = route
         defaultDeviceController = DefaultDeviceController(audioSession: audioSessionMock,
                                                           videoClientController: videoClientControllerMock,
                                                           eventAnalyticsController: eventAnalyticsControllerMock,
@@ -36,9 +33,7 @@ class DefaultDeviceControllerTests: XCTestCase {
 
     func testListAudioDevices() {
         let availableInputs = AVAudioSession.sharedInstance().availableInputs
-        stub(audioSessionMock) { stub in
-            when(stub.availableInputs.get).thenReturn(availableInputs)
-        }
+        audioSessionMock.availableInputsReturn = availableInputs
 
         let audioDevices = defaultDeviceController.listAudioDevices()
         XCTAssertTrue(!audioDevices.isEmpty)
@@ -50,9 +45,7 @@ class DefaultDeviceControllerTests: XCTestCase {
         let bt = MockedAudioSessionPortDescription(portType: AVAudioSession.Port.bluetoothHFP, portName: "BT")
         let btUnkown = MockedAudioSessionPortDescription(portType: AVAudioSession.Port.init(rawValue: "Unkown"), portName: "BT")
         let availableInputs = [bt, btUnkown]
-        stub(audioSessionMock) { stub in
-            when(stub.availableInputs.get).thenReturn(availableInputs)
-        }
+        audioSessionMock.availableInputsReturn = availableInputs
 
         let audioDevices = defaultDeviceController.listAudioDevices()
         
@@ -68,14 +61,12 @@ class DefaultDeviceControllerTests: XCTestCase {
         let speakerDevice = MediaDevice(label: "Built-in Speaker")
         defaultDeviceController.chooseAudioDevice(mediaDevice: speakerDevice)
 
-        verify(audioSessionMock).overrideOutputAudioPort(equal(to: .speaker))
+        XCTAssertEqual(audioSessionMock.overrideOutputAudioPortCalls.filter { $0 == .speaker }.count, 1)
         
-        let captor = ArgumentCaptor<[AnyHashable: Any]>()
-        verify(eventAnalyticsControllerMock).publishEvent(name: equal(to: .audioInputSelected),
-                                                          attributes: captor.capture(),
-                                                          notifyObservers: false)
-        
-        let audioDeviceType = captor.value?[EventAttributeName.audioDeviceType] as? String
+        let selected = eventAnalyticsControllerMock.publishEventCalls
+            .filter { $0.name == .audioInputSelected && $0.notifyObservers == false }
+        XCTAssertEqual(selected.count, 1)
+        let audioDeviceType = selected.last?.attributes?[EventAttributeName.audioDeviceType] as? String
         XCTAssertEqual(audioDeviceType, MediaDeviceType.audioBuiltInSpeaker.description)
     }
 
@@ -84,21 +75,19 @@ class DefaultDeviceControllerTests: XCTestCase {
         let nonSpeakerDevice = MediaDevice.fromAVSessionPort(port: (availableInputs?[0])!)
         defaultDeviceController.chooseAudioDevice(mediaDevice: nonSpeakerDevice)
 
-        verify(audioSessionMock).setPreferredInput(equal(to: nonSpeakerDevice.port!))
+        XCTAssertEqual(audioSessionMock.setPreferredInputCalls.filter { $0 === nonSpeakerDevice.port! }.count, 1)
         
-        let captor = ArgumentCaptor<[AnyHashable: Any]>()
-        verify(eventAnalyticsControllerMock).publishEvent(name: equal(to: .audioInputSelected),
-                                                          attributes: captor.capture(),
-                                                          notifyObservers: false)
-        
-        let audioDeviceType = captor.value?[EventAttributeName.audioDeviceType] as? String
+        let selected = eventAnalyticsControllerMock.publishEventCalls
+            .filter { $0.name == .audioInputSelected && $0.notifyObservers == false }
+        XCTAssertEqual(selected.count, 1)
+        let audioDeviceType = selected.last?.attributes?[EventAttributeName.audioDeviceType] as? String
         XCTAssertEqual(audioDeviceType, nonSpeakerDevice.type.description)
     }
 
     func testSwitchCamera() {
         defaultDeviceController.switchCamera()
 
-        verify(videoClientControllerMock).switchCamera()
+        XCTAssertEqual(videoClientControllerMock.switchCameraCallCount, 1)
     }
 
     func testGetCurrentAudioDevice() {
@@ -113,45 +102,34 @@ class DefaultDeviceControllerTests: XCTestCase {
             }
         }
 
-        verify(audioSessionMock, times(2)).currentRoute.get()
+        XCTAssertEqual(audioSessionMock.currentRouteGetCount, 2)
         XCTAssertEqual(currentDevice?.label, expected?.label)
         XCTAssertEqual(currentDevice?.type, expected?.type)
     }
     
     func testListAudioDevices_ShouldPublishEvent_WhenNoAvailableInputs() {
-        let captor = ArgumentCaptor<[AnyHashable: Any]>()
-        
-        stub(audioSessionMock) { stub in
-            when(stub.availableInputs.get).thenReturn(nil)
-        }
-        
+        audioSessionMock.availableInputsReturn = nil
+
         _ = defaultDeviceController.listAudioDevices()
-        
-        verify(eventAnalyticsControllerMock).publishEvent(name: equal(to: .audioInputFailed),
-                                                          attributes: captor.capture())
-        
-        let error = captor.value?[EventAttributeName.audioInputError] as? MediaError
+
+        let failed = eventAnalyticsControllerMock.publishEventCalls.filter { $0.name == .audioInputFailed }
+        XCTAssertEqual(failed.count, 1)
+        let error = failed.last?.attributes?[EventAttributeName.audioInputError] as? MediaError
         XCTAssertEqual(error, MediaError.noAudioDevices)
     }
     
     func testChooseAudioDevice_ShouldPublishEvent_WhenFail() {
-        let captor = ArgumentCaptor<[AnyHashable: Any]>()
-        
-        stub(audioSessionMock) { stub in
-            when(stub.overrideOutputAudioPort(equal(to: .speaker))).then { _ in
-                throw TestError.audioInputError
-            }
-        }
-        
+        audioSessionMock.overrideOutputAudioPortError = TestError.audioInputError
+
         let speakerDevice = MediaDevice(label: "Built-in Speaker")
         defaultDeviceController.chooseAudioDevice(mediaDevice: speakerDevice)
-        
-        verify(eventAnalyticsControllerMock).publishEvent(name: equal(to: .audioInputFailed), attributes: captor.capture())
-        
-        let error = captor.value?[EventAttributeName.audioInputError] as? MediaError
+
+        let failed = eventAnalyticsControllerMock.publishEventCalls.filter { $0.name == .audioInputFailed }
+        XCTAssertEqual(failed.count, 1)
+        let error = failed.last?.attributes?[EventAttributeName.audioInputError] as? MediaError
         XCTAssertEqual(error, MediaError.overrideOutputAudioPortFailed)
-        
-        let deviceType = captor.value?[EventAttributeName.audioDeviceType] as? String
+
+        let deviceType = failed.last?.attributes?[EventAttributeName.audioDeviceType] as? String
         XCTAssertEqual(deviceType, MediaDeviceType.audioBuiltInSpeaker.description)
     }
 }

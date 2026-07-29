@@ -7,12 +7,11 @@
 //
 
 @testable import AmazonChimeSDK
-import Cuckoo
 import XCTest
 
 class DirtyEventSQLiteDaoTests: XCTestCase {
     private var dirtyEventDao: DirtyEventSQLiteDao!
-    private var sqliteManagerMock: MockDatabaseManager!
+    private var sqliteManagerMock: DatabaseManagerSpy!
     private let tableName = "DirtyEvents"
     private let mockMap = [
         "id": "6b1d60db-bfa3-41fd-8448-7737f961cf3d",
@@ -26,22 +25,20 @@ class DirtyEventSQLiteDaoTests: XCTestCase {
                                                                   ttl: Int64(1000299292))
 
     override func setUp() {
-        sqliteManagerMock = MockDatabaseManager().withEnabledDefaultImplementation(DatabaseManagerStub())
-        let loggerMock = MockLogger().withEnabledDefaultImplementation(LoggerStub())
+        sqliteManagerMock = DatabaseManagerSpy()
+        let loggerMock = LoggerSpy()
 
-        stub(sqliteManagerMock) { stub in
-            when(stub.query(tableName: any(), size: any())).thenReturn([mockMap])
-            when(stub.insert(tableName: any(), contentValue: any())).thenReturn(true)
-            when(stub.insertMultiples(tableName: any(), contentValues: any())).thenReturn(true)
-            when(stub.delete(tableName: any(), ids: any())).thenReturn(true)
-        }
+        sqliteManagerMock.queryReturn = [mockMap]
+        sqliteManagerMock.insertReturn = true
+        sqliteManagerMock.insertMultiplesReturn = true
+        sqliteManagerMock.deleteReturn = true
 
         dirtyEventDao = DirtyEventSQLiteDao(sqliteManager: sqliteManagerMock, logger: loggerMock)
     }
 
     func testQueryShouldCallDatabaseClientQuery() {
         dirtyEventDao.queryDirtyMeetingEventItems(size: 10)
-        verify(sqliteManagerMock, times(1)).query(tableName: self.tableName, size: 10)
+        XCTAssertEqual(sqliteManagerMock.queryCalls.filter { $0.tableName == self.tableName && $0.size == 10 }.count, 1)
     }
 
     func testQueryShouldReturnMeetingEventItem() {
@@ -55,11 +52,11 @@ class DirtyEventSQLiteDaoTests: XCTestCase {
 
     func testInsertShouldCallDatabaseClientWrite() {
         dirtyEventDao.insertDirtyMeetingEventItems(dirtyEvents: [mockDirtyMeetingEventItem])
-        verify(sqliteManagerMock, times(1)).insertMultiples(tableName: self.tableName, contentValues: any())
+        XCTAssertEqual(sqliteManagerMock.insertMultiplesCalls.filter { $0.tableName == self.tableName }.count, 1)
     }
 
     func testDeleteShouldCallDatabaseClientWrite() {
         dirtyEventDao.deleteDirtyMeetingEventsByIds(ids: [uuid!])
-        verify(sqliteManagerMock, times(1)).delete(tableName: self.tableName, ids: any())
+        XCTAssertEqual(sqliteManagerMock.deleteCalls.filter { $0.tableName == self.tableName }.count, 1)
     }
 }

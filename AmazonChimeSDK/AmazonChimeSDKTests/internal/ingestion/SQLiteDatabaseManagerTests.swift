@@ -7,12 +7,11 @@
 //
 
 @testable import AmazonChimeSDK
-import Cuckoo
 import XCTest
 
 class SQLiteDatabaseManagerTests: XCTestCase {
     private var sqliteDatabaseManager: SQLiteDatabaseManager!
-    private var sqliteClient: MockDatabaseClient!
+    private var sqliteClient: DatabaseClientSpy!
     private let contentValue = [
         "id": "hello",
         "data": "world"
@@ -20,31 +19,29 @@ class SQLiteDatabaseManagerTests: XCTestCase {
     private let tableName = "test"
 
     override func setUp() {
-        sqliteClient = MockDatabaseClient().withEnabledDefaultImplementation(DatabaseClientStub())
-        stub(sqliteClient) { stub in
-            when(stub.query(statement: any(), params: any())).thenReturn([])
-            when(stub.write(statement: any(), params: any())).thenReturn(true)
-        }
+        sqliteClient = DatabaseClientSpy()
+        sqliteClient.queryReturn = []
+        sqliteClient.writeReturn = true
         sqliteDatabaseManager = SQLiteDatabaseManager(sqliteClient: sqliteClient)
     }
 
     func testInsertShouldInvokeClientWrite() {
         sqliteDatabaseManager.insert(tableName: tableName, contentValue: contentValue)
-        verify(sqliteClient, times(1)).write(statement: any(), params: any())
+        XCTAssertEqual(sqliteClient.writeCalls.count, 1)
     }
 
     func testExecuteShouldInvokeClientWrite() {
         sqliteDatabaseManager.execute(statement: "example statement")
-        verify(sqliteClient, times(1)).write(statement: any(), params: any())
+        XCTAssertEqual(sqliteClient.writeCalls.count, 1)
     }
 
     func testInsertMultipleShouldInvokeClientWrite() {
         sqliteDatabaseManager.insertMultiples(tableName: tableName, contentValues: [contentValue])
-        verify(sqliteClient, times(1)).write(statement: any(), params: any())
+        XCTAssertEqual(sqliteClient.writeCalls.count, 1)
     }
 
     func testQueryShouldInvokeClientQuery() {
         sqliteDatabaseManager.query(tableName: tableName, size: 5)
-        verify(sqliteClient, times(1)).query(statement: any(), params:  any())
+        XCTAssertEqual(sqliteClient.queryCalls.count, 1)
     }
 }

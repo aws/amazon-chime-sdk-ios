@@ -7,13 +7,12 @@
 //
 
 @testable import AmazonChimeSDK
-import Cuckoo
 import XCTest
 
 class EventSQLiteDaoTests: XCTestCase {
     private var eventDao: EventSQLiteDao!
     private let tableName = "Events"
-    private var sqliteManagerMock: MockDatabaseManager!
+    private var sqliteManagerMock: DatabaseManagerSpy!
     private let mockMap = [
         "id": "6b1d60db-bfa3-41fd-8448-7737f961cf3d",
         "data": "{\"name\":\"meetingEnded\",\"eventAttributes\":{\"meetingStatus\":\"ok\"}}"
@@ -23,20 +22,18 @@ class EventSQLiteDaoTests: XCTestCase {
                                                         data: IngestionMeetingEvent(name: String(describing: EventName.meetingEnded),
                                                                                     eventAttributes: [:]))
     override func setUp() {
-        sqliteManagerMock = MockDatabaseManager().withEnabledDefaultImplementation(DatabaseManagerStub())
-        let loggerMock = MockLogger().withEnabledDefaultImplementation(LoggerStub())
-        stub(sqliteManagerMock) { stub in
-            when(stub.query(tableName: any(), size: any())).thenReturn([mockMap])
-            when(stub.insert(tableName: any(), contentValue: any())).thenReturn(true)
-            when(stub.insertMultiples(tableName: any(), contentValues: any())).thenReturn(true)
-            when(stub.delete(tableName: any(), ids: any())).thenReturn(true)
-        }
+        sqliteManagerMock = DatabaseManagerSpy()
+        let loggerMock = LoggerSpy()
+        sqliteManagerMock.queryReturn = [mockMap]
+        sqliteManagerMock.insertReturn = true
+        sqliteManagerMock.insertMultiplesReturn = true
+        sqliteManagerMock.deleteReturn = true
         eventDao = EventSQLiteDao(sqliteManager: sqliteManagerMock, logger: loggerMock)
     }
 
     func testQueryShouldCallDatabaseManagerQuery() {
         eventDao.queryMeetingEventItems(size: 10)
-        verify(sqliteManagerMock, times(1)).query(tableName: self.tableName, size: 10)
+        XCTAssertEqual(sqliteManagerMock.queryCalls.filter { $0.tableName == self.tableName && $0.size == 10 }.count, 1)
     }
 
     func testQueryShouldReturnMeetingEventItem() {
@@ -49,16 +46,16 @@ class EventSQLiteDaoTests: XCTestCase {
 
     func testInsertShouldCallDatabaseManagerWrite() {
         eventDao.insertMeetingEvent(event: mockMeetingEventItem)
-        verify(sqliteManagerMock, times(1)).insert(tableName: self.tableName, contentValue: any())
+        XCTAssertEqual(sqliteManagerMock.insertCalls.filter { $0.tableName == self.tableName }.count, 1)
     }
 
     func testDeleteShouldCallDatabaseManagerWrite() {
         eventDao.deleteMeetingEventsByIds(ids: [uuid!])
-        verify(sqliteManagerMock, times(1)).delete(tableName: self.tableName, ids: any())
+        XCTAssertEqual(sqliteManagerMock.deleteCalls.filter { $0.tableName == self.tableName }.count, 1)
     }
 
     func testConstructorShouldCallDatabaseManagerExecute() {
         eventDao.deleteMeetingEventsByIds(ids: [uuid!])
-        verify(sqliteManagerMock, times(1)).delete(tableName: self.tableName, ids: any())
+        XCTAssertEqual(sqliteManagerMock.deleteCalls.filter { $0.tableName == self.tableName }.count, 1)
     }
 }

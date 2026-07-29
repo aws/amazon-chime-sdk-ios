@@ -7,7 +7,6 @@
 //
 
 @testable import AmazonChimeSDK
-import Cuckoo
 import XCTest
 
 class DefaultVideoTileTests: XCTestCase {
@@ -17,12 +16,12 @@ class DefaultVideoTileTests: XCTestCase {
     let videoStreamContentHeight = 1920
     let isLocalTile = false
 
-    var loggerMock: MockLogger!
-    var videoRenderViewMock: MockVideoRenderView!
+    var loggerMock: LoggerSpy!
+    var videoRenderViewMock: VideoRenderViewSpy!
     var defaultVideoTitle: DefaultVideoTile!
 
     override func setUp() {
-        loggerMock = MockLogger().withEnabledDefaultImplementation(LoggerStub())
+        loggerMock = LoggerSpy()
         defaultVideoTitle = DefaultVideoTile(tileId: tileId,
                                              attendeeId: attendeeId,
                                              videoStreamContentWidth: videoStreamContentWidth,
@@ -32,10 +31,10 @@ class DefaultVideoTileTests: XCTestCase {
     }
 
     func testBind() {
-        videoRenderViewMock = MockVideoRenderView().withEnabledDefaultImplementation(VideoRenderViewStub())
+        videoRenderViewMock = VideoRenderViewSpy()
         defaultVideoTitle.bind(videoRenderView: videoRenderViewMock)
 
-        verify(loggerMock).info(msg: "Binding the view to tile: tileId: \(self.tileId), attendeeId: \(self.attendeeId)")
+        XCTAssertEqual(loggerMock.infoCalls.filter { $0 == "Binding the view to tile: tileId: \(self.tileId), attendeeId: \(self.attendeeId)" }.count, 1)
         XCTAssert(videoRenderViewMock === defaultVideoTitle.videoRenderView)
     }
 
@@ -44,17 +43,17 @@ class DefaultVideoTileTests: XCTestCase {
         CVPixelBufferCreate(kCFAllocatorDefault, 3840, 2160, kCVPixelFormatType_32ARGB, nil, &cVPPixelBuffer)
         let buffer = VideoFramePixelBuffer(pixelBuffer: cVPPixelBuffer!)
         let frame = VideoFrame(timestampNs: 0, rotation: .rotation0, buffer: buffer)
-        videoRenderViewMock = MockVideoRenderView().withEnabledDefaultImplementation(VideoRenderViewStub())
+        videoRenderViewMock = VideoRenderViewSpy()
         defaultVideoTitle.bind(videoRenderView: videoRenderViewMock)
         defaultVideoTitle.onVideoFrameReceived(frame: frame)
 
-        verify(videoRenderViewMock).onVideoFrameReceived(frame: equal(to: frame))
+        XCTAssertEqual(videoRenderViewMock.onVideoFrameReceivedCalls.filter { $0 === frame }.count, 1)
     }
 
     func testUnbind() {
         defaultVideoTitle.unbind()
 
-        verify(loggerMock).info(msg: "Unbinding the view from tile: tileId: \(self.tileId), attendeeId: \(self.attendeeId)")
+        XCTAssertEqual(loggerMock.infoCalls.filter { $0 == "Unbinding the view from tile: tileId: \(self.tileId), attendeeId: \(self.attendeeId)" }.count, 1)
         XCTAssertNil(defaultVideoTitle.videoRenderView)
     }
 

@@ -9,16 +9,11 @@
 @testable import AmazonChimeSDK
 import Foundation
 import SQLite3
-import Cuckoo
 import XCTest
 
 class SQLiteClientFileTests: SQLiteClientTests {
     override func setUp() {
-        let loggerMock = MockLogger().withEnabledDefaultImplementation(LoggerStub())
-        stub(loggerMock) { stub in
-            when(stub.info(msg: any())).thenDoNothing()
-            when(stub.error(msg: any())).thenDoNothing()
-        }
+        let loggerMock = LoggerSpy()
 
         sqliteDBClient = SQLiteClient(databaseName: "db_in_file.db", logger: loggerMock)
         createTable(tableName: tableName)

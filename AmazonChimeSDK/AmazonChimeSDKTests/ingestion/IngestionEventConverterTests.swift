@@ -8,7 +8,6 @@
 
 @testable import AmazonChimeSDK
 import AVFoundation
-import Cuckoo
 import XCTest
 
 class IngestionEventConverterTests: CommonTestCase {

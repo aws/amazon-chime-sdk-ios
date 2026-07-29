@@ -8,14 +8,13 @@
 
 import Foundation
 @testable import AmazonChimeSDK
-import Cuckoo
 import XCTest
 
 class DefaultEventAnalyticsControllerTests: CommonTestCase {
     var eventAnalyticsController: DefaultEventAnalyticsController!
-    var meetingStatsCollectorMock: MockMeetingStatsCollector!
-    var eventReporterMock: MockEventReporter!
-    var appStateMonitorMock: MockAppStateMonitor!
+    var meetingStatsCollectorMock: MeetingStatsCollectorSpy!
+    var eventReporterMock: EventReporterSpy!
+    var appStateMonitorMock: AppStateMonitorSpy!
     
     private var mockMeetingStats: [AnyHashable: Any] = [:]
     private let mockMeetingStartDurationMs = 123
@@ -27,19 +26,15 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
         mockMeetingStats[EventAttributeName.meetingStartDurationMs] = mockMeetingStartDurationMs
         mockMeetingStats[EventAttributeName.meetingReconnectDurationMs] = mockMeetingReconnectDurationMs
         
-        eventReporterMock = MockEventReporter().withEnabledDefaultImplementation(EventReporterStub())
-        appStateMonitorMock = MockAppStateMonitor().withEnabledDefaultImplementation(AppStateMonitorStub())
-        meetingStatsCollectorMock = MockMeetingStatsCollector().withEnabledDefaultImplementation(MeetingStatsCollectorStub())
-        stub(meetingStatsCollectorMock) { stub in
-            when(stub.getMeetingStats()).thenReturn(mockMeetingStats)
-        }
-        stub(appStateMonitorMock) { stub in
-            when(stub.appState.get).thenReturn(.active)
-            when(stub.getBatteryLevel()).thenReturn(NSNumber(value: 0.77))
-            when(stub.getBatteryState()).thenReturn(BatteryState.charging)
-            when(stub.isLowPowerModeEnabled()).thenReturn(true)
-            when(stub.getNetworkConnectionType()).thenReturn(NetworkConnectionType.cellular)
-        }
+        eventReporterMock = EventReporterSpy()
+        appStateMonitorMock = AppStateMonitorSpy()
+        meetingStatsCollectorMock = MeetingStatsCollectorSpy()
+        meetingStatsCollectorMock.getMeetingStatsReturn = mockMeetingStats
+        appStateMonitorMock.appStateReturn = .active
+        appStateMonitorMock.getBatteryLevelReturn = NSNumber(value: 0.77)
+        appStateMonitorMock.getBatteryStateReturn = BatteryState.charging
+        appStateMonitorMock.isLowPowerModeEnabledReturn = true
+        appStateMonitorMock.getNetworkConnectionTypeReturn = NetworkConnectionType.cellular
         
         eventAnalyticsController = DefaultEventAnalyticsController(meetingSessionConfig: meetingSessionConfigurationMock,
                                                                    meetingStatsCollector: meetingStatsCollectorMock,
@@ -49,67 +44,60 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
     }
 
     func testPublishEvent_eventDidReceive() {
-        let mockObserver = MockEventAnalyticsObserver().withEnabledDefaultImplementation(EventAnalyticsObserverStub())
+        let mockObserver = EventAnalyticsObserverSpy()
         eventAnalyticsController.addEventAnalyticsObserver(observer: mockObserver)
         eventAnalyticsController.publishEvent(name: .meetingStartRequested)
         let expectation = XCTestExpectation(description: "eventually")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            verify(mockObserver).eventDidReceive(name: equal(to: .meetingStartRequested), attributes: any())
+            XCTAssertEqual(mockObserver.eventDidReceiveCalls.filter { $0.name == .meetingStartRequested }.count, 1)
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 2.0)
     }
 
     func testPublishEvent_eventReporter_report() {
-        let mockObserver = MockEventAnalyticsObserver().withEnabledDefaultImplementation(EventAnalyticsObserverStub())
+        let mockObserver = EventAnalyticsObserverSpy()
         eventAnalyticsController.addEventAnalyticsObserver(observer: mockObserver)
         eventAnalyticsController.publishEvent(name: .meetingStartRequested)
 
-        verify(eventReporterMock, times(1)).report(event: any())
+        XCTAssertEqual(eventReporterMock.reportCalls.count, 1)
     }
     
     func testPublishEvent_ShouldAddMeetingStats_WhenMeetingReconnected() {
-        let eventCaptor = ArgumentCaptor<SDKEvent>()
-        eventAnalyticsController.publishEvent(name: .meetingReconnected)
-        verify(eventReporterMock).report(event: eventCaptor.capture())
+                eventAnalyticsController.publishEvent(name: .meetingReconnected)
+        XCTAssertEqual(eventReporterMock.reportCalls.count, 1)
         
-        XCTAssertEqual(eventCaptor.value?.eventAttributes[EventAttributeName.meetingStartDurationMs] as? Int,
+        XCTAssertEqual(eventReporterMock.reportCalls.last?.eventAttributes[EventAttributeName.meetingStartDurationMs] as? Int,
                        mockMeetingStartDurationMs)
-        XCTAssertEqual(eventCaptor.value?.eventAttributes[EventAttributeName.meetingReconnectDurationMs] as? Int,
+        XCTAssertEqual(eventReporterMock.reportCalls.last?.eventAttributes[EventAttributeName.meetingReconnectDurationMs] as? Int,
                        mockMeetingReconnectDurationMs)
     }
     
     func testPublishEvent_ShouldAddMeetingStats_WhenSignalingDropped() {
-        let eventCaptor = ArgumentCaptor<SDKEvent>()
-        eventAnalyticsController.publishEvent(name: .videoClientSignalingDropped)
-        verify(eventReporterMock).report(event: eventCaptor.capture())
+                eventAnalyticsController.publishEvent(name: .videoClientSignalingDropped)
+        XCTAssertEqual(eventReporterMock.reportCalls.count, 1)
         
-        XCTAssertEqual(eventCaptor.value?.eventAttributes[EventAttributeName.meetingStartDurationMs] as? Int,
+        XCTAssertEqual(eventReporterMock.reportCalls.last?.eventAttributes[EventAttributeName.meetingStartDurationMs] as? Int,
                        mockMeetingStartDurationMs)
     }
     
     func testPublishEvent_ShouldNotContainReconnectDurationAttribute_WhenEventIsNotMeetingReconnected() {
-        let eventCaptor = ArgumentCaptor<SDKEvent>()
-        eventAnalyticsController.publishEvent(name: .meetingStartFailed)
-        verify(eventReporterMock).report(event: eventCaptor.capture())
+                eventAnalyticsController.publishEvent(name: .meetingStartFailed)
+        XCTAssertEqual(eventReporterMock.reportCalls.count, 1)
         
-        XCTAssertNil(eventCaptor.value?.eventAttributes[EventAttributeName.meetingReconnectDurationMs])
+        XCTAssertNil(eventReporterMock.reportCalls.last?.eventAttributes[EventAttributeName.meetingReconnectDurationMs])
     }
     
     func testPublishEvent_WillPublishAppAttributes() {
-        let eventCaptor = ArgumentCaptor<SDKEvent>()
-        
-        stub(appStateMonitorMock) { stub in
-            when(stub.appState.get).thenReturn(.background)
-            when(stub.getBatteryLevel()).thenReturn(NSNumber.init(value: 0.17))
-            when(stub.getBatteryState()).thenReturn(BatteryState.full)
-            when(stub.isLowPowerModeEnabled()).thenReturn(true)
-        }
+                appStateMonitorMock.appStateReturn = .background
+        appStateMonitorMock.getBatteryLevelReturn = NSNumber(value: 0.17)
+        appStateMonitorMock.getBatteryStateReturn = BatteryState.full
+        appStateMonitorMock.isLowPowerModeEnabledReturn = true
         
         eventAnalyticsController.publishEvent(name: .meetingStartFailed)
-        verify(eventReporterMock).report(event: eventCaptor.capture())
+        XCTAssertEqual(eventReporterMock.reportCalls.count, 1)
         
-        let attributes = eventCaptor.value?.eventAttributes
+        let attributes = eventReporterMock.reportCalls.last?.eventAttributes
         
         XCTAssertEqual(attributes?[EventAttributeName.appState] as? AppState,
                        AppState.background)
@@ -120,26 +108,22 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
     }
 
     func testPushHistoryState_eventReporter_report() {
-        let mockObserver = MockEventAnalyticsObserver().withEnabledDefaultImplementation(EventAnalyticsObserverStub())
+        let mockObserver = EventAnalyticsObserverSpy()
         eventAnalyticsController.addEventAnalyticsObserver(observer: mockObserver)
         eventAnalyticsController.pushHistory(historyEventName: .meetingReconnected)
 
-        verify(eventReporterMock, times(1)).report(event: any())
+        XCTAssertEqual(eventReporterMock.reportCalls.count, 1)
     }
     
     func testPushHistoryState_WillPublishAppAttributes() {
-        let eventCaptor = ArgumentCaptor<SDKEvent>()
-        
-        stub(appStateMonitorMock) { stub in
-            when(stub.appState.get).thenReturn(.background)
-            when(stub.getBatteryLevel()).thenReturn(NSNumber.init(value: 0.17))
-            when(stub.getBatteryState()).thenReturn(BatteryState.full)
-        }
+                appStateMonitorMock.appStateReturn = .background
+        appStateMonitorMock.getBatteryLevelReturn = NSNumber(value: 0.17)
+        appStateMonitorMock.getBatteryStateReturn = BatteryState.full
         
         eventAnalyticsController.pushHistory(historyEventName: .meetingEnded)
-        verify(eventReporterMock).report(event: eventCaptor.capture())
+        XCTAssertEqual(eventReporterMock.reportCalls.count, 1)
         
-        let attributes = eventCaptor.value?.eventAttributes
+        let attributes = eventReporterMock.reportCalls.last?.eventAttributes
         
         XCTAssertEqual(attributes?[EventAttributeName.appState] as? AppState,
                        AppState.background)
@@ -150,57 +134,48 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
     }
     
     func testAppStateDidChange_ShouldPublishEvent() {
-        let eventCaptor = ArgumentCaptor<SDKEvent>()
-        let mockObserver = MockEventAnalyticsObserver().withEnabledDefaultImplementation(EventAnalyticsObserverStub())
+                let mockObserver = EventAnalyticsObserverSpy()
         
-        stub(appStateMonitorMock) { stub in
-            when(stub.appState.get).thenReturn(.background)
-        }
+        appStateMonitorMock.appStateReturn = .background
         
         eventAnalyticsController.addEventAnalyticsObserver(observer: mockObserver)
         eventAnalyticsController.appStateDidChange(monitor: self.appStateMonitorMock, newAppState: .background)
 
-        verify(eventReporterMock, times(1)).report(event: eventCaptor.capture())
+        XCTAssertEqual(eventReporterMock.reportCalls.count, 1)
         
-        XCTAssertEqual(eventCaptor.value?.eventAttributes[EventAttributeName.appState] as? AppState, AppState.background)
+        XCTAssertEqual(eventReporterMock.reportCalls.last?.eventAttributes[EventAttributeName.appState] as? AppState, AppState.background)
         sleep(1)
-        verify(mockObserver, never()).eventDidReceive(name: any(), attributes: any())
+        XCTAssertEqual(mockObserver.eventDidReceiveCalls.count, 0)
     }
     
     func testDidReceiveMemoryWarning_ShouldPublishEvent() {
-        let eventCaptor = ArgumentCaptor<SDKEvent>()
-        let mockObserver = MockEventAnalyticsObserver().withEnabledDefaultImplementation(EventAnalyticsObserverStub())
+                let mockObserver = EventAnalyticsObserverSpy()
         
-        stub(appStateMonitorMock) { stub in
-            when(stub.appState.get).thenReturn(.background)
-        }
+        appStateMonitorMock.appStateReturn = .background
         
         eventAnalyticsController.addEventAnalyticsObserver(observer: mockObserver)
         eventAnalyticsController.didReceiveMemoryWarning(monitor: self.appStateMonitorMock)
 
-        verify(eventReporterMock, times(1)).report(event: eventCaptor.capture())
+        XCTAssertEqual(eventReporterMock.reportCalls.count, 1)
         
-        XCTAssertEqual(eventCaptor.value?.name, EventName.appMemoryLow.description)
+        XCTAssertEqual(eventReporterMock.reportCalls.last?.name, EventName.appMemoryLow.description)
         sleep(1)
-        verify(mockObserver, never()).eventDidReceive(name: any(), attributes: any())
+        XCTAssertEqual(mockObserver.eventDidReceiveCalls.count, 0)
     }
     
     func testNetworkConnectionTypeDidChange_ShouldPublishEvent() {
-        let eventCaptor = ArgumentCaptor<SDKEvent>()
-        let mockObserver = MockEventAnalyticsObserver().withEnabledDefaultImplementation(EventAnalyticsObserverStub())
+                let mockObserver = EventAnalyticsObserverSpy()
         
-        stub(appStateMonitorMock) { stub in
-            when(stub.getNetworkConnectionType()).thenReturn(NetworkConnectionType.cellular)
-        }
+        appStateMonitorMock.getNetworkConnectionTypeReturn = NetworkConnectionType.cellular
         
         eventAnalyticsController.addEventAnalyticsObserver(observer: mockObserver)
         eventAnalyticsController.networkConnectionTypeDidChange(monitor: self.appStateMonitorMock,
                                                                 newNetworkConnectionType: NetworkConnectionType.cellular)
 
-        verify(eventReporterMock, times(1)).report(event: eventCaptor.capture())
+        XCTAssertEqual(eventReporterMock.reportCalls.count, 1)
         
-        XCTAssertEqual(eventCaptor.value?.name, EventName.networkConnectionTypeChanged.description)
+        XCTAssertEqual(eventReporterMock.reportCalls.last?.name, EventName.networkConnectionTypeChanged.description)
         sleep(1)
-        verify(mockObserver, never()).eventDidReceive(name: any(), attributes: any())
+        XCTAssertEqual(mockObserver.eventDidReceiveCalls.count, 0)
     }
 }

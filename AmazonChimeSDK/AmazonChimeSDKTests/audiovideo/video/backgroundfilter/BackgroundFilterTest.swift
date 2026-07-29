@@ -10,13 +10,12 @@
 #if canImport(AmazonChimeSDKMachineLearning)
 @testable import AmazonChimeSDKMachineLearning
 #endif
-import Cuckoo
 import XCTest
 import CommonCrypto
 
 /// XCTest file to test `BackgroundBlurVideoFrameProcessor` and `BackgroundReplacementVideoFrameProcessor`.
 class BackgroundFilterTests: XCTestCase {
-    var loggerMock: MockLogger!
+    var loggerMock: LoggerSpy!
     var testImage: UIImage?
     var expectedBlurImage: UIImage?
     var expectedReplacementImage: UIImage?
@@ -35,7 +34,7 @@ class BackgroundFilterTests: XCTestCase {
     let videoFrameGenerator = VideoFrameGenerator()
 
     override func setUp() {
-        loggerMock = MockLogger().withEnabledDefaultImplementation(LoggerStub())
+        loggerMock = LoggerSpy()
         /// Load test image that will be used by the tests.
         guard let testImage = UIImage(named: "background-ml-test-image.jpeg",
                                       in: Bundle(for: type(of: self)),
@@ -68,16 +67,14 @@ class BackgroundFilterTests: XCTestCase {
             return
         }
 
-        let videoSinkMock = MockVideoSink().withEnabledDefaultImplementation(VideoSinkStub())
+        let videoSinkMock = VideoSinkSpy()
         var processedImage: UIImage?
         var videoFrameReceivedExpectation: XCTestExpectation?
 
-        stub(videoSinkMock) { stub in
-            when(stub.onVideoFrameReceived(frame: any())).then { [self] videoFrame in
-                let result = self.processImage(frame: videoFrame)
-                processedImage = result.image
-                videoFrameReceivedExpectation!.fulfill()
-            }
+        videoSinkMock.onVideoFrameReceivedHandler = { [self] videoFrame in
+            let result = self.processImage(frame: videoFrame)
+            processedImage = result.image
+            videoFrameReceivedExpectation!.fulfill()
         }
 
         let backgroundBlurConfigurations = BackgroundBlurConfiguration(
@@ -136,16 +133,14 @@ class BackgroundFilterTests: XCTestCase {
             return
         }
 
-        let videoSinkMock = MockVideoSink().withEnabledDefaultImplementation(VideoSinkStub())
+        let videoSinkMock = VideoSinkSpy()
         var processedImage: UIImage?
         var videoFrameReceivedExpectation: XCTestExpectation?
 
-        stub(videoSinkMock) { stub in
-            when(stub.onVideoFrameReceived(frame: any())).then { videoFrame in
-                let result = self.processImage(frame: videoFrame)
-                processedImage = result.image
-                videoFrameReceivedExpectation!.fulfill()
-            }
+        videoSinkMock.onVideoFrameReceivedHandler = { videoFrame in
+            let result = self.processImage(frame: videoFrame)
+            processedImage = result.image
+            videoFrameReceivedExpectation!.fulfill()
         }
 
         let replacementImageColors = [UIColor.red]

@@ -8,14 +8,13 @@
 
 @testable import AmazonChimeSDK
 import AmazonChimeSDKMedia
-import Cuckoo
 import XCTest
 
 class DefaultContentShareVideoClientControllerTests: CommonTestCase {
-    var videoClientMock: MockVideoClientProtocol!
-    var videoSourceMock: MockVideoSource!
-    var clientMetricsLollectorMock: MockClientMetricsCollector!
-    var eventAnalyticsControllerMock: MockEventAnalyticsController!
+    var videoClientMock: VideoClientProtocolSpy!
+    var videoSourceMock: VideoSourceSpy!
+    var clientMetricsLollectorMock: ClientMetricsCollectorSpy!
+    var eventAnalyticsControllerMock: EventAnalyticsControllerSpy!
     var defaultContentShareVideoClientController: DefaultContentShareVideoClientController!
     var defaultContentShareVideoClientControllerNone: DefaultContentShareVideoClientController!
     var defaultContentShareVideoClientControllerHigh: DefaultContentShareVideoClientController!
@@ -23,11 +22,11 @@ class DefaultContentShareVideoClientControllerTests: CommonTestCase {
     override func setUp() {
         super.setUp()
 
-        videoClientMock = MockVideoClientProtocol().withEnabledDefaultImplementation(VideoClientProtocolStub())
-        videoSourceMock = MockVideoSource().withEnabledDefaultImplementation(VideoSourceStub())
-        eventAnalyticsControllerMock = MockEventAnalyticsController().withEnabledDefaultImplementation(EventAnalyticsControllerStub())
-        loggerMock = MockLogger().withEnabledDefaultImplementation(LoggerStub())
-        clientMetricsLollectorMock = MockClientMetricsCollector().withEnabledDefaultImplementation(ClientMetricsCollectorStub())
+        videoClientMock = VideoClientProtocolSpy()
+        videoSourceMock = VideoSourceSpy()
+        eventAnalyticsControllerMock = EventAnalyticsControllerSpy()
+        loggerMock = LoggerSpy()
+        clientMetricsLollectorMock = ClientMetricsCollectorSpy()
         defaultContentShareVideoClientController =
             DefaultContentShareVideoClientController(videoClient: videoClientMock,
                                                      configuration: meetingSessionConfigurationMock,
@@ -47,117 +46,81 @@ class DefaultContentShareVideoClientControllerTests: CommonTestCase {
                                                      clientMetricsCollector: clientMetricsLollectorMock,
                                                      eventAnalyticsController: eventAnalyticsControllerMock)
 
-        stub(videoSourceMock) { stub in
-            when(stub.videoContentHint.get).thenReturn(VideoContentHint.text)
-        }
+        videoSourceMock.videoContentHint = VideoContentHint.text
     }
 
     func testStartVideoShareWithContentMaxResolutionNone() {
         defaultContentShareVideoClientControllerNone.startVideoShare(source: videoSourceMock)
 
-        verify(videoClientMock, never()).start(self.meetingId,
-                                               token: self.joinToken,
-                                               sending: false,
-                                               config: any(),
-                                               appInfo: any(),
-                                               signalingUrl: any())
-        verify(videoClientMock, never()).setExternalVideoSource(any())
-        verify(videoClientMock, never()).setSending(true)
+        XCTAssertEqual(videoClientMock.startCalls.filter { $0.callId == self.meetingId && $0.token == self.joinToken && $0.sending == false }.count, 0)
+        XCTAssertEqual(videoClientMock.setExternalVideoSourceCalls.count, 0)
+        XCTAssertEqual(videoClientMock.setSendingCalls.filter { $0 == true }.count, 0)
     }
 
     func testStartVideoShareWithContentMaxResolutionUHD() {
         defaultContentShareVideoClientControllerHigh.startVideoShare(source: videoSourceMock)
 
-        verify(videoClientMock).start(self.meetingId,
-                                      token: self.joinToken,
-                                      sending: false,
-                                      config: any(),
-                                      appInfo: any(),
-                                      signalingUrl: any())
-        verify(videoClientMock).setExternalVideoSource(any())
-        verify(videoClientMock).setMaxBitRateKbps(VideoBitrateConstants().contentHighResolutionBitrateKbps)
-        verify(videoClientMock).setContentMaxResolutionUHD(true)
-        verify(videoClientMock).setSending(true)
+        XCTAssertEqual(videoClientMock.startCalls.filter { $0.callId == self.meetingId && $0.token == self.joinToken && $0.sending == false }.count, 1)
+        XCTAssertEqual(videoClientMock.setExternalVideoSourceCalls.count, 1)
+        XCTAssertEqual(videoClientMock.setMaxBitRateKbpsCalls.filter { $0 == VideoBitrateConstants().contentHighResolutionBitrateKbps }.count, 1)
+        XCTAssertEqual(videoClientMock.setContentMaxResolutionUHDCalls.filter { $0 == true }.count, 1)
+        XCTAssertEqual(videoClientMock.setSendingCalls.filter { $0 == true }.count, 1)
     }
 
     func testStartVideoShareFirstTime() {
         defaultContentShareVideoClientController.startVideoShare(source: videoSourceMock)
 
-        verify(videoClientMock).start(self.meetingId,
-                                      token: self.joinToken,
-                                      sending: false,
-                                      config: any(),
-                                      appInfo: any(),
-                                      signalingUrl: any())
-        verify(videoClientMock).setExternalVideoSource(any())
-        verify(videoClientMock).setSending(true)
+        XCTAssertEqual(videoClientMock.startCalls.filter { $0.callId == self.meetingId && $0.token == self.joinToken && $0.sending == false }.count, 1)
+        XCTAssertEqual(videoClientMock.setExternalVideoSourceCalls.count, 1)
+        XCTAssertEqual(videoClientMock.setSendingCalls.filter { $0 == true }.count, 1)
     }
 
     func testStartVideoShareWithConfig() {
         let config = LocalVideoConfiguration(maxBitRateKbps: 300)
         defaultContentShareVideoClientController.startVideoShare(source: videoSourceMock, config: config)
 
-        verify(videoClientMock).setExternalVideoSource(any())
-        verify(videoClientMock).setSending(true)
-        verify(videoClientMock).setMaxBitRateKbps(UInt32(300))
+        XCTAssertEqual(videoClientMock.setExternalVideoSourceCalls.count, 1)
+        XCTAssertEqual(videoClientMock.setSendingCalls.filter { $0 == true }.count, 1)
+        XCTAssertEqual(videoClientMock.setMaxBitRateKbpsCalls.filter { $0 == UInt32(300) }.count, 1)
     }
 
     func testStartVideoShareAfterStart() {
-        stub(videoClientMock) { stub in
-            when(stub.start(any(),
-                            token: any(),
-                            sending: any(),
-                            config: any(),
-                            appInfo: any(),
-                            signalingUrl: any())).then {_, _, _, _, _, _ in
-                self.defaultContentShareVideoClientController.videoClientDidConnect(nil, controlStatus: 1)
-            }
-            when(stub.stop()).then {
-                self.defaultContentShareVideoClientController.videoClientDidStop(nil)
-            }
+        videoClientMock.startHandler = {
+            self.defaultContentShareVideoClientController.videoClientDidConnect(nil, controlStatus: 1)
+        }
+        videoClientMock.stopHandler = {
+            self.defaultContentShareVideoClientController.videoClientDidStop(nil)
         }
 
         defaultContentShareVideoClientController.startVideoShare(source: videoSourceMock)
         defaultContentShareVideoClientController.startVideoShare(source: videoSourceMock)
 
-        verify(videoClientMock).start(self.meetingId,
-                                      token: self.joinToken,
-                                      sending: false,
-                                      config: any(),
-                                      appInfo: any(),
-                                      signalingUrl: any())
-        verify(videoClientMock, times(2)).setExternalVideoSource(any())
-        verify(videoClientMock, times(2)).setSending(true)
+        XCTAssertEqual(videoClientMock.startCalls.filter { $0.callId == self.meetingId && $0.token == self.joinToken && $0.sending == false }.count, 1)
+        XCTAssertEqual(videoClientMock.setExternalVideoSourceCalls.count, 2)
+        XCTAssertEqual(videoClientMock.setSendingCalls.filter { $0 == true }.count, 2)
     }
 
     func testStopVideoShareAfterStart() {
-        stub(videoClientMock) { stub in
-            when(stub.start(any(),
-                            token: any(),
-                            sending: any(),
-                            config: any(),
-                            appInfo: any(),
-                            signalingUrl: any())).then {_, _, _, _, _, _ in
-                self.defaultContentShareVideoClientController.videoClientDidConnect(nil, controlStatus: 1)
-            }
-            when(stub.stop()).then {
-                self.defaultContentShareVideoClientController.videoClientDidStop(nil)
-            }
+        videoClientMock.startHandler = {
+            self.defaultContentShareVideoClientController.videoClientDidConnect(nil, controlStatus: 1)
+        }
+        videoClientMock.stopHandler = {
+            self.defaultContentShareVideoClientController.videoClientDidStop(nil)
         }
 
         defaultContentShareVideoClientController.startVideoShare(source: videoSourceMock)
         defaultContentShareVideoClientController.stopVideoShare()
 
-        verify(videoClientMock).setSending(false)
-        verify(videoClientMock).stop()
-        verify(eventAnalyticsControllerMock).publishEvent(name: equal(to: .contentShareStopped))
+        XCTAssertEqual(videoClientMock.setSendingCalls.filter { $0 == false }.count, 1)
+        XCTAssertEqual(videoClientMock.stopCallCount, 1)
+        XCTAssertEqual(eventAnalyticsControllerMock.publishEventCalls.filter { $0.name == .contentShareStopped }.count, 1)
     }
 
     func testStopVideoShareBeforeStart() {
         defaultContentShareVideoClientController.stopVideoShare()
 
-        verify(videoClientMock, never()).setSending(false)
-        verify(videoClientMock, never()).stop()
+        XCTAssertEqual(videoClientMock.setSendingCalls.filter { $0 == false }.count, 0)
+        XCTAssertEqual(videoClientMock.stopCallCount, 0)
     }
     
     func testVideoClientDidReceiveEvent_ShouldPublishSignalingDroppedEvent_WhenEventTypeIsSignalingDropped() {
@@ -166,16 +129,14 @@ class DefaultContentShareVideoClientControllerTests: CommonTestCase {
                                                            signaling_dropped_error: VIDEO_CLIENT_SIGNALING_DROPPED_ERROR_INTERNAL_SERVER_ERROR,
                                                            signaling_open_duration_ms: 123,
                                                            ice_gathering_duration_ms: 0)
-        let captor = ArgumentCaptor<[AnyHashable: Any]>()
-        
-        let mediaVideoClientMock = VideoClientMock()
+                 let mediaVideoClientMock = VideoClientMock()
         
         defaultContentShareVideoClientController.videoClient(mediaVideoClientMock, didReceive: event)
         
-        verify(eventAnalyticsControllerMock).publishEvent(name: equal(to: .contentShareSignalingDropped),
-                                                          attributes: captor.capture())
+        let captured = eventAnalyticsControllerMock.publishEventCalls.filter { $0.name == .contentShareSignalingDropped }
+        XCTAssertEqual(captured.count, 1)
         
-        let error = captor.value?[EventAttributeName.signalingDroppedError] as? SignalingDroppedError
+        let error = captured.last?.attributes?[EventAttributeName.signalingDroppedError] as? SignalingDroppedError
         XCTAssertEqual(error, SignalingDroppedError.internalServerError)
     }
     
@@ -185,16 +146,14 @@ class DefaultContentShareVideoClientControllerTests: CommonTestCase {
                                                            signaling_dropped_error: VIDEO_CLIENT_SIGNALING_DROPPED_ERROR_INTERNAL_SERVER_ERROR,
                                                            signaling_open_duration_ms: 123,
                                                            ice_gathering_duration_ms: 0)
-        let captor = ArgumentCaptor<[AnyHashable: Any]>()
-        
-        let mediaVideoClientMock = VideoClientMock()
+                 let mediaVideoClientMock = VideoClientMock()
         
         defaultContentShareVideoClientController.videoClient(mediaVideoClientMock, didReceive: event)
         
-        verify(eventAnalyticsControllerMock).publishEvent(name: equal(to: .contentShareSignalingOpened),
-                                                          attributes: captor.capture())
+        let captured = eventAnalyticsControllerMock.publishEventCalls.filter { $0.name == .contentShareSignalingOpened }
+        XCTAssertEqual(captured.count, 1)
         
-        let duration = captor.value?[EventAttributeName.signalingOpenDurationMs] as? Int64
+        let duration = captured.last?.attributes?[EventAttributeName.signalingOpenDurationMs] as? Int64
         XCTAssertEqual(duration, 123)
     }
     
@@ -204,48 +163,44 @@ class DefaultContentShareVideoClientControllerTests: CommonTestCase {
                                                            signaling_dropped_error: VIDEO_CLIENT_SIGNALING_DROPPED_ERROR_INTERNAL_SERVER_ERROR,
                                                            signaling_open_duration_ms: 123,
                                                            ice_gathering_duration_ms: 456)
-        let captor = ArgumentCaptor<[AnyHashable: Any]>()
-        
-        let mediaVideoClientMock = VideoClientMock()
+                 let mediaVideoClientMock = VideoClientMock()
         
         defaultContentShareVideoClientController.videoClient(mediaVideoClientMock, didReceive: event)
         
-        verify(eventAnalyticsControllerMock).publishEvent(name: equal(to: .contentShareIceGatheringCompleted),
-                                                          attributes: captor.capture())
+        let captured = eventAnalyticsControllerMock.publishEventCalls.filter { $0.name == .contentShareIceGatheringCompleted }
+        XCTAssertEqual(captured.count, 1)
         
-        let duration = captor.value?[EventAttributeName.iceGatheringDurationMs] as? Int64
+        let duration = captured.last?.attributes?[EventAttributeName.iceGatheringDurationMs] as? Int64
         XCTAssertEqual(duration, 456)
     }
     
     func testStartVideoShare_ShouldPublishContentShareStartRequestedEvent() {
         defaultContentShareVideoClientController.startVideoShare(source: videoSourceMock)
 
-        verify(eventAnalyticsControllerMock).publishEvent(name: equal(to: .contentShareStartRequested))
+        XCTAssertEqual(eventAnalyticsControllerMock.publishEventCalls.filter { $0.name == .contentShareStartRequested }.count, 1)
     }
     
     func testVideoClientDidConnect_ShouldPublishContentShareStartedEvent() {
         defaultContentShareVideoClientController.videoClientDidConnect(nil, controlStatus: 0)
 
-        verify(eventAnalyticsControllerMock).publishEvent(name: equal(to: .contentShareStarted))
+        XCTAssertEqual(eventAnalyticsControllerMock.publishEventCalls.filter { $0.name == .contentShareStarted }.count, 1)
     }
     
     func testVideoClientDidFail_ShouldPublishContentShareFailedEvent() {
-        let captor = ArgumentCaptor<[AnyHashable: Any]>()
-        
-        defaultContentShareVideoClientController.videoClientDidFail(nil,
+                 defaultContentShareVideoClientController.videoClientDidFail(nil,
                                                                     status: VIDEO_CLIENT_ERR_PROXY_AUTHENTICATION_FAILED,
                                                                     controlStatus: 0)
         
-        verify(eventAnalyticsControllerMock).publishEvent(name: equal(to: .contentShareFailed),
-                                                          attributes: captor.capture())
+        let captured = eventAnalyticsControllerMock.publishEventCalls.filter { $0.name == .contentShareFailed }
+        XCTAssertEqual(captured.count, 1)
         
-        let error = captor.value?[EventAttributeName.contentShareError] as? VideoClientFailedError
+        let error = captured.last?.attributes?[EventAttributeName.contentShareError] as? VideoClientFailedError
         XCTAssertEqual(error, VideoClientFailedError.authenticationFailed)
     }
     
     func testVideoClientDidStop_ShouldPublishContentShareStoppedEvent() {
         defaultContentShareVideoClientController.videoClientDidStop(nil)
 
-        verify(eventAnalyticsControllerMock).publishEvent(name: equal(to: .contentShareStopped))
+        XCTAssertEqual(eventAnalyticsControllerMock.publishEventCalls.filter { $0.name == .contentShareStopped }.count, 1)
     }
 }

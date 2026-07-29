@@ -7,7 +7,6 @@
 //
 
 @testable import AmazonChimeSDK
-import Cuckoo
 import XCTest
 
 class CommonTestCase: XCTestCase {
@@ -23,7 +22,7 @@ class CommonTestCase: XCTestCase {
     let externalUserId = "externalUserId"
     let joinToken = "join-token"
 
-    // NOTE(cuckoo-migration): the Mockingbird version wrapped these data objects in
+    // NOTE: the Mockingbird version wrapped these data objects in
     // class mocks initialized with real values. No test ever stubs or verifies them
     // (they are pure value holders), so real instances are used here instead.
     var meetingSessionConfigurationMock: MeetingSessionConfiguration!
@@ -31,7 +30,7 @@ class CommonTestCase: XCTestCase {
     var meetingSessionConfigurationMockHigh: MeetingSessionConfiguration!
     var eventClientConfig: EventClientConfiguration!
     var ingestionConfiguration: IngestionConfiguration!
-    var loggerMock: MockLogger!
+    var loggerMock: LoggerSpy!
 
     override func setUp() {
         let mediaPlacement = MediaPlacement(audioFallbackUrl: audioFallbackUrl,
@@ -84,16 +83,8 @@ class CommonTestCase: XCTestCase {
                                                                           createAttendeeResponse: createAttendeeResponse,
                                                                           urlRewriter: URLRewriterUtils.defaultUrlRewriter)
 
-        loggerMock = MockLogger().withEnabledDefaultImplementation(LoggerStub())
-        stub(loggerMock) { stub in
-            when(stub.info(msg: any())).thenDoNothing()
-            when(stub.error(msg: any())).thenDoNothing()
-            when(stub.debug(debugFunction: any())).thenDoNothing()
-            when(stub.fault(msg: any())).thenDoNothing()
-            when(stub.default(msg: any())).thenDoNothing()
-            when(stub.setLogLevel(level: any())).thenDoNothing()
-            when(stub.getLogLevel()).thenReturn(.INFO)
-        }
+        loggerMock = LoggerSpy()
+        loggerMock.logLevelReturn = .INFO
 
         eventClientConfig = MeetingEventClientConfiguration(eventClientJoinToken: "testJoinToken",
                                                             meetingId: "testMeetingId",

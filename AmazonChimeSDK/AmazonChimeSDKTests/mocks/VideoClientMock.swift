@@ -10,7 +10,7 @@ import AmazonChimeSDKMedia
 import Foundation
 
 /// Hand-written mock for `VideoClient`, an Objective-C class from the binary
-/// `AmazonChimeSDKMedia` framework. Cuckoo cannot generate a mock for it, so
+/// `AmazonChimeSDKMedia` framework, so a mock cannot be generated for it;
 /// tests that previously used Mockingbird's `mock(VideoClient.self)` use this
 /// subclass instead.
 ///
