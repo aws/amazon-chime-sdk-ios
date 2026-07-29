@@ -7,6 +7,7 @@
 //
 
 @testable import AmazonChimeSDK
+import Cuckoo
 import XCTest
 
 class CommonTestCase: XCTestCase {
@@ -22,81 +23,82 @@ class CommonTestCase: XCTestCase {
     let externalUserId = "externalUserId"
     let joinToken = "join-token"
 
-    var meetingSessionConfigurationMock: MeetingSessionConfigurationMock!
-    var meetingSessionConfigurationMockNone: MeetingSessionConfigurationMock!
-    var meetingSessionConfigurationMockHigh: MeetingSessionConfigurationMock!
+    // NOTE(cuckoo-migration): the Mockingbird version wrapped these data objects in
+    // class mocks initialized with real values. No test ever stubs or verifies them
+    // (they are pure value holders), so real instances are used here instead.
+    var meetingSessionConfigurationMock: MeetingSessionConfiguration!
+    var meetingSessionConfigurationMockNone: MeetingSessionConfiguration!
+    var meetingSessionConfigurationMockHigh: MeetingSessionConfiguration!
     var eventClientConfig: EventClientConfiguration!
     var ingestionConfiguration: IngestionConfiguration!
-    var loggerMock: LoggerMock!
+    var loggerMock: MockLogger!
 
     override func setUp() {
-        let mediaPlacementMock: MediaPlacementMock = mock(MediaPlacement.self)
-            .initialize(audioFallbackUrl: audioFallbackUrl,
-                        audioHostUrl: audioHostUrlWithPort,
-                        signalingUrl: signalingUrl,
-                        turnControlUrl: turnControlUrl, eventIngestionUrl: nil)
-        let meetingFeaturesMock: MeetingFeaturesMock = mock(MeetingFeatures.self)
-            .initialize(videoMaxResolution: VideoResolution.videoResolutionHD,
-                        contentMaxResolution: VideoResolution.videoResolutionFHD)
-        let meetingMock: MeetingMock = mock(Meeting.self).initialize(externalMeetingId: externalMeetingId,
-                                                                     mediaPlacement: mediaPlacementMock,
-                                                                     meetingFeatures: meetingFeaturesMock,
-                                                                     mediaRegion: mediaRegion,
-                                                                     meetingId: meetingId,
-                                                                     primaryMeetingId: nil)
-        let createMeetingResponseMock: CreateMeetingResponseMock = mock(CreateMeetingResponse.self)
-            .initialize(meeting: meetingMock)
+        let mediaPlacement = MediaPlacement(audioFallbackUrl: audioFallbackUrl,
+                                            audioHostUrl: audioHostUrlWithPort,
+                                            signalingUrl: signalingUrl,
+                                            turnControlUrl: turnControlUrl, eventIngestionUrl: nil)
+        let meetingFeatures = MeetingFeatures(videoMaxResolution: VideoResolution.videoResolutionHD,
+                                              contentMaxResolution: VideoResolution.videoResolutionFHD)
+        let meeting = Meeting(externalMeetingId: externalMeetingId,
+                              mediaPlacement: mediaPlacement,
+                              meetingFeatures: meetingFeatures,
+                              mediaRegion: mediaRegion,
+                              meetingId: meetingId,
+                              primaryMeetingId: nil)
+        let createMeetingResponse = CreateMeetingResponse(meeting: meeting)
 
-        let attendeeMock: AttendeeMock = mock(Attendee.self).initialize(attendeeId: attendeeId,
-                                                                        externalUserId: externalUserId,
-                                                                        joinToken: joinToken)
-        let createAttendeeResponseMock: CreateAttendeeResponseMock = mock(CreateAttendeeResponse.self)
-            .initialize(attendee: attendeeMock)
-        meetingSessionConfigurationMock = mock(MeetingSessionConfiguration.self)
-            .initialize(createMeetingResponse: createMeetingResponseMock,
-                        createAttendeeResponse: createAttendeeResponseMock,
-                        urlRewriter: URLRewriterUtils.defaultUrlRewriter)
+        let attendee = Attendee(attendeeId: attendeeId,
+                                externalUserId: externalUserId,
+                                joinToken: joinToken)
+        let createAttendeeResponse = CreateAttendeeResponse(attendee: attendee)
+        meetingSessionConfigurationMock = MeetingSessionConfiguration(createMeetingResponse: createMeetingResponse,
+                                                                      createAttendeeResponse: createAttendeeResponse,
+                                                                      urlRewriter: URLRewriterUtils.defaultUrlRewriter)
 
         // Meeting features with MaxResolution set to Disabled
-        let meetingFeaturesMockNone: MeetingFeaturesMock = mock(MeetingFeatures.self)
-            .initialize(videoMaxResolution: VideoResolution.videoDisabled,
-                        contentMaxResolution: VideoResolution.videoDisabled)
-        let meetingMockNone: MeetingMock = mock(Meeting.self).initialize(externalMeetingId: externalMeetingId,
-                                                                     mediaPlacement: mediaPlacementMock,
-                                                                     meetingFeatures: meetingFeaturesMockNone,
-                                                                     mediaRegion: mediaRegion,
-                                                                     meetingId: meetingId,
-                                                                     primaryMeetingId: nil)
-        let createMeetingResponseMockNone: CreateMeetingResponseMock = mock(CreateMeetingResponse.self)
-            .initialize(meeting: meetingMockNone)
-        meetingSessionConfigurationMockNone = mock(MeetingSessionConfiguration.self)
-            .initialize(createMeetingResponse: createMeetingResponseMockNone,
-                        createAttendeeResponse: createAttendeeResponseMock,
-                        urlRewriter: URLRewriterUtils.defaultUrlRewriter)
+        let meetingFeaturesNone = MeetingFeatures(videoMaxResolution: VideoResolution.videoDisabled,
+                                                  contentMaxResolution: VideoResolution.videoDisabled)
+        let meetingNone = Meeting(externalMeetingId: externalMeetingId,
+                                  mediaPlacement: mediaPlacement,
+                                  meetingFeatures: meetingFeaturesNone,
+                                  mediaRegion: mediaRegion,
+                                  meetingId: meetingId,
+                                  primaryMeetingId: nil)
+        let createMeetingResponseNone = CreateMeetingResponse(meeting: meetingNone)
+        meetingSessionConfigurationMockNone = MeetingSessionConfiguration(createMeetingResponse: createMeetingResponseNone,
+                                                                          createAttendeeResponse: createAttendeeResponse,
+                                                                          urlRewriter: URLRewriterUtils.defaultUrlRewriter)
 
         // Meeting features with MaxResolution set to High
-        let meetingFeaturesMockHigh: MeetingFeaturesMock = mock(MeetingFeatures.self)
-            .initialize(videoMaxResolution: VideoResolution.videoResolutionFHD,
-                        contentMaxResolution: VideoResolution.videoResolutionUHD)
-        let meetingMockHigh: MeetingMock = mock(Meeting.self).initialize(externalMeetingId: externalMeetingId,
-                                                                     mediaPlacement: mediaPlacementMock,
-                                                                     meetingFeatures: meetingFeaturesMockHigh,
-                                                                     mediaRegion: mediaRegion,
-                                                                     meetingId: meetingId,
-                                                                     primaryMeetingId: nil)
-        let createMeetingResponseMockHigh: CreateMeetingResponseMock = mock(CreateMeetingResponse.self)
-            .initialize(meeting: meetingMockHigh)
-        meetingSessionConfigurationMockHigh = mock(MeetingSessionConfiguration.self)
-            .initialize(createMeetingResponse: createMeetingResponseMockHigh,
-                        createAttendeeResponse: createAttendeeResponseMock,
-                        urlRewriter: URLRewriterUtils.defaultUrlRewriter)
+        let meetingFeaturesHigh = MeetingFeatures(videoMaxResolution: VideoResolution.videoResolutionFHD,
+                                                  contentMaxResolution: VideoResolution.videoResolutionUHD)
+        let meetingHigh = Meeting(externalMeetingId: externalMeetingId,
+                                  mediaPlacement: mediaPlacement,
+                                  meetingFeatures: meetingFeaturesHigh,
+                                  mediaRegion: mediaRegion,
+                                  meetingId: meetingId,
+                                  primaryMeetingId: nil)
+        let createMeetingResponseHigh = CreateMeetingResponse(meeting: meetingHigh)
+        meetingSessionConfigurationMockHigh = MeetingSessionConfiguration(createMeetingResponse: createMeetingResponseHigh,
+                                                                          createAttendeeResponse: createAttendeeResponse,
+                                                                          urlRewriter: URLRewriterUtils.defaultUrlRewriter)
 
-        loggerMock = mock(Logger.self)
-        
+        loggerMock = MockLogger().withEnabledDefaultImplementation(LoggerStub())
+        stub(loggerMock) { stub in
+            when(stub.info(msg: any())).thenDoNothing()
+            when(stub.error(msg: any())).thenDoNothing()
+            when(stub.debug(debugFunction: any())).thenDoNothing()
+            when(stub.fault(msg: any())).thenDoNothing()
+            when(stub.default(msg: any())).thenDoNothing()
+            when(stub.setLogLevel(level: any())).thenDoNothing()
+            when(stub.getLogLevel()).thenReturn(.INFO)
+        }
+
         eventClientConfig = MeetingEventClientConfiguration(eventClientJoinToken: "testJoinToken",
                                                             meetingId: "testMeetingId",
                                                             attendeeId: "testAttendeeId")
-        
+
         ingestionConfiguration = IngestionConfigurationBuilder().build(disabled: false,
                                                                        ingestionUrl: "testIngestionUrl",
                                                                        clientConiguration: eventClientConfig)

@@ -57,9 +57,9 @@ jobs:
         run: |
           xcodebuild test \
             -project AmazonChimeSDK.xcodeproj \
-            -scheme AmazonChimeSDKCuckooTests \
+            -scheme AmazonChimeSDKTests \
             -destination 'platform=iOS Simulator,name=iPhone 11' \
-            -skip-testing:"AmazonChimeSDKCuckooTests/SchedulerTests" \
+            -skip-testing:"AmazonChimeSDKTests/SchedulerTests" \
             -enableCodeCoverage YES \
             build test
 

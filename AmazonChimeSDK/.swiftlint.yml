@@ -1,2 +1,2 @@
 excluded:
-  - AmazonChimeSDKCuckooTests/Generated
+  - AmazonChimeSDKTests/Generated

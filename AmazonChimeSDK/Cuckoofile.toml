@@ -48,7 +48,7 @@ sources = [
     "AmazonChimeSDK/session/MeetingSessionConfiguration.swift",
     "AmazonChimeSDK/utils/logger/Logger.swift",
 ]
-output = "AmazonChimeSDKCuckooTests/Generated/GeneratedMocks.swift"
+output = "AmazonChimeSDKTests/Generated/GeneratedMocks.swift"
 
 [modules.AmazonChimeSDK.options]
 keepDocumentation = false

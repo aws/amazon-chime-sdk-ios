@@ -34,8 +34,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "50DA73DCEC8FD61F8C70EC53"
-               BuildableName = "AmazonChimeSDKCuckooTests.xctest"
-               BlueprintName = "AmazonChimeSDKCuckooTests"
+               BuildableName = "AmazonChimeSDKTests.xctest"
+               BlueprintName = "AmazonChimeSDKTests"
                ReferencedContainer = "container:AmazonChimeSDK.xcodeproj">
             </BuildableReference>
          </TestableReference>
