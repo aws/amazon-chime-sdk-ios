@@ -61,12 +61,12 @@ class DefaultDeviceControllerTests: XCTestCase {
         let speakerDevice = MediaDevice(label: "Built-in Speaker")
         defaultDeviceController.chooseAudioDevice(mediaDevice: speakerDevice)
 
-        XCTAssertEqual(audioSessionMock.overrideOutputAudioPortCalls.filter { $0 == .speaker }.count, 1)
+        verifyEqual(audioSessionMock.overrideOutputAudioPortCalls, to: .speaker)
         
-        let selected = eventAnalyticsControllerMock.publishEventCalls
-            .filter { $0.name == .audioInputSelected && $0.notifyObservers == false }
-        XCTAssertEqual(selected.count, 1)
-        let audioDeviceType = selected.last?.attributes?[EventAttributeName.audioDeviceType] as? String
+        let selected = verify(eventAnalyticsControllerMock.publishEventCalls) {
+            $0.name == .audioInputSelected && $0.notifyObservers == false
+        }
+        let audioDeviceType = selected?.attributes?[EventAttributeName.audioDeviceType] as? String
         XCTAssertEqual(audioDeviceType, MediaDeviceType.audioBuiltInSpeaker.description)
     }
 
@@ -75,19 +75,19 @@ class DefaultDeviceControllerTests: XCTestCase {
         let nonSpeakerDevice = MediaDevice.fromAVSessionPort(port: (availableInputs?[0])!)
         defaultDeviceController.chooseAudioDevice(mediaDevice: nonSpeakerDevice)
 
-        XCTAssertEqual(audioSessionMock.setPreferredInputCalls.filter { $0 === nonSpeakerDevice.port! }.count, 1)
+        verifyIdentical(audioSessionMock.setPreferredInputCalls, to: nonSpeakerDevice.port!)
         
-        let selected = eventAnalyticsControllerMock.publishEventCalls
-            .filter { $0.name == .audioInputSelected && $0.notifyObservers == false }
-        XCTAssertEqual(selected.count, 1)
-        let audioDeviceType = selected.last?.attributes?[EventAttributeName.audioDeviceType] as? String
+        let selected = verify(eventAnalyticsControllerMock.publishEventCalls) {
+            $0.name == .audioInputSelected && $0.notifyObservers == false
+        }
+        let audioDeviceType = selected?.attributes?[EventAttributeName.audioDeviceType] as? String
         XCTAssertEqual(audioDeviceType, nonSpeakerDevice.type.description)
     }
 
     func testSwitchCamera() {
         defaultDeviceController.switchCamera()
 
-        XCTAssertEqual(videoClientControllerMock.switchCameraCallCount, 1)
+        verify(videoClientControllerMock.switchCameraCallCount)
     }
 
     func testGetCurrentAudioDevice() {
@@ -112,9 +112,8 @@ class DefaultDeviceControllerTests: XCTestCase {
 
         _ = defaultDeviceController.listAudioDevices()
 
-        let failed = eventAnalyticsControllerMock.publishEventCalls.filter { $0.name == .audioInputFailed }
-        XCTAssertEqual(failed.count, 1)
-        let error = failed.last?.attributes?[EventAttributeName.audioInputError] as? MediaError
+        let failed = verify(eventAnalyticsControllerMock.publishEventCalls) { $0.name == .audioInputFailed }
+        let error = failed?.attributes?[EventAttributeName.audioInputError] as? MediaError
         XCTAssertEqual(error, MediaError.noAudioDevices)
     }
     
@@ -124,12 +123,11 @@ class DefaultDeviceControllerTests: XCTestCase {
         let speakerDevice = MediaDevice(label: "Built-in Speaker")
         defaultDeviceController.chooseAudioDevice(mediaDevice: speakerDevice)
 
-        let failed = eventAnalyticsControllerMock.publishEventCalls.filter { $0.name == .audioInputFailed }
-        XCTAssertEqual(failed.count, 1)
-        let error = failed.last?.attributes?[EventAttributeName.audioInputError] as? MediaError
+        let failed = verify(eventAnalyticsControllerMock.publishEventCalls) { $0.name == .audioInputFailed }
+        let error = failed?.attributes?[EventAttributeName.audioInputError] as? MediaError
         XCTAssertEqual(error, MediaError.overrideOutputAudioPortFailed)
 
-        let deviceType = failed.last?.attributes?[EventAttributeName.audioDeviceType] as? String
+        let deviceType = failed?.attributes?[EventAttributeName.audioDeviceType] as? String
         XCTAssertEqual(deviceType, MediaDeviceType.audioBuiltInSpeaker.description)
     }
 }

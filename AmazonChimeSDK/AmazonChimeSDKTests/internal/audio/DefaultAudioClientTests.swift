@@ -27,20 +27,20 @@ class DefaultAudioClientTests: XCTestCase {
         let someErrorMessage = "some error message"
         defaultAudioClient.audioLogCallBack(loglevel_t(rawValue: Constants.fatalLevel), msg: someErrorMessage)
 
-        XCTAssertEqual(loggerMock.errorCalls.filter { $0 == someErrorMessage }.count, 1)
+        verifyEqual(loggerMock.errorCalls, to: someErrorMessage)
     }
 
     func testAudioLogCallBack_fatalLogLevel() {
         let someFatalMessage = "some fatal message"
         defaultAudioClient.audioLogCallBack(loglevel_t(rawValue: Constants.errorLevel), msg: someFatalMessage)
 
-        XCTAssertEqual(loggerMock.errorCalls.filter { $0 == someFatalMessage }.count, 1)
+        verifyEqual(loggerMock.errorCalls, to: someFatalMessage)
     }
 
     func testAudioLogCallBack_otherLogLevel() {
         let someMessage = "some message"
         defaultAudioClient.audioLogCallBack(loglevel_t(rawValue: 3), msg: someMessage)
 
-        XCTAssertEqual(loggerMock.infoCalls.filter { $0 == someMessage }.count, 0)
+        verifyEqual(loggerMock.infoCalls, never(), to: someMessage)
     }
 }

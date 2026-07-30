@@ -27,21 +27,21 @@ class SQLiteDatabaseManagerTests: XCTestCase {
 
     func testInsertShouldInvokeClientWrite() {
         sqliteDatabaseManager.insert(tableName: tableName, contentValue: contentValue)
-        XCTAssertEqual(sqliteClient.writeCalls.count, 1)
+        verify(sqliteClient.writeCalls)
     }
 
     func testExecuteShouldInvokeClientWrite() {
         sqliteDatabaseManager.execute(statement: "example statement")
-        XCTAssertEqual(sqliteClient.writeCalls.count, 1)
+        verify(sqliteClient.writeCalls)
     }
 
     func testInsertMultipleShouldInvokeClientWrite() {
         sqliteDatabaseManager.insertMultiples(tableName: tableName, contentValues: [contentValue])
-        XCTAssertEqual(sqliteClient.writeCalls.count, 1)
+        verify(sqliteClient.writeCalls)
     }
 
     func testQueryShouldInvokeClientQuery() {
         sqliteDatabaseManager.query(tableName: tableName, size: 5)
-        XCTAssertEqual(sqliteClient.queryCalls.count, 1)
+        verify(sqliteClient.queryCalls)
     }
 }

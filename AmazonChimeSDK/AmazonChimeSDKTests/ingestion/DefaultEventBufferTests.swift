@@ -58,7 +58,7 @@ class DefaultEventBufferTests: XCTestCase {
 
         eventSqliteBuffer.add(item: meetingEvent)
 
-        XCTAssertEqual(eventDao.insertMeetingEventCalls.count, 1)
+        verify(eventDao.insertMeetingEventCalls)
     }
 
     func testProcessShouldInvokeInsertMeetingEvent() {
@@ -66,8 +66,8 @@ class DefaultEventBufferTests: XCTestCase {
 
         eventSqliteBuffer.process()
 
-        XCTAssertEqual(eventDao.queryMeetingEventItemsCalls.count, 1)
-        XCTAssertEqual(eventSender.sendEventsCalls.count, 2)
-        XCTAssertEqual(converter.toIngestionRecordFromMeetingEventsCalls.count, 1)
+        verify(eventDao.queryMeetingEventItemsCalls)
+        verify(eventSender.sendEventsCalls, times(2))
+        verify(converter.toIngestionRecordFromMeetingEventsCalls)
     }
 }

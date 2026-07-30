@@ -37,7 +37,7 @@ class DefaultEventReporterTests: XCTestCase {
                              eventBuffer: eventBuffer,
                              logger: logger)
 
-        XCTAssertEqual(eventBuffer.processCallCount, 0)
+        verify(eventBuffer.processCallCount, never())
     }
 
     func testDefaultEventReporterShouldCallIntervalSchedulerStartIfDisabledIsFalse() {
@@ -51,6 +51,6 @@ class DefaultEventReporterTests: XCTestCase {
                              timer: timer)
 
     
-        XCTAssertEqual(timer.startCallCount, 1)
+        verify(timer.startCallCount)
     }
 }

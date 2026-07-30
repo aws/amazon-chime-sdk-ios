@@ -26,7 +26,9 @@ class DefaultContentShareControllerTests: XCTestCase {
 
         defaultContentShareController.startContentShare(source: contentShareSource)
 
-        XCTAssertEqual(contentShareVideoClientControllerMock.startVideoShareCalls.filter { $0.source === self.videoSourceMock && $0.config == nil }.count, 1)
+        verify(contentShareVideoClientControllerMock.startVideoShareCalls) {
+            $0.source === self.videoSourceMock && $0.config == nil
+        }
     }
 
     func testStartContentShareWithInvalidSource() throws {
@@ -34,7 +36,7 @@ class DefaultContentShareControllerTests: XCTestCase {
 
         defaultContentShareController.startContentShare(source: contentShareSource)
 
-        XCTAssertEqual(contentShareVideoClientControllerMock.startVideoShareCalls.count, 0)
+        verify(contentShareVideoClientControllerMock.startVideoShareCalls, never())
     }
 
     func testStartContentShareWithConfig() {
@@ -44,13 +46,15 @@ class DefaultContentShareControllerTests: XCTestCase {
 
         defaultContentShareController.startContentShare(source: contentShareSource, config: config)
 
-        XCTAssertEqual(contentShareVideoClientControllerMock.startVideoShareCalls.filter { $0.source === self.videoSourceMock && $0.config === config }.count, 1)
+        verify(contentShareVideoClientControllerMock.startVideoShareCalls) {
+            $0.source === self.videoSourceMock && $0.config === config
+        }
     }
 
     func testStopContentShare() throws {
         defaultContentShareController.stopContentShare()
 
-        XCTAssertEqual(contentShareVideoClientControllerMock.stopVideoShareCallCount, 1)
+        verify(contentShareVideoClientControllerMock.stopVideoShareCallCount)
     }
 
     func testAddContentShareObserver() {
@@ -58,7 +62,7 @@ class DefaultContentShareControllerTests: XCTestCase {
 
         defaultContentShareController.addContentShareObserver(observer: contentShareObserverMock)
 
-        XCTAssertEqual(contentShareVideoClientControllerMock.subscribeToVideoClientStateChangeCalls.filter { $0 === contentShareObserverMock }.count, 1)
+        verifyIdentical(contentShareVideoClientControllerMock.subscribeToVideoClientStateChangeCalls, to: contentShareObserverMock)
     }
 
     func testRemoveContentShareObserver() {
@@ -66,6 +70,6 @@ class DefaultContentShareControllerTests: XCTestCase {
 
         defaultContentShareController.removeContentShareObserver(observer: contentShareObserverMock)
 
-        XCTAssertEqual(contentShareVideoClientControllerMock.unsubscribeFromVideoClientStateChangeCalls.filter { $0 === contentShareObserverMock }.count, 1)
+        verifyIdentical(contentShareVideoClientControllerMock.unsubscribeFromVideoClientStateChangeCalls, to: contentShareObserverMock)
     }
 }

@@ -38,7 +38,7 @@ class DirtyEventSQLiteDaoTests: XCTestCase {
 
     func testQueryShouldCallDatabaseClientQuery() {
         dirtyEventDao.queryDirtyMeetingEventItems(size: 10)
-        XCTAssertEqual(sqliteManagerMock.queryCalls.filter { $0.tableName == self.tableName && $0.size == 10 }.count, 1)
+        verify(sqliteManagerMock.queryCalls) { $0.tableName == self.tableName && $0.size == 10 }
     }
 
     func testQueryShouldReturnMeetingEventItem() {
@@ -52,11 +52,11 @@ class DirtyEventSQLiteDaoTests: XCTestCase {
 
     func testInsertShouldCallDatabaseClientWrite() {
         dirtyEventDao.insertDirtyMeetingEventItems(dirtyEvents: [mockDirtyMeetingEventItem])
-        XCTAssertEqual(sqliteManagerMock.insertMultiplesCalls.filter { $0.tableName == self.tableName }.count, 1)
+        verify(sqliteManagerMock.insertMultiplesCalls) { $0.tableName == self.tableName }
     }
 
     func testDeleteShouldCallDatabaseClientWrite() {
         dirtyEventDao.deleteDirtyMeetingEventsByIds(ids: [uuid!])
-        XCTAssertEqual(sqliteManagerMock.deleteCalls.filter { $0.tableName == self.tableName }.count, 1)
+        verify(sqliteManagerMock.deleteCalls) { $0.tableName == self.tableName }
     }
 }

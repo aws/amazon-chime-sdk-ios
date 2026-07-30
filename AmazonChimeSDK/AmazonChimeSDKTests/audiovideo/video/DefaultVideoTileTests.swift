@@ -34,7 +34,7 @@ class DefaultVideoTileTests: XCTestCase {
         videoRenderViewMock = VideoRenderViewSpy()
         defaultVideoTitle.bind(videoRenderView: videoRenderViewMock)
 
-        XCTAssertEqual(loggerMock.infoCalls.filter { $0 == "Binding the view to tile: tileId: \(self.tileId), attendeeId: \(self.attendeeId)" }.count, 1)
+        verifyEqual(loggerMock.infoCalls, to: "Binding the view to tile: tileId: \(self.tileId), attendeeId: \(self.attendeeId)")
         XCTAssert(videoRenderViewMock === defaultVideoTitle.videoRenderView)
     }
 
@@ -47,13 +47,13 @@ class DefaultVideoTileTests: XCTestCase {
         defaultVideoTitle.bind(videoRenderView: videoRenderViewMock)
         defaultVideoTitle.onVideoFrameReceived(frame: frame)
 
-        XCTAssertEqual(videoRenderViewMock.onVideoFrameReceivedCalls.filter { $0 === frame }.count, 1)
+        verifyIdentical(videoRenderViewMock.onVideoFrameReceivedCalls, to: frame)
     }
 
     func testUnbind() {
         defaultVideoTitle.unbind()
 
-        XCTAssertEqual(loggerMock.infoCalls.filter { $0 == "Unbinding the view from tile: tileId: \(self.tileId), attendeeId: \(self.attendeeId)" }.count, 1)
+        verifyEqual(loggerMock.infoCalls, to: "Unbinding the view from tile: tileId: \(self.tileId), attendeeId: \(self.attendeeId)")
         XCTAssertNil(defaultVideoTitle.videoRenderView)
     }
 

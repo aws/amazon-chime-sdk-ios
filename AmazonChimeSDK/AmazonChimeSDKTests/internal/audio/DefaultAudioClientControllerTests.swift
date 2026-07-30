@@ -83,12 +83,11 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                                     audioDeviceCapabilities: .inputAndOutput,
                                                                     enableAudioRedundancy: true,
                                                                     reconnectTimeoutMs: reconnectTimeoutMs))
-        XCTAssertEqual(audioLockMock.lockCallCount, 1)
-        XCTAssertEqual(audioLockMock.unlockCallCount, 1)
+        verify(audioLockMock.lockCallCount)
+        verify(audioLockMock.unlockCallCount)
 
-        let events = publishedEvents(.audioInputFailed)
-        XCTAssertEqual(events.count, 1)
-        let error = events.first?.attributes?[EventAttributeName.audioInputError] as? PermissionError
+        let event = verify(publishedEvents(.audioInputFailed))
+        let error = event?.attributes?[EventAttributeName.audioInputError] as? PermissionError
         XCTAssertEqual(error, PermissionError.audioPermissionError)
     }
 
@@ -108,8 +107,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                                     reconnectTimeoutMs: reconnectTimeoutMs),
                              MediaError.audioFailedToStart.description)
 
-        XCTAssertEqual(audioLockMock.lockCallCount, 1)
-        XCTAssertEqual(audioLockMock.unlockCallCount, 1)
+        verify(audioLockMock.lockCallCount)
+        verify(audioLockMock.unlockCallCount)
     }
 
     func testStart_emptyAudioFallbackUrl() {
@@ -127,8 +126,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                                     enableAudioRedundancy: true,
                                                                     reconnectTimeoutMs: reconnectTimeoutMs),
                              MediaError.audioFailedToStart.description)
-        XCTAssertEqual(audioLockMock.lockCallCount, 1)
-        XCTAssertEqual(audioLockMock.unlockCallCount, 1)
+        verify(audioLockMock.lockCallCount)
+        verify(audioLockMock.unlockCallCount)
     }
 
     func testStart_alreadyStarted() {
@@ -145,8 +144,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                                     audioDeviceCapabilities: .inputAndOutput,
                                                                     enableAudioRedundancy: true,
                                                                     reconnectTimeoutMs: reconnectTimeoutMs))
-        XCTAssertEqual(audioLockMock.lockCallCount, 1)
-        XCTAssertEqual(audioLockMock.unlockCallCount, 1)
+        verify(audioLockMock.lockCallCount)
+        verify(audioLockMock.unlockCallCount)
     }
 
     func testStop_stoppedOk() {
@@ -157,10 +156,10 @@ class DefaultAudioClientControllerTests: CommonTestCase {
 
         let expect = expectation(description: "eventually")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            XCTAssertEqual(self.audioLockMock.lockCallCount, 1)
-            XCTAssertEqual(self.audioLockMock.unlockCallCount, 1)
-            XCTAssertEqual(self.publishedEvents(.meetingEnded).count, 1)
-            XCTAssertEqual(self.meetingStatsCollectorMock.resetMeetingStatsCallCount, 1)
+            verify(self.audioLockMock.lockCallCount)
+            verify(self.audioLockMock.unlockCallCount)
+            verify(self.publishedEvents(.meetingEnded))
+            verify(self.meetingStatsCollectorMock.resetMeetingStatsCallCount)
             expect.fulfill()
         }
 
@@ -173,7 +172,7 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                    audioDeviceCapabilities: AudioDeviceCapabilitiesInternal,
                                    file: StaticString = #filePath,
                                    line: UInt = #line) {
-        let matching = audioClientMock.startSessionCalls.filter {
+        verify(audioClientMock.startSessionCalls, file: file, line: line) {
             $0.host == audioHostUrl
                 && $0.port == 1820
                 && $0.callId == meetingId
@@ -189,7 +188,6 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                 && $0.enableAudioRedundancy == true
                 && $0.reconnectTimeoutMs == reconnectTimeoutMs
         }
-        XCTAssertEqual(matching.count, 1, file: file, line: line)
     }
 
     func testStart_startedOk() {
@@ -205,12 +203,12 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                                 audioDeviceCapabilities: .inputAndOutput,
                                                                 enableAudioRedundancy: true,
                                                                 reconnectTimeoutMs: self.reconnectTimeoutMs))
-        XCTAssertEqual(audioLockMock.lockCallCount, 1)
-        XCTAssertEqual(audioClientObserverMock.notifyAudioClientObserverCallCount, 1)
+        verify(audioLockMock.lockCallCount)
+        verify(audioClientObserverMock.notifyAudioClientObserverCallCount)
         assertStartSession(audioMode: .Stereo48K, audioDeviceCapabilities: .InputAndOutput)
-        XCTAssertEqual(publishedEvents(.meetingStartRequested).count, 1)
+        verify(publishedEvents(.meetingStartRequested))
         XCTAssertEqual(.started, DefaultAudioClientController.state)
-        XCTAssertEqual(audioLockMock.unlockCallCount, 1)
+        verify(audioLockMock.unlockCallCount)
     }
 
     func testStartWithMono48K_startedOk() {
@@ -226,12 +224,12 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                                 audioDeviceCapabilities: .inputAndOutput,
                                                                 enableAudioRedundancy: true,
                                                                 reconnectTimeoutMs: reconnectTimeoutMs))
-        XCTAssertEqual(audioLockMock.lockCallCount, 1)
-        XCTAssertEqual(audioClientObserverMock.notifyAudioClientObserverCallCount, 1)
+        verify(audioLockMock.lockCallCount)
+        verify(audioClientObserverMock.notifyAudioClientObserverCallCount)
         assertStartSession(audioMode: .Mono48K, audioDeviceCapabilities: .InputAndOutput)
-        XCTAssertEqual(publishedEvents(.meetingStartRequested).count, 1)
+        verify(publishedEvents(.meetingStartRequested))
         XCTAssertEqual(.started, DefaultAudioClientController.state)
-        XCTAssertEqual(audioLockMock.unlockCallCount, 1)
+        verify(audioLockMock.unlockCallCount)
     }
 
     func testStartWithMono16K_startedOk() {
@@ -247,12 +245,12 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                                 audioDeviceCapabilities: .inputAndOutput,
                                                                 enableAudioRedundancy: true,
                                                                 reconnectTimeoutMs: self.reconnectTimeoutMs))
-        XCTAssertEqual(audioLockMock.lockCallCount, 1)
-        XCTAssertEqual(audioClientObserverMock.notifyAudioClientObserverCallCount, 1)
+        verify(audioLockMock.lockCallCount)
+        verify(audioClientObserverMock.notifyAudioClientObserverCallCount)
         assertStartSession(audioMode: .Mono16K, audioDeviceCapabilities: .InputAndOutput)
-        XCTAssertEqual(publishedEvents(.meetingStartRequested).count, 1)
+        verify(publishedEvents(.meetingStartRequested))
         XCTAssertEqual(.started, DefaultAudioClientController.state)
-        XCTAssertEqual(audioLockMock.unlockCallCount, 1)
+        verify(audioLockMock.unlockCallCount)
     }
 
     func testStartWithAudioDeviceCapabilities_startedOk() {
@@ -279,7 +277,7 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                 capabilitiesInternal = .OutputOnly
             }
             assertStartSession(audioMode: .Stereo48K, audioDeviceCapabilities: capabilitiesInternal)
-            XCTAssertEqual(publishedEvents(.meetingStartRequested).count, count)
+            verify(publishedEvents(.meetingStartRequested), times(count))
             XCTAssertEqual(.started, DefaultAudioClientController.state)
             XCTAssertEqual(audioLockMock.unlockCallCount, count)
         }
@@ -300,15 +298,13 @@ class DefaultAudioClientControllerTests: CommonTestCase {
                                                                     audioDeviceCapabilities: .inputAndOutput,
                                                                     enableAudioRedundancy: true,
                                                                     reconnectTimeoutMs: self.reconnectTimeoutMs))
-        XCTAssertEqual(audioLockMock.lockCallCount, 1)
-        XCTAssertEqual(audioClientObserverMock.notifyAudioClientObserverCallCount, 1)
+        verify(audioLockMock.lockCallCount)
+        verify(audioClientObserverMock.notifyAudioClientObserverCallCount)
         assertStartSession(audioMode: .Stereo48K, audioDeviceCapabilities: .InputAndOutput)
         XCTAssertEqual(.initialized, DefaultAudioClientController.state)
-        XCTAssertEqual(audioLockMock.unlockCallCount, 1)
+        verify(audioLockMock.unlockCallCount)
 
-        let failedEvents = publishedEvents(.meetingStartFailed)
-            .filter { $0.attributes?[EventAttributeName.meetingStatus] != nil }
-        XCTAssertEqual(failedEvents.count, 1)
+        verify(publishedEvents(.meetingStartFailed)) { $0.attributes?[EventAttributeName.meetingStatus] != nil }
     }
 
     func testSetVoiceFocusEnabled_success() {
@@ -316,16 +312,15 @@ class DefaultAudioClientControllerTests: CommonTestCase {
         audioClientMock.setBliteNSSelectedReturn = Int(AUDIO_CLIENT_OK.rawValue)
 
         XCTAssertTrue(defaultAudioClientController.setVoiceFocusEnabled(enabled: true))
-        XCTAssertEqual(audioClientMock.setBliteNSSelectedCalls.filter { $0 == true }.count, 1)
+        verifyEqual(audioClientMock.setBliteNSSelectedCalls, to: true)
 
         XCTAssertTrue(defaultAudioClientController.setVoiceFocusEnabled(enabled: false))
-        XCTAssertEqual(audioClientMock.setBliteNSSelectedCalls.filter { $0 == false }.count, 1)
+        verifyEqual(audioClientMock.setBliteNSSelectedCalls, to: false)
 
-        let events = publishedEvents(.voiceFocusEnabled).filter {
+        verify(publishedEvents(.voiceFocusEnabled)) {
             $0.notifyObservers == false
                 && NSDictionary(dictionary: $0.attributes ?? [:]).isEqual(to: [:])
         }
-        XCTAssertEqual(events.count, 1)
     }
 
     func testSetVoiceFocusEnabled_failure_audioClientNotStarted() {
@@ -337,9 +332,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
         XCTAssertFalse(defaultAudioClientController.setVoiceFocusEnabled(enabled: false))
         XCTAssertTrue(audioClientMock.setBliteNSSelectedCalls.isEmpty)
 
-        let events = publishedEvents(.voiceFocusEnableFailed).filter { $0.notifyObservers == false }
-        XCTAssertEqual(events.count, 1)
-        let error = events.first?.attributes?[EventAttributeName.voiceFocusError] as? VoiceFocusError
+        let event = verify(publishedEvents(.voiceFocusEnableFailed)) { $0.notifyObservers == false }
+        let error = event?.attributes?[EventAttributeName.voiceFocusError] as? VoiceFocusError
         XCTAssertEqual(error, VoiceFocusError.audioClientNotStarted)
     }
 
@@ -348,14 +342,13 @@ class DefaultAudioClientControllerTests: CommonTestCase {
         audioClientMock.setBliteNSSelectedReturn = Int(AUDIO_CLIENT_ERR.rawValue)
 
         XCTAssertFalse(defaultAudioClientController.setVoiceFocusEnabled(enabled: true))
-        XCTAssertEqual(audioClientMock.setBliteNSSelectedCalls.filter { $0 == true }.count, 1)
+        verifyEqual(audioClientMock.setBliteNSSelectedCalls, to: true)
 
         XCTAssertFalse(defaultAudioClientController.setVoiceFocusEnabled(enabled: false))
-        XCTAssertEqual(audioClientMock.setBliteNSSelectedCalls.filter { $0 == false }.count, 1)
+        verifyEqual(audioClientMock.setBliteNSSelectedCalls, to: false)
 
-        let events = publishedEvents(.voiceFocusEnableFailed).filter { $0.notifyObservers == false }
-        XCTAssertEqual(events.count, 1)
-        let error = events.first?.attributes?[EventAttributeName.voiceFocusError] as? VoiceFocusError
+        let event = verify(publishedEvents(.voiceFocusEnableFailed)) { $0.notifyObservers == false }
+        let error = event?.attributes?[EventAttributeName.voiceFocusError] as? VoiceFocusError
         XCTAssertEqual(error, VoiceFocusError.audioClientError)
     }
 
@@ -364,17 +357,17 @@ class DefaultAudioClientControllerTests: CommonTestCase {
 
         audioClientMock.isBliteNSSelectedReturn = true
         XCTAssertTrue(defaultAudioClientController.isVoiceFocusEnabled())
-        XCTAssertEqual(audioClientMock.isBliteNSSelectedCallCount, 1)
+        verify(audioClientMock.isBliteNSSelectedCallCount)
 
         audioClientMock.isBliteNSSelectedReturn = false
         XCTAssertFalse(defaultAudioClientController.isVoiceFocusEnabled())
-        XCTAssertEqual(audioClientMock.isBliteNSSelectedCallCount, 2)
+        verify(audioClientMock.isBliteNSSelectedCallCount, times(2))
     }
 
     func testIsVoiceFocusEnabled_failure_audioClientNotStarted() {
         DefaultAudioClientController.state = .initialized
 
         XCTAssertFalse(defaultAudioClientController.isVoiceFocusEnabled())
-        XCTAssertEqual(audioClientMock.isBliteNSSelectedCallCount, 0)
+        verify(audioClientMock.isBliteNSSelectedCallCount, never())
     }
 }

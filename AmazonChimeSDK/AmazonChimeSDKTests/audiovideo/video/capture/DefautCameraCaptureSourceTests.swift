@@ -41,7 +41,7 @@ class DefaultCameraCaptureSourceTests: XCTestCase {
 
         let expect = XCTestExpectation(description: "eventually")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            XCTAssertEqual(self.mockSourceObserver.captureDidStopCallCount, 1)
+            verify(self.mockSourceObserver.captureDidStopCallCount)
             expect.fulfill()
         }
 
@@ -54,8 +54,8 @@ class DefaultCameraCaptureSourceTests: XCTestCase {
 
         let expect = XCTestExpectation(description: "eventually")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            XCTAssertEqual(self.mockSourceObserver.captureDidFailCalls.filter { $0 == .configurationFailure }.count, 1)
-            XCTAssertEqual(self.eventControllerMock.publishEventCalls.filter { $0.name == .videoInputFailed }.count, 1)
+            verifyEqual(self.mockSourceObserver.captureDidFailCalls, to: .configurationFailure)
+            verify(self.eventControllerMock.publishEventCalls) { $0.name == .videoInputFailed }
             expect.fulfill()
         }
 
@@ -73,19 +73,18 @@ class DefaultCameraCaptureSourceTests: XCTestCase {
     func testSwitchCamera_ShouldPublishVideoInputFailed_WhenCameraNotAvailable() {
         defaultCameraCaptureSource.switchCamera()
 
-        let failed = eventControllerMock.publishEventCalls.filter { $0.name == .videoInputFailed }
-        XCTAssertEqual(failed.count, 1)
-        let error = failed.last?.attributes?[EventAttributeName.videoInputError] as? MediaError
+        let failed = verify(eventControllerMock.publishEventCalls) { $0.name == .videoInputFailed }
+        let error = failed?.attributes?[EventAttributeName.videoInputError] as? MediaError
         XCTAssertEqual(error, MediaError.noCameraSelected)
     }
     
     func testSetDevice_ShouldPublishVideoInputSelected() {
         defaultCameraCaptureSource.device = MediaDevice.init(label: "mock", type: MediaDeviceType.videoFrontCamera)
         
-        let selected = eventControllerMock.publishEventCalls
-            .filter { $0.name == .videoInputSelected && $0.notifyObservers == false }
-        XCTAssertEqual(selected.count, 1)
-        let deviceType = selected.last?.attributes?[EventAttributeName.videoDeviceType] as? String
+        let selected = verify(eventControllerMock.publishEventCalls) {
+            $0.name == .videoInputSelected && $0.notifyObservers == false
+        }
+        let deviceType = selected?.attributes?[EventAttributeName.videoDeviceType] as? String
         XCTAssertEqual(deviceType, MediaDeviceType.videoFrontCamera.description)
     }
     
@@ -100,10 +99,10 @@ class DefaultCameraCaptureSourceTests: XCTestCase {
                                        userInfo: userInfo)
         
         // Then
-        let began = eventControllerMock.publishEventCalls
-            .filter { $0.name == .videoInterruptionBegan && $0.notifyObservers == false }
-        XCTAssertEqual(began.count, 1)
-        let capturedReason = began.last?.attributes?[EventAttributeName.videoInterruptionReason] as? VideoInterruptionReason
+        let began = verify(eventControllerMock.publishEventCalls) {
+            $0.name == .videoInterruptionBegan && $0.notifyObservers == false
+        }
+        let capturedReason = began?.attributes?[EventAttributeName.videoInterruptionReason] as? VideoInterruptionReason
         XCTAssertEqual(capturedReason, .videoDeviceInUseByAnotherClient)
     }
     
@@ -128,11 +127,11 @@ class DefaultCameraCaptureSourceTests: XCTestCase {
                                        userInfo: nil)
         
         // Then
-        XCTAssertEqual(eventControllerMock.publishEventCalls.filter {
+        verify(eventControllerMock.publishEventCalls) {
             $0.name == .videoInterruptionEnded
-                && $0.notifyObservers == false
-                && NSDictionary(dictionary: $0.attributes ?? [:]).isEqual(to: [:])
-        }.count, 1)
+                            && $0.notifyObservers == false
+                            && NSDictionary(dictionary: $0.attributes ?? [:]).isEqual(to: [:])
+        }
     }
 }
 

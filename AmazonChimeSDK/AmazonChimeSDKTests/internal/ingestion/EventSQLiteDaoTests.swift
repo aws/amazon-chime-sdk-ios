@@ -33,7 +33,7 @@ class EventSQLiteDaoTests: XCTestCase {
 
     func testQueryShouldCallDatabaseManagerQuery() {
         eventDao.queryMeetingEventItems(size: 10)
-        XCTAssertEqual(sqliteManagerMock.queryCalls.filter { $0.tableName == self.tableName && $0.size == 10 }.count, 1)
+        verify(sqliteManagerMock.queryCalls) { $0.tableName == self.tableName && $0.size == 10 }
     }
 
     func testQueryShouldReturnMeetingEventItem() {
@@ -46,16 +46,16 @@ class EventSQLiteDaoTests: XCTestCase {
 
     func testInsertShouldCallDatabaseManagerWrite() {
         eventDao.insertMeetingEvent(event: mockMeetingEventItem)
-        XCTAssertEqual(sqliteManagerMock.insertCalls.filter { $0.tableName == self.tableName }.count, 1)
+        verify(sqliteManagerMock.insertCalls) { $0.tableName == self.tableName }
     }
 
     func testDeleteShouldCallDatabaseManagerWrite() {
         eventDao.deleteMeetingEventsByIds(ids: [uuid!])
-        XCTAssertEqual(sqliteManagerMock.deleteCalls.filter { $0.tableName == self.tableName }.count, 1)
+        verify(sqliteManagerMock.deleteCalls) { $0.tableName == self.tableName }
     }
 
     func testConstructorShouldCallDatabaseManagerExecute() {
         eventDao.deleteMeetingEventsByIds(ids: [uuid!])
-        XCTAssertEqual(sqliteManagerMock.deleteCalls.filter { $0.tableName == self.tableName }.count, 1)
+        verify(sqliteManagerMock.deleteCalls) { $0.tableName == self.tableName }
     }
 }

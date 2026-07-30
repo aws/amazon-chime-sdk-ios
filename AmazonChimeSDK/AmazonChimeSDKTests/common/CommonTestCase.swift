@@ -9,6 +9,73 @@
 @testable import AmazonChimeSDK
 import XCTest
 
+struct ExpectedCallCount {
+    let value: Int
+
+    static let once = ExpectedCallCount(value: 1)
+}
+
+func times(_ count: Int) -> ExpectedCallCount {
+    precondition(count >= 0, "Expected call count cannot be negative")
+    return ExpectedCallCount(value: count)
+}
+
+func never() -> ExpectedCallCount {
+    times(0)
+}
+
+@discardableResult
+func verify<Call>(
+    _ calls: [Call],
+    _ expectedCallCount: ExpectedCallCount = .once,
+    file: StaticString = #filePath,
+    line: UInt = #line,
+    matching predicate: (Call) -> Bool = { _ in true }
+) -> Call? {
+    let matchingCalls = calls.filter(predicate)
+    XCTAssertEqual(matchingCalls.count, expectedCallCount.value, file: file, line: line)
+    return matchingCalls.last
+}
+
+func verifyEqual<Call: Equatable>(
+    _ calls: [Call],
+    _ expectedCallCount: ExpectedCallCount = .once,
+    to expectedCall: Call,
+    file: StaticString = #filePath,
+    line: UInt = #line
+) {
+    verify(calls, expectedCallCount, file: file, line: line) { $0 == expectedCall }
+}
+
+func verifyIdentical<Call: AnyObject>(
+    _ calls: [Call],
+    _ expectedCallCount: ExpectedCallCount = .once,
+    to expectedCall: Call,
+    file: StaticString = #filePath,
+    line: UInt = #line
+) {
+    verify(calls, expectedCallCount, file: file, line: line) { $0 === expectedCall }
+}
+
+func verifyIdentical<Call: AnyObject>(
+    _ calls: [Call?],
+    _ expectedCallCount: ExpectedCallCount = .once,
+    to expectedCall: Call,
+    file: StaticString = #filePath,
+    line: UInt = #line
+) {
+    XCTAssertEqual(calls.count { $0 === expectedCall }, expectedCallCount.value, file: file, line: line)
+}
+
+func verify(
+    _ actualCallCount: Int,
+    _ expectedCallCount: ExpectedCallCount = .once,
+    file: StaticString = #filePath,
+    line: UInt = #line
+) {
+    XCTAssertEqual(actualCallCount, expectedCallCount.value, file: file, line: line)
+}
+
 class CommonTestCase: XCTestCase {
     let externalMeetingId = "external-meeting-id"
     let audioFallbackUrl = "audioFallbackUrl"

@@ -52,7 +52,7 @@ class DefaultAudioVideoFacadeTests: CommonTestCase {
 
         XCTAssertNoThrow(try defaultAudioVideoFacade.start(audioVideoConfiguration: audioVideoConfiguration))
 
-        XCTAssertEqual(audioVideoControllerMock.startWithConfigurationCalls.filter { $0 === audioVideoConfiguration }.count, 1)
+        verifyIdentical(audioVideoControllerMock.startWithConfigurationCalls, to: audioVideoConfiguration)
     }
 
     func testStart_WithCallKitArgs() {
@@ -60,7 +60,9 @@ class DefaultAudioVideoFacadeTests: CommonTestCase {
 
         XCTAssertNoThrow(try defaultAudioVideoFacade.start(callKitEnabled: true))
 
-        XCTAssertEqual(audioVideoControllerMock.startWithConfigurationCalls.filter { $0.audioMode == .stereo48K && $0.callKitEnabled == true }.count, 1)
+        verify(audioVideoControllerMock.startWithConfigurationCalls) {
+            $0.audioMode == .stereo48K && $0.callKitEnabled == true
+        }
     }
 
     func testStart_WithNoArgs() {
@@ -68,27 +70,31 @@ class DefaultAudioVideoFacadeTests: CommonTestCase {
 
         XCTAssertNoThrow(try defaultAudioVideoFacade.start())
 
-        XCTAssertEqual(audioVideoControllerMock.startWithConfigurationCalls.filter { $0.audioMode == .stereo48K && $0.callKitEnabled == false }.count, 1)
+        verify(audioVideoControllerMock.startWithConfigurationCalls) {
+            $0.audioMode == .stereo48K && $0.callKitEnabled == false
+        }
     }
 
     func testStartLocalVideo() {
         XCTAssertNoThrow(try defaultAudioVideoFacade.startLocalVideo())
 
-        XCTAssertEqual(audioVideoControllerMock.startLocalVideoCalls.filter { $0.source == nil && $0.config == nil }.count, 1)
+        verify(audioVideoControllerMock.startLocalVideoCalls) { $0.source == nil && $0.config == nil }
     }
 
     func testStartLocalVideoWithConfig() {
         let config = LocalVideoConfiguration()
         XCTAssertNoThrow(try defaultAudioVideoFacade.startLocalVideo(config: config))
 
-        XCTAssertEqual(audioVideoControllerMock.startLocalVideoCalls.filter { $0.source == nil && $0.config === config }.count, 1)
+        verify(audioVideoControllerMock.startLocalVideoCalls) { $0.source == nil && $0.config === config }
     }
 
     func testStartLocalVideoWithSource() {
         let cameraCaptureSourceMock = CameraCaptureSourceSpy()
         defaultAudioVideoFacade.startLocalVideo(source: cameraCaptureSourceMock)
 
-        XCTAssertEqual(audioVideoControllerMock.startLocalVideoCalls.filter { $0.source === cameraCaptureSourceMock && $0.config == nil }.count, 1)
+        verify(audioVideoControllerMock.startLocalVideoCalls) {
+            $0.source === cameraCaptureSourceMock && $0.config == nil
+        }
     }
 
     func testStartLocalVideoWithSourceAndConfig() {
@@ -96,7 +102,9 @@ class DefaultAudioVideoFacadeTests: CommonTestCase {
         let cameraCaptureSourceMock = CameraCaptureSourceSpy()
         defaultAudioVideoFacade.startLocalVideo(source: cameraCaptureSourceMock, config: config)
 
-        XCTAssertEqual(audioVideoControllerMock.startLocalVideoCalls.filter { $0.source === cameraCaptureSourceMock && $0.config === config }.count, 1)
+        verify(audioVideoControllerMock.startLocalVideoCalls) {
+            $0.source === cameraCaptureSourceMock && $0.config === config
+        }
     }
 
     func testRealtimePlaybackMute() {
@@ -105,7 +113,7 @@ class DefaultAudioVideoFacadeTests: CommonTestCase {
         let result = defaultAudioVideoFacade.realtimePlaybackMute()
 
         XCTAssertTrue(result)
-        XCTAssertEqual(realtimeControllerMock.realtimePlaybackMuteCallCount, 1)
+        verify(realtimeControllerMock.realtimePlaybackMuteCallCount)
     }
 
     func testRealtimePlaybackUnmute() {
@@ -114,14 +122,14 @@ class DefaultAudioVideoFacadeTests: CommonTestCase {
         let result = defaultAudioVideoFacade.realtimePlaybackUnmute()
 
         XCTAssertTrue(result)
-        XCTAssertEqual(realtimeControllerMock.realtimePlaybackUnmuteCallCount, 1)
+        verify(realtimeControllerMock.realtimePlaybackUnmuteCallCount)
     }
 
     func testStartContentShare() {
         let source = ContentShareSource()
         defaultAudioVideoFacade.startContentShare(source: source)
 
-        XCTAssertEqual(contentShareControllerMock.startContentShareCalls.filter { $0.source === source && $0.config == nil }.count, 1)
+        verify(contentShareControllerMock.startContentShareCalls) { $0.source === source && $0.config == nil }
     }
 
     func testStartContentSharewithConfig() {
@@ -129,6 +137,6 @@ class DefaultAudioVideoFacadeTests: CommonTestCase {
         let config = LocalVideoConfiguration()
         defaultAudioVideoFacade.startContentShare(source: source, config: config)
 
-        XCTAssertEqual(contentShareControllerMock.startContentShareCalls.filter { $0.source === source && $0.config === config }.count, 1)
+        verify(contentShareControllerMock.startContentShareCalls) { $0.source === source && $0.config === config }
     }
 }

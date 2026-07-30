@@ -49,7 +49,7 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
         eventAnalyticsController.publishEvent(name: .meetingStartRequested)
         let expectation = XCTestExpectation(description: "eventually")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            XCTAssertEqual(mockObserver.eventDidReceiveCalls.filter { $0.name == .meetingStartRequested }.count, 1)
+            verify(mockObserver.eventDidReceiveCalls) { $0.name == .meetingStartRequested }
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 2.0)
@@ -60,12 +60,12 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
         eventAnalyticsController.addEventAnalyticsObserver(observer: mockObserver)
         eventAnalyticsController.publishEvent(name: .meetingStartRequested)
 
-        XCTAssertEqual(eventReporterMock.reportCalls.count, 1)
+        verify(eventReporterMock.reportCalls)
     }
     
     func testPublishEvent_ShouldAddMeetingStats_WhenMeetingReconnected() {
                 eventAnalyticsController.publishEvent(name: .meetingReconnected)
-        XCTAssertEqual(eventReporterMock.reportCalls.count, 1)
+        verify(eventReporterMock.reportCalls)
         
         XCTAssertEqual(eventReporterMock.reportCalls.last?.eventAttributes[EventAttributeName.meetingStartDurationMs] as? Int,
                        mockMeetingStartDurationMs)
@@ -75,7 +75,7 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
     
     func testPublishEvent_ShouldAddMeetingStats_WhenSignalingDropped() {
                 eventAnalyticsController.publishEvent(name: .videoClientSignalingDropped)
-        XCTAssertEqual(eventReporterMock.reportCalls.count, 1)
+        verify(eventReporterMock.reportCalls)
         
         XCTAssertEqual(eventReporterMock.reportCalls.last?.eventAttributes[EventAttributeName.meetingStartDurationMs] as? Int,
                        mockMeetingStartDurationMs)
@@ -83,7 +83,7 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
     
     func testPublishEvent_ShouldNotContainReconnectDurationAttribute_WhenEventIsNotMeetingReconnected() {
                 eventAnalyticsController.publishEvent(name: .meetingStartFailed)
-        XCTAssertEqual(eventReporterMock.reportCalls.count, 1)
+        verify(eventReporterMock.reportCalls)
         
         XCTAssertNil(eventReporterMock.reportCalls.last?.eventAttributes[EventAttributeName.meetingReconnectDurationMs])
     }
@@ -95,7 +95,7 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
         appStateMonitorMock.isLowPowerModeEnabledReturn = true
         
         eventAnalyticsController.publishEvent(name: .meetingStartFailed)
-        XCTAssertEqual(eventReporterMock.reportCalls.count, 1)
+        verify(eventReporterMock.reportCalls)
         
         let attributes = eventReporterMock.reportCalls.last?.eventAttributes
         
@@ -112,7 +112,7 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
         eventAnalyticsController.addEventAnalyticsObserver(observer: mockObserver)
         eventAnalyticsController.pushHistory(historyEventName: .meetingReconnected)
 
-        XCTAssertEqual(eventReporterMock.reportCalls.count, 1)
+        verify(eventReporterMock.reportCalls)
     }
     
     func testPushHistoryState_WillPublishAppAttributes() {
@@ -121,7 +121,7 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
         appStateMonitorMock.getBatteryStateReturn = BatteryState.full
         
         eventAnalyticsController.pushHistory(historyEventName: .meetingEnded)
-        XCTAssertEqual(eventReporterMock.reportCalls.count, 1)
+        verify(eventReporterMock.reportCalls)
         
         let attributes = eventReporterMock.reportCalls.last?.eventAttributes
         
@@ -141,11 +141,11 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
         eventAnalyticsController.addEventAnalyticsObserver(observer: mockObserver)
         eventAnalyticsController.appStateDidChange(monitor: self.appStateMonitorMock, newAppState: .background)
 
-        XCTAssertEqual(eventReporterMock.reportCalls.count, 1)
+        verify(eventReporterMock.reportCalls)
         
         XCTAssertEqual(eventReporterMock.reportCalls.last?.eventAttributes[EventAttributeName.appState] as? AppState, AppState.background)
         sleep(1)
-        XCTAssertEqual(mockObserver.eventDidReceiveCalls.count, 0)
+        verify(mockObserver.eventDidReceiveCalls, never())
     }
     
     func testDidReceiveMemoryWarning_ShouldPublishEvent() {
@@ -156,11 +156,11 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
         eventAnalyticsController.addEventAnalyticsObserver(observer: mockObserver)
         eventAnalyticsController.didReceiveMemoryWarning(monitor: self.appStateMonitorMock)
 
-        XCTAssertEqual(eventReporterMock.reportCalls.count, 1)
+        verify(eventReporterMock.reportCalls)
         
         XCTAssertEqual(eventReporterMock.reportCalls.last?.name, EventName.appMemoryLow.description)
         sleep(1)
-        XCTAssertEqual(mockObserver.eventDidReceiveCalls.count, 0)
+        verify(mockObserver.eventDidReceiveCalls, never())
     }
     
     func testNetworkConnectionTypeDidChange_ShouldPublishEvent() {
@@ -172,10 +172,10 @@ class DefaultEventAnalyticsControllerTests: CommonTestCase {
         eventAnalyticsController.networkConnectionTypeDidChange(monitor: self.appStateMonitorMock,
                                                                 newNetworkConnectionType: NetworkConnectionType.cellular)
 
-        XCTAssertEqual(eventReporterMock.reportCalls.count, 1)
+        verify(eventReporterMock.reportCalls)
         
         XCTAssertEqual(eventReporterMock.reportCalls.last?.name, EventName.networkConnectionTypeChanged.description)
         sleep(1)
-        XCTAssertEqual(mockObserver.eventDidReceiveCalls.count, 0)
+        verify(mockObserver.eventDidReceiveCalls, never())
     }
 }
