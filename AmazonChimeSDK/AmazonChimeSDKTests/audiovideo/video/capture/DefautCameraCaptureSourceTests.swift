@@ -10,20 +10,19 @@ import AVFoundation
 @testable import AmazonChimeSDK
 import AmazonChimeSDKMedia
 import XCTest
-import Mockingbird
 
 class DefaultCameraCaptureSourceTests: XCTestCase {
     var defaultCameraCaptureSource: DefaultCameraCaptureSource!
-    var mockSourceObserver: CaptureSourceObserverMock!
-    var eventControllerMock: EventAnalyticsControllerMock!
+    var mockSourceObserver: CaptureSourceObserverSpy!
+    var eventControllerMock: EventAnalyticsControllerSpy!
     let defaultTimeout = 0.1
 
     override func setUp() {
         AVCaptureDevice.swizzle()
         AVCaptureSession.swizzle()
-        eventControllerMock = mock(EventAnalyticsController.self)
-        let loggerMock = mock(Logger.self)
-        mockSourceObserver = mock(CaptureSourceObserver.self)
+        eventControllerMock = EventAnalyticsControllerSpy()
+        let loggerMock = LoggerSpy()
+        mockSourceObserver = CaptureSourceObserverSpy()
 
         defaultCameraCaptureSource = DefaultCameraCaptureSource(logger: loggerMock)
         defaultCameraCaptureSource.setEventAnalyticsController(eventAnalyticsController: eventControllerMock)
@@ -40,23 +39,27 @@ class DefaultCameraCaptureSourceTests: XCTestCase {
     func testStop_captureDidStop() {
         defaultCameraCaptureSource.stop()
 
-        let expect = eventually {
-            verify(mockSourceObserver.captureDidStop()).wasCalled()
+        let expect = XCTestExpectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verify(self.mockSourceObserver.captureDidStopCallCount)
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
     }
 
     func testStop_captureDidStart_Failed() {
         AVCaptureSession.swizzleCanAddFalse()
         defaultCameraCaptureSource.start()
 
-        let expect = eventually {
-            verify(mockSourceObserver.captureDidFail(error: .configurationFailure)).wasCalled()
-            verify(eventControllerMock.publishEvent(name: .videoInputFailed, attributes: any())).wasCalled()
+        let expect = XCTestExpectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            verifyEqual(self.mockSourceObserver.captureDidFailCalls, to: .configurationFailure)
+            verify(self.eventControllerMock.publishEventCalls) { $0.name == .videoInputFailed }
+            expect.fulfill()
         }
 
-        wait(for: [expect], timeout: defaultTimeout)
+        wait(for: [expect], timeout: 2)
         AVCaptureSession.swizzleCanAddFalse()
     }
 
@@ -68,25 +71,20 @@ class DefaultCameraCaptureSourceTests: XCTestCase {
     }
     
     func testSwitchCamera_ShouldPublishVideoInputFailed_WhenCameraNotAvailable() {
-        let captor = ArgumentCaptor<[AnyHashable: Any]>()
-        
         defaultCameraCaptureSource.switchCamera()
-        
-        verify(eventControllerMock.publishEvent(name: .videoInputFailed, attributes: captor.any())).wasCalled()
-        
-        let error = captor.value?[EventAttributeName.videoInputError] as? MediaError
+
+        let failed = verify(eventControllerMock.publishEventCalls) { $0.name == .videoInputFailed }
+        let error = failed?.attributes?[EventAttributeName.videoInputError] as? MediaError
         XCTAssertEqual(error, MediaError.noCameraSelected)
     }
     
     func testSetDevice_ShouldPublishVideoInputSelected() {
         defaultCameraCaptureSource.device = MediaDevice.init(label: "mock", type: MediaDeviceType.videoFrontCamera)
         
-        let captor = ArgumentCaptor<[AnyHashable: Any]>()
-        verify(eventControllerMock.publishEvent(name: .videoInputSelected,
-                                                attributes: captor.any(),
-                                                notifyObservers: false)).wasCalled()
-        
-        let deviceType = captor.value?[EventAttributeName.videoDeviceType] as? String
+        let selected = verify(eventControllerMock.publishEventCalls) {
+            $0.name == .videoInputSelected && $0.notifyObservers == false
+        }
+        let deviceType = selected?.attributes?[EventAttributeName.videoDeviceType] as? String
         XCTAssertEqual(deviceType, MediaDeviceType.videoFrontCamera.description)
     }
     
@@ -101,12 +99,10 @@ class DefaultCameraCaptureSourceTests: XCTestCase {
                                        userInfo: userInfo)
         
         // Then
-        let captor = ArgumentCaptor<[AnyHashable: Any]>()
-        verify(eventControllerMock.publishEvent(name: .videoInterruptionBegan,
-                                                attributes: captor.any(),
-                                                notifyObservers: false)).wasCalled()
-        
-        let capturedReason = captor.value?[EventAttributeName.videoInterruptionReason] as? VideoInterruptionReason
+        let began = verify(eventControllerMock.publishEventCalls) {
+            $0.name == .videoInterruptionBegan && $0.notifyObservers == false
+        }
+        let capturedReason = began?.attributes?[EventAttributeName.videoInterruptionReason] as? VideoInterruptionReason
         XCTAssertEqual(capturedReason, .videoDeviceInUseByAnotherClient)
     }
     
@@ -120,9 +116,8 @@ class DefaultCameraCaptureSourceTests: XCTestCase {
                                        userInfo: userInfo)
         
         // Then
-        verify(eventControllerMock.publishEvent(name: .videoInterruptionBegan,
-                                                attributes: any(),
-                                                notifyObservers: false)).wasCalled()
+        XCTAssertEqual(eventControllerMock.publishEventCalls
+            .filter { $0.name == .videoInterruptionBegan && $0.notifyObservers == false }.count, 1)
     }
     
     func testHandleInterruptionEnded_ShouldPublishInterruptionEndedEvent() {
@@ -132,9 +127,11 @@ class DefaultCameraCaptureSourceTests: XCTestCase {
                                        userInfo: nil)
         
         // Then
-        verify(eventControllerMock.publishEvent(name: .videoInterruptionEnded,
-                                                attributes: [:],
-                                                notifyObservers: false)).wasCalled()
+        verify(eventControllerMock.publishEventCalls) {
+            $0.name == .videoInterruptionEnded
+                            && $0.notifyObservers == false
+                            && NSDictionary(dictionary: $0.attributes ?? [:]).isEqual(to: [:])
+        }
     }
 }
 

@@ -8,17 +8,16 @@
 
 @testable import AmazonChimeSDK
 import AmazonChimeSDKMedia
-import Mockingbird
 import XCTest
 
 class DefaultVideoClientControllerTests: CommonTestCase {
     let topic = "topic"
     let testMessage = "test"
 
-    var videoClientMock: VideoClientProtocolMock!
-    var clientMetricsCollectorMock: ClientMetricsCollectorMock!
-    var eventAnalyticsControllerMock: EventAnalyticsControllerMock!
-    var videoSourceMock: VideoSourceMock!
+    var videoClientMock: VideoClientProtocolSpy!
+    var clientMetricsCollectorMock: ClientMetricsCollectorSpy!
+    var eventAnalyticsControllerMock: EventAnalyticsControllerSpy!
+    var videoSourceMock: VideoSourceSpy!
 
     var defaultVideoClientController: DefaultVideoClientController!
     var defaultVideoClientControllerNone: DefaultVideoClientController!
@@ -27,10 +26,10 @@ class DefaultVideoClientControllerTests: CommonTestCase {
     override func setUp() {
         super.setUp()
 
-        videoSourceMock = mock(VideoSource.self)
-        videoClientMock = mock(VideoClientProtocol.self)
-        clientMetricsCollectorMock = mock(ClientMetricsCollector.self)
-        eventAnalyticsControllerMock = mock(EventAnalyticsController.self)
+        videoSourceMock = VideoSourceSpy()
+        videoClientMock = VideoClientProtocolSpy()
+        clientMetricsCollectorMock = ClientMetricsCollectorSpy()
+        eventAnalyticsControllerMock = EventAnalyticsControllerSpy()
 
         defaultVideoClientController = DefaultVideoClientController(videoClient: videoClientMock,
                                                                     clientMetricsCollector: clientMetricsCollectorMock,
@@ -47,14 +46,14 @@ class DefaultVideoClientControllerTests: CommonTestCase {
                                                                     configuration: meetingSessionConfigurationMockHigh,
                                                                     logger: loggerMock,
                                                                     eventAnalyticsController: eventAnalyticsControllerMock)
-        given(videoSourceMock.getVideoContentHint()).willReturn(VideoContentHint.text)
+        videoSourceMock.videoContentHint = VideoContentHint.text
     }
 
     func testSendDataMessage_videoClientNotStarted() {
         XCTAssertNoThrow(try defaultVideoClientController.sendDataMessage(topic: topic, data: testMessage))
 
-        verify(loggerMock.error(msg: "Cannot send data message because videoClientState=uninitialized")).wasCalled()
-        verify(videoClientMock.sendDataMessage(any(), data: any(), dataLen: any(), lifetimeMs: any())).wasNeverCalled()
+        verifyEqual(loggerMock.errorCalls, to: "Cannot send data message because videoClientState=uninitialized")
+        verify(videoClientMock.sendDataMessageCalls, never())
     }
 
     func testSendDataMessage_negativeLifetimeMs() {
@@ -63,7 +62,7 @@ class DefaultVideoClientControllerTests: CommonTestCase {
             XCTAssertEqual(error as? SendDataMessageError, SendDataMessageError.negativeLifetimeParameter)
         }
 
-        verify(videoClientMock.sendDataMessage(any(), data: any(), dataLen: any(), lifetimeMs: any())).wasNeverCalled()
+        verify(videoClientMock.sendDataMessageCalls, never())
     }
 
     func testSendDataMessage_invalidTopic() {
@@ -72,28 +71,28 @@ class DefaultVideoClientControllerTests: CommonTestCase {
             XCTAssertEqual(error as? SendDataMessageError, SendDataMessageError.invalidTopic)
         }
 
-        verify(videoClientMock.sendDataMessage(any(), data: any(), dataLen: any(), lifetimeMs: any())).wasNeverCalled()
+        verify(videoClientMock.sendDataMessageCalls, never())
     }
 
     func testSendDataMessage_sendString() {
         defaultVideoClientController.start()
         XCTAssertNoThrow(try defaultVideoClientController.sendDataMessage(topic: topic, data: testMessage))
 
-        verify(videoClientMock.sendDataMessage(self.topic, data: any(), dataLen: any(), lifetimeMs: 0)).wasCalled()
+        verify(videoClientMock.sendDataMessageCalls) { $0.topic == self.topic && $0.lifetimeMs == Int32(0) }
     }
 
     func testSendDataMessage_sendByteArray() {
         defaultVideoClientController.start()
         XCTAssertNoThrow(try defaultVideoClientController.sendDataMessage(topic: topic, data: [116, 101, 115, 116]))
 
-        verify(videoClientMock.sendDataMessage(self.topic, data: any(), dataLen: any(), lifetimeMs: 0)).wasCalled()
+        verify(videoClientMock.sendDataMessageCalls) { $0.topic == self.topic && $0.lifetimeMs == Int32(0) }
     }
 
     func testSendDataMessage_sendJson() {
         defaultVideoClientController.start()
         XCTAssertNoThrow(try defaultVideoClientController.sendDataMessage(topic: topic, data: ["key": "value"]))
 
-        verify(videoClientMock.sendDataMessage(self.topic, data: any(), dataLen: any(), lifetimeMs: 0)).wasCalled()
+        verify(videoClientMock.sendDataMessageCalls) { $0.topic == self.topic && $0.lifetimeMs == Int32(0) }
     }
 
     func testSendDataMessage_sendInvalidData() {
@@ -102,32 +101,32 @@ class DefaultVideoClientControllerTests: CommonTestCase {
             XCTAssertEqual(error as? SendDataMessageError, SendDataMessageError.invalidData)
         }
 
-        verify(videoClientMock.sendDataMessage(self.topic, data: any(), dataLen: any(), lifetimeMs: 0)).wasNeverCalled()
+        verify(videoClientMock.sendDataMessageCalls, never()) { $0.topic == self.topic && $0.lifetimeMs == Int32(0) }
     }
 
     func testSendLocalVideo() {
         defaultVideoClientController.start()
         XCTAssertNoThrow(try defaultVideoClientController.startLocalVideo())
 
-        verify(videoClientMock.setExternalVideoSource(any())).wasCalled()
-        verify(videoClientMock.setSending(true)).wasCalled()
+        verify(videoClientMock.setExternalVideoSourceCalls)
+        verifyEqual(videoClientMock.setSendingCalls, to: true)
     }
 
     func testSendLocalVideoNone() {
         defaultVideoClientControllerNone.start()
         XCTAssertNoThrow(try defaultVideoClientControllerNone.startLocalVideo())
 
-        verify(videoClientMock.setExternalVideoSource(any())).wasNeverCalled()
-        verify(videoClientMock.setSending(true)).wasNeverCalled()
+        verify(videoClientMock.setExternalVideoSourceCalls, never())
+        verifyEqual(videoClientMock.setSendingCalls, never(), to: true)
     }
 
     func testSendLocalVideoHigh() {
         defaultVideoClientControllerHigh.start()
         XCTAssertNoThrow(try defaultVideoClientControllerHigh.startLocalVideo())
 
-        verify(videoClientMock.setExternalVideoSource(any())).wasCalled()
-        verify(videoClientMock.setMaxBitRateKbps(VideoBitrateConstants().videoHighResolutionBitrateKbps)).wasCalled()
-        verify(videoClientMock.setSending(true)).wasCalled()
+        verify(videoClientMock.setExternalVideoSourceCalls)
+        verifyEqual(videoClientMock.setMaxBitRateKbpsCalls, to: VideoBitrateConstants().videoHighResolutionBitrateKbps)
+        verifyEqual(videoClientMock.setSendingCalls, to: true)
     }
 
     func testSendLocalVideoWithConfig() {
@@ -135,17 +134,17 @@ class DefaultVideoClientControllerTests: CommonTestCase {
         let config = LocalVideoConfiguration(maxBitRateKbps: 300)
         XCTAssertNoThrow(try defaultVideoClientController.startLocalVideo(config: config))
 
-        verify(videoClientMock.setExternalVideoSource(any())).wasCalled()
-        verify(videoClientMock.setSending(true)).wasCalled()
-        verify(videoClientMock.setMaxBitRateKbps(300)).wasCalled()
+        verify(videoClientMock.setExternalVideoSourceCalls)
+        verifyEqual(videoClientMock.setSendingCalls, to: true)
+        verifyEqual(videoClientMock.setMaxBitRateKbpsCalls, to: UInt32(300))
     }
 
     func testSendLocalVideoWithSource() {
         defaultVideoClientController.start()
         defaultVideoClientController.startLocalVideo(source: videoSourceMock)
 
-        verify(videoClientMock.setExternalVideoSource(any())).wasCalled()
-        verify(videoClientMock.setSending(true)).wasCalled()
+        verify(videoClientMock.setExternalVideoSourceCalls)
+        verifyEqual(videoClientMock.setSendingCalls, to: true)
     }
 
     func testSendLocalVideoWithSourceAndConfig() {
@@ -153,9 +152,9 @@ class DefaultVideoClientControllerTests: CommonTestCase {
         let config = LocalVideoConfiguration(maxBitRateKbps: 300)
         defaultVideoClientController.startLocalVideo(source: videoSourceMock, config: config)
 
-        verify(videoClientMock.setExternalVideoSource(any())).wasCalled()
-        verify(videoClientMock.setSending(true)).wasCalled()
-        verify(videoClientMock.setMaxBitRateKbps(300)).wasCalled()
+        verify(videoClientMock.setExternalVideoSourceCalls)
+        verifyEqual(videoClientMock.setSendingCalls, to: true)
+        verifyEqual(videoClientMock.setMaxBitRateKbpsCalls, to: UInt32(300))
     }
     
     func testVideoClientDidReceiveEvent_ShouldPublishSignalingDroppedEvent_WhenEventTypeIsSignalingDropped() {
@@ -164,16 +163,15 @@ class DefaultVideoClientControllerTests: CommonTestCase {
                                                            signaling_dropped_error: VIDEO_CLIENT_SIGNALING_DROPPED_ERROR_INTERNAL_SERVER_ERROR,
                                                            signaling_open_duration_ms: 0,
                                                            ice_gathering_duration_ms: 0)
-        let captor = ArgumentCaptor<[AnyHashable: Any]>()
-        
-        let mediaVideoClientMock = mock(VideoClient.self)
+                let mediaVideoClientMock = VideoClientMock()
         
         defaultVideoClientController.videoClient(mediaVideoClientMock, didReceive: event)
         
-        verify(eventAnalyticsControllerMock.publishEvent(name: .videoClientSignalingDropped,
-                                                         attributes: captor.any())).wasCalled()
+        let captured = verify(eventAnalyticsControllerMock.publishEventCalls) {
+            $0.name == .videoClientSignalingDropped
+        }
         
-        let error = captor.value?[EventAttributeName.signalingDroppedError] as? SignalingDroppedError
+        let error = captured?.attributes?[EventAttributeName.signalingDroppedError] as? SignalingDroppedError
         XCTAssertEqual(error, SignalingDroppedError.internalServerError)
     }
     
@@ -183,16 +181,13 @@ class DefaultVideoClientControllerTests: CommonTestCase {
                                                            signaling_dropped_error: VIDEO_CLIENT_SIGNALING_DROPPED_ERROR_INTERNAL_SERVER_ERROR,
                                                            signaling_open_duration_ms: 123,
                                                            ice_gathering_duration_ms: 0)
-        let captor = ArgumentCaptor<[AnyHashable: Any]>()
-        
-        let mediaVideoClientMock = mock(VideoClient.self)
+                let mediaVideoClientMock = VideoClientMock()
         
         defaultVideoClientController.videoClient(mediaVideoClientMock, didReceive: event)
         
-        verify(eventAnalyticsControllerMock.publishEvent(name: .videoClientSignalingOpened,
-                                                         attributes: captor.any())).wasCalled()
+        let captured = verify(eventAnalyticsControllerMock.publishEventCalls) { $0.name == .videoClientSignalingOpened }
         
-        let duration = captor.value?[EventAttributeName.signalingOpenDurationMs] as? Int64
+        let duration = captured?.attributes?[EventAttributeName.signalingOpenDurationMs] as? Int64
         XCTAssertEqual(duration, 123)
     }
     
@@ -202,16 +197,15 @@ class DefaultVideoClientControllerTests: CommonTestCase {
                                                            signaling_dropped_error: VIDEO_CLIENT_SIGNALING_DROPPED_ERROR_INTERNAL_SERVER_ERROR,
                                                            signaling_open_duration_ms: 123,
                                                            ice_gathering_duration_ms: 456)
-        let captor = ArgumentCaptor<[AnyHashable: Any]>()
-        
-        let mediaVideoClientMock = mock(VideoClient.self)
+                let mediaVideoClientMock = VideoClientMock()
         
         defaultVideoClientController.videoClient(mediaVideoClientMock, didReceive: event)
         
-        verify(eventAnalyticsControllerMock.publishEvent(name: .videoClientIceGatheringCompleted,
-                                                         attributes: captor.any())).wasCalled()
+        let captured = verify(eventAnalyticsControllerMock.publishEventCalls) {
+            $0.name == .videoClientIceGatheringCompleted
+        }
         
-        let duration = captor.value?[EventAttributeName.iceGatheringDurationMs] as? Int64
+        let duration = captured?.attributes?[EventAttributeName.iceGatheringDurationMs] as? Int64
         XCTAssertEqual(duration, 456)
     }
 }

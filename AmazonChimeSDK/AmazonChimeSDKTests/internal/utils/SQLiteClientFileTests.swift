@@ -13,7 +13,7 @@ import XCTest
 
 class SQLiteClientFileTests: SQLiteClientTests {
     override func setUp() {
-        let loggerMock = mock(Logger.self)
+        let loggerMock = LoggerSpy()
 
         sqliteDBClient = SQLiteClient(databaseName: "db_in_file.db", logger: loggerMock)
         createTable(tableName: tableName)

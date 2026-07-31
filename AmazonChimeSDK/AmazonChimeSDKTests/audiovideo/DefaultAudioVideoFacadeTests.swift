@@ -7,37 +7,34 @@
 //
 
 @testable import AmazonChimeSDK
-import Mockingbird
 import XCTest
 
 class DefaultAudioVideoFacadeTests: CommonTestCase {
-    var audioVideoControllerMock: AudioVideoControllerFacadeMock!
-    var realtimeControllerMock: RealtimeControllerFacadeMock!
-    var deviceControllerMock: DeviceControllerMock!
-    var videoTileControllerMock: VideoTileControllerMock!
-    var activeSpeakerDetectorMock: ActiveSpeakerDetectorFacadeMock!
-    var contentShareControllerMock: ContentShareControllerMock!
-    var eventAnalyticsControllerMock: EventAnalyticsControllerMock!
-    var meetingStatsCollectorMock: MeetingStatsCollectorMock!
+    var audioVideoControllerMock: AudioVideoControllerFacadeSpy!
+    var realtimeControllerMock: RealtimeControllerFacadeSpy!
+    var deviceControllerMock: DeviceControllerSpy!
+    var videoTileControllerMock: VideoTileControllerSpy!
+    var activeSpeakerDetectorMock: ActiveSpeakerDetectorFacadeSpy!
+    var contentShareControllerMock: ContentShareControllerSpy!
+    var eventAnalyticsControllerMock: EventAnalyticsControllerSpy!
+    var meetingStatsCollectorMock: MeetingStatsCollectorSpy!
 
     var defaultAudioVideoFacade: DefaultAudioVideoFacade!
 
     override func setUp() {
         super.setUp()
 
-        audioVideoControllerMock = mock(AudioVideoControllerFacade.self)
-        realtimeControllerMock = mock(RealtimeControllerFacade.self)
-        deviceControllerMock = mock(DeviceController.self)
-        videoTileControllerMock = mock(VideoTileController.self)
-        activeSpeakerDetectorMock = mock(ActiveSpeakerDetectorFacade.self)
-        contentShareControllerMock = mock(ContentShareController.self)
-        eventAnalyticsControllerMock = mock(EventAnalyticsController.self)
-        meetingStatsCollectorMock = mock(MeetingStatsCollector.self)
+        audioVideoControllerMock = AudioVideoControllerFacadeSpy(configuration: meetingSessionConfigurationMock,
+                                                                logger: loggerMock)
+        realtimeControllerMock = RealtimeControllerFacadeSpy()
+        deviceControllerMock = DeviceControllerSpy()
+        videoTileControllerMock = VideoTileControllerSpy()
+        activeSpeakerDetectorMock = ActiveSpeakerDetectorFacadeSpy()
+        contentShareControllerMock = ContentShareControllerSpy()
+        eventAnalyticsControllerMock = EventAnalyticsControllerSpy()
+        meetingStatsCollectorMock = MeetingStatsCollectorSpy()
 
-        var valueProvider = ValueProvider()
-        valueProvider.register(loggerMock, for: Logger.self)
-        valueProvider.register(meetingSessionConfigurationMock, for: MeetingSessionConfiguration.self)
-        audioVideoControllerMock.useDefaultValues(from: valueProvider)
+
 
         defaultAudioVideoFacade = DefaultAudioVideoFacade(audioVideoController: audioVideoControllerMock,
                                                           realtimeController: realtimeControllerMock,
@@ -51,80 +48,88 @@ class DefaultAudioVideoFacadeTests: CommonTestCase {
 
     func testStart_WithConfigArgs() {
         let audioVideoConfiguration = AudioVideoConfiguration(audioMode: .mono48K, callKitEnabled: true)
-        given(audioVideoControllerMock.start(audioVideoConfiguration: any())).willReturn()
+
 
         XCTAssertNoThrow(try defaultAudioVideoFacade.start(audioVideoConfiguration: audioVideoConfiguration))
 
-        verify(audioVideoControllerMock.start(audioVideoConfiguration: audioVideoConfiguration)).wasCalled()
+        verifyIdentical(audioVideoControllerMock.startWithConfigurationCalls, to: audioVideoConfiguration)
     }
 
     func testStart_WithCallKitArgs() {
-        given(audioVideoControllerMock.start(audioVideoConfiguration: any())).willReturn()
+
 
         XCTAssertNoThrow(try defaultAudioVideoFacade.start(callKitEnabled: true))
 
-        verify(audioVideoControllerMock.start(audioVideoConfiguration: any(where: { $0.audioMode == .stereo48K && $0.callKitEnabled == true }))).wasCalled()
+        verify(audioVideoControllerMock.startWithConfigurationCalls) {
+            $0.audioMode == .stereo48K && $0.callKitEnabled == true
+        }
     }
 
     func testStart_WithNoArgs() {
-        given(audioVideoControllerMock.start(audioVideoConfiguration: any())).willReturn()
+
 
         XCTAssertNoThrow(try defaultAudioVideoFacade.start())
 
-        verify(audioVideoControllerMock.start(audioVideoConfiguration: any(where: { $0.audioMode == .stereo48K && $0.callKitEnabled == false }))).wasCalled()
+        verify(audioVideoControllerMock.startWithConfigurationCalls) {
+            $0.audioMode == .stereo48K && $0.callKitEnabled == false
+        }
     }
 
     func testStartLocalVideo() {
         XCTAssertNoThrow(try defaultAudioVideoFacade.startLocalVideo())
 
-        verify(audioVideoControllerMock.startLocalVideo()).wasCalled()
+        verify(audioVideoControllerMock.startLocalVideoCalls) { $0.source == nil && $0.config == nil }
     }
 
     func testStartLocalVideoWithConfig() {
         let config = LocalVideoConfiguration()
         XCTAssertNoThrow(try defaultAudioVideoFacade.startLocalVideo(config: config))
 
-        verify(audioVideoControllerMock.startLocalVideo(config: config)).wasCalled()
+        verify(audioVideoControllerMock.startLocalVideoCalls) { $0.source == nil && $0.config === config }
     }
 
     func testStartLocalVideoWithSource() {
-        let cameraCaptureSourceMock: CameraCaptureSourceMock = mock(CameraCaptureSource.self)
+        let cameraCaptureSourceMock = CameraCaptureSourceSpy()
         defaultAudioVideoFacade.startLocalVideo(source: cameraCaptureSourceMock)
 
-        verify(audioVideoControllerMock.startLocalVideo(source: cameraCaptureSourceMock)).wasCalled()
+        verify(audioVideoControllerMock.startLocalVideoCalls) {
+            $0.source === cameraCaptureSourceMock && $0.config == nil
+        }
     }
 
     func testStartLocalVideoWithSourceAndConfig() {
         let config = LocalVideoConfiguration()
-        let cameraCaptureSourceMock: CameraCaptureSourceMock = mock(CameraCaptureSource.self)
+        let cameraCaptureSourceMock = CameraCaptureSourceSpy()
         defaultAudioVideoFacade.startLocalVideo(source: cameraCaptureSourceMock, config: config)
 
-        verify(audioVideoControllerMock.startLocalVideo(source: cameraCaptureSourceMock, config: config)).wasCalled()
+        verify(audioVideoControllerMock.startLocalVideoCalls) {
+            $0.source === cameraCaptureSourceMock && $0.config === config
+        }
     }
 
     func testRealtimePlaybackMute() {
-        given(realtimeControllerMock.realtimePlaybackMute()).willReturn(true)
+        realtimeControllerMock.realtimePlaybackMuteReturn = true
 
         let result = defaultAudioVideoFacade.realtimePlaybackMute()
 
         XCTAssertTrue(result)
-        verify(realtimeControllerMock.realtimePlaybackMute()).wasCalled()
+        verify(realtimeControllerMock.realtimePlaybackMuteCallCount)
     }
 
     func testRealtimePlaybackUnmute() {
-        given(realtimeControllerMock.realtimePlaybackUnmute()).willReturn(true)
+        realtimeControllerMock.realtimePlaybackUnmuteReturn = true
 
         let result = defaultAudioVideoFacade.realtimePlaybackUnmute()
 
         XCTAssertTrue(result)
-        verify(realtimeControllerMock.realtimePlaybackUnmute()).wasCalled()
+        verify(realtimeControllerMock.realtimePlaybackUnmuteCallCount)
     }
 
     func testStartContentShare() {
         let source = ContentShareSource()
         defaultAudioVideoFacade.startContentShare(source: source)
 
-        verify(contentShareControllerMock.startContentShare(source: source)).wasCalled()
+        verify(contentShareControllerMock.startContentShareCalls) { $0.source === source && $0.config == nil }
     }
 
     func testStartContentSharewithConfig() {
@@ -132,6 +137,6 @@ class DefaultAudioVideoFacadeTests: CommonTestCase {
         let config = LocalVideoConfiguration()
         defaultAudioVideoFacade.startContentShare(source: source, config: config)
 
-        verify(contentShareControllerMock.startContentShare(source: source, config: config)).wasCalled()
+        verify(contentShareControllerMock.startContentShareCalls) { $0.source === source && $0.config === config }
     }
 }

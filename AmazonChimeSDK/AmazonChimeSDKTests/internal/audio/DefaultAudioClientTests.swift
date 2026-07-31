@@ -8,15 +8,14 @@
 
 @testable import AmazonChimeSDK
 import AmazonChimeSDKMedia
-import Mockingbird
 import XCTest
 
 class DefaultAudioClientTests: XCTestCase {
-    var loggerMock: LoggerMock!
+    var loggerMock: LoggerSpy!
     var defaultAudioClient: DefaultAudioClient!
 
     override func setUp() {
-        loggerMock = mock(Logger.self)
+        loggerMock = LoggerSpy()
         defaultAudioClient = DefaultAudioClient.shared(logger: loggerMock)
     }
 
@@ -28,20 +27,20 @@ class DefaultAudioClientTests: XCTestCase {
         let someErrorMessage = "some error message"
         defaultAudioClient.audioLogCallBack(loglevel_t(rawValue: Constants.fatalLevel), msg: someErrorMessage)
 
-        verify(loggerMock.error(msg: someErrorMessage)).wasCalled()
+        verifyEqual(loggerMock.errorCalls, to: someErrorMessage)
     }
 
     func testAudioLogCallBack_fatalLogLevel() {
         let someFatalMessage = "some fatal message"
         defaultAudioClient.audioLogCallBack(loglevel_t(rawValue: Constants.errorLevel), msg: someFatalMessage)
 
-        verify(loggerMock.error(msg: someFatalMessage)).wasCalled()
+        verifyEqual(loggerMock.errorCalls, to: someFatalMessage)
     }
 
     func testAudioLogCallBack_otherLogLevel() {
         let someMessage = "some message"
         defaultAudioClient.audioLogCallBack(loglevel_t(rawValue: 3), msg: someMessage)
 
-        verify(loggerMock.info(msg: someMessage)).wasNeverCalled()
+        verifyEqual(loggerMock.infoCalls, never(), to: someMessage)
     }
 }

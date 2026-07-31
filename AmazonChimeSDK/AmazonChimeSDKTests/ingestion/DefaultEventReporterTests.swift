@@ -7,13 +7,12 @@
 //
 
 @testable import AmazonChimeSDK
-import Mockingbird
 import XCTest
 
 class DefaultEventReporterTests: XCTestCase {
-    private var eventBuffer: EventBufferMock!
-    private var logger: LoggerMock!
-    private var timer: SchedulerMock!
+    private var eventBuffer: EventBufferSpy!
+    private var logger: LoggerSpy!
+    private var timer: SchedulerSpy!
 
     private let clientConfigurationMock = MeetingEventClientConfiguration(eventClientJoinToken: "", meetingId: "meetingId", attendeeId: "attendeeId")
     private let ingestionUrl = "ingestionUrl"
@@ -24,10 +23,9 @@ class DefaultEventReporterTests: XCTestCase {
     private let emptyIngestionRecord = IngestionRecord(metadata: [:], events: [])
 
     override func setUp() {
-        eventBuffer = mock(EventBuffer.self)
-        logger = mock(Logger.self)
-        timer = mock(Scheduler.self)
-        given(eventBuffer.process()).willReturn()
+        eventBuffer = EventBufferSpy()
+        logger = LoggerSpy()
+        timer = SchedulerSpy()
     }
 
     func testDefaultEventReporterShouldCallIntervalSchedulerStartIfDisabledIsTrue() {
@@ -39,7 +37,7 @@ class DefaultEventReporterTests: XCTestCase {
                              eventBuffer: eventBuffer,
                              logger: logger)
 
-        verify(eventBuffer.process()).wasNeverCalled()
+        verify(eventBuffer.processCallCount, never())
     }
 
     func testDefaultEventReporterShouldCallIntervalSchedulerStartIfDisabledIsFalse() {
@@ -53,6 +51,6 @@ class DefaultEventReporterTests: XCTestCase {
                              timer: timer)
 
     
-        verify(timer.start()).wasCalled(1)
+        verify(timer.startCallCount)
     }
 }

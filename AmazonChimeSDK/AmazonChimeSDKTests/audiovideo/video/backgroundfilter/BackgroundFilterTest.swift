@@ -10,13 +10,12 @@
 #if canImport(AmazonChimeSDKMachineLearning)
 @testable import AmazonChimeSDKMachineLearning
 #endif
-import Mockingbird
 import XCTest
 import CommonCrypto
 
 /// XCTest file to test `BackgroundBlurVideoFrameProcessor` and `BackgroundReplacementVideoFrameProcessor`.
 class BackgroundFilterTests: XCTestCase {
-    var loggerMock: LoggerMock!
+    var loggerMock: LoggerSpy!
     var testImage: UIImage?
     var expectedBlurImage: UIImage?
     var expectedReplacementImage: UIImage?
@@ -35,7 +34,7 @@ class BackgroundFilterTests: XCTestCase {
     let videoFrameGenerator = VideoFrameGenerator()
 
     override func setUp() {
-        loggerMock = mock(Logger.self)
+        loggerMock = LoggerSpy()
         /// Load test image that will be used by the tests.
         guard let testImage = UIImage(named: "background-ml-test-image.jpeg",
                                       in: Bundle(for: type(of: self)),
@@ -68,11 +67,11 @@ class BackgroundFilterTests: XCTestCase {
             return
         }
 
-        let videoSinkMock = mock(VideoSink.self)
+        let videoSinkMock = VideoSinkSpy()
         var processedImage: UIImage?
         var videoFrameReceivedExpectation: XCTestExpectation?
 
-        given(videoSinkMock.onVideoFrameReceived(frame: any())) ~> { [self] videoFrame in
+        videoSinkMock.onVideoFrameReceivedHandler = { [self] videoFrame in
             let result = self.processImage(frame: videoFrame)
             processedImage = result.image
             videoFrameReceivedExpectation!.fulfill()
@@ -134,11 +133,11 @@ class BackgroundFilterTests: XCTestCase {
             return
         }
 
-        let videoSinkMock = mock(VideoSink.self)
+        let videoSinkMock = VideoSinkSpy()
         var processedImage: UIImage?
         var videoFrameReceivedExpectation: XCTestExpectation?
 
-        given(videoSinkMock.onVideoFrameReceived(frame: any())) ~> { videoFrame in
+        videoSinkMock.onVideoFrameReceivedHandler = { videoFrame in
             let result = self.processImage(frame: videoFrame)
             processedImage = result.image
             videoFrameReceivedExpectation!.fulfill()

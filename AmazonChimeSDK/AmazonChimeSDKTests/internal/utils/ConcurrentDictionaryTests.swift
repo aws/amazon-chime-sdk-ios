@@ -76,6 +76,13 @@ class ConcurrentDictionaryTests: XCTestCase {
 
         // The quality-of-service (QoS) - '.userInteractive' has higher priority than '.background', which is performed more quickly and with more resources than lower priority work.
         // In order to pass tests, we give them higher priority to perform quickly.
+        //
+        // This one keeps the sleep-based interleaving on purpose. `forEach` holds the
+        // lock for the whole iteration, so the main thread's write below blocks until
+        // the iteration finishes and therefore lands last. Sequencing it with
+        // semaphores (as the plain-dictionary test below does) would deadlock: the
+        // background thread would wait for a signal from a main thread that is itself
+        // blocked on the lock the background thread holds.
         DispatchQueue.global(qos: .userInteractive).async {
             self.dict.forEach { _ in
                 sleep(2)
@@ -89,31 +96,42 @@ class ConcurrentDictionaryTests: XCTestCase {
             mainThreadEndedExpectation.fulfill()
         }
 
-        wait(for: [backgroundThreadEndedExpectation, mainThreadEndedExpectation], timeout: 5)
+        // Generous timeout: the work takes ~2s, but a loaded machine can schedule the
+        // threads much later. A tight bound here made this suite fail spuriously.
+        wait(for: [backgroundThreadEndedExpectation, mainThreadEndedExpectation], timeout: 30)
         XCTAssertEqual(self.dict["?"], 2)
     }
 
     func testThreadSafetyShouldFailForNormalDict() {
         var normalDict = ["?": 0]
+        let iterationStarted = DispatchSemaphore(value: 0)
+        let mainThreadDidWrite = DispatchSemaphore(value: 0)
         let backgroundThreadEndedExpectation = XCTestExpectation(
             description: "The background thread was ended")
-        let mainThreadEndedExpectation = XCTestExpectation(
-            description: "The main thread was ended")
 
-        DispatchQueue.global(qos: .background).async {
+        // The interleaving is enforced with semaphores rather than sleeps so the
+        // outcome does not depend on wall-clock timing:
+        //   1. the background thread starts iterating and signals
+        //   2. the main thread writes 2
+        //   3. the background thread writes 1, overwriting it
+        // A plain dictionary does not order these writes against each other, so the
+        // main thread's write is silently lost. `ConcurrentDictionary` prevents this
+        // by making the write above wait for the iteration to finish (see
+        // `testThreadSafety`).
+        DispatchQueue.global(qos: .userInitiated).async {
             normalDict.forEach { _ in
-                sleep(2)
+                iterationStarted.signal()
+                XCTAssertEqual(mainThreadDidWrite.wait(timeout: .now() + 30), .success)
                 normalDict["?"] = 1
             }
             backgroundThreadEndedExpectation.fulfill()
         }
-        DispatchQueue.main.async {
-            sleep(1)
-            normalDict["?"] = 2
-            mainThreadEndedExpectation.fulfill()
-        }
 
-        wait(for: [backgroundThreadEndedExpectation, mainThreadEndedExpectation], timeout: 5)
+        XCTAssertEqual(iterationStarted.wait(timeout: .now() + 30), .success)
+        normalDict["?"] = 2
+        mainThreadDidWrite.signal()
+
+        wait(for: [backgroundThreadEndedExpectation], timeout: 30)
         XCTAssertEqual(normalDict["?"], 1)
     }
 }

@@ -7,17 +7,16 @@
 //
 
 @testable import AmazonChimeSDK
-import Mockingbird
 import XCTest
 
 class DefaultEventBufferTests: XCTestCase {
     private var eventSqliteBuffer: DefaultEventBuffer!
-    private var eventDao: EventDaoMock!
-    private var dirtyEventDao: DirtyEventDaoMock!
-    private var converter: IngestionEventConverterMock!
+    private var eventDao: EventDaoSpy!
+    private var dirtyEventDao: DirtyEventDaoSpy!
+    private var converter: IngestionEventConverterSpy!
     private var ingestionConfiguration: IngestionConfiguration!
-    private var eventSender: EventSenderMock!
-    private var logger: LoggerMock!
+    private var eventSender: EventSenderSpy!
+    private var logger: LoggerSpy!
 
     private let meetingEvent = SDKEvent(eventName: EventName.meetingEnded, eventAttributes: [EventAttributeName.poorConnectionCount: 0])
 
@@ -36,16 +35,16 @@ class DefaultEventBufferTests: XCTestCase {
                                                                        clientConiguration: MeetingEventClientConfiguration(eventClientJoinToken: "",
                                                                                                                            meetingId: "",
                                                                                                                            attendeeId: ""))
-        converter = mock(IngestionEventConverter.self).initialize()
-        eventDao = mock(EventDao.self)
-        dirtyEventDao = mock(DirtyEventDao.self)
-        eventSender = mock(EventSender.self)
-        logger = mock(Logger.self)
-        given(converter.toIngestionRecord(meetingEvents: any(), ingestionConfiguration: any())).willReturn(ingestionRecord)
-        given(converter.toIngestionRecord(dirtyMeetingEvents: any(), ingestionConfiguration: any())).willReturn(ingestionRecord)
-        given(dirtyEventDao.queryDirtyMeetingEventItems(size: any())).willReturn([DirtyMeetingEventItem(id: "aa", data: ingestionEvent, ttl: 11123)])
+        converter = IngestionEventConverterSpy()
+        converter.toIngestionRecordReturn = ingestionRecord
+        converter.toIngestionMeetingEventReturn = IngestionMeetingEvent(name: "dsfdsf", eventAttributes: [:])
 
-        given(converter.toIngestionMeetingEvent(event: any(), ingestionConfiguration: any())).willReturn(IngestionMeetingEvent(name: "dsfdsf", eventAttributes: [:]))
+        eventDao = EventDaoSpy()
+        dirtyEventDao = DirtyEventDaoSpy()
+        dirtyEventDao.queryDirtyMeetingEventItemsReturn = [DirtyMeetingEventItem(id: "aa", data: ingestionEvent, ttl: 11123)]
+        eventSender = EventSenderSpy()
+        logger = LoggerSpy()
+
         eventSqliteBuffer = DefaultEventBuffer(ingestionConfiguration: ingestionConfiguration,
                                               eventDao: eventDao,
                                               dirtyEventDao: dirtyEventDao,
@@ -55,21 +54,20 @@ class DefaultEventBufferTests: XCTestCase {
     }
 
     func testAddShouldInvokeInsertMeetingEvent() {
-        given(eventDao.insertMeetingEvent(event: any())).willReturn(true)
+        eventDao.insertMeetingEventReturn = true
 
         eventSqliteBuffer.add(item: meetingEvent)
 
-        verify(eventDao.insertMeetingEvent(event: any())).wasCalled(1)
+        verify(eventDao.insertMeetingEventCalls)
     }
 
     func testProcessShouldInvokeInsertMeetingEvent() {
-        given(eventDao.queryMeetingEventItems(size: any())).willReturn([meetingEventItem])
-        given(eventSender.sendEvents(ingestionRecord: any(), completionHandler: any())).willReturn()
+        eventDao.queryMeetingEventItemsReturn = [meetingEventItem]
 
         eventSqliteBuffer.process()
 
-        verify(eventDao.queryMeetingEventItems(size: any())).wasCalled(1)
-        verify(eventSender.sendEvents(ingestionRecord: any(), completionHandler: any())).wasCalled(2)
-        verify(converter.toIngestionRecord(meetingEvents: any(), ingestionConfiguration: any())).wasCalled(1)
+        verify(eventDao.queryMeetingEventItemsCalls)
+        verify(eventSender.sendEventsCalls, times(2))
+        verify(converter.toIngestionRecordFromMeetingEventsCalls)
     }
 }

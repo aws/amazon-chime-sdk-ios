@@ -7,12 +7,11 @@
 //
 
 @testable import AmazonChimeSDK
-import Mockingbird
 import XCTest
 
 class SQLiteDatabaseManagerTests: XCTestCase {
     private var sqliteDatabaseManager: SQLiteDatabaseManager!
-    private var sqliteClient: DatabaseClientMock!
+    private var sqliteClient: DatabaseClientSpy!
     private let contentValue = [
         "id": "hello",
         "data": "world"
@@ -20,29 +19,29 @@ class SQLiteDatabaseManagerTests: XCTestCase {
     private let tableName = "test"
 
     override func setUp() {
-        sqliteClient = mock(DatabaseClient.self)
-        given(sqliteClient.query(statement: any(), params: any())).willReturn([])
-        given(sqliteClient.write(statement: any(), params: any())).willReturn(true)
+        sqliteClient = DatabaseClientSpy()
+        sqliteClient.queryReturn = []
+        sqliteClient.writeReturn = true
         sqliteDatabaseManager = SQLiteDatabaseManager(sqliteClient: sqliteClient)
     }
 
     func testInsertShouldInvokeClientWrite() {
         sqliteDatabaseManager.insert(tableName: tableName, contentValue: contentValue)
-        verify(sqliteClient.write(statement: any(), params: any())).wasCalled(1)
+        verify(sqliteClient.writeCalls)
     }
 
     func testExecuteShouldInvokeClientWrite() {
         sqliteDatabaseManager.execute(statement: "example statement")
-        verify(sqliteClient.write(statement: any(), params: any())).wasCalled(1)
+        verify(sqliteClient.writeCalls)
     }
 
     func testInsertMultipleShouldInvokeClientWrite() {
         sqliteDatabaseManager.insertMultiples(tableName: tableName, contentValues: [contentValue])
-        verify(sqliteClient.write(statement: any(), params: any())).wasCalled(1)
+        verify(sqliteClient.writeCalls)
     }
 
     func testQueryShouldInvokeClientQuery() {
         sqliteDatabaseManager.query(tableName: tableName, size: 5)
-        verify(sqliteClient.query(statement: any(), params:  any())).wasCalled(1)
+        verify(sqliteClient.queryCalls)
     }
 }

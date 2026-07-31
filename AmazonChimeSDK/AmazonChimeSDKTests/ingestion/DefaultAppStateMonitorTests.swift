@@ -7,19 +7,18 @@
 //
 
 @testable import AmazonChimeSDK
-import Mockingbird
 import XCTest
 
 final class DefaultAppStateMonitorTests: XCTestCase {
     
-    private var loggerMock: LoggerMock!
-    private var delegateMock: AppStateMonitorDelegateMock!
+    private var loggerMock: LoggerSpy!
+    private var delegateMock: AppStateMonitorDelegateSpy!
     private var monitor: DefaultAppStateMonitor!
     
     override func setUp() {
         super.setUp()
-        loggerMock = mock(Logger.self)
-        delegateMock = mock(AppStateMonitorDelegate.self)
+        loggerMock = LoggerSpy()
+        delegateMock = AppStateMonitorDelegateSpy()
         monitor = DefaultAppStateMonitor(logger: loggerMock)
         monitor.delegate = delegateMock
     }
@@ -38,8 +37,8 @@ final class DefaultAppStateMonitorTests: XCTestCase {
         
         // Then
         XCTAssertEqual(monitor.appState, .foreground)
-        verify(delegateMock.appStateDidChange(monitor: monitor, newAppState: AppState.foreground)).wasCalled()
-        verify(loggerMock.info(msg: "Application entered state: Foreground")).wasCalled()
+        verifyEqual(delegateMock.appStateDidChangeCalls, to: .foreground)
+        verifyEqual(loggerMock.infoCalls, to: "Application entered state: Foreground")
     }
     
     func testAppEnteredBackground_ShouldUpdateStateAndNotifyDelegate() {
@@ -51,8 +50,8 @@ final class DefaultAppStateMonitorTests: XCTestCase {
         
         // Then
         XCTAssertEqual(monitor.appState, .background)
-        verify(delegateMock.appStateDidChange(monitor: monitor, newAppState: AppState.background)).wasCalled()
-        verify(loggerMock.info(msg: "Application entered state: Background")).wasCalled()
+        verifyEqual(delegateMock.appStateDidChangeCalls, to: .background)
+        verifyEqual(loggerMock.infoCalls, to: "Application entered state: Background")
     }
     
     func testAppBecameActive_ShouldUpdateStateAndNotifyDelegate() {
@@ -64,8 +63,8 @@ final class DefaultAppStateMonitorTests: XCTestCase {
         
         // Then
         XCTAssertEqual(monitor.appState, .active)
-        verify(delegateMock.appStateDidChange(monitor: monitor, newAppState: AppState.active)).wasCalled(2)
-        verify(loggerMock.info(msg: "Application entered state: Active")).wasCalled(2)
+        verifyEqual(delegateMock.appStateDidChangeCalls, times(2), to: .active)
+        verifyEqual(loggerMock.infoCalls, times(2), to: "Application entered state: Active")
     }
     
     func testAppBecameInactive_ShouldUpdateStateAndNotifyDelegate() {
@@ -77,8 +76,8 @@ final class DefaultAppStateMonitorTests: XCTestCase {
         
         // Then
         XCTAssertEqual(monitor.appState, .inactive)
-        verify(delegateMock.appStateDidChange(monitor: monitor, newAppState: AppState.inactive)).wasCalled()
-        verify(loggerMock.info(msg: "Application entered state: Inactive")).wasCalled()
+        verifyEqual(delegateMock.appStateDidChangeCalls, to: .inactive)
+        verifyEqual(loggerMock.infoCalls, to: "Application entered state: Inactive")
     }
     
     func testAppWillTerminate_ShouldUpdateStateAndNotifyDelegate() {
@@ -90,8 +89,8 @@ final class DefaultAppStateMonitorTests: XCTestCase {
         
         // Then
         XCTAssertEqual(monitor.appState, .terminated)
-        verify(delegateMock.appStateDidChange(monitor: monitor, newAppState: AppState.terminated)).wasCalled()
-        verify(loggerMock.info(msg: "Application entered state: Terminated")).wasCalled()
+        verifyEqual(delegateMock.appStateDidChangeCalls, to: .terminated)
+        verifyEqual(loggerMock.infoCalls, to: "Application entered state: Terminated")
     }
     
     func testDidReceiveMemoryLowWarning_ShouldNotifyDelegate() {
@@ -101,8 +100,8 @@ final class DefaultAppStateMonitorTests: XCTestCase {
         NotificationCenter.default.post(name: UIApplication.didReceiveMemoryWarningNotification, object: nil)
         
         // Then
-        verify(delegateMock.didReceiveMemoryWarning(monitor: monitor)).wasCalled()
-        verify(loggerMock.info(msg: "Application received memory low warning.")).wasCalled()
+        verify(delegateMock.didReceiveMemoryWarningCallCount)
+        verifyEqual(loggerMock.infoCalls, to: "Application received memory low warning.")
     }
     
     func testStart_ShouldRegisterNotifications() {
@@ -122,7 +121,7 @@ final class DefaultAppStateMonitorTests: XCTestCase {
         
         // Posting notification after stop should not change state
         NotificationCenter.default.post(name: UIApplication.willResignActiveNotification, object: nil)
-        verify(delegateMock.appStateDidChange(monitor: monitor, newAppState: AppState.inactive)).wasNeverCalled()
+        verifyEqual(delegateMock.appStateDidChangeCalls, never(), to: .inactive)
         XCTAssertNotEqual(monitor.appState, .inactive)
     }
     
@@ -261,7 +260,7 @@ final class DefaultAppStateMonitorTests: XCTestCase {
         wait(for: [expectation], timeout: 1.0)
         
         // Then - No network connection type change events should be posted
-        verify(delegateMock.networkConnectionTypeDidChange(monitor: any(), newNetworkConnectionType: any())).wasNeverCalled()
+        verify(delegateMock.networkConnectionTypeDidChangeCalls, never())
     }
     
     func testNetworkConnectionTypeMonitoring_WhenMonitorStopped_ShouldNotPostEvents() {
@@ -278,7 +277,7 @@ final class DefaultAppStateMonitorTests: XCTestCase {
         wait(for: [expectation], timeout: 1.0)
         
         // Then - No network connection type change events should be posted
-        verify(delegateMock.networkConnectionTypeDidChange(monitor: any(), newNetworkConnectionType: any())).wasNeverCalled()
+        verify(delegateMock.networkConnectionTypeDidChangeCalls, never())
     }
     
     func testNetworkConnectionTypeMonitoring_WhenDelegateIsWeak_ShouldHandleNilDelegate() {
