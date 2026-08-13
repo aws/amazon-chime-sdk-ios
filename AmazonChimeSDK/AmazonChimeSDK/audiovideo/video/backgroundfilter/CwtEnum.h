@@ -23,8 +23,19 @@ typedef struct {
 
   int model_range_min;
   int model_range_max;
-  int use_coreml_delegate;
 } CwtInputModelConfig;
+
+// This struct is passed by value across the framework boundary, and the SDK
+// and machine learning framework are versioned independently. Adding a field
+// changes its size and breaks mixed-version callers, so the layout is fixed.
+// New options must be exposed as separate methods instead.
+#ifdef __cplusplus
+static_assert(sizeof(CwtInputModelConfig) == 5 * sizeof(int),
+              "CwtInputModelConfig layout is part of a cross-framework ABI");
+#else
+_Static_assert(sizeof(CwtInputModelConfig) == 5 * sizeof(int),
+               "CwtInputModelConfig layout is part of a cross-framework ABI");
+#endif
 
 #ifdef __cplusplus
 }

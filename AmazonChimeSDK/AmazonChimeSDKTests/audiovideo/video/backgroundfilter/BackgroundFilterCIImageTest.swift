@@ -45,11 +45,19 @@ extension BackgroundFilterTests {
             return
         }
 
-        XCTAssertEqual(publicCGImage.width, lazyCGImage.width)
-        XCTAssertEqual(publicCGImage.height, lazyCGImage.height)
-        XCTAssertEqual(publicCGImage.bitsPerPixel, lazyCGImage.bitsPerPixel)
-        XCTAssertEqual(publicCGImage.bitsPerComponent, lazyCGImage.bitsPerComponent)
-        XCTAssertEqual(publicCGImage.bytesPerRow, lazyCGImage.bytesPerRow)
+        let requiredDataLength = lazyCGImage.bytesPerRow * lazyCGImage.height
+        guard publicCGImage.width == lazyCGImage.width && publicCGImage.height == lazyCGImage.height,
+              publicCGImage.bitsPerPixel == lazyCGImage.bitsPerPixel,
+              publicCGImage.bitsPerComponent == 8,
+              publicCGImage.bitsPerComponent == lazyCGImage.bitsPerComponent,
+              publicCGImage.bitsPerPixel >= 24,
+              publicCGImage.bytesPerRow == lazyCGImage.bytesPerRow,
+              publicCGImage.bytesPerRow >= publicCGImage.width * 3,
+              CFDataGetLength(publicData) >= requiredDataLength,
+              CFDataGetLength(lazyData) >= requiredDataLength else {
+            XCTFail("Foreground mask layouts are incompatible.")
+            return
+        }
 
         let matchPercentage = getCGImageMatchPercentage(
             expectedCgImage: publicCGImage,
@@ -110,11 +118,13 @@ extension BackgroundFilterTests {
         XCTAssertEqual(modelInput.height, 256)
     }
 
-    /// Verify an empty image cannot produce a segmentation input.
-    func testModelInputImageRejectsEmptyExtent() {
+    /// Verify an invalid image extent cannot produce a segmentation input.
+    func testModelInputImageRejectsInvalidExtent() {
         let processor = BackgroundFilterProcessor(logger: loggerMock)
+        let infiniteInput = CIImage(color: CIColor(red: 1, green: 1, blue: 1))
 
         XCTAssertNil(processor.createModelInputImage(inputFrameCI: CIImage.empty()))
+        XCTAssertNil(processor.createModelInputImage(inputFrameCI: infiniteInput))
     }
 
     /// Verify reduced-resolution blur restores the original full-resolution extent.
