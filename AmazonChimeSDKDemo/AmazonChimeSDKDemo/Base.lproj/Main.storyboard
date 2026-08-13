@@ -1340,6 +1340,17 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="FHD-sw-001">
+                                <rect key="frame" x="64.666666666666686" y="393.66666666666669" width="51" height="31"/>
+                                <accessibility key="accessibilityConfiguration" identifier="FHD Video Switch"/>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enable Higher Definition Video" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FHD-lb-001">
+                                <rect key="frame" x="127.66666666666666" y="398.66666666666669" width="238" height="20.666666666666657"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Enable Higher Definition Video Label"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AHd-Vp-rMm">
                                 <rect key="frame" x="189.66666666666666" y="821" width="51" height="41"/>
                                 <accessibility key="accessibilityConfiguration" identifier="Debug Settings Save"/>
@@ -1367,9 +1378,14 @@
                             <constraint firstItem="Dlf-w7-2eY" firstAttribute="centerX" secondItem="F9N-fz-NNe" secondAttribute="centerX" id="mK4-f3-iO1"/>
                             <constraint firstItem="ugh-Cp-DHh" firstAttribute="top" secondItem="Dlf-w7-2eY" secondAttribute="bottom" constant="56" id="oE6-em-IIS"/>
                             <constraint firstItem="AHd-Vp-rMm" firstAttribute="centerX" secondItem="F9N-fz-NNe" secondAttribute="centerX" id="qFv-Dz-fct"/>
+                            <constraint firstItem="FHD-sw-001" firstAttribute="top" secondItem="gob-qw-3MV" secondAttribute="bottom" constant="36" id="FHD-ct-001"/>
+                            <constraint firstItem="FHD-sw-001" firstAttribute="leading" secondItem="gob-qw-3MV" secondAttribute="leading" id="FHD-ct-002"/>
+                            <constraint firstItem="FHD-lb-001" firstAttribute="leading" secondItem="FHD-sw-001" secondAttribute="trailing" constant="12" id="FHD-ct-003"/>
+                            <constraint firstItem="FHD-lb-001" firstAttribute="centerY" secondItem="FHD-sw-001" secondAttribute="centerY" id="FHD-ct-004"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="fhdVideoSwitch" destination="FHD-sw-001" id="FHD-ol-001"/>
                         <outlet property="primaryExternalMeetingIdTextField" destination="gob-qw-3MV" id="8Ta-yH-R6u"/>
                         <outlet property="saveButton" destination="AHd-Vp-rMm" id="wj4-7o-d2P"/>
                         <outlet property="serverEndpointUrlTextField" destination="HWT-wf-Hd8" id="lio-80-fpD"/>

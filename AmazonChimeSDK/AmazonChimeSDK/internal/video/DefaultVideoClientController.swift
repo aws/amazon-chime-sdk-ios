@@ -440,9 +440,7 @@ extension DefaultVideoClientController: VideoClientController {
         if (config.maxBitRateKbps > 0) {
             logger.info(msg: "Setting max bit rate in kbps for local video")
             videoClient?.setMaxBitRateKbps(config.maxBitRateKbps)
-        }
-
-        if (self.configuration.meetingFeatures.videoMaxResolution == VideoResolution.videoResolutionFHD) {
+        } else if (self.configuration.meetingFeatures.videoMaxResolution == VideoResolution.videoResolutionFHD) {
             logger.info(msg: "Setting max bit rate in kbps for local video FHD (2500kbps)")
             videoClient?.setMaxBitRateKbps(VideoBitrateConstants().videoHighResolutionBitrateKbps)
         }

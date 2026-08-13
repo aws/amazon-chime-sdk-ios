@@ -67,7 +67,7 @@ class VideoModel: NSObject {
         super.init()
     }
 
-    var localVideoMaxBitRateKbps: UInt32 = 0
+    var localVideoMaxBitRateKbps: UInt32?
 
     var videoTileCount: Int {
         return remoteVideoCountInCurrentPage + 1
@@ -227,13 +227,23 @@ class VideoModel: NSObject {
                         customVideoSource.addVideoSink(sink: self.backgroundReplacementProcessor)
                         customVideoSource = self.backgroundReplacementProcessor
                     }
-                    // customers could set simulcast here
-                    let config = LocalVideoConfiguration(maxBitRateKbps: self.localVideoMaxBitRateKbps)
-                    self.audioVideoFacade.startLocalVideo(source: customVideoSource,
-                                                          config: config)
+                    // customers could set simulcast here. Only pass a LocalVideoConfiguration when a
+                    // max bitrate was actually set; otherwise call the no-config overload (keeps that
+                    // path covered and lets the SDK pick its defaults).
+                    if let maxBitRate = self.localVideoMaxBitRateKbps {
+                        let config = LocalVideoConfiguration(maxBitRateKbps: maxBitRate)
+                        self.audioVideoFacade.startLocalVideo(source: customVideoSource, config: config)
+                    } else {
+                        self.audioVideoFacade.startLocalVideo(source: customVideoSource)
+                    }
                 } else {
                     do {
-                        try self.audioVideoFacade.startLocalVideo()
+                        if let maxBitRate = self.localVideoMaxBitRateKbps {
+                            let config = LocalVideoConfiguration(maxBitRateKbps: maxBitRate)
+                            try self.audioVideoFacade.startLocalVideo(config: config)
+                        } else {
+                            try self.audioVideoFacade.startLocalVideo()
+                        }
                     } catch {
                         self.logger.error(msg: "Error starting local video: \(error.localizedDescription)")
                     }

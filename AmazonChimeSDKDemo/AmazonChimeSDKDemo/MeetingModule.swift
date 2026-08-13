@@ -22,6 +22,7 @@ class MeetingModule {
     // These need to be cached in case of primary meeting joins in the future
     var cachedOverriddenEndpoint = ""
     var cachedPrimaryExternalMeetingId = ""
+    var cachedEnableHigherDefinitionVideo = false
 
     static func shared() -> MeetingModule {
         if sharedInstance == nil {
@@ -42,6 +43,7 @@ class MeetingModule {
                         reconnectTimeoutMs: Int,
                         overriddenEndpoint: String,
                         primaryExternalMeetingId: String,
+                        enableHigherDefinitionVideo: Bool,
                         completion: @escaping (Bool) -> Void) {
         requestRecordPermission(audioDeviceCapabilities: audioDeviceCapabilities) { success in
             guard success else {
@@ -50,10 +52,12 @@ class MeetingModule {
             }
             self.cachedOverriddenEndpoint = overriddenEndpoint
             self.cachedPrimaryExternalMeetingId = primaryExternalMeetingId
+            self.cachedEnableHigherDefinitionVideo = enableHigherDefinitionVideo
             JoinRequestService.postJoinRequest(meetingId: meetingId,
                                                name: selfName,
                                                overriddenEndpoint: overriddenEndpoint,
-                                               primaryExternalMeetingId: primaryExternalMeetingId) { joinMeetingResponse in
+                                               primaryExternalMeetingId: primaryExternalMeetingId,
+                                               enableHigherDefinitionVideo: enableHigherDefinitionVideo) { joinMeetingResponse in
                 guard let joinMeetingResponse = joinMeetingResponse else {
                     DispatchQueue.main.async {
                         completion(false)

@@ -12,16 +12,22 @@ import Foundation
 class JoinRequestService: NSObject {
     static let logger = ConsoleLogger(name: "JoiningRequestService")
 
+    // The demo backend requires a max attendee count to be provided alongside v_rs/c_rs, otherwise it
+    // rejects the join request with "Max attendee count must be provided to enable FHD video or UHD content".
+    static let higherDefinitionVideoQueryParams = "&v_rs=FHD&c_rs=UHD&a_cnt=25"
+
     static func postJoinRequest(meetingId: String,
                                 name: String,
                                 overriddenEndpoint: String,
                                 primaryExternalMeetingId: String,
+                                enableHigherDefinitionVideo: Bool = false,
                                 completion: @escaping (JoinMeetingResponse?) -> Void) {
         var url = overriddenEndpoint.isEmpty ? AppConfiguration.url : overriddenEndpoint
         url = url.hasSuffix("/") ? url : "\(url)/"
         let primaryExternalMeetingIdQueryParam = primaryExternalMeetingId.isEmpty ? "" : "&primaryExternalMeetingId=\(primaryExternalMeetingId)"
+        let higherDefinitionVideoQueryParam = enableHigherDefinitionVideo ? higherDefinitionVideoQueryParams : ""
         let encodedURL = HttpUtils.encodeStrForURL(
-            str: "\(url)join?title=\(meetingId)&name=\(name)&region=\(AppConfiguration.region)\(primaryExternalMeetingIdQueryParam)"
+            str: "\(url)join?title=\(meetingId)&name=\(name)&region=\(AppConfiguration.region)\(primaryExternalMeetingIdQueryParam)\(higherDefinitionVideoQueryParam)"
         )
         HttpUtils.postRequest(url: encodedURL, jsonData: nil, logger: logger) { data, _ in
             guard let data = data else {

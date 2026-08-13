@@ -11,6 +11,7 @@ import UIKit
 class DebugSettingsViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var serverEndpointUrlTextField: UITextField!
     @IBOutlet var primaryExternalMeetingIdTextField: UITextField!
+    @IBOutlet var fhdVideoSwitch: UISwitch!
     @IBOutlet var saveButton: UIButton!
 
     var model: DebugSettingsModel?
@@ -22,6 +23,7 @@ class DebugSettingsViewController: UIViewController, UITextFieldDelegate {
         serverEndpointUrlTextField.delegate = self
         serverEndpointUrlTextField.text = model?.endpointUrl
         primaryExternalMeetingIdTextField.text = model?.primaryExternalMeetingId
+        fhdVideoSwitch.isOn = model?.enableHigherDefinitionVideo ?? false
     }
 
     @IBAction func saveButtonClicked(_: UIButton) {
@@ -30,6 +32,8 @@ class DebugSettingsViewController: UIViewController, UITextFieldDelegate {
 
         let primaryExternalMeetingId = primaryExternalMeetingIdTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         model?.primaryExternalMeetingId = primaryExternalMeetingId
+
+        model?.enableHigherDefinitionVideo = fhdVideoSwitch.isOn
 
         self.dismiss(animated: true, completion: nil)
     }
