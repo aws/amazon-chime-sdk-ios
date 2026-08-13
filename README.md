@@ -82,7 +82,7 @@ The Amazon Chime SDK for iOS is composed of modular frameworks. You can choose t
     $ xed .
    ```
    Note: Do *NOT* use *.xcodeproj to open project.
-4. If you are using background blur and replacement features, under `Build Settings` tab, under the `Linking` section, add `-framework AmazonChimeSDKMachineLearning` to `Other Linker Flags`.
+4. If you are using background blur and replacement features, under `Build Settings` tab, under the `Linking` section, add `-framework AmazonChimeSDKMachineLearning -framework CoreML` to `Other Linker Flags`.
 <p align="center">
 <img src="./media/cocoapods_machine_learning.png" alt="image" width="80%"/>
 </p>
@@ -127,7 +127,7 @@ You can manually integrate the SDK using prebuilt `.xcframework` binaries from t
 - Select the downloaded `.xcframework` files.
 
 For `AmazonChimeSDK` and media frameworks, select **Embed & Sign**.  
-For `AmazonChimeSDKMachineLearning`, select **Do Not Embed**.
+For `AmazonChimeSDKMachineLearning`, select **Do Not Embed**. When using this framework, also add the system `CoreML.framework` and select **Do Not Embed**.
 
 
 <p align="center">

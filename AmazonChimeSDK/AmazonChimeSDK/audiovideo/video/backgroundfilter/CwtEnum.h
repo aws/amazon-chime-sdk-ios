@@ -23,6 +23,7 @@ typedef struct {
 
   int model_range_min;
   int model_range_max;
+  int use_coreml_delegate;
 } CwtInputModelConfig;
 
 #ifdef __cplusplus

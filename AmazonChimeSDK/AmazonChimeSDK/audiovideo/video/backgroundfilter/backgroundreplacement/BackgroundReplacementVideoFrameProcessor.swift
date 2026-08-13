@@ -70,15 +70,10 @@ import UIKit
         // CIImage of the input pixel buffer.
         let inputFrame = CIImage(cvImageBuffer: pixelBuffer.pixelBuffer)
 
-        guard let inputCgFrame = context.createCGImage(inputFrame, from: inputFrame.extent) else {
-            logger.error(msg: "Error creating CGImage of input frame.")
-            return
-        }
-
         // Retrieve the foreground alpha mask of the frame.
-        guard let foregroundMask = backgroundFilterProcessor.createForegroundAlphaMask(inputFrameCG: inputCgFrame,
-                                                                                       inputFrameCI: inputFrame)
-        else {
+        guard let foregroundMask = backgroundFilterProcessor.createForegroundAlphaMaskWithLazyUpscale(
+            inputFrameCI: inputFrame
+        ) else {
             return
         }
 
@@ -88,10 +83,11 @@ import UIKit
         }
         // Create the final output image by blending the alpha mask on top of the input frame to produce
         // the foreground image which is placed on top of the background replacement image.
-        guard let outputImage: CIImage = backgroundFilterProcessor.blendWithWithAlphaMask(inputFrameCI: inputFrame,
-                                                                                          maskImage: foregroundMask,
-                                                                                          backgroundImage: backgroundImage)
-        else {
+        guard let outputImage: CIImage = backgroundFilterProcessor.blendWithWithAlphaMask(
+            inputFrameCI: inputFrame,
+            maskImage: foregroundMask,
+            backgroundImage: backgroundImage
+        ) else {
             logger.error(msg: "Error producing the final output image.")
             return
         }

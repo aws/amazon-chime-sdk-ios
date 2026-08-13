@@ -64,12 +64,13 @@
 
     // Initialize parameters to load model.
     NSString* path = [[NSURL fileURLWithPath:bundle] path];
-    CwtInputModelConfig modelConfig;
+    CwtInputModelConfig modelConfig = {0};
     modelConfig.in_height = (int)height;
     modelConfig.in_width = (int)width;
     modelConfig.in_channels = (int)channels;
     modelConfig.model_range_min = 0;
     modelConfig.model_range_max = 1;
+    modelConfig.use_coreml_delegate = 1;
 
     // Get the method signature and create an invocation of it.
     SEL selector = NSSelectorFromString(@"loadFile:config:");

@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### Changed
+* Enabled Core ML acceleration by default for background segmentation.
+* Improved background blur and replacement performance by processing model input and blur at reduced resolutions.
+
 ### Deprecated
 * Deprecated `LocalVideoConfiguration.simulcastEnabled`. Simulcast is enabled by default and this flag no longer has any effect.
 
