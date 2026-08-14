@@ -11,6 +11,9 @@
 #import "CwtEnum.h"
 #import "CwtTfLiteModel.h"
 
+_Static_assert(sizeof(CwtInputModelConfig) == 5 * sizeof(int),
+               "CwtInputModelConfig is a cross-framework ABI and must remain five integers");
+
 // TensorFlowSegmentationProcessor is a wrapper class around AmazonChimeSDKMachineLearning
 // frameworks's implementation of CwtTfLiteModel, which is a TensorFlow Lite
 // implementation of a segmentation processor. Note that users of this class must
@@ -53,6 +56,28 @@
     return self;
 }
 
+// Enables Core ML delegation when supported by the linked machine learning
+// framework. Older framework versions do not expose this selector and retain
+// their existing CPU inference behavior.
+- (void) enableCoreMLDelegateIfAvailable {
+    SEL selector = NSSelectorFromString(@"setCoreMLDelegateEnabled:");
+    if (![_model respondsToSelector:selector]) {
+        return;
+    }
+
+    NSMethodSignature* methodSignature = [_model methodSignatureForSelector:selector];
+    if (!methodSignature) {
+        return;
+    }
+
+    BOOL enabled = YES;
+    NSInvocation* invocation = [NSInvocation invocationWithMethodSignature:methodSignature];
+    [invocation setTarget:_model];
+    [invocation setSelector:selector];
+    [invocation setArgument:&enabled atIndex:2];
+    [invocation invoke];
+}
+
 // initialize instantiates the model for the segmentation processor.
 // Returns whether able to successfully initialize.
 - (BOOL) initialize:(NSInteger)height width:(NSInteger)width channels:(NSInteger)channels {
@@ -62,9 +87,11 @@
         return NO;
     }
 
+    [self enableCoreMLDelegateIfAvailable];
+
     // Initialize parameters to load model.
     NSString* path = [[NSURL fileURLWithPath:bundle] path];
-    CwtInputModelConfig modelConfig;
+    CwtInputModelConfig modelConfig = {0};
     modelConfig.in_height = (int)height;
     modelConfig.in_width = (int)width;
     modelConfig.in_channels = (int)channels;

@@ -27,6 +27,9 @@ public class BackgroundFilterProcessor {
     /// Used to track buffer pool height.
     private var bufferPoolHeight: Int = 0
 
+    /// Used to track the segmentation processor's initialized channel count.
+    private var segmentationProcessorChannels: Int = 0
+
     /// A segmentation processor used to predict foreground of an image.
     /// See `SegmentationProcessor` for more details.
     private let segmentationProcessor: SegmentationProcessor
@@ -76,77 +79,12 @@ public class BackgroundFilterProcessor {
     /// - Returns: Alpha mask CGImage of the foreground.
     public func createForegroundAlphaMask(inputFrameCG: CGImage,
                                           inputFrameCI: CIImage) -> CIImage? {
-        // Verify that the processor is available.
-        if !BackgroundFilterProcessor.isAvailable() {
+        guard let maskImage = createModelResolutionForegroundMask(inputFrameCG: inputFrameCG) else {
             return nil
         }
 
-        // Number of the input image color space channels.
-        let imageChannels = inputFrameCG.bitsPerPixel / inputFrameCG.bitsPerComponent
-
-        // Update the buffer pool dimensions if the new frame does not match the previous frame dimensions.
-        if bufferPool == nil || inputFrameCG.width != bufferPoolWidth || inputFrameCG.height != bufferPoolHeight {
-            logger.info(msg: "Updating buffer pool with new sizes: \(inputFrameCG.width) x \(inputFrameCG.height)")
-            updateBufferPool(newWidth: inputFrameCG.width, newHeight: inputFrameCG.height)
-            // Initialize the segmentationProcessor if it has not been initialized.
-            let initializeResult: Bool = segmentationProcessor.initialize(segmentationProcessorHeight,
-                                                                          width: segmentationProcessorWidth,
-                                                                          channels: imageChannels)
-            if !initializeResult {
-                logger.error(msg: "Unable to initialize segmentation processor.")
-                return nil
-            }
-        }
-
-        // Check if segmentation model has loaded.
-        if segmentationProcessor.getModelState() != CwtModelState.LOADED.rawValue {
-            logger.error(msg: "Segmentation processor failed to start. Unable to perform segmentation.")
-            return nil
-        }
-
-        // Downscale the image.
-        let downSize = CGSize(width: segmentationProcessorWidth, height: segmentationProcessorHeight)
-        guard let downscaledImageCG: CGImage = resizeImage(image: inputFrameCG, newSize: downSize)
-        else {
-            logger.error(msg: "Error downscaling input frame")
-            return nil
-        }
-
-        // Convert the input CGImage to a UInt8 byte array.
-        guard var byteArray: [UInt8] = ImageConversionUtils.cgImageToByteArray(cgImage: downscaledImageCG) else {
-            logger.error(msg: "Error converting CGImage to byte array when creating the foreground mask.")
-            return nil
-        }
-
-        // Copy the input buffer to the TensorFlow buffer which will be used during predict.
-        let inputBuffer: UnsafeMutablePointer<UInt8> = segmentationProcessor.getInputBuffer()
-        inputBuffer.initialize(from: &byteArray, count: byteArray.count)
-
-        // Predict the foreground mask.
-        let predictResult: Bool = segmentationProcessor.predict()
-        if !predictResult {
-            logger.error(msg: "Error predicting the foreground mask.")
-            return nil
-        }
-
-        // Retrieve the foreground mask.
-        let maskOutputBuffer = segmentationProcessor.getOutputBuffer()
-
-        guard let maskImage: CGImage = ImageConversionUtils.byteArrayToCGImage(
-            raw: maskOutputBuffer,
-            frameWidth: segmentationProcessorWidth,
-            frameHeight: segmentationProcessorHeight,
-            bytesPerPixel: imageChannels,
-            bitsPerComponent: inputFrameCG.bitsPerComponent
-        ) else {
-            logger.error(msg: "Error creating CGImage of the foreground mask.")
-            return nil
-        }
-
-        // Upscale the image back to it size.
         let originalSize = CGSize(width: inputFrameCG.width, height: inputFrameCG.height)
-        guard let upscaledMaskImage = resizeImage(image: maskImage, newSize: originalSize)
-        else {
+        guard let upscaledMaskImage = resizeImage(image: maskImage, newSize: originalSize) else {
             logger.error(msg: "Error upscaling segmentation mask")
             return nil
         }
@@ -271,5 +209,167 @@ public class BackgroundFilterProcessor {
         context.draw(image, in: rect)
 
         return context.makeImage()
+    }
+}
+
+extension BackgroundFilterProcessor {
+    /// Creates a model-resolution foreground mask and lazily maps it to the input extent for video effects.
+    func createForegroundAlphaMaskWithLazyUpscale(inputFrameCI: CIImage) -> CIImage? {
+        guard BackgroundFilterProcessor.isAvailable(),
+              let modelInputImage = createModelInputImage(inputFrameCI: inputFrameCI),
+              let maskImage = createModelResolutionForegroundMask(
+                modelInputCG: modelInputImage,
+                originalSize: inputFrameCI.extent.size
+              ) else {
+            return nil
+        }
+
+        let lowResolutionMask = CIImage(cgImage: maskImage)
+        let maskExtent = lowResolutionMask.extent
+        let originalExtent = inputFrameCI.extent
+        guard maskExtent.width > 0, maskExtent.height > 0 else {
+            logger.error(msg: "Unable to upscale a segmentation mask with an empty extent")
+            return nil
+        }
+
+        let normalizedMask = lowResolutionMask.transformed(
+            by: CGAffineTransform(translationX: -maskExtent.origin.x, y: -maskExtent.origin.y)
+        )
+        let upscaleTransform = CGAffineTransform(
+            scaleX: originalExtent.width / maskExtent.width,
+            y: originalExtent.height / maskExtent.height
+        )
+        let originTransform = CGAffineTransform(
+            translationX: originalExtent.origin.x,
+            y: originalExtent.origin.y
+        )
+
+        return normalizedMask
+            .transformed(by: upscaleTransform)
+            .transformed(by: originTransform)
+            .cropped(to: originalExtent)
+    }
+
+    /// Materializes only the model-resolution input rather than a CPU-readable full-resolution frame.
+    func createModelInputImage(inputFrameCI: CIImage) -> CGImage? {
+        let inputExtent = inputFrameCI.extent
+        guard inputExtent.origin.x.isFinite,
+              inputExtent.origin.y.isFinite,
+              inputExtent.width.isFinite,
+              inputExtent.height.isFinite,
+              inputExtent.width > 0,
+              inputExtent.height > 0 else {
+            logger.error(msg: "Unable to create segmentation input from an invalid extent")
+            return nil
+        }
+
+        let normalizedInput = inputFrameCI.transformed(
+            by: CGAffineTransform(translationX: -inputExtent.origin.x, y: -inputExtent.origin.y)
+        )
+        let modelExtent = CGRect(
+            x: 0,
+            y: 0,
+            width: segmentationProcessorWidth,
+            height: segmentationProcessorHeight
+        )
+        let modelScale = CGAffineTransform(
+            scaleX: modelExtent.width / inputExtent.width,
+            y: modelExtent.height / inputExtent.height
+        )
+        let modelInput = normalizedInput
+            .transformed(by: modelScale, highQualityDownsample: true)
+            .cropped(to: modelExtent)
+
+        guard let modelInputCG = context.createCGImage(modelInput, from: modelExtent) else {
+            logger.error(msg: "Error creating model-resolution CGImage of input frame.")
+            return nil
+        }
+        return modelInputCG
+    }
+
+    private func createModelResolutionForegroundMask(inputFrameCG: CGImage) -> CGImage? {
+        guard BackgroundFilterProcessor.isAvailable() else {
+            return nil
+        }
+
+        let originalSize = CGSize(width: inputFrameCG.width, height: inputFrameCG.height)
+        let downSize = CGSize(width: segmentationProcessorWidth, height: segmentationProcessorHeight)
+        guard let downscaledImageCG = resizeImage(image: inputFrameCG, newSize: downSize) else {
+            logger.error(msg: "Error downscaling input frame")
+            return nil
+        }
+
+        return createModelResolutionForegroundMask(
+            modelInputCG: downscaledImageCG,
+            originalSize: originalSize
+        )
+    }
+
+    private func createModelResolutionForegroundMask(modelInputCG: CGImage,
+                                                     originalSize: CGSize) -> CGImage? {
+        let imageChannels = modelInputCG.bitsPerPixel / modelInputCG.bitsPerComponent
+        guard prepareSegmentationProcessor(originalSize: originalSize, imageChannels: imageChannels) else {
+            return nil
+        }
+        guard var byteArray = ImageConversionUtils.cgImageToByteArray(cgImage: modelInputCG) else {
+            logger.error(msg: "Error converting CGImage to byte array when creating the foreground mask.")
+            return nil
+        }
+
+        let inputBuffer = segmentationProcessor.getInputBuffer()
+        inputBuffer.initialize(from: &byteArray, count: byteArray.count)
+
+        guard segmentationProcessor.predict() else {
+            logger.error(msg: "Error predicting the foreground mask.")
+            return nil
+        }
+
+        let maskOutputBuffer = segmentationProcessor.getOutputBuffer()
+        guard let maskImage = ImageConversionUtils.byteArrayToCGImage(
+            raw: maskOutputBuffer,
+            frameWidth: segmentationProcessorWidth,
+            frameHeight: segmentationProcessorHeight,
+            bytesPerPixel: imageChannels,
+            bitsPerComponent: modelInputCG.bitsPerComponent
+        ) else {
+            logger.error(msg: "Error creating CGImage of the foreground mask.")
+            return nil
+        }
+
+        return maskImage
+    }
+
+    private func prepareSegmentationProcessor(originalSize: CGSize,
+                                              imageChannels: Int) -> Bool {
+        let originalWidth = Int(originalSize.width)
+        let originalHeight = Int(originalSize.height)
+
+        let shouldUpdateBufferPool =
+            bufferPool == nil ||
+            originalWidth != bufferPoolWidth ||
+            originalHeight != bufferPoolHeight
+        if shouldUpdateBufferPool {
+            logger.info(msg: "Updating buffer pool with new sizes: \(originalWidth) x \(originalHeight)")
+            updateBufferPool(newWidth: originalWidth, newHeight: originalHeight)
+        }
+
+        if shouldUpdateBufferPool || imageChannels != segmentationProcessorChannels {
+            let initializeResult = segmentationProcessor.initialize(
+                segmentationProcessorHeight,
+                width: segmentationProcessorWidth,
+                channels: imageChannels
+            )
+            if !initializeResult {
+                logger.error(msg: "Unable to initialize segmentation processor.")
+                return false
+            }
+            segmentationProcessorChannels = imageChannels
+        }
+
+        if segmentationProcessor.getModelState() != CwtModelState.LOADED.rawValue {
+            logger.error(msg: "Segmentation processor failed to start. Unable to perform segmentation.")
+            return false
+        }
+        return true
     }
 }

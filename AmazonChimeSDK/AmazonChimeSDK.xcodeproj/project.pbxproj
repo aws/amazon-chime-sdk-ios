@@ -84,12 +84,14 @@
 		02532D9D5F28695E3594342D /* TranscriptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67EA03926F7F3040084C9B4 /* TranscriptTests.swift */; };
 		054FAA64672A4F0CBBBC62DC /* VolumeLevelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE76F2624203AAA009C41FD /* VolumeLevelTests.swift */; };
 		099D83F22D1AEABF5F5C2F48 /* BackgroundFilterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56817CCEE805EE0A58C228BC /* BackgroundFilterTest.swift */; };
+		A17B3C4D5E6F708192A3B4C9 /* BackgroundFilterCIImageTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A17B3C4D5E6F708192A3B4CA /* BackgroundFilterCIImageTest.swift */; };
 		0CCD55F158FDB031D8CC252B /* LogLevelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE76F2E24204387009C41FD /* LogLevelTests.swift */; };
 		0DC04F772ACCEBFD003C4848 /* VideoBitrateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC04F762ACCEBFD003C4848 /* VideoBitrateConstants.swift */; };
 		0EDAC141984AD1422B5A7742 /* VideoCaptureFormatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EDDAAB253F46FF0028264A /* VideoCaptureFormatTests.swift */; };
 		0FBD1CD16B0E2CE3DCE6BD47 /* MeetingSessionURLsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE1323223EA972C00BF5997 /* MeetingSessionURLsTests.swift */; };
 		143F9407FBC0DAA6C81F9BE9 /* TranscriptItemTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67EA02926F7F0EB0084C9B4 /* TranscriptItemTypeTests.swift */; };
 		14C7AD951264C11B832FE085 /* AmazonChimeSDKMachineLearning.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF8C8C502825D04000450757 /* AmazonChimeSDKMachineLearning.xcframework */; };
+		A17B3C4D5E6F708192A3B4C7 /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A17B3C4D5E6F708192A3B4C8 /* CoreML.framework */; };
 		15428FE7F8B5FE2F31DE4605 /* StringExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D8D9112B915B0D00ECE0EE /* StringExtensionTests.swift */; };
 		1C0B90E0DE68151A73CCDDD2 /* TranscriptAlternativeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67EA04126F838470084C9B4 /* TranscriptAlternativeTests.swift */; };
 		2117AC979276367A904BBA3F /* MediaDeviceTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE76F3524204A03009C41FD /* MediaDeviceTypeTests.swift */; };
@@ -441,6 +443,7 @@
 		5403538727D0C9E9007BABD7 /* TranscriptEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptEntity.swift; sourceTree = "<group>"; };
 		5403538927D0C9F9007BABD7 /* TranscriptLanguageWithScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptLanguageWithScore.swift; sourceTree = "<group>"; };
 		56817CCEE805EE0A58C228BC /* BackgroundFilterTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BackgroundFilterTest.swift; sourceTree = "<group>"; };
+		A17B3C4D5E6F708192A3B4CA /* BackgroundFilterCIImageTest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BackgroundFilterCIImageTest.swift; sourceTree = "<group>"; };
 		5A0E7316242EA072006636AB /* MediaDeviceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDeviceTests.swift; sourceTree = "<group>"; };
 		5A0E7318242EA283006636AB /* MeetingSessionStatusCodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingSessionStatusCodeTests.swift; sourceTree = "<group>"; };
 		5A0E731A242EA39E006636AB /* VideoTileStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTileStateTests.swift; sourceTree = "<group>"; };
@@ -633,6 +636,7 @@
 		CFA2A1532807DAAA008FDFF5 /* BackgroundFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundFilter.swift; sourceTree = "<group>"; };
 		CFA2A16228085D23008FDFF5 /* BackgroundBlurStrength.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundBlurStrength.swift; sourceTree = "<group>"; };
 		CFD14AAB281B4A8300C8D8CA /* selfie_segmentation_landscape.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = selfie_segmentation_landscape.tflite; sourceTree = "<group>"; };
+		A17B3C4D5E6F708192A3B4C8 /* CoreML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreML.framework; path = System/Library/Frameworks/CoreML.framework; sourceTree = SDKROOT; };
 		CFF1553B2819C123009E257B /* background-ml-test-image.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "background-ml-test-image.jpeg"; sourceTree = "<group>"; };
 		D4257D94D047DEBC51814F82 /* AmazonChimeSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AmazonChimeSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D80214E52E9F05EF00D83E82 /* NetworkConnectionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectionType.swift; sourceTree = "<group>"; };
@@ -694,6 +698,7 @@
 				5ADEAFA424293B5500801EA5 /* AmazonChimeSDKMedia.framework in Frameworks */,
 				D95826E150313BCDF3DB8122 /* AmazonChimeSDK.framework in Frameworks */,
 				14C7AD951264C11B832FE085 /* AmazonChimeSDKMachineLearning.xcframework in Frameworks */,
+				A17B3C4D5E6F708192A3B4C7 /* CoreML.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -962,6 +967,7 @@
 			children = (
 				7C429FFA29A442F800B25E50 /* AmazonChimeSDKMedia.xcframework */,
 				CF8C8C502825D04000450757 /* AmazonChimeSDKMachineLearning.xcframework */,
+				A17B3C4D5E6F708192A3B4C8 /* CoreML.framework */,
 				5ADEAFA024293B2700801EA5 /* AmazonChimeSDKMedia.framework */,
 				5AE1323823EB2C1E00BF5997 /* AVFoundation.framework */,
 				D579E021C5B59B5FD58C8FB2 /* iOS */,
@@ -1540,6 +1546,7 @@
 			children = (
 				CFA2A15228075065008FDFF5 /* resources */,
 				56817CCEE805EE0A58C228BC /* BackgroundFilterTest.swift */,
+				A17B3C4D5E6F708192A3B4CA /* BackgroundFilterCIImageTest.swift */,
 			);
 			path = backgroundfilter;
 			sourceTree = "<group>";
@@ -1938,6 +1945,7 @@
 				ED325F679C48AB95C2705E82 /* DefaultContentShareControllerTests.swift in Sources */,
 				DEC0F6446D1A17527BF466F3 /* DefaultVideoTileTests.swift in Sources */,
 				099D83F22D1AEABF5F5C2F48 /* BackgroundFilterTest.swift in Sources */,
+				A17B3C4D5E6F708192A3B4C9 /* BackgroundFilterCIImageTest.swift in Sources */,
 				F62E448AF19C03EC61BC1F31 /* DefautCameraCaptureSourceTests.swift in Sources */,
 				DDB6949E8A4180F8B3BC8F08 /* CommonTestCase.swift in Sources */,
 				41FB19257D45AA322ABD4980 /* DefaultDeviceControllerTests.swift in Sources */,

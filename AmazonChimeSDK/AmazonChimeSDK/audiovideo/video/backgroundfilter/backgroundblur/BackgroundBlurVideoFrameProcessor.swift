@@ -24,6 +24,9 @@ import UIKit
     /// Blur strength value to adjust blur intensity.
     private var blurStrength: Int
 
+    /// Blur work is performed at one-third width and height to reduce the working pixel count by nine times.
+    private let blurScaleFactor: CGFloat = 3
+
     /// Background filter processor.
     private let backgroundFilterProcessor: BackgroundFilterProcessor
 
@@ -64,27 +67,23 @@ import UIKit
         // CIImage of the input pixel buffer.
         let inputFrame = CIImage(cvImageBuffer: pixelBuffer.pixelBuffer)
 
-        guard let inputCgFrame = context.createCGImage(inputFrame, from: inputFrame.extent) else {
-            logger.error(msg: "Error creating CGImage of input frame.")
-            return
-        }
-
         // Retrieve the foreground alpha mask of the frame.
-        guard let foregroundMask = backgroundFilterProcessor.createForegroundAlphaMask(inputFrameCG: inputCgFrame,
-                                                                                       inputFrameCI: inputFrame)
-        else {
+        guard let foregroundMask = backgroundFilterProcessor.createForegroundAlphaMaskWithLazyUpscale(
+            inputFrameCI: inputFrame
+        ) else {
             return
         }
 
         // Blur the input frame with Gaussian Blur which will be used as the background of the final output image.
-        let backgroundBlurredImage: CIImage = inputFrame.applyingGaussianBlur(sigma: Double(blurStrength))
+        let backgroundBlurredImage = createBackgroundBlurredImage(inputFrame: inputFrame)
 
         // Create the final output image by blending the alpha mask on top of the input frame to produce
         // the foreground image which is placed on top of the blurred background image.
-        guard let outputImage: CIImage = backgroundFilterProcessor.blendWithWithAlphaMask(inputFrameCI: inputFrame,
-                                                                                          maskImage: foregroundMask,
-                                                                                          backgroundImage: backgroundBlurredImage)
-        else {
+        guard let outputImage: CIImage = backgroundFilterProcessor.blendWithWithAlphaMask(
+            inputFrameCI: inputFrame,
+            maskImage: foregroundMask,
+            backgroundImage: backgroundBlurredImage
+        ) else {
             logger.error(msg: "Error producing the final output image.")
             return
         }
@@ -107,6 +106,23 @@ import UIKit
         processedFrame = VideoFrame(timestampNs: frame.timestampNs,
                                     rotation: frame.rotation,
                                     buffer: VideoFramePixelBuffer(pixelBuffer: validMergedImageBuffer))
+    }
+
+    /// Create a blurred background using one-third of the input width and height.
+    ///
+    /// Gaussian sigma is scaled with the working image so the blur radius remains
+    /// approximately unchanged after the image is restored to full resolution.
+    @nonobjc func createBackgroundBlurredImage(inputFrame: CIImage) -> CIImage {
+        let downscale = 1 / blurScaleFactor
+        let downscaledImage = inputFrame.transformed(
+            by: CGAffineTransform(scaleX: downscale, y: downscale),
+            highQualityDownsample: true
+        )
+        let scaledBlurStrength = Double(blurStrength) / Double(blurScaleFactor)
+        let blurredImage = downscaledImage.applyingGaussianBlur(sigma: scaledBlurStrength)
+        let upscaleTransform = CGAffineTransform(scaleX: blurScaleFactor, y: blurScaleFactor)
+
+        return blurredImage.transformed(by: upscaleTransform).cropped(to: inputFrame.extent)
     }
 
     /// Allow builders to change the blur intensity value after initialization.

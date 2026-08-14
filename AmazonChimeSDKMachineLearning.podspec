@@ -9,6 +9,7 @@ Pod::Spec.new do |s|
   s.source           = { :http => "https://amazon-chime-sdk-ios.s3.amazonaws.com/machine-learning/0.3.2/AmazonChimeSDKMachineLearning-0.3.2.tar.gz" }
   s.ios.deployment_target = '12.0'
   s.vendored_frameworks = "AmazonChimeSDKMachineLearning.xcframework"
+  s.frameworks       = 'CoreML'
   s.swift_version    = '5.0'
   s.library          = 'c++'
 end
