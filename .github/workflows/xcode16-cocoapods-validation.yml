@@ -12,16 +12,23 @@ permissions:
 jobs:
   build:
     name: Xcode ${{ matrix.xcode }} - ${{ matrix.flavor }}
-    runs-on: macos-15
+    runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
       matrix:
-        xcode:
-          - "16.1"
-          - "16.4"
-        flavor:
-          - standard
-          - no-video-codecs
+        include:
+          - xcode: "16.1"
+            runner: macos-14
+            flavor: standard
+          - xcode: "16.1"
+            runner: macos-14
+            flavor: no-video-codecs
+          - xcode: "16.4"
+            runner: macos-15
+            flavor: standard
+          - xcode: "16.4"
+            runner: macos-15
+            flavor: no-video-codecs
 
     steps:
       - name: Check out validation branch
