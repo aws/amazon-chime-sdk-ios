@@ -1,4 +1,4 @@
-## [Unreleased]
+## [0.27.4] - 2026-08-24
 
 ### Changed
 * Enabled Core ML acceleration by default for background segmentation.
