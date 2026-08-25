@@ -1789,6 +1789,7 @@
 				MARKETING_VERSION = 0.6.0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
+					"$(inherited)",
 					"-lc++",
 					"-ObjC",
 					"-framework",
@@ -1836,6 +1837,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
+					"$(inherited)",
 					"-lc++",
 					"-ObjC",
 					"-framework",
