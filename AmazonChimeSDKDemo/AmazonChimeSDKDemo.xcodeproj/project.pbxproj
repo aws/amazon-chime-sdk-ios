@@ -122,6 +122,7 @@
 		C61D437A270512A100150F03 /* CaptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61D4379270512A100150F03 /* CaptionCell.swift */; };
 		CFD14AAF281B4DAA00C8D8CA /* AmazonChimeSDKMachineLearning.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFD14AAE281B4DAA00C8D8CA /* AmazonChimeSDKMachineLearning.xcframework */; };
 		A27B3C4D5E6F708192A3B4C1 /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A27B3C4D5E6F708192A3B4C2 /* CoreML.framework */; };
+		A27B3C4D5E6F708192A3B4C3 /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A27B3C4D5E6F708192A3B4C2 /* CoreML.framework */; };
 		D89046E629834C8B00373566 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89046E529834C8B00373566 /* Toast.swift */; };
 		D89046E829834D5400373566 /* ToastPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89046E729834D5400373566 /* ToastPosition.swift */; };
 		D89046EB2983BC9800373566 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89046EA2983BC9800373566 /* PaddingLabel.swift */; };
@@ -438,6 +439,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CC2069452049F35E3B82174 /* Pods_AmazonChimeSDKDemoPods.framework in Frameworks */,
+				A27B3C4D5E6F708192A3B4C3 /* CoreML.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
