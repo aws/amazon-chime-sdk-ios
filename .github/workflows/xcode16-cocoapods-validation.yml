@@ -1,0 +1,147 @@
+name: Xcode 16 CocoaPods Validation
+
+on:
+  pull_request:
+    branches:
+      - fix/cocoapods-coreml-linking
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Xcode ${{ matrix.xcode }} - ${{ matrix.flavor }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - xcode: "16.1"
+            runner: macos-14
+            flavor: standard
+          - xcode: "16.1"
+            runner: macos-14
+            flavor: no-video-codecs
+          - xcode: "16.4"
+            runner: macos-15
+            flavor: standard
+          - xcode: "16.4"
+            runner: macos-15
+            flavor: no-video-codecs
+
+    steps:
+      - name: Check out validation branch
+        uses: actions/checkout@v4
+
+      - name: Select Xcode ${{ matrix.xcode }}
+        shell: bash
+        env:
+          XCODE_VERSION: ${{ matrix.xcode }}
+        run: |
+          set -euo pipefail
+          XCODE_APP="/Applications/Xcode_${XCODE_VERSION}.app"
+          if [[ ! -d "$XCODE_APP" ]]; then
+            echo "Xcode $XCODE_VERSION is unavailable. Installed versions:"
+            find /Applications -maxdepth 1 -type d -name 'Xcode*.app' -print
+            exit 1
+          fi
+          sudo xcode-select --switch "$XCODE_APP/Contents/Developer"
+          xcodebuild -version | tee "$RUNNER_TEMP/xcode-version.txt"
+          grep -q "^Xcode ${XCODE_VERSION}$" "$RUNNER_TEMP/xcode-version.txt"
+
+      - name: Install CocoaPods 1.15.2
+        shell: bash
+        run: |
+          set -euo pipefail
+          gem install --user-install cocoapods -v 1.15.2 --no-document
+          echo "$(ruby -e 'print Gem.user_dir')/bin" >> "$GITHUB_PATH"
+
+      - name: Prepare released podspecs
+        shell: bash
+        env:
+          FLAVOR: ${{ matrix.flavor }}
+          XCODE_VERSION: ${{ matrix.xcode }}
+        run: |
+          set -euo pipefail
+          if [[ "$FLAVOR" == "standard" ]]; then
+            SDK_POD=AmazonChimeSDK
+            SDK_PODSPEC=AmazonChimeSDK.podspec
+            MEDIA_POD=AmazonChimeSDKMedia
+            MEDIA_PODSPEC=AmazonChimeSDKMedia.podspec
+          else
+            SDK_POD=AmazonChimeSDKNoVideoCodecs
+            SDK_PODSPEC=AmazonChimeSDKNoVideoCodecs.podspec
+            MEDIA_POD=AmazonChimeSDKMediaNoVideoCodecs
+            MEDIA_PODSPEC=AmazonChimeSDKMediaNoVideoCodecs.podspec
+          fi
+
+          cat > AmazonChimeSDKDemo/Podfile <<EOF
+          platform :ios, '12.0'
+
+          target 'AmazonChimeSDKDemoPods' do
+            use_frameworks!
+            pod '$SDK_POD', :podspec => '../$SDK_PODSPEC'
+            pod '$MEDIA_POD', :podspec => '../$MEDIA_PODSPEC'
+            pod 'AmazonChimeSDKMachineLearning', :podspec => '../AmazonChimeSDKMachineLearning.podspec'
+          end
+
+          target 'AmazonChimeSDKDemoBroadcastPods' do
+            use_frameworks!
+            pod '$SDK_POD', :podspec => '../$SDK_PODSPEC'
+            pod '$MEDIA_POD', :podspec => '../$MEDIA_PODSPEC'
+          end
+          EOF
+
+          # Current runner SwiftLint defaults classify two existing demo findings as errors.
+          # Keep this validation focused on the CocoaPods compile and link path.
+          cat > AmazonChimeSDKDemo/.swiftlint.yml <<'EOF'
+          excluded:
+            - Pods
+          function_parameter_count:
+            warning: 20
+            error: 100
+          type_body_length:
+            warning: 1000
+            error: 2000
+          EOF
+
+          cd AmazonChimeSDKDemo
+          pod _1.15.2_ install
+
+      - name: Build Release device demo
+        shell: bash
+        env:
+          FLAVOR: ${{ matrix.flavor }}
+          XCODE_VERSION: ${{ matrix.xcode }}
+        run: |
+          set -euo pipefail
+          LOG="$RUNNER_TEMP/xcode16-${FLAVOR}.log"
+          OUTPUT="$RUNNER_TEMP/xcode16-${FLAVOR}-output"
+          DERIVED_DATA="$RUNNER_TEMP/xcode16-${FLAVOR}-derived-data"
+
+          if ! xcodebuild \
+            -workspace AmazonChimeSDKDemo/AmazonChimeSDKDemo.xcworkspace \
+            -scheme AmazonChimeSDKDemoPods \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath "$DERIVED_DATA" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            SYMROOT="$OUTPUT" \
+            build > "$LOG" 2>&1; then
+            tail -200 "$LOG"
+            exit 1
+          fi
+
+          grep -q '\*\* BUILD SUCCEEDED \*\*' "$LOG"
+          grep -q -- '-framework CoreML' "$LOG"
+          if grep -q '_OBJC_CLASS_\$_ML' "$LOG"; then
+            echo 'Unexpected unresolved Core ML symbol found'
+            exit 1
+          fi
+          test -f "$OUTPUT/Release-iphoneos/AmazonChimeSDKDemoPods.app/AmazonChimeSDKDemoPods"
+          test -f "$OUTPUT/Release-iphoneos/AmazonChimeSDKDemoBroadcastPods.appex/AmazonChimeSDKDemoBroadcastPods"
+
+          echo "Xcode $XCODE_VERSION $FLAVOR CocoaPods build succeeded"
+          grep -- '-framework CoreML' "$LOG" | tail -1
