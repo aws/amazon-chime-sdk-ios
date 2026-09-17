@@ -9,6 +9,7 @@
 import Foundation
 
 /// See [Using Amazon Chime SDK live transcription developer guide](https://docs.aws.amazon.com/chime/latest/dg/process-msgs.html) for details about transcription message types and data guidelines
+@objc(AWSChimeTranscriptEntity)
 @objcMembers public class TranscriptEntity: NSObject {
     public let type: String
     public let content: String

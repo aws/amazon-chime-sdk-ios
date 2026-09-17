@@ -10,7 +10,8 @@ import Foundation
 
 /// `CaptureSourceObserver` observes events resulting from different types of capture devices.
 /// Builders may desire this input to decide when to show certain UI elements, or to notify users of failure.
-@objc public protocol CaptureSourceObserver {
+@objc(AWSChimeCaptureSourceObserver)
+public protocol CaptureSourceObserver {
     /// Called when the capture source has started successfully and has started emitting frames.
     func captureDidStart()
 

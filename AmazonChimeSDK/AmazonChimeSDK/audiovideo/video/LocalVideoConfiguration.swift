@@ -9,6 +9,7 @@
 import Foundation
 
 /// Configuration for a local video or content share to be sent
+@objc(AWSChimeLocalVideoConfiguration)
 @objcMembers public class LocalVideoConfiguration: NSObject {
 
     /// The flag to disable/enable simulcast, default to true

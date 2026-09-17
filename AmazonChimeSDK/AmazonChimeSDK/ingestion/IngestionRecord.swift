@@ -9,6 +9,7 @@
 import Foundation
 
 /// `IngestionRecord` is the format of data that will be consumed on the ingestion server.
+@objc(AWSChimeIngestionRecord)
 @objcMembers public class IngestionRecord: NSObject, Codable {
     /// Metadata associated with the event. This includes deviceName, OSVersion, and etc.
     public let metadata: [String: AnyCodable?]

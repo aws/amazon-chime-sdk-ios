@@ -9,7 +9,8 @@
 import Foundation
 
 /// `AudioVideoControllerFacade` manages the signaling and peer connections.
-@objc public protocol AudioVideoControllerFacade {
+@objc(AWSChimeAudioVideoControllerFacade)
+public protocol AudioVideoControllerFacade {
     var configuration: MeetingSessionConfiguration { get }
     var logger: Logger { get }
 

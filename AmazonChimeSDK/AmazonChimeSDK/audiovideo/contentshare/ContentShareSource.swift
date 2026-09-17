@@ -9,6 +9,7 @@
 import Foundation
 
 /// `ContentShareSource` contains the media sources to attach to the content share
+@objc(AWSChimeContentShareSource)
 @objcMembers public class ContentShareSource: NSObject {
     public var videoSource: VideoSource?
 }

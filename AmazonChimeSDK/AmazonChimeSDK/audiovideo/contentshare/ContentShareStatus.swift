@@ -9,6 +9,7 @@
 import Foundation
 
 /// `ContentShareStatus` indicates a status received regarding the content share.
+@objc(AWSChimeContentShareStatus)
 @objcMembers public class ContentShareStatus: NSObject {
     public let statusCode: ContentShareStatusCode
 

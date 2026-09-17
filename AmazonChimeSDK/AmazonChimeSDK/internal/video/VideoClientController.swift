@@ -9,7 +9,8 @@
 import AmazonChimeSDKMedia
 import Foundation
 
-@objc public protocol VideoClientController {
+@objc(AWSChimeVideoClientController)
+public protocol VideoClientController {
     func start()
     func stopAndDestroy()
     func startLocalVideo() throws

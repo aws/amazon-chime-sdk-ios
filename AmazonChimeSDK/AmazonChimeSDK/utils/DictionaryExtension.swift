@@ -29,6 +29,7 @@ public extension Dictionary where Key == AnyHashable, Value: Any {
 /// `EventAnalyticsObserver.eventDidReceive` callback to convert attributes
 /// into JSON string. Calling `attributes.text()`  will returns string
 @objc public extension NSDictionary {
+    @objc(awsChimeToJsonString)
     func toJsonString() -> String {
         if let dict = self as? [AnyHashable: Any] {
             return dict.toJsonString()

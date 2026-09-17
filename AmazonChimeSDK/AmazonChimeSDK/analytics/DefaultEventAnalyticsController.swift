@@ -8,6 +8,7 @@
 
 import Foundation
 
+@objc(AWSChimeDefaultEventAnalyticsController)
 @objcMembers public class DefaultEventAnalyticsController: NSObject, EventAnalyticsController {
     
     private var eventAnalyticObservers = ConcurrentMutableSet()

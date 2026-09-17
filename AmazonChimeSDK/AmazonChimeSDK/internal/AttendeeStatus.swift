@@ -9,7 +9,8 @@
 import Foundation
 
 /// `AttendeeStatus` describes the status of attendee
-@objc public enum AttendeeStatus: Int, CaseIterable, CustomStringConvertible {
+@objc(AWSChimeAttendeeStatus)
+public enum AttendeeStatus: Int, CaseIterable, CustomStringConvertible {
     /// The attendee joined
     case joined = 1
 

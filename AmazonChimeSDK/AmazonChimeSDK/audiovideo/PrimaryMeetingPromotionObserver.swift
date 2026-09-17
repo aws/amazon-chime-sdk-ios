@@ -10,7 +10,8 @@ import Foundation
 
 /// `PrimaryMeetingPromotionObserver` handles events related to Primary meeting promotion.
 /// See `AudioVideoControllerFacade.promoteToPrimaryMeeting` for more information.
-@objc public protocol PrimaryMeetingPromotionObserver {
+@objc(AWSChimePrimaryMeetingPromotionObserver)
+public protocol PrimaryMeetingPromotionObserver {
     /// Called when the `AudioVideoControllerFacade.promoteToPrimaryMeeting` completes.
     ///
     /// `MeetingSessionStatus`  that will contain a `MeetingSessionStatusCode` of the following:

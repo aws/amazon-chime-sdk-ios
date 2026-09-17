@@ -9,7 +9,8 @@
 import Foundation
 
 /// `SignalStrength` describes the signal strength of an attendee for audio.
-@objc public enum SignalStrength: Int, CaseIterable, CustomStringConvertible {
+@objc(AWSChimeSignalStrength)
+public enum SignalStrength: Int, CaseIterable, CustomStringConvertible {
     /// The attendee has no signal
     case none = 0
 

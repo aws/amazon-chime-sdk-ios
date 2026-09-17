@@ -8,7 +8,8 @@
 
 import Foundation
 
-@objc public protocol AudioLock {
+@objc(AWSChimeAudioLock)
+public protocol AudioLock {
     func lock()
     func unlock()
 }

@@ -9,6 +9,7 @@
 import AmazonChimeSDKMedia
 import Foundation
 
+@objc(AWSChimeDefaultContentShareVideoClientController)
 @objcMembers public class DefaultContentShareVideoClientController: NSObject, ContentShareVideoClientController {
     private let configuration: MeetingSessionConfiguration
     private let logger: Logger

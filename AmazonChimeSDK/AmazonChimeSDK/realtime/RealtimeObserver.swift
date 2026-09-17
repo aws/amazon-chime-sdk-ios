@@ -10,7 +10,8 @@ import Foundation
 
 /// `RealtimeObserver` handles event that happens in realtime,
 ///  such as delta in attendees join or leave, volume/signal status.
-@objc public protocol RealtimeObserver {
+@objc(AWSChimeRealtimeObserver)
+public protocol RealtimeObserver {
     /// Handles volume changes for attendees
     ///
     /// Note: this callback will be called on main thread.

@@ -6,7 +6,8 @@
 //  SPDX-License-Identifier: Apache-2.0
 //
 
-@objc public protocol AppStateMonitorDelegate: AnyObject {
+@objc(AWSChimeAppStateMonitorDelegate)
+public protocol AppStateMonitorDelegate: AnyObject {
     
     func appStateDidChange(monitor: AppStateMonitor, newAppState: AppState)
     

@@ -9,7 +9,8 @@
 import Foundation
 
 /// `EventName` represent some major event that could help builders to analyze the data
-@objc public enum EventName: Int, CaseIterable, CustomStringConvertible {
+@objc(AWSChimeEventName)
+public enum EventName: Int, CaseIterable, CustomStringConvertible {
     /// The microphone was selected.
     case audioInputSelected
     /// The microphone selection or access failed

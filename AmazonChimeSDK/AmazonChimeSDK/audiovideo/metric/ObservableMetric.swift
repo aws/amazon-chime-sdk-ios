@@ -13,7 +13,8 @@ import Foundation
 ///
 /// Send video metrics are only reported when sending.
 /// Receive video metrics are only reported when receiving.
-@objc public enum ObservableMetric: Int, CustomStringConvertible {
+@objc(AWSChimeObservableMetric)
+public enum ObservableMetric: Int, CustomStringConvertible {
     /// Percentage of audio packets lost from server to client
     case audioReceivePacketLossPercent
     /// Percentage of audio packets lost from client to server

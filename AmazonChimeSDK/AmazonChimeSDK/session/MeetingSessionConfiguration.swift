@@ -12,6 +12,7 @@ import Foundation
 /// Constructs a MeetingSessionConfiguration with a chime:`CreateMeetingResponse` and
 /// chime:`CreateAttendeeResponse` response and optional custom `URLRewriter` that will
 /// rewrite urls given to new urls.
+@objc(AWSChimeMeetingSessionConfiguration)
 @objcMembers public class MeetingSessionConfiguration: NSObject {
     /// The id of the meeting the session is joining.
     public let meetingId: String

@@ -13,6 +13,7 @@ private let millisPerSecond = 1000.0
 /**
  * `IntervalScheduler` calls the callback every intervalMs milliseconds.
  */
+@objc(AWSChimeIntervalScheduler)
 @objcMembers public class IntervalScheduler: NSObject, Scheduler {
     private enum IntervalSchedulerState {
         case started

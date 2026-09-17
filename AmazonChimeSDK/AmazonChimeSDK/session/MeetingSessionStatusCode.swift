@@ -8,7 +8,8 @@
 
 import Foundation
 
-@objc public enum MeetingSessionStatusCode: UInt32, CustomStringConvertible {
+@objc(AWSChimeMeetingSessionStatusCode)
+public enum MeetingSessionStatusCode: UInt32, CustomStringConvertible {
     /// Everything is OK so far.
     case ok = 0
 

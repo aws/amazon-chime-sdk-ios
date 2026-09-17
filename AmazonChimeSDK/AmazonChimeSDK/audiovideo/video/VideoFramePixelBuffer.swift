@@ -10,6 +10,7 @@ import CoreVideo
 import Foundation
 
 /// `VideoFramePixelBuffer` is a buffer which contains a single video frame in the form of `CVPixelBuffer`.
+@objc(AWSChimeVideoFramePixelBuffer)
 @objcMembers public class VideoFramePixelBuffer: NSObject, VideoFrameBuffer {
     public func width() -> Int {
         return CVPixelBufferGetWidth(pixelBuffer)

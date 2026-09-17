@@ -8,6 +8,7 @@
 
 import Foundation
 
-@objc public protocol EventReporterFactory {
+@objc(AWSChimeEventReporterFactory)
+public protocol EventReporterFactory {
     func createEventReporter() -> EventReporter?
 }

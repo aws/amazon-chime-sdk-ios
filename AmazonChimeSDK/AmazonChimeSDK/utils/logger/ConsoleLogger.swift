@@ -25,6 +25,7 @@ import os
 /// logger.setLogLevel(LogLevel.DEBUG)
 /// logger.debug("debug"); // print
 /// ```
+@objc(AWSChimeConsoleLogger)
 @objcMembers public class ConsoleLogger: NSObject, Logger {
     let name: String
     var level: LogLevel

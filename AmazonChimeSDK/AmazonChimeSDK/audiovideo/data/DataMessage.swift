@@ -10,6 +10,7 @@ import AmazonChimeSDKMedia
 import Foundation
 
 /// Data message received from server.
+@objc(AWSChimeDataMessage)
 @objcMembers public class DataMessage: NSObject {
     /// Monotonically increasing server ingest time
     public let timestampMs: Int64

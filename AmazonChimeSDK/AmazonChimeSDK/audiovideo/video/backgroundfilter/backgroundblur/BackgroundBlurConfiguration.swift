@@ -8,6 +8,7 @@
 
 import Foundation
 
+@objc(AWSChimeBackgroundBlurConfiguration)
 @objcMembers public class BackgroundBlurConfiguration: NSObject {
     let blurStrength: BackgroundBlurStrength
     let logger: Logger

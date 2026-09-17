@@ -8,7 +8,8 @@
 
 import Network
 
-@objc public enum NetworkConnectionType: Int, CustomStringConvertible {
+@objc(AWSChimeNetworkConnectionType)
+public enum NetworkConnectionType: Int, CustomStringConvertible {
     /// WiFi connection
     case wifi
     /// Cellular connection

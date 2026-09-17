@@ -14,7 +14,8 @@ import Foundation
 ///
 /// e.g. If you were recording camera capture upside down relative to
 /// the orientation of the sensor, this value would be `VideoRotation.rotation180`.
-@objc public enum VideoRotation: Int {
+@objc(AWSChimeVideoRotation)
+public enum VideoRotation: Int {
     /// Not rotated.
     case rotation0 = 0
 

@@ -9,7 +9,8 @@
 import AmazonChimeSDKMedia
 import Foundation
 
-@objc public protocol AudioClientProtocol {
+@objc(AWSChimeAudioClientProtocol)
+public protocol AudioClientProtocol {
     
     // swiftlint:disable function_parameter_count variable_name
     func startSession(_ host: String!,

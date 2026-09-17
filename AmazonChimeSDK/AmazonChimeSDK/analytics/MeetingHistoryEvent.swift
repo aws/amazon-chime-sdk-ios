@@ -8,6 +8,7 @@
 
 import Foundation
 
+@objc(AWSChimeMeetingHistoryEvent)
 @objcMembers public class MeetingHistoryEvent: NSObject {
     public let meetingHistoryEventName: MeetingHistoryEventName
     public let timestampMs: Int64

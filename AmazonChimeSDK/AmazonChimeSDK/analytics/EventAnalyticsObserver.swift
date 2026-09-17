@@ -9,7 +9,8 @@
 import Foundation
 
 /// `EventAnalyticsObserver` handles events regarding to analytics.
-@objc public protocol EventAnalyticsObserver {
+@objc(AWSChimeEventAnalyticsObserver)
+public protocol EventAnalyticsObserver {
     /// Called when specific events occur during the meeting and includes attributes of the event.
     /// This can be used to create analytics around meeting metric.
     /// - Parameters:

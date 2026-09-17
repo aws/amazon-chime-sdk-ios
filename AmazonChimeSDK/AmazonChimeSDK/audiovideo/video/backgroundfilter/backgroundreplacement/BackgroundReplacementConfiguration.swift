@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+@objc(AWSChimeBackgroundReplacementConfiguration)
 @objcMembers public class BackgroundReplacementConfiguration: NSObject {
     let backgroundReplacementImage: UIImage
     let logger: Logger

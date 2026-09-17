@@ -11,6 +11,7 @@ import AVFoundation
 import Foundation
 
 /// `MediaDevice` represents an IOS audio/video device.
+@objc(AWSChimeMediaDevice)
 @objcMembers public class MediaDevice: NSObject {
     /// Label of MediaDevice
     public let label: String

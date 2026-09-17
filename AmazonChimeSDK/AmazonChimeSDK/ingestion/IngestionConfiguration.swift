@@ -10,6 +10,7 @@ import Foundation
 
 /// `IngestionConfiguration` defines the configuration needed for ingestion service.
 /// This will be passed down to `DefaultEventReporter`
+@objc(AWSChimeIngestionConfiguration)
 @objcMembers public class IngestionConfiguration: NSObject {
     /// Event client configuration specific that has different properties based on type.
     /// For instance, meeting client configuration should have meetingId and attendeeId.

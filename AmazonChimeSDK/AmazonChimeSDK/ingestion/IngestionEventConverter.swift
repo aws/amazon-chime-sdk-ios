@@ -11,6 +11,7 @@ import Foundation
 private typealias EAName = EventAttributeName
 
 /// `IngestionEventConverter` converts data from payload into `MeetingEventItem`/`DirtyEventItem`or vice versa.
+@objc(AWSChimeIngestionEventConverter)
 @objcMembers public class IngestionEventConverter: NSObject {
 
     public override init() {

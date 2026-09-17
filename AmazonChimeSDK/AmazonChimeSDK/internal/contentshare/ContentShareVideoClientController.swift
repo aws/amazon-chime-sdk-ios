@@ -8,7 +8,8 @@
 
 import Foundation
 
-@objc public protocol ContentShareVideoClientController {
+@objc(AWSChimeContentShareVideoClientController)
+public protocol ContentShareVideoClientController {
     func startVideoShare(source: VideoSource)
     func startVideoShare(source: VideoSource, config: LocalVideoConfiguration)
     func stopVideoShare()

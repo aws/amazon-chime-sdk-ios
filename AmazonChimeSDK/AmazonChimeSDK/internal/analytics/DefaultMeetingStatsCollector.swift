@@ -8,6 +8,7 @@
 
 import Foundation
 
+@objc(AWSChimeDefaultMeetingStatsCollector)
 @objcMembers public class DefaultMeetingStatsCollector: NSObject, MeetingStatsCollector {
     private let logger: Logger
     private var meetingStartTimeMs: Int64 = 0

@@ -10,6 +10,7 @@ import Foundation
 
 /// `IngestionConfigurationBuilder` helps to create `IngestionConfiguration`
 /// by providing builder pattern.
+@objc(AWSChimeIngestionConfigurationBuilder)
 @objcMembers public class IngestionConfigurationBuilder: NSObject {
     private var flushSize: Int = 20
     private var flushIntervalMs: Int64 = 5000

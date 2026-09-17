@@ -8,6 +8,7 @@
 
 import Foundation
 
+@objc(AWSChimeCreateAttendeeResponse)
 @objcMembers public class CreateAttendeeResponse: NSObject {
     let attendee: Attendee
 
@@ -16,6 +17,7 @@ import Foundation
     }
 }
 
+@objc(AWSChimeAttendee)
 @objcMembers public class Attendee: NSObject {
     let attendeeId: String
     let externalUserId: String

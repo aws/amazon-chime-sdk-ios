@@ -9,7 +9,8 @@
 import Foundation
 
 /// Enum defining the different background blur strength options.
-@objc public enum BackgroundBlurStrength: Int {
+@objc(AWSChimeBackgroundBlurStrength)
+public enum BackgroundBlurStrength: Int {
     case low = 10
     case medium = 15
     case high = 25

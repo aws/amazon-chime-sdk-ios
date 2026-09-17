@@ -9,7 +9,8 @@
 import Foundation
 
 /// video bitrates for regular and high-resolution meetings
-@objc public class VideoBitrateConstants: NSObject {
+@objc(AWSChimeVideoBitrateConstants)
+public class VideoBitrateConstants: NSObject {
     public let videoHighResolutionBitrateKbps:UInt32
     public let contentHighResolutionBitrateKbps:UInt32
     public override init() {

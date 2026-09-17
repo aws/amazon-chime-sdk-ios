@@ -8,7 +8,8 @@
 
 import Foundation
 
-@objc public enum MediaError: Int, Error, CustomStringConvertible {
+@objc(AWSChimeMediaError)
+public enum MediaError: Int, Error, CustomStringConvertible {
     case illegalState
     case audioFailedToStart
     case noCameraSelected

@@ -12,7 +12,8 @@
 #import <Foundation/Foundation.h>
 #import "SegmentationProcessor.h"
 
-@interface TensorFlowSegmentationProcessor : NSObject <SegmentationProcessor>
+NS_SWIFT_NAME(TensorFlowSegmentationProcessor)
+@interface AWSChimeTensorFlowSegmentationProcessor : NSObject <AWSChimeSegmentationProcessor>
 
 + (BOOL) isAvailable;
 
@@ -26,6 +27,6 @@
 
 - (uint8_t* _Nonnull) getOutputBuffer;
 
-@end // TensorFlowSegmentationProcessor
+@end // AWSChimeTensorFlowSegmentationProcessor
 
 #endif  // TENSOR_FLOW_SEGMENTATION_PROCESSOR_H

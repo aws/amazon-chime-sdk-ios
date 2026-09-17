@@ -8,6 +8,7 @@
 
 import Foundation
 
+@objc(AWSChimeVolumeUpdate)
 @objcMembers public class VolumeUpdate: NSObject {
     public let attendeeInfo: AttendeeInfo
     public let volumeLevel: VolumeLevel

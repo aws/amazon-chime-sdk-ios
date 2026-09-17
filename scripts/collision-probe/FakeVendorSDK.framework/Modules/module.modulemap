@@ -1,0 +1,9 @@
+framework module FakeVendorSDK {
+  umbrella header "FakeVendorSDK.h"
+  export *
+  module * { export * }
+}
+module FakeVendorSDK.Swift {
+  header "FakeVendorSDK-Swift.h"
+  requires objc
+}

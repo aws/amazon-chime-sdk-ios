@@ -13,6 +13,7 @@ import Foundation
 ///
 /// `VideoSubscriptionConfiguration` is used to contain the priority and resolution of
 /// remote video sources and content share to be received
+@objc(AWSChimeVideoSubscriptionConfiguration)
 @objcMembers public class VideoSubscriptionConfiguration: NSObject {
     ///   - priority: Relative priority for the subscription.
     ///   - targetResolution: A target resolution for the subscription. The actual receive resolution may vary.

@@ -10,7 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AmazonChimeSDK/AmazonChimeSDK-Swift.h>
 
-@interface ViewControllerObjC : UIViewController <RealtimeObserver, MetricsObserver, VideoTileObserver, ActiveSpeakerObserver, EventAnalyticsObserver>
+@interface ViewControllerObjC : UIViewController <AWSChimeRealtimeObserver, AWSChimeMetricsObserver, AWSChimeVideoTileObserver, AWSChimeActiveSpeakerObserver, AWSChimeEventAnalyticsObserver>
 
 #define SERVER_URL "YOUR_SERVER_URL"
 #define SERVER_REGION "YOUR_SERVER_REGION"
@@ -21,11 +21,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 @property (weak, nonatomic) IBOutlet UITextField *meetingIDText;
 @property (weak, nonatomic) IBOutlet UITextField *nameText;
-@property (weak, nonatomic) IBOutlet DefaultVideoRenderView *selfVideoView;
-@property (weak, nonatomic) IBOutlet DefaultVideoRenderView *remoteVideoView;
+@property (weak, nonatomic) IBOutlet AWSChimeDefaultVideoRenderView *selfVideoView;
+@property (weak, nonatomic) IBOutlet AWSChimeDefaultVideoRenderView *remoteVideoView;
 
-@property (nonatomic, strong) ConsoleLogger *logger;
-@property (nonatomic, strong) DefaultMeetingSession *meetingSession;
+@property (nonatomic, strong) AWSChimeConsoleLogger *logger;
+@property (nonatomic, strong) AWSChimeDefaultMeetingSession *meetingSession;
 
 @end
 

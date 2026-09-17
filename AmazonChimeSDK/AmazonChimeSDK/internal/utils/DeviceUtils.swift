@@ -10,6 +10,7 @@ import AmazonChimeSDKMedia
 import Foundation
 import UIKit
 
+@objc(AWSChimeDeviceUtils)
 @objcMembers public class DeviceUtils: NSObject {
     static let deviceModel = getModelInfo()
     static let manufacturer = "Apple"

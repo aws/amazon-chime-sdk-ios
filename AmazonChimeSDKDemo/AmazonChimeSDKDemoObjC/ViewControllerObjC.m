@@ -17,9 +17,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self updateUIWithMeetingStarted:NO];
-    self.logger = [[ConsoleLogger alloc] initWithName:@"ViewControllerObjC"
-                                                level:LogLevelINFO];
-    self.versionLabel.text = [NSString stringWithFormat:@"amazon-chime-sdk-ios@%@", [Versioning sdkVersion]];
+    self.logger = [[AWSChimeConsoleLogger alloc] initWithName:@"ViewControllerObjC"
+                                                level:AWSChimeLogLevelINFO];
+    self.versionLabel.text = [NSString stringWithFormat:@"amazon-chime-sdk-ios@%@", [AWSChimeVersioning sdkVersion]];
 }
 
 - (IBAction)joinMeeting:(id)sender {
@@ -76,29 +76,29 @@
             NSString *joinToken = [attendeeInfoDict objectForKey:@"JoinToken"];
 
             // Initialize meeting session through AmazonChimeSDK
-            MediaPlacement *mediaPlacement = [[MediaPlacement alloc] initWithAudioFallbackUrl:audioFallbackUrl
+            AWSChimeMediaPlacement *mediaPlacement = [[AWSChimeMediaPlacement alloc] initWithAudioFallbackUrl:audioFallbackUrl
                                                                                  audioHostUrl:audioHostUrl
                                                                                  signalingUrl:signalingUrl
                                                                                turnControlUrl:turnControlUrl];
 
-            MeetingFeatures *meetingFeatures= [[MeetingFeatures alloc] initWithVideo:videoMaxResolution
+            AWSChimeMeetingFeatures *meetingFeatures= [[AWSChimeMeetingFeatures alloc] initWithVideo:videoMaxResolution
                                                                              content:contentMaxResolution];
-            Meeting *meeting = [[Meeting alloc] initWithExternalMeetingId:externalMeetingId
+            AWSChimeMeeting *meeting = [[AWSChimeMeeting alloc] initWithExternalMeetingId:externalMeetingId
                                                            mediaPlacement:mediaPlacement
                                                           meetingFeatures:meetingFeatures
                                                               mediaRegion:mediaRegion
                                                                 meetingId:meetingId
                                                          primaryMeetingId:nil];
-            CreateMeetingResponse *createMeetingResponse = [[CreateMeetingResponse alloc] initWithMeeting:meeting];
-            Attendee *attendee = [[Attendee alloc] initWithAttendeeId:attendeeId
+            AWSChimeCreateMeetingResponse *createMeetingResponse = [[AWSChimeCreateMeetingResponse alloc] initWithMeeting:meeting];
+            AWSChimeAttendee *attendee = [[AWSChimeAttendee alloc] initWithAttendeeId:attendeeId
                                                        externalUserId:externalUserId
                                                             joinToken:joinToken];
-            CreateAttendeeResponse *createAttendeeResponse = [[CreateAttendeeResponse alloc] initWithAttendee:attendee];
-            MeetingSessionConfiguration *meetingSessionConfiguration = [[MeetingSessionConfiguration alloc]
+            AWSChimeCreateAttendeeResponse *createAttendeeResponse = [[AWSChimeCreateAttendeeResponse alloc] initWithAttendee:attendee];
+            AWSChimeMeetingSessionConfiguration *meetingSessionConfiguration = [[AWSChimeMeetingSessionConfiguration alloc]
                                                                         initWithCreateMeetingResponse:createMeetingResponse
                                                                                createAttendeeResponse:createAttendeeResponse];
 
-            self.meetingSession = [[DefaultMeetingSession alloc] initWithConfiguration:meetingSessionConfiguration
+            self.meetingSession = [[AWSChimeDefaultMeetingSession alloc] initWithConfiguration:meetingSessionConfiguration
                                                                                 logger:self.logger];
             [self startAudioVideo];
 
@@ -125,7 +125,7 @@
         [self.meetingSession.audioVideo addRealtimeObserverWithObserver:self];
         [self.meetingSession.audioVideo addMetricsObserverWithObserver:self];
         [self.meetingSession.audioVideo addVideoTileObserverWithObserver:self];
-        DefaultActiveSpeakerPolicy *policy = [DefaultActiveSpeakerPolicy new];
+        AWSChimeDefaultActiveSpeakerPolicy *policy = [AWSChimeDefaultActiveSpeakerPolicy new];
         [self.meetingSession.audioVideo addActiveSpeakerObserverWithPolicy:policy
                                                                   observer:self];
 
@@ -292,68 +292,68 @@
     [task resume];
 }
 
-# pragma mark - RealtimeObserver
+# pragma mark - AWSChimeRealtimeObserver
 
-- (void)attendeesDidJoinWithAttendeeInfo:(NSArray<AttendeeInfo *> * _Nonnull)attendeeInfo {
+- (void)attendeesDidJoinWithAttendeeInfo:(NSArray<AWSChimeAttendeeInfo *> * _Nonnull)attendeeInfo {
     for (id currentAttendeeInfo in attendeeInfo) {
         [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ joined", [currentAttendeeInfo attendeeId]]];
     }
 }
 
-- (void)attendeesDidLeaveWithAttendeeInfo:(NSArray<AttendeeInfo *> * _Nonnull)attendeeInfo {
+- (void)attendeesDidLeaveWithAttendeeInfo:(NSArray<AWSChimeAttendeeInfo *> * _Nonnull)attendeeInfo {
     for (id currentAttendeeInfo in attendeeInfo) {
         [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ left", [currentAttendeeInfo attendeeId]]];
     }
 }
 
-- (void)attendeesDidMuteWithAttendeeInfo:(NSArray<AttendeeInfo *> * _Nonnull)attendeeInfo {
+- (void)attendeesDidMuteWithAttendeeInfo:(NSArray<AWSChimeAttendeeInfo *> * _Nonnull)attendeeInfo {
     for (id currentAttendeeInfo in attendeeInfo) {
         [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ muted", [currentAttendeeInfo attendeeId]]];
     }
 }
 
-- (void)attendeesDidUnmuteWithAttendeeInfo:(NSArray<AttendeeInfo *> * _Nonnull)attendeeInfo {
+- (void)attendeesDidUnmuteWithAttendeeInfo:(NSArray<AWSChimeAttendeeInfo *> * _Nonnull)attendeeInfo {
     for (id currentAttendeeInfo in attendeeInfo) {
         [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ unmuted", [currentAttendeeInfo attendeeId]]];
     }
 }
 
-- (void)signalStrengthDidChangeWithSignalUpdates:(NSArray<SignalUpdate *> * _Nonnull)signalUpdates {
+- (void)signalStrengthDidChangeWithSignalUpdates:(NSArray<AWSChimeSignalUpdate *> * _Nonnull)signalUpdates {
     for (id currentSignalUpdate in signalUpdates) {
         [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ signalStrength changed to %lu", [[currentSignalUpdate attendeeInfo] attendeeId], (unsigned long)[currentSignalUpdate signalStrength]]];
     }
 }
 
-- (void)volumeDidChangeWithVolumeUpdates:(NSArray<VolumeUpdate *> * _Nonnull)volumeUpdates {
+- (void)volumeDidChangeWithVolumeUpdates:(NSArray<AWSChimeVolumeUpdate *> * _Nonnull)volumeUpdates {
     for (id currentVolumeUpdate in volumeUpdates) {
         [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ volumeLevel changed to %lu", [[currentVolumeUpdate attendeeInfo] attendeeId], (unsigned long)[currentVolumeUpdate volumeLevel]]];
     }
 }
 
-- (void)attendeesDidDropWithAttendeeInfo:(NSArray<AttendeeInfo *> * _Nonnull)attendeeInfo {
+- (void)attendeesDidDropWithAttendeeInfo:(NSArray<AWSChimeAttendeeInfo *> * _Nonnull)attendeeInfo {
     for (id currentAttendeeInfo in attendeeInfo) {
         [self.logger infoWithMsg:[NSString stringWithFormat:@"Attendee %@ dropped", [currentAttendeeInfo attendeeId]]];
     }
 }
 
-# pragma mark - MetricsObserver
+# pragma mark - AWSChimeMetricsObserver
 
 - (void)metricsDidReceiveWithMetrics:(NSDictionary *)metrics {
     [self.logger infoWithMsg:[NSString stringWithFormat:@"Media metrics have been received: %@", metrics]];
 }
 
-# pragma mark - VideoTileObserver
+# pragma mark - AWSChimeVideoTileObserver
 
-- (void)videoTileDidAddWithTileState:(VideoTileState *)tileState {
+- (void)videoTileDidAddWithTileState:(AWSChimeVideoTileState *)tileState {
     [self.logger infoWithMsg:[NSString stringWithFormat:@"Adding Video Tile tileId: %ld, attendeeId: %@", (long)tileState.tileId, tileState.attendeeId]];
 
-    DefaultVideoRenderView *renderView = nil;
+    AWSChimeDefaultVideoRenderView *renderView = nil;
     if (tileState.isLocalTile) {
         [self.logger infoWithMsg:[NSString stringWithFormat:@"Binding self video"]];
         renderView = self.selfVideoView;
 
         // Flip front camera video on rendering
-        if (self.meetingSession.audioVideo.getActiveCamera.type == MediaDeviceTypeVideoFrontCamera) {
+        if (self.meetingSession.audioVideo.getActiveCamera.type == AWSChimeMediaDeviceTypeVideoFrontCamera) {
             renderView.mirror = YES;
         }
     } else {
@@ -364,7 +364,7 @@
     [self.meetingSession.audioVideo bindVideoViewWithVideoView:renderView tileId:tileState.tileId];
 }
 
-- (void)videoTileDidRemoveWithTileState:(VideoTileState *)tileState {
+- (void)videoTileDidRemoveWithTileState:(AWSChimeVideoTileState *)tileState {
     [self.logger infoWithMsg:[NSString stringWithFormat:@"Removing Video Tile tileId: %ld, attendeeId: %@", (long)tileState.tileId, tileState.attendeeId]];
     [self.meetingSession.audioVideo unbindVideoViewWithTileId:tileState.tileId];
     if (![tileState isLocalTile]) {
@@ -372,25 +372,25 @@
     }
 }
 
-- (void)videoTileDidPauseWithTileState:(VideoTileState *)tileState {
+- (void)videoTileDidPauseWithTileState:(AWSChimeVideoTileState *)tileState {
     [self.logger infoWithMsg:[NSString stringWithFormat:@"Video Tile paused: tileId: %ld, attendeeId: %@", (long)tileState.tileId, tileState.attendeeId]];
 }
 
-- (void)videoTileDidResumeWithTileState:(VideoTileState *)tileState {
+- (void)videoTileDidResumeWithTileState:(AWSChimeVideoTileState *)tileState {
     [self.logger infoWithMsg:[NSString stringWithFormat:@"Video Tile resumed: tileId: %ld, attendeeId: %@", (long)tileState.tileId, tileState.attendeeId]];
 }
 
-- (void)videoTileSizeDidChangeWithTileState:(VideoTileState *)tileState {
+- (void)videoTileSizeDidChangeWithTileState:(AWSChimeVideoTileState *)tileState {
     [self.logger infoWithMsg:[NSString stringWithFormat:@"Video Tile size changed: tileId: %ld, attendeeId: %@", (long)tileState.tileId, tileState.attendeeId]];
 }
 
-# pragma mark - ActiveSpeakerObserver
+# pragma mark - AWSChimeActiveSpeakerObserver
 
-- (void)activeSpeakerScoreDidChangeWithScores:(NSDictionary<AttendeeInfo *, NSNumber *> * _Nonnull)scores {
+- (void)activeSpeakerScoreDidChangeWithScores:(NSDictionary<AWSChimeAttendeeInfo *, NSNumber *> * _Nonnull)scores {
     [self.logger infoWithMsg:@"activeSpeakerScoreDidChangeWithScores callback invoked"];
 }
 
-- (void)activeSpeakerDidDetectWithAttendeeInfo:(NSArray<AttendeeInfo *> * _Nonnull)attendeeInfo {
+- (void)activeSpeakerDidDetectWithAttendeeInfo:(NSArray<AWSChimeAttendeeInfo *> * _Nonnull)attendeeInfo {
     [self.logger infoWithMsg:@"activeSpeakerDidDetectWithAttendeeInfo callback invoked"];
 }
 
@@ -403,8 +403,8 @@
 }
 
 # pragma mark - EventAnalyticObserver
-- (void)eventDidReceiveWithName:(enum EventName)name attributes:(NSDictionary *)attributes {
-    [self.logger infoWithMsg:[NSString stringWithFormat:@"%lu %@\n", (unsigned long)name, [attributes toJsonString]]];
+- (void)eventDidReceiveWithName:(enum AWSChimeEventName)name attributes:(NSDictionary *)attributes {
+    [self.logger infoWithMsg:[NSString stringWithFormat:@"%lu %@\n", (unsigned long)name, [attributes awsChimeToJsonString]]];
 }
 
 @end

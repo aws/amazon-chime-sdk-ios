@@ -9,7 +9,8 @@
 import Foundation
 
 /// `EventClientType` defines type of `EventClientConfiguration`
-@objc public enum EventClientType: Int, CaseIterable, CustomStringConvertible {
+@objc(AWSChimeEventClientType)
+public enum EventClientType: Int, CaseIterable, CustomStringConvertible {
     case meet
     case chat
 
@@ -24,7 +25,8 @@ import Foundation
 }
 
 /// `EventClientConfiguration` contains speciic data required to send as metadata.
-@objc public protocol EventClientConfiguration {
+@objc(AWSChimeEventClientConfiguration)
+public protocol EventClientConfiguration {
     
     /**
      The type of the Ingestion event

@@ -8,6 +8,7 @@
 
 import Foundation
 
+@objc(AWSChimeDefaultRealtimeController)
 @objcMembers public class DefaultRealtimeController: NSObject, RealtimeControllerFacade {
     private let audioClientController: AudioClientController
     private let audioClientObserver: AudioClientObserver

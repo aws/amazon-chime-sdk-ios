@@ -9,7 +9,8 @@
 import Foundation
 
 /// `EventReporter` process data. It will be called in `DefaultEventAnalyticsController`.
-@objc public protocol EventReporter {
+@objc(AWSChimeEventReporter)
+public protocol EventReporter {
     /// Process the event. For instance, in the default implementation, it will save it to Event Table.
     /// - Parameters:
     ///   - event: SDK related events

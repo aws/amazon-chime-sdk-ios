@@ -9,7 +9,8 @@
 import Foundation
 import AmazonChimeSDKMedia
 
-@objc public enum SignalingDroppedError: Int, Error, CustomStringConvertible {
+@objc(AWSChimeSignalingDroppedError)
+public enum SignalingDroppedError: Int, Error, CustomStringConvertible {
     case none
     case signalingClientDisconnected
     case signalingClientClosed

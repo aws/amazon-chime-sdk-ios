@@ -9,7 +9,8 @@
 import Foundation
 
 /// Customizable video resolution parameters for a remote video source.
-@objc public class VideoResolution: NSObject {
+@objc(AWSChimeVideoResolution)
+public class VideoResolution: NSObject {
     public let width: Int
     public let height: Int
     

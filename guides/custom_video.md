@@ -11,7 +11,7 @@ Note: Deploying the serverless/browser demo and receiving traffic from the demo 
 
 ## Using the provided camera capture implementation as a custom source to access additional functionality
 
-While the Amazon Chime SDK internally uses a implementation of camera capture, the same capturer can be created, maintained, and used externally before being passed in for transmission to remote participants using the [AudioVideoFacade](https://aws.github.io/amazon-chime-sdk-ios/Protocols.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoFacade). This grants access to the following features:
+While the Amazon Chime SDK internally uses a implementation of camera capture, the same capturer can be created, maintained, and used externally before being passed in for transmission to remote participants using the [AudioVideoFacade](https://aws.github.io/amazon-chime-sdk-ios/Protocols.html#/c:@M@AmazonChimeSDK@objc(pl)AWSChimeAudioVideoFacade). This grants access to the following features:
 
 * Explicit camera device and format selection.
 * Configuration, starting, stopping, and video renderering before joining the call.
@@ -25,7 +25,7 @@ The camera capture implementation is found in [DefaultCameraCaptureSource](https
     let cameraCaptureSource = DefaultCameraCaptureSource(logger: logger)
 ```
 
-3. Call [VideoCaptureSource.start()](Protocols/VideoCaptureSource.html#/c:@M@AmazonChimeSDK@objc(pl)VideoCaptureSource(im)start) and [DefaultCameraCaptureSource.stop()](https://aws.github.io/amazon-chime-sdk-ios/Classes/DefaultCameraCaptureSource.html#/c:@M@AmazonChimeSDK@objc(pl)VideoCaptureSource(im)stop) to start and stop the capture respectively. Note that if no [VideoSink](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoSink.html) has been attached (see later sections) that captured frames will be immediately dropped.
+3. Call [VideoCaptureSource.start()](Protocols/VideoCaptureSource.html#/c:@M@AmazonChimeSDK@objc(pl)AWSChimeVideoCaptureSource(im)start) and [DefaultCameraCaptureSource.stop()](https://aws.github.io/amazon-chime-sdk-ios/Classes/DefaultCameraCaptureSource.html#/c:@M@AmazonChimeSDK@objc(pl)AWSChimeVideoCaptureSource(im)stop) to start and stop the capture respectively. Note that if no [VideoSink](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoSink.html) has been attached (see later sections) that captured frames will be immediately dropped.
 
 ```
     // Start the capture
@@ -35,7 +35,7 @@ The camera capture implementation is found in [DefaultCameraCaptureSource](https
     cameraCaptureSource.stop()
 ```
 
-4. To set the capture device, use [CameraCaptureSource.switchCamera()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/CameraCaptureSource.html#/c:@M@AmazonChimeSDK@objc(pl)CameraCaptureSource(im)switchCamera) or set [CameraCaptureSource.device](https://aws.github.io/amazon-chime-sdk-ios/Protocols/CameraCaptureSource.html#/c:@M@AmazonChimeSDK@objc(pl)CameraCaptureSource(py)device). You can get a list of usable devices by calling [MediaDevice.listVideoDevices()](https://aws.github.io/amazon-chime-sdk-ios/Classes/MediaDevice.html#/c:@M@AmazonChimeSDK@objc(cs)MediaDevice(cm)listVideoDevices). To set the format, set [CameraCaptureSource.format](https://aws.github.io/amazon-chime-sdk-ios/Protocols/CameraCaptureSource.html#/c:@M@AmazonChimeSDK@objc(pl)CameraCaptureSource(py)format). You can get a list of usable formats by calling [MediaDevice.listSupportedVideoCaptureFormats(mediaDevice:)](https://aws.github.io/amazon-chime-sdk-ios/Classes/MediaDevice.html#/c:@M@AmazonChimeSDK@objc(cs)MediaDevice(cm)listSupportedVideoCaptureFormatsWithMediaDevice:) with a specific [MediaDevice](https://aws.github.io/amazon-chime-sdk-ios/Classes/MediaDevice.html). These can be set before or after capture has been started, and before or during call.
+4. To set the capture device, use [CameraCaptureSource.switchCamera()](https://aws.github.io/amazon-chime-sdk-ios/Protocols/CameraCaptureSource.html#/c:@M@AmazonChimeSDK@objc(pl)AWSChimeCameraCaptureSource(im)switchCamera) or set [CameraCaptureSource.device](https://aws.github.io/amazon-chime-sdk-ios/Protocols/CameraCaptureSource.html#/c:@M@AmazonChimeSDK@objc(pl)AWSChimeCameraCaptureSource(py)device). You can get a list of usable devices by calling [MediaDevice.listVideoDevices()](https://aws.github.io/amazon-chime-sdk-ios/Classes/MediaDevice.html#/c:@M@AmazonChimeSDK@objc(cs)AWSChimeMediaDevice(cm)listVideoDevices). To set the format, set [CameraCaptureSource.format](https://aws.github.io/amazon-chime-sdk-ios/Protocols/CameraCaptureSource.html#/c:@M@AmazonChimeSDK@objc(pl)AWSChimeCameraCaptureSource(py)format). You can get a list of usable formats by calling [MediaDevice.listSupportedVideoCaptureFormats(mediaDevice:)](https://aws.github.io/amazon-chime-sdk-ios/Classes/MediaDevice.html#/c:@M@AmazonChimeSDK@objc(cs)AWSChimeMediaDevice(cm)listSupportedVideoCaptureFormatsWithMediaDevice:) with a specific [MediaDevice](https://aws.github.io/amazon-chime-sdk-ios/Classes/MediaDevice.html). These can be set before or after capture has been started, and before or during call.
 
 ```
     // Switch the camera
@@ -58,7 +58,7 @@ The camera capture implementation is found in [DefaultCameraCaptureSource](https
     }
 ```
 
-5. To turn on the flashlight on the current camera, set [CameraCaptureSource.torchEnabled](https://aws.github.io/amazon-chime-sdk-ios/Protocols/CameraCaptureSource.html#/c:@M@AmazonChimeSDK@objc(pl)CameraCaptureSource(py)torchEnabled). This can be set before or after capture has been started, and before or during call.
+5. To turn on the flashlight on the current camera, set [CameraCaptureSource.torchEnabled](https://aws.github.io/amazon-chime-sdk-ios/Protocols/CameraCaptureSource.html#/c:@M@AmazonChimeSDK@objc(pl)AWSChimeCameraCaptureSource(py)torchEnabled). This can be set before or after capture has been started, and before or during call.
 
 ```
     // Turn on the torch
@@ -68,7 +68,7 @@ The camera capture implementation is found in [DefaultCameraCaptureSource](https
     cameraCaptureSource.torchEnabled = false
 ```
 
-6. To render local camera feeds before joining the call, use [VideoSource.addVideoSink](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoSource.html#/c:@M@AmazonChimeSDK@objc(pl)VideoSource(im)addVideoSinkWithSink:) with a provided [VideoSink](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoSink.html) (e.g. a [DefaultVideoRenderView](https://aws.github.io/amazon-chime-sdk-ios/Classes/DefaultVideoRenderView.html) created as described in [Getting Started](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/getting_started.md#render-a-video-tile)).
+6. To render local camera feeds before joining the call, use [VideoSource.addVideoSink](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoSource.html#/c:@M@AmazonChimeSDK@objc(pl)AWSChimeVideoSource(im)addVideoSinkWithSink:) with a provided [VideoSink](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoSink.html) (e.g. a [DefaultVideoRenderView](https://aws.github.io/amazon-chime-sdk-ios/Classes/DefaultVideoRenderView.html) created as described in [Getting Started](https://github.com/aws/amazon-chime-sdk-ios/blob/master/guides/getting_started.md#render-a-video-tile)).
 ```
     // Add the render view as a sink to camera capture source
     cameraCaptureSource.addVideoSink(sink: someDefaultVideoRenderView)
@@ -76,7 +76,7 @@ The camera capture implementation is found in [DefaultCameraCaptureSource](https
 
 To use the capture source in a call, do the following:
 
-1. When enabling local video, call [AudioVideoControllerFacade.startLocalVideo(source:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startLocalVideoWithSource:) with the camera capture source as the parameter. Ensure that the capture source is started before `startLocalVideo(source:)` to start transmitting frames.
+1. When enabling local video, call [AudioVideoControllerFacade.startLocalVideo(source:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AWSChimeAudioVideoControllerFacade(im)startLocalVideoWithSource:) with the camera capture source as the parameter. Ensure that the capture source is started before `startLocalVideo(source:)` to start transmitting frames.
 
 ```
     // Start the camera capture source is started if not already
@@ -126,7 +126,7 @@ class MyVideoSource: VideoSource {
 }
 ```
 
-When enabling local video, call [AudioVideoControllerFacade.startLocalVideo(source:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startLocalVideoWithSource:) with the custom source as the parameter. Ensure that the capture source is started before `startLocalVideo(source:)` to start transmitting frames.
+When enabling local video, call [AudioVideoControllerFacade.startLocalVideo(source:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AWSChimeAudioVideoControllerFacade(im)startLocalVideoWithSource:) with the custom source as the parameter. Ensure that the capture source is started before `startLocalVideo(source:)` to start transmitting frames.
 
 ```
     // Create and start the processor
@@ -176,7 +176,7 @@ class MyVideoProcessor: VideoSource, VideoSink {
 }
 ```
 
-To use a video frame processor, builders must use a video source external to the facade (e.g. [DefaultCameraCaptureSource](https://aws.github.io/amazon-chime-sdk-ios/Classes/DefaultCameraCaptureSource.html)). Wire up the source to the processing step using [VideoSource.addVideoSink(sink:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoSource.html#/c:@M@AmazonChimeSDK@objc(pl)VideoSource(im)addVideoSinkWithSink:). When enabling local video, call [AudioVideoControllerFacade.startLocalVideo(source:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AudioVideoControllerFacade(im)startLocalVideoWithSource:) with the processor (i.e. the end of the pipeline) as the parameter. Ensure that the capture source is started to start transmitting frames.
+To use a video frame processor, builders must use a video source external to the facade (e.g. [DefaultCameraCaptureSource](https://aws.github.io/amazon-chime-sdk-ios/Classes/DefaultCameraCaptureSource.html)). Wire up the source to the processing step using [VideoSource.addVideoSink(sink:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoSource.html#/c:@M@AmazonChimeSDK@objc(pl)AWSChimeVideoSource(im)addVideoSinkWithSink:). When enabling local video, call [AudioVideoControllerFacade.startLocalVideo(source:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/AudioVideoControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AWSChimeAudioVideoControllerFacade(im)startLocalVideoWithSource:) with the processor (i.e. the end of the pipeline) as the parameter. Ensure that the capture source is started to start transmitting frames.
 
 ```
     let myVideoProcessor = MyVideoProcessor()
@@ -189,7 +189,7 @@ To use a video frame processor, builders must use a video source external to the
 
 ## Implementing a custom video sink for remote sources
 
-Though most builders will simply use [DefaultVideoRenderView](https://aws.github.io/amazon-chime-sdk-ios/Classes/DefaultVideoRenderView.html), they can also implement their own [VideoSink](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoSink.html)/[VideoRenderView](https://aws.github.io/amazon-chime-sdk-ios/Protocols.html#/c:@M@AmazonChimeSDK@objc(pl)VideoRenderView) (currently `VideoRenderView` is just an alias for `VideoSink`); some may want full control over the frames for remote video processing, storage, or other applications. To do so implement the [VideoSink](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoSink.html) interface like in the following snippet.
+Though most builders will simply use [DefaultVideoRenderView](https://aws.github.io/amazon-chime-sdk-ios/Classes/DefaultVideoRenderView.html), they can also implement their own [VideoSink](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoSink.html)/[VideoRenderView](https://aws.github.io/amazon-chime-sdk-ios/Protocols.html#/c:@M@AmazonChimeSDK@objc(pl)AWSChimeVideoRenderView) (currently `VideoRenderView` is just an alias for `VideoSink`); some may want full control over the frames for remote video processing, storage, or other applications. To do so implement the [VideoSink](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoSink.html) interface like in the following snippet.
 
 ```
 class MyVideoSink: VideoSink {
@@ -199,7 +199,7 @@ class MyVideoSink: VideoSink {
 }
 ```
 
-When a tile is added, simply pass in the custom sink to [VideoTileControllerFacade.bindVideoView(videoView:tileId:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoTileControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)VideoTileControllerFacade(im)bindVideoViewWithVideoView:tileId:) and it will begin to receive remote frames:
+When a tile is added, simply pass in the custom sink to [VideoTileControllerFacade.bindVideoView(videoView:tileId:)](https://aws.github.io/amazon-chime-sdk-ios/Protocols/VideoTileControllerFacade.html#/c:@M@AmazonChimeSDK@objc(pl)AWSChimeVideoTileControllerFacade(im)bindVideoViewWithVideoView:tileId:) and it will begin to receive remote frames:
 
 ```
 func videoTileDidAdd(tileState: VideoTileState) {

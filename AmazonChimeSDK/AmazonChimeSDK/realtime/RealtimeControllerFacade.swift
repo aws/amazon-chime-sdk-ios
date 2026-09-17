@@ -16,7 +16,8 @@ import Foundation
 ///
 /// Events will be passed through `RealtimeObserver`, which in turn provides consumers the
 /// volume/mute/signal/attendee callbacks that can be used to render in the UI.
-@objc public protocol RealtimeControllerFacade {
+@objc(AWSChimeRealtimeControllerFacade)
+public protocol RealtimeControllerFacade {
     /// Mutes the audio input.
     ///
     /// - Returns: Whether mute was successful

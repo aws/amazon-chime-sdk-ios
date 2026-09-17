@@ -9,6 +9,7 @@
 import Foundation
 
 /// Event data that will be send to the ingestion server
+@objc(AWSChimeIngestionEvent)
 @objcMembers public class IngestionEvent: NSObject, Codable {
     /// Event Client Type associated with this event
     public let type: String

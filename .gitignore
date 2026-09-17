@@ -11,3 +11,6 @@ AmazonChimeSDK/docs
 **/IDEWorkspaceChecks.plist
 Pods
 Package.resolved
+
+# derived data for the Objective-C namespace CI check
+AmazonChimeSDK/build-objc-check/

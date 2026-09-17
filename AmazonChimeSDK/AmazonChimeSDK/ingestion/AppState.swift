@@ -8,7 +8,8 @@
 
 import UIKit
 
-@objc public enum AppState: Int, CustomStringConvertible {
+@objc(AWSChimeAppState)
+public enum AppState: Int, CustomStringConvertible {
     case active
     case inactive
     case foreground

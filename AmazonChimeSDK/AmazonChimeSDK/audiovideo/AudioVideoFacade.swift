@@ -8,7 +8,8 @@
 
 import Foundation
 
-@objc public protocol AudioVideoFacade: AudioVideoControllerFacade, RealtimeControllerFacade,
+@objc(AWSChimeAudioVideoFacade)
+public protocol AudioVideoFacade: AudioVideoControllerFacade, RealtimeControllerFacade,
     DeviceController,
     VideoTileControllerFacade,
     ActiveSpeakerDetectorFacade,

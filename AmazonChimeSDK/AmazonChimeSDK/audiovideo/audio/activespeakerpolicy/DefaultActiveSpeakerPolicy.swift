@@ -8,6 +8,7 @@
 
 import Foundation
 
+@objc(AWSChimeDefaultActiveSpeakerPolicy)
 @objcMembers public class DefaultActiveSpeakerPolicy: NSObject, ActiveSpeakerPolicy {
     public static let defaultSpeakerWeight = 0.9
     public static let defaultCutoffThreshold = 0.01

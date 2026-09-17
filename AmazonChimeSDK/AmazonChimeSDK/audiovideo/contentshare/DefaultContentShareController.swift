@@ -9,6 +9,7 @@
 import AmazonChimeSDKMedia
 import Foundation
 
+@objc(AWSChimeDefaultContentShareController)
 @objcMembers public class DefaultContentShareController: NSObject, ContentShareController {
     private let contentShareVideoClientController: ContentShareVideoClientController
 

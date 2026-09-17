@@ -10,6 +10,7 @@ import AVFoundation
 import Foundation
 import UIKit
 
+@objc(AWSChimeDefaultCameraCaptureSource)
 @objcMembers public class DefaultCameraCaptureSource: NSObject, CameraCaptureSource {
     public var videoContentHint: VideoContentHint = .motion
     private let logger: Logger
