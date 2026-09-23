@@ -9,6 +9,7 @@
 import Foundation
 
 /// `MeetingSessionStatus` indicates a status received regarding the session.
+@objc(AWSChimeMeetingSessionStatus)
 @objcMembers public class MeetingSessionStatus: NSObject {
     public let statusCode: MeetingSessionStatusCode
 

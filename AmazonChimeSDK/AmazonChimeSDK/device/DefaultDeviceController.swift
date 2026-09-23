@@ -8,6 +8,7 @@
 
 import AVFoundation
 
+@objc(AWSChimeDefaultDeviceController)
 @objcMembers public class DefaultDeviceController: NSObject, DeviceController {
     let videoClientController: VideoClientController
     let logger: Logger

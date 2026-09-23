@@ -9,7 +9,8 @@
 import Foundation
 
 /// `VideoPauseState` describes the pause status of a video tile.
-@objc public enum VideoPauseState: Int, CaseIterable, CustomStringConvertible {
+@objc(AWSChimeVideoPauseState)
+public enum VideoPauseState: Int, CaseIterable, CustomStringConvertible {
     /// The video tile is not paused
     case unpaused = 0
 

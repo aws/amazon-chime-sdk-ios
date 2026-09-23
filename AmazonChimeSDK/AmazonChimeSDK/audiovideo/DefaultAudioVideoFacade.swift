@@ -8,6 +8,7 @@
 
 import Foundation
 
+@objc(AWSChimeDefaultAudioVideoFacade)
 @objcMembers public class DefaultAudioVideoFacade: NSObject, AudioVideoFacade {
     public let configuration: MeetingSessionConfiguration
     public let logger: Logger

@@ -8,7 +8,8 @@
 
 import Foundation
 
-@objc public protocol MeetingStatsCollector {
+@objc(AWSChimeMeetingStatsCollector)
+public protocol MeetingStatsCollector {
     /// Increment meeting session retry count.
     func incrementRetryCount()
 

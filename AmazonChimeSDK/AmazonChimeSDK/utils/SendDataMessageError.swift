@@ -8,7 +8,8 @@
 
 import Foundation
 
-@objc public enum SendDataMessageError: Int, Error, CustomStringConvertible {
+@objc(AWSChimeSendDataMessageError)
+public enum SendDataMessageError: Int, Error, CustomStringConvertible {
     // Data message payload is too large
     case invalidDataLength
 

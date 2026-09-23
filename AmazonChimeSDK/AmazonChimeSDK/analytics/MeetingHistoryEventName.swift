@@ -10,7 +10,8 @@ import Foundation
 
 /// `MeetingHistoryEventName` is a meeting history state which are important events to note in the history.
 /// Thus, this also includes events in `EventName`
-@objc public enum MeetingHistoryEventName: Int, CaseIterable, CustomStringConvertible {
+@objc(AWSChimeMeetingHistoryEventName)
+public enum MeetingHistoryEventName: Int, CaseIterable, CustomStringConvertible {
     /// The microphone was selected.
     case audioInputSelected
     /// The microphone selection or access failed.

@@ -12,6 +12,7 @@ import CoreMedia
 /// `VideoFrameResender` contains logic to resend video frames as needed to maintain a minimum frame rate
 /// This can be useful with sources which may pause the generation of frames (like in-app ReplayKit screen sharing)
 /// so that internally encoders don't get in a poor state, and new receivers can immediately receive frames
+@objc(AWSChimeVideoFrameResender)
 @objcMembers public class VideoFrameResender: NSObject {
     
     // Create a serial queue for resending video frame

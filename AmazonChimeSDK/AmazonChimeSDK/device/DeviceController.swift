@@ -13,7 +13,8 @@ import Foundation
 /// The list functions return `MediaDevice` objects.
 /// Changes in device availability are broadcast to any registered
 /// `DeviceChangeObserver`.
-@objc public protocol DeviceController {
+@objc(AWSChimeDeviceController)
+public protocol DeviceController {
     /// List available audio devices
     /// - Returns: list of Media Devices
     func listAudioDevices() -> [MediaDevice]

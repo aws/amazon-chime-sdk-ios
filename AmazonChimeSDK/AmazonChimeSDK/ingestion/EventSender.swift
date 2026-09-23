@@ -9,7 +9,8 @@
 import Foundation
 
 /// `EventSender` handles the sending of ingestion record
-@objc public protocol EventSender {
+@objc(AWSChimeEventSender)
+public protocol EventSender {
 
     /// Send events as `IngestionRecord`
     /// - Parameters:

@@ -9,6 +9,7 @@
 import Foundation
 
 /// `VideoTileState` encapsulates the state of a `VideoTile`.
+@objc(AWSChimeVideoTileState)
 @objcMembers public class VideoTileState: NSObject {
     /// Unique Id associated with this tile
     public let tileId: Int

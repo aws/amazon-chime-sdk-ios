@@ -8,7 +8,8 @@
 
 import Foundation
 
-@objc public enum ModalityType: Int, Error, CustomStringConvertible {
+@objc(AWSChimeModalityType)
+public enum ModalityType: Int, Error, CustomStringConvertible {
     case content
 
     public var description: String {

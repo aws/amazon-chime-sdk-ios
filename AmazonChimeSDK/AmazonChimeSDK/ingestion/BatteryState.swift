@@ -8,7 +8,8 @@
 
 import UIKit
 
-@objc public enum BatteryState: Int, CustomStringConvertible {
+@objc(AWSChimeBatteryState)
+public enum BatteryState: Int, CustomStringConvertible {
     /// The device is plugged into power and the battery is charging
     case charging
     /// The device is unplugged and running on battery power

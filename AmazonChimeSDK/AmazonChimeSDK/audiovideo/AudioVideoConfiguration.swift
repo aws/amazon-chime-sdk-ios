@@ -9,6 +9,7 @@
 import Foundation
 
 /// `AudioVideoConfiguration` represents the configuration to be used for audio and video during a meeting session.
+@objc(AWSChimeAudioVideoConfiguration)
 @objcMembers public class AudioVideoConfiguration: NSObject {
     public static let defaultAudioMode: AudioMode = .stereo48K
     public static let defaultAudioDeviceCapabilities: AudioDeviceCapabilities = .inputAndOutput

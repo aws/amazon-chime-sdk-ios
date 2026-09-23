@@ -8,7 +8,8 @@
 
 import Foundation
 
-@objc public enum PermissionError: Int, Error, CustomStringConvertible {
+@objc(AWSChimePermissionError)
+public enum PermissionError: Int, Error, CustomStringConvertible {
     case audioPermissionError
     case videoPermissionError
 

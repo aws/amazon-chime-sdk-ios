@@ -8,6 +8,7 @@
 
 import Foundation
 
+@objc(AWSChimeIngestionPayload)
 @objcMembers public class IngestionPayload: NSObject, Codable {
     public let name: String
     public let ts: Int64

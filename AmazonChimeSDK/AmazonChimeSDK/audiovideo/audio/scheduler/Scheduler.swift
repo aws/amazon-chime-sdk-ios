@@ -11,7 +11,8 @@ import Foundation
 /**
  * `Scheduler` calls a callback on the schedule determined by the implementation.
  */
-@objc public protocol Scheduler {
+@objc(AWSChimeScheduler)
+public protocol Scheduler {
     /**
      * Schedules the callback according to the implementation.
      */

@@ -8,6 +8,7 @@
 
 import Foundation
 
+@objc(AWSChimeCreateMeetingResponse)
 @objcMembers public class CreateMeetingResponse: NSObject {
     let meeting: Meeting
 
@@ -16,6 +17,7 @@ import Foundation
     }
 }
 
+@objc(AWSChimeMeeting)
 @objcMembers public class Meeting: NSObject {
     let externalMeetingId: String?
     let mediaPlacement: MediaPlacement
@@ -52,6 +54,7 @@ import Foundation
     }
 }
 
+@objc(AWSChimeMediaPlacement)
 @objcMembers public class MediaPlacement: NSObject {
     let audioFallbackUrl: String
     let audioHostUrl: String
@@ -80,6 +83,7 @@ import Foundation
     }
 }
 
+@objc(AWSChimeMeetingFeatures)
 @objcMembers public class MeetingFeatures: NSObject {
     public let videoMaxResolution: VideoResolution
     public let contentMaxResolution: VideoResolution

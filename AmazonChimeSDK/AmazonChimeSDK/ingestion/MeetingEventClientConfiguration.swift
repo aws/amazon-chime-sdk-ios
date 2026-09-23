@@ -10,6 +10,7 @@ import Foundation
 
 /// `MeetingEventClientConfiguration` is one type of `EventClientConfiguration` that contains
 /// information about the meeting
+@objc(AWSChimeMeetingEventClientConfiguration)
 @objcMembers public class MeetingEventClientConfiguration: NSObject, EventClientConfiguration {
     public let type: EventClientType
     public let eventClientJoinToken: String

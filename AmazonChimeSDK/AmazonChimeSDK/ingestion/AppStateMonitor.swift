@@ -6,7 +6,8 @@
 //  SPDX-License-Identifier: Apache-2.0
 //
 
-@objc public protocol AppStateMonitor {
+@objc(AWSChimeAppStateMonitor)
+public protocol AppStateMonitor {
     
     var delegate: AppStateMonitorDelegate? { get set }
     

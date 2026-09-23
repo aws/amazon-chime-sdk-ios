@@ -8,6 +8,7 @@
 
 import Foundation
 
+@objc(AWSChimeDefaultEventReporter)
 @objcMembers public class DefaultEventReporter: NSObject, EventReporter {
     private let eventBuffer: EventBuffer
     private let ingestionConfiguration: IngestionConfiguration

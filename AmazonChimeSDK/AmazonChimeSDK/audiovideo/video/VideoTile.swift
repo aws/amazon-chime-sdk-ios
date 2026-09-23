@@ -10,7 +10,8 @@ import Foundation
 import VideoToolbox
 
 /// `VideoTile` is a tile that binds video render view to diplay the frame into the view.
-@objc public protocol VideoTile: VideoSink {
+@objc(AWSChimeVideoTile)
+public protocol VideoTile: VideoSink {
     /// State of VideoTile
     var state: VideoTileState { get }
 

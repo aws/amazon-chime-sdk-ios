@@ -63,6 +63,31 @@ jobs:
             -enableCodeCoverage YES \
             build test
 
+      # Objective-C entities share one global namespace, so an unprefixed symbol
+      # here breaks any app that links another framework declaring the same name.
+      - name: Check Objective-C symbols are namespaced
+        working-directory: ./AmazonChimeSDK
+        run: |
+          xcodebuild build \
+            -project AmazonChimeSDK.xcodeproj \
+            -scheme AmazonChimeSDK \
+            -destination 'platform=iOS Simulator,name=iPhone 11' \
+            -derivedDataPath ./build-objc-check
+          ../scripts/check-objc-namespace.sh \
+            ./build-objc-check/Build/Products/Debug-iphonesimulator/AmazonChimeSDK.framework \
+            --self-test
+
+      # The Objective-C demo is the only in-repo consumer of the generated
+      # interface, so without this nothing in CI compiles against it.
+      - name: Build Objective-C demo
+        working-directory: ./AmazonChimeSDKDemo
+        run: |
+          xcodebuild build \
+            -workspace AmazonChimeSDK.xcworkspace \
+            -scheme AmazonChimeSDKDemoObjC \
+            -destination 'platform=iOS Simulator,name=iPhone 11' \
+            CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO CODE_SIGN_IDENTITY=""
+
       # We cannot upload artifacts that have a colon in them. Otherwise, it will
       # error on upload. https://github.com/actions/upload-artifact/issues/35
       - name: Rename test result files with a colon

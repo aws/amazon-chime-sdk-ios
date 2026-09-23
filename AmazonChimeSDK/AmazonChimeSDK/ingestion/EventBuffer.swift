@@ -9,7 +9,8 @@
 import Foundation
 
 /// `EventBuffer` defines storing and consuming of event data.
-@objc public protocol EventBuffer {
+@objc(AWSChimeEventBuffer)
+public protocol EventBuffer {
     /// Add an item.
     /// - Parameter item: item to add
     func add(item: SDKEvent)

@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+@objc(AWSChimeDefaultVideoTileController)
 @objcMembers public class DefaultVideoTileController: NSObject, VideoTileController {
     private let logger: Logger
     private var videoTileMap = [Int: VideoTile]()

@@ -9,7 +9,8 @@
 import Foundation
 import AmazonChimeSDKMedia
 
-@objc public enum VoiceFocusError: Int, Error, CustomStringConvertible {
+@objc(AWSChimeVoiceFocusError)
+public enum VoiceFocusError: Int, Error, CustomStringConvertible {
     
     case audioClientNotStarted
     case audioClientError

@@ -11,6 +11,7 @@ import CoreMedia
 
 /// `VideoFrame` is a class which contains a `VideoFrameBuffer` and metadata necessary for transmission.
 /// Typically produced via a `VideoSource` and consumed via a `VideoSink`
+@objc(AWSChimeVideoFrame)
 @objcMembers public class VideoFrame: NSObject {
     /// Width of the video frame in pixels.
     public var width: Int { return buffer.width() }

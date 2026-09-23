@@ -10,7 +10,8 @@ import Foundation
 import AmazonChimeSDKMedia
 import AVFoundation
 
-@objc public enum VideoInterruptionReason: Int, Error, CustomStringConvertible {
+@objc(AWSChimeVideoInterruptionReason)
+public enum VideoInterruptionReason: Int, Error, CustomStringConvertible {
     
     case videoDeviceNotAvailableInBackground
     case videoDeviceInUseByAnotherClient

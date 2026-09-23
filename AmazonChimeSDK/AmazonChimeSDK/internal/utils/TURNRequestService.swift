@@ -10,6 +10,7 @@ import AmazonChimeSDKMedia
 import Foundation
 import UIKit
 
+@objc(AWSChimeTURNRequestService)
 @objcMembers public class TURNRequestService: NSObject {
     private static let contentTypeHeader = "Content-Type"
     private static let contentType = "application/json"

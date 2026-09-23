@@ -9,6 +9,7 @@
 import Foundation
 import VideoToolbox
 
+@objc(AWSChimeDefaultVideoTile)
 @objcMembers public class DefaultVideoTile: NSObject, VideoTile {
     public var state: VideoTileState
 

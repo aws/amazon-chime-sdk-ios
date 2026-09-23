@@ -9,7 +9,8 @@
 import Foundation
 
 /// `ContentShareStatusCode` indicates the reason the content share event occurred.
-@objc public enum ContentShareStatusCode: Int, CustomStringConvertible {
+@objc(AWSChimeContentShareStatusCode)
+public enum ContentShareStatusCode: Int, CustomStringConvertible {
     /// No failure.
     case ok = 0
 

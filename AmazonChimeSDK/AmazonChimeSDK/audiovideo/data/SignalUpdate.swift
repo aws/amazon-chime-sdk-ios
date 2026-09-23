@@ -8,6 +8,7 @@
 
 import Foundation
 
+@objc(AWSChimeSignalUpdate)
 @objcMembers public class SignalUpdate: NSObject {
     public let attendeeInfo: AttendeeInfo
     public let signalStrength: SignalStrength

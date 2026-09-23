@@ -8,6 +8,7 @@
 
 import Foundation
 
+@objc(AWSChimeAttendeeInfo)
 @objcMembers public class AttendeeInfo: NSObject, Comparable {
     public let attendeeId: String
     public let externalUserId: String

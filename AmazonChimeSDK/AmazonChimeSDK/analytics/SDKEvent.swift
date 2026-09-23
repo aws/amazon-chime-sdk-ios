@@ -9,6 +9,7 @@
 import Foundation
 
 /// `SDKEvent` defines event that composes of name of event and attribute to describe the event
+@objc(AWSChimeSDKEvent)
 @objcMembers public class SDKEvent: NSObject {
     public let name: String
     public let eventAttributes: [AnyHashable: Any]

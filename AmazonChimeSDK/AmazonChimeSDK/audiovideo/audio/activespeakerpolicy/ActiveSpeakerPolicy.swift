@@ -8,7 +8,8 @@
 
 import Foundation
 
-@objc public protocol ActiveSpeakerPolicy {
+@objc(AWSChimeActiveSpeakerPolicy)
+public protocol ActiveSpeakerPolicy {
     /// Return the score of the speaker. If the score is 0, this speaker is not active.
     ///
     /// - Parameter attendeeInfo: Attendee to calculate the score for

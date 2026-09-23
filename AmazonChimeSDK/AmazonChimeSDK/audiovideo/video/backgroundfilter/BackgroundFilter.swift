@@ -9,7 +9,8 @@
 import Foundation
 
 /// Enum defining the different background filter options.
-@objc public enum BackgroundFilter: Int {
+@objc(AWSChimeBackgroundFilter)
+public enum BackgroundFilter: Int {
     case none
     case blur
     case replacement

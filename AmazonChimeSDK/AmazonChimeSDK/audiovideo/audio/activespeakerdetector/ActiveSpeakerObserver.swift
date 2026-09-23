@@ -9,7 +9,8 @@
 import Foundation
 
 /// `ActiveSpeakerObserver` handles event related to finding active speaker and corresponding scores
-@objc public protocol ActiveSpeakerObserver {
+@objc(AWSChimeActiveSpeakerObserver)
+public protocol ActiveSpeakerObserver {
     /// Uniquely identifies this observer
     @objc var observerId: String { get }
     /// Frequency of activeSpeakerScoreDidChange

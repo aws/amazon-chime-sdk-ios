@@ -19,14 +19,14 @@ _Static_assert(sizeof(CwtInputModelConfig) == 5 * sizeof(int),
 // implementation of a segmentation processor. Note that users of this class must
 // check `isAvailable` before using this processor. See `isAvailable` for more
 // details.
-@implementation TensorFlowSegmentationProcessor {
+@implementation AWSChimeTensorFlowSegmentationProcessor {
     CwtTfLiteModel* _model;
     NSInteger _modelState;
 }
 
 // getModelFromBundle returns the path to the segmentation model.
 + (NSString*) getModelFromBundle {
-    NSString* bundle = [[NSBundle bundleForClass:TensorFlowSegmentationProcessor.class]
+    NSString* bundle = [[NSBundle bundleForClass:AWSChimeTensorFlowSegmentationProcessor.class]
                         pathForResource:@"selfie_segmentation_landscape" ofType:@"tflite"];
     return bundle;
 }
@@ -41,7 +41,7 @@ _Static_assert(sizeof(CwtInputModelConfig) == 5 * sizeof(int),
     if (clazz == nil) {
         return NO;
     }
-    NSString* bundle = [TensorFlowSegmentationProcessor getModelFromBundle];
+    NSString* bundle = [AWSChimeTensorFlowSegmentationProcessor getModelFromBundle];
     if (!bundle) {
         NSLog(@"Unable to find selfie segmentation model");
         return NO;
@@ -81,7 +81,7 @@ _Static_assert(sizeof(CwtInputModelConfig) == 5 * sizeof(int),
 // initialize instantiates the model for the segmentation processor.
 // Returns whether able to successfully initialize.
 - (BOOL) initialize:(NSInteger)height width:(NSInteger)width channels:(NSInteger)channels {
-    NSString* bundle = [TensorFlowSegmentationProcessor getModelFromBundle];
+    NSString* bundle = [AWSChimeTensorFlowSegmentationProcessor getModelFromBundle];
     if (!bundle) {
         NSLog(@"Unable to find selfie segmentation model");
         return NO;
@@ -145,4 +145,4 @@ _Static_assert(sizeof(CwtInputModelConfig) == 5 * sizeof(int),
     return [_model getOutputBuffer];
 }
 
-@end  // TensorFlowSegmentationProcessor
+@end  // AWSChimeTensorFlowSegmentationProcessor

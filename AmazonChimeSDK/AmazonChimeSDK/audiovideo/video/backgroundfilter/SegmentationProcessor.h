@@ -11,7 +11,8 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol SegmentationProcessor
+NS_SWIFT_NAME(SegmentationProcessor)
+@protocol AWSChimeSegmentationProcessor
 
 - (BOOL) initialize:(NSInteger)height width:(NSInteger)width channels:(NSInteger)channels;
 
@@ -23,6 +24,6 @@
 
 - (uint8_t* _Nonnull) getOutputBuffer;
 
-@end // SegmentationProcessor
+@end // AWSChimeSegmentationProcessor
 
 #endif  // SEGMENTATION_PROCESSOR_H

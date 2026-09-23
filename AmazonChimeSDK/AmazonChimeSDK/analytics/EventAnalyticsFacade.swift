@@ -9,7 +9,8 @@
 import Foundation
 
 /// `EventAnalyticsFacade` exposes event analytics related function to builders
-@objc public protocol EventAnalyticsFacade {
+@objc(AWSChimeEventAnalyticsFacade)
+public protocol EventAnalyticsFacade {
     /// Subscribes to meeting event related data with an observer
     /// - Parameter observer: An observer to add to start receiving meeting events
     func addEventAnalyticsObserver(observer: EventAnalyticsObserver)

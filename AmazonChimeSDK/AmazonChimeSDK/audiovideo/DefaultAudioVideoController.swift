@@ -9,6 +9,7 @@
 import AVFoundation
 import Foundation
 
+@objc(AWSChimeDefaultAudioVideoController)
 @objcMembers public class DefaultAudioVideoController: NSObject, AudioVideoControllerFacade {
     public let configuration: MeetingSessionConfiguration
     public let logger: Logger

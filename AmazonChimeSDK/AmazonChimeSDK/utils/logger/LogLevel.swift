@@ -8,7 +8,8 @@
 
 import Foundation
 
-@objc public enum LogLevel: Int, CaseIterable, CustomStringConvertible {
+@objc(AWSChimeLogLevel)
+public enum LogLevel: Int, CaseIterable, CustomStringConvertible {
     case DEFAULT = 0
     case DEBUG = 1
     case INFO = 2

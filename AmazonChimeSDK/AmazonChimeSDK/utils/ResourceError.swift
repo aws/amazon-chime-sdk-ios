@@ -8,7 +8,8 @@
 
 import Foundation
 
-@objc public enum ResourceError: Int, Error, CustomStringConvertible {
+@objc(AWSChimeResourceError)
+public enum ResourceError: Int, Error, CustomStringConvertible {
     case notFound
 
     public var description: String {

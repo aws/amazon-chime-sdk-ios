@@ -9,7 +9,8 @@
 import Foundation
 
 /// `DataMessasgeObserver` handles data message event,
-@objc public protocol DataMessageObserver {
+@objc(AWSChimeDataMessageObserver)
+public protocol DataMessageObserver {
     /// Handles data message receive event
     ///
     /// Note: this callback will be called on main thread.

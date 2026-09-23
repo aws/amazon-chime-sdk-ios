@@ -11,7 +11,8 @@ import Foundation
 /// `VideoSource` is an interface for sources which produce video frames, and can send to a `VideoSink`.
 /// Implementations can be passed to the `AudioVideoFacade` to be used as the video source sent to remote
 /// participlants
-@objc public protocol VideoSource {
+@objc(AWSChimeVideoSource)
+public protocol VideoSource {
     /// Content hint for downstream processing.
     var videoContentHint: VideoContentHint { get set }
 

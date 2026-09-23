@@ -8,7 +8,8 @@
 
 import Foundation
 
-@objc public enum MediaDeviceType: Int, CustomStringConvertible {
+@objc(AWSChimeMediaDeviceType)
+public enum MediaDeviceType: Int, CustomStringConvertible {
     case audioBluetooth
     case audioWiredHeadset
     case audioBuiltInSpeaker

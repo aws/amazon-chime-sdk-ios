@@ -9,7 +9,8 @@
 import Foundation
 
 /// EventAttributeName describes key of attributes that are passed in `EventAnalyticsObserver.eventDidReceive`
-@objc public enum EventAttributeName: Int, CustomStringConvertible, CaseIterable {
+@objc(AWSChimeEventAttributeName)
+public enum EventAttributeName: Int, CustomStringConvertible, CaseIterable {
     /// Name of device = Manufacturer of Device + Device Model
     case deviceName
     /// Manufacturer of Device

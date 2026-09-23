@@ -8,7 +8,8 @@
 
 import Foundation
 
-@objc public protocol MeetingSession {
+@objc(AWSChimeMeetingSession)
+public protocol MeetingSession {
     var configuration: MeetingSessionConfiguration { get }
     var logger: Logger { get }
     var audioVideo: AudioVideoFacade { get }

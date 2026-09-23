@@ -9,7 +9,8 @@
 import Foundation
 import AmazonChimeSDKMedia
 
-@objc public enum VideoClientFailedError: Int, Error, CustomStringConvertible {
+@objc(AWSChimeVideoClientFailedError)
+public enum VideoClientFailedError: Int, Error, CustomStringConvertible {
 
     case authenticationFailed
     case peerConnectionCreateFailed

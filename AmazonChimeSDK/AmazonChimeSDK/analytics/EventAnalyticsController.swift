@@ -10,7 +10,8 @@ import Foundation
 
 /// `EventAnalyticsController` keeps track of events and notifies `EventAnalyticsObserver`.
 /// An event describes the success and failure conditions for the meeting session.
-@objc public protocol EventAnalyticsController {
+@objc(AWSChimeEventAnalyticsController)
+public protocol EventAnalyticsController {
     func publishEvent(name: EventName)
 
     /// Publish an event with updated `EventAttributes`

@@ -11,7 +11,8 @@ import Foundation
 
 /// `VideoContentHint` describes the content type of a video source so that downstream encoders, etc. can properly
 /// decide on what parameters will work best. These options mirror https://www.w3.org/TR/mst-content-hint/ .
-@objc public enum VideoContentHint: Int {
+@objc(AWSChimeVideoContentHint)
+public enum VideoContentHint: Int {
     /// No hint has been provided.
     case none = 0
 

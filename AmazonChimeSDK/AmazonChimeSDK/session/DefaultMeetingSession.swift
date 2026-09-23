@@ -10,6 +10,7 @@ import AmazonChimeSDKMedia
 import AVFoundation
 import Foundation
 
+@objc(AWSChimeDefaultMeetingSession)
 @objcMembers public class DefaultMeetingSession: NSObject, MeetingSession {
     public let audioVideo: AudioVideoFacade
     public let configuration: MeetingSessionConfiguration

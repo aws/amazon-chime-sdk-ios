@@ -13,6 +13,7 @@ import Foundation
  */
 typealias DetectorCallback = (_ attendeeIds: [AttendeeInfo]) -> Void
 
+@objc(AWSChimeDefaultActiveSpeakerDetector)
 @objcMembers public class DefaultActiveSpeakerDetector: NSObject, ActiveSpeakerDetectorFacade, RealtimeObserver {
     private static let activityWaitIntervalMs = 1000
     private static let activityUpdateIntervalMs = 200

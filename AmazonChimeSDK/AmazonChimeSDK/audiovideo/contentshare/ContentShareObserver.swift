@@ -11,7 +11,8 @@ import Foundation
 /// `ContentShareObserver` handles all callbacks related to the content share.
 /// By implementing the callback functions and registering with `ContentShareController.addContentShareObserver`,
 /// one can get notified with content share status events.
-@objc public protocol ContentShareObserver {
+@objc(AWSChimeContentShareObserver)
+public protocol ContentShareObserver {
     /// Called when the content share has started.
     ///
     /// Note: this callback will be called on main thread.

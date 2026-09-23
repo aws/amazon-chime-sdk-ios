@@ -9,7 +9,8 @@
 import AVFoundation
 import Foundation
 
-@objc public protocol AudioSession {
+@objc(AWSChimeAudioSession)
+public protocol AudioSession {
     var recordPermission: AVAudioSession.RecordPermission { get }
     var availableInputs: [AVAudioSessionPortDescription]? { get }
     func setPreferredInput(_ inPort: AVAudioSessionPortDescription?) throws

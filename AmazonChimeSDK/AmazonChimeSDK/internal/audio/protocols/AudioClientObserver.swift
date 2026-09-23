@@ -8,7 +8,8 @@
 
 import Foundation
 
-@objc public protocol AudioClientObserver {
+@objc(AWSChimeAudioClientObserver)
+public protocol AudioClientObserver {
     func notifyAudioClientObserver(observerFunction: @escaping (_ observer: AudioVideoObserver) -> Void)
     func subscribeToAudioClientStateChange(observer: AudioVideoObserver)
     func subscribeToRealTimeEvents(observer: RealtimeObserver)

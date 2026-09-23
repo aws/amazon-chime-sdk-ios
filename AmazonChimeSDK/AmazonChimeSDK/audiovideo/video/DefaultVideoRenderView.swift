@@ -10,6 +10,7 @@ import os
 import UIKit
 import VideoToolbox
 
+@objc(AWSChimeDefaultVideoRenderView)
 @objcMembers public class DefaultVideoRenderView: UIImageView, VideoRenderView {
     private let scalingContentModes: [UIView.ContentMode] = [.scaleAspectFill, .scaleToFill, .scaleAspectFit]
 

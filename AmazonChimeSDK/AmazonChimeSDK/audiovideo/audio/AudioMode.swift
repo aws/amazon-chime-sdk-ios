@@ -9,7 +9,8 @@
 import Foundation
 
 /// `AudioMode` describes the audio mode in which the audio client should operate during a meeting session
-@objc public enum AudioMode: Int, CaseIterable, CustomStringConvertible {
+@objc(AWSChimeAudioMode)
+public enum AudioMode: Int, CaseIterable, CustomStringConvertible {
     public static var allCases: [AudioMode] = [
         .mono16K,
         .mono48K,
