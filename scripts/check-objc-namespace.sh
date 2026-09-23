@@ -126,7 +126,7 @@ fi
 
 if ! diff -u "$SNAPSHOT" "$CACHE_DIR/objc-surface-actual.txt"; then
   echo "FAIL: the Objective-C surface changed. If intended, update $SNAPSHOT"
-  echo "and add the new symbols to guides/objc_migration.md."
+  echo "and note the new symbols in the CHANGELOG entry."
   exit 1
 fi
 

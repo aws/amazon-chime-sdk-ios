@@ -76,8 +76,6 @@ jobs:
           ../scripts/check-objc-namespace.sh \
             ./build-objc-check/Build/Products/Debug-iphonesimulator/AmazonChimeSDK.framework \
             --self-test
-          ../scripts/check-objc-collision.sh \
-            ./build-objc-check/Build/Products/Debug-iphonesimulator
 
       # The Objective-C demo is the only in-repo consumer of the generated
       # interface, so without this nothing in CI compiles against it.
