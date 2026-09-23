@@ -1,7 +1,7 @@
-## [0.28.0] - 2026-09-22
+## [Unreleased]
 
 ### Changed
-* **Obj-C API Breaking Only** Every Objective-C-visible type, protocol, `NS_ENUM`, enum constant and `NSError` domain constant now carries an `AWSChime` prefix (for example `ConsoleLogger` becomes `AWSChimeConsoleLogger` and the constant `MediaErrorDomain` becomes `AWSChimeMediaErrorDomain`), so Objective-C callers must add the prefix at each reference while Swift callers need no change and no Swift name moves. `NSError` domain string values are unchanged, and `AmazonChimeSDKMedia` 0.26.0 applies the same prefix to its own Objective-C surface.
+* **Obj-C API Breaking Only** Every Objective-C-visible type, protocol, `NS_ENUM`, enum constant and `NSError` domain constant now carries an `AWSChime` prefix (for example `ConsoleLogger` becomes `AWSChimeConsoleLogger` and the constant `MediaErrorDomain` becomes `AWSChimeMediaErrorDomain`), so Objective-C callers must add the prefix at each reference while Swift callers need no change and no Swift name moves. `NSError` domain string values are unchanged, and the matching `AmazonChimeSDKMedia` release applies the same prefix to its own Objective-C surface.
 
 ## [0.27.4] - 2026-08-24
 
