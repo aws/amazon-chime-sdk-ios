@@ -11,4 +11,6 @@ import UIKit
 class DebugSettingsModel: NSObject {
     var endpointUrl: String = ""
     var primaryExternalMeetingId: String = ""
+    // When on, the join request asks the demo backend for FHD video / UHD content features
+    var enableHigherDefinitionVideo: Bool = false
 }

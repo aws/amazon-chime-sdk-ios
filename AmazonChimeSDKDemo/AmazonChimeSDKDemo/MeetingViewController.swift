@@ -689,7 +689,8 @@ class MeetingViewController: UIViewController {
                 JoinRequestService.postJoinRequest(meetingId: meetingModel.primaryExternalMeetingId,
                                                    name: "promoted-\(meetingModel.selfName)",
                                                    overriddenEndpoint: MeetingModule.shared().cachedOverriddenEndpoint,
-                                                   primaryExternalMeetingId: "") { joinMeetingResponse in
+                                                   primaryExternalMeetingId: "",
+                                                   enableHigherDefinitionVideo: MeetingModule.shared().cachedEnableHigherDefinitionVideo) { joinMeetingResponse in
                     if let joinMeetingResponse = joinMeetingResponse {
                         self.logger.info(msg: "Attempting to promote to primary meeting")
                         let meetingResp = JoinRequestService.getCreateMeetingResponse(from: joinMeetingResponse)
@@ -716,13 +717,14 @@ class MeetingViewController: UIViewController {
         videoConfigAlertController.addTextField { textField in
             textField.keyboardType = .numberPad
             textField.placeholder = "Local Video Max Bitrate in kbps"
+            textField.accessibilityIdentifier = "Local Video Max Bitrate Input"
         }
         let doneAction = UIAlertAction(title: "Done",
                                        style: .default) { [weak videoConfigAlertController] _ in
             guard let textFields = videoConfigAlertController?.textFields else {
                 return
             }
-            let maxBitRateInKbps = UInt32(textFields[0].text ?? "") ?? 0
+            let maxBitRateInKbps = UInt32(textFields[0].text ?? "")
             if let videoModel = self.meetingModel?.videoModel {
                 videoModel.localVideoMaxBitRateKbps = maxBitRateInKbps
                 // if local video is started, restart
