@@ -171,6 +171,11 @@ import Foundation
         audioVideoController.promoteToPrimaryMeeting(credentials: credentials, observer: observer)
     }
 
+    public func setCallKitOnHold(_ onHold: Bool) {
+        audioVideoController.setCallKitOnHold?(onHold)
+        trace(name: "setCallKitOnHold(\(onHold))")
+    }
+
     public func demoteFromPrimaryMeeting() {
         audioVideoController.demoteFromPrimaryMeeting()
         // Stop content share as well

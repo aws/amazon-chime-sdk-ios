@@ -64,6 +64,7 @@ class MeetingViewController: UIViewController {
 
     // Model
     var meetingModel: MeetingModel?
+    private var previousMode: MeetingModel.ActiveMode?
 
     // Local var
     private let logger = ConsoleLogger(name: "MeetingViewController")
@@ -315,6 +316,10 @@ class MeetingViewController: UIViewController {
     }
 
     private func switchSubview(mode: MeetingModel.ActiveMode) {
+        if previousMode == .callKitOnHold && mode != .callKitOnHold {
+            restoreControlsAfterCallKitHold()
+        }
+        previousMode = mode
         rosterTable.isHidden = true
         videoCollection.isHidden = true
         videoPaginationControlView.isHidden = true
@@ -734,6 +739,18 @@ class MeetingViewController: UIViewController {
         videoConfigAlertController.addAction(doneAction)
         present(videoConfigAlertController, animated: true)
     }
+    private func restoreControlsAfterCallKitHold() {
+        let capabilities = meetingModel?.audioVideoConfig.audioDeviceCapabilities
+        muteButton.isEnabled = capabilities != AudioDeviceCapabilities.none
+            && capabilities != AudioDeviceCapabilities.outputOnly
+        additionalOptionsButton.isEnabled = true
+        deviceButton.isEnabled = true
+        cameraButton.isEnabled = true
+        if let model = meetingModel, !model.primaryExternalMeetingId.isEmpty, !model.isPromotedToPrimaryMeeting {
+            enableOrDisableButtonsForReplicatedMeeting(enabled: false)
+        }
+    }
+
     private func enableOrDisableButtonsForReplicatedMeeting(enabled: Bool) {
         muteButton.isEnabled = enabled
         cameraButton.isEnabled = enabled

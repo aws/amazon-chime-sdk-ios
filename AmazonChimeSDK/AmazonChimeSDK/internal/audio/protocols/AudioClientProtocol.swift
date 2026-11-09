@@ -52,6 +52,8 @@ import Foundation
 
     func setBliteNSSelected(_ bliteSelected: Bool) -> Int
 
+    func beginOnHold()
+
     func endOnHold()
 
     func joinPrimaryMeeting(_ attendeeId: String!, externalUserId: String!, joinToken: String!)

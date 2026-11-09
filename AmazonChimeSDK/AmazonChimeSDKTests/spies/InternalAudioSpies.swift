@@ -192,6 +192,9 @@ class AudioClientProtocolSpy: AudioClientProtocol {
         return setBliteNSSelectedReturn
     }
 
+    var beginOnHoldCallCount = 0
+    func beginOnHold() { beginOnHoldCallCount += 1 }
+
     func endOnHold() { endOnHoldCallCount += 1 }
 
     func joinPrimaryMeeting(_ attendeeId: String!, externalUserId: String!, joinToken: String!) {
@@ -282,6 +285,8 @@ class AudioClientControllerSpy: AudioClientController {
     var isVoiceFocusEnabledReturn = false
     var promoteToPrimaryMeetingCalls: [PromoteToPrimaryMeetingCall] = []
     var demoteFromPrimaryMeetingCallCount = 0
+    var setCallKitOnHoldCalls: [Bool] = []
+    func setCallKitOnHold(_ onHold: Bool) { setCallKitOnHoldCalls.append(onHold) }
 
     func setMute(mute: Bool) -> Bool {
         setMuteCalls.append(mute)

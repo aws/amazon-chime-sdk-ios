@@ -357,16 +357,61 @@ class MeetingModel: NSObject {
         }
     }
 
+    // True once audio has started for this meeting, so a later didActivate means "resumed from hold".
+    private var hasStartedAudioVideo = false
+    private var isCallKitResumePending = false
+    private var callKitResumeFallback: DispatchWorkItem?
+
+    // Restores audio after a CallKit hold. CallKit does not always call didActivate after the call is
+    // taken off hold (e.g. when the other party ends the phone call and the user resumes manually),
+    // so if it has not arrived shortly after unhold, activate the audio session ourselves.
+    // If activation fails, the hold is left pending so a later didActivate can still end it; ending the
+    // hold without an active audio session would fail the audio device and drop the attendee.
+    private func scheduleCallKitResumeFallback() {
+        cancelCallKitResumeFallback()
+        let fallback = DispatchWorkItem { [weak self] in
+            guard let self = self, self.isCallKitResumePending else { return }
+            self.callKitResumeFallback = nil
+            do {
+                try AVAudioSession.sharedInstance().setActive(true)
+            } catch {
+                self.logger.error(msg: "Failed to activate audio session after CallKit unhold: \(error)")
+                return
+            }
+            self.resumeFromCallKitHold()
+        }
+        callKitResumeFallback = fallback
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: fallback)
+    }
+
+    private func cancelCallKitResumeFallback() {
+        callKitResumeFallback?.cancel()
+        callKitResumeFallback = nil
+    }
+
+    private func resumeFromCallKitHold() {
+        guard isCallKitResumePending, call?.isOnHold == false else { return }
+        cancelCallKitResumeFallback()
+        isCallKitResumePending = false
+        currentMeetingSession.audioVideo.setCallKitOnHold?(false)
+    }
+
     private func createCall(isOutgoing: Bool) -> Call {
         let call = Call(uuid: uuid, handle: meetingId, isOutgoing: isOutgoing)
         call.isReadytoConfigureHandler = { [weak self] in
             self?.configureAudioSession()
         }
         call.isAudioSessionActiveHandler = { [weak self] in
-            self?.startAudioVideoConnection()
-            self?.currentMeetingSession.audioVideo.startRemoteVideo()
-            if self?.isMuted ?? false {
-                _ = self?.currentMeetingSession.audioVideo.realtimeLocalMute()
+            guard let self = self else { return }
+            if self.hasStartedAudioVideo {
+                self.resumeFromCallKitHold()
+                return
+            }
+            self.hasStartedAudioVideo = true
+            self.startAudioVideoConnection()
+            self.currentMeetingSession.audioVideo.startRemoteVideo()
+            if self.isMuted {
+                _ = self.currentMeetingSession.audioVideo.realtimeLocalMute()
             }
         }
         call.isEndedHandler = { [weak self] in
@@ -377,10 +422,14 @@ class MeetingModel: NSObject {
         }
         call.isOnHoldHandler = { [weak self] isOnHold in
             if isOnHold {
-                self?.currentMeetingSession.audioVideo.stop()
+                // Keep the meeting connected through the hold; stop() would leave the meeting.
+                self?.cancelCallKitResumeFallback()
+                self?.currentMeetingSession.audioVideo.setCallKitOnHold?(true)
+                self?.isCallKitResumePending = true
                 self?.savedModeBeforeOnHold = self?.activeMode
                 self?.activeMode = .callKitOnHold
             } else {
+                self?.scheduleCallKitResumeFallback()
                 if let savedModeBeforeOnHold = self?.savedModeBeforeOnHold {
                     self?.activeMode = savedModeBeforeOnHold
                     self?.savedModeBeforeOnHold = nil
