@@ -268,6 +268,25 @@ class DefaultAudioClientObserverTests: XCTestCase {
         wait(for: [expect], timeout: 2)
     }
 
+    func testAudioClientStateChanged_ServerHungupClearsCallKitHold() {
+        DefaultAudioClientController.state = .started
+        DefaultAudioClientController.callKitEnabled = true
+        DefaultAudioClientController.isOnHold = true
+
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_CONNECTED,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.ok.rawValue))
+        defaultAudioClientObserver.audioClientStateChanged(AUDIO_CLIENT_STATE_SERVER_HUNGUP,
+                                                           status: audio_client_status_t.init(MeetingSessionStatusCode.audioServerHungup.rawValue))
+
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            XCTAssertFalse(DefaultAudioClientController.callKitEnabled)
+            XCTAssertFalse(DefaultAudioClientController.isOnHold)
+            expect.fulfill()
+        }
+        wait(for: [expect], timeout: 2)
+    }
+
     func testAudioClientStateChanged_FinishDisconnectingFromConnected_WhenJoinedFromAnotherDevice() {
         audioClientMock.stopSessionReturn = 0
          DefaultAudioClientController.state = .started

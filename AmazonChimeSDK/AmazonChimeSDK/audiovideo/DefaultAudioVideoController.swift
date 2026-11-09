@@ -203,6 +203,10 @@ import Foundation
         }
     }
 
+    public func setCallKitOnHold(_ onHold: Bool) {
+        audioClientController.setCallKitOnHold(onHold)
+    }
+
     public func demoteFromPrimaryMeeting() {
         videoClientController.demoteFromPrimaryMeeting()
         audioClientController.demoteFromPrimaryMeeting()

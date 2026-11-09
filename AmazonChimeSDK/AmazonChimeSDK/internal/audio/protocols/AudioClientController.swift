@@ -27,4 +27,5 @@ import Foundation
     func isVoiceFocusEnabled() -> Bool
     func promoteToPrimaryMeeting(credentials: MeetingSessionCredentials, observer: PrimaryMeetingPromotionObserver)
     func demoteFromPrimaryMeeting()
+    func setCallKitOnHold(_ onHold: Bool)
 }

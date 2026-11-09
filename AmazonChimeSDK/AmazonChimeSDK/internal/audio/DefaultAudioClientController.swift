@@ -12,6 +12,8 @@ import Foundation
 
 class DefaultAudioClientController: NSObject {
     static var state = AudioClientState.initialized
+    static var callKitEnabled = false
+    static var isOnHold = false
     private let audioLock: AudioLock
     private var audioClient: AudioClientProtocol
     private let audioClientObserver: AudioClientObserver
@@ -105,7 +107,9 @@ extension DefaultAudioClientController: AudioClientController {
         if Self.state == .started {
             throw MediaError.illegalState
         }
-        
+        Self.callKitEnabled = callKitEnabled
+        Self.isOnHold = false
+
         if audioHostUrl.isBlank || audioFallbackUrl.isBlank {
             logger.error(msg: "`audioHostUrl` or `audioFallbackUrl` is empty")
             throw MediaError.audioFailedToStart
@@ -176,6 +180,7 @@ extension DefaultAudioClientController: AudioClientController {
             self.audioLock.lock()
             let audioClientStatusCode = self.audioClient.stopSession()
             Self.state = .stopped
+            Self.clearCallKitHold()
             let meetingSessionStatusCode = Converters.AudioClientStatus.toMeetingSessionStatusCode(
                 rawValue: UInt32(audioClientStatusCode)
             )
@@ -286,5 +291,30 @@ extension DefaultAudioClientController: AudioClientController {
         @unknown default:
             break
         }
+    }
+}
+
+extension DefaultAudioClientController {
+    // Callers must hold the audio lock.
+    static func clearCallKitHold() {
+        callKitEnabled = false
+        isOnHold = false
+    }
+
+    func setCallKitOnHold(_ onHold: Bool) {
+        audioLock.lock()
+        defer { audioLock.unlock() }
+        guard Self.state == .started, Self.callKitEnabled, Self.isOnHold != onHold else {
+            logger.error(msg: "setCallKitOnHold(\(onHold)) ignored: state=\(Self.state) " +
+                "callKitEnabled=\(Self.callKitEnabled) onHold=\(Self.isOnHold)")
+            return
+        }
+        if onHold {
+            audioClient.beginOnHold()
+        } else {
+            audioClient.endOnHold()
+        }
+        Self.isOnHold = onHold
+        logger.info(msg: onHold ? "Audio hold began" : "Audio hold ended")
     }
 }
