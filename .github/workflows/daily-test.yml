@@ -44,7 +44,7 @@ jobs:
         uses: actions/checkout@v4
         if: always()
         with:
-          repository: awslabs/amazon-chime-sdk-apple
+          repository: awslabs/amazon-chime-sdk-mobile-test-automation
           token: ${{ secrets.GH_INTEG_READ_ONLY_PAT }}
           ref: automated-test-development
 
