@@ -1,0 +1,63 @@
+name: Mobile SDK Automation Harness
+
+on:
+  pull_request:
+    paths:
+      - 'integration/mobile-sdk-automation/**'
+      - '.github/workflows/mobile-sdk-automation.yml'
+      - '.github/workflows/daily-test.yml'
+  push:
+    branches:
+      - development
+      - pre-release
+      - master
+    paths:
+      - 'integration/mobile-sdk-automation/**'
+      - '.github/workflows/mobile-sdk-automation.yml'
+      - '.github/workflows/daily-test.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mobile-sdk-automation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  harness-unit:
+    name: Harness build and unit tests
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: integration/mobile-sdk-automation
+    env:
+      HUSKY_SKIP_INSTALL: '1'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 15.14.0
+          cache: npm
+          cache-dependency-path: integration/mobile-sdk-automation/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Compile
+        run: npm run build
+
+      - name: Verify no test files are emitted
+        run: |
+          emitted=$(find dist -name '*.test.*' | wc -l)
+          echo "Emitted test files: ${emitted}"
+          test "${emitted}" -eq 0
+
+      - name: Run unit tests
+        run: npm run test:unit
