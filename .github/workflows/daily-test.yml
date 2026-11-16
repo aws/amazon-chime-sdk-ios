@@ -102,20 +102,20 @@ jobs:
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
-        if: always()
+        if: always() && github.ref == 'refs/heads/master'
         with:
           role-to-assume: ${{ secrets.ROLE_TO_ASSUME }}
           aws-region: ${{ env.REGION }}
 
       - name: Setup Node.js - 18.x
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        if: always()
+        if: always() && github.ref == 'refs/heads/master'
         with:
           node-version: 18.x
 
       # The metric client is installed outside the harness so it cannot alter the harness lockfile.
       - name: Send Metric to CloudWatch
-        if: always()
+        if: always() && github.ref == 'refs/heads/master'
         working-directory: ${{ runner.temp }}
         run: |
           npm install --no-save --prefix metric-client @aws-sdk/client-cloudwatch
