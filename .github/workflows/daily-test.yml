@@ -20,7 +20,7 @@ env:
   METRIC_NAME: ${{ secrets.METRIC_NAME }}
   METRIC_NAMESPACE: ${{ secrets.METRIC_NAMESPACE }}
   REGION: us-east-1
-  HARNESS_DIR: automation/mobile-sdk-daily-tests
+  HARNESS_DIR: mobile-sdk-daily-tests
   HUSKY_SKIP_INSTALL: '1'
 
 permissions:

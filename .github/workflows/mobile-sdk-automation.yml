@@ -3,7 +3,7 @@ name: Mobile SDK Automation Harness
 on:
   pull_request:
     paths:
-      - 'automation/mobile-sdk-daily-tests/**'
+      - 'mobile-sdk-daily-tests/**'
       - '.github/workflows/mobile-sdk-automation.yml'
       - '.github/workflows/daily-test.yml'
   push:
@@ -12,7 +12,7 @@ on:
       - pre-release
       - master
     paths:
-      - 'automation/mobile-sdk-daily-tests/**'
+      - 'mobile-sdk-daily-tests/**'
       - '.github/workflows/mobile-sdk-automation.yml'
       - '.github/workflows/daily-test.yml'
   workflow_dispatch:
@@ -31,7 +31,7 @@ jobs:
     timeout-minutes: 15
     defaults:
       run:
-        working-directory: automation/mobile-sdk-daily-tests
+        working-directory: mobile-sdk-daily-tests
     env:
       HUSKY_SKIP_INSTALL: '1'
     steps:
@@ -45,7 +45,7 @@ jobs:
         with:
           node-version: 15.14.0
           cache: npm
-          cache-dependency-path: automation/mobile-sdk-daily-tests/package-lock.json
+          cache-dependency-path: mobile-sdk-daily-tests/package-lock.json
 
       - name: Install dependencies
         run: npm ci

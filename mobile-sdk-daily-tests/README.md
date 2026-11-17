@@ -30,7 +30,7 @@ The package depends on an old `husky` release that installs Git hooks into the e
 ## Build and unit tests
 
 ```bash
-cd automation/mobile-sdk-daily-tests
+cd mobile-sdk-daily-tests
 export HUSKY_SKIP_INSTALL=1
 npm ci
 npm run build
