@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.license          = 'Apache License, Version 2.0'
   s.author           = { 'Amazon Web Services' => 'amazonwebservices' }
   s.source           = { :http => "https://amazon-chime-sdk-ios.s3.amazonaws.com/media-no-video-codecs/0.25.4/AmazonChimeSDKMediaNoVideoCodecs-0.25.4.tar.gz" }
-  s.ios.deployment_target = '12.0'
+  s.ios.deployment_target = '14.0'
   s.vendored_frameworks = "AmazonChimeSDKMedia.xcframework"
   s.swift_version    = '5.0'
 end

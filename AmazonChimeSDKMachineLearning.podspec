@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.license          = 'Apache License, Version 2.0'
   s.author           = { 'Amazon Web Services' => 'amazonwebservices' }
   s.source           = { :http => "https://amazon-chime-sdk-ios.s3.amazonaws.com/machine-learning/0.3.3/AmazonChimeSDKMachineLearning-0.3.3.tar.gz" }
-  s.ios.deployment_target = '12.0'
+  s.ios.deployment_target = '14.0'
   s.vendored_frameworks = "AmazonChimeSDKMachineLearning.xcframework"
   s.frameworks       = 'CoreML'
   s.swift_version    = '5.0'
