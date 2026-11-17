@@ -1,4 +1,4 @@
-# Mobile SDK Automation
+# Mobile SDK Daily Tests
 
 End-to-end daily test harness for the Amazon Chime SDK iOS and Android demo applications. It drives a demo app on a Sauce Labs real device with [Appium](http://appium.io/) and [WebdriverIO](https://webdriver.io/), and uses a Chrome session running the [Amazon Chime SDK JS meeting demo](https://github.com/aws/amazon-chime-sdk-js/tree/main/demos/browser) as the second meeting participant. Scenarios are written as [Cucumber](https://github.com/cucumber/cucumber-js) features.
 
@@ -30,7 +30,7 @@ The package depends on an old `husky` release that installs Git hooks into the e
 ## Build and unit tests
 
 ```bash
-cd integration/mobile-sdk-automation
+cd automation/mobile-sdk-daily-tests
 export HUSKY_SKIP_INSTALL=1
 npm ci
 npm run build
