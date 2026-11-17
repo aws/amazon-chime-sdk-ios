@@ -1,3 +1,8 @@
+## [Unreleased]
+
+### Fixed
+* `meetingStartFailed` now reports the native audio client's start status. When no audio status callback has arrived, `meetingStatus` is derived from that status instead of `ok`, and `meetingErrorMessage` carries the raw `startSession` status code.
+
 ## [0.27.4] - 2026-08-24
 
 ### Changed
