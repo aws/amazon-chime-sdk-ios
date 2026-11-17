@@ -78,7 +78,7 @@ npm run cma -- --app-url "<absolute-path-to-app>" --demo-url "<demo-url>" --dev 
 
 ## Daily workflows
 
-`.github/workflows/daily-test.yml` runs this harness against the published demo applications on iOS 15 and 16, for the default and no-video-codecs flavors, and publishes one pass/fail summary metric per matrix job. It needs these repository secrets: `SAUCE_USERNAME`, `SAUCE_ACCESS_KEY`, `DEMO_APP_DOWNLOAD_LINK`, `NO_VIDEO_CODECS_DEMO_APP_DOWNLOAD_LINK`, `HELPER_DEMO_URL`, `SLACK_WEBHOOK_URL`, `ROLE_TO_ASSUME`, `METRIC_NAME`, and `METRIC_NAMESPACE`.
+`.github/workflows/daily-test.yml` runs this harness against the published demo applications on iOS 15 and 16, for the default and no-video-codecs flavors, and publishes one pass/fail summary metric per matrix job. It needs the `HELPER_DEMO_URL` repository variable and these repository secrets: `SAUCE_USERNAME`, `SAUCE_ACCESS_KEY`, `DEMO_APP_DOWNLOAD_LINK`, `NO_VIDEO_CODECS_DEMO_APP_DOWNLOAD_LINK`, `SLACK_WEBHOOK_URL`, `ROLE_TO_ASSUME`, `METRIC_NAME`, and `METRIC_NAMESPACE`.
 
 `.github/workflows/mobile-sdk-automation.yml` compiles the harness and runs its unit tests on pull requests and pushes that change this directory or that workflow. It uses no secrets.
 
