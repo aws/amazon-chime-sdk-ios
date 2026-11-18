@@ -23,42 +23,26 @@ jobs:
         # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
-      # Download amazon-chime-sdk-media binary from AWS S3
-      - name: Get AmazonChimeSDKMedia from AWS S3
+      # Download the media and machine-learning binaries pinned by the podspecs
+      - name: Get AmazonChimeSDKMedia and AmazonChimeSDKMachineLearning
         run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile jenkins-automated-test
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile jenkins-automated-test
-          aws \
-            --profile jenkins-automated-test \
-            s3api get-object \
-            --bucket amazon-chime-sdk-ios-internal \
-            --key master/media/latest/AmazonChimeSDKMedia.tar.gz \
-            AmazonChimeSDKMedia.tar.gz
-          tar -xzf AmazonChimeSDKMedia.tar.gz
-          cp -R ./AmazonChimeSDKMedia.xcframework ./AmazonChimeSDK
-
-      # Download amazon-chime-sdk-machine-learning binary from AWS S3
-      - name: Get AmazonChimeSDKMachineLearning from AWS S3
-        run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} --profile jenkins-automated-test
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} --profile jenkins-automated-test
-          aws \
-            --profile jenkins-automated-test \
-            s3api get-object \
-            --bucket amazon-chime-sdk-ios-internal \
-            --key master/machine-learning/latest/AmazonChimeSDKMachineLearning.tar.gz \
-            AmazonChimeSDKMachineLearning.tar.gz
-          tar -xzf AmazonChimeSDKMachineLearning.tar.gz
-          cp -R ./AmazonChimeSDKMachineLearning.xcframework ./AmazonChimeSDK
+          set -euo pipefail
+          for podspec in AmazonChimeSDKMedia AmazonChimeSDKMachineLearning; do
+            url=$(sed -n 's/.*:http => "\(.*\)".*/\1/p' "$podspec.podspec")
+            curl -fsSL -o "$podspec.tar.gz" "$url"
+            tar -xzf "$podspec.tar.gz"
+            cp -R "./$podspec.xcframework" ./AmazonChimeSDK
+          done
 
       # Execute unit tests
       - name: Build and Run Unit Test
         working-directory: ./AmazonChimeSDK
         run: |
+          device=$(xcrun simctl list devices available -j | jq -r '[.devices[][] | select(.name | startswith("iPhone"))][0].name')
           xcodebuild test \
             -project AmazonChimeSDK.xcodeproj \
             -scheme AmazonChimeSDKTests \
-            -destination 'platform=iOS Simulator,name=iPhone 11' \
+            -destination "platform=iOS Simulator,name=${device}" \
             -skip-testing:"AmazonChimeSDKTests/SchedulerTests" \
             -enableCodeCoverage YES \
             build test
