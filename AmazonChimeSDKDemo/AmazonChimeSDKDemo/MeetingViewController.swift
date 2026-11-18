@@ -755,7 +755,7 @@ extension MeetingViewController: UICollectionViewDelegateFlowLayout {
                         sizeForItemAt _: IndexPath) -> CGSize {
         var width = view.frame.width
         var height = view.frame.height
-        if UIApplication.shared.statusBarOrientation.isLandscape {
+        if view.window?.windowScene?.interfaceOrientation.isLandscape == true {
             height /= 2.0
             width = height / 9.0 * 16.0
         } else {
