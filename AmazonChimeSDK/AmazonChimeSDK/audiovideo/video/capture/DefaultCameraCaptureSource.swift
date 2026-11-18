@@ -227,7 +227,9 @@ import UIKit
         }
 
         DispatchQueue.main.async {
-            self.orientation = UIApplication.shared.statusBarOrientation
+            let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
+            let scene = scenes.first { $0.activationState == .foregroundActive } ?? scenes.first
+            self.orientation = scene?.interfaceOrientation ?? .unknown
 
             switch self.orientation {
             case .portrait, .unknown:
