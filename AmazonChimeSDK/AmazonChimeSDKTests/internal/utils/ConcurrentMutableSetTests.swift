@@ -90,7 +90,7 @@ class ConcurrentMutableSetTests: XCTestCase {
         let mainThreadEndedExpectation = XCTestExpectation(
             description: "The main thread was ended")
 
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .userInteractive).async {
             normalSet.forEach { item in
                 sleep(2)
                 guard let value = item as? Int, normalSet.contains(item) else { return }
