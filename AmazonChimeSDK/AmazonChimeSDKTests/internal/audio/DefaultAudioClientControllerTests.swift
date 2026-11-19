@@ -304,7 +304,51 @@ class DefaultAudioClientControllerTests: CommonTestCase {
         XCTAssertEqual(.initialized, DefaultAudioClientController.state)
         verify(audioLockMock.unlockCallCount)
 
-        verify(publishedEvents(.meetingStartFailed)) { $0.attributes?[EventAttributeName.meetingStatus] != nil }
+        let event = verify(publishedEvents(.meetingStartFailed))
+        XCTAssertEqual(event?.attributes?[EventAttributeName.meetingStatus] as? MeetingSessionStatusCode, .unknown)
+        XCTAssertEqual(event?.attributes?[EventAttributeName.meetingErrorMessage] as? String, "startSession status 1")
+    }
+
+    func testStart_failedToStart_reportsKnownStartSessionStatus() {
+        DefaultAudioClientController.state = .initialized
+        audioClientMock.startSessionReturn = audio_client_status_t(rawValue: 63)
+        audioClientObserverMock.audioStatusReturn = .ok
+
+        XCTAssertThrowsError(try defaultAudioClientController.start(audioFallbackUrl: audioFallbackUrl,
+                                                                    audioHostUrl: audioHostUrlWithPort,
+                                                                    meetingId: meetingId,
+                                                                    attendeeId: attendeeId,
+                                                                    joinToken: joinToken,
+                                                                    callKitEnabled: callKitEnabled,
+                                                                    audioMode: .stereo48K,
+                                                                    audioDeviceCapabilities: .inputAndOutput,
+                                                                    enableAudioRedundancy: true,
+                                                                    reconnectTimeoutMs: self.reconnectTimeoutMs))
+
+        let event = verify(publishedEvents(.meetingStartFailed))
+        XCTAssertEqual(event?.attributes?[EventAttributeName.meetingStatus] as? MeetingSessionStatusCode, .audioAuthenticationRejected)
+        XCTAssertEqual(event?.attributes?[EventAttributeName.meetingErrorMessage] as? String, "startSession status 63")
+    }
+
+    func testStart_failedToStart_keepsObservedStatus() {
+        DefaultAudioClientController.state = .initialized
+        audioClientMock.startSessionReturn = AUDIO_CLIENT_ERR
+        audioClientObserverMock.audioStatusReturn = .audioCallAtCapacity
+
+        XCTAssertThrowsError(try defaultAudioClientController.start(audioFallbackUrl: audioFallbackUrl,
+                                                                    audioHostUrl: audioHostUrlWithPort,
+                                                                    meetingId: meetingId,
+                                                                    attendeeId: attendeeId,
+                                                                    joinToken: joinToken,
+                                                                    callKitEnabled: callKitEnabled,
+                                                                    audioMode: .stereo48K,
+                                                                    audioDeviceCapabilities: .inputAndOutput,
+                                                                    enableAudioRedundancy: true,
+                                                                    reconnectTimeoutMs: self.reconnectTimeoutMs))
+
+        let event = verify(publishedEvents(.meetingStartFailed))
+        XCTAssertEqual(event?.attributes?[EventAttributeName.meetingStatus] as? MeetingSessionStatusCode, .audioCallAtCapacity)
+        XCTAssertEqual(event?.attributes?[EventAttributeName.meetingErrorMessage] as? String, "startSession status 1")
     }
 
     func testSetVoiceFocusEnabled_success() {

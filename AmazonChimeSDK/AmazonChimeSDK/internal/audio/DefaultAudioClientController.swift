@@ -161,7 +161,14 @@ extension DefaultAudioClientController: AudioClientController {
             Self.state = .started
         } else {
             logger.error(msg: "Cannot start audio client with status = \(status.rawValue)")
-            eventAnalyticsController.publishEvent(name: .meetingStartFailed, attributes: [EventAttributeName.meetingStatus: audioClientObserver.audioStatus])
+            let observedStatus = audioClientObserver.audioStatus
+            let meetingStatus = observedStatus == .ok
+                ? Converters.AudioClientStatus.toMeetingSessionStatusCode(status: status)
+                : observedStatus
+            eventAnalyticsController.publishEvent(name: .meetingStartFailed, attributes: [
+                EventAttributeName.meetingStatus: meetingStatus,
+                EventAttributeName.meetingErrorMessage: "startSession status \(status.rawValue)"
+            ])
             cleanup()
             throw MediaError.audioFailedToStart
         }
