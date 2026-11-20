@@ -1,3 +1,11 @@
+## [Unreleased]
+
+### Added
+* Added optional `setCallKitOnHold(_:)` to `AudioVideoControllerFacade`, so applications that manage the audio session through CallKit can keep the meeting connected while the call is on hold and restore audio when it resumes.
+
+### Changed
+* The demo app keeps the meeting connected when its CallKit call is put on hold, instead of stopping the meeting, and restores audio when the call is resumed.
+
 ## [0.27.4] - 2026-08-24
 
 ### Changed

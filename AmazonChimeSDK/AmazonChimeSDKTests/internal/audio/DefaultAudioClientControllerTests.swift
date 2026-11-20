@@ -47,6 +47,8 @@ class DefaultAudioClientControllerTests: CommonTestCase {
         audioSessionMock.recordPermissionReturn = AVAudioSession.RecordPermission.granted
         audioClientMock.startSessionReturn = AUDIO_CLIENT_OK
 
+        DefaultAudioClientController.callKitEnabled = false
+        DefaultAudioClientController.isOnHold = false
         defaultAudioClientController = DefaultAudioClientController(audioClient: audioClientMock,
                                                                     audioClientObserver: audioClientObserverMock,
                                                                     audioSession: audioSessionMock,
@@ -369,5 +371,91 @@ class DefaultAudioClientControllerTests: CommonTestCase {
 
         XCTAssertFalse(defaultAudioClientController.isVoiceFocusEnabled())
         verify(audioClientMock.isBliteNSSelectedCallCount, never())
+    }
+
+    private func startForHold(callKitEnabled: Bool) {
+        DefaultAudioClientController.state = .stopped
+        XCTAssertNoThrow(try defaultAudioClientController.start(audioFallbackUrl: audioFallbackUrl,
+                                                                audioHostUrl: audioHostUrlWithPort,
+                                                                meetingId: meetingId,
+                                                                attendeeId: attendeeId,
+                                                                joinToken: joinToken,
+                                                                callKitEnabled: callKitEnabled,
+                                                                audioMode: .stereo48K,
+                                                                audioDeviceCapabilities: .inputAndOutput,
+                                                                enableAudioRedundancy: true,
+                                                                reconnectTimeoutMs: reconnectTimeoutMs))
+    }
+
+    func testSetCallKitOnHold_notStarted() {
+        DefaultAudioClientController.state = .stopped
+
+        defaultAudioClientController.setCallKitOnHold(true)
+
+        verify(audioClientMock.beginOnHoldCallCount, never())
+    }
+
+    func testSetCallKitOnHold_callKitDisabled() {
+        startForHold(callKitEnabled: false)
+
+        defaultAudioClientController.setCallKitOnHold(true)
+
+        verify(audioClientMock.beginOnHoldCallCount, never())
+    }
+
+    func testSetCallKitOnHold_holdThenResume() {
+        startForHold(callKitEnabled: true)
+        let lockCountAfterStart = audioLockMock.lockCallCount
+
+        defaultAudioClientController.setCallKitOnHold(true)
+        defaultAudioClientController.setCallKitOnHold(false)
+
+        verify(audioClientMock.beginOnHoldCallCount)
+        verify(audioClientMock.endOnHoldCallCount)
+        XCTAssertEqual(lockCountAfterStart + 2, audioLockMock.lockCallCount)
+        XCTAssertEqual(audioLockMock.lockCallCount, audioLockMock.unlockCallCount)
+    }
+
+    func testSetCallKitOnHold_alreadyOnHold() {
+        startForHold(callKitEnabled: true)
+
+        defaultAudioClientController.setCallKitOnHold(true)
+        defaultAudioClientController.setCallKitOnHold(true)
+
+        verify(audioClientMock.beginOnHoldCallCount)
+    }
+
+    func testSetCallKitOnHold_resumeWhenNotOnHold() {
+        startForHold(callKitEnabled: true)
+
+        defaultAudioClientController.setCallKitOnHold(false)
+
+        verify(audioClientMock.endOnHoldCallCount, never())
+        XCTAssertEqual(audioLockMock.lockCallCount, audioLockMock.unlockCallCount)
+    }
+
+    func testSetCallKitOnHold_clearedByRestart() {
+        startForHold(callKitEnabled: true)
+        defaultAudioClientController.setCallKitOnHold(true)
+
+        startForHold(callKitEnabled: true)
+        defaultAudioClientController.setCallKitOnHold(false)
+
+        verify(audioClientMock.endOnHoldCallCount, never())
+    }
+
+    func testSetCallKitOnHold_clearedByStop() {
+        startForHold(callKitEnabled: true)
+        defaultAudioClientController.setCallKitOnHold(true)
+
+        defaultAudioClientController.stop()
+
+        let expect = expectation(description: "eventually")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            XCTAssertFalse(DefaultAudioClientController.callKitEnabled)
+            XCTAssertFalse(DefaultAudioClientController.isOnHold)
+            expect.fulfill()
+        }
+        wait(for: [expect], timeout: 2)
     }
 }

@@ -139,4 +139,11 @@ class DefaultAudioVideoFacadeTests: CommonTestCase {
 
         verify(contentShareControllerMock.startContentShareCalls) { $0.source === source && $0.config === config }
     }
+
+    func testSetCallKitOnHold() {
+        defaultAudioVideoFacade.setCallKitOnHold(true)
+        defaultAudioVideoFacade.setCallKitOnHold(false)
+
+        XCTAssertEqual([true, false], audioVideoControllerMock.setCallKitOnHoldCalls)
+    }
 }

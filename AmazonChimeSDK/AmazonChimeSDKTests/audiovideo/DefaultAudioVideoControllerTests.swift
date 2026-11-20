@@ -224,4 +224,11 @@ class DefaultAudioVideoControllerTests: CommonTestCase {
 
         verify(videoClientControllerMock.stopRemoteVideoCallCount)
     }
+
+    func testSetCallKitOnHold() {
+        defaultAudioVideoController.setCallKitOnHold(true)
+        defaultAudioVideoController.setCallKitOnHold(false)
+
+        XCTAssertEqual([true, false], audioClientControllerMock.setCallKitOnHoldCalls)
+    }
 }

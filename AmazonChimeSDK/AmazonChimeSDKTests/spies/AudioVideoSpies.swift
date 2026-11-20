@@ -163,6 +163,9 @@ class AudioVideoControllerFacadeSpy: AudioVideoControllerFacade {
     }
 
     func demoteFromPrimaryMeeting() { demoteFromPrimaryMeetingCallCount += 1 }
+
+    var setCallKitOnHoldCalls: [Bool] = []
+    func setCallKitOnHold(_ onHold: Bool) { setCallKitOnHoldCalls.append(onHold) }
 }
 
 class ActiveSpeakerDetectorFacadeSpy: ActiveSpeakerDetectorFacade {

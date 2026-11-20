@@ -178,4 +178,20 @@ import Foundation
     /// may result in `PrimaryMeetingPromotionObserver.didPromoteToPrimaryMeeting` but there is no need to wait for that callback
     /// to revert UX, etc.
     func demoteFromPrimaryMeeting()
+
+    /// Puts the meeting's audio on hold, or restores it, while keeping the meeting connected. Only applies
+    /// to sessions started with `callKitEnabled` set to true; without CallKit, the SDK handles audio session
+    /// interruptions itself. The call is ignored if the session is not started with CallKit enabled, or audio
+    /// is already in the requested state.
+    ///
+    /// Call with true when the CallKit call is put on hold, for example from `CXProviderDelegate`
+    /// `provider(_:perform:)` for a `CXSetHeldCallAction` whose `isOnHold` is true. Do not call `stop()` on
+    /// hold: stopping leaves the meeting.
+    ///
+    /// Call with false once the audio session is active again: from `provider(_:didActivate:)`, or after the
+    /// application activates the audio session itself if CallKit does not call `didActivate` after the call
+    /// is taken off hold.
+    ///
+    /// - Parameter onHold: true to put audio on hold, false to restore it.
+    @objc optional func setCallKitOnHold(_ onHold: Bool)
 }

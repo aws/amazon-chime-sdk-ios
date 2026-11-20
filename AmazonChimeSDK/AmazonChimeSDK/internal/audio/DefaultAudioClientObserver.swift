@@ -418,6 +418,7 @@ class DefaultAudioClientObserver: NSObject, AudioClientDelegate {
             self.audioLock.lock()
             _ = self.audioClient.stopSession()
             DefaultAudioClientController.state = .stopped
+            DefaultAudioClientController.clearCallKitHold()
             self.audioLock.unlock()
             self.notifyAudioClientObserver { (observer: AudioVideoObserver) in
                 observer.audioSessionDidStopWithStatus(sessionStatus: MeetingSessionStatus(statusCode: status))
