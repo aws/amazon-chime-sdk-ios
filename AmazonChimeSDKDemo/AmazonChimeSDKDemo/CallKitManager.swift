@@ -26,7 +26,7 @@ class CallKitManager: NSObject {
     }
 
     override init() {
-        let configuration = CXProviderConfiguration(localizedName: "Chime SDK Demo")
+        let configuration = CXProviderConfiguration()
         configuration.maximumCallGroups = 1
         configuration.maximumCallsPerCallGroup = 1
         configuration.supportsVideo = true

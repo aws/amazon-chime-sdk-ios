@@ -13,7 +13,10 @@ class MeetingPresenter {
     private var activeMeetingViewController: UIViewController?
 
     var rootViewController: UIViewController? {
-        return UIApplication.shared.keyWindow?.rootViewController
+        return UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.isKeyWindow }?.rootViewController
     }
 
     func showMeetingView(meetingModel: MeetingModel, completion: @escaping (Bool) -> Void) {

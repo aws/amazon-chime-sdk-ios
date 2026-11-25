@@ -1,3 +1,8 @@
+## [Unreleased]
+
+### Removed
+* **Breaking** Removed support for iOS 12 and 13. Apps building with the Amazon Chime SDK must target iOS 14 or above. iOS 14 is the minimum version supported and tested with the new WebRTC version the media library is built on.
+
 ## [0.27.4] - 2026-08-24
 
 ### Changed
